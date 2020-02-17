@@ -5,6 +5,7 @@
         "php": ">=7.4.0",
         "ext-calendar": "*",
         "ext-ctype": "*",
+        "ext-fileinfo": "*",
         "ext-iconv": "*",
         "ext-json": "*",
         "a2lix/translation-form-bundle": "^2.0",
