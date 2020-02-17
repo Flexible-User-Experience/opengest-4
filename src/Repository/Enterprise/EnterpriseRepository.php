@@ -29,11 +29,11 @@ class EnterpriseRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param User $user
+     * @param User|object|string $user
      *
      * @return QueryBuilder
      */
-    public function getEnterprisesByUserQB(User $user)
+    public function getEnterprisesByUserQB($user)
     {
         return $this->createQueryBuilder('e')
             ->join('e.users', 'u')
