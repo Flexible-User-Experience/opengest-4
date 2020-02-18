@@ -1,0 +1,16 @@
+---
+- name: Deploy project to production server
+  hosts: s6
+  gather_facts: false
+  roles:
+    - { role: "ansistrano.rollback" }
+  vars_files:
+    - "{{ playbook_dir }}/vars/config.yml"
+  vars:
+    # ansistrano deploys config
+    ansistrano_deploy_from: "{{ playbook_dir }}/../../"
+    ansistrano_deploy_to: "{{ vhost_path }}"
+    # ansistrano rollback config
+    ansistrano_remove_rolled_back: yes
+    ansistrano_rollback_to_release: ""
+    # if release specified, the application will be rolled back to this version; previous release otherwise.

@@ -1,0 +1,4 @@
+- name: copy .env production file
+  copy:
+    src: "{{ playbook_dir }}/vars/.env.prod"
+    dest: "{{ ansistrano_release_path.stdout }}/.env"

@@ -1,0 +1,22 @@
+---
+- hosts: s6
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/vars/config.yml"
+  tasks:
+    - name: copy remote uploads directory to local
+      synchronize:
+        mode: pull
+        recursive: yes
+        perms: yes
+        times: yes
+        src: "{{ vhost_path }}/shared/public/uploads"
+        dest: "{{ playbook_dir }}/../../public"
+    - name: fix ownership in downloaded files locally
+      delegate_to: mother
+      file:
+        path: "{{ playbook_dir }}/../../public/uploads"
+        recurse: yes
+        follow: yes
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
