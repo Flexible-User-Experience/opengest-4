@@ -3,7 +3,11 @@
 namespace App\Command\Partner;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Enterprise\Enterprise;
+use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +43,7 @@ class ImportPartnerBuildingSiteCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +51,7 @@ class ImportPartnerBuildingSiteCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -62,13 +65,16 @@ class ImportPartnerBuildingSiteCommand extends AbstractBaseCommand
             $partnerTaxIdentificationNumber = $this->readColumn(6, $row);
             $enterpriseTaxIdentificationNumber = $this->readColumn(7, $row);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$name.' · '.$phone.' · '.$partnerTaxIdentificationNumber.' · '.$enterpriseTaxIdentificationNumber);
-            $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
-            $partner = $this->em->getRepository('App:Partner\Partner')->findOneBy([
+            /** @var Enterprise $enterprise */
+            $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
+            /** @var Partner $partner */
+            $partner = $this->rm->getPartnerRepository()->findOneBy([
                 'cifNif' => $partnerTaxIdentificationNumber,
                 'enterprise' => $enterprise,
             ]);
             if ($name && $partner && $enterprise) {
-                $partnerBuildingSite = $this->em->getRepository('App:Partner\PartnerBuildingSite')->findOneBy([
+                /** @var PartnerBuildingSite $partnerBuildingSite */
+                $partnerBuildingSite = $this->rm->getPartnerBuildingSiteRepository()->findOneBy([
                     'name' => $name,
                     'partner' => $partner,
                 ]);
@@ -109,7 +115,7 @@ class ImportPartnerBuildingSiteCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

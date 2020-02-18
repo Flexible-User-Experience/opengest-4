@@ -4,6 +4,8 @@ namespace App\Command\Partner;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Partner\PartnerUnableDays;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +41,7 @@ class ImportPartnerUnableDaysCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +49,7 @@ class ImportPartnerUnableDaysCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -66,7 +67,8 @@ class ImportPartnerUnableDaysCommand extends AbstractBaseCommand
                 'enterprise' => $enterprise,
             ]);
             if ($begin && $end && $partner && $enterprise) {
-                $partnerUnableDays = $this->em->getRepository('App:Partner\PartnerUnableDays')->findOneBy([
+                /** @var PartnerUnableDays $partnerUnableDays */
+                $partnerUnableDays = $this->rm->getPartnerUnableDaysRepository()->findOneBy([
                     'begin' => $begin,
                     'end' => $end,
                     'partner' => $partner,
@@ -109,7 +111,7 @@ class ImportPartnerUnableDaysCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

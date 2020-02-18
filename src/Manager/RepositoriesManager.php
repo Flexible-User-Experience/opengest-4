@@ -5,6 +5,8 @@ namespace App\Manager;
 use App\Repository\Enterprise\ActivityLineRepository;
 use App\Repository\Operator\OperatorDigitalTachographRepository;
 use App\Repository\Operator\OperatorVariousAmountRepository;
+use App\Repository\Partner\PartnerContactRepository;
+use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Repository\Setting\CityRepository;
 use App\Repository\Enterprise\CollectionDocumentTypeRepository;
@@ -143,6 +145,16 @@ class RepositoriesManager
     private PartnerTypeRepository $partnerTypeRepository;
 
     /**
+     * @var PartnerContactRepository
+     */
+    private PartnerContactRepository $partnerContactRepository;
+
+    /**
+     * @var PartnerUnableDaysRepository
+     */
+    private PartnerUnableDaysRepository $partnerUnableDaysRepository;
+
+    /**
      * @var CityRepository
      */
     private CityRepository $cityRepository;
@@ -219,6 +231,8 @@ class RepositoriesManager
      * @param PartnerRepository                   $partnerRepository
      * @param PartnerClassRepository              $partnerClassRepository
      * @param PartnerTypeRepository               $partnerTypeRepository
+     * @param PartnerContactRepository            $partnerContactRepository
+     * @param PartnerUnableDaysRepository         $partnerUnableDaysRepository
      * @param CityRepository                      $cityRepository
      * @param SaleTariffRepository                $saleTariffRepository
      * @param PartnerBuildingSiteRepository       $partnerBuildingSiteRepository
@@ -251,6 +265,8 @@ class RepositoriesManager
         PartnerRepository $partnerRepository,
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
+        PartnerContactRepository $partnerContactRepository,
+        PartnerUnableDaysRepository $partnerUnableDaysRepository,
         CityRepository $cityRepository,
         SaleTariffRepository $saleTariffRepository,
         PartnerBuildingSiteRepository $partnerBuildingSiteRepository,
@@ -282,6 +298,8 @@ class RepositoriesManager
         $this->partnerRepository = $partnerRepository;
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
+        $this->partnerContactRepository = $partnerContactRepository;
+        $this->partnerUnableDaysRepository = $partnerUnableDaysRepository;
         $this->cityRepository = $cityRepository;
         $this->saleTariffRepository = $saleTariffRepository;
         $this->partnerBuildingSiteRepository = $partnerBuildingSiteRepository;
@@ -379,7 +397,7 @@ class RepositoriesManager
      */
     public function getOperatorAbsenceRepository()
     {
-        return $this->getOperatorAbsenceRepository();
+        return $this->operatorAbsenceRepository;
     }
 
     /**
@@ -447,6 +465,14 @@ class RepositoriesManager
     }
 
     /**
+     * @return PartnerContactRepository
+     */
+    public function getPartnerContactRepository()
+    {
+        return $this->partnerContactRepository;
+    }
+
+    /**
      * @return CityRepository
      */
     public function getCityRepository()
@@ -484,6 +510,14 @@ class RepositoriesManager
     public function getPartnerOrderRepository()
     {
         return $this->partnerOrderRepository;
+    }
+
+    /**
+     * @return PartnerUnableDaysRepository
+     */
+    public function getPartnerUnableDaysRepository()
+    {
+        return $this->partnerUnableDaysRepository;
     }
 
     /**
@@ -529,7 +563,7 @@ class RepositoriesManager
     /**
      * @return SaleInvoiceRepository
      */
-    public function getSaleInvoiceRepository(): SaleInvoiceRepository
+    public function getSaleInvoiceRepository()
     {
         return $this->saleInvoiceRepository;
     }

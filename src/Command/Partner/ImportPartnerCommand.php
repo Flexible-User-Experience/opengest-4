@@ -3,7 +3,14 @@
 namespace App\Command\Partner;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Enterprise\Enterprise;
+use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerClass;
+use App\Entity\Partner\PartnerType;
+use App\Entity\Setting\City;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +46,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +54,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -63,20 +69,26 @@ class ImportPartnerCommand extends AbstractBaseCommand
             $name = $this->lts->nameCleaner($this->readColumn(5, $row));
             $cityName = $this->lts->cityNameCleaner($this->readColumn(8, $row));
             $postalCode = $this->lts->postalCodeCleaner($this->readColumn(6, $row));
-            $city = $this->em->getRepository('App:Setting\City')->findOneBy([
+            /** @var City $city */
+            $city = $this->rm->getCityRepository()->findOneBy([
                 'postalCode' => $postalCode,
                 'name' => $cityName,
             ]);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$partnerTaxIdentificationNumber.' · '.$name.' · '.$enterprise.' · '.$this->readColumn(8, $row).' · '.$this->readColumn(6, $row));
             if ($enterprise && $partnerType && $partnerClass && $city) {
-                $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => $enterprise]);
-                $partnerType = $this->em->getRepository('App:Partner\PartnerType')->findOneBy(['name' => $partnerType]);
-                $partnerClass = $this->em->getRepository('App:Partner\PartnerClass')->findOneBy(['name' => $partnerClass]);
+                /** @var Enterprise $enterprise */
+                $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $enterprise]);
+                /** @var PartnerType $partnerType */
+                $partnerType = $this->rm->getPartnerTypeRepository()->findOneBy(['name' => $partnerType]);
+                /** @var PartnerClass $partnerClass */
+                $partnerClass = $this->rm->getPartnerClassRepository()->findOneBy(['name' => $partnerClass]);
                 if ($enterpriseTransferAccount) {
-                    $enterpriseTransferAccount = $this->em->getRepository('App:Enterprise\EnterpriseTransferAccount')->findOneBy(['name' => $enterpriseTransferAccount]);
+                    /** @var EnterpriseTransferAccount $enterpriseTransferAccount */
+                    $enterpriseTransferAccount = $this->rm->getEnterpriseTransferAccountRepository()->findOneBy(['name' => $enterpriseTransferAccount]);
                 }
                 if ($enterprise && $partnerType && $partnerClass) {
-                    $partner = $this->em->getRepository('App:Partner\Partner')->findOneBy([
+                    /** @var Partner $partner */
+                    $partner = $this->rm->getPartnerRepository()->findOneBy([
                         'cifNif' => $partnerTaxIdentificationNumber,
                         'enterprise' => $enterprise,
                         'type' => $partnerType,
@@ -125,7 +137,8 @@ class ImportPartnerCommand extends AbstractBaseCommand
                     }
                     $secondaryCityName = $this->lts->cityNameCleaner($this->readColumn(18, $row));
                     $secondaryPostalCode = $this->lts->postalCodeCleaner($this->readColumn(17, $row));
-                    $secondaryCity = $this->em->getRepository('App:Setting\City')->findOneBy([
+                    /** @var City $secondaryCity */
+                    $secondaryCity = $this->rm->getCityRepository()->findOneBy([
                         'postalCode' => $secondaryPostalCode,
                         'name' => $secondaryCityName,
                     ]);
@@ -164,7 +177,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

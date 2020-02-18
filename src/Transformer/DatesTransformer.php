@@ -16,13 +16,13 @@ use Exception;
 class DatesTransformer
 {
     /**
-     * @param DateTimeInterface $dateCode
+     * @param string $dateCode
      *
      * @return DateTime
      *
      * @throws Exception
      */
-    public function convertStringWithDayAndMonthToDateTime(DateTimeInterface $dateCode)
+    public function convertStringWithDayAndMonthToDateTime(string $dateCode)
     {
         $date = explode('/', $dateCode);
         if (2 != count($date)) {
