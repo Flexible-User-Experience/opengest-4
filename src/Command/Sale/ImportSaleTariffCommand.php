@@ -3,7 +3,10 @@
 namespace App\Command\Sale;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleTariff;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +42,7 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
      * @return int|void|null
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +50,7 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -63,11 +65,13 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
             $displacement = $this->readColumn(7, $row);
             $increaseForHolidays = $this->readColumn(8, $row);
             $enterpriseTaxIdentificationNumber = $this->readColumn(9, $row);
-            $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
+            /** @var Enterprise $enterprise */
+            $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$year.' · '.$tonnage.' · '.$priceHour.' · '.$miniumHours.' · '.$miniumHolidayHours.' · '.$displacement.' · '.$increaseForHolidays.' · '.$enterpriseTaxIdentificationNumber);
 
             if ($year && $tonnage && $enterprise) {
-                $saleTariff = $this->em->getRepository('App:Sale\SaleTariff')->findOneBy([
+                /** @var SaleTariff $saleTariff */
+                $saleTariff = $this->rm->getSaleTariffRepository()->findOneBy([
                     'year' => $year,
                     'tonnage' => $tonnage,
                     'enterprise' => $enterprise,
@@ -112,7 +116,7 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

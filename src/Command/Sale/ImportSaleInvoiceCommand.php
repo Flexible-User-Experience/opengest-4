@@ -3,8 +3,13 @@
 namespace App\Command\Sale;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Enterprise\Enterprise;
+use App\Entity\Partner\Partner;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Setting\SaleInvoiceSeries;
 use DateTime;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,8 +45,7 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
      * @return int|void|null
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -49,7 +53,7 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -65,9 +69,12 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
             $seriesName = $this->readColumn(8, $row);
             $partnerTaxIdentificationNumber = $this->lts->taxIdentificationNumberCleaner($this->readColumn(9, $row));
             $enterpriseTaxIdentificationNumber = $this->lts->taxIdentificationNumberCleaner($this->readColumn(10, $row));
-            $series = $this->em->getRepository('App:Setting\SaleInvoiceSeries')->findOneBy(['name' => $seriesName]);
-            $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
-            $partner = $this->em->getRepository('App:Partner\Partner')->findOneBy([
+            /** @var SaleInvoiceSeries $series */
+            $series = $this->rm->getSaleInvoiceSeriesRepository()->findOneBy(['name' => $seriesName]);
+            /** @var Enterprise $enterprise */
+            $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
+            /** @var Partner $partner */
+            $partner = $this->rm->getPartnerRepository()->findOneBy([
                 'cifNif' => $partnerTaxIdentificationNumber,
                 'enterprise' => $enterprise,
             ]);
@@ -75,7 +82,8 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
             $output->writeln($printLineMessage);
 
             if ($date && $invoiceNumber && $type && $series && $partner) {
-                $saleInvoice = $this->em->getRepository('App:Sale\SaleInvoice')->findOneBy([
+                /** @var SaleInvoice $saleInvoice */
+                $saleInvoice = $this->rm->getSaleInvoiceRepository()->findOneBy([
                     'date' => $date,
                     'invoiceNumber' => $invoiceNumber,
                     'type' => $type,
@@ -131,7 +139,7 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
         if (count($errorMessagesArray) > 0) {
             /** @var string $errorMessage */
