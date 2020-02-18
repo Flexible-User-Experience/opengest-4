@@ -25,6 +25,7 @@ use App\Repository\Partner\PartnerOrderRepository;
 use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
 use App\Repository\Sale\SaleDeliveryNoteRepository;
+use App\Repository\Setting\ProvinceRepository;
 use App\Repository\Setting\SaleInvoiceSeriesRepository;
 use App\Repository\Sale\SaleRequestRepository;
 use App\Repository\Sale\SaleTariffRepository;
@@ -160,6 +161,11 @@ class RepositoriesManager
     private CityRepository $cityRepository;
 
     /**
+     * @var ProvinceRepository
+     */
+    private ProvinceRepository $provinceRepository;
+
+    /**
      * @var SaleTariffRepository
      */
     private SaleTariffRepository $saleTariffRepository;
@@ -234,6 +240,7 @@ class RepositoriesManager
      * @param PartnerContactRepository            $partnerContactRepository
      * @param PartnerUnableDaysRepository         $partnerUnableDaysRepository
      * @param CityRepository                      $cityRepository
+     * @param ProvinceRepository                  $provinceRepository
      * @param SaleTariffRepository                $saleTariffRepository
      * @param PartnerBuildingSiteRepository       $partnerBuildingSiteRepository
      * @param PartnerOrderRepository              $partnerOrderRepository
@@ -268,6 +275,7 @@ class RepositoriesManager
         PartnerContactRepository $partnerContactRepository,
         PartnerUnableDaysRepository $partnerUnableDaysRepository,
         CityRepository $cityRepository,
+        ProvinceRepository $provinceRepository,
         SaleTariffRepository $saleTariffRepository,
         PartnerBuildingSiteRepository $partnerBuildingSiteRepository,
         PartnerOrderRepository $partnerOrderRepository,
@@ -301,6 +309,7 @@ class RepositoriesManager
         $this->partnerContactRepository = $partnerContactRepository;
         $this->partnerUnableDaysRepository = $partnerUnableDaysRepository;
         $this->cityRepository = $cityRepository;
+        $this->provinceRepository = $provinceRepository;
         $this->saleTariffRepository = $saleTariffRepository;
         $this->partnerBuildingSiteRepository = $partnerBuildingSiteRepository;
         $this->partnerOrderRepository = $partnerOrderRepository;
@@ -478,6 +487,14 @@ class RepositoriesManager
     public function getCityRepository()
     {
         return $this->cityRepository;
+    }
+
+    /**
+     * @return ProvinceRepository
+     */
+    public function getProvinceRepository()
+    {
+        return $this->provinceRepository;
     }
 
     /**

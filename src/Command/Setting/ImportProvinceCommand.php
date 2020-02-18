@@ -4,6 +4,8 @@ namespace App\Command\Setting;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Setting\Province;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,8 +43,7 @@ class ImportProvinceCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -50,7 +51,7 @@ class ImportProvinceCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -62,7 +63,8 @@ class ImportProvinceCommand extends AbstractBaseCommand
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$name.' · '.$country);
             if ($country) {
                 $countryCode = $this->lts->countryToCode($country);
-                $province = $this->em->getRepository('App:Setting\Province')->findOneBy([
+                /** @var Province $province */
+                $province = $this->rm->getProvinceRepository()->findOneBy([
                     'name' => $name,
                     'country' => $countryCode,
                 ]);
@@ -91,7 +93,7 @@ class ImportProvinceCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

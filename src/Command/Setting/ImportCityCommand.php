@@ -4,6 +4,9 @@ namespace App\Command\Setting;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Setting\City;
+use App\Entity\Setting\Province;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,8 +46,7 @@ class ImportCityCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -52,7 +54,7 @@ class ImportCityCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -65,12 +67,14 @@ class ImportCityCommand extends AbstractBaseCommand
             $countryName = $this->lts->countryNameCleaner($this->readColumn($input->getArgument('country'), $row));
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$name.' · '.$postalCode.' · '.$provinceName.' · '.$countryName);
             $countryCode = $this->lts->countryToCode($countryName);
-            $province = $this->em->getRepository('App:Setting\Province')->findOneBy([
+            /** @var Province $province */
+            $province = $this->rm->getProvinceRepository()->findOneBy([
                 'name' => $provinceName,
                 'country' => $countryCode,
             ]);
             if ($province) {
-                $city = $this->em->getRepository('App:Setting\City')->findOneBy([
+                /** @var City $city */
+                $city = $this->rm->getCityRepository()->findOneBy([
                     'postalCode' => $postalCode,
                     'name' => $name,
                 ]);
@@ -99,7 +103,7 @@ class ImportCityCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

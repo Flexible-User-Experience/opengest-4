@@ -4,6 +4,8 @@ namespace App\Command\Setting;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Setting\SaleInvoiceSeries;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +41,7 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +49,7 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -60,7 +61,8 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
             $isDefault = '1' == $this->readColumn(3, $row) ? true : false;
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$name.' · '.$prefix.' · '.$this->readColumn(3, $row));
             if ($name) {
-                $saleInvoiceSeries = $this->em->getRepository('App:Setting\SaleInvoiceSeries')->findOneBy([
+                /** @var SaleInvoiceSeries $saleInvoiceSeries */
+                $saleInvoiceSeries = $this->rm->getSaleInvoiceSeriesRepository()->findOneBy([
                     'name' => $name,
                 ]);
                 if (!$saleInvoiceSeries) {
@@ -88,7 +90,7 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }
