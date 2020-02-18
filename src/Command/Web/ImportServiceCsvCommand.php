@@ -4,6 +4,8 @@ namespace App\Command\Web;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Web\Service;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,8 +35,7 @@ class ImportServiceCsvCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -42,11 +43,12 @@ class ImportServiceCsvCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Import CSV rows
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         while (false !== ($row = $this->readRow($fr))) {
-            $service = $this->em->getRepository('App:Web\Service')->findOneBy(['slug' => $this->readColumn(26, $row)]);
+            /** @var Service $service */
+            $service = $this->rm->getServiceRepository()->findOneBy(['slug' => $this->readColumn(26, $row)]);
             // new service
             if (!$service) {
                 $service = new Service();
@@ -62,7 +64,7 @@ class ImportServiceCsvCommand extends AbstractBaseCommand
         }
 
         $this->em->flush();
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         // Print totals
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);
     }

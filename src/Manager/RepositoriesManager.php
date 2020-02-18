@@ -35,6 +35,7 @@ use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
 use App\Repository\Vehicle\VehicleRepository;
+use App\Repository\Web\WorkRepository;
 
 /**
  * Class RepositoriesManager.
@@ -211,6 +212,11 @@ class RepositoriesManager
     private SaleInvoiceRepository $saleInvoiceRepository;
 
     /**
+     * @var WorkRepository
+     */
+    private WorkRepository $workRepository;
+
+    /**
      * Methods.
      */
 
@@ -250,6 +256,7 @@ class RepositoriesManager
      * @param SaleRequestRepository               $saleRequestRepository
      * @param SaleDeliveryNoteRepository          $saleDeliveryNoteRepository
      * @param SaleInvoiceRepository               $saleInvoiceRepository
+     * @param WorkRepository                      $workRepository
      */
     public function __construct(
         ServiceRepository $serviceRepository,
@@ -284,7 +291,8 @@ class RepositoriesManager
         SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository,
         SaleRequestRepository $saleRequestRepository,
         SaleDeliveryNoteRepository $saleDeliveryNoteRepository,
-        SaleInvoiceRepository $saleInvoiceRepository
+        SaleInvoiceRepository $saleInvoiceRepository,
+        WorkRepository $workRepository
     ) {
         $this->serviceRepository = $serviceRepository;
         $this->vehicleCategoryRepository = $vehicleCategoryRepository;
@@ -319,6 +327,7 @@ class RepositoriesManager
         $this->saleRequestRepository = $saleRequestRepository;
         $this->saleDeliveryNoteRepository = $saleDeliveryNoteRepository;
         $this->saleInvoiceRepository = $saleInvoiceRepository;
+        $this->workRepository = $workRepository;
     }
 
     /**
@@ -583,5 +592,13 @@ class RepositoriesManager
     public function getSaleInvoiceRepository()
     {
         return $this->saleInvoiceRepository;
+    }
+
+    /**
+     * @return WorkRepository
+     */
+    public function getWorkRepository()
+    {
+        return $this->workRepository;
     }
 }
