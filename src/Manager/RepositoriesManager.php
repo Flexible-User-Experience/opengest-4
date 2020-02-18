@@ -3,6 +3,8 @@
 namespace App\Manager;
 
 use App\Repository\Enterprise\ActivityLineRepository;
+use App\Repository\Operator\OperatorDigitalTachographRepository;
+use App\Repository\Operator\OperatorVariousAmountRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Repository\Setting\CityRepository;
 use App\Repository\Enterprise\CollectionDocumentTypeRepository;
@@ -99,6 +101,16 @@ class RepositoriesManager
      * @var OperatorAbsenceRepository
      */
     private OperatorAbsenceRepository $operatorAbsenceRepository;
+
+    /**
+     * @var OperatorDigitalTachographRepository
+     */
+    private OperatorDigitalTachographRepository $operatorDigitalTachographRepository;
+
+    /**
+     * @var OperatorVariousAmountRepository
+     */
+    private OperatorVariousAmountRepository $operatorVariousAmountRepository;
 
     /**
      * @var VehicleRepository
@@ -199,6 +211,8 @@ class RepositoriesManager
      * @param OperatorCheckingTypeRepository      $operatorCheckingTypeRepository
      * @param OperatorAbsenceTypeRepository       $operatorAbsenceTypeRepository
      * @param OperatorAbsenceRepository           $operatorAbsenceRepository
+     * @param OperatorDigitalTachographRepository $operatorDigitalTachographRepository
+     * @param OperatorVariousAmountRepository     $operatorVariousAmountRepository
      * @param VehicleRepository                   $vehicleRepository
      * @param VehicleCheckingTypeRepository       $vehicleCheckingTypeRepository
      * @param VehicleCheckingRepository           $vehicleCheckingRepository
@@ -229,6 +243,8 @@ class RepositoriesManager
         OperatorCheckingTypeRepository $operatorCheckingTypeRepository,
         OperatorAbsenceTypeRepository $operatorAbsenceTypeRepository,
         OperatorAbsenceRepository $operatorAbsenceRepository,
+        OperatorDigitalTachographRepository $operatorDigitalTachographRepository,
+        OperatorVariousAmountRepository $operatorVariousAmountRepository,
         VehicleRepository $vehicleRepository,
         VehicleCheckingTypeRepository $vehicleCheckingTypeRepository,
         VehicleCheckingRepository $vehicleCheckingRepository,
@@ -258,6 +274,8 @@ class RepositoriesManager
         $this->operatorCheckingTypeRepository = $operatorCheckingTypeRepository;
         $this->operatorAbsenceTypeRepository = $operatorAbsenceTypeRepository;
         $this->operatorAbsenceRepository = $operatorAbsenceRepository;
+        $this->operatorDigitalTachographRepository = $operatorDigitalTachographRepository;
+        $this->operatorVariousAmountRepository = $operatorVariousAmountRepository;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleCheckingTypeRepository = $vehicleCheckingTypeRepository;
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
@@ -370,6 +388,22 @@ class RepositoriesManager
     public function getOperatorAbsenceTypeRepository()
     {
         return $this->operatorAbsenceTypeRepository;
+    }
+
+    /**
+     * @return OperatorDigitalTachographRepository
+     */
+    public function getOperatorDigitalTachographRepository()
+    {
+        return $this->operatorDigitalTachographRepository;
+    }
+
+    /**
+     * @return OperatorVariousAmountRepository
+     */
+    public function getOperatorVariousAmountRepository()
+    {
+        return $this->operatorVariousAmountRepository;
     }
 
     /**

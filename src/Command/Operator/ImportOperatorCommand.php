@@ -3,7 +3,12 @@
 namespace App\Command\Operator;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
+use App\Entity\Setting\City;
+use DateTime;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +44,7 @@ class ImportOperatorCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +52,7 @@ class ImportOperatorCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -56,8 +60,8 @@ class ImportOperatorCommand extends AbstractBaseCommand
         // Import CSV rows
         while (false != ($row = $this->readRow($fr))) {
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$this->readColumn(4, $row).' · '.$this->readColumn(5, $row).' '.$this->readColumn(6, $row).' · '.$this->readColumn(52, $row).'-'.$this->readColumn(33, $row).'-'.$this->readColumn(34, $row).'-'.$this->readColumn(35, $row).'-'.$this->readColumn(36, $row).' · '.$this->readColumn(16, $row).' · '.$this->readColumn(17, $row));
-            $birthDate = \DateTime::createFromFormat('Y-m-d', $this->readColumn(16, $row));
-            $registrationDate = \DateTime::createFromFormat('Y-m-d', $this->readColumn(17, $row));
+            $birthDate = DateTime::createFromFormat('Y-m-d', $this->readColumn(16, $row));
+            $registrationDate = DateTime::createFromFormat('Y-m-d', $this->readColumn(17, $row));
 
             $profilePhotoImage = $this->readColumn(8, $row);
             if (!is_null($profilePhotoImage)) {
@@ -114,16 +118,19 @@ class ImportOperatorCommand extends AbstractBaseCommand
                 $employmentContractImg = explode('/', $employmentContractImg);
             }
 
-            $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => $this->readColumn(54, $row)]);
+            /** @var Enterprise $enterprise */
+            $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $this->readColumn(54, $row)]);
             $cityName = $this->lts->cityNameCleaner($this->readColumn(11, $row));
             $postalCode = $this->lts->postalCodeCleaner($this->readColumn(10, $row));
-            $city = $this->em->getRepository('App:Setting\City')->findOneBy([
+            /** @var City $city */
+            $city = $this->rm->getCityRepository()->findOneBy([
                 'postalCode' => $postalCode,
                 'name' => $cityName,
             ]);
 
             if ($enterprise && $birthDate && $registrationDate && $city) {
-                $operator = $this->em->getRepository('App:Operator\Operator')->findOneBy(['taxIdentificationNumber' => $this->readColumn(4, $row)]);
+                /** @var Operator $operator */
+                $operator = $this->rm->getOperatorRepository()->findOneBy(['taxIdentificationNumber' => $this->readColumn(4, $row)]);
                 if (!$operator) {
                     // new record
                     $operator = new Operator();
@@ -198,7 +205,7 @@ class ImportOperatorCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead - 1, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

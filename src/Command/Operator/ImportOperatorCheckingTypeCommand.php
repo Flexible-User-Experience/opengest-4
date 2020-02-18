@@ -3,8 +3,10 @@
 namespace App\Command\Operator;
 
 use App\Command\AbstractBaseCommand;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use App\Entity\Operator\OperatorCheckingType;
+use DateTimeImmutable;
+use Exception;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,8 +41,7 @@ class ImportOperatorCheckingTypeCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,7 +49,7 @@ class ImportOperatorCheckingTypeCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
@@ -56,7 +57,8 @@ class ImportOperatorCheckingTypeCommand extends AbstractBaseCommand
         // Import CSV rows
         while (false !== ($row = $this->readRow($fr))) {
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$this->readColumn(1, $row).' · '.$this->readColumn(2, $row));
-            $operatorCheckingType = $this->em->getRepository('App:Operator\OperatorCheckingType')->findOneBy(['name' => $this->readColumn(1, $row)]);
+            /** @var OperatorCheckingType $operatorCheckingType */
+            $operatorCheckingType = $this->rm->getOperatorCheckingTypeRepository()->findOneBy(['name' => $this->readColumn(1, $row)]);
             // new record
             if (!$operatorCheckingType) {
                 $operatorCheckingType = new OperatorCheckingType();
@@ -77,7 +79,7 @@ class ImportOperatorCheckingTypeCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

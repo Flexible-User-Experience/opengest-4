@@ -3,7 +3,12 @@
 namespace App\Command\Operator;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorAbsence;
+use App\Entity\Operator\OperatorAbsenceType;
+use DateTime;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +44,7 @@ class ImportOperatorAbsenceCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,20 +52,23 @@ class ImportOperatorAbsenceCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
 
         // Import CSV rows
         while (false != ($row = $this->readRow($fr))) {
-            $begin = \DateTime::createFromFormat('Y-m-d', $this->readColumn(3, $row));
-            $end = \DateTime::createFromFormat('Y-m-d', $this->readColumn(4, $row));
-            $type = $this->em->getRepository('App:Operator\OperatorAbsenceType')->findOneBy(['name' => $this->readColumn(5, $row)]);
-            $operator = $this->em->getRepository('App:Operator\Operator')->findOneBy(['taxIdentificationNumber' => $this->readColumn(6, $row)]);
+            $begin = DateTime::createFromFormat('Y-m-d', $this->readColumn(3, $row));
+            $end = DateTime::createFromFormat('Y-m-d', $this->readColumn(4, $row));
+            /** @var OperatorAbsenceType $type */
+            $type = $this->rm->getOperatorAbsenceTypeRepository()->findOneBy(['name' => $this->readColumn(5, $row)]);
+            /** @var Operator $operator */
+            $operator = $this->rm->getOperatorRepository()->findOneBy(['taxIdentificationNumber' => $this->readColumn(6, $row)]);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$this->readColumn(6, $row).' · '.$this->readColumn(3, $row).' · '.$this->readColumn(4, $row).' · '.$this->readColumn(5, $row));
             if ($operator && $type && $begin && $end) {
-                $operatorAbsence = $this->em->getRepository('App:Operator\OperatorAbsence')->findOneBy([
+                /** @var OperatorAbsence $operatorAbsence */
+                $operatorAbsence = $this->rm->getOperatorAbsenceRepository()->findOneBy([
                     'begin' => $begin,
                     'end' => $end,
                     'type' => $type,
@@ -93,7 +100,7 @@ class ImportOperatorAbsenceCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

@@ -3,7 +3,11 @@
 namespace App\Command\Operator;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorVariousAmount;
+use DateTime;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +43,7 @@ class ImportOperatorVariousAmountCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,19 +51,21 @@ class ImportOperatorVariousAmountCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Import CSV rows
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
 
         // Import CSV rows
         while (false != ($row = $this->readRow($fr))) {
-            $operator = $this->em->getRepository('App:Operator\Operator')->findOneBy(['taxIdentificationNumber' => $this->readColumn(6, $row)]);
-            $date = \DateTime::createFromFormat('Y-m-d', $this->readColumn(2, $row));
+            /** @var Operator $operator */
+            $operator = $this->rm->getOperatorRepository()->findOneBy(['taxIdentificationNumber' => $this->readColumn(6, $row)]);
+            $date = DateTime::createFromFormat('Y-m-d', $this->readColumn(2, $row));
             $description = $this->readColumn(3, $row);
             $output->writeln($this->readColumn(1, $row).' · '.$this->readColumn(2, $row).' · '.$this->readColumn(3, $row));
             if ($operator && $date && $description) {
-                $variousAmount = $this->em->getRepository('App:Operator\OperatorVariousAmount')->findOneBy([
+                /** @var OperatorVariousAmount $variousAmount */
+                $variousAmount = $this->rm->getOperatorVariousAmountRepository()->findOneBy([
                     'operator' => $operator,
                     'date' => $date,
                     'description' => $description,
@@ -92,7 +97,7 @@ class ImportOperatorVariousAmountCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

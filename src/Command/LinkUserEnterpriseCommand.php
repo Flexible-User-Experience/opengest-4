@@ -41,12 +41,12 @@ class LinkUserEnterpriseCommand extends AbstractBaseCommand
 
         // Initializations
         $this->init();
-
-        $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => Enterprise::GRUAS_ROMANI_TIN]);
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => Enterprise::GRUAS_ROMANI_TIN]);
         if (!$enterprise) {
             $output->writeln('<error>No enterprise found</error>');
         } else {
-            $users = $this->em->getRepository('App:Setting\User')->getEnabledSortedByName();
+            $users = $this->rm->getUserRepository()->getEnabledSortedByName();
             /** @var User $user */
             foreach ($users as $user) {
                 $output->writeln($user->getId().' · '.$user->getFullname());

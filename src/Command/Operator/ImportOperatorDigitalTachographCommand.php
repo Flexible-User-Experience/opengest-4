@@ -3,7 +3,11 @@
 namespace App\Command\Operator;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorDigitalTachograph;
+use DateTime;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +43,7 @@ class ImportOperatorDigitalTachographCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -48,19 +51,21 @@ class ImportOperatorDigitalTachographCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Set counters
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 1;
         $newRecords = 0;
         $errors = 0;
 
         // Import CSV rows
         while (false != ($row = $this->readRow($fr))) {
-            $operator = $this->em->getRepository('App:Operator\Operator')->findOneBy(['taxIdentificationNumber' => $this->readColumn(4, $row)]);
-            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $this->readColumn(2, $row));
+            /** @var Operator $operator */
+            $operator = $this->rm->getOperatorRepository()->findOneBy(['taxIdentificationNumber' => $this->readColumn(4, $row)]);
+            $date = DateTime::createFromFormat('Y-m-d H:i:s', $this->readColumn(2, $row));
             $file = $this->readColumn(3, $row);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$this->readColumn(4, $row).' · '.$date->format('Y-m-d H:i:s').' · '.$file);
             if ($operator && $date && $file) {
-                $digitalTachograph = $this->em->getRepository('App:Operator\OperatorDigitalTachograph')->findOneBy([
+                /** @var OperatorDigitalTachograph $digitalTachograph */
+                $digitalTachograph = $this->rm->getOperatorDigitalTachographRepository()->findOneBy([
                     'operator' => $operator,
                     'createdAt' => $date,
                 ]);
@@ -99,7 +104,7 @@ class ImportOperatorDigitalTachographCommand extends AbstractBaseCommand
         }
 
         // Print totals
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }
