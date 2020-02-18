@@ -4,6 +4,9 @@ namespace App\Command\Vehicle;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Vehicle\Vehicle;
+use App\Entity\Vehicle\VehicleCategory;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,8 +36,7 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -42,11 +44,12 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Import CSV rows
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         while (false !== ($row = $this->readRow($fr))) {
-            $vehicle = $this->em->getRepository('App:Vehicle\Vehicle')->findOneBy(['name' => $this->readColumn(9, $row)]);
+            /** @var Vehicle $vehicle */
+            $vehicle = $this->rm->getVehicleRepository()->findOneBy(['name' => $this->readColumn(9, $row)]);
             // new vehicle
             if (!$vehicle) {
                 $vehicle = new Vehicle();
@@ -58,7 +61,8 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
                 ->setDescription($this->readColumn(11, $row))
                 ->setShortDescription($this->readColumn(10, $row))
             ;
-            $vehicleCategory = $this->em->getRepository('App:Vehicle\VehicleCategory')->findOneBy(['name' => $this->readColumn(26, $row)]);
+            /** @var VehicleCategory $vehicleCategory */
+            $vehicleCategory = $this->rm->getVehicleCategoryRepository()->findOneBy(['name' => $this->readColumn(26, $row)]);
             if ($vehicleCategory) {
                 $vehicle->setCategory($vehicleCategory);
             }
@@ -82,7 +86,7 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
         }
 
         $this->em->flush();
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         // Print totals
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);
     }

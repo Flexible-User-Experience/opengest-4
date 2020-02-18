@@ -4,6 +4,8 @@ namespace App\Command\Vehicle;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Vehicle\VehicleCategory;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,8 +35,7 @@ class ImportVehicleCategoryCsvCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -42,26 +43,25 @@ class ImportVehicleCategoryCsvCommand extends AbstractBaseCommand
         $fr = $this->initialValidation($input, $output);
 
         // Import CSV rows
-        $beginTimestamp = new \DateTime();
+        $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
         while (false !== ($row = $this->readRow($fr))) {
-            $vehicleCategory = $this->em->getRepository('App:Vehicle\VehicleCategory')->findOneBy(['name' => $this->readColumn(4, $row)]);
+            /** @var VehicleCategory $vehicleCategory */
+            $vehicleCategory = $this->rm->getVehicleCategoryRepository()->findOneBy(['name' => $this->readColumn(4, $row)]);
             // new vehicle category
             if (!$vehicleCategory) {
                 $vehicleCategory = new VehicleCategory();
                 ++$newRecords;
             }
             // update vehicle category
-            $vehicleCategory
-                ->setName($this->readColumn(4, $row))
-            ;
+            $vehicleCategory->setName($this->readColumn(4, $row));
             $this->em->persist($vehicleCategory);
             ++$rowsRead;
         }
 
         $this->em->flush();
-        $endTimestamp = new \DateTime();
+        $endTimestamp = new DateTimeImmutable();
         // Print totals
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);
     }

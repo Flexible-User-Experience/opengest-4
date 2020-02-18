@@ -5,6 +5,8 @@ namespace App\Command\Vehicle;
 use App\Command\AbstractBaseCommand;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Vehicle\Vehicle;
+use DateTimeImmutable;
+use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,8 +38,7 @@ class LinkVehicleEnterpriseCommand extends AbstractBaseCommand
      * @return int|null|void
      *
      * @throws InvalidArgumentException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -46,12 +47,12 @@ class LinkVehicleEnterpriseCommand extends AbstractBaseCommand
 
         // Initializations
         $this->init();
-
-        $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => Enterprise::GRUAS_ROMANI_TIN]);
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => Enterprise::GRUAS_ROMANI_TIN]);
         if (!$enterprise) {
             $output->writeln('<error>No enterprise found</error>');
         } else {
-            $vehicles = $this->em->getRepository('App:Vehicle\Vehicle')->findEnabledSortedByName();
+            $vehicles = $this->rm->getVehicleRepository()->findEnabledSortedByName();
             /** @var Vehicle $vehicle */
             foreach ($vehicles as $vehicle) {
                 $output->writeln($vehicle->getId().' · '.$vehicle->getName());
