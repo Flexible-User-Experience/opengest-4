@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Operator;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\OperatorDigitalTachograph;
 use App\Service\GuardService;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class OperatorDigitalTachographAdminController.
@@ -12,9 +13,9 @@ use App\Service\GuardService;
 class OperatorDigitalTachographAdminController extends BaseAdminController
 {
     /**
-     * @param null $id
+     * @param int|null $id
      *
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @return StreamedResponse
      */
     public function downloadAction($id = null)
     {

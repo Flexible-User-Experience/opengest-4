@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class VehicleDigitalTachographAdminController extends BaseAdminController
 {
     /**
-     * @param null $id
+     * @param int|null $id
      *
      * @return StreamedResponse
      */
@@ -42,7 +42,7 @@ class VehicleDigitalTachographAdminController extends BaseAdminController
     }
 
     /**
-     * @param null $id
+     * @param int|null $id
      *
      * @return RedirectResponse|Response
      */

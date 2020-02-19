@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Setting;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Setting\User;
-use App\Form\UserDefaultEnterpriseForm;
+use App\Form\Type\UserDefaultEnterpriseFormType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +36,7 @@ class UserAdminController extends BaseAdminController
         /** @var User $object */
         $object = $this->getUser();
 
-        $form = $this->createForm(UserDefaultEnterpriseForm::class, $object);
+        $form = $this->createForm(UserDefaultEnterpriseFormType::class, $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // update database
@@ -48,7 +48,7 @@ class UserAdminController extends BaseAdminController
             return $this->redirectToRoute('sonata_admin_dashboard');
         }
 
-        return $this->render(
+        return $this->renderWithExtraParams(
             '::Admin/User/profile.html.twig',
             array(
                 'action' => 'show',

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PartnerAdminController extends BaseAdminController
 {
     /**
-     * @param null $id
+     * @param int|null $id
      *
      * @return RedirectResponse|Response
      */
@@ -58,9 +58,8 @@ class PartnerAdminController extends BaseAdminController
 
         $serializer = $this->container->get('serializer');
         $serializedPartner = $serializer->serialize($partner, 'json', array('groups' => array('api')));
-        $response = new JsonResponse($serializedPartner);
 
-        return $response;
+        return new JsonResponse($serializedPartner);
     }
 
     /**
@@ -83,9 +82,8 @@ class PartnerAdminController extends BaseAdminController
 
         $serializer = $this->container->get('serializer');
         $serializedContacts = $serializer->serialize($partner->getContacts(), 'json', array('groups' => array('api')));
-        $response = new JsonResponse($serializedContacts);
 
-        return $response;
+        return new JsonResponse($serializedContacts);
     }
 
     /**
@@ -108,8 +106,7 @@ class PartnerAdminController extends BaseAdminController
 
         $serializer = $this->container->get('serializer');
         $serializedDeliveryNotes = $serializer->serialize($partner->getSaleDeliveryNotes(), 'json', array('groups' => array('api')));
-        $response = new JsonResponse($serializedDeliveryNotes);
 
-        return $response;
+        return new JsonResponse($serializedDeliveryNotes);
     }
 }

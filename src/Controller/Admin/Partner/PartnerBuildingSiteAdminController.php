@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PartnerBuildingSiteAdminController extends BaseAdminController
 {
     /**
-     * @param null $id
+     * @param int|null $id
      *
      * @return RedirectResponse|Response
      */

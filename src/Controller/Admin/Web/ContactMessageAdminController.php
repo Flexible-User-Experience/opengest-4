@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Web;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Web\ContactMessage;
-use App\Form\ContactMessageAnswerForm;
+use App\Form\Type\ContactMessageAnswerFormType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +55,7 @@ class ContactMessageAdminController extends BaseAdminController
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return $this->render(
+        return $this->renderWithExtraParams(
             $this->admin->getTemplate('show'),
             array(
                 'action' => 'show',
@@ -91,7 +91,7 @@ class ContactMessageAdminController extends BaseAdminController
         $object->setChecked(true);
         $em->flush();
 
-        $form = $this->createForm(ContactMessageAnswerForm::class, $object);
+        $form = $this->createForm(ContactMessageAnswerFormType::class, $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // persist new contact message form record
@@ -106,7 +106,7 @@ class ContactMessageAdminController extends BaseAdminController
             return $this->redirectToRoute('admin_app_contactmessage_list');
         }
 
-        return $this->render(
+        return $this->renderWithExtraParams(
             '::Admin/ContactMessage/answer_form.html.twig',
             array(
                 'action' => 'answer',

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class VehicleAdminController extends BaseAdminController
 {
     /**
-     * @param null $id
+     * @param int|null $id
      *
      * @return RedirectResponse|Response
      */

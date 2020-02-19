@@ -58,8 +58,7 @@ class SaleTariffAdminController extends BaseAdminController
 
         $serializer = $this->container->get('serializer');
         $serializedSaleTariff = $serializer->serialize($saleTariff, 'json', array('groups' => array('apiSaleTariff')));
-        $response = new JsonResponse($serializedSaleTariff);
 
-        return $response;
+        return new JsonResponse($serializedSaleTariff);
     }
 }
