@@ -97,7 +97,7 @@ class ContactMessageBlock extends AbstractBlockService
         $resolver->setDefaults(array(
             'title' => 'Resum',
             'content' => 'Default content',
-            'template' => ':Admin/Block:contact_message.html.twig',
+            'template' => 'admin/block/contact_message.html.twig',
         ));
     }
 }

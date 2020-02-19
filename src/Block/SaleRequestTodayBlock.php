@@ -5,10 +5,10 @@ namespace App\Block;
 use App\Repository\Sale\SaleRequestRepository;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Sonata\BlockBundle\Templating\TwigEngine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Class SaleRequestTodayBlock.
@@ -33,11 +33,11 @@ class SaleRequestTodayBlock extends AbstractBlockService
 
     /**
      * @param null|string           $name
-     * @param TwigEngine            $templating
+     * @param EngineInterface       $templating
      * @param SaleRequestRepository $srr
      * @param TokenStorageInterface $tss
      */
-    public function __construct($name, TwigEngine $templating, SaleRequestRepository $srr, TokenStorageInterface $tss)
+    public function __construct($name, EngineInterface $templating, SaleRequestRepository $srr, TokenStorageInterface $tss)
     {
         parent::__construct($name, $templating);
         $this->srr = $srr;
@@ -88,7 +88,7 @@ class SaleRequestTodayBlock extends AbstractBlockService
         $resolver->setDefaults([
             'title' => 'admin.dashboard.today',
             'content' => 'Default content',
-            'template' => ':Admin/Block:sale_requests.html.twig',
+            'template' => 'admin/block/sale_requests.html.twig',
         ]);
     }
 }

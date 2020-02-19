@@ -7,10 +7,10 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Sonata\BlockBundle\Templating\TwigEngine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Class VehicleCheckingBlock.
@@ -35,11 +35,11 @@ class VehicleCheckingBlock extends AbstractBlockService
 
     /**
      * @param null|string               $name
-     * @param TwigEngine                $templating
+     * @param EngineInterface           $templating
      * @param VehicleCheckingRepository $vcr
      * @param TokenStorageInterface     $tss
      */
-    public function __construct($name, TwigEngine $templating, VehicleCheckingRepository $vcr, TokenStorageInterface $tss)
+    public function __construct($name, EngineInterface $templating, VehicleCheckingRepository $vcr, TokenStorageInterface $tss)
     {
         parent::__construct($name, $templating);
         $this->vcr = $vcr;
@@ -105,7 +105,7 @@ class VehicleCheckingBlock extends AbstractBlockService
         $resolver->setDefaults([
             'title' => 'Resum',
             'content' => 'Default content',
-            'template' => ':Admin/Block:vehicle_checking.html.twig',
+            'template' => 'admin/block/vehicle_checking.html.twig',
         ]);
     }
 }

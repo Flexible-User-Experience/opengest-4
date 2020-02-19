@@ -5,10 +5,10 @@ namespace App\Block;
 use App\Repository\Operator\OperatorCheckingRepository;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Sonata\BlockBundle\Templating\TwigEngine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Class OperatorCheckingBlock.
@@ -33,11 +33,11 @@ class OperatorCheckingBlock extends AbstractBlockService
 
     /**
      * @param null|string                $name
-     * @param TwigEngine                 $templating
+     * @param EngineInterface            $templating
      * @param OperatorCheckingRepository $ocr
      * @param TokenStorageInterface      $tss
      */
-    public function __construct($name, TwigEngine $templating, OperatorCheckingRepository $ocr, TokenStorageInterface $tss)
+    public function __construct($name, EngineInterface $templating, OperatorCheckingRepository $ocr, TokenStorageInterface $tss)
     {
         parent::__construct($name, $templating);
         $this->ocr = $ocr;
@@ -104,7 +104,7 @@ class OperatorCheckingBlock extends AbstractBlockService
         $resolver->setDefaults(array(
             'title' => 'Resum',
             'content' => 'Default content',
-            'template' => ':Admin/Block:operator_checking.html.twig',
+            'template' => 'admin/block/operator_checking.html.twig',
         ));
     }
 }
