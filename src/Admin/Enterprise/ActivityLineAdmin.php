@@ -116,7 +116,6 @@ class ActivityLineAdmin extends AbstractBaseAdmin
                     'editable' => true,
                 )
             )
-
             ->add(
                 '_action',
                 'actions',

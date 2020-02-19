@@ -3,6 +3,7 @@
 namespace App\Block;
 
 use App\Repository\Sale\SaleRequestRepository;
+use Exception;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,7 +51,7 @@ class SaleRequestTomorrowBlock extends AbstractBlockService
      *
      * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
