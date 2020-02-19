@@ -49,7 +49,7 @@ class UserAdminController extends BaseAdminController
         }
 
         return $this->renderWithExtraParams(
-            '::Admin/User/profile.html.twig',
+            'admin/user/profile.html.twig',
             array(
                 'action' => 'show',
                 'object' => $object,

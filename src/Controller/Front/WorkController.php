@@ -32,7 +32,7 @@ class WorkController extends AbstractController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($works, $page, ConstantsEnum::FRONTEND_ITEMS_PER_PAGE_LIMIT);
 
-        return $this->render(':Frontend:works.html.twig', [
+        return $this->render('frontend/works.html.twig', [
             'pagination' => $pagination,
         ]);
     }
@@ -57,7 +57,7 @@ class WorkController extends AbstractController
         }
         $images = $wir->findEnabledSortedByPosition($work);
 
-        return $this->render(':Frontend:work_detail.html.twig', [
+        return $this->render('frontend/work_detail.html.twig', [
             'work' => $work,
             'images' => $images,
         ]);

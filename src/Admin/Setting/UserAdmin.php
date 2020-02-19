@@ -235,7 +235,7 @@ class UserAdmin extends ParentUserAdmin
                 null,
                 array(
                     'label' => 'Rols',
-                    'template' => '::Admin/Cells/list__cell_user_roles.html.twig',
+                    'template' => 'admin/cells/list__cell_user_roles.html.twig',
                 )
             )
             ->add(
@@ -252,8 +252,8 @@ class UserAdmin extends ParentUserAdmin
                 array(
                     'label' => 'Accions',
                     'actions' => array(
-                        'edit' => array('template' => '::Admin/Buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => '::Admin/Buttons/list__action_delete_button.html.twig'),
+                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
                     ),
                 )
             )

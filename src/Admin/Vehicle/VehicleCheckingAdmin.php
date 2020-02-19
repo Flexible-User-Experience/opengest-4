@@ -176,7 +176,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'Estat',
-                    'template' => '::Admin/Cells/list__cell_vehicle_checking_status.html.twig',
+                    'template' => 'admin/cells/list__cell_vehicle_checking_status.html.twig',
                 )
             )
             ->add(
@@ -226,8 +226,8 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'show' => array('template' => '::Admin/Buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => '::Admin/Buttons/list__action_edit_button.html.twig'),
+                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
+                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
                     ),
                     'label' => 'Accions',
                 )

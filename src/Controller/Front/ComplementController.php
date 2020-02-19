@@ -27,7 +27,7 @@ class ComplementController extends AbstractController
     {
         $complements = $cr->findEnabledSortedByName();
 
-        return $this->render(':Frontend:complements.html.twig', [
+        return $this->render('frontend/complements.html.twig', [
             'complements' => $complements,
         ]);
     }
@@ -50,7 +50,7 @@ class ComplementController extends AbstractController
             throw new EntityNotFoundException();
         }
 
-        return $this->render(':Frontend:complement_detail.html.twig', [
+        return $this->render('frontend/complement_detail.html.twig', [
             'complement' => $complement,
         ]);
     }

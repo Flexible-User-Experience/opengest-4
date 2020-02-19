@@ -248,14 +248,14 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         if ($this->getSubject() && $this->getSubject()->$attribute()) {
             if ($this->fs->isPdf($this->getSubject(), $uploaderMapping)) {
                 // PDF case
-                return $this->tws->render(':Admin/Helpers:pdf.html.twig', [
+                return $this->tws->render('admin/helpers/pdf.html.twig', [
                     'attribute' => $this->getSubject()->$attribute(),
                     'subject' => $this->getSubject(),
                     'uploaderMapping' => $uploaderMapping,
                 ]);
             } else {
                 // Image case
-                return $this->tws->render(':Admin/Helpers:image.html.twig', [
+                return $this->tws->render('admin/helpers/image.html.twig', [
                     'attribute' => $this->getSubject()->$attribute(),
                     'subject' => $this->getSubject(),
                     'uploaderMapping' => $uploaderMapping,

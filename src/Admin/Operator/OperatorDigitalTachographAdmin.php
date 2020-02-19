@@ -153,7 +153,7 @@ class OperatorDigitalTachographAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'Imatge',
-                    'template' => '::Admin/Cells/list__cell_operator_profile_image_field.html.twig',
+                    'template' => 'admin/cells/list__cell_operator_profile_image_field.html.twig',
                 )
             )
             ->add(
@@ -173,8 +173,8 @@ class OperatorDigitalTachographAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'edit' => array('template' => '::Admin/Buttons/list__action_edit_button.html.twig'),
-                        'download' => array('template' => '::Admin/Buttons/list__action_download_button.html.twig'),
+                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                        'download' => array('template' => 'admin/buttons/list__action_download_button.html.twig'),
                     ),
                     'label' => 'Accions',
                 )

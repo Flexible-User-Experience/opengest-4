@@ -65,7 +65,7 @@ class VehiclesController extends AbstractController
             throw new EntityNotFoundException();
         }
 
-        return $this->render(':Frontend:vehicle_detail.html.twig', [
+        return $this->render('frontend/vehicle_detail.html.twig', [
             'vehicle' => $vehicle,
         ]);
     }
@@ -93,7 +93,7 @@ class VehiclesController extends AbstractController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($vehicles, $page, ConstantsEnum::FRONTEND_ITEMS_PER_PAGE_LIMIT);
 
-        return $this->render(':Frontend:vehicles.html.twig', [
+        return $this->render('frontend/vehicles.html.twig', [
             'category' => $category,
             'pagination' => $pagination,
         ]);

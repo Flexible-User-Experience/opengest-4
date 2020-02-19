@@ -39,7 +39,7 @@ class DefaultController extends AbstractController
         /** @var Service|null $servicePA */
         $servicePA = $sr->findOneBy(['slug' => 'plataformas-aereas-sobre-camion']);
 
-        return $this->render(':Frontend:homepage.html.twig', array(
+        return $this->render('frontend/homepage.html.twig', array(
             'serviceGC' => $serviceGC,
             'serviceGH' => $serviceGH,
             'servicePA' => $servicePA,
@@ -82,7 +82,7 @@ class DefaultController extends AbstractController
             }
         }
 
-        return $this->render(':Frontend:company.html.twig', array(
+        return $this->render('frontend/company.html.twig', array(
             'contactForm' => $form->createView(),
         ));
     }
@@ -92,7 +92,7 @@ class DefaultController extends AbstractController
      */
     public function aboutAction()
     {
-        return $this->render(':Frontend:about.html.twig');
+        return $this->render('frontend/about.html.twig');
     }
 
     /**
@@ -100,7 +100,7 @@ class DefaultController extends AbstractController
      */
     public function privacyAction()
     {
-        return $this->render(':Frontend:privacy.html.twig');
+        return $this->render('frontend/privacy.html.twig');
     }
 
     /**
@@ -108,7 +108,7 @@ class DefaultController extends AbstractController
      */
     public function sitemapAction()
     {
-        return $this->render(':Frontend:sitemap.html.twig');
+        return $this->render('frontend/sitemap.html.twig');
     }
 
     /**

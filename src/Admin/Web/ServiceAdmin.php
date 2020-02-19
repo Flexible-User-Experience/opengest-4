@@ -170,7 +170,7 @@ class ServiceAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'admin.label.image',
-                    'template' => '::Admin/Cells/list__cell_main_image_field.html.twig',
+                    'template' => 'admin/cells/list__cell_main_image_field.html.twig',
                 )
             )
             ->add(
@@ -214,8 +214,8 @@ class ServiceAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'show' => array('template' => '::Admin/Buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => '::Admin/Buttons/list__action_edit_button.html.twig'),
+                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
+                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
                     ),
                     'label' => 'admin.actions',
                 )
