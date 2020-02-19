@@ -1,0 +1,105 @@
+Servei_create: Crear
+Servei_delete: Esborrar
+Treball_list: Treballs
+Treball_create: Crear
+Treball_delete: Esborrar
+Categoria Vehicles_list: Categories vehicle
+Categoria Vehicles_create: Crear
+Categoria Vehicles_delete: Esborrar
+Accesori_list: Accesoris
+Accesori_create: Crear
+Accesori_delete: Esborrar
+Missatge de contacte_list: Missatges de contacte
+Missatge de contacte_delete: Esborrar
+Província_list: Províncies
+Província_create: Crear
+Província_delete: Esborrar
+Ciutat_list: Ciutats
+Ciutat_delete: Esborrar
+Empresa_list: Empreses
+Empresa_create: Crear
+Empresa_delete: Esborrar
+Usuari_list: Usuaris
+Usuari_create: Crear
+Usuari_delete: Esborrar
+Operadors_list: Operaris
+Operadors_create: Crear
+Operadors_delete: Esborrar
+Tipus revisió_list: Tipus revisió
+Tipus revisió_create: Crear
+Tipus revisió_delete: Esborrar
+Revisions_list: Revisions
+Revisions_delete: Esborrar
+Revisions_create: Crear
+Tipus absència_list: Tipus absència
+Tipus absència_create: Crear
+Tipus absència_delete: Esborrar
+Absències_list: Absències
+Absències_create: Crear
+Absències_delete: Esborrar
+Vehicles_list: Vehicles
+Vehicles_create: Crear
+Vehicles_delete: Esborrar
+Tacògrafs_list: Tacògrafs
+Tacògrafs_create: Crear
+Tacògrafs_delete: Esborrar
+Prima_list: Grup prima
+Prima_create: Crear
+Prima_delete: Esborrar
+Compte Bancari_list: Compte Bancari
+Compte Bancari_create: Crear
+Compte Bancari_delete: Esborrar
+Tercers classe_list: Tercers classe
+Tercers classe_create: Crear
+Tercers classe_delete: Esborrar
+Tercers tipus_list: Tercers tipus
+Tercers tipus_create: Crear
+Tercers tipus_delete: Esborrar
+Tercers_list: Tercers
+Tercers_create: Crear
+Tercers_delete: Esborrar
+Tercers comandes_list: Tercers comandes
+Tercers comandes_create: Crear
+Tercers comandes_delete: Esborrar
+Tercers obres_list: Tercers obres
+Tercers obres_create: Crear
+Tercers obres_delete: Esborrar
+Tercers contacte_list: Tercers contacte
+Tercers contacte_create: Crear
+Tercers contacte_delete: Esborrar
+Tercers dies inhàbils_list: Tercers dies inhàbils
+Tercers dies inhàbils_create: Crear
+Tercers dies inhàbils_delete: Esborrar
+Dies festius_list: Dies festius
+Dies festius_create: Crear
+Dies festius_delete: Esborrar
+Tarifa_list: Tarifa
+Tarifa_create: Crear
+Tarifa_delete: Esborrar
+Petició_list: Petició
+Petició_create: Crear
+Petició_delete: Esborrar
+Línies d'activitat_list: Línies d'activitat
+Línies d'activitat_create: Crear
+Línies d'activitat_delete: Esborrar
+Tipus document cobrament_list: Tipus document cobrament
+Tipus document cobrament_create: Crear
+Tipus document cobrament_delete: Esborrar
+Albarà_list: Albarà
+Albarà_create: Crear
+Albarà_delete: Esborrar
+Sèries factura_list: Sèries factura
+Sèries factura_create: Crear
+Sèries factura_delete: Esborrar
+Factura_list: Factura
+Factura_create: Crear
+Factura_delete: Esborrar
+Albarà línia_list: Factura
+Albarà línia_create: Crear
+Albarà línia_delete: Esborrar
+Imports varis_list: Imports Varis
+Imports varis_create: Crear
+Imports varis_delete: Esborrar
+Valoració petició-albarà_list: Valoració petició-albarà
+Valoració petició-albarà_create: Crear
+Valoració petició-albarà_delete: Esborrar
