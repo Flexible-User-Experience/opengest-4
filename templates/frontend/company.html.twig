@@ -1,4 +1,4 @@
-{% extends ':Frontend:base.html.twig' %}
+{% extends 'frontend/base.html.twig' %}
 
 {% form_theme contactForm _self %}
 
@@ -63,7 +63,7 @@
             <div class="col-sm-4 col-sm-offset-1">
                 <div class="panel blue-background-light">
                     <div class="panel-heading">
-                        {% include ':Includes:notice_flash.html.twig' %}
+                        {% include 'includes/notice_flash.html.twig' %}
                         {{ form(contactForm) }}
                     </div>
                 </div>

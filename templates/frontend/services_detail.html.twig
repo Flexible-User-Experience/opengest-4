@@ -1,4 +1,4 @@
-{% extends ':Frontend:base.html.twig' %}
+{% extends 'frontend/base.html.twig' %}
 
 {% form_theme contactForm _self %}
 
@@ -29,7 +29,7 @@
             </div>
             {# right main content #}
             <div class="col-sm-9">
-                {% include ':Includes:notice_flash.html.twig' %}
+                {% include 'includes/notice_flash.html.twig' %}
                 <h3 class="no-m-top main-subtitle">{{ service.name | capitalize }}</h3>
                 {% if service.mainImage is not null %}
                     <img src="{{ vich_uploader_asset(service, 'mainImageFile') | imagine_filter('878xY') }}" class="img-responsive" alt="{{ service.name }}">

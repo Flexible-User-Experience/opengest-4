@@ -1,7 +1,7 @@
-{% extends ":Mails:base.html.twig" %}
+{% extends "mails/base.html.twig" %}
 
 {% block subject %}Revisió caducada{% endblock %}
 
 {% block content %}
-    {% include ':Includes:common_operator_checking_mail.html.twig' with { header_h4: 'Hola ' ~ operatorChecking.operator.name ~'! Recorda que avui ha caducat un dels teus documents.', operatorChecking: operatorChecking, show_footer: true } %}
+    {% include 'includes/common_operator_checking_mail.html.twig' with { header_h4: 'Hola ' ~ operatorChecking.operator.name ~'! Recorda que avui ha caducat un dels teus documents.', operatorChecking: operatorChecking, show_footer: true } %}
 {% endblock %}
