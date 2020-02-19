@@ -23,8 +23,19 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class PartnerAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Tercers';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'tercers/tercer';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
@@ -365,7 +376,6 @@ class PartnerAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'cifNif',

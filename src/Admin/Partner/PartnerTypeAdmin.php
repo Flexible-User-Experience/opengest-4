@@ -18,8 +18,19 @@ use Sonata\AdminBundle\Form\FormMapper;
  */
 class PartnerTypeAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Tercers tipus';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'tercers/tipus';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
@@ -114,7 +125,6 @@ class PartnerTypeAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',

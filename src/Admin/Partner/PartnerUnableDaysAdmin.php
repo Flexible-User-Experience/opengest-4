@@ -5,6 +5,7 @@ namespace App\Admin\Partner;
 use App\Admin\AbstractBaseAdmin;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -21,8 +22,19 @@ use Sonata\Form\Type\DatePickerType;
  */
 class PartnerUnableDaysAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Tercers dies inhàbils';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'tercers/dies-inhabils';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'begin',
         '_sort_order' => 'desc',
@@ -31,7 +43,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     /**
      * @param FormMapper $formMapper
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -158,7 +170,6 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $listMapper
                 ->add(

@@ -20,8 +20,19 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
  */
 class PartnerContactAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Tercers contacte';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'tercers/contacte';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'partner.name',
         '_sort_order' => 'asc',
@@ -211,7 +222,6 @@ class PartnerContactAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'partner',
