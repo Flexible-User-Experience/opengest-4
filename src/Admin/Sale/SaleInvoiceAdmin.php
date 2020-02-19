@@ -6,6 +6,7 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
@@ -107,7 +108,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.date',
                     'format' => 'd/m/Y',
                     'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'dp_default_date' => (new DateTime())->format('d/m/Y'),
                     'disabled' => true,
                 )
             )
@@ -381,7 +382,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      */
     public function prePersist($object)
     {
-        $object->setInvoiceNumber($this->getConfigurationPool()->getContainer()->get('app.invoice_manager')->getLastInvoiceNumberBySerieAndEnterprise($object->getSeries(), $this->getUserLogedEnterprise()));
+        $object->setInvoiceNumber($this->im->getLastInvoiceNumberBySerieAndEnterprise($object->getSeries(), $this->getUserLogedEnterprise()));
     }
 
     /**
@@ -397,7 +398,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         }
         $object->setTotal($totalPrice);
 
-        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
-        $em->flush();
+        $this->em->flush();
     }
 }

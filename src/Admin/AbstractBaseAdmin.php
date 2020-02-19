@@ -5,7 +5,9 @@ namespace App\Admin;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Setting\User;
 use App\Manager\DeliveryNoteManager;
+use App\Manager\InvoiceManager;
 use App\Manager\RepositoriesManager;
+use App\Manager\YearChoicesManager;
 use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -32,6 +34,16 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      * @var CacheManager
      */
     private CacheManager $lis;
+
+    /**
+     * @var YearChoicesManager
+     */
+    protected YearChoicesManager $ycm;
+
+    /**
+     * @var InvoiceManager
+     */
+    protected InvoiceManager $im;
 
     /**
      * @var RepositoriesManager
@@ -87,6 +99,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      * @param string                        $class
      * @param string                        $baseControllerName
      * @param CacheManager                  $lis
+     * @param YearChoicesManager            $ycm
+     * @param InvoiceManager                $im
      * @param RepositoriesManager           $rm
      * @param DeliveryNoteManager           $dnm
      * @param EntityManagerInterface        $em
@@ -95,11 +109,13 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      * @param TokenStorageInterface         $ts
      * @param AuthorizationCheckerInterface $acs
      */
-    public function __construct($code, $class, $baseControllerName, CacheManager $lis, RepositoriesManager $rm, DeliveryNoteManager $dnm, EntityManagerInterface $em, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
+    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, EntityManagerInterface $em, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
     {
         parent::__construct($code, $class, $baseControllerName);
         $this->vus = $fs->getUhs();
         $this->lis = $lis;
+        $this->ycm = $ycm;
+        $this->im = $im;
         $this->rm = $rm;
         $this->dnm = $dnm;
         $this->em = $em;

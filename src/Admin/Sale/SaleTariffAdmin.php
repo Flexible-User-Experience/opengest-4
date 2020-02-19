@@ -73,7 +73,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 ChoiceType::class,
                 array(
                     'label' => 'admin.label.year',
-                    'choices' => $this->getConfigurationPool()->getContainer()->get('app.year_choices_manager')->getYearRange(),
+                    'choices' => $this->ycm->getYearRange(),
                     'placeholder' => 'Selecciona un any',
                     'required' => true,
                 )
