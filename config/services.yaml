@@ -4,6 +4,15 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    default_locale:            '%env(string:DEFAULT_LOCALE)%'
+    database_server_version:   '%env(resolve:DATABASE_SERVER_VERSION)%'
+    project_web_title:         '%env(string:PROJECT_WEB_TITLE)%'
+    project_url_base:          '%env(string:PROJECT_BASE_URL)%'
+    google_analytics_enabled:  '%env(bool:GOOGLE_ANALYTICS_IS_ENABLED)%'
+    google_analytics_account:  '%env(string:GOOGLE_ANALYTICS_ACCOUNT)%'
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    google_maps_api_key:       '%env(string:GOOGLE_MAPS_API_KEY)%'
+    delivery_dev_address:      '%env(string:DEV_DELIVERY_ADDRESS)%'
 
 services:
     # default configuration for services in *this* file
