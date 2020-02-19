@@ -19,8 +19,19 @@ use Sonata\AdminBundle\Route\RouteCollection;
  */
 class ProvinceAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Província';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'configuracio/provincia';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
@@ -115,7 +126,6 @@ class ProvinceAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'code',

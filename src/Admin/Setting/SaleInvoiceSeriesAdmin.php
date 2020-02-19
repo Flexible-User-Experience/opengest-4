@@ -16,8 +16,19 @@ use Sonata\AdminBundle\Form\FormMapper;
  */
 class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Sèries factura';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'configuracio/series-factura';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'name',
         '_sort_order' => 'ASC',
@@ -93,7 +104,6 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',

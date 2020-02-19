@@ -26,8 +26,19 @@ class UserAdmin extends ParentUserAdmin
      */
     protected $userManager;
 
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Usuari';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'configuracio/usuari';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'username',
         '_sort_order' => 'asc',
@@ -72,9 +83,8 @@ class UserAdmin extends ParentUserAdmin
     /**
      * @param FormMapper $formMapper
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
-        /* @var object $formMapper */
         $formMapper
             ->with('General', array(
                 'class' => 'col-md-6',
@@ -159,7 +169,7 @@ class UserAdmin extends ParentUserAdmin
     /**
      * @param DatagridMapper $filterMapper
      */
-    protected function configureDatagridFilters(DatagridMapper $filterMapper)
+    protected function configureDatagridFilters(DatagridMapper $filterMapper): void
     {
         $filterMapper
             ->add(
@@ -189,9 +199,8 @@ class UserAdmin extends ParentUserAdmin
     /**
      * @param ListMapper $listMapper
      */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'username',

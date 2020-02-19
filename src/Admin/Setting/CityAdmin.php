@@ -18,8 +18,19 @@ use Sonata\AdminBundle\Route\RouteCollection;
  */
 class CityAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Ciutat';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'configuracio/ciutat';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
@@ -121,7 +132,6 @@ class CityAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'postalCode',
