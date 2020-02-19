@@ -22,8 +22,19 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  */
 class VehicleCheckingAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Revisions';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vehicles/revisio';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'end',
         '_sort_order' => 'asc',
@@ -155,7 +166,6 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'status',

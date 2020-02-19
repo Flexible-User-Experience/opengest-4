@@ -23,8 +23,19 @@ use Sonata\AdminBundle\Route\RouteCollection;
  */
 class VehicleAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Vehicles';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vehicles/vehicle';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
@@ -218,7 +229,6 @@ class VehicleAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'mainImage',

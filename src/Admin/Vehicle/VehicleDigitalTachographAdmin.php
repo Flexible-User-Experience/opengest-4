@@ -23,8 +23,19 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
  */
 class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Tacògrafs';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vehicles/tacograf';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'createdAt',
         '_sort_order' => 'desc',
@@ -124,7 +135,6 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'createdAt',

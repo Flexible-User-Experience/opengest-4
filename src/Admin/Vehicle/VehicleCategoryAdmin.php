@@ -18,8 +18,19 @@ use Sonata\AdminBundle\Route\RouteCollection;
  */
 class VehicleCategoryAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Categoria Vehicles';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vehicles/categoria-vehicle';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'position',
         '_sort_order' => 'asc',
@@ -83,20 +94,6 @@ class VehicleCategoryAdmin extends AbstractBaseAdmin
                     'label' => 'Nom',
                 )
             )
-//            ->add(
-//                'position',
-//                null,
-//                array(
-//                    'label' => 'Posició',
-//                )
-//            )
-//            ->add(
-//                'vehicles',
-//                null,
-//                array(
-//                    'label' => 'Vehicles',
-//                )
-//            )
             ->add(
                 'enabled',
                 null,
@@ -111,7 +108,6 @@ class VehicleCategoryAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',
@@ -129,14 +125,6 @@ class VehicleCategoryAdmin extends AbstractBaseAdmin
                     'editable' => true,
                 )
             )
-//            ->add(
-//                'vehicles',
-//                null,
-//                array(
-//                    'label' => 'Vehicles',
-//                    'editable' => true,
-//                )
-//            )
             ->add(
                 'enabled',
                 null,
@@ -152,7 +140,6 @@ class VehicleCategoryAdmin extends AbstractBaseAdmin
                     'actions' => array(
                         'show' => array('template' => '::Admin/Buttons/list__action_show_button.html.twig'),
                         'edit' => array('template' => '::Admin/Buttons/list__action_edit_button.html.twig'),
-//                        'delete' => array('template' => '::Admin/Buttons/list__action_delete_button.html.twig'),
                     ),
                     'label' => 'Accions',
                 )

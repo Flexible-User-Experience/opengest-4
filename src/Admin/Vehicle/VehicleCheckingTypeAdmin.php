@@ -18,8 +18,19 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class VehicleCheckingTypeAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Tipus revisió';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vehicles/tipus-revisio';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
@@ -92,7 +103,6 @@ class VehicleCheckingTypeAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'name',
