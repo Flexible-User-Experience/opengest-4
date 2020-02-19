@@ -13,6 +13,7 @@ use App\Entity\Sale\SaleInvoice;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -32,8 +33,19 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Albarà';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vendes/albara';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'date',
         '_sort_order' => 'DESC',
@@ -42,7 +54,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     /**
      * @param FormMapper $formMapper
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -343,7 +355,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $listMapper
                 ->add(
@@ -418,7 +429,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     public function prePersist($object)
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setDeliveryNoteNumber($this->getConfigurationPool()->getContainer()->get('app.delivery_note_manager')->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
+        $object->setDeliveryNoteNumber($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
     }
 
     /**
@@ -438,7 +449,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         $object->setBaseAmount($totalPrice);
 
-        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
-        $em->flush();
+        $this->em->flush();
     }
 }

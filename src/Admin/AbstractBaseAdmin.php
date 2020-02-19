@@ -4,8 +4,10 @@ namespace App\Admin;
 
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Setting\User;
+use App\Manager\DeliveryNoteManager;
 use App\Manager\RepositoriesManager;
 use App\Service\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
@@ -35,6 +37,16 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      * @var RepositoriesManager
      */
     protected RepositoriesManager $rm;
+
+    /**
+     * @var DeliveryNoteManager
+     */
+    protected DeliveryNoteManager $dnm;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    protected EntityManagerInterface $em;
 
     /**
      * @var FileService
@@ -76,17 +88,21 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      * @param string                        $baseControllerName
      * @param CacheManager                  $lis
      * @param RepositoriesManager           $rm
+     * @param DeliveryNoteManager           $dnm
+     * @param EntityManagerInterface        $em
      * @param FileService                   $fs
      * @param EngineInterface               $tws
      * @param TokenStorageInterface         $ts
      * @param AuthorizationCheckerInterface $acs
      */
-    public function __construct($code, $class, $baseControllerName, CacheManager $lis, RepositoriesManager $rm, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
+    public function __construct($code, $class, $baseControllerName, CacheManager $lis, RepositoriesManager $rm, DeliveryNoteManager $dnm, EntityManagerInterface $em, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
     {
         parent::__construct($code, $class, $baseControllerName);
         $this->vus = $fs->getUhs();
         $this->lis = $lis;
         $this->rm = $rm;
+        $this->dnm = $dnm;
+        $this->em = $em;
         $this->fs = $fs;
         $this->tws = $tws;
         $this->ts = $ts;

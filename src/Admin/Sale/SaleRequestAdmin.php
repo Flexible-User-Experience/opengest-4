@@ -8,7 +8,9 @@ use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -30,8 +32,19 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
  */
 class SaleRequestAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Petició';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vendes/peticio';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'requestDate',
         '_sort_order' => 'desc',
@@ -69,7 +82,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * @param FormMapper $formMapper
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -342,7 +355,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'Data petició',
                     'format' => 'd/M/y',
                     'required' => false,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'dp_default_date' => (new DateTime())->format('d/m/Y'),
                 )
             )
             ->add(
@@ -579,7 +592,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $listMapper
                 ->add(
@@ -662,13 +674,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * @param SaleRequest $object
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function prePersist($object)
     {
         $object->setAttendedBy($this->getUser());
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setRequestTime(new \DateTime());
+        $object->setRequestTime(new DateTime());
 
         if (null == $object->getInvoiceTo()) {
             $object->setInvoiceTo($object->getPartner());

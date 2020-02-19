@@ -21,8 +21,19 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  */
 class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Albarà línia';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vendes/albara-linia';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'id',
         '_sort_order' => 'ASC',
@@ -206,7 +217,6 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'deliveryNote',

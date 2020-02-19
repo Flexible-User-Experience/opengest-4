@@ -22,8 +22,19 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  */
 class SaleRequestHasDeliveryNoteAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Valoració petició-albarà';
+
+    /**
+     * @var string
+     */
     protected $baseRoutePattern = 'vendes/valoracio-peticio-albara';
+
+    /**
+     * @var array
+     */
     protected $datagridValues = array(
         '_sort_by' => 'saleRequest',
         '_sort_order' => 'desc',
@@ -386,7 +397,6 @@ class SaleRequestHasDeliveryNoteAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        unset($this->listModes['mosaic']);
         $listMapper
             ->add(
                 'saleRequest',
@@ -442,17 +452,21 @@ class SaleRequestHasDeliveryNoteAdmin extends AbstractBaseAdmin
      */
     public function prePersist($object)
     {
-        $object->setAmountMorning($object->getTotalHoursMorning() * $object->getPriceHourMorning());
-        $object->setAmountAfternoon($object->getTotalHoursAfternoon() * $object->getPriceHourAfternoon());
-        $object->setAmountNight($object->getTotalHoursNight() * $object->getPriceHourNight());
-        $object->setAmountEarlyMorning($object->getTotalHoursEarlyMorning() * $object->getPriceHourEarlyMorning());
-        $object->setAmountDisplacement($object->getTotalHoursDisplacement() * $object->getPriceHourDisplacement());
+        $this->commonPreEvents($object);
     }
 
     /**
      * @param SaleRequestHasDeliveryNote $object
      */
     public function preUpdate($object)
+    {
+        $this->commonPreEvents($object);
+    }
+
+    /**
+     * @param SaleRequestHasDeliveryNote $object
+     */
+    private function commonPreEvents($object)
     {
         $object->setAmountMorning($object->getTotalHoursMorning() * $object->getPriceHourMorning());
         $object->setAmountAfternoon($object->getTotalHoursAfternoon() * $object->getPriceHourAfternoon());
