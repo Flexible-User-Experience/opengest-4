@@ -40,6 +40,10 @@ class OperatorVariousAmountAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * @param FormMapper $formMapper
      *
      * @throws Exception

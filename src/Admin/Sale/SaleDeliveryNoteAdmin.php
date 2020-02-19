@@ -52,6 +52,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * @param FormMapper $formMapper
      *
      * @throws Exception

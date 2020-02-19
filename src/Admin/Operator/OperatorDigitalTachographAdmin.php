@@ -41,6 +41,10 @@ class OperatorDigitalTachographAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * Configure route collection.
      *
      * @param RouteCollection $collection

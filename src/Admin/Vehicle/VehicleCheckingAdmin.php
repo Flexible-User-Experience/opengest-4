@@ -41,6 +41,10 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)

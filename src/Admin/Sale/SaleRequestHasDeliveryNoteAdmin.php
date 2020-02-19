@@ -41,6 +41,10 @@ class SaleRequestHasDeliveryNoteAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)

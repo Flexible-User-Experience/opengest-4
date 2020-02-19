@@ -42,6 +42,10 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * Configure route collection.
      *
      * @param RouteCollection $collection

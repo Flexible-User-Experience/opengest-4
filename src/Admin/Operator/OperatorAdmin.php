@@ -44,6 +44,10 @@ class OperatorAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * Configure route collection.
      *
      * @param RouteCollection $collection

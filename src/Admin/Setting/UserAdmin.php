@@ -45,6 +45,10 @@ class UserAdmin extends ParentUserAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * @param string $code
      * @param string $class
      * @param string $baseControllerName

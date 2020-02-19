@@ -51,6 +51,10 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * @param RouteCollection $collection
      */
     public function configureRoutes(RouteCollection $collection)

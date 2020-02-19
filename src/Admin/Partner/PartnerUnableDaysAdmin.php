@@ -41,6 +41,10 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     );
 
     /**
+     * Methods.
+     */
+
+    /**
      * @param FormMapper $formMapper
      *
      * @throws Exception
