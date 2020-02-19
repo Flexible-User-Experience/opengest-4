@@ -18,6 +18,7 @@ parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     google_maps_api_key:       '%env(string:GOOGLE_MAPS_API_KEY)%'
     delivery_dev_address:      '%env(string:DEV_DELIVERY_ADDRESS)%'
+    mailer_destination:        '%env(string:MAILER_DESTINATION_ADDRESS)%'
 
 services:
     # default configuration for services in *this* file
@@ -47,114 +48,116 @@ services:
     # Pdf
     app.pdf_engine:
         class: App\Service\PdfEngineService
-        arguments: [ "@app.smart_assets_helper_service", "%mailer_url_base%", "%project_admin_title%" ]
+        arguments: [ '@app.smart_assets_helper_service', '%mailer_url_base%', '%project_admin_title%' ]
     app.sale_request_pdf_manager:
         class: App\Manager\Pdf\SaleRequestPdfManager
-        arguments: [ "@app.pdf_engine" ]
+        arguments: [ '@app.pdf_engine' ]
     # Messaging
     app.courier:
         class: App\Service\CourierService
-        arguments: [ "@mailer.mailer" ]
+        arguments: [ '@mailer.mailer' ]
     app.notification:
         class: App\Service\NotificationService
-        arguments: [ "@app.courier", "@templating", "%mailer_destination%", "%mailer_url_base%" ]
+        arguments:
+            $amd: '%mailer_destination%'
+            $urlBase: '%mailer_url_base%'
     # Menu
     app.frontend_menu_builder:
         class: App\Menu\FrontendMenuBuilder
-        arguments: [ "@knp_menu.factory", "@security.authorization_checker", "@security.token_storage", "@app.vehicle_category_repository", "@app.service_repository", "@app.work_repository", "@app.complement_repository", "@router" ]
+        arguments: [ '@knp_menu.factory', '@security.authorization_checker', '@security.token_storage', '@app.vehicle_category_repository', '@app.service_repository', '@app.work_repository', '@app.complement_repository', '@router' ]
     app.frontend_top_menu:
         class: Knp\Menu\MenuItem
-        factory: [ "@app.frontend_menu_builder", createTopMenu ]
-        arguments: [ "@request_stack" ]
+        factory: [ '@app.frontend_menu_builder', createTopMenu ]
+        arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: top }
     app.frontend_vehicle_category_menu:
         class: Knp\Menu\MenuItem
-        factory: [ "@app.frontend_menu_builder", createVehicleCategoryMenu ]
-        arguments: [ "@request_stack" ]
+        factory: [ '@app.frontend_menu_builder', createVehicleCategoryMenu ]
+        arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: vehicle_category }
     app.frontend_service_menu:
         class: Knp\Menu\MenuItem
-        factory: [ "@app.frontend_menu_builder", createServiceMenu ]
-        arguments: [ "@request_stack" ]
+        factory: [ '@app.frontend_menu_builder', createServiceMenu ]
+        arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: service }
     app.frontend_footer_menu:
         class: Knp\Menu\MenuItem
-        factory: [ "@app.frontend_menu_builder", createFooterMenu ]
-        arguments: [ "@request_stack" ]
+        factory: [ '@app.frontend_menu_builder', createFooterMenu ]
+        arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: footer }
     app.frontend_sitemap_menu:
         class: Knp\Menu\MenuItem
-        factory: [ "@app.frontend_menu_builder", createSitemapMenu ]
-        arguments: [ "@request_stack" ]
+        factory: [ '@app.frontend_menu_builder', createSitemapMenu ]
+        arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: sitemap }
     # Sitemap
     app.sitemap:
         class: App\Listener\SitemapListener
-        arguments: [ "@router", "@app.frontend_menu_builder" ]
-        tags: [ { name: "presta.sitemap.listener" } ]
+        arguments: [ '@router', '@app.frontend_menu_builder' ]
+        tags: [ { name: 'presta.sitemap.listener' } ]
     # Twig
     app.twig_extension:
         class: App\Twig\AppExtension
         public: false
-        arguments: [ "@router", "@vich_uploader.templating.helper.uploader_helper", "@liip_imagine.cache.manager", "@app.contact_message_repository" ]
+        arguments: [ '@router', '@vich_uploader.templating.helper.uploader_helper', '@liip_imagine.cache.manager', '@app.contact_message_repository' ]
         tags:
             - { name: twig.extension }
     # Block
     app.block.contact_message:
         class: App\Block\ContactMessageBlock
-        arguments: [ "app.block.contact_message", "@templating", "@doctrine.orm.entity_manager" ]
+        arguments: [ 'app.block.contact_message', '@templating', '@doctrine.orm.entity_manager' ]
         tags:
             - { name: sonata.block }
     app.block.vehicle_checking:
         class: App\Block\VehicleCheckingBlock
-        arguments: [ "app.block.vehicle_checking", "@templating", "@app.vehicle_checking_repository", "@security.token_storage" ]
+        arguments: [ 'app.block.vehicle_checking', '@templating', '@app.vehicle_checking_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.operator_checking:
         class: App\Block\OperatorCheckingBlock
-        arguments: [ "app.block.operator_checking", "@templating", "@app.operator_checking_repository", "@security.token_storage" ]
+        arguments: [ 'app.block.operator_checking', '@templating', '@app.operator_checking_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.operator_absence:
         class: App\Block\OperatorAbsenceBlock
-        arguments: [ "app.block.operator_absence", "@templating", "@app.operator_absence_repository", "@security.token_storage" ]
+        arguments: [ 'app.block.operator_absence', '@templating', '@app.operator_absence_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_today:
         class: App\Block\SaleRequestTodayBlock
-        arguments: [ "app.block.sale_request_today", "@templating", "@app.sale_request_repository", "@security.token_storage" ]
+        arguments: [ 'app.block.sale_request_today', '@templating', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_tomorrow:
         class: App\Block\SaleRequestTomorrowBlock
-        arguments: [ "app.block.sale_request_tomorrow", "@templating", "@app.sale_request_repository", "@security.token_storage" ]
+        arguments: [ 'app.block.sale_request_tomorrow', '@templating', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_next:
         class: App\Block\SaleRequestNextBlock
-        arguments: [ "app.block.sale_request_next", "@templating", "@app.sale_request_repository", "@security.token_storage" ]
+        arguments: [ 'app.block.sale_request_next', '@templating', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     # File
     app.file_service:
         class: App\Service\FileService
-        arguments: [ "@vich_uploader.templating.helper.uploader_helper", "%kernel.root_dir%" ]
+        arguments: [ '@vich_uploader.templating.helper.uploader_helper', '%kernel.root_dir%' ]
     app.smart_assets_helper_service:
         class: App\Service\SmartAssetsHelperService
-        arguments: [ "@kernel", "%mailer_url_base%" ]
+        arguments: [ '@kernel', '%mailer_url_base%' ]
     # Guard
     app.guard_service:
         class: App\Service\GuardService
-        arguments: [ "@security.authorization_checker" ]
+        arguments: [ '@security.authorization_checker' ]
     # Form
     app.form_user_default_enterprise:
         class: App\Form\Type\UserDefaultEnterpriseFormType
-        arguments: [ "@doctrine.orm.entity_manager", "@security.token_storage" ]
+        arguments: [ '@doctrine.orm.entity_manager', '@security.token_storage' ]
         tags:
             - { name: form.type }
     # Voters
@@ -193,12 +196,23 @@ services:
         class: App\Manager\YearChoicesManager
     app.invoice_manager:
         class: App\Manager\InvoiceManager
-        arguments: [ "@app.sale_invoice_repository"]
+        arguments: [ '@app.sale_invoice_repository']
     app.delivery_note_manager:
         class: App\Manager\DeliveryNoteManager
-        arguments: [ "@app.sale_delivery_note_repository"]
+        arguments: [ '@app.sale_delivery_note_repository']
     # Transformers
     app.locations_transformer:
         class: App\Transformer\LocationsTransformer
     app.dates_transformer:
         class: App\Transformer\DatesTransformer
+    # Commands
+    app.import_activity_command:
+        class: App\Command\Enterprise\ImportActivityLineCsvCommand
+        arguments:
+            $name: 'app:import:enterprise:activity:line'
+#            $em: '@doctrine.orm.entity_manager'
+#            $fss: '@filesystem'
+#            $rm: '@app.repositories_manager'
+#            $ns: '@app.notification'
+#            $lts: '@app.locations_transformer'
+#            $dts: '@app.dates_transformer'

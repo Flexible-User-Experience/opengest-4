@@ -47,7 +47,7 @@ class NotificationService
      * @param string          $amd
      * @param string          $urlBase
      */
-    public function __construct(CourierService $messenger, EngineInterface $twig, $amd, $urlBase)
+    public function __construct(CourierService $messenger, EngineInterface $twig, string $amd, string $urlBase)
     {
         $this->messenger = $messenger;
         $this->twig = $twig;
