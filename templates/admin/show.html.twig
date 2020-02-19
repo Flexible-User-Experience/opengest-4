@@ -1,0 +1,15 @@
+{% extends "SonataAdminBundle:CRUD:base_show.html.twig" %}
+
+{% block title %}
+    {% if admin.id(object) is not null %}
+        {{ "title_edit" | trans({'%name%': admin.toString(object) }, 'SonataAdminBundle') }}
+    {% else %}
+        {{ "title_create" | trans({}, 'SonataAdminBundle') }}
+    {% endif %}
+{% endblock%}
+
+{% block actions %}
+    <li>{% include "SonataAdminBundle:Button:list_button.html.twig" %}</li>
+    <li>{% include "SonataAdminBundle:Button:create_button.html.twig" %}</li>
+    <li>{% include "admin/Buttons/answer_button.html.twig" %}</li>
+{% endblock %}

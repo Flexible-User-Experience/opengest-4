@@ -1,5 +1,15 @@
 sonata_admin:
     title: 'Sonata Admin'
+    title_logo:         'build/fibervent_logo_black_landscape.jpg'
+    persist_filters:    true
+    show_mosaic_button: false
+    options:
+        html5_validate: true
+        confirm_exit:   true
+        use_select2:    true
+        pager_links:    10
+    security:
+        handler: sonata.admin.security.handler.role
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }

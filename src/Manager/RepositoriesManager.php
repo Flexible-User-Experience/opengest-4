@@ -3,6 +3,10 @@
 namespace App\Manager;
 
 use App\Repository\Enterprise\ActivityLineRepository;
+use App\Repository\Operator\OperatorDigitalTachographRepository;
+use App\Repository\Operator\OperatorVariousAmountRepository;
+use App\Repository\Partner\PartnerContactRepository;
+use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Repository\Setting\CityRepository;
 use App\Repository\Enterprise\CollectionDocumentTypeRepository;
@@ -21,6 +25,7 @@ use App\Repository\Partner\PartnerOrderRepository;
 use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
 use App\Repository\Sale\SaleDeliveryNoteRepository;
+use App\Repository\Setting\ProvinceRepository;
 use App\Repository\Setting\SaleInvoiceSeriesRepository;
 use App\Repository\Sale\SaleRequestRepository;
 use App\Repository\Sale\SaleTariffRepository;
@@ -30,6 +35,7 @@ use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
 use App\Repository\Vehicle\VehicleRepository;
+use App\Repository\Web\WorkRepository;
 
 /**
  * Class RepositoriesManager.
@@ -101,6 +107,16 @@ class RepositoriesManager
     private OperatorAbsenceRepository $operatorAbsenceRepository;
 
     /**
+     * @var OperatorDigitalTachographRepository
+     */
+    private OperatorDigitalTachographRepository $operatorDigitalTachographRepository;
+
+    /**
+     * @var OperatorVariousAmountRepository
+     */
+    private OperatorVariousAmountRepository $operatorVariousAmountRepository;
+
+    /**
      * @var VehicleRepository
      */
     private VehicleRepository $vehicleRepository;
@@ -131,9 +147,24 @@ class RepositoriesManager
     private PartnerTypeRepository $partnerTypeRepository;
 
     /**
+     * @var PartnerContactRepository
+     */
+    private PartnerContactRepository $partnerContactRepository;
+
+    /**
+     * @var PartnerUnableDaysRepository
+     */
+    private PartnerUnableDaysRepository $partnerUnableDaysRepository;
+
+    /**
      * @var CityRepository
      */
     private CityRepository $cityRepository;
+
+    /**
+     * @var ProvinceRepository
+     */
+    private ProvinceRepository $provinceRepository;
 
     /**
      * @var SaleTariffRepository
@@ -181,6 +212,11 @@ class RepositoriesManager
     private SaleInvoiceRepository $saleInvoiceRepository;
 
     /**
+     * @var WorkRepository
+     */
+    private WorkRepository $workRepository;
+
+    /**
      * Methods.
      */
 
@@ -199,13 +235,18 @@ class RepositoriesManager
      * @param OperatorCheckingTypeRepository      $operatorCheckingTypeRepository
      * @param OperatorAbsenceTypeRepository       $operatorAbsenceTypeRepository
      * @param OperatorAbsenceRepository           $operatorAbsenceRepository
+     * @param OperatorDigitalTachographRepository $operatorDigitalTachographRepository
+     * @param OperatorVariousAmountRepository     $operatorVariousAmountRepository
      * @param VehicleRepository                   $vehicleRepository
      * @param VehicleCheckingTypeRepository       $vehicleCheckingTypeRepository
      * @param VehicleCheckingRepository           $vehicleCheckingRepository
      * @param PartnerRepository                   $partnerRepository
      * @param PartnerClassRepository              $partnerClassRepository
      * @param PartnerTypeRepository               $partnerTypeRepository
+     * @param PartnerContactRepository            $partnerContactRepository
+     * @param PartnerUnableDaysRepository         $partnerUnableDaysRepository
      * @param CityRepository                      $cityRepository
+     * @param ProvinceRepository                  $provinceRepository
      * @param SaleTariffRepository                $saleTariffRepository
      * @param PartnerBuildingSiteRepository       $partnerBuildingSiteRepository
      * @param PartnerOrderRepository              $partnerOrderRepository
@@ -215,6 +256,7 @@ class RepositoriesManager
      * @param SaleRequestRepository               $saleRequestRepository
      * @param SaleDeliveryNoteRepository          $saleDeliveryNoteRepository
      * @param SaleInvoiceRepository               $saleInvoiceRepository
+     * @param WorkRepository                      $workRepository
      */
     public function __construct(
         ServiceRepository $serviceRepository,
@@ -229,13 +271,18 @@ class RepositoriesManager
         OperatorCheckingTypeRepository $operatorCheckingTypeRepository,
         OperatorAbsenceTypeRepository $operatorAbsenceTypeRepository,
         OperatorAbsenceRepository $operatorAbsenceRepository,
+        OperatorDigitalTachographRepository $operatorDigitalTachographRepository,
+        OperatorVariousAmountRepository $operatorVariousAmountRepository,
         VehicleRepository $vehicleRepository,
         VehicleCheckingTypeRepository $vehicleCheckingTypeRepository,
         VehicleCheckingRepository $vehicleCheckingRepository,
         PartnerRepository $partnerRepository,
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
+        PartnerContactRepository $partnerContactRepository,
+        PartnerUnableDaysRepository $partnerUnableDaysRepository,
         CityRepository $cityRepository,
+        ProvinceRepository $provinceRepository,
         SaleTariffRepository $saleTariffRepository,
         PartnerBuildingSiteRepository $partnerBuildingSiteRepository,
         PartnerOrderRepository $partnerOrderRepository,
@@ -244,7 +291,8 @@ class RepositoriesManager
         SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository,
         SaleRequestRepository $saleRequestRepository,
         SaleDeliveryNoteRepository $saleDeliveryNoteRepository,
-        SaleInvoiceRepository $saleInvoiceRepository
+        SaleInvoiceRepository $saleInvoiceRepository,
+        WorkRepository $workRepository
     ) {
         $this->serviceRepository = $serviceRepository;
         $this->vehicleCategoryRepository = $vehicleCategoryRepository;
@@ -258,13 +306,18 @@ class RepositoriesManager
         $this->operatorCheckingTypeRepository = $operatorCheckingTypeRepository;
         $this->operatorAbsenceTypeRepository = $operatorAbsenceTypeRepository;
         $this->operatorAbsenceRepository = $operatorAbsenceRepository;
+        $this->operatorDigitalTachographRepository = $operatorDigitalTachographRepository;
+        $this->operatorVariousAmountRepository = $operatorVariousAmountRepository;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleCheckingTypeRepository = $vehicleCheckingTypeRepository;
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
         $this->partnerRepository = $partnerRepository;
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
+        $this->partnerContactRepository = $partnerContactRepository;
+        $this->partnerUnableDaysRepository = $partnerUnableDaysRepository;
         $this->cityRepository = $cityRepository;
+        $this->provinceRepository = $provinceRepository;
         $this->saleTariffRepository = $saleTariffRepository;
         $this->partnerBuildingSiteRepository = $partnerBuildingSiteRepository;
         $this->partnerOrderRepository = $partnerOrderRepository;
@@ -274,6 +327,7 @@ class RepositoriesManager
         $this->saleRequestRepository = $saleRequestRepository;
         $this->saleDeliveryNoteRepository = $saleDeliveryNoteRepository;
         $this->saleInvoiceRepository = $saleInvoiceRepository;
+        $this->workRepository = $workRepository;
     }
 
     /**
@@ -361,7 +415,7 @@ class RepositoriesManager
      */
     public function getOperatorAbsenceRepository()
     {
-        return $this->getOperatorAbsenceRepository();
+        return $this->operatorAbsenceRepository;
     }
 
     /**
@@ -370,6 +424,22 @@ class RepositoriesManager
     public function getOperatorAbsenceTypeRepository()
     {
         return $this->operatorAbsenceTypeRepository;
+    }
+
+    /**
+     * @return OperatorDigitalTachographRepository
+     */
+    public function getOperatorDigitalTachographRepository()
+    {
+        return $this->operatorDigitalTachographRepository;
+    }
+
+    /**
+     * @return OperatorVariousAmountRepository
+     */
+    public function getOperatorVariousAmountRepository()
+    {
+        return $this->operatorVariousAmountRepository;
     }
 
     /**
@@ -413,11 +483,27 @@ class RepositoriesManager
     }
 
     /**
+     * @return PartnerContactRepository
+     */
+    public function getPartnerContactRepository()
+    {
+        return $this->partnerContactRepository;
+    }
+
+    /**
      * @return CityRepository
      */
     public function getCityRepository()
     {
         return $this->cityRepository;
+    }
+
+    /**
+     * @return ProvinceRepository
+     */
+    public function getProvinceRepository()
+    {
+        return $this->provinceRepository;
     }
 
     /**
@@ -450,6 +536,14 @@ class RepositoriesManager
     public function getPartnerOrderRepository()
     {
         return $this->partnerOrderRepository;
+    }
+
+    /**
+     * @return PartnerUnableDaysRepository
+     */
+    public function getPartnerUnableDaysRepository()
+    {
+        return $this->partnerUnableDaysRepository;
     }
 
     /**
@@ -495,8 +589,16 @@ class RepositoriesManager
     /**
      * @return SaleInvoiceRepository
      */
-    public function getSaleInvoiceRepository(): SaleInvoiceRepository
+    public function getSaleInvoiceRepository()
     {
         return $this->saleInvoiceRepository;
+    }
+
+    /**
+     * @return WorkRepository
+     */
+    public function getWorkRepository()
+    {
+        return $this->workRepository;
     }
 }

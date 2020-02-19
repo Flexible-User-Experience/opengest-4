@@ -1,0 +1,18 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    {% spaceless %}
+        {% if object.begin | date('Y-m-d') <= 'now' | date('Y-m-d') and object.end | date('Y-m-d') >= 'now' | date('Y-m-d') %}
+            {# absence #}
+            <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true"></i>
+        {% else %}
+            {% if object.begin | date('Y-m-d') == date('+1days') | date('Y-m-d') %}
+                {# pendent absence #}
+                <i class="fa fa-exclamation-triangle fa-2x text-yellow" aria-hidden="true"></i>
+            {% else %}
+                {# valid #}
+                <i class="fa fa-check-circle fa-2x text-green" aria-hidden="true"></i>
+            {% endif %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}

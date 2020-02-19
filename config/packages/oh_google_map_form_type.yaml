@@ -1,0 +1,2 @@
+oh_google_map_form_type:
+    api_key: "%google_maps_api_key%"

@@ -1,0 +1,7 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    {% spaceless %}
+        <span class="{% if object.total < 0 %}text-danger{% else %}text-success{% endif %} pull-right">{{ object.total | number_format(2, '\'', '.') }} €</span>
+    {% endspaceless %}
+{% endblock %}

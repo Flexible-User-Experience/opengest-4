@@ -1,0 +1,49 @@
+{% extends ":Admin:show.html.twig" %}
+
+{% trans_default_domain "admin" %}
+
+{% block sonata_admin_content %}
+    <div class="sonata-ba-show">
+        <div class="sonata-ba-view row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{{ 'admin.label.user_answer' | trans }}</h4>
+                    </div>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <tbody>
+                            <tr class="sonata-ba-view-container">
+                                <th>{{ 'admin.label.date' | trans }}</th>
+                                <td>{{ object.createdAt | date('d/m/Y H:i') }}</td>
+                            </tr>
+                            <tr class="sonata-ba-view-container">
+                                <th>{{ 'admin.label.name' | trans }}</th>
+                                <td>{{ object.name }}</td>
+                            </tr>
+                            <tr class="sonata-ba-view-container">
+                                <th>{{ 'admin.label.email' | trans }}</th>
+                                <td>{{ object.email }}</td>
+                            </tr>
+                            <tr class="sonata-ba-view-container">
+                                <th>{{ 'admin.label.message' | trans }}</th>
+                                <td>{{ object.message | raw }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">{{ 'admin.label.your_answer' | trans }}</h4>
+                    </div>
+                    <div class="box-body">
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

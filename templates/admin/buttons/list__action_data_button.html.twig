@@ -1,0 +1,3 @@
+{% if admin.isGranted('VIEW', object) and admin.hasRoute('data') and object.token is not null %}
+    <a href="{{ admin.generateObjectUrl('data', object) }}" class="btn btn-sm btn-default edit_link" title="Enviar formulari"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+{% endif %}

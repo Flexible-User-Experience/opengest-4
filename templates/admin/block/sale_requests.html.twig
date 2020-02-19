@@ -1,0 +1,52 @@
+{% extends sonata_block.templates.block_base %}
+
+{% trans_default_domain "admin" %}
+
+{% block block %}
+    <div class="small-box {{ background }}">
+        <div class="inner">
+            <h4 style="margin-top:0"><i class="fa fa-calendar" aria-hidden="true"></i> {{ title | trans }}</h4>
+            {% if content | length > 0 %}
+                {% for item in content %}
+                    <div class="box box-info direct-chat direct-chat-info" style="margin-top:10px">
+                        <div class="box-header with-border" style="overflow:hidden">
+                            <h3 class="box-title">{{ item.partner.name }}</h3>
+                            <div class="box-tools pull-right" style="right:7px;top:10px;">
+                                <span class="label label-default" style="font-size:100%;font-weight:600;">{% if show_date %}{{ item.serviceDate | date('d/m/Y') }} {% endif %}{% if not show_date %}{{ item.serviceTime | date('h:i') }}{% endif %}</span>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" style="border-bottom:solid 1px #F4F4F4">
+                                <div class="direct-chat-msg">
+                                    <div class="direct-chat-info clearfix">
+                                        <span class="direct-chat-name pull-left c-grey">{{ item.operator.shortFullName }}</span>
+                                    </div>
+                                    <img class="direct-chat-img" src="{{ item.operator | draw_operator_image_src }}" alt="{{ item.operator.shortFullName }} image">
+                                    <div class="direct-chat-text">
+                                        {% if item.serviceDescription %}{{ item.serviceDescription }}{% else %}{{ 'admin.dashboard.empty_service_description' | trans }}{% endif %}
+                                    </div>
+                                </div>
+                                <div class="direct-chat-msg" style="margin-bottom:0">
+                                    <div class="direct-chat-info clearfix">
+                                        <span class="direct-chat-name pull-left c-grey">{{ item.vehicle.name }}</span>
+                                    </div>
+                                    <img class="direct-chat-img" src="{{ vich_uploader_asset(item.vehicle, 'mainImageFile') | imagine_filter('60x60') }}" alt="{{ item.vehicle.name }} image">
+                                    <div class="direct-chat-text">
+                                        {% if item.place %}{{ item.place }}{% else %}{{ 'admin.dashboard.empty_service_place' | trans }}{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-tools pull-right">
+                                <a href="{{ path('admin_app_sale_salerequest_edit', {id: item.id}) }}" class="btn btn-box-tool"><i class="fa fa-pencil"></i></a>
+                                <a href="{# TODO #}#" class="btn btn-box-tool"><i class="fa fa-search-plus"></i></a>
+                                <a href="{{ path('admin_app_sale_salerequest_pdf', {id: item.id}) }}" class="btn btn-box-tool"><i class="fa fa-file-pdf-o"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center" style="margin-bottom:0"><i class="fa fa-warning"></i> {{ 'admin.dashboard.empty' | trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

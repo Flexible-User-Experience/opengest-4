@@ -1,0 +1,607 @@
+# Contact messages
+App\Entity\Web\ContactMessage:
+  contactmessage{1..20}:
+    name: <name()>
+    answer: <word()>
+    email: <safeEmail()>
+    phone: <phoneNumber()>
+    message: <paragraph()>
+    checked: <boolean(70)>
+    answered: <boolean(30)>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# Service
+App\Entity\Web\Service:
+  service{1..20}:
+    name: <name()>
+    position: <current()>
+    description: <paragraph()>
+    mainImage: <numberBetween(1,4)>.jpg
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# Work
+App\Entity\Web\Work:
+  work{1..10}:
+    service: '@service*'
+    name: <name()>
+    date: <dateTimeThisMonth()>
+    shortDescription: <sentence()>
+    description: <paragraph()>
+    mainImage: <numberBetween(1,4)>.jpg
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# WorkImage
+App\Entity\Web\WorkImage:
+  workImage{1..10}:
+    alt: <sentence()>
+    position: <current()>
+    image: <numberBetween(1,4)>.jpg
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+    work: '@work<numberBetween(1,10)>'
+
+# VehicleCategory
+App\Entity\Vehicle\VehicleCategory:
+  vehicleCategory{1..10}:
+    name: <name()>
+    position: <current()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# Vehicle
+App\Entity\Vehicle\Vehicle:
+  vehicle{1..10}:
+    vehicleRegistrationNumber: <bothify('######?')>
+    category: '@vehicleCategory<numberBetween(1,10)>'
+    enterprise: '@enterprise<numberBetween(1,10)>'
+    name: <name()>
+    shortDescription: <sentence()>
+    description: <paragraph()>
+    link: <url()>
+    mainImage: <numberBetween(1,4)>.jpg
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# Complement
+App\Entity\Web\Complement:
+  complement{1..10}:
+    name: <name()>
+    shortDescription: <sentence()>
+    description: <paragraph()>
+    mainImage: <word()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# Province
+App\Entity\Setting\Province:
+  province{1..10}:
+    code: <postcode()>
+    name: <city()>
+    country: <country()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# City
+App\Entity\Setting\City:
+  city{1..10}:
+    name: <city()>
+    postalCode: <postcode()>
+    province: '@province*'
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# Enterprise
+App\Entity\Enterprise\Enterprise:
+  enterprise{1..5}:
+    name: <company()>
+    taxIdentificationNumber: <bothify('######?')>
+    businessName: <company()>
+    address: <streetAddress()>
+    city: '@city*'
+    phone1: <phoneNumber()>
+    phone2: <phoneNumber()>
+    phone3: <phoneNumber()>
+    fax: <phoneNumber()>
+    email: <safeEmail()>
+    www: <safeEmailDomain()>
+    logo: <numberBetween(1,2)>.jpg
+    deedOfIncorporation: <numberBetween(1,2)>.jpg
+    taxIdentificationNumberCard: <numberBetween(1,2)>.jpg
+    tc1Receipt: <numberBetween(1,2)>.jpg
+    tc2Receipt: <numberBetween(1,2)>.jpg
+    ssRegistration: <numberBetween(1,2)>.jpg
+    ssPaymentCertificate: <numberBetween(1,2)>.jpg
+    rc1Insurance: <numberBetween(1,2)>.jpg
+    rc2Insurance: <numberBetween(1,2)>.jpg
+    rcReceipt: <numberBetween(1,2)>.jpg
+    preventionServiceContract: <numberBetween(1,2)>.jpg
+    preventionServiceInvoice: <numberBetween(1,2)>.jpg
+    preventionServiceReceipt: <numberBetween(1,2)>.jpg
+    occupationalAccidentsInsurance: <numberBetween(1,2)>.jpg
+    occupationalReceipt: <numberBetween(1,2)>.jpg
+    laborRiskAssessment: <numberBetween(1,2)>.jpg
+    securityPlan: <numberBetween(1,2)>.jpg
+    reaCertificate: <numberBetween(1,2)>.jpg
+    oilCertificate: <numberBetween(1,2)>.jpg
+    gencatPaymentCertificate: <numberBetween(1,2)>.jpg
+    deedsOfPowers: <numberBetween(1,2)>.jpg
+    iaeRegistration: <numberBetween(1,2)>.jpg
+    iaeReceipt: <numberBetween(1,2)>.jpg
+    mutualPartnership: <numberBetween(1,2)>.jpg
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+    users: [ '@admin' ]
+  enterprise{6..10}:
+    name: <company()>
+    taxIdentificationNumber: <bothify('######?')>
+    businessName: <company()>
+    address: <streetAddress()>
+    city: '@city*'
+    phone1: <phoneNumber()>
+    phone2: <phoneNumber()>
+    phone3: <phoneNumber()>
+    fax: <phoneNumber()>
+    email: <safeEmail()>
+    www: <safeEmailDomain()>
+    logo: <numberBetween(1,2)>.jpg
+    deedOfIncorporation: <numberBetween(1,2)>.jpg
+    taxIdentificationNumberCard: <numberBetween(1,2)>.jpg
+    tc1Receipt: <numberBetween(1,2)>.jpg
+    tc2Receipt: <numberBetween(1,2)>.jpg
+    ssRegistration: <numberBetween(1,2)>.jpg
+    ssPaymentCertificate: <numberBetween(1,2)>.jpg
+    rc1Insurance: <numberBetween(1,2)>.jpg
+    rc2Insurance: <numberBetween(1,2)>.jpg
+    rcReceipt: <numberBetween(1,2)>.jpg
+    preventionServiceContract: <numberBetween(1,2)>.jpg
+    preventionServiceInvoice: <numberBetween(1,2)>.jpg
+    preventionServiceReceipt: <numberBetween(1,2)>.jpg
+    occupationalAccidentsInsurance: <numberBetween(1,2)>.jpg
+    occupationalReceipt: <numberBetween(1,2)>.jpg
+    laborRiskAssessment: <numberBetween(1,2)>.jpg
+    securityPlan: <numberBetween(1,2)>.jpg
+    reaCertificate: <numberBetween(1,2)>.jpg
+    oilCertificate: <numberBetween(1,2)>.jpg
+    gencatPaymentCertificate: <numberBetween(1,2)>.jpg
+    deedsOfPowers: <numberBetween(1,2)>.jpg
+    iaeRegistration: <numberBetween(1,2)>.jpg
+    iaeReceipt: <numberBetween(1,2)>.jpg
+    mutualPartnership: <numberBetween(1,2)>.jpg
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+    users: [ '@manager1' ]
+
+# Operator
+App\Entity\Operator\Operator:
+  operator{1..10}:
+    taxIdentificationNumber: <bothify('######?')>
+    bancAccountNumber: <creditCardNumber()>
+    socialSecurityNumber: <creditCardNumber()>
+    hourCost: <numberBetween(1,4)>
+    name: <name()>
+    surname1: <firstName()>
+    surname2: <firstName()>
+    email: <safeEmail()>
+    address: <address()>
+    city: '@city*'
+    enterprise: '@enterprise<numberBetween(1,10)>'
+    enterpriseMobile: <phoneNumber()>
+    ownPhone: <phoneNumber()>
+    ownMobile: <phoneNumber()>
+    brithDate: <dateTimeBetween()>
+    registrationDate: <dateTimeBetween()>
+    profilePhotoImage: <numberBetween(1,2)>.jpg
+    taxIdentificationNumberImage: <numberBetween(1,2)>.jpg
+    drivingLicenseImage: <numberBetween(1,2)>.jpg
+    cranesOperatorLicenseImage: <numberBetween(1,2)>.jpg
+    medicalCheckImage: <numberBetween(1,2)>.jpg
+    episImage: <numberBetween(1,2)>.jpg
+    trainingDocumentImage: <numberBetween(1,2)>.jpg
+    informationImage: <numberBetween(1,2)>.jpg
+    useOfMachineryAuthorizationImage: <numberBetween(1,2)>.jpg
+    dischargeSocialSecurityImage: <numberBetween(1,2)>.jpg
+    employmentContractImage: <numberBetween(1,2)>.jpg
+    hasCarDrivingLicense: true
+    hasLorryDrivingLicense: true
+    hasTowingDrivingLicense: false
+    hasCraneDrivingLicense: false
+    shoeSize: <numberBetween(1,4)>
+    jerseytSize: <numberBetween(1,4)>
+    jacketSize: <numberBetween(1,4)>
+    tShirtSize: <numberBetween(1,4)>
+    pantSize: <numberBetween(1,4)>
+    workingDressSize: <numberBetween(1,4)>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+    enterpriseGroupBounty: '@enterpriseGroupBounty<numberBetween(1,5)>'
+
+# OperatorChekingType
+App\Entity\Operator\OperatorCheckingType:
+  checkingType{1..5}:
+    name: <name()>
+    description: <paragraph()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# OperatorChecking
+App\Entity\Operator\OperatorChecking:
+  operatorChecking{1..5}:
+    operator: '@operator<numberBetween(1,10)>'
+    type: '@checkingType<numberBetween(1,5)>'
+    begin: <dateTimeThisMonth()>
+    end: <dateTimeThisMonth()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# OperatorAbsenceType
+App\Entity\Operator\OperatorAbsenceType:
+  absenceType{1..5}:
+    name: <name()>
+    description: <paragraph()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# OperatorAbsenceType
+App\Entity\Operator\OperatorAbsence:
+  operatorAbsence{1..5}:
+    operator: '@operator<numberBetween(1,5)>'
+    type: '@absenceType<numberBetween(1,5)>'
+    begin: <dateTimeThisMonth()>
+    end: <dateTimeThisMonth()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# OperatorVariousAmount
+App\Entity\Operator\OperatorVariousAmount:
+    operatorVariousAmount{1..5}:
+        operator: '@operator<numberBetween(1,5)>'
+        date: <dateTime()>
+        units: <randomNumber()>
+        description: <sentence(3)>
+        priceUnit: <randomFloat()>
+
+# VehicleCheckingType
+App\Entity\Vehicle\VehicleCheckingType:
+  vehicleCheckingType{1..5}:
+    name: <name()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# VehicleChecking
+App\Entity\Vehicle\VehicleChecking:
+  vehicleChecking{1..2}:
+    vehicle: '@vehicle<numberBetween(1,10)>'
+    type: '@vehicleCheckingType<numberBetween(1,5)>'
+    begin: <dateTimeThisMonth()>
+    end: <dateTimeThisMonth()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
+# Users
+App\Entity\Setting\User:
+    admin:
+        username: <{private_admin_prod_user}>
+        plainPassword: <{private_admin_prod_pass}>
+        email: <safeEmail()>
+        firstname: <name()>
+        lastname: <lastname()>
+        defaultEnterprise: '@enterprise1'
+        mainImage: <numberBetween(1,2)>.jpg
+        enabled: true
+        roles:
+            - ROLE_SUPER_ADMIN
+#    editor:
+#        username: <{private_editor_test_user}>
+#        plainPassword: <{private_editor_test_pass}>
+#        email: <safeEmail()>
+#        firstname: <name()>
+#        lastname: <lastname()>
+#        enabled: true
+#        roles:
+#            - ROLE_CMS
+    cms{1..4}:
+        username: <username()>
+        plainPassword: <password()>
+        email: <safeEmail()>
+        firstname: <name()>
+        lastname: <lastname()>
+        defaultEnterprise: '@enterprise1'
+        mainImage: <numberBetween(1,2)>.jpg
+        enabled: true
+        roles:
+            - ROLE_CMS
+    manager{1..2}:
+        username: <username()>
+        plainPassword: <password()>
+        email: <safeEmail()>
+        firstname: <name()>
+        lastname: <lastname()>
+        defaultEnterprise: '@enterprise1'
+        mainImage: <numberBetween(1,2)>.jpg
+        enabled: true
+        roles:
+            - ROLE_ADMIN
+
+# OperatorDigitalTachograph
+App\Entity\Operator\OperatorDigitalTachograph:
+    operatorDigitalTachograph{1..5}:
+        operator: '@operator<numberBetween(1,10)>'
+        uploadedFileName: <word()>
+
+# VehicleDigitalTachograph
+App\Entity\Vehicle\VehicleDigitalTachograph:
+    vehicleDigitalTachograph{1..5}:
+        vehicle: '@vehicle<numberBetween(1,10)>'
+        uploadedFileName: <word()>
+
+# EnterpriseGroupBounty
+App\Entity\Enterprise\EnterpriseGroupBounty:
+    enterpriseGroupBounty{1..5}:
+        enterprise: '@enterprise<numberBetween(1,10)>'
+        group: <word()>
+        normalHour: <numberBetween(10,30)>
+        extraNormalHour: <numberBetween(10,30)>
+        extraExtraHour: <numberBetween(10,30)>
+        roadNormalHour: <numberBetween(10,30)>
+        roadExtraHour: <numberBetween(10,30)>
+        awaitingHour: <numberBetween(10,30)>
+        negativeHour: <numberBetween(10,30)>
+        transferHour: <numberBetween(10,30)>
+        lunch: <numberBetween(10,30)>
+        dinner: <numberBetween(10,30)>
+        overNight: <numberBetween(10,30)>
+        extraNight: <numberBetween(10,30)>
+        diet: <numberBetween(10,30)>
+        internationalLunch: <numberBetween(10,30)>
+        internationalDinner: <numberBetween(10,30)>
+        truckOutput: <numberBetween(10,30)>
+        carOutput: <numberBetween(10,30)>
+
+# EnterpriseTransferAccount
+App\Entity\Enterprise\EnterpriseTransferAccount:
+    enterpriseTransferAccount{1..5}:
+        enterprise : '@enterprise<numberBetween(1,10)>'
+        name: <word()>
+        iban: <iban('ES')>
+        swift: <swiftBicNumber()>
+        bankCode: <numerify('####')>
+        officeNumber: <numerify('##')>
+        controlDigit: <numerify('##')>
+        accountNumber: <bankAccountNumber()>
+
+# EnterpriseHolydays
+App\Entity\Enterprise\EnterpriseHolidays:
+    enterpriseHoliday{1..5}:
+        enterprise : '@enterprise<numberBetween(1,10)>'
+        day: <dateTimeThisYear()>
+        name: <sentence(3)>
+
+# ActivityLine
+App\Entity\Enterprise\ActivityLine:
+    activityLine{1..5}:
+        enterprise : '@enterprise<numberBetween(1,10)>'
+        name: <sentence(3)>
+
+# CollectionDocumentType
+App\Entity\Enterprise\CollectionDocumentType:
+    collectionDocumentType{1..5}:
+        enterprise : '@enterprise<numberBetween(1,10)>'
+        name: <sentence(3)>
+        description: <paragraph()>
+        sitReference: <sentence(3)>
+
+# PartnerClass
+App\Entity\Partner\PartnerClass:
+    partnerClass{1..5}:
+        name: <word()>
+
+# PartnerUnableDays
+App\Entity\Partner\PartnerUnableDays:
+    partnerUnableDays{1..5}:
+        partner: '@partner<numberBetween(1,5)>'
+        begin: <dateTime()>
+        end: <dateTime()>
+
+# PartnerType
+App\Entity\Partner\PartnerType:
+    partnerType{1..5}:
+        name: <word()>
+        description: <sentence(6)>
+        account: <word()>
+
+# PartnerOrders
+App\Entity\Partner\PartnerOrder:
+    partnerOrder{1..5}:
+        partner: '@partner<numberBetween(1,5)>'
+        number: <word()>
+        providerReference: <word()>
+
+# PartnerBuildingSite
+App\Entity\Partner\PartnerBuildingSite:
+    partnerBuildigSite{1..5}:
+        partner: '@partner<numberBetween(1,5)>'
+        name: <sentence(3)>
+        number: <word()>
+        address: <address()>
+        phone: <phoneNumber()>
+
+# PartnerContact
+App\Entity\Partner\PartnerContact:
+    partnerContact{1..5}:
+        partner: '@partner<numberBetween(1,5)>'
+        name: <sentence(3)>
+        care: <word()>
+        phone: <phoneNumber()>
+        mobile: <phoneNumber()>
+        fax: <phoneNumber()>
+        email: <safeEmail()>
+        notes: <text(200)>
+
+# Partner
+App\Entity\Partner\Partner:
+    partner{1..5}:
+      cifNif: <randomNumber(8)>
+      name: <company()>
+      enterprise: '@enterprise<numberBetween(1,5)>'
+      class: '@partnerClass<numberBetween(1,5)>'
+      type: '@partnerType<numberBetween(1,5)>'
+      transferAccount: '@enterpriseTransferAccount<numberBetween(1,5)>'
+      notes: <text(200)>
+      mainAddress: <address()>
+      mainCity: '@city<numberBetween(1,5)>'
+      secondaryAddress: <address()>
+      secondaryCity: '@city<numberBetween(1,5)>'
+      phoneNumber1: <phoneNumber()>
+      phoneNumber2: <phoneNumber()>
+      phoneNumber3: <phoneNumber()>
+      phoneNumber4: <phoneNumber()>
+      phoneNumber5: <phoneNumber()>
+      faxNumber1: <phoneNumber()>
+      faxNumber2: <phoneNumber()>
+      email: <safeEmail()>
+      www: <domainName()>
+      discount: <numberBetween(1,100)>
+      code: <numerify('####')>
+      providerReference: <word()>
+      reference: <word()>
+      ivaTaxFree: <boolean()>
+      iban: <iban('ES')>
+      swift: <swiftBicNumber()>
+      bankCode: <numerify('####')>
+      officeNumber: <numerify('##')>
+      controlDigit: <numerify('##')>
+      accountNumber: <bankAccountNumber()>
+
+# SaleTariff
+App\Entity\Sale\SaleTariff:
+    saleTariff{1..5}:
+        enterprise: '@enterprise<numberBetween(1,5)>'
+        year: <year()>
+        tonnage: <randomFloat(2)>
+        priceHour: <randomFloat(2)>
+        miniumHours: <randomFloat(2)>
+        miniumHolidayHours: <randomFloat(2)>
+        displacement: <randomFloat(2)>
+        increaseForHolidays: <randomFloat(2)>
+
+# SaleRequest
+App\Entity\Sale\SaleRequest:
+    saleRequest{1..5}:
+        enterprise: '@enterprise<numberBetween(1,5)>'
+        partner: '@partner<numberBetween(1,5)>'
+        contactPersonName: <name()>
+        contactPersonPhone: <phoneNumber()>
+        invoiceTo: '@partner<numberBetween(1,5)>'
+        vehicle: '@vehicle<numberBetween(1,5)>'
+        operator: '@operator<numberBetween(1,5)>'
+        tariff: '@saleTariff<numberBetween(1,5)>'
+        attendedBy: '@admin'
+        serviceDescription: <text(200)>
+        height: <randomNumber()>
+        distance: <randomNumber()>
+        weight: <randomFloat()>
+        place: <sentence(3)>
+        utensils: <sentence(3)>
+        observations: <text(200)>
+        requestDate: <dateTime()>
+        requestTime: <dateTime()>
+        serviceDate: <dateTime()>
+        serviceTime: <dateTime()>
+        endServiceTime: <dateTime()>
+        hourPrice: <randomFloat()>
+        miniumHours: <randomFloat()>
+        displacement: <randomFloat()>
+        secondaryVehicle: '@vehicle<numberBetween(1,5)>'
+        hasBeenPrinted: <boolean()>
+
+# SaleDeliveryNote
+App\Entity\Sale\SaleDeliveryNote:
+    saleDeliveryNote{1..5}:
+        date: <dateTime()>
+        enterprise: '@enterprise<numberBetween(1,5)>'
+        partner: '@partner<numberBetween(1,5)>'
+        buildingSite: '@partnerBuildingSite<numberBetween(1,5)>'
+        order: '@partnerOrder<numberBetween(1,5)>'
+        deliveryNoteNumber: <randomNumber()>
+        baseAmount: <randomFloat()>
+        discount: <randomFloat()>
+        collectionTerm: <randomNumber()>
+        collectionDocument: '@collectionDocumentType<numberBetween(1,5)>'
+        activityLine: '@activityLine<numberBetween(1,5)>'
+        wontBeInvoiced: <boolean()>
+
+# SaleDeliveryNoteLine
+App\Entity\Sale\SaleDeliveryNoteLine:
+    saleDeliveryNoteLine{1..2}:
+        deliveryNote: '@saleDeliveryNote<numberBetween(1,2)>'
+        units: <randomFloat()>
+        priceUnit: <randomFloat()>
+        total: <randomFloat()>
+        discount: <randomFloat()>
+        description: <sentence(6)>
+        iva: 21
+        irpf: 0
+
+# SaleInvoiceSeries
+App\Entity\Sale\SaleInvoiceSeries:
+    saleInvoiceSeries{1..5}:
+        name: <word()>
+        prefix: <word()>
+        isDefault: <boolean()>
+
+# SaleInvoice
+App\Entity\Sale\SaleInvoice:
+    saleInvoice{1..5}:
+        deliveryNotes: [ '@saleDeliveryNote1', '@saleDeliveryNote2', '@saleDeliveryNote3', '@saleDeliveryNote4', '@saleDeliveryNote5' ]
+        date: <dateTime()>
+        partner: '@partner<numberBetween(1,5)>'
+        invoiceNumber: <randomNumber()>
+        series: '@saleInvoiceSeries<numberBetween(1,5)>'
+        type: <randomNumber()>
+        total: <randomFloat()
+        hasBeenCounted: <boolean()>
+
+# SaleRequestHasDeliveryNote
+App\Entity\Sale\SaleRequestHasDeliveryNote:
+    saleRequestHasDeliveryNote{1..5}:
+        saleRequest: '@saleRequest<numberBetween(1,5)>'
+        saleDeliveryNote: '@saleDeliveryNote<numberBetween(1,5)>'
+        reference: <word()>
+        totalHoursMorning: <randomFloat()>
+        priceHourMorning: <randomFloat()>
+        amountMorning:  <randomFloat()>
+        totalHoursAfternoon: <randomFloat()>
+        priceHourAfternoon: <randomFloat()>
+        amountAfternoon: <randomFloat()>
+        totalHoursNight: <randomFloat()>
+        priceHourNight: <randomFloat()>
+        amountNight: <randomFloat()>
+        totalHoursEarlyMorning: <randomFloat()>
+        priceHourEarlyMorning: <randomFloat()>
+        amountEarlyMorning: <randomFloat()>
+        totalHoursDisplacement: <randomFloat()>
+        priceHourDisplacement: <randomFloat()>
+        amountDisplacement: <randomFloat()>
+        ivaType: <randomFloat()>
+        retentionType: <randomFloat()>

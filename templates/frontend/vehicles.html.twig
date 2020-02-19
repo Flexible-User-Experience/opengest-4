@@ -1,0 +1,54 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Vehículos · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title no-m">Nuestros vehículos</h1>
+                <h2 class="main-subtitle no-m">Consulte las características técnicas de nuestra amplia flota.</h2>
+            </div>
+        </div>
+        <hr class="hr-divider">
+        <div class="row">
+            {# left side menu #}
+            <div class="col-sm-3">
+                {{ knp_menu_render('vehicle_category', {currentClass: 'active'}) }}
+            </div>
+            {# right main content #}
+            <div class="col-sm-9">
+                {% if pagination.getTotalItemCount %}
+                    {% for vehicle in pagination %}
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="left-line-yellow">
+                                    <h3 class="title no-m-top">
+                                        <a href="{{ path('front_vehicle_detail', { slug: vehicle.slug, category_slug: vehicle.category.slug }) }}">{{ vehicle.name }}</a>
+                                    </h3>
+                                    <p>{{ vehicle.shortDescription }}</p>
+                                    <a href="{{ path('front_vehicle_detail', { slug: vehicle.slug, category_slug: vehicle.category.slug }) }}">
+                                        <i class="fa fa-plus-square" aria-hidden="true"></i> Más información del vehículo.
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                {% if vehicle.mainImage is not null %}
+                                    <a href="{{ path('front_vehicle_detail', { slug: vehicle.slug, category_slug: vehicle.category.slug }) }}">
+                                        <img src="{{ vich_uploader_asset(vehicle, 'mainImageFile') | imagine_filter('350xY') }}" class="img-responsive" alt="{{ vehicle.name }}">
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr class="hr-divider">
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'mails/base.html.twig' %}
+
+{% block subject %}Respuesta{% endblock %}
+
+{% block content %}
+    <container>
+        <row>
+            <columns>
+                <spacer size="20"></spacer>
+                <h4>Bienvenido {{ contact.name }},</h4>
+                <spacer size="20"></spacer>
+                <p>En respusta a tu pregunta:</p>
+                <p class="grey-color">"{{ contact.message }}"</p>
+                <spacer size="20"></spacer>
+                <p>Te tenemos que decir que:</p>
+                <p>"{{ contact.answer | nl2br }}"</p>
+                <br>
+                <p>Saludos</p>
+            </columns>
+        </row>
+    </container>
+{% endblock %}

@@ -1,0 +1,36 @@
+/* Colors */
+.black-background { background-color: #000000; }
+.green-background { background-color: #A1C548; }
+.white-background { background-color: #FFFFFF; }
+.white-color      { color: #FFFFFF; }
+.green-color      { color: #A1C548; }
+.grey-color       { color: #8B8B8B; }
+
+.blue-background   { background-color: #0D2154; }
+.blue-light-background   { background-color: #95BBE1; }
+.yellow-background { background-color: #FAAE24; }
+.grey-background { background-color: #666666; }
+.blue-color   { color: #2B6299; }
+.yellow-color { color: #FAAE24; }
+
+/* Margins */
+.vertical-padding { padding: 20px 0; }
+.padding-bottom   { padding: 16px 0; }
+
+/* Custom main container */
+.container-main {
+   min-height: 400px;
+   padding-top: 40px;
+   padding-bottom: 40px;
+}
+
+/* Custom margins */
+.left-margin-negative {
+   margin-left: 15px;
+}
+
+/* Customer logo */
+.email-logo {
+   max-width: 180px;
+   margin-top: 7px;
+}

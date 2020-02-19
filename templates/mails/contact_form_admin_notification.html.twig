@@ -1,0 +1,19 @@
+{% extends 'mails/base.html.twig' %}
+
+{% block subject %}Notificació de contacte{% endblock %}
+
+{% block content %}
+    <container>
+        <row>
+            <columns>
+                <spacer size="20"></spacer>
+                <h4>Persona interessada en contactar</h4>
+                <spacer size="20"></spacer>
+                <p>{{ contact.name }}, amb correu elèctrònic <a href="mailto:{{ contact.email }}">{{ contact.email }}</a> {% if contact.phone %}i telèfon {{ contact.phone }} {% endif %}ha emplenat el formulari de contacte amb el següent missatge:</p>
+                <p class="grey-color">"{{ contact.message | nl2br }}"</p>
+                <spacer size="20"></spacer>
+                <p>Comprova-ho a la teva llista de contactes del CMS <a href="{{ url('admin_app_contactmessage_list') }}">aquí</a>, o respon-li directament clicant <a href="{{ url('admin_app_contactmessage_answer', {id: contact.id }) }}">aquí</a>.</p>
+            </columns>
+        </row>
+    </container>
+{% endblock %}
