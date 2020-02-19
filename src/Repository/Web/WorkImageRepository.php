@@ -6,6 +6,7 @@ use App\Entity\Web\Work;
 use App\Entity\Web\WorkImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -40,5 +41,25 @@ class WorkImageRepository extends ServiceEntityRepository
             ->setParameter('work', $work)
             ->setParameter('value', true)
             ->orderBy('wi.position', 'ASC');
+    }
+
+    /**
+     * @param Work $work
+     *
+     * @return Query
+     */
+    public function findEnabledSortedByPositionQ(Work $work)
+    {
+        return $this->findEnabledSortedByPositionQB($work)->getQuery();
+    }
+
+    /**
+     * @param Work $work
+     *
+     * @return array
+     */
+    public function findEnabledSortedByPosition(Work $work)
+    {
+        return $this->findEnabledSortedByPositionQ($work)->getResult();
     }
 }

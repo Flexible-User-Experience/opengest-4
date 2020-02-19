@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\Web\ContactMessage;
+use App\Entity\Web\Service;
 use App\Form\Type\ContactMessageFormType;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Web\ServiceRepository;
@@ -31,8 +32,11 @@ class DefaultController extends AbstractController
      */
     public function indexAction(ServiceRepository $sr)
     {
+        /** @var Service|null $serviceGC */
         $serviceGC = $sr->findOneBy(['slug' => 'gruas-de-celosia']);
+        /** @var Service|null $serviceGH */
         $serviceGH = $sr->findOneBy(['slug' => 'gruas-hidraulicas']);
+        /** @var Service|null $servicePA */
         $servicePA = $sr->findOneBy(['slug' => 'plataformas-aereas-sobre-camion']);
 
         return $this->render(':Frontend:homepage.html.twig', array(

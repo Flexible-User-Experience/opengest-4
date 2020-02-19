@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Web\Complement;
 use App\Repository\Web\ComplementRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,6 +44,7 @@ class ComplementController extends AbstractController
      */
     public function complementDetailAction(ComplementRepository $cr, $slug)
     {
+        /** @var Complement|null $complement */
         $complement = $cr->findOneBy(['slug' => $slug]);
         if (!$complement) {
             throw new EntityNotFoundException();

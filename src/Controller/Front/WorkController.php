@@ -2,29 +2,33 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Web\Work;
 use App\Enum\ConstantsEnum;
+use App\Repository\Web\WorkImageRepository;
+use App\Repository\Web\WorkRepository;
 use Doctrine\ORM\EntityNotFoundException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class WorkController.
  *
  * @category Controller
  */
-class WorkController extends Controller
+class WorkController extends AbstractController
 {
     /**
      * @Route("/trabajos/{page}", name="front_works")
      *
-     * @param int $page
+     * @param WorkRepository $wr
+     * @param int            $page
      *
      * @return Response
      */
-    public function listAction($page = 1)
+    public function listAction(WorkRepository $wr, $page = 1)
     {
-        $works = $this->getDoctrine()->getRepository('App:Web\Work')->findEnabledSortedByDate();
+        $works = $wr->findEnabledSortedByDate();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($works, $page, ConstantsEnum::FRONTEND_ITEMS_PER_PAGE_LIMIT);
 
@@ -36,19 +40,22 @@ class WorkController extends Controller
     /**
      * @Route("/trabajo/{slug}", name="front_work_detail")
      *
-     * @param $slug
+     * @param WorkRepository      $wr
+     * @param WorkImageRepository $wir
+     * @param string              $slug
      *
      * @return Response
      *
      * @throws EntityNotFoundException
      */
-    public function detailAction($slug)
+    public function detailAction(WorkRepository $wr, WorkImageRepository $wir, $slug)
     {
-        $work = $this->getDoctrine()->getRepository('App:Web\Work')->findOneBy(['slug' => $slug]);
+        /** @var Work|null $work */
+        $work = $wr->findOneBy(['slug' => $slug]);
         if (!$work) {
             throw new EntityNotFoundException();
         }
-        $images = $this->getDoctrine()->getRepository('App:Web\WorkImage')->findEnabledSortedByPosition($work);
+        $images = $wir->findEnabledSortedByPosition($work);
 
         return $this->render(':Frontend:work_detail.html.twig', [
             'work' => $work,

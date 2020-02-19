@@ -4,31 +4,36 @@ namespace App\Controller\Front;
 
 use App\Entity\Web\ContactMessage;
 use App\Entity\Web\Service;
-use App\Form\ContactMessageForm;
+use App\Form\Type\ContactMessageFormType;
+use App\Repository\Web\ServiceRepository;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityNotFoundException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class ServicesController.
  *
  * @category Controller
  */
-class ServicesController extends Controller
+class ServicesController extends AbstractController
 {
     /**
      * @Route("/servicios", name="front_services")
+     *
+     * @param ServiceRepository $sr
      *
      * @return RedirectResponse
      *
      * @throws EntityNotFoundException
      */
-    public function servicesAction()
+    public function servicesAction(ServiceRepository $sr)
     {
-        $services = $this->getDoctrine()->getRepository('App:Web\Service')->findEnabledSortedByPositionAndName();
+        $services = $sr->findEnabledSortedByPositionAndName();
         if (0 == count($services)) {
             throw new EntityNotFoundException();
         }
@@ -43,20 +48,20 @@ class ServicesController extends Controller
     /**
      * @Route("/servicio/{slug}", name="front_service_detail")
      *
-     * @param Request $request
-     * @param $slug
+     * @param Request             $request
+     * @param NotificationService $ns
+     * @param ServiceRepository   $sr
+     * @param string              $slug
      *
      * @return Response
      *
      * @throws EntityNotFoundException
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws TransportExceptionInterface
      */
-    public function detailServiceAction(Request $request, $slug)
+    public function detailServiceAction(Request $request, NotificationService $ns, ServiceRepository $sr, $slug)
     {
         $contactMessage = new ContactMessage();
-        $form = $this->createForm(ContactMessageForm::class, $contactMessage);
+        $form = $this->createForm(ContactMessageFormType::class, $contactMessage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,17 +75,16 @@ class ServicesController extends Controller
             $em->persist($contactMessage);
             $em->flush();
             // Send notification
-            $messenger = $this->get('app.notification');
-            $messenger->sendCommonUserNotification($contactMessage);
-            $messenger->sendContactAdminNotification($contactMessage);
+            $ns->sendCommonUserNotification($contactMessage);
+            $ns->sendContactAdminNotification($contactMessage);
             // Clean up new form in production eviorament
             if ('prod' == $this->get('kernel')->getEnvironment()) {
                 $contactMessage = new ContactMessage();
-                $form = $this->createForm(ContactMessageForm::class, $contactMessage);
+                $form = $this->createForm(ContactMessageFormType::class, $contactMessage);
             }
         }
 
-        $service = $this->getDoctrine()->getRepository('App:Web\Service')->findOneBy(['slug' => $slug]);
+        $service = $sr->findOneBy(['slug' => $slug]);
         if (!$service) {
             throw new EntityNotFoundException();
         }
