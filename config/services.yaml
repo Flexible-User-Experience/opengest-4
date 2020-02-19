@@ -54,10 +54,10 @@ services:
     # Messaging
     app.courier:
         class: App\Service\CourierService
-        arguments: [ "@swiftmailer.mailer" ]
+        arguments: [ "@mailer.mailer" ]
     app.notification:
         class: App\Service\NotificationService
-        arguments: [ "@app.courier", "@twig", "%mailer_destination%", "%mailer_url_base%" ]
+        arguments: [ "@app.courier", "@templating", "%mailer_destination%", "%mailer_url_base%" ]
     # Menu
     app.frontend_menu_builder:
         class: App\Menu\FrontendMenuBuilder
