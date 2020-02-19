@@ -1,0 +1,37 @@
+{% extends ':Frontend:base.html.twig' %}
+
+{% block title %}{{ vehicle.name | upper }} · Vehículo · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title no-m">Nuestros vehículos</h1>
+                <a href="{{ path('front_vehicles') }}"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Todos los vehículos</a>
+            </div>
+        </div>
+        <hr class="hr-divider">
+        <div class="row">
+            {# left side #}
+            <div class="col-sm-8">
+                <h3 class="no-m-top title">{{ vehicle.name }}</h3>
+                <p class="text-muted">{{ vehicle.description | raw }}</p>
+                {% if vehicle.attatchmentPDF %}
+                    <a class="btn btn-warning btn-sm small-m-bottom" href="{{ vich_uploader_asset(vehicle, 'attatchmentPDFFile') }}" download="{{ vehicle.name }}.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Ficha técnica</a>
+                {% endif %}
+                {% if vehicle.attatchmentPDF and vehicle.link %}
+                    <br>
+                {% endif %}
+                {% if vehicle.link %}
+                    <a class="btn btn-warning btn-sm" href="{{ vehicle.link }}" target="_blank"><i class="fa fa-link" aria-hidden="true"></i> Web fabricante</a>
+                {% endif %}
+            </div>
+            {# Right side #}
+            <div class="col-sm-4">
+                {% if vehicle.mainImage is not null %}
+                    <img src="{{ vich_uploader_asset(vehicle, 'mainImageFile') | imagine_filter('470x310') }}" class="img-responsive" alt="{{ vehicle.name }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

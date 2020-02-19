@@ -1,0 +1,16 @@
+{% extends ':Mails:base.html.twig' %}
+
+{% block subject %}Notificación{% endblock %}
+
+{% block content %}
+    <container>
+        <row>
+            <columns>
+                <spacer size="20"></spacer>
+                <h4>Gracias por contactar con nosotros <br> {{ contact.name }}</h4>
+                <spacer size="20"></spacer>
+                <p>Te responderemos lo más rápido posible. Seguimos en contacto.</p>
+            </columns>
+        </row>
+    </container>
+{% endblock %}

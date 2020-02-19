@@ -1,0 +1,7 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    {% spaceless %}
+        {{ object.operator | draw_operator_image | raw }}
+    {% endspaceless %}
+{% endblock %}

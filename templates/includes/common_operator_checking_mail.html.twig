@@ -1,0 +1,29 @@
+<container>
+    <row>
+        <columns>
+            <spacer size="20"></spacer>
+            <p>{{ header_h4 }}</p>
+            <spacer size="20"></spacer>
+            <table>
+                <thead>
+                <tr>
+                    <th class="blue-color">Data d'expedició</th>
+                    <th class="blue-color">Data caducitat</th>
+                    <th class="blue-color">Tipus revisió</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ operatorChecking.begin | date('d/m/Y')  }}</td>
+                    <td>{{ operatorChecking.end | date('d/m/Y')  }}</td>
+                    <td>{{ operatorChecking.type }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <spacer size="20"></spacer>
+            {% if show_footer %}
+                <p>Recorda de portar el document renovat a l'oficina per a actualitzar les teves dades.</p>
+            {% endif %}
+        </columns>
+    </row>
+</container>

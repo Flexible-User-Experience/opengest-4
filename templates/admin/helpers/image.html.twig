@@ -1,0 +1,4 @@
+<img src="{{ vich_uploader_asset(subject, uploaderMapping) | imagine_filter('480xY') }}" class="admin-preview img-responsive" alt="thumbnail">
+<span class="span-helper">màxim 10MB amb JPG, PNG o GIF</span>
+<span class="span-helper">amplada mínima 1.200px</span>
+<a class="btn btn-warning btn-xs" href="{{ vich_uploader_asset(subject, uploaderMapping) }}" download="{{ attribute }}"><i class="fa fa-cloud-download"></i> Descargar</a>

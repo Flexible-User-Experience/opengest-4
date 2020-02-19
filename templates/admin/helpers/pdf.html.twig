@@ -1,0 +1,21 @@
+<canvas id="pdf-{{ attribute }}" class="pdf-canvas"></canvas>
+<span class="span-helper">màxim 10MB amb PDF</span>
+<a class="btn btn-warning btn-xs" href="{{ vich_uploader_asset(subject, uploaderMapping) }}" download="{{ attribute }}"><i class="fa fa-cloud-download"></i> Descargar</a>
+
+<script type="text/javascript">
+    PDFJS.getDocument('{{ vich_uploader_asset(subject, uploaderMapping) }}').then(function(pdf) {
+        pdf.getPage(1).then(function(page) {
+            var scale = 1;
+            var viewport = page.getViewport(scale);
+            var canvas = document.getElementById('pdf-{{ attribute }}');
+            var context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            var renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            page.render(renderContext);
+        });
+    });
+</script>

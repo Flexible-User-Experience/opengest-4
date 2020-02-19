@@ -1,0 +1,88 @@
+{% extends ':Frontend:base.html.twig' %}
+
+{% form_theme contactForm _self %}
+
+{% block _app_bundle_contact_message_type_privacy_widget %}
+    <div class="checkbox">
+        <input type="checkbox" id="checkbox-privacy-homepage" {{ block('widget_attributes') }} />
+        <label for="checkbox-privacy-homepage" class="control-label my-privacy-label-homepage">
+            He leído, entiendo y acepto la política de privacidad y de protección de datos de GRUAS ROMANÍ, S.A. Para consultar la política de privacidad consultar el siguiente <a href="{{ path('front_privacy')}}">enlace</a>.
+        </label>
+    </div>
+{% endblock %}
+
+{% block title %}Empresa · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title no-m">Grúas Romaní</h1>
+                <h2 class="main-subtitle no-m">Elevación y transporte de grandes volúmenes.</h2>
+            </div>
+        </div>
+        <hr class="hr-divider">
+        <div class="row">
+            <div class="col-sm-7">
+                <img src="{{ asset('bundles/app/img/decor_head_empresa.jpg') }}" alt="imagen empresa" class="img-responsive">
+                <h3 class="main-subtitle">Grúas Romaní forma parte de un grupo de empresas especializadas en transportes especiales y alquiler de grúas</h3>
+                <p>El grupo corporativo está formado por:</p>
+                <ul>
+                    <li><strong>Grúas Romaní</strong>, con sede en Amposta</li>
+                    <li><strong>Grúas Ribera d'Ebre</strong>, con sede en Móra la Nova</li>
+                </ul>
+                <div class="panel yellow-background-light">
+                    <div class="panel-heading">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.697091654482!2d0.5643031157758622!3d40.70266837933298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a0fe631183537f%3A0xd39e4fff52ebdef0!2zR3LDumFzIFJvbWFuw60!5e0!3m2!1ses!2ses!4v1492677997862" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>                    </div>
+                </div>
+                <h3 class="main-subtitle">Calidad certificada</h3>
+                <p>Grúas Romaní dispone de un certificado como proveedor homologado para la prestación de servicios a todas las empresas que pertenecen a la
+                    <a href="http://www.aeqtonline.com/" target="_blank">Asociación Empresarial Química de Tarragona.</a></p>
+                <img src="{{ asset('bundles/app/img/logo_aeqt.png') }}" alt="Asociacion empresarial quimica de tarragona logo" class="img-responsive">
+                <h3 class="main-subtitle">Nos avalan más de 30 años de experiencia</h3>
+                <p>Desde 1977, Grúas Romaní ofrece servicios de alquiler de:</p>
+                <ul>
+                    <li>Grúas hidráulicas autopropulsadas todo terreno.</li>
+                    <li>Grúas de celosía sobre cadenas.</li>
+                    <li>Camiones pluma autocargantes.</li>
+                    <li>Transportes especiales.</li>
+                </ul>
+                <h3 class="main-subtitle">Una gran flota nos proporciona versatilidad.</h3>
+                <p>Disponemos de una amplia gamma de vehículos desde pequeño hasta gran tonelaje para adaptarnos mejor a sus necesidades, así como una variedad de maquinaria que nos permite atender sus necesidades en múltiples sectores.</p>
+                <p>Podemos realizar trabajos en:</p>
+                <ul>
+                    <li>Obras de construcción.</li>
+                    <li>Puertos marítimos.</li>
+                    <li>Industrias.</li>
+                    <li>Asistencia en carretera.</li>
+                </ul>
+                <h3 class="main-subtitle">Somos exigentes con nosotros mismos.</h3>
+                <p>Nuestro objetivo es siempre la satisfacción de nuestros clientes, así como poder solucionar sus problemas de forma rápida y eficiente ya sea con nuestros medios o con la fabricación de nuevos utensilios para optimizar sus trabajos.</p>
+                <p>Contamos con un equipo de profesionales con muchos años de experiencia, constantemente formados en seguridad y manipulación de maquinaria pesada altamente cualificados para ofrecer nuestros servicios con la máxima calidad.</p>
+            </div>
+            <div class="col-sm-4 col-sm-offset-1">
+                <div class="panel blue-background-light">
+                    <div class="panel-heading">
+                        {% include ':Includes:notice_flash.html.twig' %}
+                        {{ form(contactForm) }}
+                    </div>
+                </div>
+                <div class="panel yellow-background-light">
+                    <div class="panel-heading">
+                        <h4 class="no-m-top normal-m-bottom">Nuestros Servicios</h4>
+                        <ul class="list-unstyled no-m-bottom">
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Alquiler de grúa hidráulica.</li>
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Alquiler de grúa de celosía</li>
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Dragados y escolleras de puertos marítimos.</li>
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Derribos industriales.</li>
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Salvamento y asistencia en carretera para turísmos y camiones.</li>
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Transportes especiales de mercancías por carretera.</li>
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Alquiler de plataformas elevadoras para la construcción.</li>
+                            <li class="small-m-top"><i class="fa fa-square c-blue" aria-hidden="true"></i> Movimiento de maquinaria industrial en espacios cubiertos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

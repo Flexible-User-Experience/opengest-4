@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% block title %}
+    {% if admin.id(object) is not null %}
+        {{ "title_edit" | trans({'%name%': admin.toString(object) }, 'SonataAdminBundle') }}
+    {% else %}
+        {{ "title_create" | trans({}, 'SonataAdminBundle') }}
+    {% endif %}
+{% endblock%}

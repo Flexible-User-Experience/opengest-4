@@ -1,0 +1,100 @@
+{% extends "SonataAdminBundle::standard_layout.html.twig" %}
+
+{# removes top search bar #}
+{% block sonata_sidebar_search %}{% endblock %}
+
+{# custom logo #}
+{% block logo %}
+    {% spaceless %}
+        <a class="logo" href="{{ path('sonata_admin_dashboard') }}" style="background-color:#2c3b41;">
+            <span style="color:#FFF;text-shadow: 0 1px 5px rgba(0, 0, 0, 0.95);">{{ admin_brand_title }}</span>
+        </a>
+    {% endspaceless %}
+{% endblock %}
+
+{# custom sidebar footer #}
+{% block side_bar_after_nav %}
+    <p class="text-left small" style="padding:50px 0 0 20px;color:#EEE;">
+        {{ admin_tag_version }}<br><i class="fa fa-code"></i> Desenvolupat per <a href="https://www.flux.cat" target="_blank">Flux</a><br>
+        <i class="fa fa-copyright"></i> {{ 'now' | date('Y') }} <a href="{{ path('front_homepage') }}" target="_blank">{{ main_brand_title | title }}</a>
+    </p>
+{% endblock %}
+
+{# custom top menu #}
+{% block sonata_top_nav_menu %}
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav navbar-right">
+            {{ showUnreadMessages() | raw }}
+            <li class="dropdown messages-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:5px">
+                    {% if app.user.defaultEnterprise.logo is not null %}
+                        <img src="{{ vich_uploader_asset(app.user.defaultEnterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ app.user.defaultEnterprise.name }}">
+                    {% else %}
+                        <img src="//via.placeholder.com/140x40?text={{ app.user.defaultEnterprise.name }}" alt="logo">
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <ul class="menu">
+                            {% for enterprise in app.user.enterprises %}
+                                <li>
+                                    <a href="{{ path('admin_app_enterprise_enterprise_change', {id: enterprise.id}) }}">
+                                        {% if enterprise.logo is not null %}
+                                            <img src="{{ vich_uploader_asset(enterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ enterprise.name }}">
+                                        {% else %}
+                                            <img src="//via.placeholder.com/140x40?text={{ enterprise.name }}" alt="logo">
+                                        {% endif %}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {% if app.user.mainImage %}
+                        <img src="{{ vich_uploader_asset(app.user, 'mainImageFile') | imagine_filter('25x25') }}" class="user-image" alt="profile image">
+                    {% endif %}
+                    <span class="hidden-xs">{{ app.user.naturalName }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="user-header">
+                        {% if app.user.mainImage %}
+                            <img src="{{ vich_uploader_asset(app.user, 'mainImageFile') | imagine_filter('160x160') }}" class="img-circle" alt="User Image">
+                        {% else %}
+                            <img src="//via.placeholder.com/160x160?text=?" class="img-circle" alt="User Image">
+                        {% endif %}
+                        <p>
+                            {{ app.user.naturalName }}
+                            <small>{{ app.user.email }}</small>
+                        </p>
+                    </li>
+                    <li class="user-body">
+                        <div class="col-xs-12">
+                            <a href="{{ path('admin_app_setting_user_profile') }}" title="Editar perfil usuari" style="margin-right:10px"><i class="fa fa-edit"></i></a>
+                            <a href="mailto:suport@flux.cat?subject=Ajuda administrador de continguts {{ admin_brand_title }}" title="Sol·licitar suport" style="margin-right:10px"><i class="fa fa-question-circle-o"></i></a>
+                            <a href="{{ path('front_homepage') }}" title="Mostrar web pública"><i class="fa fa-globe"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="{{ path('sonata_user_admin_security_logout') }}"><i class="fa fa-power-off text-success"></i></a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{# override css includes #}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter="cssrewrite,less" "@mybackendcss" %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/app/js/pdf.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/app/js/pdf.worker.js') }}"></script>
+{% endblock %}

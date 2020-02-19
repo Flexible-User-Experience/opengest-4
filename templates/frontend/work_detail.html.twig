@@ -1,0 +1,42 @@
+{% extends ':Frontend:base.html.twig' %}
+
+{% block title %}{{ work.name }} · Trabajo · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title no-m">Trabajos y clientes</h1>
+                <a href="{{ path('front_works') }}"><i class="fa fa-caret-square-o-left" aria-hidden="true"></i> Todos los trabajos</a>
+            </div>
+        </div>
+        <hr class="hr-divider">
+        <div class="row">
+            {# Left side #}
+            <div class="col-sm-8">
+                <h3 class="title no-m-top">{{ work.name }}</h3>
+                <p><strong><i class="fa fa-calendar c-yellow" aria-hidden="true"></i> {{ work.date | date('d/m/Y') }}</strong></p>
+                <h5>{{ work.shortDescription }}</h5>
+                <p>{{ work.description | raw }}</p>
+                {% if work.mainImage is not null and work.images | length > 0 %}
+                    <img src="{{ vich_uploader_asset(work, 'mainImageFile') | imagine_filter('695xY') }}" class="img-responsive" alt="{{ work.name }}">
+                {% endif %}
+            </div>
+            {# Right side #}
+            <div class="col-sm-4">
+                {% if work.mainImage is not null and work.images | length == 0 %}
+                    <img src="{{ vich_uploader_asset(work, 'mainImageFile') | imagine_filter('470x310') }}" class="img-responsive" alt="{{ work.name }}">
+                {% endif %}
+                {% if work.service is not null %}
+                    <p>Conozca el proceso de actuación en un trabajo que requiere una <strong>{{ work.service.name }}</strong></p>
+                    <a class="btn btn-warning normal-m-bottom" href="{{ path('front_service_detail', {slug: work.service.slug}) }}">Sí, habladme de este servicio</a>
+                {% endif %}
+                {% for img in work.images %}
+                    {% if img.image is not null %}
+                        <img src="{{ vich_uploader_asset(img, 'imageFile') | imagine_filter('470x310') }}" class="img-responsive normal-m-bottom" alt="{{ img.alt }}">
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends ':Frontend:base.html.twig' %}
+
+{% block title %}Accesorios · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title no-m">Accesorios</h1>
+                <h2 class="main-subtitle no-m">Consulte las características técnicas de nuestros accesorios.</h2>
+            </div>
+        </div>
+        <hr class="hr-divider">
+        {% for complement in complements %}
+            <div class="row">
+                <div class="col-xs-9">
+                    <div class="caption left-line-yellow">
+                        <h3 class="title no-m-top">
+                            <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">{{ complement.name }}</a>
+                        </h3>
+                        <p>{{ complement.shortDescription }}</p>
+                        <p>
+                            <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i> Más información
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    {% if complement.mainImage is not null %}
+                        <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">
+                            <img src="{{ vich_uploader_asset(complement, 'mainImageFile') | imagine_filter('480xY') }}" alt="{{ complement.name }}" class="img-responsive">
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <hr class="hr-divider">
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends ':Frontend:base_footer_common.html.twig' %}
+
+{% block child_title %}Mapa del web{% endblock %}
+
+{% block child_main %}
+    <h1 class="main-title no-m">Mapa del web</h1>
+    <h2 class="main-subtitle no-m-top extra-m-bottom">Contenidos del web gruasromani.com</h2>
+    {{ knp_menu_render('sitemap', {currentClass: 'active'}) }}
+{% endblock %}

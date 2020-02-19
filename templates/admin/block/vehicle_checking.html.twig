@@ -1,0 +1,16 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    {#<!-- small box -->#}
+    <div class="small-box {{ background }}">
+        <div class="inner">
+            {{ content | raw }}
+        </div>
+        <div class="icon">
+            <i class="fa fa-truck"></i>
+        </div>
+        <a href="{{ path('admin_app_vehicle_vehiclechecking_list') }}" class="small-box-footer">
+            Anar al llistat <i class="fa fa-arrow-circle-right"></i>
+        </a>
+    </div>
+{% endblock %}

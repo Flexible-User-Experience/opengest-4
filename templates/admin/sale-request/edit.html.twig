@@ -1,0 +1,139 @@
+{% extends "::Admin/edit.html.twig" %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+             // Handler for .ready() called.
+            var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
+            var cifNifIcon = jQuery('#cif-nif-icon');
+            var mainAddress = jQuery('#{{ form.mainAddress.vars.id }}');
+            var mainAddressIcon = jQuery('#main-address-icon');
+            var mainCity = jQuery('#{{ form.mainCity.vars.id }}');
+            var mainCityIcon = jQuery('#main-city-icon');
+            var province = jQuery('#{{ form.province.vars.id }}');
+            var provinceIcon = jQuery('#province-icon');
+            var selectContactPersonNode = jQuery('#sonata-ba-field-container-{{ form.selectContactPersonName.vars.id }}');
+            var selectContactPersonName = jQuery('#{{ form.selectContactPersonName.vars.id }}');
+            var contactPersonName = jQuery('#{{ form.contactPersonName.vars.id }}');
+            var contactPersonPhone = jQuery('#{{ form.contactPersonPhone.vars.id }}');
+            var saleTariff = jQuery('#sonata-ba-field-container-{{ form.tariff.vars.id }}')
+            var miniumHours = jQuery('#{{ form.miniumHours.vars.id }}');
+            var miniumHoursIcon = jQuery('#minium-hours-icon');
+            var priceHour = jQuery('#{{ form.hourPrice.vars.id }}');
+            var priceHourIcon = jQuery('#hour-price-icon');
+            var displacement =jQuery('#{{ form.displacement.vars.id }}');
+            var displacementIcon =jQuery('#displacement-icon');
+            {#var paymentType = jQuery('#{{ form.paymentType.vars.id }}');#}
+
+             //on change
+            partnerNode.change(function(event) {
+                cifNifIcon.removeClass('hidden');
+                mainAddressIcon.removeClass('hidden');
+                mainCityIcon.removeClass('hidden');
+                provinceIcon.removeClass('hidden');
+                var partnerId = event.val;
+
+                //on change Partner
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', { id: partnerId }), function() {
+                }).done(function(response) {
+                    updateNodesInfo(response);
+                });
+
+                //on change PartnerContact
+                jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', { id: partnerId }), function() {
+                }).done(function(response) {
+                    console.log(response);
+                    updateNodesInfoContacts(response);
+                });
+
+            });
+
+            //on change PartnerContact
+            selectContactPersonName.on("change", function(event) {
+                console.log(event)
+                contactPersonName.val(event.added.name);
+                contactPersonPhone.val(event.added.publicPhone);
+
+            });
+
+            //on change Tariff
+            saleTariff.change(function (event) {
+               displacementIcon.removeClass('hidden');
+               miniumHoursIcon.removeClass('hidden');
+               priceHourIcon.removeClass('hidden');
+               var saleTariffId = event.val;
+               jQuery.get(Routing.generate('admin_app_sale_saletariff_getJsonSaleTariffById', { id: saleTariffId }), function () {
+
+               }).done(function (response) {
+                   console.log(response);
+                   updateNodesInfoTariff(response);
+               });
+            });
+
+            //on load Partner
+            {% if form.partner.vars.data is not null %}
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', { id: {{ form.partner.vars.data.id }} }), function() {
+                }).done(function(response) {
+                     updateNodesInfo(response);
+                });
+            {% endif %}
+
+            function updateNodesInfo(response) {
+                var partner = jQuery.parseJSON(response);
+
+                cifNifIcon.addClass('hidden');
+                mainAddressIcon.addClass('hidden');
+                mainCityIcon.addClass('hidden');
+                provinceIcon.addClass('hidden');
+
+                cifNif.val(partner.cifNif);
+                mainAddress.val(partner.mainAddress);
+                mainCity.val(partner.mainCity.name);
+                province.val(partner.mainCity.province.name);
+            }
+
+            //on load PartnerContacts
+            {% if form.selectContactPersonName.vars.id is not null %}
+            jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', { id: {{ form.selectContactPersonName.vars.id }} }), function() {
+            }).done(function(response) {
+                updateNodesInfoContacts(response);
+            });
+            {% endif %}
+
+            selectContactPersonNode.addClass('hidden');
+
+            function updateNodesInfoContacts(response) {
+                var partnerContacts = jQuery.parseJSON(response);
+                selectContactPersonNode.removeClass('hidden');
+                selectContactPersonName.select2({data: partnerContacts});
+            }
+
+            //on load Tariff
+            {% if form.tariff.vars.data is not null %}
+                jQuery.get(Routing.generate('admin_app_sale_saletariff_getJsonSaleTariffById', { id: {{ form.tariff.vars.data.id }} }), function() {
+                }).done(function(response) {
+                     updateNodesInfoTariff(response);
+                });
+            {% endif %}
+
+            function updateNodesInfoTariff(response) {
+                var tariff = jQuery.parseJSON(response);
+
+                displacementIcon.addClass('hidden');
+                miniumHoursIcon.addClass('hidden');
+                priceHourIcon.addClass('hidden');
+
+                miniumHours.val(tariff.miniumHours);
+                priceHour.val(tariff.priceHour);
+                displacement.val(tariff.displacement);
+            }
+
+        });
+    </script>
+{% endblock %}

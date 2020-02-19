@@ -1,0 +1,31 @@
+<container>
+    <row>
+        <columns>
+            <spacer size="20"></spacer>
+            <h4>{{ header_h4 }}</h4>
+            <spacer size="20"></spacer>
+            <table>
+                <thead>
+                <tr>
+                    <th class="blue-color">Data d'expedició</th>
+                    <th class="blue-color">Data caducitat</th>
+                    <th class="blue-color">Operari</th>
+                    <th class="blue-color">Tipus revisió</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in entities %}
+                    <tr>
+                        <td>{{ item.begin | date('d/m/Y')  }}</td>
+                        <td>{{ item.end | date('d/m/Y')  }}</td>
+                        <td>{{ item.vehicle }}</td>
+                        <td>{{ item.type }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <spacer size="30"></spacer>
+            <p>Comprova-ho a la teva llista de tipus de revisió del CMS <a href="{{ absolute_url(path('admin_app_vehiclechecking_list')) }}">aquí</a></p>
+        </columns>
+    </row>
+</container>

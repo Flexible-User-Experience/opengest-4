@@ -1,0 +1,69 @@
+{% extends ':Frontend:base.html.twig' %}
+
+{% form_theme contactForm _self %}
+
+{% block _app_bundle_contact_message_type_privacy_widget %}
+    <div class="checkbox">
+        <input type="checkbox" id="checkbox-privacy-homepage" {{ block('widget_attributes') }} />
+        <label for="checkbox-privacy-homepage" class="control-label my-privacy-label-homepage">
+            He leído, entiendo y acepto la política de privacidad y de protección de datos de GRUAS ROMANÍ, S.A. Para consultar la política de privacidad consultar el siguiente <a href="{{ path('front_privacy')}}">enlace</a>
+        </label>
+    </div>
+{% endblock %}
+
+{% block title %}{{ service.name | capitalize }} · Servicios · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title no-m">Nuestros servicios</h1>
+                <h2 class="main-subtitle no-m">Consulte todos los servicios que ofrecemos.</h2>
+            </div>
+        </div>
+        <hr class="hr-divider">
+        <div class="row">
+            {# left side menu #}
+            <div class="col-sm-3">
+                {{ knp_menu_render('service', {currentClass: 'active'}) }}
+            </div>
+            {# right main content #}
+            <div class="col-sm-9">
+                {% include ':Includes:notice_flash.html.twig' %}
+                <h3 class="no-m-top main-subtitle">{{ service.name | capitalize }}</h3>
+                {% if service.mainImage is not null %}
+                    <img src="{{ vich_uploader_asset(service, 'mainImageFile') | imagine_filter('878xY') }}" class="img-responsive" alt="{{ service.name }}">
+                {% endif %}
+                {{ service.description | raw }}
+                {% if service.vehicleCategory is not null %}
+                    <a class="btn btn-warning normal-m-top normal-m-bottom" href="{{ path('front_vehicles_category', {slug: service.vehicleCategory.slug}) }}">Más información sobre <strong>{{ service.vehicleCategory.name | capitalize }}</strong></a>
+                {% endif %}
+                <div class="panel yellow-background-light">
+                    <div class="panel-heading c-blue">
+                        <h6 class="panel-title no-m-top">¿Desea conocer más detalles sobre {{ service.name | lower }}? Contacte ahora con nosotros</h6>
+                        <p class="normal-m-top">
+                            <i class="fa fa-phone" aria-hidden="true"></i> llamando al <strong>636 963 304</strong>
+                        </p>
+                        <p>
+                            <i class="fa fa-mouse-pointer" aria-hidden="true"></i> mediante este sencillo <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">formulario</button>
+                        </p>
+                    </div>
+                    {#<!-- Modal -->#}
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header blue-background">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title c-white" id="myModalLabel">Déjanos tus datos y te lo eplicaremos con más detalle</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {{ form(contactForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

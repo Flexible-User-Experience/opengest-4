@@ -1,0 +1,18 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    {% if is_granted('ROLE_CMS') %}
+        {#<!-- small box -->#}
+        <div class="small-box {{ background }}">
+            <div class="inner">
+                {{ content | raw }}
+            </div>
+            <div class="icon">
+                <i class="fa fa-envelope-o"></i>
+            </div>
+            <a href="{{ path('admin_app_web_contactmessage_list') }}" class="small-box-footer">
+                Anar al llistat <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends ':Frontend:base.html.twig' %}
+
+{% block title %}{% block child_title %}{% endblock %} · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-sm-3">
+                {{ knp_menu_render('footer', {currentClass: 'active'}) }}
+            </div>
+            <div class="col-sm-9">
+                {% block child_main %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
