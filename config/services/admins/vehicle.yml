@@ -184,13 +184,6 @@ services:
         arguments: [ ~, App\Entity\Sale\SaleDeliveryNoteLine, App\Controller\Admin\Sale\SaleDeliveryNoteLineAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Albarà línia", group: "Vendes", label_translator_strategy: "sonata.admin.label.strategy.noop", show_in_dashboard: false}
-    app.admin.sale_invoice:
-        class: App\Admin\Sale\SaleInvoiceAdmin
-        arguments: [ ~, App\Entity\Sale\SaleInvoice, App\Controller\Admin\Sale\SaleInvoiceAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Factura", group: "Vendes", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-        calls:
-            - [ setTemplate, [ edit, "::Admin/SaleInvoice/edit.html.twig" ] ]
     app.admin.sale_request_has_delivery_note:
         class: App\Admin\Sale\SaleRequestHasDeliveryNoteAdmin
         arguments: [ ~, App\Entity\Sale\SaleRequestHasDeliveryNote, App\Controller\Admin\Sale\SaleRequestHasDeliveryNoteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
@@ -213,8 +206,3 @@ services:
         arguments: [ ~, App\Entity\Setting\User, App\Controller\Admin\Setting\UserAdminController, "@fos_user.user_manager", "@app.repositories_manager" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Usuari", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.sale_invoice_series:
-        class: App\Admin\Setting\SaleInvoiceSeriesAdmin
-        arguments: [ ~, App\Entity\Setting\SaleInvoiceSeries, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Sèries factura", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }

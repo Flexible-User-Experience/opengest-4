@@ -1,4 +1,5 @@
 imports:
+    - { resource: 'services/repositories.yml' }
     - { resource: 'services/admins/enterprise.yml' }
     - { resource: 'services/admins/operator.yml' }
     - { resource: 'services/admins/partner.yml' }
@@ -35,7 +36,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude:  '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude:  '../src/{DependencyInjection,Entity,Migrations,Tests,Command,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -101,12 +102,12 @@ services:
         arguments: [ '@router', '@app.frontend_menu_builder' ]
         tags: [ { name: 'presta.sitemap.listener' } ]
     # Twig
-    app.twig_extension:
-        class: App\Twig\AppExtension
-        public: false
-        arguments: [ '@router', '@vich_uploader.templating.helper.uploader_helper', '@liip_imagine.cache.manager', '@app.contact_message_repository' ]
-        tags:
-            - { name: twig.extension }
+#    app.twig_extension:
+#        class: App\Twig\AppExtension
+#        public: true
+#        arguments: [ '@router', '@vich_uploader.templating.helper.uploader_helper', '@liip_imagine.cache.manager', '@app.contact_message_repository' ]
+#        tags:
+#            - { name: twig.extension }
     # Block
     app.block.contact_message:
         class: App\Block\ContactMessageBlock
@@ -206,10 +207,10 @@ services:
     app.dates_transformer:
         class: App\Transformer\DatesTransformer
     # Commands
-    app.import_activity_command:
-        class: App\Command\Enterprise\ImportActivityLineCsvCommand
-        arguments:
-            $name: 'app:import:enterprise:activity:line'
+#    app.import_activity_command:
+#        class: App\Command\Enterprise\ImportActivityLineCsvCommand
+#        arguments:
+#            $name: 'app:import:enterprise:activity:line'
 #            $em: '@doctrine.orm.entity_manager'
 #            $fss: '@filesystem'
 #            $rm: '@app.repositories_manager'
