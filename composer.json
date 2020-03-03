@@ -58,7 +58,7 @@
         "xsolve-pl/xsolve-cookie-acknowledgement-bundle": "^1.0"
     },
     "require-dev": {
-        "hautelook/alice-bundle": "2.x-dev",
+        "hautelook/alice-bundle": "^2.0",
         "sensiolabs/security-checker": "^5.0",
         "symfony/browser-kit": "4.4.*",
         "symfony/css-selector": "4.4.*",
