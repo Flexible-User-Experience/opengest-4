@@ -1,4 +1,183 @@
-# See dos how to configure the bundle: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
 liip_imagine:
-    # valid drivers options include "gd" or "gmagick" or "imagick"
-    driver: "gd"
+    driver: 'gd'
+    loaders:
+        default:
+            filesystem:
+                locator: filesystem_insecure
+    resolvers:
+        default:
+            web_path: ~
+    cache: default
+    filter_sets:
+        cache: ~
+        2400x1000:
+            quality: 75
+            filters:
+                thumbnail: { size: [ 2400, 1000 ], mode: outbound }
+        2000x550:
+            quality: 75
+            filters:
+                thumbnail: { size: [ 2000, 550 ], mode: outbound }
+        2100xY:
+            quality: 75
+            filters:
+                thumbnail: { size: [ 2100, null ], mode: outbound }
+        1200xY:
+            quality: 75
+            filters:
+                thumbnail: { size: [ 1200, null ], mode: outbound }
+        1200x500:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 1200, 500 ], mode: outbound }
+        878xY:
+            quality: 90
+            filters:
+                thumbnail: { size: [ 878, null ], mode: outbound }
+        800x800:
+            quality: 90
+            filters:
+                thumbnail: { size: [ 800, 800 ], mode: outbound }
+        780xY:
+            quality: 90
+            filters:
+                thumbnail: { size: [ 780, null ], mode: outbound }
+        780xYBW:
+            quality: 90
+            filters:
+                thumbnail: { size: [ 780, null ], mode: outbound }
+                grayscale: ~
+        700x200:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 700, 200 ], mode: outbound }
+        700x400:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 700, 400 ], mode: inbound }
+        700xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 700, null ], mode: outbound }
+        695xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 695, null ], mode: outbound }
+        685x200:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 685, 200 ], mode: outbound }
+        480xY:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 480, null ], mode: outbound }
+        470x310:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 470, 310 ], mode: outbound }
+        342x342:
+            quality: 90
+            filters:
+                thumbnail: { size: [ 342, 342 ], mode: outbound }
+        360x185:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 360, 185 ], mode: outbound }
+        350x180:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 350, 180 ], mode: outbound }
+        350xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 350, null ], mode: outbound }
+        240x180:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 240, 180 ], mode: outbound }
+        Xx250:
+            quality: 80
+            filters:
+                thumbnail: { size: [ null, 250 ], mode: outbound }
+        Xx550:
+            quality: 80
+            filters:
+                thumbnail: { size: [ null, 550 ], mode: outbound }
+        256xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 256, null ], mode: outbound }
+        263xYxBW:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 263, null ], mode: outbound }
+                grayscale: ~
+        256xYxBW:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 256, null ], mode: outbound }
+                grayscale: ~
+        286xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 286, null ], mode: outbound }
+        231x54:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 231, 54 ], mode: inset }
+        220x54:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 220, 54 ], mode: inset }
+        180xY:
+            quality: 80
+            filters:
+                thumbnail: { size: [ 180, null ], mode: outbound }
+        140x40:
+            quality: 85
+            filters:
+                thumbnail: { size: [ 140, 40 ], mode: inset }
+        160x160:
+            quality: 85
+            filters:
+                thumbnail: { size: [ 160, 160 ], mode: outbound }
+        128x128:
+            quality: 85
+            filters:
+                thumbnail: { size: [ 128, 128 ], mode: outbound }
+        125x32:
+            quality: 85
+            filters:
+                thumbnail: { size: [ 125, 32 ], mode: outbound }
+        112x150:
+            quality: 85
+            filters:
+                thumbnail: { size: [ 112, 150 ], mode: outbound }
+        70x70:
+            quality: 95
+            filters:
+                thumbnail: { size: [ 70, 70 ], mode: outbound }
+        60x60:
+            quality: 95
+            filters:
+                thumbnail: { size: [ 60, 60 ], mode: outbound }
+        40x40:
+            quality: 95
+            filters:
+                thumbnail: { size: [ 40, 40 ], mode: inset }
+        32x32:
+            quality: 95
+            filters:
+                thumbnail: { size: [ 32, 32 ], mode: outbound }
+        30x30:
+            quality: 95
+            filters:
+                thumbnail: { size: [ 30, 30 ], mode: outbound }
+        25x25:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 25, 25 ], mode: outbound }
+        19x19:
+            quality: 100
+            filters:
+                thumbnail: { size: [ 19, 19 ], mode: outbound }
