@@ -11,9 +11,7 @@
     <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
     <title>{% block title %}{{ main_brand_title }}{% endblock %}</title>
     {% block stylesheets %}
-{#        {% stylesheets filter="cssrewrite,less" '@mycss' %}#}
-{#        <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>#}
-{#        {% endstylesheets %}#}
+        {{ encore_entry_link_tags('frontend') }}
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     <!--[if lt IE 9]>
@@ -83,9 +81,7 @@
 {% endblock %}
 {#<!-- Javascripts -->#}
 {% block javascripts %}
-{#    {% javascripts '@myjs' %}#}
-{#    <script type="text/javascript" src="{{ asset_url }}"></script>#}
-{#    {% endjavascripts %}#}
+    {{ encore_entry_script_tags('frontend') }}
     <script src="//www.google.com/recaptcha/api.js?hl=es"></script>
 {% endblock %}
 {% block scroll_top %}
