@@ -33,7 +33,7 @@ class NotificationService
     private string $amd;
 
     /**
-     * @var string
+     * @var string Mailer URL base
      */
     private string $urlBase;
 
