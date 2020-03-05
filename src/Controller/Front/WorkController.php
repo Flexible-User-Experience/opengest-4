@@ -7,6 +7,7 @@ use App\Enum\ConstantsEnum;
 use App\Repository\Web\WorkImageRepository;
 use App\Repository\Web\WorkRepository;
 use Doctrine\ORM\EntityNotFoundException;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,15 +22,15 @@ class WorkController extends AbstractController
     /**
      * @Route("/trabajos/{page}", name="front_works")
      *
-     * @param WorkRepository $wr
-     * @param int            $page
+     * @param PaginatorInterface $paginator
+     * @param WorkRepository     $wr
+     * @param int                $page
      *
      * @return Response
      */
-    public function listAction(WorkRepository $wr, $page = 1)
+    public function listAction(PaginatorInterface $paginator, WorkRepository $wr, $page = 1)
     {
         $works = $wr->findEnabledSortedByDate();
-        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($works, $page, ConstantsEnum::FRONTEND_ITEMS_PER_PAGE_LIMIT);
 
         return $this->render('frontend/works.html.twig', [

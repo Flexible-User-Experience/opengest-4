@@ -17,7 +17,7 @@
         "friendsofsymfony/jsrouting-bundle": "^2.5",
         "hampe/zurb-ink-bundle": "^2.2",
         "knplabs/knp-menu-bundle": "^2.0",
-        "knplabs/knp-paginator-bundle": "^3.0",
+        "knplabs/knp-paginator-bundle": "^5.0",
         "krixer/google-map-form-type-bundle": "^1.2",
         "lexik/maintenance-bundle": "^2.0",
         "liip/imagine-bundle": "^2.1",
