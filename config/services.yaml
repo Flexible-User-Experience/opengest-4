@@ -14,12 +14,12 @@ parameters:
     project_web_title:         '%env(string:PROJECT_WEB_TITLE)%'
     project_admin_title:       '%env(string:PROJECT_ADMIN_TITLE)%'
     project_url_base:          '%env(string:PROJECT_BASE_URL)%'
-    mailer_url_base:           '%env(string:PROJECT_BASE_URL)%'
     google_analytics_enabled:  '%env(bool:GOOGLE_ANALYTICS_IS_ENABLED)%'
     google_analytics_account:  '%env(string:GOOGLE_ANALYTICS_ACCOUNT)%'
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     google_maps_api_key:       '%env(string:GOOGLE_MAPS_API_KEY)%'
     delivery_dev_address:      '%env(string:DEV_DELIVERY_ADDRESS)%'
+    mailer_url_base:           '%env(string:MAILER_URL_BASE)%'
     mailer_destination:        '%env(string:MAILER_DESTINATION_ADDRESS)%'
 
 services:
@@ -32,6 +32,8 @@ services:
             $defaultLocale:    '%default_locale%'
             $project_url_base: '%project_url_base%'
             $krb:              '%kernel.root_dir%'
+            $amd:              '%mailer_destination%'
+            $urlBase:          '%mailer_url_base%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
