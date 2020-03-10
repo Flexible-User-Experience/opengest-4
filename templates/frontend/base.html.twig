@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>     <html lang="{{ app.request.locale }}" class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
-<!--[if IE 7]>        <html lang="{{ app.request.locale }}" class="no-js lt-ie9 lt-ie8"><![endif]-->
-<!--[if IE 8]>        <html lang="{{ app.request.locale }}" class="no-js lt-ie9"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="{{ app.request.locale }}" class="no-js"><!--<![endif]-->
+<html lang="{{ app.request.locale }}">
 <head>
     <meta name="description" content="{% block metadescription %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -14,10 +11,6 @@
         {{ encore_entry_link_tags('frontend') }}
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body{% block body_class %}{% endblock %}>
 {#<!-- Head content -->#}
