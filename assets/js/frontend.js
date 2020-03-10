@@ -21,19 +21,3 @@ console.log('Hello Webpack Encore! Edit me in assets/js/frontend.js');
 $(document).ready(function() {
     console.log('assets/js/app.js on Ready trigger');
 });
-
-jQuery(document).on('scroll', function() {
-    if (jQuery(window).scrollTop() > 100) {
-        jQuery('.scroll-top-wrapper').addClass('show');
-    } else {
-        jQuery('.scroll-top-wrapper').removeClass('show');
-    }
-});
-jQuery('.scroll-top-wrapper').on('click', scrollToTop);
-function scrollToTop() {
-    var verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
-    var element = jQuery('body');
-    var offset = element.offset();
-    var offsetTop = offset.top;
-    jQuery('html, body').animate({scrollTop: offsetTop}, 1000, 'swing');
-}
