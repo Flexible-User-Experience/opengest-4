@@ -10,6 +10,7 @@ import '../css/frontend.less';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import jQuery from 'jquery/dist/jquery.min.js';
+import $ from 'jquery';
 
 // const routes = require('../../public/js/fos_js_routes.json');
 // import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';

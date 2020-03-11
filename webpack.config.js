@@ -67,6 +67,9 @@ Encore
     //.addEntry('admin', './assets/js/admin.js')
     .addEntry('frontend', './assets/js/frontend.js')
     .addEntry('backend', './assets/js/backend.js')
+
+    // uncomment if you're having problems with a jQuery plugin
+    .autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();

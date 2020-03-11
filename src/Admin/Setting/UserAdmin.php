@@ -2,15 +2,14 @@
 
 namespace App\Admin\Setting;
 
+use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\Enterprise;
 use App\Enum\UserRolesEnum;
-use Sonata\UserBundle\Admin\Model\UserAdmin as ParentUserAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Class UserAdmin.
@@ -19,13 +18,8 @@ use FOS\UserBundle\Model\UserManagerInterface;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  */
-class UserAdmin extends ParentUserAdmin
+class UserAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var UserManagerInterface
-     */
-    protected $userManager;
-
     /**
      * @var string
      */
@@ -48,17 +42,6 @@ class UserAdmin extends ParentUserAdmin
      * Methods.
      */
 
-    /**
-     * @param string $code
-     * @param string $class
-     * @param string $baseControllerName
-     * @param $userManager
-     */
-    public function __construct($code, $class, $baseControllerName, $userManager)
-    {
-        parent::__construct($code, $class, $baseControllerName);
-        $this->userManager = $userManager;
-    }
 
     /**
      * @param RouteCollection $collection
