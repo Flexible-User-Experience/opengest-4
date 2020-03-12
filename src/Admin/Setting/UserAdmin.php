@@ -2,7 +2,7 @@
 
 namespace App\Admin\Setting;
 
-use App\Admin\AbstractBaseAdmin;
+use Sonata\UserBundle\Admin\Model\UserAdmin as ParentUserAdmin;
 use App\Entity\Enterprise\Enterprise;
 use App\Enum\UserRolesEnum;
 use Sonata\AdminBundle\Route\RouteCollection;
@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  */
-class UserAdmin extends AbstractBaseAdmin
+class UserAdmin extends ParentUserAdmin
 {
     /**
      * @var string
@@ -41,7 +41,6 @@ class UserAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-
 
     /**
      * @param RouteCollection $collection

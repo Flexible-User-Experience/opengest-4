@@ -12,7 +12,7 @@ services:
             - { name: sonata.admin, manager_type: orm, label: "Ciutat", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.user:
         class: App\Admin\Setting\UserAdmin
-        arguments: [ ~, App\Entity\Setting\User, App\Controller\Admin\Setting\UserAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Setting\User, App\Controller\Admin\Setting\UserAdminController ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Usuari", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.sale_invoice_series:

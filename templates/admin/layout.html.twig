@@ -92,6 +92,5 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('backend') }}
-    <script type="text/javascript" src="{{ asset('bundles/app/js/pdf.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/app/js/pdf.worker.js') }}"></script>
+    <script src="{{ asset('build/pdfjs/pdf.js') }}"></script>
 {% endblock %}
