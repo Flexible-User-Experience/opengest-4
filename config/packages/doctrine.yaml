@@ -26,6 +26,8 @@ doctrine:
             string_functions:
                 concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
             datetime_functions:
+                date:        DoctrineExtensions\Query\Mysql\Date
+                day:         DoctrineExtensions\Query\Mysql\Day
                 year:        DoctrineExtensions\Query\Mysql\Year
                 month:       DoctrineExtensions\Query\Mysql\Month
                 date_format: DoctrineExtensions\Query\Mysql\DateFormat
