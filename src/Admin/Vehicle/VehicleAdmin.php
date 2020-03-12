@@ -6,7 +6,7 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\QueryBuilder;
-use Ivory\CKEditorBundle\Form\Type\CKEditorType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
