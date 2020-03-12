@@ -1,23 +1,109 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    role_hierarchy:
+        ROLE_SONATA_CMS:
+            - ROLE_APP_ADMIN_SERVICE_ALL
+            - ROLE_APP_ADMIN_WORK_ALL
+            - ROLE_APP_ADMIN_WORK_IMAGE_ALL
+            - ROLE_APP_ADMIN_COMPLEMENT_ALL
+            - ROLE_APP_ADMIN_CONTACT_MESSAGE_ALL
+        ROLE_SONATA_MANAGER:
+            - ROLE_APP_ADMIN_PROVINCE_LIST
+            - ROLE_APP_ADMIN_PROVINCE_VIEW
+            - ROLE_APP_ADMIN_PROVINCE_EDIT
+            - ROLE_APP_ADMIN_PROVINCE_EXPORT
+            - ROLE_APP_ADMIN_CITY_LIST
+            - ROLE_APP_ADMIN_CITY_VIEW
+            - ROLE_APP_ADMIN_CITY_EDIT
+            - ROLE_APP_ADMIN_CITY_EXPORT
+            - ROLE_APP_ADMIN_ENTERPRISE_LIST
+            - ROLE_APP_ADMIN_ENTERPRISE_VIEW
+            - ROLE_APP_ADMIN_ENTERPRISE_EDIT
+            - ROLE_APP_ADMIN_ENTERPRISE_EXPORT
+            - ROLE_APP_ADMIN_OPERATOR_ALL
+            - ROLE_APP_ADMIN_OPERATOR_DIGITAL_TACHOGRAPH_ALL
+            - ROLE_APP_ADMIN_OPERATOR_CHECKING_ALL
+            - ROLE_APP_ADMIN_OPERATOR_ABSENCE_ALL
+            - ROLE_APP_ADMIN_OPERATOR_VARIOUS_AMOUNT_ALL
+            - ROLE_APP_ADMIN_VEHICLE_ALL
+            - ROLE_APP_ADMIN_VEHICLE_CATEGORY_ALL
+            - ROLE_APP_ADMIN_VEHICLE_CHECKING_ALL
+            - ROLE_APP_ADMIN_VEHICLE_DIGITAL_TACHOGRAPH_ALL
+            - ROLE_APP_ADMIN_PARTNER_ALL
+            - ROLE_APP_ADMIN_PARTNER_ORDER_ALL
+            - ROLE_APP_ADMIN_PARTNER_BUILDING_SITE_ALL
+            - ROLE_APP_ADMIN_PARTNER_CONTACT_ALL
+            - ROLE_APP_ADMIN_PARTNER_UNABLE_DAYS_ALL
+            - ROLE_APP_ADMIN_SALE_TARIFF_ALL
+            - ROLE_APP_ADMIN_SALE_REQUEST_ALL
+            - ROLE_APP_ADMIN_SALE_DELIVERY_NOTE_ALL
+            - ROLE_APP_ADMIN_SALE_DELIVERY_NOTE_LINE_ALL
+            - ROLE_APP_ADMIN_SALE_INVOICE_ALL
+            - ROLE_APP_ADMIN_SALE_REQUEST_HAS_DELIVERY_NOTE_ALL
+        ROLE_SONATA_MANAGER_ADMIN:
+            - ROLE_APP_ADMIN_VEHICLE_CHECKING_TYPE_ALL
+            - ROLE_APP_ADMIN_OPERATOR_CHECKING_TYPE_ALL
+            - ROLE_APP_ADMIN_OPERATOR_ABSENCE_TYPE_ALL
+            - ROLE_APP_ADMIN_ENTERPRISE_CREATE
+            - ROLE_APP_ADMIN_ENTERPRISE_DELETE
+            - ROLE_APP_ADMIN_ENTERPRISE_GROUP_BOUNTY_ALL
+            - ROLE_APP_ADMIN_ENTERPRISE_TRANSFER_ACCOUNT_ALL
+            - ROLE_APP_ADMIN_ENTERPRISE_HOLLIDAYS_ALL
+            - ROLE_APP_ADMIN_ACTIVITY_LINE_ALL
+            - ROLE_APP_ADMIN_COLLECTION_DOCUMENT_TYPE_ALL
+            - ROLE_APP_ADMIN_PROVINCE_CREATE
+            - ROLE_APP_ADMIN_PROVINCE_DELETE
+            - ROLE_APP_ADMIN_CITY_CREATE
+            - ROLE_APP_ADMIN_CITY_DELETE
+            - ROLE_APP_ADMIN_USER_ALL
+            - ROLE_APP_ADMIN_PARTNER_CLASS_ALL
+            - ROLE_APP_ADMIN_PARTNER_TYPE_ALL
+            - ROLE_APP_ADMIN_SALE_INVOICE_SERIES_ALL
+        ROLE_CMS:
+            - ROLE_USER
+            - ROLE_SONATA_CMS
+            - ROLE_SONATA_ADMIN
+        ROLE_MANAGER:
+            - ROLE_CMS
+            - ROLE_SONATA_MANAGER
+        ROLE_ADMIN:
+            - ROLE_MANAGER
+            - ROLE_SONATA_MANAGER_ADMIN
+        ROLE_SUPER_ADMIN:
+            - ROLE_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
+    access_decision_manager:
+        strategy: unanimous
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
     providers:
-        users_in_memory: { memory: null }
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            anonymous: lazy
-            provider: users_in_memory
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+        admin:
+            pattern: /admin(.*)
+            context: user
+            form_login:
+                provider:                       fos_userbundle
+                login_path:                     /admin/login
+                use_forward:                    false
+                check_path:                     /admin/login_check
+                failure_path:                   /admin/login
+                default_target_path:            /admin/dashboard
+                always_use_default_target_path: true
+                use_referer:                    true
+            logout:
+                path:   /admin/logout
+                target: /admin/login
+            anonymous: true
+        frontend:
+            pattern:   ^/(.*)
+            context:   user
+            anonymous: true
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_USER }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
