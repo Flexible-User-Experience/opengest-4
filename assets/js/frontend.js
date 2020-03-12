@@ -10,7 +10,7 @@ import '../css/frontend.less';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import jQuery from 'jquery/dist/jquery.min.js';
-import jQuery from 'jquery';
+import $ from 'jquery';
 
 const routes = require('../../public/js/fos_js_routes.js');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
@@ -19,8 +19,8 @@ window.Dropzone = require('dropzone/dist/min/dropzone.min');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/frontend.js');
 
-jQuery(document).ready(function() {
-    jQuery('[data-toggle="popover"]').popover();
+$(document).ready(function() {
+    $('[data-toggle="popover"]').popover();
     console.log('assets/js/app.js on Ready trigger');
 });
 

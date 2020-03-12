@@ -11,7 +11,8 @@ Encore
     .setOutputPath('public/build/')
     .copyFiles([
         {from: './assets/img'},
-        {from: './assets/svg'}
+        {from: './assets/svg'},
+        {from: './assets/fonts'}
     ])
     .copyFiles([
         {from: './node_modules/ckeditor4/', to: 'ckeditor4/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
