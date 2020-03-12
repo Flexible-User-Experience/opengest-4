@@ -39,7 +39,7 @@ class WorkImageRepository extends ServiceEntityRepository
             ->where('wi.work = :work')
             ->andWhere('wi.enabled = :enabled')
             ->setParameter('work', $work)
-            ->setParameter('value', true)
+            ->setParameter('enabled', true)
             ->orderBy('wi.position', 'ASC');
     }
 

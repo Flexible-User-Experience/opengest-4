@@ -22,7 +22,7 @@ class Group extends BaseGroup
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      */
     protected $id;
 
