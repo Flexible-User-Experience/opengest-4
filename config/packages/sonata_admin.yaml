@@ -1,5 +1,5 @@
 sonata_admin:
-    title: 'Sonata Admin'
+    title:              '%project_admin_title%'
     title_logo:         'build/fibervent_logo_black_landscape.jpg'
     persist_filters:    true
     show_mosaic_button: false
@@ -10,11 +10,68 @@ sonata_admin:
         pager_links:    10
     security:
         handler: sonata.admin.security.handler.role
+    templates:
+        layout:        'admin/layout.html.twig'
+        edit:          'admin/edit.html.twig'
+        show:          'admin/show.html.twig'
+        pager_results: 'admin/pager_results.html.twig'
     dashboard:
+        groups:
+            Web:
+                icon: '<i class="fa fa-chrome"></i>'
+            Operaris:
+                icon: '<i class="fa fa-users"></i>'
+            Vehicles:
+                icon: '<i class="fa fa-truck"></i>'
+            Tercers:
+                icon: '<i class="fa fa-user"></i>'
+            Empreses:
+                icon: '<i class="fa fa-building"></i>'
+            Vendes:
+                icon: '<i class="fa fa-eur"></i>'
+            Configuracio:
+                label: 'Configuració'
+                icon:  '<i class="fa fa-briefcase"></i>'
         blocks:
-            - { type: sonata.admin.block.admin_list, position: left }
-
-sonata_block:
-    blocks:
-        sonata.admin.block.admin_list:
-            contexts: [admin]
+            -
+                position: top
+                type: sonata.block.service.text
+                class: 'col-md-12'
+                settings:
+                    content: >
+                        <h4 style="margin-top:0" class="c-grey"><strong>Revisions</strong></h4>
+            -
+                position: top
+                type: app.block.operator_checking
+                class: 'col-md-3'
+            -
+                position: top
+                type: app.block.operator_absence
+                class: 'col-md-3'
+            -
+                position: top
+                type: app.block.vehicle_checking
+                class: 'col-md-3'
+            -
+                position: top
+                type: app.block.contact_message
+                class: 'col-md-3'
+            -
+                position: top
+                type: sonata.block.service.text
+                class: 'col-md-12'
+                settings:
+                    content: >
+                        <h4 class="c-grey"><strong>Peticions</strong></h4>
+            -
+                position: top
+                type: app.block.sale_request_today
+                class: 'col-md-4'
+            -
+                position: top
+                type: app.block.sale_request_tomorrow
+                class: 'col-md-4'
+            -
+                position: top
+                type: app.block.sale_request_next
+                class: 'col-md-4'
