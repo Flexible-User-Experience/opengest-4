@@ -21,7 +21,7 @@ console.log('Hello Webpack Encore! Edit me in assets/js/frontend.js');
 
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
-    console.log('assets/js/app.js on Ready trigger');
+    console.log('assets/js/frontend.js on Ready trigger');
 });
 
 jQuery(document).on('scroll', function() {

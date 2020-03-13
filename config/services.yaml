@@ -156,6 +156,7 @@ services:
         arguments: [ '@kernel', '%mailer_url_base%' ]
     # Guard
     app.guard_service:
+        public: true
         class: App\Service\GuardService
         arguments: [ '@security.authorization_checker' ]
     # Form
