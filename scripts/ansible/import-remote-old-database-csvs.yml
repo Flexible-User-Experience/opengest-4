@@ -1,0 +1,130 @@
+---
+- hosts: s6
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/vars/config.yml"
+  tasks:
+    - name: execute province CSV import by partner primary address to local database
+      shell: "php app/console --env=prod app:import:province app/csv/partners.csv 9 10"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute province CSV import by partner secondary address to local database
+      shell: "php app/console --env=prod app:import:province app/csv/partners.csv 19 20"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute province CSV import by enterprise to local database
+      shell: "php app/console --env=prod app:import:province app/csv/enterprises.csv 5 6"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute province CSV import by operator to local database
+      shell: "php app/console --env=prod app:import:province app/csv/operators.csv 12 12"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute city CSV import by partner primary address to local database
+      shell: "php app/console --env=prod app:import:city app/csv/partners.csv 8 6 9 10"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute city CSV import by partner secondary address to local database
+      shell: "php app/console --env=prod app:import:city app/csv/partners.csv 18 17 19 20"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute city CSV import by enterprise to local database
+      shell: "php app/console --env=prod app:import:city app/csv/enterprises.csv 4 7 5 6"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute city CSV import by operator to local database
+      shell: "php app/console --env=prod app:import:city app/csv/operators.csv 11 10 12 12"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute enterprise CSV import to local database
+      shell: "php app/console --env=prod app:import:enterprise app/csv/enterprises.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute enterprise activity lines CSV import to local database
+      shell: "php app/console --env=prod app:import:enterprise:activity:line app/csv/enterprise_activity_lines.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute enterprise collection document types CSV import to local database
+      shell: "php app/console --env=prod app:import:enterprise:collection:document:type app/csv/enterprise_collection_document_types.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute enterprise group bountys CSV import to local database
+      shell: "php app/console --env=prod app:import:enterprise:group:bounty app/csv/enterprise_group_bountys.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute enterprise holidays CSV import to local database
+      shell: "php app/console --env=prod app:import:enterprise:holiday app/csv/enterprise_holidays.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute enterprise transfer accounts CSV import to local database
+      shell: "php app/console --env=prod app:import:enterprise:transfer:account app/csv/enterprise_transfer_accounts.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute operator CSV import to local database
+      shell: "php app/console --env=prod app:import:operator app/csv/operators.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute operator checking type CSV import to local database
+      shell: "php app/console --env=prod app:import:operator:checking:type app/csv/operator_checking_types.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute operator checking CSV import to local database
+      shell: "php app/console --env=prod app:import:operator:checking app/csv/operator_checkings.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute operator absence type CSV import to local database
+      shell: "php app/console --env=prod app:import:operator:absence:type app/csv/operator_absence_types.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute operator absence CSV import to local database
+      shell: "php app/console --env=prod app:import:operator:absence app/csv/operator_absences.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute operator digital tachographs CSV import to local database
+      shell: "php app/console --env=prod app:import:operator:digital:tachograph app/csv/operator_digital_tachographs.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute operator various amount CSV import to local database
+      shell: "php app/console --env=prod app:import:operator:various:amount app/csv/operator_various_amounts.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute partner class CSV import to local database
+      shell: "php app/console --env=prod app:import:partner:class app/csv/partner_classes.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute partner type CSV import to local database
+      shell: "php app/console --env=prod app:import:partner:type app/csv/partner_types.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute partner CSV import to local database
+      shell: "php app/console --env=prod app:import:partner app/csv/partners.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute partner contact CSV import to local database
+      shell: "php app/console --env=prod app:import:partner:contact app/csv/partner_contacts.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute partner unable days CSV import to local database
+      shell: "php app/console --env=prod app:import:partner:unable:days app/csv/partner_unabled_days.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute partner building site CSV import to local database
+      shell: "php app/console --env=prod app:import:partner:building:site app/csv/partner_building_sites.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute partner order CSV import to local database
+      shell: "php app/console --env=prod app:import:partner:order app/csv/partner_orders.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute setting sale invoice series CSV import to local database
+      shell: "php app/console --env=prod app:import:setting:sale:invoice:series app/csv/setting_sale_invoice_series.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute sale tariff CSV import to local database
+      shell: "php app/console --env=prod app:import:sale:tariff app/csv/sale_tariff.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute sale tariff CSV import to local database
+      shell: "php app/console --env=prod app:import:sale:invoice app/csv/sale_invoice.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
