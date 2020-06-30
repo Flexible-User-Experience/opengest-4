@@ -61,7 +61,7 @@ abstract class AbstractBaseCommand extends Command
      */
 
     /**
-     * @param string                 $name
+     * @param string|null            $commandName
      * @param EntityManagerInterface $em
      * @param Filesystem             $fss
      * @param RepositoriesManager    $rm
@@ -69,9 +69,9 @@ abstract class AbstractBaseCommand extends Command
      * @param LocationsTransformer   $lts
      * @param DatesTransformer       $dts
      */
-    public function __construct(string $name, EntityManagerInterface $em, Filesystem $fss, RepositoriesManager $rm, NotificationService $ns, LocationsTransformer $lts, DatesTransformer $dts)
+    public function __construct(?string $commandName, EntityManagerInterface $em, Filesystem $fss, RepositoriesManager $rm, NotificationService $ns, LocationsTransformer $lts, DatesTransformer $dts)
     {
-        parent::__construct($name);
+        parent::__construct($commandName);
         $this->em = $em;
         $this->fss = $fss;
         $this->rm = $rm;
