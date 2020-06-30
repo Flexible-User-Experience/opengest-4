@@ -1,0 +1,11 @@
+---
+- hosts: s6
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/vars/config.yml"
+  tasks:
+    - name: execute export to CSV scripts
+      shell: "mysql --user={{ mysql_db_remote_root_user }} --password={{ mysql_db_remote_root_password }} -A {{ mysql_old_db_remote_name }} < {{ vhost_path }}/current/app/scripts/database-exports/full-opengest-v1-export-remote-queries.sql"
+    - name: move exported CSV files to import directory
+      become: true
+      shell: "sudo chown {{ remote_system_user }} /var/lib/mysql-files/*.csv && sudo chgrp {{ remote_system_group }} /var/lib/mysql-files/*.csv && chmod 644 /var/lib/mysql-files/*.csv && mv /var/lib/mysql-files/*.csv {{ vhost_path }}/current/app/csv/"
