@@ -1,15 +1,13 @@
-{% extends "SonataAdminBundle::standard_layout.html.twig" %}
+{% extends "@SonataAdmin/standard_layout.html.twig" %}
 
 {# removes top search bar #}
 {% block sonata_sidebar_search %}{% endblock %}
 
 {# custom logo #}
 {% block logo %}
-    {% spaceless %}
-        <a class="logo" href="{{ path('sonata_admin_dashboard') }}" style="background-color:#2c3b41;">
-            <span style="color:#FFF;text-shadow: 0 1px 5px rgba(0, 0, 0, 0.95);">{{ admin_brand_title }}</span>
-        </a>
-    {% endspaceless %}
+    <a class="logo" href="{{ path('sonata_admin_dashboard') }}" style="background-color:#2c3b41;">
+        <span style="color:#FFF;text-shadow: 0 1px 5px rgba(0, 0, 0, 0.95);">{{ admin_brand_title }}</span>
+    </a>
 {% endblock %}
 
 {# custom sidebar footer #}
@@ -87,14 +85,12 @@
 {# override css includes #}
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets filter="cssrewrite,less" "@mybackendcss" %}
-        <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
-    {% endstylesheets %}
+    {{ encore_entry_link_tags('backend') }}
 {% endblock %}
 
 {# override javascript includes #}
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/app/js/pdf.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/app/js/pdf.worker.js') }}"></script>
+    {{ encore_entry_script_tags('backend') }}
+    <script src="{{ asset('build/pdfjs/pdf.js') }}"></script>
 {% endblock %}

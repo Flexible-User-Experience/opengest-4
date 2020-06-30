@@ -89,7 +89,7 @@ class ServicesController extends AbstractController
             throw new EntityNotFoundException();
         }
 
-        return $this->render('frontend/services_detail.html.twig', [
+        return $this->render('frontend/service_detail.html.twig', [
             'service' => $service,
             'contactForm' => $form->createView(),
         ]);

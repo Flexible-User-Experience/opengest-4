@@ -3,7 +3,7 @@
 namespace App\Entity\Setting;
 
 use Doctrine\ORM\Mapping as ORM;
-use Sonata\UserBundle\Entity\BaseGroup as BaseGroup;
+use Sonata\UserBundle\Entity\BaseGroup;
 
 /**
  * Class Group.

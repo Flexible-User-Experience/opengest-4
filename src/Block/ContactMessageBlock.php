@@ -7,9 +7,9 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Sonata\BlockBundle\Templating\TwigEngine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Class ContactMessageBlock.
@@ -29,10 +29,10 @@ class ContactMessageBlock extends AbstractBlockService
 
     /**
      * @param string                 $name
-     * @param TwigEngine             $templating
+     * @param EngineInterface        $templating
      * @param EntityManagerInterface $em
      */
-    public function __construct($name, TwigEngine $templating, EntityManagerInterface $em)
+    public function __construct($name, EngineInterface $templating, EntityManagerInterface $em)
     {
         parent::__construct($name, $templating);
         $this->em = $em;
@@ -97,7 +97,7 @@ class ContactMessageBlock extends AbstractBlockService
         $resolver->setDefaults(array(
             'title' => 'Resum',
             'content' => 'Default content',
-            'template' => ':Admin/Block:contact_message.html.twig',
+            'template' => 'admin/block/contact_message.html.twig',
         ));
     }
 }

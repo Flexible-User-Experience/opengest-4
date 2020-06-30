@@ -8,14 +8,14 @@ use DateTimeInterface;
 use Exception;
 use Knp\Menu\MenuItem;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
-use Presta\SitemapBundle\Service\SitemapListenerInterface;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class SitemapListener.
  */
-class SitemapListener implements SitemapListenerInterface
+class SitemapListener implements EventSubscriberInterface
 {
     /**
      * @var RouterInterface
@@ -42,9 +42,19 @@ class SitemapListener implements SitemapListenerInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            SitemapPopulateEvent::ON_SITEMAP_POPULATE => 'populateSitemap',
+        ];
+    }
+
+    /**
      * @param SitemapPopulateEvent $event
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function populateSitemap(SitemapPopulateEvent $event)
     {

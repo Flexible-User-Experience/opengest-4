@@ -1,0 +1,219 @@
+services:
+    app.service_repository:
+        class: App\Repository\Web\ServiceRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Web\Service
+    app.vehicle_category_repository:
+        class: App\Repository\Vehicle\VehicleCategoryRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Vehicle\VehicleCategory
+    app.work_repository:
+        class: App\Repository\Web\WorkRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Web\Work
+    app.complement_repository:
+        class: App\Repository\Web\ComplementRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Web\Complement
+    app.user_repository:
+        class: App\Repository\Setting\UserRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Setting\User
+    app.operator_repository:
+        class: App\Repository\Operator\OperatorRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\Operator
+    app.enterprise_repository:
+        class: App\Repository\Enterprise\EnterpriseRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Enterprise\Enterprise
+    app.enterprise_group_bounty_repository:
+        class: App\Repository\Enterprise\EnterpriseGroupBountyRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Enterprise\EnterpriseGroupBounty
+    app.enterprise_transfer_account_repository:
+        class: App\Repository\Enterprise\EnterpriseTransferAccountRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Enterprise\EnterpriseTransferAccount
+    app.enterprise_holidays_repository:
+        class: App\Repository\Enterprise\EnterpriseHolidaysRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Enterprise\EnterpriseHolidays
+    app.operator_checking_repository:
+        class: App\Repository\Operator\OperatorCheckingRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorChecking
+    app.operator_checking_type_repository:
+        class: App\Repository\Operator\OperatorCheckingTypeRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorCheckingType
+    app.operator_absence_repository:
+        class: App\Repository\Operator\OperatorAbsenceRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorAbsence
+    app.operator_absence_type_repository:
+        class: App\Repository\Operator\OperatorAbsenceTypeRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorAbsenceType
+    app.operator_digital_tachograf_repository:
+        class: App\Repository\Operator\OperatorDigitalTachographRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorDigitalTachograph
+    app.operator_various_amount_repository:
+        class: App\Repository\Operator\OperatorVariousAmountRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorVariousAmount
+    app.vehicle_repository:
+        class: App\Repository\Vehicle\VehicleRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Vehicle\Vehicle
+    app.vehicle_checking_type_repository:
+        class: App\Repository\Vehicle\VehicleCheckingTypeRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Vehicle\VehicleCheckingType
+    app.vehicle_checking_repository:
+        class: App\Repository\Vehicle\VehicleCheckingRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Vehicle\VehicleChecking
+    app.partner_repository:
+        class: App\Repository\Partner\PartnerRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\Partner
+    app.partner_class_repository:
+        class: App\Repository\Partner\PartnerClassRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerClass
+    app.partner_type_repository:
+        class: App\Repository\Partner\PartnerTypeRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerType
+    app.partner_building_site_repository:
+        class: App\Repository\Partner\PartnerBuildingSiteRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerBuildingSite
+    app.partner_order_repository:
+        class: App\Repository\Partner\PartnerOrderRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerOrder
+    app.partner_contact_repository:
+        class: App\Repository\Partner\PartnerContactRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerContact
+    app.partner_unable_days_repository:
+        class: App\Repository\Partner\PartnerUnableDaysRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerUnableDays
+    app.city_repository:
+        class: App\Repository\Setting\CityRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Setting\City
+    app.province_repository:
+        class: App\Repository\Setting\ProvinceRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Setting\Province
+    app.sale_tariff_repository:
+        class: App\Repository\Sale\SaleTariffRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Sale\SaleTariff
+    app.collection_document_type_repository:
+        class: App\Repository\Enterprise\CollectionDocumentTypeRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Enterprise\CollectionDocumentType
+    app.activity_line_repository:
+        class: App\Repository\Enterprise\ActivityLineRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Enterprise\ActivityLine
+    app.sale_invoice_series_repository:
+        class: App\Repository\Setting\SaleInvoiceSeriesRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Setting\SaleInvoiceSeries
+    app.sale_invoice_repository:
+        class: App\Repository\Sale\SaleInvoiceRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Sale\SaleInvoice
+    app.sale_request_repository:
+        class: App\Repository\Sale\SaleRequestRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Sale\SaleRequest
+    app.sale_delivery_note_repository:
+        class: App\Repository\Sale\SaleDeliveryNoteRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Sale\SaleDeliveryNote
+    app.contact_message_repository:
+        class: App\Repository\Web\ContactMessageRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Web\ContactMessage
+    app.repositories_manager:
+        public: true
+        class: App\Manager\RepositoriesManager
+        arguments:
+            - '@app.service_repository'
+            - '@app.vehicle_category_repository'
+            - '@app.user_repository'
+            - '@app.operator_repository'
+            - '@app.enterprise_repository'
+            - '@app.enterprise_group_bounty_repository'
+            - '@app.enterprise_transfer_account_repository'
+            - '@app.enterprise_holidays_repository'
+            - '@app.operator_checking_repository'
+            - '@app.operator_checking_type_repository'
+            - '@app.operator_absence_type_repository'
+            - '@app.operator_absence_repository'
+            - '@app.operator_digital_tachograf_repository'
+            - '@app.operator_various_amount_repository'
+            - '@app.vehicle_repository'
+            - '@app.vehicle_checking_type_repository'
+            - '@app.vehicle_checking_repository'
+            - '@app.partner_repository'
+            - '@app.partner_class_repository'
+            - '@app.partner_type_repository'
+            - '@app.partner_contact_repository'
+            - '@app.partner_unable_days_repository'
+            - '@app.city_repository'
+            - '@app.province_repository'
+            - '@app.sale_tariff_repository'
+            - '@app.partner_building_site_repository'
+            - '@app.partner_order_repository'
+            - '@app.collection_document_type_repository'
+            - '@app.activity_line_repository'
+            - '@app.sale_invoice_series_repository'
+            - '@app.sale_request_repository'
+            - '@app.sale_delivery_note_repository'
+            - '@app.sale_invoice_repository'
+            - '@app.work_repository'

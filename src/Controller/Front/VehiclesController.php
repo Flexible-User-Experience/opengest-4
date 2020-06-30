@@ -9,6 +9,7 @@ use App\Enum\ConstantsEnum;
 use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleRepository;
 use Doctrine\ORM\EntityNotFoundException;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,6 +74,7 @@ class VehiclesController extends AbstractController
     /**
      * @Route("/vehiculos/categoria/{slug}/{page}", name="front_vehicles_category")
      *
+     * @param PaginatorInterface        $paginator
      * @param VehicleCategoryRepository $vcr
      * @param VehicleRepository         $vr
      * @param string                    $slug
@@ -82,7 +84,7 @@ class VehiclesController extends AbstractController
      *
      * @throws EntityNotFoundException
      */
-    public function vehiclesCategoryAction(VehicleCategoryRepository $vcr, VehicleRepository $vr, $slug, $page = 1)
+    public function vehiclesCategoryAction(PaginatorInterface $paginator, VehicleCategoryRepository $vcr, VehicleRepository $vr, $slug, $page = 1)
     {
         /** @var VehicleCategory|null $category */
         $category = $vcr->findOneBy(['slug' => $slug]);
@@ -90,7 +92,6 @@ class VehiclesController extends AbstractController
             throw new EntityNotFoundException();
         }
         $vehicles = $vr->findEnabledSortedByPositionAndNameForWeb($category);
-        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($vehicles, $page, ConstantsEnum::FRONTEND_ITEMS_PER_PAGE_LIMIT);
 
         return $this->render('frontend/vehicles.html.twig', [

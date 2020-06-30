@@ -1,12 +1,12 @@
 fos_user:
     db_driver:     orm
     firewall_name: admin
-    user_class:    App\Entity\User
+    user_class:    App\Entity\Setting\User
     from_email:
         address:     'test@test.com'
         sender_name: 'Change this config'
     group:
-        group_class:   App\Entity\Group
+        group_class:   App\Entity\Setting\Group
         group_manager: sonata.user.orm.group_manager
     service:
         user_manager: sonata.user.orm.user_manager

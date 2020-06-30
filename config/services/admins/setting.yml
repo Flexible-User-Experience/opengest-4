@@ -1,0 +1,22 @@
+# Setting group
+services:
+    app.admin.province:
+        class: App\Admin\Setting\ProvinceAdmin
+        arguments: [ ~, App\Entity\Setting\Province, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Província", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+    app.admin.city:
+        class: App\Admin\Setting\CityAdmin
+        arguments: [ ~, App\Entity\Setting\City, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Ciutat", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+    app.admin.user:
+        class: App\Admin\Setting\UserAdmin
+        arguments: [ ~, App\Entity\Setting\User, App\Controller\Admin\Setting\UserAdminController ]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Usuari", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+    app.admin.sale_invoice_series:
+        class: App\Admin\Setting\SaleInvoiceSeriesAdmin
+        arguments: [ ~, App\Entity\Setting\SaleInvoiceSeries, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Sèries factura", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }

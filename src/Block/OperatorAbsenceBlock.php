@@ -7,10 +7,10 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Sonata\BlockBundle\Templating\TwigEngine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Class OperatorAbsenceBlock.
@@ -35,11 +35,11 @@ class OperatorAbsenceBlock extends AbstractBlockService
 
     /**
      * @param null|string               $name
-     * @param TwigEngine                $templating
+     * @param EngineInterface           $templating
      * @param OperatorAbsenceRepository $oar
      * @param TokenStorageInterface     $tss
      */
-    public function __construct($name, TwigEngine $templating, OperatorAbsenceRepository $oar, TokenStorageInterface $tss)
+    public function __construct($name, EngineInterface $templating, OperatorAbsenceRepository $oar, TokenStorageInterface $tss)
     {
         parent::__construct($name, $templating);
         $this->oar = $oar;
@@ -106,7 +106,7 @@ class OperatorAbsenceBlock extends AbstractBlockService
         $resolver->setDefaults(array(
             'title' => 'Resum',
             'content' => 'Default content',
-            'template' => ':Admin/Block:operator_absence.html.twig',
+            'template' => 'admin/block/operator_absence.html.twig',
         ));
     }
 }

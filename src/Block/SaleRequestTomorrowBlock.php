@@ -3,12 +3,13 @@
 namespace App\Block;
 
 use App\Repository\Sale\SaleRequestRepository;
+use Exception;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Sonata\BlockBundle\Templating\TwigEngine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Class SaleRequestTomorrowBlock.
@@ -33,11 +34,11 @@ class SaleRequestTomorrowBlock extends AbstractBlockService
 
     /**
      * @param null|string           $name
-     * @param TwigEngine            $templating
+     * @param EngineInterface       $templating
      * @param SaleRequestRepository $srr
      * @param TokenStorageInterface $tss
      */
-    public function __construct($name, TwigEngine $templating, SaleRequestRepository $srr, TokenStorageInterface $tss)
+    public function __construct($name, EngineInterface $templating, SaleRequestRepository $srr, TokenStorageInterface $tss)
     {
         parent::__construct($name, $templating);
         $this->srr = $srr;
@@ -50,7 +51,7 @@ class SaleRequestTomorrowBlock extends AbstractBlockService
      *
      * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
@@ -88,7 +89,7 @@ class SaleRequestTomorrowBlock extends AbstractBlockService
         $resolver->setDefaults([
             'title' => 'admin.dashboard.tomorrow',
             'content' => 'Default content',
-            'template' => ':Admin/Block:sale_requests.html.twig',
+            'template' => 'admin/block/sale_requests.html.twig',
         ]);
     }
 }

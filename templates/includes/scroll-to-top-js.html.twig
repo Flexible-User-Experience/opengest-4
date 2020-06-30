@@ -8,10 +8,10 @@
     });
     jQuery('.scroll-top-wrapper').on('click', scrollToTop);
     function scrollToTop() {
-        var verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
-        var element = jQuery('body');
-        var offset = element.offset();
-        var offsetTop = offset.top;
+        let verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
+        let element = jQuery('body');
+        let offset = element.offset();
+        let offsetTop = offset.top;
         jQuery('html, body').animate({scrollTop: offsetTop}, 1000, 'swing');
     }
 </script>

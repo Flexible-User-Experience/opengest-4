@@ -179,7 +179,7 @@ class Enterprise extends AbstractBase
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true, name="tc1receipt")
      */
     private $tc1Receipt;
 
@@ -197,7 +197,7 @@ class Enterprise extends AbstractBase
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true, name="tc2receipt")
      */
     private $tc2Receipt;
 
