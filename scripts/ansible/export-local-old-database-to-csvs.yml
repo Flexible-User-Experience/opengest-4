@@ -6,7 +6,8 @@
   tasks:
     - name: execute export to CSV scripts
       delegate_to: mother
-      shell: "mysql --user={{ mysql_db_local_root_user }} --password={{ mysql_db_local_root_password }} -A {{ mysql_old_db_local_name }} < ../scripts/database-exports/full-opengest-v1-export-local-queries.sql"
+#      shell: "mysql --user={{ mysql_db_local_root_user }} --password={{ mysql_db_local_root_password }} -A {{ mysql_old_db_local_name }} < ../database-exports/full-opengest-v1-export-local-queries.sql"
+      shell: "mysql --user={{ mysql_db_local_root_user }} --password={{ mysql_db_local_root_password }} -A {{ mysql_old_db_local_name }} < ../database-exports/full-opengest-v1-export-remote-queries.sql"
     - name: move exported CSV files to import directory
       delegate_to: mother
       become: true
