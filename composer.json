@@ -11,6 +11,7 @@
         "beberlei/doctrineextensions": "^1.0",
         "beelab/recaptcha2-bundle": "^2.3",
         "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/doctrine-migrations-bundle": "^2.0",
         "doctrine/orm": "^2.7",
         "egulias/email-validator": "^2.1",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
@@ -59,7 +60,7 @@
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.0",
-        "sensiolabs/security-checker": "^5.0",
+        "sensiolabs/security-checker": "^6.0",
         "symfony/browser-kit": "4.4.*",
         "symfony/css-selector": "4.4.*",
         "symfony/debug-pack": "*",

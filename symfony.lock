@@ -17,12 +17,6 @@
     "behat/transliterator": {
         "version": "v1.3.0"
     },
-    "cocur/slugify": {
-        "version": "v4.0.0"
-    },
-    "composer/ca-bundle": {
-        "version": "1.2.6"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -102,17 +96,8 @@
     "doctrine/reflection": {
         "version": "v1.1.0"
     },
-    "easycorp/easy-log-handler": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
-        },
-        "files": [
-            "config/packages/dev/easy_log_handler.yaml"
-        ]
+    "doctrine/sql-formatter": {
+        "version": "1.1.0"
     },
     "egulias/email-validator": {
         "version": "2.1.17"
@@ -162,6 +147,15 @@
             "config/packages/google_recaptcha.yaml"
         ]
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.0.1"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.6.1"
+    },
     "hampe/inky": {
         "version": "1.3.6.2"
     },
@@ -185,11 +179,11 @@
     "imagine/imagine": {
         "version": "1.2.3"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
-    },
     "jms/metadata": {
         "version": "2.1.0"
+    },
+    "jms/serializer": {
+        "version": "3.8.0"
     },
     "knplabs/knp-components": {
         "version": "v1.3.10"
@@ -240,6 +234,9 @@
             "config/routes/liip_imagine.yaml"
         ]
     },
+    "maennchen/zipstream-php": {
+        "version": "2.1.0"
+    },
     "markbaker/complex": {
         "version": "1.4.7"
     },
@@ -254,6 +251,9 @@
     },
     "myclabs/deep-copy": {
         "version": "1.9.5"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.6"
     },
     "nelmio/alice": {
         "version": "3.2",
@@ -310,6 +310,12 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "1.0.0"
     },
@@ -318,6 +324,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sebastian/comparator": {
         "version": "3.0.2"
@@ -387,18 +396,6 @@
     "sonata-project/cache": {
         "version": "2.0.1"
     },
-    "sonata-project/core-bundle": {
-        "version": "3.9",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.9",
-            "ref": "2f69bd1995730b73a5211a9707622fb25a925df7"
-        },
-        "files": [
-            "config/packages/sonata_core.yaml"
-        ]
-    },
     "sonata-project/datagrid-bundle": {
         "version": "2.5.0"
     },
@@ -413,6 +410,12 @@
     },
     "sonata-project/exporter": {
         "version": "2.1.0"
+    },
+    "sonata-project/form-extensions": {
+        "version": "1.5.0"
+    },
+    "sonata-project/twig-extensions": {
+        "version": "1.3.1"
     },
     "sonata-project/user-bundle": {
         "version": "4.5.2"
@@ -648,6 +651,9 @@
     "symfony/polyfill-php73": {
         "version": "v1.14.0"
     },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.1"
+    },
     "symfony/process": {
         "version": "v4.4.4"
     },
@@ -867,6 +873,9 @@
         ]
     },
     "twig/extra-bundle": {
+        "version": "v3.0.3"
+    },
+    "twig/string-extra": {
         "version": "v3.0.3"
     },
     "twig/twig": {
