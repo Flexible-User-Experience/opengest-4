@@ -1,0 +1,227 @@
+---
+- hosts: s6
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/vars/config.yml"
+  tasks:
+    - name: creates image services directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/service"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates image works directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/work"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates image work images directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/work_image"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates image vehicles directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/vehicle"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates image complements directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/complement"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates image enterprises directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/enterprise"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates image operators directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/operator"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates image users directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/images/user"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates document vehicles directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/documents/vehicle"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates digital tachograph operators directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/digital_tachograph/operator"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: creates digital tachograph vehicles directory
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}/digital_tachograph/vehicle"
+        state: directory
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
+        mode: 0775
+        recurse: yes
+    - name: copy enterprise logos
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/logos/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 1
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/recibos_tc1/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 2
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/recibos_tc2/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 3
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/alta_seguridad_social/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 4
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/certificados_pago_ss/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 5
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/seguros_rc1/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 6
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/seguros_rc2/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 6
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/recibos_rc/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 7
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/contratos_sp/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 8
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/facturas_sp/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 9
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/recibos_sp/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 10
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/seguro_at/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 11
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/recibos_at/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 12
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/evaluacion_riesgos/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 13
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/plan_seguridad/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 14
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/alta_iae/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 15
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/recibo_iae/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 16
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/escrituras/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 17
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/cartas_cif/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 18
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/certificado_rea/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 19
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/certificado_aceite/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 20
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/certificado_pago_generalitat/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 21
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/escritura_poderes/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy enterprise docs 22
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/documento_asociacion_mutua/* {{ local_new_uploads_folder }}/images/enterprise/"
+    - name: copy operator bulk resources
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/operarios/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator profile photos
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/fotografia/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator dni images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/imagen_dni/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator social security images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/alta_seguridad_social/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator medical check images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/imagen_revision_medica/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator epis images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/imagen_epis/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator learning document images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/doc_formacion/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator crane license images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/imagen_carnet_grua/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator drive machinery authorization images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/autorizacion_uso_maquinaria/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator work contract images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/contrato_trabajo/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator driving license images
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/imagen_carnet_conducir/* {{ local_new_uploads_folder }}/images/operator/"
+    - name: copy operator digital tachographs
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/tacografos/C_* {{ local_new_uploads_folder }}/digital_tachograph/operator/"
+    - name: copy vehicle digital tachographs 1
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/tacografos/S_* {{ local_new_uploads_folder }}/digital_tachograph/vehicle/"
+    - name: copy vehicle digital tachographs 2
+      delegate_to: mother
+      shell: "cp {{ local_old_uploads_folder }}/tacografos/V_* {{ local_new_uploads_folder }}/digital_tachograph/vehicle/"
+    - name: fix ownership to copied files
+      delegate_to: mother
+      file:
+        path: "{{ local_new_uploads_folder }}"
+        recurse: yes
+        follow: yes
+        owner: "{{ local_system_user }}"
+        group: "{{ local_system_group }}"
