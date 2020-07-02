@@ -8,6 +8,7 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Empresas E;
 
+
 SELECT TDC.*
 INTO OUTFILE '/tmp/enterprise_collection_document_types.csv'
 FIELDS TERMINATED BY ','
