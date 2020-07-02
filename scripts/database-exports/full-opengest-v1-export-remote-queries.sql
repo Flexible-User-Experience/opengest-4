@@ -99,7 +99,6 @@ FROM opengest.Ausencias_operario AO
 JOIN opengest.Tipos_ausencias TA ON TA.id = AO.tipo_ausencia_id
 JOIN opengest.Operarios O ON O.id = AO.operario_id;
 
-
 SELECT TacO.*, O.dni
 INTO OUTFILE '/var/lib/mysql-files/operator_digital_tachographs.csv'
 FIELDS TERMINATED BY ','
