@@ -7,8 +7,35 @@
     - name: remove previously stored csv files
       become: true
       file:
-        path: /var/lib/mysql-files/vehicle_checkings.csv
+        path: "{{ item }}"
         state: absent
+      with_items:
+        - /var/lib/mysql-files/enterprises.csv
+        - /var/lib/mysql-files/enterprise_collection_document_types.csv
+        - /var/lib/mysql-files/enterprise_group_bountys.csv
+        - /var/lib/mysql-files/enterprise_holidays.csv
+        - /var/lib/mysql-files/enterprise_transfer_accounts.csv
+        - /var/lib/mysql-files/enterprise_activity_lines.csv
+        - /var/lib/mysql-files/operators.csv
+        - /var/lib/mysql-files/operator_checking_types.csv
+        - /var/lib/mysql-files/operator_checkings.csv
+        - /var/lib/mysql-files/operator_absence_types.csv
+        - /var/lib/mysql-files/operator_absences.csv
+        - /var/lib/mysql-files/operator_digital_tachographs.csv
+        - /var/lib/mysql-files/operator_various_amounts.csv
+        - /var/lib/mysql-files/partner_classes.csv
+        - /var/lib/mysql-files/partner_types.csv
+        - /var/lib/mysql-files/partners.csv
+        - /var/lib/mysql-files/partner_contacts.csv
+        - /var/lib/mysql-files/partner_unabled_days.csv
+        - /var/lib/mysql-files/partner_building_sites.csv
+        - /var/lib/mysql-files/partner_orders.csv
+        - /var/lib/mysql-files/sale_tariff.csv
+        - /var/lib/mysql-files/sale_invoice.csv
+        - /var/lib/mysql-files/sale_delivery_note.csv
+        - /var/lib/mysql-files/setting_sale_invoice_series.csv
+        - /var/lib/mysql-files/vehicle_checking_types.csv
+        - /var/lib/mysql-files/vehicle_checkings.csv
     - name: execute export to CSV scripts
       shell: "mysql --user={{ mysql_db_remote_root_user }} --password={{ mysql_db_remote_root_password }} -A {{ mysql_old_db_remote_name }} < {{ vhost_path }}/current/app/scripts/database-exports/full-opengest-v1-export-remote-queries.sql"
     - name: move exported CSV files to import directory
