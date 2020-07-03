@@ -10,6 +10,7 @@
 !/public/pdfs/.gitkeep
 /public/uploads/*
 !/public/uploads/.gitkeep
+/var/*.db
 /var/cache/*
 !/var/cache/.gitkeep
 /var/csv/*
