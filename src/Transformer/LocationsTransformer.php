@@ -14,11 +14,11 @@ use App\Enum\ConstantsEnum;
 class LocationsTransformer
 {
     /**
-     * @param string $country
+     * @param string|null $country
      *
      * @return string
      */
-    public function countryToCode(string $country)
+    public function countryToCode(?string $country)
     {
         if ('ALEMANIA' == $country || 'GERMANY' == $country) {
             $result = 'DE';
@@ -48,11 +48,11 @@ class LocationsTransformer
     }
 
     /**
-     * @param string $code
+     * @param string|null $code
      *
      * @return string
      */
-    public function codeToCountry(string $code)
+    public function codeToCountry(?string $code)
     {
         $code = strtoupper($code);
         if ('DE' == $code) {
@@ -83,21 +83,21 @@ class LocationsTransformer
     }
 
     /**
-     * @param string $countryName
+     * @param string|null $countryName
      *
      * @return string
      */
-    public function countryNameCleaner(string $countryName)
+    public function countryNameCleaner(?string $countryName)
     {
         return $this->commonNameCleaner($countryName);
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      *
      * @return string
      */
-    public function provinceNameCleaner(string $name)
+    public function provinceNameCleaner(?string $name)
     {
         if (strlen($name) > 0) {
             // remove first blank character from string
@@ -125,51 +125,51 @@ class LocationsTransformer
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      *
      * @return string
      */
-    public function cityNameCleaner(string $name)
+    public function cityNameCleaner(?string $name)
     {
         return $this->commonNameCleaner($name);
     }
 
     /**
-     * @param string $postalCode
+     * @param string|null $postalCode
      *
      * @return string
      */
-    public function postalCodeCleaner(string $postalCode)
+    public function postalCodeCleaner(?string $postalCode)
     {
         return $this->commonNameCleaner($postalCode);
     }
 
     /**
-     * @param string $taxIdentificationNumber
+     * @param string|null $taxIdentificationNumber
      *
      * @return string
      */
-    public function taxIdentificationNumberCleaner(string $taxIdentificationNumber)
+    public function taxIdentificationNumberCleaner(?string $taxIdentificationNumber)
     {
         return $this->commonNameCleaner($taxIdentificationNumber);
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      *
      * @return string
      */
-    public function nameCleaner(string $name)
+    public function nameCleaner(?string $name)
     {
         return $this->commonNameCleaner($name);
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      *
      * @return string
      */
-    private function commonNameCleaner(string $name)
+    private function commonNameCleaner(?string $name)
     {
         if (strlen($name) > 0) {
             // remove first blank character from string
