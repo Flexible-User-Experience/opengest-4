@@ -1,0 +1,53 @@
+language: php
+
+cache:
+  yarn: true
+  directories:
+    - $HOME/.composer/cache/files
+    - $HOME/symfony-bridge/.phpunit
+
+env:
+  global:
+    - PHPUNIT_FLAGS="-v"
+    - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.4
+
+services:
+  - mysql
+
+before_install:
+  - cp env.travis .env
+  - cp env.travis .env.test
+
+install:
+  - composer install
+  - ./bin/phpunit install
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
+
+script:
+  # setting up
+  - ./bin/console cache:clear --env=test
+  - ./bin/console doctrine:databa:create --no-interaction --env=test
+  - ./bin/console doctrine:schema:update --force --env=test
+  - ./bin/console hautelook:fixtures:load --no-interaction --env=test
+  # checking & validating
+  - ./bin/console lint:yaml config --env=test
+  - ./bin/console lint:twig templates --env=test
+  - ./bin/console lint:xliff translations --env=test
+  - ./bin/console security:check --env=test
+  # testing
+  - yarn install
+  - yarn encore prod
+  - ./bin/phpunit --no-coverage
+
+branches:
+  only:
+    - master
+    - devel
