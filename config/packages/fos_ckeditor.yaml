@@ -1,7 +1,7 @@
 fos_ck_editor:
-    autoload:  false
-    async:     true
-    inline:    false
+    autoload:   false
+    async:      true
+    inline:     false
     base_path: 'build/ckeditor'
     js_path:   'build/ckeditor/ckeditor.js'
     configs:

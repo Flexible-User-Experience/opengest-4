@@ -9,7 +9,8 @@
 import '../css/backend.less';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
+import '../../node_modules/bootstrap-less/js/bootstrap.min';
+import $ from 'jquery';
 import 'ckeditor4/ckeditor.js';
 
 const routes = require('../../public/js/fos_js_routes.json');
@@ -22,4 +23,5 @@ console.log('Hello Webpack Encore! Edit me in assets/js/backend.js');
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
     console.log('assets/js/backend.js on Ready trigger');
+    CKEDITOR.replaceAll();
 });
