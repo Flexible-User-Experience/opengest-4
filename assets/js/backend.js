@@ -12,7 +12,7 @@ import '../css/backend.less';
 // import $ from 'jquery';
 import 'ckeditor4/ckeditor.js';
 
-const routes = require('../../public/js/fos_js_routes.js');
+const routes = require('../../public/js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 
 window.Dropzone = require('dropzone/dist/min/dropzone.min');
