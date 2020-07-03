@@ -4,9 +4,19 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/public/uploads/
+/public/media/*
+!/public/media/.gitkeep
+/public/pdfs/*
+!/public/pdfs/.gitkeep
+/public/uploads/*
 !/public/uploads/.gitkeep
-/var/
+/var/cache/*
+!/var/cache/.gitkeep
+/var/csv/*
+!/var/csv/.gitkeep
+/var/log/*
+!/var/log/.gitkeep
+
 /vendor/
 ###< symfony/framework-bundle ###
 
