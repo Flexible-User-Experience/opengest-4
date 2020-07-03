@@ -5,7 +5,7 @@ twig:
     exception_controller: null
     form_themes:
         - 'bootstrap_3_layout.html.twig'
-        - '@SonataCore/Form/datepicker.html.twig'
+        - '@SonataForm/Form/datepicker.html.twig'
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
     globals:
         google_analytics_enabled: '%google_analytics_enabled%'
