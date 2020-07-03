@@ -17,6 +17,9 @@
     "behat/transliterator": {
         "version": "v1.3.0"
     },
+    "cocur/slugify": {
+        "version": "v4.0.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -395,6 +398,18 @@
     },
     "sonata-project/cache": {
         "version": "2.0.1"
+    },
+    "sonata-project/core-bundle": {
+        "version": "3.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.9",
+            "ref": "2f69bd1995730b73a5211a9707622fb25a925df7"
+        },
+        "files": [
+            "config/packages/sonata_core.yaml"
+        ]
     },
     "sonata-project/datagrid-bundle": {
         "version": "2.5.0"

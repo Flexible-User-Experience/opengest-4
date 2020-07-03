@@ -27,7 +27,7 @@
         "presta/sitemap-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.1",
         "snc/redis-bundle": "^3.2",
-        "sonata-project/admin-bundle": "^3.52",
+        "sonata-project/admin-bundle": "3.68.0",
         "sonata-project/doctrine-orm-admin-bundle": "^3.10",
         "sonata-project/user-bundle": "^4.0",
         "stof/doctrine-extensions-bundle": "^1.3",
