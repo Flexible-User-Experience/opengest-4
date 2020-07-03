@@ -14,7 +14,7 @@
     - name: copy remote database dump file to local
       fetch:
         src: "/tmp/remote-{{ mysql_db_remote_name }}.sql.bz2"
-        dest: "/tmp"
+        dest: "/tmp/remote-{{ mysql_db_remote_name }}.sql.bz2"
         flat: yes
         validate_checksum: false
     - name: load dumb file to local database

@@ -58,7 +58,7 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
         while (false != ($row = $this->readRow($fr))) {
             $name = $this->lts->nameCleaner($this->readColumn(1, $row));
             $prefix = $this->lts->nameCleaner($this->readColumn(2, $row));
-            $isDefault = '1' == $this->readColumn(3, $row) ? true : false;
+            $isDefault = '1' == $this->readColumn(3, $row);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$name.' · '.$prefix.' · '.$this->readColumn(3, $row));
             if ($name) {
                 /** @var SaleInvoiceSeries $saleInvoiceSeries */

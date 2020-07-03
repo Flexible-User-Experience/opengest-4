@@ -2,7 +2,7 @@
 
 namespace App\Repository\Setting;
 
-use App\Entity\Sale\SaleInvoice;
+use App\Entity\Setting\SaleInvoiceSeries;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\Query;
@@ -22,7 +22,7 @@ class SaleInvoiceSeriesRepository extends ServiceEntityRepository
      */
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, SaleInvoice::class);
+        parent::__construct($registry, SaleInvoiceSeries::class);
     }
 
     /**
