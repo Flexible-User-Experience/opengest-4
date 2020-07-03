@@ -283,7 +283,7 @@ App\Entity\Vehicle\VehicleChecking:
 App\Entity\Setting\User:
     admin:
         username: 'admin'
-        plainPassword: 'admin'
+        plainPassword: 'passwd'
         email: <safeEmail()>
         firstname: <name()>
         lastname: <lastname()>

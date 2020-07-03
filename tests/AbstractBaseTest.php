@@ -25,6 +25,9 @@ abstract class AbstractBaseTest extends WebTestCase
      */
     protected function getAuthenticatedUserClient()
     {
-        return WebTestCase::createClient();
+        return WebTestCase::createClient([], [
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'passwd',
+        ]);
     }
 }
