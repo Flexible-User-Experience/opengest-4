@@ -7,10 +7,11 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Exception;
 use Knp\Menu\MenuItem;
-use Presta\SitemapBundle\Event\SitemapPopulateEvent;
-use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Presta\SitemapBundle\Event\SitemapPopulateEvent;
+use Presta\SitemapBundle\Service\UrlContainerInterface;
+use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 
 /**
  * Class SitemapListener.

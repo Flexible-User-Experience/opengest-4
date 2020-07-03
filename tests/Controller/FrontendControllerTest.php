@@ -59,6 +59,7 @@ class FrontendControllerTest extends AbstractBaseTest
             array('/sobre-este-sitio'),
             array('/privacidad'),
             array('/mapa-del-web'),
+            array('/sitemap/sitemap.xml'),
             array('/sitemap/sitemap.default.xml'),
         );
     }
