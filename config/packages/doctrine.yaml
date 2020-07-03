@@ -2,17 +2,13 @@ doctrine:
     dbal:
         driver: 'pdo_mysql'
         url: '%env(resolve:DATABASE_URL)%'
-        server_version: '%database_server_version%'
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+        charset: 'utf8'
         types:
             json: Sonata\Doctrine\Types\JsonType
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        naming_strategy:             doctrine.orm.naming_strategy.underscore
+        auto_mapping:                true
         mappings:
             App:
                 is_bundle: false
@@ -20,11 +16,9 @@ doctrine:
                 alias:     App
                 dir:       '%kernel.project_dir%/src/Entity'
                 prefix:    'App\Entity'
-            FOSUserBundle:    ~
-            SonataUserBundle: ~
         dql:
             string_functions:
-                concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
+                concat_ws:   DoctrineExtensions\Query\Mysql\ConcatWs
             datetime_functions:
                 day:         DoctrineExtensions\Query\Mysql\Day
                 month:       DoctrineExtensions\Query\Mysql\Month

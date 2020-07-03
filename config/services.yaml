@@ -10,7 +10,6 @@ imports:
 
 parameters:
     default_locale:            '%env(string:DEFAULT_LOCALE)%'
-    database_server_version:   '%env(resolve:DATABASE_SERVER_VERSION)%'
     project_web_title:         '%env(string:PROJECT_WEB_TITLE)%'
     project_admin_title:       '%env(string:PROJECT_ADMIN_TITLE)%'
     project_url_base:          '%env(string:PROJECT_BASE_URL)%'
