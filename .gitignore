@@ -16,7 +16,6 @@
 !/var/csv/.gitkeep
 /var/log/*
 !/var/log/.gitkeep
-
 /vendor/
 ###< symfony/framework-bundle ###
 
