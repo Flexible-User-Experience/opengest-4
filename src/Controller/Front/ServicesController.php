@@ -27,15 +27,13 @@ class ServicesController extends AbstractController
      *
      * @param ServiceRepository $sr
      *
-     * @return RedirectResponse
-     *
-     * @throws EntityNotFoundException
+     * @return RedirectResponse|Response
      */
     public function servicesAction(ServiceRepository $sr)
     {
         $services = $sr->findEnabledSortedByPositionAndName();
         if (0 == count($services)) {
-            throw new EntityNotFoundException();
+            return $this->render('frontend/services_empty.html.twig');
         }
         /** @var Service $service */
         $service = $services[0];

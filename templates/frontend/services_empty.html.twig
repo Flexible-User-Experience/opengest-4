@@ -1,0 +1,20 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Servicios · {{ parent() }}{% endblock %}
+
+{% block main %}
+    <div class="container container-main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title no-m">Nuestros servicios</h1>
+                <h2 class="main-subtitle no-m">Consulte todos los servicios que ofrecemos.</h2>
+            </div>
+        </div>
+        <hr class="hr-divider">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> Todavía no existe ningún servicio.</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
