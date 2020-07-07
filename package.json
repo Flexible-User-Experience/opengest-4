@@ -1,10 +1,9 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.28.2",
+        "@symfony/webpack-encore": "^0.30.0",
         "bootstrap-less": "^3.3.8",
         "core-js": "^3.0.0",
         "font-awesome": "^4.7.0",
-        "jquery": "^3.4.0",
         "less": "^3.11.1",
         "less-loader": "^4.1.0",
         "regenerator-runtime": "^0.13.2",
@@ -19,13 +18,18 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@fullcalendar/bootstrap": "^4.3.0",
         "@fullcalendar/core": "^4.3.1",
         "@fullcalendar/daygrid": "^4.3.0",
+        "@fullcalendar/google-calendar": "^4.3.0",
         "@fullcalendar/interaction": "^4.3.0",
+        "@fullcalendar/list": "^4.3.0",
         "@fullcalendar/timegrid": "^4.3.0",
         "ckeditor4": "^4.11.0",
         "dropzone": "^5.5.1",
         "google-charts": "^2.0.0",
+        "jquery": "^3.5.1",
+        "moment": "^2.25.3",
         "pdfjs-dist": "^2.2.228"
     }
 }
