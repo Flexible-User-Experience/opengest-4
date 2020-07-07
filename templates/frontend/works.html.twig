@@ -36,10 +36,15 @@
                 </div>
                 <hr class="hr-divider">
             {% endfor %}
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
         {% endif %}
         <div class="row">
             <div class="col-xs-12">
-                {{ knp_pagination_render(pagination) }}
+                <div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> Todavía no existe ningún trabajo.</div>
             </div>
         </div>
     </div>

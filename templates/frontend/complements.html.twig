@@ -11,30 +11,38 @@
             </div>
         </div>
         <hr class="hr-divider">
-        {% for complement in complements %}
-            <div class="row">
-                <div class="col-xs-9">
-                    <div class="caption left-line-yellow">
-                        <h3 class="title no-m-top">
-                            <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">{{ complement.name }}</a>
-                        </h3>
-                        <p>{{ complement.shortDescription }}</p>
-                        <p>
+        {% if complements | length > 0 %}
+            {% for complement in complements %}
+                <div class="row">
+                    <div class="col-xs-9">
+                        <div class="caption left-line-yellow">
+                            <h3 class="title no-m-top">
+                                <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">{{ complement.name }}</a>
+                            </h3>
+                            <p>{{ complement.shortDescription }}</p>
+                            <p>
+                                <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Más información
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        {% if complement.mainImage is not null %}
                             <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">
-                                <i class="fa fa-plus-square" aria-hidden="true"></i> Más información
+                                <img src="{{ vich_uploader_asset(complement, 'mainImageFile') | imagine_filter('480xY') }}" alt="{{ complement.name }}" class="img-responsive">
                             </a>
-                        </p>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="col-xs-3">
-                    {% if complement.mainImage is not null %}
-                        <a href="{{ path('front_complement_detail', { slug: complement.slug }) }}">
-                            <img src="{{ vich_uploader_asset(complement, 'mainImageFile') | imagine_filter('480xY') }}" alt="{{ complement.name }}" class="img-responsive">
-                        </a>
-                    {% endif %}
+                <hr class="hr-divider">
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="alert alert-warning" role="alert"><i class="fa fa-warning"></i> Todavía no existe ningún accesorio.</div>
                 </div>
             </div>
-            <hr class="hr-divider">
-        {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
