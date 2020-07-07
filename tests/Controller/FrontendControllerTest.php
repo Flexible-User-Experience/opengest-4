@@ -12,19 +12,6 @@ use App\Tests\AbstractBaseTest;
 class FrontendControllerTest extends AbstractBaseTest
 {
     /**
-     * Urls provider.
-     *
-     * @return array
-     */
-    public function provideRedirectedUrls()
-    {
-        return array(
-            array('/servicios'),
-            array('/vehiculos'),
-        );
-    }
-
-    /**
      * Test HTTP request is successful.
      *
      * @dataProvider provideSuccessfulUrls
@@ -46,22 +33,22 @@ class FrontendControllerTest extends AbstractBaseTest
      */
     public function provideSuccessfulUrls()
     {
-        return array(
-            array('/'),
-            array('/servicio/my-title'),
-            array('/empresa'),
-            array('/vehiculo/my-vehicle-category/my-title'),
-            array('/vehiculos/categoria/grues2'),
-            array('/trabajos'),
-            array('/trabajo/my-title'),
-            array('/accesorios'),
-            array('/accesorio/my-title'),
-            array('/sobre-este-sitio'),
-            array('/privacidad'),
-            array('/mapa-del-web'),
-            array('/sitemap/sitemap.xml'),
-            array('/sitemap/sitemap.default.xml'),
-        );
+        return [
+            ['/']
+            ['/servicio/my-title']
+            ['/empresa']
+            ['/vehiculo/my-vehicle-category/my-title']
+            ['/vehiculos/categoria/grues2']
+            ['/trabajos']
+            ['/trabajo/my-title']
+            ['/accesorios']
+            ['/accesorio/my-title']
+            ['/sobre-este-sitio']
+            ['/privacidad']
+            ['/mapa-del-web']
+            ['/sitemap/sitemap.xml']
+            ['/sitemap/sitemap.default.xml']
+        ];
     }
 
     /**
@@ -86,11 +73,11 @@ class FrontendControllerTest extends AbstractBaseTest
      */
     public function provideNotFoundUrls()
     {
-        return array(
-            array('/ca/pagina-trenacada'),
-            array('/es/pagina-rota'),
-            array('/en/broken-page'),
-        );
+        return [
+            ['/ca/pagina-trenacada']
+            ['/es/pagina-rota']
+            ['/en/broken-page']
+        ];
     }
 
     /**
@@ -106,5 +93,18 @@ class FrontendControllerTest extends AbstractBaseTest
         $client->request('GET', $url);
 
         $this->assertResponseStatusCodeSame(302);
+    }
+
+    /**
+     * Urls provider.
+     *
+     * @return array
+     */
+    public function provideRedirectedUrls()
+    {
+        return [
+            ['/servicios']
+            ['/vehiculos']
+        ];
     }
 }
