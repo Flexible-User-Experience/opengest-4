@@ -1,4 +1,4 @@
-{% extends "SonataAdminBundle:CRUD:base_show.html.twig" %}
+{% extends '@SonataAdmin/CRUD/base_show.html.twig' %}
 
 {% block title %}
     {% if admin.id(object) is not null %}
@@ -9,7 +9,7 @@
 {% endblock%}
 
 {% block actions %}
-    <li>{% include "SonataAdminBundle:Button:list_button.html.twig" %}</li>
-    <li>{% include "SonataAdminBundle:Button:create_button.html.twig" %}</li>
-    <li>{% include "admin/Buttons/answer_button.html.twig" %}</li>
+    <li>{% include '@SonataAdmin/Button/list_button.html.twig' %}</li>
+    <li>{% include '@SonataAdmin/Button/create_button.html.twig' %}</li>
+    <li>{% include 'admin/buttons/answer_button.html.twig' %}</li>
 {% endblock %}

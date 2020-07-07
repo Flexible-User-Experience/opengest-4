@@ -12,7 +12,7 @@
     <div class="login-box">
         {% include '@SonataUser/Includes/login_logo_fragment.html.twig' %}
         <div class="login-box-body">
-            <p>{{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}</p>
+            <p>{{ 'resetting.check_email' | trans({'%email%': email}, 'FOSUserBundle') }}</p>
             <a href="{{ path('sonata_user_admin_security_login') }}">{{ 'title_user_authentication' | trans({}, 'SonataUserBundle') }}</a>
         </div>
         {% include '@SonataUser/Includes/login_footer_fragment.html.twig' %}

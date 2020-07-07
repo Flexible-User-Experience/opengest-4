@@ -18,7 +18,7 @@
                         <div class="alert alert-danger">{{ 'resetting.request.invalid_username' | trans({'%username%': invalid_username}, 'FOSUserBundle') }}</div>
                     {% endif %}
                 {% endblock %}
-                <p class="login-box-msg">{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}</p>
+                <p class="login-box-msg">{{ 'resetting.request.submit' | trans({}, 'FOSUserBundle') }}</p>
                 <form action="{{ path('sonata_user_admin_resetting_send_email') }}" method="post" role="form">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" id="username" name="username" required="required" placeholder="{{ 'resetting.request.username' | trans({}, 'FOSUserBundle') | replace({':': ''}) }}"/>
