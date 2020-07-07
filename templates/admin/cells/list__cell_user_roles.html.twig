@@ -1,7 +1,5 @@
-{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
 
 {% block field %}
-    {% spaceless %}
-        {{ object | draw_role_span | raw }}
-    {% endspaceless %}
+    {{ object | draw_role_span | raw }}
 {% endblock %}
