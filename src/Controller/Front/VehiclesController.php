@@ -27,15 +27,13 @@ class VehiclesController extends AbstractController
      *
      * @param VehicleCategoryRepository $vcr
      *
-     * @return RedirectResponse
-     *
-     * @throws EntityNotFoundException
+     * @return RedirectResponse|Response
      */
     public function vehiclesAction(VehicleCategoryRepository $vcr)
     {
         $categories = $vcr->findEnabledSortedByNameForWeb();
         if (0 == count($categories)) {
-            throw new EntityNotFoundException();
+            return $this->render('frontend/vehicles_empty.html.twig');
         }
         /** @var VehicleCategory $categoria */
         $categoria = $categories[0];
