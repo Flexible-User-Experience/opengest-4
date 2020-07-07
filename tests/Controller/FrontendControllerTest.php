@@ -34,20 +34,20 @@ class FrontendControllerTest extends AbstractBaseTest
     public function provideSuccessfulUrls()
     {
         return [
-            ['/']
-            ['/servicio/my-title']
-            ['/empresa']
-            ['/vehiculo/my-vehicle-category/my-title']
-            ['/vehiculos/categoria/grues2']
-            ['/trabajos']
-            ['/trabajo/my-title']
-            ['/accesorios']
-            ['/accesorio/my-title']
-            ['/sobre-este-sitio']
-            ['/privacidad']
-            ['/mapa-del-web']
-            ['/sitemap/sitemap.xml']
-            ['/sitemap/sitemap.default.xml']
+            ['/'],
+            ['/servicio/my-title'],
+            ['/empresa'],
+            ['/vehiculo/my-vehicle-category/my-title'],
+            ['/vehiculos/categoria/grues2'],
+            ['/trabajos'],
+            ['/trabajo/my-title'],
+            ['/accesorios'],
+            ['/accesorio/my-title'],
+            ['/sobre-este-sitio'],
+            ['/privacidad'],
+            ['/mapa-del-web'],
+            ['/sitemap/sitemap.xml'],
+            ['/sitemap/sitemap.default.xml'],
         ];
     }
 
@@ -74,9 +74,9 @@ class FrontendControllerTest extends AbstractBaseTest
     public function provideNotFoundUrls()
     {
         return [
-            ['/ca/pagina-trenacada']
-            ['/es/pagina-rota']
-            ['/en/broken-page']
+            ['/ca/pagina-trenacada'],
+            ['/es/pagina-rota'],
+            ['/en/broken-page'],
         ];
     }
 
@@ -103,8 +103,8 @@ class FrontendControllerTest extends AbstractBaseTest
     public function provideRedirectedUrls()
     {
         return [
-            ['/servicios']
-            ['/vehiculos']
+            ['/servicios'],
+            ['/vehiculos'],
         ];
     }
 }
