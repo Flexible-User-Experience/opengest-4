@@ -1,15 +1,12 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import '../css/frontend.less';
+import '../../node_modules/bootstrap-less/js/bootstrap.min';
 const $ = require('jquery');
 
 global.$ = global.jQuery = $;
 
-const routes = require('../../public/js/fos_js_routes.json');
-import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
-
 jQuery(document).ready(function() {
-    // jQuery('[data-toggle="popover"]').popover();
-    console.log('assets/js/frontend.js on Ready trigger');
+    jQuery('[data-toggle="popover"]').popover();
 });
 
 jQuery(document).on('scroll', function() {

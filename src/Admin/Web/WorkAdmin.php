@@ -12,6 +12,7 @@ use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class WorkAdmin.
@@ -65,14 +66,14 @@ class WorkAdmin extends AbstractBaseAdmin
             ->with('admin.with.work', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'name',
-                null,
+                TextType::class,
                 array(
                     'label' => 'admin.label.name',
                 )
             )
             ->add(
                 'shortDescription',
-                null,
+                TextType::class,
                 array(
                     'label' => 'admin.label.short_description',
                 )
@@ -190,17 +191,17 @@ class WorkAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 )
             )
-            ->add(
-                'service',
-                null,
-                array(
-                    'label' => 'admin.label.service',
-                ),
-                null,
-                array(
-                    'query_builder' => $this->rm->getServiceRepository()->findEnabledSortedByNameQB(),
-                )
-            )
+//            ->add(
+//                'service',
+//                null,
+//                array(
+//                    'label' => 'admin.label.service',
+//                ),
+//                null,
+//                array(
+//                    'query_builder' => $this->rm->getServiceRepository()->findEnabledSortedByNameQB(),
+//                )
+//            )
             ->add(
                 'enabled',
                 null,

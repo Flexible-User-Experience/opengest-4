@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class ServiceAdmin.
@@ -63,7 +65,7 @@ class ServiceAdmin extends AbstractBaseAdmin
             ->with('admin.with.service', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'name',
-                null,
+                TextType::class,
                 array(
                     'label' => 'admin.label.name',
                 )
@@ -101,7 +103,7 @@ class ServiceAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'position',
-                null,
+                NumberType::class,
                 array(
                     'label' => 'admin.label.position',
                 )
