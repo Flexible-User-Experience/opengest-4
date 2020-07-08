@@ -10,6 +10,10 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class UserAdmin.
@@ -79,7 +83,7 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'firstname',
-                null,
+                TextType::class,
                 array(
                     'label' => 'Nom',
                     'required' => false,
@@ -87,7 +91,7 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'lastname',
-                null,
+                TextType::class,
                 array(
                     'label' => 'Cognoms',
                     'required' => false,
@@ -95,21 +99,21 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'username',
-                null,
+                TextType::class,
                 array(
                     'label' => 'Nom usuari',
                 )
             )
             ->add(
                 'email',
-                null,
+                EmailType::class,
                 array(
                     'label' => 'Correu electrònic',
                 )
             )
             ->add(
                 'plainPassword',
-                'text',
+                TextType::class,
                 array(
                     'label' => 'Contrasenya',
                     'required' => (!$this->getSubject() || is_null($this->getSubject()->getId())),
@@ -123,7 +127,7 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'enabled',
-                'checkbox',
+                CheckboxType::class,
                 array(
                     'label' => 'Actiu',
                     'required' => false,
@@ -140,10 +144,10 @@ class UserAdmin extends ParentUserAdmin
             )
             ->add(
                 'roles',
-                'choice',
+                ChoiceType::class,
                 array(
                     'label' => 'Rols',
-                    'choices' => UserRolesEnum::getEnumArray(),
+                    'choices' => UserRolesEnum::getEnumArray(), // TODO reversed
                     'multiple' => true,
                     'expanded' => true,
                 )

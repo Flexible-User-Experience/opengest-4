@@ -68,9 +68,9 @@ class NotificationService
             $this->amd,
             $contactMessage->getEmail(),
             'Notificació pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:common_user_notification.html.twig', array(
+            $this->twig->render('mails/common_user_notification.html.twig', [
                 'contact' => $contactMessage,
-            ))
+            ])
         );
     }
 
@@ -87,9 +87,9 @@ class NotificationService
             $this->amd,
             $this->amd,
             'Notificació pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:common_admin_notification.html.twig', array(
+            $this->twig->render('mails/common_user_notification.html.twig', [
                 'text' => $text,
-            ))
+            ])
         );
     }
 
@@ -106,9 +106,9 @@ class NotificationService
             $this->amd,
             $this->amd,
             'Missatge de contacte pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:contact_form_admin_notification.html.twig', array(
+            $this->twig->render('mails/contact_form_admin_notification.html.twig', [
                 'contact' => $contactMessage,
-            ))
+            ])
         );
     }
 
@@ -125,9 +125,9 @@ class NotificationService
             $this->amd,
             $contactMessage->getEmail(),
             'Resposta pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:user_backend_answer_notification.html.twig', array(
+            $this->twig->render('/mails/user_backend_answer_notification.html.twig', [
                 'contact' => $contactMessage,
-            ))
+            ])
         );
     }
 
@@ -142,7 +142,9 @@ class NotificationService
             $this->amd,
             $this->amd,
             'Avís de revisions d\'operaris caducades avui pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:operators_checking_invalid_admin_notification.html.twig', array('entities' => $entities))
+            $this->twig->render('mails/operators_checking_invalid_admin_notification.html.twig', [
+                'entities' => $entities,
+            ])
         );
     }
 
@@ -157,7 +159,9 @@ class NotificationService
             $this->amd,
             $this->amd,
             'Avís de revisions d\'operaris pedent de caducar pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:operators_checking_before_to_be_invalid_notification.html.twig', array('entities' => $entities))
+            $this->twig->render('mails/operators_checking_before_to_be_invalid_notification.html.twig', [
+                'entities' => $entities,
+            ])
         );
     }
 
@@ -172,7 +176,9 @@ class NotificationService
             $this->amd,
             $entity->getOperator()->getEmail(),
             'Avís de revisió caducada',
-            $this->twig->render(':Mails:operator_invalid_notification.html.twig', array('operatorChecking' => $entity))
+            $this->twig->render('mails/operator_invalid_notification.html.twig', [
+                'operatorChecking' => $entity,
+            ])
         );
     }
 
@@ -187,7 +193,9 @@ class NotificationService
             $this->amd,
             $entity->getOperator()->getEmail(),
             'Avís de revisió a punt de caducar',
-            $this->twig->render(':Mails:operator_before_to_be_invalid_notification.html.twig', array('operatorChecking' => $entity))
+            $this->twig->render('mails/operator_before_to_be_invalid_notification.html.twig', [
+                'operatorChecking' => $entity,
+            ])
         );
     }
 
@@ -202,7 +210,9 @@ class NotificationService
             $this->amd,
             $this->amd,
             'Avís de revisions de vehicles caducades avui pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:vehicles_checking_invalid_admin_notification.html.twig', array('entities' => $entities))
+            $this->twig->render('mails/vehicles_checking_invalid_admin_notification.html.twig', [
+                'entities' => $entities,
+            ])
         );
     }
 
@@ -217,7 +227,9 @@ class NotificationService
             $this->amd,
             $this->amd,
             'Avís de revisions de vehicles pedent de caducar pàgina web '.$this->urlBase,
-            $this->twig->render(':Mails:vehicles_checking_before_to_be_invalid_notification.html.twig', array('entities' => $entities))
+            $this->twig->render('mails/vehicles_checking_before_to_be_invalid_notification.html.twig', [
+                'entities' => $entities,
+            ])
         );
     }
 }

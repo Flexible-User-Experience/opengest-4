@@ -8,8 +8,9 @@
 !/public/media/.gitkeep
 /public/pdfs/*
 !/public/pdfs/.gitkeep
-/public/uploads/*
-!/public/uploads/.gitkeep
+/public/uploads
+######/public/uploads/*
+######!/public/uploads/.gitkeep
 /var/*.db
 /var/cache/*
 !/var/cache/.gitkeep
