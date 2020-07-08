@@ -69,38 +69,38 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                     },
                 )
             )
-                ->add(
-                    'name',
-                    null,
-                    array(
-                        'label' => 'Nom',
-                        'required' => true,
-                    )
+            ->add(
+                'name',
+                null,
+                array(
+                    'label' => 'Nom',
+                    'required' => true,
                 )
-                ->add(
-                    'number',
-                    null,
-                    array(
-                        'label' => 'Número',
-                        'required' => false,
-                    )
+            )
+            ->add(
+                'number',
+                null,
+                array(
+                    'label' => 'Número',
+                    'required' => false,
                 )
-                ->add(
-                    'address',
-                    null,
-                    array(
-                        'label' => 'Adreça',
-                        'required' => false,
-                    )
+            )
+            ->add(
+                'address',
+                null,
+                array(
+                    'label' => 'Adreça',
+                    'required' => false,
                 )
-                ->add(
-                    'phone',
-                    null,
-                    array(
-                        'label' => 'Telèfon',
-                        'required' => false,
-                    )
+            )
+            ->add(
+                'phone',
+                null,
+                array(
+                    'label' => 'Telèfon',
+                    'required' => false,
                 )
+            )
             ->end()
         ;
     }
@@ -116,10 +116,6 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 'doctrine_orm_model_autocomplete',
                 array(
                     'label' => 'Tercer',
-                ),
-                null,
-                array(
-                    'property' => 'name',
                 )
             )
             ->add(

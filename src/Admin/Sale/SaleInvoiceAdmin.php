@@ -87,7 +87,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.series',
                     'class' => SaleInvoiceSeries::class,
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
-                    'property' => 'name',
+                    'property_path' => 'name',
                     'disabled' => $this->id($this->getSubject()),
                 )
             )
@@ -116,7 +116,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelAutocompleteType::class,
                 array(
-                    'property' => 'name',
+                    'property_path' => 'name',
                     'label' => 'admin.label.partner',
                     'required' => true,
                     'callback' => function ($admin, $property, $value) {
@@ -215,7 +215,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => SaleInvoiceSeries::class,
-                    'property' => 'name',
+                    'property_path' => 'name',
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
                 )
             )
@@ -248,7 +248,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ),
                 null,
                 array(
-                    'property' => 'name',
+                    'property_path' => 'name',
                 )
             )
             ->add(

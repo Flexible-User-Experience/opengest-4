@@ -136,7 +136,6 @@ class WorkAdmin extends AbstractBaseAdmin
                     array(
                         'label' => 'admin.label.files',
                         'required' => true,
-                        'cascade_validation' => true,
                         'error_bubbling' => true,
                         'by_reference' => false,
                     ),

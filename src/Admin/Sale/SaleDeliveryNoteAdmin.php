@@ -93,7 +93,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelAutocompleteType::class,
                 array(
-                    'property' => 'name',
+                    'property_path' => 'name',
                     'label' => 'Client',
                     'required' => true,
                     'callback' => function ($admin, $property, $value) {
@@ -255,7 +255,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ),
                 null,
                 array(
-                    'property' => 'name',
+                    'property_path' => 'name',
                 )
             )
             ->add(

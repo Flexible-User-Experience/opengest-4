@@ -147,7 +147,7 @@ class UserAdmin extends ParentUserAdmin
                 ChoiceType::class,
                 array(
                     'label' => 'Rols',
-                    'choices' => UserRolesEnum::getEnumArray(), // TODO reversed
+                    'choices' => UserRolesEnum::getEnumArray(),
                     'multiple' => true,
                     'expanded' => true,
                 )

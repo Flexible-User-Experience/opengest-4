@@ -57,7 +57,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelAutocompleteType::class,
                 array(
-                    'property' => 'name',
+                    'property_path' => 'name',
                     'label' => 'Tercer',
                     'required' => true,
                     'callback' => function ($admin, $property, $value) {
@@ -122,7 +122,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 ),
                 null,
                 array(
-                    'property' => 'name',
+                    'property_path' => 'name',
                 )
             )
             ->add(
