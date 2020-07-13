@@ -96,7 +96,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelAutocompleteType::class,
                 array(
-                    'property_path' => 'name',
+                    'property' => 'name',
                     'label' => 'Client',
                     'required' => true,
                     'callback' => function ($admin, $property, $value) {
@@ -195,7 +195,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 'invoiceTo',
                 ModelAutocompleteType::class,
                 array(
-                    'property_path' => 'name',
+                    'property' => 'name',
                     'label' => 'Facturar a',
                     'required' => false,
                     'callback' => function ($admin, $property, $value) {
@@ -425,7 +425,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ),
                 null,
                 array(
-                    'property_path' => 'name',
+                    'property' => 'name',
                 )
             )
             ->add(
@@ -436,7 +436,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ),
                 null,
                 array(
-                    'property_path' => 'name',
+                    'property' => 'name',
                 )
             )
             ->add(

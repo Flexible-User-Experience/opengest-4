@@ -116,7 +116,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelAutocompleteType::class,
                 array(
-                    'property_path' => 'name',
+                    'property' => 'name',
                     'label' => 'admin.label.partner',
                     'required' => true,
                     'callback' => function ($admin, $property, $value) {

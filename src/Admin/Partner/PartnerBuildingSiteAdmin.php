@@ -116,6 +116,10 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 'doctrine_orm_model_autocomplete',
                 array(
                     'label' => 'Tercer',
+                ),
+                null,
+                array(
+                    'property' => 'name',
                 )
             )
             ->add(
