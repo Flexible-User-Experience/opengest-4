@@ -87,7 +87,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.series',
                     'class' => SaleInvoiceSeries::class,
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
-                    'choice_attr' => 'name',
+                    'choice_label' => 'name',
                     'disabled' => $this->id($this->getSubject()),
                 )
             )
@@ -215,7 +215,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => SaleInvoiceSeries::class,
-                    'choice_attr' => 'name',
+                    'choice_label' => 'name',
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
                 )
             )
