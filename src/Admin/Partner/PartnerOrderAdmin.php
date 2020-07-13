@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 /**
  * Class PartnerOrderAdmin.
@@ -48,26 +49,26 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-//            ->add(
-//                'partner',
-//                ModelAutocompleteType::class,
-//                array(
-//                    'property' => 'name',
-//                    'label' => 'Tercer',
-//                    'required' => true,
-//                    'callback' => function ($admin, $property, $value) {
-//                        /** @var Admin $admin */
-//                        $datagrid = $admin->getDatagrid();
-//                        /** @var QueryBuilder $queryBuilder */
-//                        $queryBuilder = $datagrid->getQuery();
-//                        $queryBuilder
-//                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-//                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-//                        ;
-//                        $datagrid->setValue($property, null, $value);
-//                    },
-//                )
-//            )
+            ->add(
+                'partner',
+                ModelAutocompleteType::class,
+                array(
+                    'property' => 'name',
+                    'label' => 'Tercer',
+                    'required' => true,
+                    'callback' => function ($admin, $property, $value) {
+                        /** @var Admin $admin */
+                        $datagrid = $admin->getDatagrid();
+                        /** @var QueryBuilder $queryBuilder */
+                        $queryBuilder = $datagrid->getQuery();
+                        $queryBuilder
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                        ;
+                        $datagrid->setValue($property, null, $value);
+                    },
+                )
+            )
             ->add(
                 'number',
                 null,
@@ -94,17 +95,17 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-//            ->add(
-//                'partner',
-//                'doctrine_orm_model_autocomplete',
-//                array(
-//                    'label' => 'Tercer',
-//                ),
-//                ModelAutocompleteType::class,
-//                array(
-//                    'property' => 'name',
-//                )
-//            )
+            ->add(
+                'partner',
+                ModelAutocompleteFilter::class,
+                array(
+                    'label' => 'Tercer',
+                ),
+                null,
+                array(
+                    'property' => 'name',
+                )
+            )
             ->add(
                 'number',
                 null,
