@@ -48,26 +48,26 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'partner',
-                ModelAutocompleteType::class,
-                array(
-                    'property' => 'name',
-                    'label' => 'Tercer',
-                    'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                )
-            )
+//            ->add(
+//                'partner',
+//                ModelAutocompleteType::class,
+//                array(
+//                    'property' => 'name',
+//                    'label' => 'Tercer',
+//                    'required' => true,
+//                    'callback' => function ($admin, $property, $value) {
+//                        /** @var Admin $admin */
+//                        $datagrid = $admin->getDatagrid();
+//                        /** @var QueryBuilder $queryBuilder */
+//                        $queryBuilder = $datagrid->getQuery();
+//                        $queryBuilder
+//                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+//                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
+//                        ;
+//                        $datagrid->setValue($property, null, $value);
+//                    },
+//                )
+//            )
             ->add(
                 'number',
                 null,
@@ -94,17 +94,17 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add(
-                'partner',
-                'doctrine_orm_model_autocomplete',
-                array(
-                    'label' => 'Tercer',
-                ),
-                null,
-                array(
-                    'property' => 'name',
-                )
-            )
+//            ->add(
+//                'partner',
+//                'doctrine_orm_model_autocomplete',
+//                array(
+//                    'label' => 'Tercer',
+//                ),
+//                ModelAutocompleteType::class,
+//                array(
+//                    'property' => 'name',
+//                )
+//            )
             ->add(
                 'number',
                 null,

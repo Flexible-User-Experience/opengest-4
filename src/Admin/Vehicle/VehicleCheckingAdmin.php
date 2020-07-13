@@ -128,6 +128,11 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'Data d\'expedició',
                     'field_type' => DatePickerType::class,
+                ),
+                null,
+                array(
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
                 )
             )
             ->add(

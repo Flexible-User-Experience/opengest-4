@@ -106,7 +106,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'Imatge',
                     'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
-                    'required' => false,
+                    'required' => true,
                 )
             )
             ->add(
