@@ -7,6 +7,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -159,7 +160,7 @@ class WorkAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'date',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'admin.label.date',
                     'field_type' => DatePickerType::class,

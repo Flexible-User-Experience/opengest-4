@@ -8,6 +8,7 @@ use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 
 /**
@@ -77,7 +78,7 @@ class EnterpriseHolidaysAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'day',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Dia festiu',
                     'field_type' => DatePickerType::class,

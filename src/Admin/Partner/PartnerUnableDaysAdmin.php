@@ -137,7 +137,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'end',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data fi',
                     'field_type' => DatePickerType::class,

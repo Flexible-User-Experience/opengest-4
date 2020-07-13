@@ -9,6 +9,7 @@ use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sonata\AdminBundle\Route\RouteCollection;
@@ -105,7 +106,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'createdAt',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data creació',
                     'field_type' => DatePickerType::class,

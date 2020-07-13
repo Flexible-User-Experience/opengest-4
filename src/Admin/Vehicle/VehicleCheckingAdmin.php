@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -124,7 +125,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'begin',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data d\'expedició',
                     'field_type' => DatePickerType::class,
@@ -137,7 +138,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'end',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data caducitat',
                     'field_type' => DatePickerType::class,
