@@ -3,13 +3,17 @@
 namespace App\Admin\Web;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Vehicle\VehicleCategory;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class ServiceAdmin.
@@ -63,7 +67,7 @@ class ServiceAdmin extends AbstractBaseAdmin
             ->with('admin.with.service', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'name',
-                null,
+                TextType::class,
                 array(
                     'label' => 'admin.label.name',
                 )
@@ -92,16 +96,17 @@ class ServiceAdmin extends AbstractBaseAdmin
             ->with('admin.with.controls', $this->getFormMdSuccessBoxArray(2))
             ->add(
                 'vehicleCategory',
-                null,
+                EntityType::class,
                 array(
                     'label' => 'admin.label.vehicle_category',
+                    'class' => VehicleCategory::class,
                     'required' => false,
-                    'query_builder' => $this->rm->getVehicleCategoryRepository()->findEnabledSortedByNameQB(),
+                    'query_builder' => $this->rm->getVehicleCategoryRepository()->getEnabledSortedByNameQBForAdmin(),
                 )
             )
             ->add(
                 'position',
-                null,
+                NumberType::class,
                 array(
                     'label' => 'admin.label.position',
                 )
@@ -139,7 +144,7 @@ class ServiceAdmin extends AbstractBaseAdmin
                 ),
                 null,
                 array(
-                    'query_builder' => $this->rm->getVehicleCategoryRepository()->findEnabledSortedByNameQB(),
+                    'query_builder' => $this->rm->getVehicleCategoryRepository()->getEnabledSortedByNameQBForAdmin(),
                 )
             )
             ->add(

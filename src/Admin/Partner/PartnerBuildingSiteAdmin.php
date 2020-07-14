@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 /**
  * Class PartnerBuildingSiteAdmin.
@@ -69,38 +70,38 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                     },
                 )
             )
-                ->add(
-                    'name',
-                    null,
-                    array(
-                        'label' => 'Nom',
-                        'required' => true,
-                    )
+            ->add(
+                'name',
+                null,
+                array(
+                    'label' => 'Nom',
+                    'required' => true,
                 )
-                ->add(
-                    'number',
-                    null,
-                    array(
-                        'label' => 'Número',
-                        'required' => false,
-                    )
+            )
+            ->add(
+                'number',
+                null,
+                array(
+                    'label' => 'Número',
+                    'required' => false,
                 )
-                ->add(
-                    'address',
-                    null,
-                    array(
-                        'label' => 'Adreça',
-                        'required' => false,
-                    )
+            )
+            ->add(
+                'address',
+                null,
+                array(
+                    'label' => 'Adreça',
+                    'required' => false,
                 )
-                ->add(
-                    'phone',
-                    null,
-                    array(
-                        'label' => 'Telèfon',
-                        'required' => false,
-                    )
+            )
+            ->add(
+                'phone',
+                null,
+                array(
+                    'label' => 'Telèfon',
+                    'required' => false,
                 )
+            )
             ->end()
         ;
     }
@@ -113,7 +114,7 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'partner',
-                'doctrine_orm_model_autocomplete',
+                ModelAutocompleteFilter::class,
                 array(
                     'label' => 'Tercer',
                 ),

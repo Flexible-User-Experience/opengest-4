@@ -9,6 +9,7 @@ use Exception;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -119,7 +120,7 @@ class OperatorVariousAmountAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'date',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data',
                     'field_type' => DatePickerType::class,

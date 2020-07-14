@@ -19,6 +19,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -188,7 +190,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'multiple' => true,
                     'expanded' => true,
                     'query_builder' => $this->rm->getSaleInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
-                    'by_reference' => false,
+//                    'by_reference' => false,
                 )
             )
             ->add(
@@ -241,7 +243,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'date',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data albarà',
                     'field_type' => DatePickerType::class,
@@ -249,7 +251,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'partner',
-                'doctrine_orm_model_autocomplete',
+                ModelAutocompleteFilter::class,
                 array(
                     'label' => 'Client',
                 ),

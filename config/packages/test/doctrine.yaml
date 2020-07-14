@@ -1,0 +1,13 @@
+doctrine:
+    dbal:
+        driver: 'pdo_sqlite'
+    orm:
+        dql:
+            string_functions:
+                concat_ws:   DoctrineExtensions\Query\Sqlite\ConcatWs
+            datetime_functions:
+                day:         DoctrineExtensions\Query\Sqlite\Day
+                month:       DoctrineExtensions\Query\Sqlite\Month
+                year:        DoctrineExtensions\Query\Sqlite\Year
+                date:        DoctrineExtensions\Query\Sqlite\Date
+                date_format: DoctrineExtensions\Query\Sqlite\DateFormat

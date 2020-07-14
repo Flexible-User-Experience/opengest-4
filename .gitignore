@@ -8,8 +8,10 @@
 !/public/media/.gitkeep
 /public/pdfs/*
 !/public/pdfs/.gitkeep
-/public/uploads/*
-!/public/uploads/.gitkeep
+/public/uploads
+######/public/uploads/*
+######!/public/uploads/.gitkeep
+/var/*.db
 /var/cache/*
 !/var/cache/.gitkeep
 /var/csv/*
@@ -35,7 +37,3 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-
-###> symfony/web-server-bundle ###
-/.web-server-pid
-###< symfony/web-server-bundle ###

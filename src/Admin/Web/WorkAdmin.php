@@ -7,11 +7,13 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class WorkAdmin.
@@ -65,14 +67,14 @@ class WorkAdmin extends AbstractBaseAdmin
             ->with('admin.with.work', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'name',
-                null,
+                TextType::class,
                 array(
                     'label' => 'admin.label.name',
                 )
             )
             ->add(
                 'shortDescription',
-                null,
+                TextType::class,
                 array(
                     'label' => 'admin.label.short_description',
                 )
@@ -136,7 +138,6 @@ class WorkAdmin extends AbstractBaseAdmin
                     array(
                         'label' => 'admin.label.files',
                         'required' => true,
-                        'cascade_validation' => true,
                         'error_bubbling' => true,
                         'by_reference' => false,
                     ),
@@ -159,7 +160,7 @@ class WorkAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'date',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'admin.label.date',
                     'field_type' => DatePickerType::class,
@@ -191,17 +192,17 @@ class WorkAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 )
             )
-            ->add(
-                'service',
-                null,
-                array(
-                    'label' => 'admin.label.service',
-                ),
-                null,
-                array(
-                    'query_builder' => $this->rm->getServiceRepository()->findEnabledSortedByNameQB(),
-                )
-            )
+//            ->add(
+//                'service',
+//                null,
+//                array(
+//                    'label' => 'admin.label.service',
+//                ),
+//                null,
+//                array(
+//                    'query_builder' => $this->rm->getServiceRepository()->findEnabledSortedByNameQB(),
+//                )
+//            )
             ->add(
                 'enabled',
                 null,

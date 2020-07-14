@@ -20,7 +20,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
-use Sonata\Form\Type\EqualType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
@@ -87,7 +87,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.series',
                     'class' => SaleInvoiceSeries::class,
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
-                    'property' => 'name',
+                    'choice_label' => 'name',
                     'disabled' => $this->id($this->getSubject()),
                 )
             )
@@ -215,7 +215,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => SaleInvoiceSeries::class,
-                    'property' => 'name',
+                    'choice_label' => 'name',
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
                 )
             )
@@ -274,7 +274,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected function configureDefaultFilterValues(array &$filterValues)
     {
         $filterValues['hasBeenCounted'] = array(
-            'type' => EqualType::TYPE_IS_EQUAL,
+            'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_NO,
         );
     }

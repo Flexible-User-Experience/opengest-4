@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -73,7 +74,7 @@ class ContactMessageAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'createdAt',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'admin.label.date',
                     'field_type' => DatePickerType::class,

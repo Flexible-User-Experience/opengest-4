@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 
 /**
  * Class PartnerOrderAdmin.
@@ -96,7 +97,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'partner',
-                'doctrine_orm_model_autocomplete',
+                ModelAutocompleteFilter::class,
                 array(
                     'label' => 'Tercer',
                 ),

@@ -1,0 +1,7 @@
+presta_sitemap:
+    route_annotation_listener: false
+    timetolive: 3600
+    defaults:
+        priority: 1
+        changefreq: monthly
+        lastmod: now

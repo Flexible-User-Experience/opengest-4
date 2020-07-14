@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -123,7 +124,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'begin',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data inici',
                     'field_type' => DatePickerType::class,
@@ -131,7 +132,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'end',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data fi',
                     'field_type' => DatePickerType::class,

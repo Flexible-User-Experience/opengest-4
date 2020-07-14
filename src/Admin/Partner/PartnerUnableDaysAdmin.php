@@ -11,6 +11,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 
 /**
@@ -116,7 +118,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'partner',
-                'doctrine_orm_model_autocomplete',
+                ModelAutocompleteFilter::class,
                 array(
                     'label' => 'Partner',
                 ),
@@ -127,7 +129,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'begin',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data inici',
                     'field_type' => DatePickerType::class,
@@ -135,7 +137,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'end',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data fi',
                     'field_type' => DatePickerType::class,

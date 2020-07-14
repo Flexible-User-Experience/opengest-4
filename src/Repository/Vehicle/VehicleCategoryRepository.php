@@ -31,14 +31,21 @@ class VehicleCategoryRepository extends ServiceEntityRepository
     /**
      * @return QueryBuilder
      */
-    public function findEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQBForAdmin()
     {
         return $this->createQueryBuilder('vc')
-            ->join('vc.vehicles', 'v')
             ->where('vc.enabled = :value')
             ->setParameter('value', true)
             ->orderBy('vc.name', 'ASC')
         ;
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function findEnabledSortedByNameQB()
+    {
+        return $this->getEnabledSortedByNameQBForAdmin()->join('vc.vehicles', 'v');
     }
 
     /**

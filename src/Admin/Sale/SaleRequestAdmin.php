@@ -17,6 +17,8 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -419,7 +421,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'partner',
-                'doctrine_orm_model_autocomplete',
+                ModelAutocompleteFilter::class,
                 array(
                     'label' => 'Client',
                 ),
@@ -430,7 +432,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'invoiceTo',
-                'doctrine_orm_model_autocomplete',
+                ModelAutocompleteFilter::class,
                 array(
                     'label' => 'Facturar a',
                 ),
@@ -555,7 +557,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'requestDate',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data petició',
                     'field_type' => DatePickerType::class,
@@ -563,7 +565,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'serviceDate',
-                'doctrine_orm_date',
+                DateFilter::class,
                 array(
                     'label' => 'Data servei',
                     'field_type' => DatePickerType::class,
