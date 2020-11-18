@@ -89,14 +89,14 @@ class VehicleCheckingRepository extends ServiceEntityRepository
         return $this->getItemsInvalidSinceTodayByEnterpriseAmountQB($enterprise)->getQuery();
     }
 
-    public function getItemsInvalidSinceTodayByEnterpriseAmount(Enterprise $enterprise): ?VehicleChecking
+    public function getItemsInvalidSinceTodayByEnterpriseAmount(Enterprise $enterprise): int
     {
         try {
             $result = $this->getItemsInvalidSinceTodayByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
         } catch (NoResultException $e) {
-            $result = null;
+            $result = 0;
         } catch (NonUniqueResultException $e) {
-            $result = null;
+            $result = 0;
         }
 
         return $result;
