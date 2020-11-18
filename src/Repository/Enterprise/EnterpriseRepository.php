@@ -5,35 +5,18 @@ namespace App\Repository\Enterprise;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Setting\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class EnterpriseRepository.
- *
- * @category    Repository
- *
- * @author      Wils Iglesias <wiglesias83@gmail.com>
- */
 class EnterpriseRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Enterprise::class);
     }
 
-    /**
-     * @param User|object|string $user
-     *
-     * @return QueryBuilder
-     */
-    public function getEnterprisesByUserQB($user)
+    public function getEnterprisesByUserQB($user): QueryBuilder
     {
         return $this->createQueryBuilder('e')
             ->join('e.users', 'u')
@@ -45,22 +28,12 @@ class EnterpriseRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return Query
-     */
-    public function getEnterprisesByUserQ(User $user)
+    public function getEnterprisesByUserQ(User $user): Query
     {
         return $this->getEnterprisesByUserQB($user)->getQuery();
     }
 
-    /**
-     * @param User $user
-     *
-     * @return array
-     */
-    public function getEnterprisesByUser(User $user)
+    public function getEnterprisesByUser(User $user): array
     {
         return $this->getEnterprisesByUserQ($user)->getResult();
     }

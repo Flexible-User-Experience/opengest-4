@@ -5,33 +5,18 @@ namespace App\Repository\Enterprise;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class EnterpriseGroupBountyRepository.
- *
- * @category Repository
- *
- * @author Rubèn Hierro <info@rubenhierro.com>
- */
 class EnterpriseGroupBountyRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, EnterpriseGroupBounty::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('e')
             ->where('e.enabled = :enabled')
@@ -40,28 +25,17 @@ class EnterpriseGroupBountyRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameB()
+    public function getEnabledSortedByNameB(): Query
     {
         return $this->getEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameB()->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getEnabledSortedByNameQB()
             ->andWhere('e.enterprise = :enterprise')
@@ -69,22 +43,12 @@ class EnterpriseGroupBountyRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise): Query
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     */
-    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQ($enterprise)->getResult();
     }

@@ -3,43 +3,22 @@
 namespace App\Block;
 
 use App\Repository\Sale\SaleRequestRepository;
+use Exception;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
-/**
- * Class SaleRequestNextBlock.
- *
- * @category Block
- */
 class SaleRequestNextBlock extends AbstractBlockService
 {
-    /**
-     * @var SaleRequestRepository
-     */
     private SaleRequestRepository $srr;
-
-    /**
-     * @var TokenStorageInterface
-     */
     private TokenStorageInterface $tss;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @param null|string           $name
-     * @param EngineInterface       $templating
-     * @param SaleRequestRepository $srr
-     * @param TokenStorageInterface $tss
-     */
-    public function __construct($name, EngineInterface $templating, SaleRequestRepository $srr, TokenStorageInterface $tss)
+    public function __construct(Environment $twig, SaleRequestRepository $srr, TokenStorageInterface $tss)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
         $this->srr = $srr;
         $this->tss = $tss;
     }
@@ -50,9 +29,9 @@ class SaleRequestNextBlock extends AbstractBlockService
      *
      * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         // merge settings
         $settings = $blockContext->getSettings();
@@ -72,18 +51,7 @@ class SaleRequestNextBlock extends AbstractBlockService
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'sale_request_today';
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'title' => 'admin.dashboard.next',

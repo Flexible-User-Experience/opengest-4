@@ -4,23 +4,11 @@ namespace App\Repository\Sale;
 
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class SaleRequestHasDeliveryNoteRepository.
- *
- * @category    Repository
- *
- * @author Rubèn Hierro <info@rubenhierro.com>
- */
 class SaleRequestHasDeliveryNoteRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SaleRequestHasDeliveryNote::class);
     }

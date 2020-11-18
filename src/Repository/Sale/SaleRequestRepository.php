@@ -7,32 +7,18 @@ use App\Entity\Sale\SaleRequest;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Exception;
 
-/**
- * Class SaleRequestRepository.
- *
- * @category    Repository
- */
 class SaleRequestRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SaleRequest::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByRequestDateQB()
+    public function getEnabledSortedByRequestDateQB(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->where('s.enabled = :enabled')
@@ -41,28 +27,17 @@ class SaleRequestRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByRequestDateQ()
+    public function getEnabledSortedByRequestDateQ(): Query
     {
         return $this->getEnabledSortedByRequestDateQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByRequestDate()
+    public function getEnabledSortedByRequestDate(): array
     {
         return $this->getEnabledSortedByRequestDateQ()->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByEnterpriseEnabledSortedByRequestDateQB(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByRequestDateQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getEnabledSortedByRequestDateQB()
             ->andWhere('s.enterprise = :enterprise')
@@ -70,110 +45,51 @@ class SaleRequestRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     */
-    public function getFilteredByEnterpriseEnabledSortedByRequestDateQ(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByRequestDateQ(Enterprise $enterprise): Query
     {
         return $this->getFilteredByEnterpriseEnabledSortedByRequestDateQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     */
-    public function getFilteredByEnterpriseEnabledSortedByRequestDate(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByRequestDate(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseEnabledSortedByRequestDateQ($enterprise)->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getTodayFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise)
+    public function getTodayFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise): QueryBuilder
     {
         $moment = new DateTimeImmutable();
 
         return $this->commonGetTimeFilteredByEnterpriseEnabledSortedByServiceDateQB($enterprise, $moment);
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getTodayFilteredByEnterpriseEnabledSortedByServiceDateQ(Enterprise $enterprise)
+    public function getTodayFilteredByEnterpriseEnabledSortedByServiceDateQ(Enterprise $enterprise): Query
     {
         return $this->getTodayFilteredByEnterpriseEnabledSortedByServiceDateQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     *
-     * @throws Exception
-     */
-    public function getTodayFilteredByEnterpriseEnabledSortedByServiceDate(Enterprise $enterprise)
+    public function getTodayFilteredByEnterpriseEnabledSortedByServiceDate(Enterprise $enterprise): array
     {
         return $this->getTodayFilteredByEnterpriseEnabledSortedByServiceDateQ($enterprise)->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getTomorrowFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise)
+    public function getTomorrowFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise): QueryBuilder
     {
         $moment = new DateTimeImmutable('tomorrow');
 
         return $this->commonGetTimeFilteredByEnterpriseEnabledSortedByServiceDateQB($enterprise, $moment);
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getTomorrowFilteredByEnterpriseEnabledSortedByServiceDateQ(Enterprise $enterprise)
+    public function getTomorrowFilteredByEnterpriseEnabledSortedByServiceDateQ(Enterprise $enterprise): Query
     {
         return $this->getTomorrowFilteredByEnterpriseEnabledSortedByServiceDateQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     *
-     * @throws Exception
-     */
-    public function getTomorrowFilteredByEnterpriseEnabledSortedByServiceDate(Enterprise $enterprise)
+    public function getTomorrowFilteredByEnterpriseEnabledSortedByServiceDate(Enterprise $enterprise): array
     {
         return $this->getTomorrowFilteredByEnterpriseEnabledSortedByServiceDateQ($enterprise)->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getNextFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise)
+    public function getNextFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise): QueryBuilder
     {
         $moment = new DateTimeImmutable('tomorrow');
 
@@ -185,37 +101,17 @@ class SaleRequestRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getNextFilteredByEnterpriseEnabledSortedByServiceDateQ(Enterprise $enterprise)
+    public function getNextFilteredByEnterpriseEnabledSortedByServiceDateQ(Enterprise $enterprise): Query
     {
         return $this->getNextFilteredByEnterpriseEnabledSortedByServiceDateQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     *
-     * @throws Exception
-     */
-    public function getNextFilteredByEnterpriseEnabledSortedByServiceDate(Enterprise $enterprise)
+    public function getNextFilteredByEnterpriseEnabledSortedByServiceDate(Enterprise $enterprise): array
     {
         return $this->getNextFilteredByEnterpriseEnabledSortedByServiceDateQ($enterprise)->getResult();
     }
 
-    /**
-     * @param Enterprise        $enterprise
-     * @param DateTimeInterface $moment
-     *
-     * @return QueryBuilder
-     */
-    private function commonGetTimeFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise, DateTimeInterface $moment)
+    private function commonGetTimeFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise, DateTimeInterface $moment): QueryBuilder
     {
         return $this->getFilteredByEnterpriseEnabledSortedByRequestDateQB($enterprise)
             ->andWhere('DATE(s.serviceDate) = DATE(:moment)')

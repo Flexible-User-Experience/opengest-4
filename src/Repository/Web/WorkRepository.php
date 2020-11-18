@@ -4,33 +4,18 @@ namespace App\Repository\Web;
 
 use App\Entity\Web\Work;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class WorkRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class WorkRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Work::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByNameQB()
+    public function findEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('w')
             ->where('w.enabled = :enabled')
@@ -38,26 +23,17 @@ class WorkRepository extends ServiceEntityRepository
             ->orderBy('w.name', 'ASC');
     }
 
-    /**
-     * @return Query
-     */
-    public function findEnabledSortedByNameQ()
+    public function findEnabledSortedByNameQ(): Query
     {
         return $this->findEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function findEnabledSortedByName()
+    public function findEnabledSortedByName(): array
     {
         return $this->findEnabledSortedByNameQ()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByDateQB()
+    public function findEnabledSortedByDateQB(): QueryBuilder
     {
         return $this->createQueryBuilder('w')
             ->where('w.enabled = :enabled')
@@ -65,18 +41,12 @@ class WorkRepository extends ServiceEntityRepository
             ->orderBy('w.date', 'DESC');
     }
 
-    /**
-     * @return Query
-     */
-    public function findEnabledSortedByDateQ()
+    public function findEnabledSortedByDateQ(): Query
     {
         return $this->findEnabledSortedByDateQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function findEnabledSortedByDate()
+    public function findEnabledSortedByDate(): array
     {
         return $this->findEnabledSortedByDateQ()->getResult();
     }

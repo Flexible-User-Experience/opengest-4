@@ -6,34 +6,19 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class SaleInvoiceRepository.
- *
- * @category    Repository
- *
- * @author Rubèn Hierro <info@rubenhierro.com>
- */
 class SaleInvoiceRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SaleInvoice::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByDateQB()
+    public function getEnabledSortedByDateQB(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->where('s.enabled = :enabled')
@@ -42,28 +27,17 @@ class SaleInvoiceRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function gettEnabledSortedByDateQ()
+    public function gettEnabledSortedByDateQ(): Query
     {
         return $this->getEnabledSortedByDateQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByDate()
+    public function getEnabledSortedByDate(): array
     {
         return $this->gettEnabledSortedByDateQ()->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByEnterpriseSortedByDateQB(Enterprise $enterprise)
+    public function getFilteredByEnterpriseSortedByDateQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getEnabledSortedByDateQB()
             ->join('s.partner', 'p')
@@ -72,13 +46,7 @@ class SaleInvoiceRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param SaleInvoiceSeries $saleInvoiceSeries
-     * @param Enterprise        $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getLastInvoiceBySerieAndEnterpriseQB(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise)
+    public function getLastInvoiceBySerieAndEnterpriseQB(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): QueryBuilder
     {
         return $this->getFilteredByEnterpriseSortedByDateQB($enterprise)
             ->andWhere('s.series = :serie')
@@ -88,27 +56,19 @@ class SaleInvoiceRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param SaleInvoiceSeries $saleInvoiceSeries
-     * @param Enterprise        $enterprise
-     *
-     * @return Query
-     */
-    public function getLastInvoiceBySerieAndEnterpriseB(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise)
+    public function getLastInvoiceBySerieAndEnterpriseQ(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): Query
     {
         return $this->getLastInvoiceBySerieAndEnterpriseQB($saleInvoiceSeries, $enterprise)->getQuery();
     }
 
-    /**
-     * @param SaleInvoiceSeries $saleInvoiceSeries
-     * @param Enterprise        $enterprise
-     *
-     * @return SaleInvoice|null
-     *
-     * @throws NonUniqueResultException
-     */
-    public function getLastInvoiceBySerieAndEnterprise(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise)
+    public function getLastInvoiceBySerieAndEnterprise(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): ?SaleInvoice
     {
-        return $this->getLastInvoiceBySerieAndEnterpriseB($saleInvoiceSeries, $enterprise)->getOneOrNullResult();
+        try {
+            $result = $this->getLastInvoiceBySerieAndEnterpriseQ($saleInvoiceSeries, $enterprise)->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $result = null;
+        }
+
+        return $result;
     }
 }

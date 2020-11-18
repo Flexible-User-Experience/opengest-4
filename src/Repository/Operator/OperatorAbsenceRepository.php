@@ -8,40 +8,20 @@ use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
-use Exception;
 
-/**
- * Class OperatorAbsenceRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class OperatorAbsenceRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, OperatorAbsence::class);
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getItemsAbsenceTodayByEnterpriseAmountQB(Enterprise $enterprise)
+    public function getItemsAbsenceTodayByEnterpriseAmountQB(Enterprise $enterprise): QueryBuilder
     {
         $today = new DateTimeImmutable();
 
@@ -58,40 +38,25 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getItemsAbsenceTodayByEnterpriseAmountQ(Enterprise $enterprise)
+    public function getItemsAbsenceTodayByEnterpriseAmountQ(Enterprise $enterprise): Query
     {
         return $this->getItemsAbsenceTodayByEnterpriseAmountQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return int
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     * @throws Exception
-     */
-    public function getItemsAbsenceTodayByEnterpriseAmount(Enterprise $enterprise)
+    public function getItemsAbsenceTodayByEnterpriseAmount(Enterprise $enterprise): int
     {
-        return $this->getItemsAbsenceTodayByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        try {
+            $result = $this->getItemsAbsenceTodayByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = 0;
+        } catch (NonUniqueResultException $e) {
+            $result = 0;
+        }
+
+        return $result;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getItemsToBeAbsenceTomorrowByEnterpriseAmountQB(Enterprise $enterprise)
+    public function getItemsToBeAbsenceTomorrowByEnterpriseAmountQB(Enterprise $enterprise): QueryBuilder
     {
         $tomorrow = new DateTime();
         $tomorrow->add(new DateInterval('P1D'));
@@ -108,29 +73,21 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getItemsToBeAbsenceTomorrowByEnterpriseAmountQ(Enterprise $enterprise)
+    public function getItemsToBeAbsenceTomorrowByEnterpriseAmountQ(Enterprise $enterprise): Query
     {
         return $this->getItemsToBeAbsenceTomorrowByEnterpriseAmountQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return int
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     * @throws Exception
-     */
-    public function getItemsToBeAbsenceTomorrowByEnterpriseAmount(Enterprise $enterprise)
+    public function getItemsToBeAbsenceTomorrowByEnterpriseAmount(Enterprise $enterprise): int
     {
-        return $this->getItemsToBeAbsenceTomorrowByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        try {
+            $result = $this->getItemsToBeAbsenceTomorrowByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = 0;
+        } catch (NonUniqueResultException $e) {
+            $result = 0;
+        }
+
+        return $result;
     }
 }

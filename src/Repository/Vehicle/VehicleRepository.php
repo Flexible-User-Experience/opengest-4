@@ -6,33 +6,18 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class VehicleRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class VehicleRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Vehicle::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByNameQB()
+    public function findEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('v')
             ->where('v.enabled = :value')
@@ -40,28 +25,17 @@ class VehicleRepository extends ServiceEntityRepository
             ->orderBy('v.name', 'ASC');
     }
 
-    /**
-     * @return Query
-     */
-    public function findEnabledSortedByNameQ()
+    public function findEnabledSortedByNameQ(): Query
     {
         return $this->findEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function findEnabledSortedByName()
+    public function findEnabledSortedByName(): array
     {
         return $this->findEnabledSortedByNameQ()->getResult();
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByNameFilterCategoryQB(VehicleCategory $category)
+    public function findEnabledSortedByNameFilterCategoryQB(VehicleCategory $category): QueryBuilder
     {
         return $this->findEnabledSortedByNameQB()
             ->join('v.category', 'vc')
@@ -69,32 +43,17 @@ class VehicleRepository extends ServiceEntityRepository
             ->setParameter('category', $category);
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return Query
-     */
-    public function findEnabledSortedByNameFilterCategoryQ(VehicleCategory $category)
+    public function findEnabledSortedByNameFilterCategoryQ(VehicleCategory $category): Query
     {
         return $this->findEnabledSortedByNameFilterCategoryQB($category)->getQuery();
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return array
-     */
-    public function findEnabledSortedByNameFilterCategory(VehicleCategory $category)
+    public function findEnabledSortedByNameFilterCategory(VehicleCategory $category): array
     {
         return $this->findEnabledSortedByNameFilterCategoryQ($category)->getResult();
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByPositionAndNameQB(VehicleCategory $category)
+    public function findEnabledSortedByPositionAndNameQB(VehicleCategory $category): QueryBuilder
     {
         return $this->createQueryBuilder('v')
             ->join('v.category', 'vc')
@@ -106,32 +65,17 @@ class VehicleRepository extends ServiceEntityRepository
             ->addOrderBy('v.name', 'ASC');
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return Query
-     */
-    public function findEnabledSortedByPositionAndNameQ(VehicleCategory $category)
+    public function findEnabledSortedByPositionAndNameQ(VehicleCategory $category): Query
     {
         return $this->findEnabledSortedByPositionAndNameQB($category)->getQuery();
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return array
-     */
-    public function findEnabledSortedByPositionAndName(VehicleCategory $category)
+    public function findEnabledSortedByPositionAndName(VehicleCategory $category): array
     {
         return $this->findEnabledSortedByPositionAndNameQ($category)->getResult();
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByPositionAndNameForWebQB(VehicleCategory $category)
+    public function findEnabledSortedByPositionAndNameForWebQB(VehicleCategory $category): QueryBuilder
     {
         return $this->findEnabledSortedByPositionAndNameQB($category)
             ->join('v.enterprise', 'e')
@@ -139,54 +83,29 @@ class VehicleRepository extends ServiceEntityRepository
             ->setParameter('tin', Enterprise::GRUAS_ROMANI_TIN);
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return Query
-     */
-    public function findEnabledSortedByPositionAndNameForWebQ(VehicleCategory $category)
+    public function findEnabledSortedByPositionAndNameForWebQ(VehicleCategory $category): Query
     {
         return $this->findEnabledSortedByPositionAndNameForWebQB($category)->getQuery();
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return array
-     */
-    public function findEnabledSortedByPositionAndNameForWeb(VehicleCategory $category)
+    public function findEnabledSortedByPositionAndNameForWeb(VehicleCategory $category): array
     {
         return $this->findEnabledSortedByPositionAndNameForWebQ($category)->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->findEnabledSortedByNameQB()
             ->andWhere('v.enterprise = :enterprise')
             ->setParameter('enterprise', $enterprise);
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise): Query
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     */
-    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQ($enterprise)->getResult();
     }
