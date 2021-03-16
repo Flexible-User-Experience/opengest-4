@@ -3,53 +3,23 @@
 namespace App\Block;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\NonUniqueResultException;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
-/**
- * Class ContactMessageBlock.
- *
- * @category Block
- */
 class ContactMessageBlock extends AbstractBlockService
 {
-    /**
-     * @var EntityManagerInterface
-     */
     private EntityManagerInterface $em;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @param string                 $name
-     * @param EngineInterface        $templating
-     * @param EntityManagerInterface $em
-     */
-    public function __construct($name, EngineInterface $templating, EntityManagerInterface $em)
+    public function __construct(Environment $twig, EntityManagerInterface $em)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
         $this->em = $em;
     }
 
-    /**
-     * Execute.
-     *
-     * @param BlockContextInterface $blockContext
-     * @param Response|null         $response
-     *
-     * @return Response
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         // merge settings
         $settings = $blockContext->getSettings();
@@ -61,7 +31,7 @@ class ContactMessageBlock extends AbstractBlockService
 
         if ($pendingMessagesAmount > 0) {
             $backgroundColor = 'bg-red';
-            if (1 == $pendingMessagesAmount) {
+            if (1 === $pendingMessagesAmount) {
                 $content = '<h3>'.$pendingMessagesAmount.'</h3><p>Missatge de contacte pendent de contestar</p>';
             } else {
                 $content = '<h3>'.$pendingMessagesAmount.'</h3><p>Missatges de contacte pendents de contestar</p>';
@@ -81,18 +51,7 @@ class ContactMessageBlock extends AbstractBlockService
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'pending_messages';
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'title' => 'Resum',

@@ -5,33 +5,18 @@ namespace App\Repository\Vehicle;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Vehicle\VehicleCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class VehicleCategoryRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class VehicleCategoryRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, VehicleCategory::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQBForAdmin()
+    public function getEnabledSortedByNameQBForAdmin(): QueryBuilder
     {
         return $this->createQueryBuilder('vc')
             ->where('vc.enabled = :value')
@@ -40,34 +25,22 @@ class VehicleCategoryRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByNameQB()
+    public function findEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->getEnabledSortedByNameQBForAdmin()->join('vc.vehicles', 'v');
     }
 
-    /**
-     * @return Query
-     */
-    public function findEnabledSortedByNameQ()
+    public function findEnabledSortedByNameQ(): Query
     {
         return $this->findEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function findEnabledSortedByName()
+    public function findEnabledSortedByName(): array
     {
         return $this->findEnabledSortedByNameQ()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByNameForWebQB()
+    public function findEnabledSortedByNameForWebQB(): QueryBuilder
     {
         return $this->findEnabledSortedByNameQB()
             ->join('v.enterprise', 'e')
@@ -76,18 +49,12 @@ class VehicleCategoryRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function findEnabledSortedByNameForWebQ()
+    public function findEnabledSortedByNameForWebQ(): Query
     {
         return $this->findEnabledSortedByNameForWebQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function findEnabledSortedByNameForWeb()
+    public function findEnabledSortedByNameForWeb(): array
     {
         return $this->findEnabledSortedByNameForWebQ()->getResult();
     }

@@ -5,33 +5,18 @@ namespace App\Repository\Operator;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class OperatorRepository.
- *
- * @category Repository
- *
- * @author Wils Iglesias <wiglesias83@gmail.com>
- */
 class OperatorRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Operator::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameBQ()
+    public function getEnabledSortedByNameBQ(): QueryBuilder
     {
         return $this->createQueryBuilder('o')
             ->where('o.enabled = :enabled')
@@ -42,28 +27,17 @@ class OperatorRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameB()
+    public function getEnabledSortedByNameB(): Query
     {
         return $this->getEnabledSortedByNameBQ()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameB()->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getEnabledSortedByNameBQ()
             ->andWhere('o.enterprise = :enterprise')
@@ -71,22 +45,12 @@ class OperatorRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise): Query
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     */
-    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQ($enterprise)->getResult();
     }

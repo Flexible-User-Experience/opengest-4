@@ -4,33 +4,18 @@ namespace App\Repository\Operator;
 
 use App\Entity\Operator\OperatorCheckingType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class OperatorCheckingTypeRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias
- */
 class OperatorCheckingTypeRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, OperatorCheckingType::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('oct')
             ->where('oct.enabled = :enabled')
@@ -39,18 +24,12 @@ class OperatorCheckingTypeRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameQ()
+    public function getEnabledSortedByNameQ(): Query
     {
         return $this->getEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameQ()->getResult();
     }

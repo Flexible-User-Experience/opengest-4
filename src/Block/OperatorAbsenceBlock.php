@@ -10,38 +10,16 @@ use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
-/**
- * Class OperatorAbsenceBlock.
- *
- * @category Block
- */
 class OperatorAbsenceBlock extends AbstractBlockService
 {
-    /**
-     * @var OperatorAbsenceRepository
-     */
     private OperatorAbsenceRepository $oar;
-
-    /**
-     * @var TokenStorageInterface
-     */
     private TokenStorageInterface $tss;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @param null|string               $name
-     * @param EngineInterface           $templating
-     * @param OperatorAbsenceRepository $oar
-     * @param TokenStorageInterface     $tss
-     */
-    public function __construct($name, EngineInterface $templating, OperatorAbsenceRepository $oar, TokenStorageInterface $tss)
+    public function __construct(Environment $twig, OperatorAbsenceRepository $oar, TokenStorageInterface $tss)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
         $this->oar = $oar;
         $this->tss = $tss;
     }
@@ -55,7 +33,7 @@ class OperatorAbsenceBlock extends AbstractBlockService
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         // merge settings
         $settings = $blockContext->getSettings();
@@ -69,10 +47,10 @@ class OperatorAbsenceBlock extends AbstractBlockService
         if ($operatorsBeforeAbsent > 0 && $operatorsAbsentAmount > 0) {
             $backgroundColor = 'bg-red';
             $content = '<h3>'.$operatorsAbsentAmount.'</h3><p>Operaris avui no estan disponibles</p><p>'.$operatorsBeforeAbsent.' operaris demà no estaran disponibles</p>';
-        } elseif ($operatorsAbsentAmount > 0 && 0 == $operatorsBeforeAbsent) {
+        } elseif ($operatorsAbsentAmount > 0 && 0 === $operatorsBeforeAbsent) {
             $backgroundColor = 'bg-red';
             $content = '<h3>'.$operatorsAbsentAmount.'</h3><p>Operaris avui no estan disponibles</p>';
-        } elseif (0 == $operatorsAbsentAmount && $operatorsBeforeAbsent > 0) {
+        } elseif (0 === $operatorsAbsentAmount && $operatorsBeforeAbsent > 0) {
             $backgroundColor = 'bg-yellow';
             $content = '<h3>'.$operatorsBeforeAbsent.'</h3><p>Operaris demà no estaran disponibles</p>';
         }
@@ -90,18 +68,7 @@ class OperatorAbsenceBlock extends AbstractBlockService
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'operator_absence';
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'title' => 'Resum',

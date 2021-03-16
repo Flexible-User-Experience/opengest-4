@@ -5,33 +5,18 @@ namespace App\Repository\Enterprise;
 use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\Enterprise;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * Class ActivityLineRepository.
- *
- * @category    Repository
- *
- * @author Rubèn Hierro <info@rubenhierro.com>
- */
 class ActivityLineRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ActivityLine::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('a')
             ->where('a.enabled = :enabled')
@@ -40,28 +25,17 @@ class ActivityLineRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameQ()
+    public function getEnabledSortedByNameQ(): Query
     {
         return $this->getEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameQ()->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getEnabledSortedByNameQB()
             ->andWhere('a.enterprise = :enterprise')
@@ -69,22 +43,12 @@ class ActivityLineRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     */
-    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise): Query
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     */
-    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise)
+    public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQ($enterprise)->getResult();
     }

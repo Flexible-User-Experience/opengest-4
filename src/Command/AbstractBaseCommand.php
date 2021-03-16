@@ -21,54 +21,18 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 abstract class AbstractBaseCommand extends Command
 {
-    const CSV_DELIMITER = ',';
-    const CSV_ENCLOSURE = '"';
-    const CSV_ESCAPE = '\\';
-    const CSV_BATCH_WINDOW = 100;
+    public const CSV_DELIMITER = ',';
+    public const CSV_ENCLOSURE = '"';
+    public const CSV_ESCAPE = '\\';
+    public const CSV_BATCH_WINDOW = 100;
 
-    /**
-     * @var EntityManagerInterface
-     */
     protected EntityManagerInterface $em;
-
-    /**
-     * @var Filesystem
-     */
     protected Filesystem $fss;
-
-    /**
-     * @var RepositoriesManager
-     */
     protected RepositoriesManager $rm;
-
-    /**
-     * @var NotificationService
-     */
     protected NotificationService $ns;
-
-    /**
-     * @var LocationsTransformer
-     */
     protected LocationsTransformer $lts;
-
-    /**
-     * @var DatesTransformer
-     */
     protected DatesTransformer $dts;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @param string|null            $commandName
-     * @param EntityManagerInterface $em
-     * @param Filesystem             $fss
-     * @param RepositoriesManager    $rm
-     * @param NotificationService    $ns
-     * @param LocationsTransformer   $lts
-     * @param DatesTransformer       $dts
-     */
     public function __construct(?string $commandName, EntityManagerInterface $em, Filesystem $fss, RepositoriesManager $rm, NotificationService $ns, LocationsTransformer $lts, DatesTransformer $dts)
     {
         parent::__construct($commandName);
@@ -80,12 +44,7 @@ abstract class AbstractBaseCommand extends Command
         $this->dts = $dts;
     }
 
-    /**
-     * Command initializer.
-     *
-     * @return $this
-     */
-    public function init()
+    public function init(): self
     {
         ini_set('auto_detect_line_endings', true);
 
@@ -108,7 +67,7 @@ abstract class AbstractBaseCommand extends Command
             throw new Exception('Column index '.$index.' doesn\'t exists');
         }
 
-        return '\\N' != $row[$index] ? $row[$index] : null;
+        return '\\N' !== $row[$index] ? $row[$index] : null;
     }
 
     /**

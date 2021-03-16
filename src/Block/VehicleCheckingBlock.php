@@ -10,38 +10,16 @@ use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
-/**
- * Class VehicleCheckingBlock.
- *
- * @category Block
- */
 class VehicleCheckingBlock extends AbstractBlockService
 {
-    /**
-     * @var VehicleCheckingRepository
-     */
     private VehicleCheckingRepository $vcr;
-
-    /**
-     * @var TokenStorageInterface
-     */
     private TokenStorageInterface $tss;
 
-    /**
-     * Methods.
-     */
-
-    /**
-     * @param null|string               $name
-     * @param EngineInterface           $templating
-     * @param VehicleCheckingRepository $vcr
-     * @param TokenStorageInterface     $tss
-     */
-    public function __construct($name, EngineInterface $templating, VehicleCheckingRepository $vcr, TokenStorageInterface $tss)
+    public function __construct(Environment $twig, VehicleCheckingRepository $vcr, TokenStorageInterface $tss)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
         $this->vcr = $vcr;
         $this->tss = $tss;
     }
@@ -55,7 +33,7 @@ class VehicleCheckingBlock extends AbstractBlockService
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         // merge settings
         $settings = $blockContext->getSettings();
@@ -89,18 +67,7 @@ class VehicleCheckingBlock extends AbstractBlockService
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'vehicle_checking';
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'title' => 'Resum',

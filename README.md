@@ -16,8 +16,8 @@ A Symfony 4.4 LTS webapp project to manage [Opengest](https://opengest4.gruasrom
 #### Install instructions
 
 ```bash
-$ git clone git@github.com:Flexible-User-Experience/fibervent-2.git
-$ cd fibervent-2
+$ git clone git@github.com:Flexible-User-Experience/opengest-4.git
+$ cd opengest-4
 $ cp env.dit .env
 $ nano .env
 $ composer install

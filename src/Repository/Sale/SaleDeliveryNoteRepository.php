@@ -5,34 +5,19 @@ namespace App\Repository\Sale;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class SaleDeliveryNoteRepository.
- *
- * @category    Repository
- *
- * @author Rubèn Hierro <info@rubenhierro.com>
- */
 class SaleDeliveryNoteRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SaleDeliveryNote::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->where('s.enabled = :enabled')
@@ -41,28 +26,17 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameQ()
+    public function getEnabledSortedByNameQ(): Query
     {
         return $this->getEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameQ()->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByEnterpriseSortedByNameQB(Enterprise $enterprise)
+    public function getFilteredByEnterpriseSortedByNameQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getEnabledSortedByNameQB()
             ->andWhere('s.enterprise = :enterprise')
@@ -70,32 +44,17 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     */
-    public function getFilteredByEnterpriseSortedByNameQ(Enterprise $enterprise)
+    public function getFilteredByEnterpriseSortedByNameQ(Enterprise $enterprise): Query
     {
         return $this->getFilteredByEnterpriseSortedByNameQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return array
-     */
-    public function getFilteredByEnterpriseSortedByName(Enterprise $enterprise)
+    public function getFilteredByEnterpriseSortedByName(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseSortedByNameQ($enterprise)->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     */
-    public function getLastDeliveryNoteByEnterpriseQB(Enterprise $enterprise)
+    public function getLastDeliveryNoteByEnterpriseQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getFilteredByEnterpriseSortedByNameQB($enterprise)
              ->orderBy('s.deliveryNoteNumber', 'DESC')
@@ -103,32 +62,23 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
          ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     */
-    public function getLastDeliveryNoteByEnterpriseQ(Enterprise $enterprise)
+    public function getLastDeliveryNoteByEnterpriseQ(Enterprise $enterprise): Query
     {
         return $this->getLastDeliveryNoteByEnterpriseQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return SaleDeliveryNote|null
-     *
-     * @throws NonUniqueResultException
-     */
-    public function getLastDeliveryNoteByenterprise(Enterprise $enterprise)
+    public function getLastDeliveryNoteByenterprise(Enterprise $enterprise): ?SaleDeliveryNote
     {
-        return $this->getLastDeliveryNoteByEnterpriseQ($enterprise)->getOneOrNullResult();
+        try {
+            $result = $this->getLastDeliveryNoteByEnterpriseQ($enterprise)->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $result = null;
+        }
+
+        return $result;
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEmptyQueryBuilder()
+    public function getEmptyQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('s')
             ->where('s.id = :novalue')

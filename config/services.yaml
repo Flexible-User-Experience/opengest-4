@@ -104,37 +104,37 @@ services:
     # Block
     app.block.contact_message:
         class: App\Block\ContactMessageBlock
-        arguments: [ 'app.block.contact_message', '@templating', '@doctrine.orm.entity_manager' ]
+        arguments: [ '@twig', '@doctrine.orm.entity_manager' ]
         tags:
             - { name: sonata.block }
     app.block.vehicle_checking:
         class: App\Block\VehicleCheckingBlock
-        arguments: [ 'app.block.vehicle_checking', '@templating', '@app.vehicle_checking_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@app.vehicle_checking_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.operator_checking:
         class: App\Block\OperatorCheckingBlock
-        arguments: [ 'app.block.operator_checking', '@templating', '@app.operator_checking_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@app.operator_checking_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.operator_absence:
         class: App\Block\OperatorAbsenceBlock
-        arguments: [ 'app.block.operator_absence', '@templating', '@app.operator_absence_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@app.operator_absence_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_today:
         class: App\Block\SaleRequestTodayBlock
-        arguments: [ 'app.block.sale_request_today', '@templating', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_tomorrow:
         class: App\Block\SaleRequestTomorrowBlock
-        arguments: [ 'app.block.sale_request_tomorrow', '@templating', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_next:
         class: App\Block\SaleRequestNextBlock
-        arguments: [ 'app.block.sale_request_next', '@templating', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     # File

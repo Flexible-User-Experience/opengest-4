@@ -4,35 +4,20 @@ namespace App\Repository\Web;
 
 use App\Entity\Web\ContactMessage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class ContactMessageRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class ContactMessageRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ContactMessage::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getPendingMessagesAmountQB()
+    public function getPendingMessagesAmountQB(): QueryBuilder
     {
         return $this->createQueryBuilder('c')
             ->select('COUNT(c.id)')
@@ -41,29 +26,25 @@ class ContactMessageRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getPendingMessagesAmountQ()
+    public function getPendingMessagesAmountQ(): Query
     {
         return $this->getPendingMessagesAmountQB()->getQuery();
     }
 
-    /**
-     * @return int|array
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function getPendingMessagesAmount()
+    public function getPendingMessagesAmount(): int
     {
-        return $this->getPendingMessagesAmountQ()->getSingleScalarResult();
+        try {
+            $result = $this->getPendingMessagesAmountQ()->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = 0;
+        } catch (NonUniqueResultException $e) {
+            $result = 0;
+        }
+
+        return $result;
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getReadPendingMessagesAmountQB()
+    public function getReadPendingMessagesAmountQB(): QueryBuilder
     {
         return $this->createQueryBuilder('c')
             ->select('COUNT(c.id)')
@@ -72,22 +53,21 @@ class ContactMessageRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getReadPendingMessagesAmountQ()
+    public function getReadPendingMessagesAmountQ(): Query
     {
         return $this->getReadPendingMessagesAmountQB()->getQuery();
     }
 
-    /**
-     * @return int|array
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     */
-    public function getReadPendingMessagesAmount()
+    public function getReadPendingMessagesAmount(): int
     {
-        return $this->getReadPendingMessagesAmountQ()->getSingleScalarResult();
+        try {
+            $result = $this->getReadPendingMessagesAmountQ()->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = 0;
+        } catch (NonUniqueResultException $e) {
+            $result = 0;
+        }
+
+        return $result;
     }
 }

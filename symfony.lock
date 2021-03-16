@@ -94,13 +94,22 @@
         "version": "1.3.6"
     },
     "doctrine/reflection": {
-        "version": "v1.1.0"
+        "version": "1.2.2"
     },
     "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
     "egulias/email-validator": {
         "version": "2.1.17"
+    },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
+    },
+    "fakerphp/faker": {
+        "version": "v1.11.0"
+    },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
     },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.0",
@@ -129,9 +138,6 @@
     "friendsofsymfony/user-bundle": {
         "version": "v2.1.2"
     },
-    "fzaninotto/faker": {
-        "version": "v1.9.1"
-    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.39"
     },
@@ -147,20 +153,8 @@
             "config/packages/google_recaptcha.yaml"
         ]
     },
-    "guzzlehttp/guzzle": {
-        "version": "7.0.1"
-    },
-    "guzzlehttp/promises": {
-        "version": "v1.3.1"
-    },
-    "guzzlehttp/psr7": {
-        "version": "1.6.1"
-    },
-    "hampe/inky": {
-        "version": "1.3.6.2"
-    },
-    "hampe/zurb-ink-bundle": {
-        "version": "2.2.6"
+    "gremo/zurb-ink-bundle": {
+        "version": "v4.1.0"
     },
     "hautelook/alice-bundle": {
         "version": "2.1",
@@ -234,6 +228,9 @@
             "config/routes/liip_imagine.yaml"
         ]
     },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
+    },
     "maennchen/zipstream-php": {
         "version": "2.1.0"
     },
@@ -277,12 +274,6 @@
     "ocramius/proxy-manager": {
         "version": "2.7.0"
     },
-    "paquettg/php-html-parser": {
-        "version": "1.7.0"
-    },
-    "paquettg/string-encode": {
-        "version": "0.1.1"
-    },
     "php": {
         "version": "7.4"
     },
@@ -297,6 +288,9 @@
     },
     "phpoffice/phpspreadsheet": {
         "version": "1.10.1"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "0.4.12"
     },
     "predis/predis": {
         "version": "v1.1.1"
@@ -313,6 +307,9 @@
     "psr/http-client": {
         "version": "1.0.1"
     },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -325,8 +322,8 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
-    "ralouphie/getallheaders": {
-        "version": "3.0.3"
+    "qipsius/tcpdf-bundle": {
+        "version": "2.0.2"
     },
     "sebastian/comparator": {
         "version": "3.0.2"
@@ -404,9 +401,6 @@
     },
     "sonata-project/doctrine-orm-admin-bundle": {
         "version": "3.14.0"
-    },
-    "sonata-project/easy-extends-bundle": {
-        "version": "2.5.0"
     },
     "sonata-project/exporter": {
         "version": "2.1.0"
@@ -669,6 +663,9 @@
     "symfony/property-info": {
         "version": "v4.4.4"
     },
+    "symfony/proxy-manager-bridge": {
+        "version": "v4.4.20"
+    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -892,9 +889,6 @@
     },
     "webmozart/assert": {
         "version": "1.7.0"
-    },
-    "whiteoctober/tcpdf-bundle": {
-        "version": "1.1.2"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"

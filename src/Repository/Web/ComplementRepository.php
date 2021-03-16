@@ -4,33 +4,18 @@ namespace App\Repository\Web;
 
 use App\Entity\Web\Complement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class ComplementRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class ComplementRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Complement::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByNameQB()
+    public function findEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('c')
             ->where('c.enabled = :enabled')
@@ -38,18 +23,12 @@ class ComplementRepository extends ServiceEntityRepository
             ->orderBy('c.name', 'ASC');
     }
 
-    /**
-     * @return Query
-     */
-    public function findEnabledSortedByNameQ()
+    public function findEnabledSortedByNameQ(): Query
     {
         return $this->findEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function findEnabledSortedByName()
+    public function findEnabledSortedByName(): array
     {
         return $this->findEnabledSortedByNameQ()->getResult();
     }

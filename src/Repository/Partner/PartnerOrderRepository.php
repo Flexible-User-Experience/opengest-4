@@ -4,33 +4,18 @@ namespace App\Repository\Partner;
 
 use App\Entity\Partner\PartnerOrder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class PartnerOrderRepository.
- *
- * @category    Repository
- *
- * @author Rubèn Hierro <info@rubenhierro.com>
- */
 class PartnerOrderRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PartnerOrder::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNumberQB()
+    public function getEnabledSortedByNumberQB(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
             ->where('p.enabled = :enabled')
@@ -39,18 +24,12 @@ class PartnerOrderRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNumberQ()
+    public function getEnabledSortedByNumberQ(): Query
     {
         return  $this->getEnabledSortedByNumberQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByNumber()
+    public function getEnabledSortedByNumber(): array
     {
         return $this->getEnabledSortedByNumberQ()->getResult();
     }

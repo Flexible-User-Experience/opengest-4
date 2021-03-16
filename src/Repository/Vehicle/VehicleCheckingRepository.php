@@ -8,38 +8,20 @@ use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
-use Exception;
 
-/**
- * Class VehicleCheckingRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class VehicleCheckingRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, VehicleChecking::class);
     }
 
-    /**
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getItemsInvalidByEnabledVehicleQB()
+    public function getItemsInvalidByEnabledVehicleQB(): QueryBuilder
     {
         $today = new DateTimeImmutable();
 
@@ -52,32 +34,17 @@ class VehicleCheckingRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getItemsInvalidByEnabledVehicleQ()
+    public function getItemsInvalidByEnabledVehicleQ(): Query
     {
         return $this->getItemsInvalidByEnabledVehicleQB()->getQuery();
     }
 
-    /**
-     * @return array
-     *
-     * @throws Exception
-     */
-    public function getItemsInvalidByEnabledVehicle()
+    public function getItemsInvalidByEnabledVehicle(): array
     {
         return $this->getItemsInvalidByEnabledVehicleQ()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getItemsBeforeToBeInvalidByEnabledVehicleQB()
+    public function getItemsBeforeToBeInvalidByEnabledVehicleQB(): QueryBuilder
     {
         $thresholdDay = new DateTime();
         $thresholdDay->add(new DateInterval('P30D'));
@@ -91,34 +58,17 @@ class VehicleCheckingRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getItemsBeforeToBeInvalidByEnabledVehicleQ()
+    public function getItemsBeforeToBeInvalidByEnabledVehicleQ(): Query
     {
         return $this->getItemsBeforeToBeInvalidByEnabledVehicleQB()->getQuery();
     }
 
-    /**
-     * @return array
-     *
-     * @throws Exception
-     */
-    public function getItemsBeforeToBeInvalidByEnabledVehicle()
+    public function getItemsBeforeToBeInvalidByEnabledVehicle(): array
     {
         return $this->getItemsBeforeToBeInvalidByEnabledVehicleQ()->getResult();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getItemsInvalidSinceTodayByEnterpriseAmountQB(Enterprise $enterprise)
+    public function getItemsInvalidSinceTodayByEnterpriseAmountQB(Enterprise $enterprise): QueryBuilder
     {
         $today = new DateTimeImmutable();
 
@@ -134,40 +84,25 @@ class VehicleCheckingRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getItemsInvalidSinceTodayByEnterpriseAmountQ(Enterprise $enterprise)
+    public function getItemsInvalidSinceTodayByEnterpriseAmountQ(Enterprise $enterprise): Query
     {
         return $this->getItemsInvalidSinceTodayByEnterpriseAmountQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return int
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     * @throws Exception
-     */
-    public function getItemsInvalidSinceTodayByEnterpriseAmount(Enterprise $enterprise)
+    public function getItemsInvalidSinceTodayByEnterpriseAmount(Enterprise $enterprise): int
     {
-        return $this->getItemsInvalidSinceTodayByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        try {
+            $result = $this->getItemsInvalidSinceTodayByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = 0;
+        } catch (NonUniqueResultException $e) {
+            $result = 0;
+        }
+
+        return $result;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return QueryBuilder
-     *
-     * @throws Exception
-     */
-    public function getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmountQB(Enterprise $enterprise)
+    public function getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmountQB(Enterprise $enterprise): QueryBuilder
     {
         $thresholdDay = new DateTime();
         $thresholdDay->add(new DateInterval('P30D'));
@@ -187,29 +122,21 @@ class VehicleCheckingRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return Query
-     *
-     * @throws Exception
-     */
-    public function getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmountQ(Enterprise $enterprise)
+    public function getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmountQ(Enterprise $enterprise): Query
     {
         return $this->getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmountQB($enterprise)->getQuery();
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return int
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     * @throws Exception
-     */
-    public function getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmount(Enterprise $enterprise)
+    public function getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmount(Enterprise $enterprise): int
     {
-        return $this->getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        try {
+            $result = $this->getItemsBeforeToBeInvalidSinceTodayByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            $result = 0;
+        } catch (NonUniqueResultException $e) {
+            $result = 0;
+        }
+
+        return $result;
     }
 }

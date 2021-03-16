@@ -5,35 +5,18 @@ namespace App\Repository\Web;
 use App\Entity\Web\Work;
 use App\Entity\Web\WorkImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class WorkImageRepository.
- *
- * @category Repository
- *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
- */
 class WorkImageRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, WorkImage::class);
     }
 
-    /**
-     * @param Work $work
-     *
-     * @return QueryBuilder
-     */
-    public function findEnabledSortedByPositionQB(Work $work)
+    public function findEnabledSortedByPositionQB(Work $work): QueryBuilder
     {
         return $this->createQueryBuilder('wi')
             ->where('wi.work = :work')
@@ -43,22 +26,12 @@ class WorkImageRepository extends ServiceEntityRepository
             ->orderBy('wi.position', 'ASC');
     }
 
-    /**
-     * @param Work $work
-     *
-     * @return Query
-     */
-    public function findEnabledSortedByPositionQ(Work $work)
+    public function findEnabledSortedByPositionQ(Work $work): Query
     {
         return $this->findEnabledSortedByPositionQB($work)->getQuery();
     }
 
-    /**
-     * @param Work $work
-     *
-     * @return array
-     */
-    public function findEnabledSortedByPosition(Work $work)
+    public function findEnabledSortedByPosition(Work $work): array
     {
         return $this->findEnabledSortedByPositionQ($work)->getResult();
     }

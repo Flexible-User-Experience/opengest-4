@@ -4,33 +4,18 @@ namespace App\Repository\Partner;
 
 use App\Entity\Partner\PartnerContact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry as RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- * Class PartnerContactRepository.
- *
- * @category    Repository
- *
- * @author Rubèn Hierro <info@rubenhierro.com>
- */
 class PartnerContactRepository extends ServiceEntityRepository
 {
-    /**
-     * Constructor.
-     *
-     * @param RegistryInterface $registry
-     */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PartnerContact::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getEnabledSortedByNameQB()
+    public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
             ->where('p.enabled = :enabled')
@@ -39,28 +24,17 @@ class PartnerContactRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Query
-     */
-    public function getEnabledSortedByNameQ()
+    public function getEnabledSortedByNameQ(): Query
     {
         return  $this->getEnabledSortedByNameQB()->getQuery();
     }
 
-    /**
-     * @return array
-     */
-    public function getEnabledSortedByName()
+    public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameQ()->getResult();
     }
 
-    /**
-     * @param int $partnerId
-     *
-     * @return QueryBuilder
-     */
-    public function getFilteredByPartnerSortedByNameQB(int $partnerId)
+    public function getFilteredByPartnerSortedByNameQB(int $partnerId): QueryBuilder
     {
         return $this->getEnabledSortedByNameQB()
             ->andWhere('p.partner = :partner')
@@ -68,22 +42,12 @@ class PartnerContactRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @param int $partnerId
-     *
-     * @return Query
-     */
-    public function getFilteredByPartnerSortedByNameQ(int $partnerId)
+    public function getFilteredByPartnerSortedByNameQ(int $partnerId): Query
     {
         return $this->getFilteredByPartnerSortedByNameQB($partnerId)->getQuery();
     }
 
-    /**
-     * @param int $partnerId
-     *
-     * @return array
-     */
-    public function getFilteredByPartnerSortedByName(int $partnerId)
+    public function getFilteredByPartnerSortedByName(int $partnerId): array
     {
         return $this->getFilteredByPartnerSortedByNameQ($partnerId)->getResult();
     }
