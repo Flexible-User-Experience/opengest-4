@@ -102,8 +102,14 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
+    },
     "fakerphp/faker": {
         "version": "v1.11.0"
+    },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
     },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.0",
@@ -282,6 +288,9 @@
     },
     "phpoffice/phpspreadsheet": {
         "version": "1.10.1"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "0.4.12"
     },
     "predis/predis": {
         "version": "v1.1.1"
@@ -653,6 +662,9 @@
     },
     "symfony/property-info": {
         "version": "v4.4.4"
+    },
+    "symfony/proxy-manager-bridge": {
+        "version": "v4.4.20"
     },
     "symfony/routing": {
         "version": "4.2",
