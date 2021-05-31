@@ -7,6 +7,7 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\City;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -67,6 +68,13 @@ class Partner extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="partners")
      */
     private $transferAccount;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="partner")
+     */
+    private $saleTariffs;
 
     /**
      * @var string
@@ -1232,6 +1240,56 @@ class Partner extends AbstractBase
     {
         if ($this->saleDeliveryNotes->contains($saleDeliveryNote)) {
             $this->saleDeliveryNotes->removeElement($saleDeliveryNote);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSaleTariffs(): ArrayCollection
+    {
+        return $this->saleTariffs;
+    }
+
+    /**
+     * @param ArrayCollection $saleTariffs
+     *
+     * @return Partner
+     */
+    public function setSaleTariffs(ArrayCollection $saleTariffs): Partner
+    {
+        $this->saleTariffs = $saleTariffs;
+
+        return $this;
+    }
+
+    /**
+     * @param SaleTariff $saleTariff
+     *
+     * @return Partner
+     */
+    public function addSaleTariff(SaleTariff $saleTariff): Partner
+    {
+        if (!$this->saleTariffs->contains($saleTariff)) {
+            $this->saleTariffs->add($saleTariff);
+            $saleTariff->setPartner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleTariff $saleTariff
+     *
+     * @return $this
+     */
+    public function removeSaleTariff(SaleTariff $saleTariff)
+    {
+        if ($this->saleTariffs->contains($saleTariff)) {
+            $this->saleTariffs->removeElement($saleTariff);
+            $saleTariff->setPartner();
         }
 
         return $this;

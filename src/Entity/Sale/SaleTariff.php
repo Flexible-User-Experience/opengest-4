@@ -3,6 +3,7 @@
 namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
+use App\Entity\Partner\Partner;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -34,6 +35,14 @@ class SaleTariff extends AbstractBase
     private $saleServiceTariff;
 
     /**
+     * @var Partner
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleTariffs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private Partner $partner;
+
+    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -43,7 +52,7 @@ class SaleTariff extends AbstractBase
     /**
      * @var DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true) //TODO change to false once migrations include this field
      */
     private $date;
 
@@ -348,6 +357,24 @@ class SaleTariff extends AbstractBase
         $this->saleServiceTariff = $saleServiceTariff;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPartner(): string
+    {
+        return $this->partner;
+    }
+
+    /**
+     * @param Partner|null $partner
+     *
+     * @return SaleTariff
+     */
+    public function setPartner(Partner $partner = null): SaleTariff
+    {
+        $this->partner = $partner;
     }
 
     /**
