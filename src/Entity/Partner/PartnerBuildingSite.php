@@ -3,6 +3,8 @@
 namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
+use App\Entity\Sale\SaleTariff;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,13 @@ class PartnerBuildingSite extends AbstractBase
      * @ORM\Column(type="string", nullable=true)
      */
     private $phone;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="partner")
+     */
+    private $saleTariffs;
 
     /**
      * Methods.
@@ -152,6 +161,56 @@ class PartnerBuildingSite extends AbstractBase
     public function setPhone($phone)
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSaleTariffs(): ArrayCollection
+    {
+        return $this->saleTariffs;
+    }
+
+    /**
+     * @param ArrayCollection $saleTariffs
+     *
+     * @return PartnerBuildingSite
+     */
+    public function setSaleTariffs(ArrayCollection $saleTariffs): PartnerBuildingSite
+    {
+        $this->saleTariffs = $saleTariffs;
+
+        return $this;
+    }
+
+    /**
+     * @param SaleTariff $saleTariff
+     *
+     * @return PartnerBuildingSite
+     */
+    public function addSaleTariff(SaleTariff $saleTariff): PartnerBuildingSite
+    {
+        if (!$this->saleTariffs->contains($saleTariff)) {
+            $this->saleTariffs->add($saleTariff);
+            $saleTariff->setPartnerBuildingSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleTariff $saleTariff
+     *
+     * @return $this
+     */
+    public function removeSaleTariff(SaleTariff $saleTariff)
+    {
+        if ($this->saleTariffs->contains($saleTariff)) {
+            $this->saleTariffs->removeElement($saleTariff);
+            $saleTariff->setPartnerBuildingSite();
+        }
 
         return $this;
     }

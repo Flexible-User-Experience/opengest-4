@@ -4,6 +4,7 @@ namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerBuildingSite;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -41,6 +42,14 @@ class SaleTariff extends AbstractBase
      * @ORM\JoinColumn(nullable=true)
      */
     private Partner $partner;
+
+    /**
+     * @var PartnerBuildingSite
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleTariffs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private PartnerBuildingSite $partnerBuildingSite;
 
     /**
      * @var int
@@ -368,13 +377,35 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @param Partner|null $partner
+     * @param Partner $partner
      *
      * @return SaleTariff
      */
-    public function setPartner(Partner $partner = null): SaleTariff
+    public function setPartner(Partner $partner): SaleTariff
     {
         $this->partner = $partner;
+
+        return $this;
+    }
+
+    /**
+     * @return PartnerBuildingSite
+     */
+    public function getPartnerBuildingSite(): PartnerBuildingSite
+    {
+        return $this->partnerBuildingSite;
+    }
+
+    /**
+     * @param PartnerBuildingSite $partnerBuildingSite
+     *
+     * @return SaleTariff
+     */
+    public function setPartnerBuildingSite(PartnerBuildingSite $partnerBuildingSite): SaleTariff
+    {
+        $this->partnerBuildingSite = $partnerBuildingSite;
+
+        return $this;
     }
 
     /**
