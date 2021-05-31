@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use DateTime;
 
 /**
  * Class SaleTariff.
@@ -31,6 +32,13 @@ class SaleTariff extends AbstractBase
      * @ORM\Column(type="integer")
      */
     private $year;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(type="date")
+     */
+    private $date;
 
     /**
      * @var string
@@ -66,6 +74,13 @@ class SaleTariff extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float", nullable=true)
+     */
+    private $miniumJoruneyHours;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
      * @Groups({"apiSaleTariff"})
      */
     private $displacement;
@@ -76,6 +91,13 @@ class SaleTariff extends AbstractBase
      * @ORM\Column(type="float", nullable=true)
      */
     private $increaseForHolidays;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $increaseForHolidaysPercentage;
 
     /**
      * Methods.
@@ -237,6 +259,66 @@ class SaleTariff extends AbstractBase
     public function setIncreaseForHolidays($increaseForHolidays)
     {
         $this->increaseForHolidays = $increaseForHolidays;
+
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDate(): DateTime
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param DateTime $date
+     *
+     * @return SaleTariff
+     */
+    public function setDate(DateTime $date): SaleTariff
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMiniumJoruneyHours(): float
+    {
+        return $this->miniumJoruneyHours;
+    }
+
+    /**
+     * @param float $miniumJoruneyHours
+     *
+     * @return SaleTariff
+     */
+    public function setMiniumJoruneyHours(float $miniumJoruneyHours): SaleTariff
+    {
+        $this->miniumJoruneyHours = $miniumJoruneyHours;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIncreaseForHolidaysPercentage(): float
+    {
+        return $this->increaseForHolidaysPercentage;
+    }
+
+    /**
+     * @param float $increaseForHolidaysPercentage
+     *
+     * @return SaleTariff
+     */
+    public function setIncreaseForHolidaysPercentage(float $increaseForHolidaysPercentage): SaleTariff
+    {
+        $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
 
         return $this;
     }
