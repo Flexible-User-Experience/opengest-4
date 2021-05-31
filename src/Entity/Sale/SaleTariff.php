@@ -27,6 +27,13 @@ class SaleTariff extends AbstractBase
     private $enterprise;
 
     /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleTariffs")
+     */
+    private $saleServiceTariff;
+
+    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -319,6 +326,26 @@ class SaleTariff extends AbstractBase
     public function setIncreaseForHolidaysPercentage(float $increaseForHolidaysPercentage): SaleTariff
     {
         $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaleServiceTariff(): string
+    {
+        return $this->saleServiceTariff;
+    }
+
+    /**
+     * @param string $saleServiceTariff
+     *
+     * @return SaleTariff
+     */
+    public function setSaleServiceTariff(string $saleServiceTariff): SaleTariff
+    {
+        $this->saleServiceTariff = $saleServiceTariff;
 
         return $this;
     }
