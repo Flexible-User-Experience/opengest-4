@@ -3,6 +3,9 @@
 namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -10,8 +13,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
 /**
  * Class SaleTariffAdmin.
@@ -67,7 +72,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'year',
                 ChoiceType::class,
@@ -86,8 +91,40 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'required' => true,
                 )
             )
+            ->add(
+                'saleServiceTariff',
+                EntityType::class,
+                array(
+                    'class' => SaleServiceTariff::class,
+                    'label' => 'Serveis tarifa',
+                    'required' => true,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                )
+            )
             ->end()
-            ->with('admin.with.sale_tariff', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.label.partner', $this->getFormMdSuccessBoxArray(2))
+            ->add(
+                'partner',
+                EntityType::class,
+                array(
+                    'class' => Partner::class,
+                    'label' => 'admin.label.partner',
+                    'required' => false,
+                    'query_builder' => $this->rm->getPartnerRepository()->getEnabledSortedByNameQB(),
+                )
+            )
+            ->add(
+                'partnerBuildingSite',
+                EntityType::class,
+                array(
+                    'class' => PartnerBuildingSite::class,
+                    'label' => 'Obra',
+                    'required' => false,
+                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                )
+            )
+            ->end()
+            ->with('admin.with.sale_tariff', $this->getFormMdSuccessBoxArray(2))
             ->add(
                 'priceHour',
                 null,
@@ -125,6 +162,14 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'admin.label.increase_for_holidays',
+                    'required' => false,
+                )
+            )
+            ->add(
+                'increaseForHolidaysPercentage',
+                PercentType::class,
+                array(
+                    'label' => 'admin.label.increase_for_holidays_percentage',
                     'required' => false,
                 )
             )

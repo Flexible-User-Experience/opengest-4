@@ -29,11 +29,11 @@ class SaleTariff extends AbstractBase
     private $enterprise;
 
     /**
-     * @var string
+     * @var SaleServiceTariff
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleTariffs")
      */
-    private $saleServiceTariff;
+    private SaleServiceTariff $saleServiceTariff;
 
     /**
      * @var Partner
@@ -94,13 +94,6 @@ class SaleTariff extends AbstractBase
      * @ORM\Column(type="float", nullable=true)
      */
     private $miniumHolidayHours;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $miniumJoruneyHours;
 
     /**
      * @var float
@@ -309,39 +302,19 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return ?float
      */
-    public function getMiniumJoruneyHours(): float
-    {
-        return $this->miniumJoruneyHours;
-    }
-
-    /**
-     * @param float $miniumJoruneyHours
-     *
-     * @return SaleTariff
-     */
-    public function setMiniumJoruneyHours(float $miniumJoruneyHours): SaleTariff
-    {
-        $this->miniumJoruneyHours = $miniumJoruneyHours;
-
-        return $this;
-    }
-
-    /**
-     * @return float
-     */
-    public function getIncreaseForHolidaysPercentage(): float
+    public function getIncreaseForHolidaysPercentage(): ?float
     {
         return $this->increaseForHolidaysPercentage;
     }
 
     /**
-     * @param float $increaseForHolidaysPercentage
+     * @param ?float $increaseForHolidaysPercentage
      *
      * @return SaleTariff
      */
-    public function setIncreaseForHolidaysPercentage(float $increaseForHolidaysPercentage): SaleTariff
+    public function setIncreaseForHolidaysPercentage(?float $increaseForHolidaysPercentage): SaleTariff
     {
         $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
 
@@ -357,11 +330,11 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @param string $saleServiceTariff
+     * @param SaleServiceTariff $saleServiceTariff
      *
      * @return SaleTariff
      */
-    public function setSaleServiceTariff(string $saleServiceTariff): SaleTariff
+    public function setSaleServiceTariff(SaleServiceTariff $saleServiceTariff): SaleTariff
     {
         $this->saleServiceTariff = $saleServiceTariff;
 
