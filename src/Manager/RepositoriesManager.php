@@ -2,12 +2,14 @@
 
 namespace App\Manager;
 
+use App\Entity\Sale\SaleServiceTariff;
 use App\Repository\Enterprise\ActivityLineRepository;
 use App\Repository\Operator\OperatorDigitalTachographRepository;
 use App\Repository\Operator\OperatorVariousAmountRepository;
 use App\Repository\Partner\PartnerContactRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
+use App\Repository\Sale\SaleServiceTariffRepository;
 use App\Repository\Setting\CityRepository;
 use App\Repository\Enterprise\CollectionDocumentTypeRepository;
 use App\Repository\Enterprise\EnterpriseGroupBountyRepository;
@@ -212,6 +214,11 @@ class RepositoriesManager
     private SaleInvoiceRepository $saleInvoiceRepository;
 
     /**
+     * @var SaleServiceTariffRepository
+     */
+    private SaleServiceTariffRepository $saleServiceTariffRepository;
+
+    /**
      * @var WorkRepository
      */
     private WorkRepository $workRepository;
@@ -256,6 +263,7 @@ class RepositoriesManager
      * @param SaleRequestRepository               $saleRequestRepository
      * @param SaleDeliveryNoteRepository          $saleDeliveryNoteRepository
      * @param SaleInvoiceRepository               $saleInvoiceRepository
+     * @param SaleServiceTariffRepository         $saleServiceTariffRepository
      * @param WorkRepository                      $workRepository
      */
     public function __construct(
@@ -292,6 +300,7 @@ class RepositoriesManager
         SaleRequestRepository $saleRequestRepository,
         SaleDeliveryNoteRepository $saleDeliveryNoteRepository,
         SaleInvoiceRepository $saleInvoiceRepository,
+        SaleServiceTariffRepository $saleServiceTariffRepository,
         WorkRepository $workRepository
     ) {
         $this->serviceRepository = $serviceRepository;
@@ -327,6 +336,7 @@ class RepositoriesManager
         $this->saleRequestRepository = $saleRequestRepository;
         $this->saleDeliveryNoteRepository = $saleDeliveryNoteRepository;
         $this->saleInvoiceRepository = $saleInvoiceRepository;
+        $this->saleServiceTariffRepository = $saleServiceTariffRepository;
         $this->workRepository = $workRepository;
     }
 
@@ -520,6 +530,14 @@ class RepositoriesManager
     public function getSaleTariffRepository()
     {
         return $this->saleTariffRepository;
+    }
+
+    /**
+     * @return SaleServiceTariffRepository
+     */
+    public function getSaleServiceTariffRepository(): SaleServiceTariffRepository
+    {
+        return $this->saleServiceTariffRepository;
     }
 
     /**

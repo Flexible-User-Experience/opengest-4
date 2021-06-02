@@ -144,6 +144,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Sale\SaleTariff
+    app.sale_service_tariff_repository:
+        class: App\Repository\Sale\SaleServiceTariffRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Sale\SaleServiceTariff
     app.collection_document_type_repository:
         class: App\Repository\Enterprise\CollectionDocumentTypeRepository
         factory: [ '@doctrine', getRepository ]
@@ -216,4 +221,5 @@ services:
             - '@app.sale_request_repository'
             - '@app.sale_delivery_note_repository'
             - '@app.sale_invoice_repository'
+            - '@app.sale_service_tariff_repository'
             - '@app.work_repository'
