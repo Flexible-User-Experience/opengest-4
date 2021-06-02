@@ -4,6 +4,7 @@ namespace App\Repository\Partner;
 
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
@@ -51,5 +52,23 @@ class PartnerRepository extends ServiceEntityRepository
     public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQ($enterprise)->getResult();
+    }
+
+    public function getFilteredByEnterprisePartnerTypeEnabledSortedByNameQB(Enterprise $enterprise, PartnerType $partnerType): QueryBuilder
+    {
+        return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)
+            ->andWhere('p.type = :partnerType')
+            ->setParameter('partnerType', $partnerType)
+        ;
+    }
+
+    public function getFilteredByEnterprisePartnerTypeEnabledSortedByNameQ(Enterprise $enterprise, PartnerType $partnerType): Query
+    {
+        return $this->getFilteredByEnterprisePartnerTypeEnabledSortedByNameQB($enterprise, $partnerType)->getQuery();
+    }
+
+    public function getFilteredByEnterprisePartnerTypeEnabledSortedByName(Enterprise $enterprise, PartnerType $partnerType): array
+    {
+        return $this->getFilteredByEnterprisePartnerTypeEnabledSortedByNameQ($enterprise, $partnerType)->getResult();
     }
 }

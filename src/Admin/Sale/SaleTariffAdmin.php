@@ -9,9 +9,11 @@ use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
@@ -117,12 +119,27 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             ->with('admin.label.partner', $this->getFormMdSuccessBoxArray(2))
             ->add(
                 'partner',
-                EntityType::class,
+                ModelAutocompleteType::class,
                 array(
-                    'class' => Partner::class,
+                    'property' => 'name',
                     'label' => 'admin.label.partner',
                     'required' => false,
-                    'query_builder' => $this->rm->getPartnerRepository()->getEnabledSortedByNameQB(), //TODO only return type client
+                    'callback' => function ($admin, $property, $value) {
+                        /** @var Admin $admin */
+                        $datagrid = $admin->getDatagrid();
+                        /** @var QueryBuilder $queryBuilder */
+                        $queryBuilder = $datagrid->getQuery();
+                        $queryBuilder
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                        ;
+                        $datagrid->setValue($property, null, $value);
+                    },
+//                    'callback' => function () {
+//                        $enterprise = $this->getUserLogedEnterprise();
+//                        $partnerType = $this->rm->getPartnerTypeRepository()->getEnabledSortedByName()[0];
+//                        return $this->rm->getPartnerRepository()->getFilteredByEnterprisePartnerTypeEnabledSortedByNameQB($enterprise, $partnerType);
+//                    }, //TODO only return type client
                 )
             )
             ->add(
