@@ -132,14 +132,11 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                         $queryBuilder
                             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
                             ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.type = :partnerType')
+                            ->setParameter('partnerType', 1)
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
-//                    'callback' => function () {
-//                        $enterprise = $this->getUserLogedEnterprise();
-//                        $partnerType = $this->rm->getPartnerTypeRepository()->getEnabledSortedByName()[0];
-//                        return $this->rm->getPartnerRepository()->getFilteredByEnterprisePartnerTypeEnabledSortedByNameQB($enterprise, $partnerType);
-//                    }, //TODO only return type client
                 )
             )
             ->add(
