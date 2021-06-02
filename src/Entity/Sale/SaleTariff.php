@@ -32,8 +32,9 @@ class SaleTariff extends AbstractBase
      * @var SaleServiceTariff
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleTariffs")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private SaleServiceTariff $saleServiceTariff;
+    private ?SaleServiceTariff $saleServiceTariff; //TODO it is not nullable, it has to be included in the migrations from old database
 
     /**
      * @var Partner
@@ -282,9 +283,9 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @return DateTime
+     * @return ?DateTime
      */
-    public function getDate(): DateTime
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
@@ -322,9 +323,9 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @return string
+     * @return ?SaleServiceTariff
      */
-    public function getSaleServiceTariff(): string
+    public function getSaleServiceTariff(): ?SaleServiceTariff //TODO cannot return null, it is a compulsory field
     {
         return $this->saleServiceTariff;
     }
@@ -342,9 +343,9 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @return string
+     * @return ?Partner
      */
-    public function getPartner(): string
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
@@ -362,9 +363,9 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @return PartnerBuildingSite
+     * @return ?PartnerBuildingSite
      */
-    public function getPartnerBuildingSite(): PartnerBuildingSite
+    public function getPartnerBuildingSite(): ?PartnerBuildingSite
     {
         return $this->partnerBuildingSite;
     }

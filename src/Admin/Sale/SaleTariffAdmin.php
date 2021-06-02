@@ -13,9 +13,13 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
 /**
@@ -84,6 +88,14 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'date',
+                DatePickerType::class,
+                array(
+                    'label' => 'admin.label.date',
+                    'required' => true,
+                )
+            )
+            ->add(
                 'tonnage',
                 null,
                 array(
@@ -110,7 +122,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'class' => Partner::class,
                     'label' => 'admin.label.partner',
                     'required' => false,
-                    'query_builder' => $this->rm->getPartnerRepository()->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->rm->getPartnerRepository()->getEnabledSortedByNameQB(), //TODO only return type client
                 )
             )
             ->add(
@@ -120,7 +132,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'class' => PartnerBuildingSite::class,
                     'label' => 'Obra',
                     'required' => false,
-                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
                 )
             )
             ->end()
@@ -198,6 +210,36 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'admin.label.year',
+                )
+            )
+            ->add(
+                'date',
+                DateFilter::class,
+                array(
+                    'label' => 'Data',
+                    'field_type' => DatePickerType::class,
+                )
+            )
+            ->add(
+                'partner',
+                ModelAutocompleteFilter::class,
+                array(
+                    'label' => 'admin.label.partner',
+                ),
+                null,
+                array(
+                    'property' => 'name',
+                )
+            )
+            ->add(
+                'partnerBuildingSite',
+                ModelAutocompleteFilter::class,
+                array(
+                    'label' => 'admin.label.partner_building_site',
+                ),
+                null,
+                array(
+                    'property' => 'name',
                 )
             )
             ->add(
@@ -288,11 +330,40 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'date',
+                null,
+                array(
+                    'label' => 'Data',
+                    'format' => 'd/m/Y',
+                )
+            )
+            ->add(
                 'tonnage',
                 null,
                 array(
                     'label' => 'admin.label.tonnage',
                     'editable' => true,
+                )
+            )
+            ->add(
+                'saleServiceTariff',
+                null,
+                array(
+                    'label' => 'admin.label.sale_serivce_tariff',
+                )
+            )
+            ->add(
+                'partner',
+                null,
+                array(
+                    'label' => 'admin.label.partner',
+                )
+            )
+            ->add(
+                'partnerBuildingSite',
+                null,
+                array(
+                    'label' => 'admin.label.partner_building_site',
                 )
             )
             ->add(
@@ -332,6 +403,14 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 'string',
                 array(
                     'label' => 'admin.label.increase_for_holidays',
+                    'editable' => true,
+                )
+            )
+            ->add(
+                'increaseForHolidaysPercentage',
+                PercentType::class,
+                array(
+                    'label' => 'admin.label.increase_for_holidays_percentage',
                     'editable' => true,
                 )
             )

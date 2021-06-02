@@ -53,6 +53,7 @@ admin:
         series: "Sèrie"
         partner_building_site: "Obra"
         increase_for_holidays_percentage: "Increment per vacances (%)"
+        sale_serivce_tariff: "Serveis tarifa"
     with:
         general: "General"
         image: "Imatge"
