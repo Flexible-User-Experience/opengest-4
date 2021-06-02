@@ -21,7 +21,6 @@ use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 
 /**
@@ -364,6 +363,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'admin.label.sale_serivce_tariff',
+                    'sortable' => true
                 )
             )
             ->add(
@@ -371,6 +371,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'admin.label.partner',
+                    'sortable' => true
                 )
             )
             ->add(
@@ -378,6 +379,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'admin.label.partner_building_site',
+                    'sortable' => true
                 )
             )
             ->add(
