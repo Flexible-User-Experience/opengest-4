@@ -41,7 +41,7 @@ class SaleTariff extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleTariffs")
      * @ORM\JoinColumn(nullable=true)
      */
-    private Partner $partner;
+    private ?Partner $partner;
 
     /**
      * @var PartnerBuildingSite
@@ -49,7 +49,7 @@ class SaleTariff extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleTariffs")
      * @ORM\JoinColumn(nullable=true)
      */
-    private PartnerBuildingSite $partnerBuildingSite;
+    private ?PartnerBuildingSite $partnerBuildingSite;
 
     /**
      * @var int
@@ -377,11 +377,11 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @param Partner $partner
+     * @param ?Partner $partner
      *
      * @return SaleTariff
      */
-    public function setPartner(Partner $partner): SaleTariff
+    public function setPartner(?Partner $partner = null): SaleTariff
     {
         $this->partner = $partner;
 
@@ -397,11 +397,11 @@ class SaleTariff extends AbstractBase
     }
 
     /**
-     * @param PartnerBuildingSite $partnerBuildingSite
+     * @param ?PartnerBuildingSite $partnerBuildingSite
      *
      * @return SaleTariff
      */
-    public function setPartnerBuildingSite(PartnerBuildingSite $partnerBuildingSite): SaleTariff
+    public function setPartnerBuildingSite(?PartnerBuildingSite $partnerBuildingSite = null): SaleTariff
     {
         $this->partnerBuildingSite = $partnerBuildingSite;
 
