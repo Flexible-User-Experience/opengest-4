@@ -427,7 +427,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 PercentType::class,
                 array(
                     'label' => 'admin.label.increase_for_holidays_percentage',
-                    'editable' => true,
+                    'editable' => true, //todo view as percentage, not as unitary
                 )
             )
             ->add(
