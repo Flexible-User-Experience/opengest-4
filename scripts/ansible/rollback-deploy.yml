@@ -1,6 +1,6 @@
 ---
 - name: Deploy project to production server
-  hosts: s6
+  hosts: s8
   gather_facts: false
   roles:
     - { role: "ansistrano.rollback" }
