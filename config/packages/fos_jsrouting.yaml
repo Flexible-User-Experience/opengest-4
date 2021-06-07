@@ -4,3 +4,4 @@ fos_js_routing:
         - 'admin_app_partner_partner_getPartnerContactsById'
         - 'admin_app_partner_partner_getJsonDeliveryNotesById'
         - 'admin_app_sale_saletariff_getJsonSaleTariffById'
+        - 'admin_app_sale_saletariff_getPartnerBuildingSitesById'

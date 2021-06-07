@@ -22,6 +22,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class SaleTariffAdmin.
@@ -138,14 +139,31 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     },
                 )
             )
+//            ->add(
+//                'partnerBuildingSite',
+//                EntityType::class,
+//                array(
+//                    'class' => PartnerBuildingSite::class,
+//                    'label' => 'Obra',
+//                    'required' => false,
+//                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
+//                )
+//            )
+            ->add(
+                'selectPartnerBuildingSite',
+                TextType::class,
+                array(
+                    'label' => 'Obres del client',
+                    'required' => false,
+                    'mapped' => false,
+                )
+            )
             ->add(
                 'partnerBuildingSite',
-                EntityType::class,
+                TextType::class,
                 array(
-                    'class' => PartnerBuildingSite::class,
                     'label' => 'Obra',
                     'required' => false,
-                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
                 )
             )
             ->end()
