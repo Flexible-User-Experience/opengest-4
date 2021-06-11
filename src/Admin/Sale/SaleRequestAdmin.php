@@ -435,6 +435,17 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'status',
+                null,
+                array(
+                    'label' => 'admin.label.status',
+                ),
+                ChoiceType::class,
+                array(
+                    'choices' => SaleRequestStatusEnum::getEnumArray(),
+                )
+            )
+            ->add(
                 'partner',
                 ModelAutocompleteFilter::class,
                 array(
