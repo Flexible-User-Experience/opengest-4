@@ -60,7 +60,6 @@
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.0",
-        "sensiolabs/security-checker": "^6.0",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
