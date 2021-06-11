@@ -7,6 +7,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Vehicle\Vehicle;
+use App\Enum\SaleRequestStatusEnum;
 use App\Enum\UserRolesEnum;
 use DateTime;
 use Doctrine\ORM\QueryBuilder;
@@ -21,6 +22,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -94,6 +96,14 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('Petició', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'status',
+                ChoiceType::class,
+                [
+                    'choices' => SaleRequestStatusEnum::getEnumArray(),
+                    'label' => 'admin.label.status'
+                ]
+            )
             ->add(
                 'partner',
                 ModelAutocompleteType::class,

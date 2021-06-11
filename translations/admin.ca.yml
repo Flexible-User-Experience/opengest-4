@@ -54,6 +54,7 @@ admin:
         partner_building_site: "Obra"
         increase_for_holidays_percentage: "Increment per vacances (%)"
         sale_serivce_tariff: "Serveis tarifa"
+        status: "Estat"
     with:
         general: "General"
         image: "Imatge"
