@@ -73,6 +73,14 @@ admin:
         print_with_background: "Imprimir amb fons"
         to_count: "Compatbilitzar"
     actions: "Accions"
+enum:
+    sale_request_status:
+        pending: 'Pendent'
+        in_process: "En procés"
+        finished: "Finalitzada"
+        discarded: "Descartada"
+        to_be_approved: "Ofertada"
+        to_settle_on: "Per concretar"
 Servei_list: "Serveis"
 Servei_create: "Crear"
 Servei_delete: "Esborrar"

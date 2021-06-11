@@ -39,6 +39,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
+    protected $translationDomain = 'admin';
+
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Petició';
 
     /**
@@ -669,6 +674,17 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 array(
                     'label' => 'Tercer',
+                )
+            )
+            ->add(
+                'status',
+                null,
+                array(
+                    'label' => 'Estat',
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                    'template' => 'admin/cells/list__cell_sale_request_status.html.twig',
+                    'editable' => false,
                 )
             )
             ->add(
