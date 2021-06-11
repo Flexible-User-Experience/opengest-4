@@ -145,10 +145,11 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 'partnerBuildingSite',
                 EntityType::class,
                 array(
+                    'choice_label' => 'name',
                     'class' => PartnerBuildingSite::class,
                     'label' => 'Obra',
                     'required' => false,
-                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
+                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameWithPartnerJoinQB(), //TODO only return those related to client
                 )
             )
             ->end()

@@ -33,4 +33,21 @@ class PartnerBuildingSiteRepository extends ServiceEntityRepository
     {
         return $this->getEnabledSortedByNameQ()->getResult();
     }
+
+    public function getEnabledSortedByNameWithPartnerJoinQB(): QueryBuilder
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->join('p.partner', 'pa')
+        ;
+    }
+
+    public function getEnabledSortedByNameWithPartnerJoinQ(): Query
+    {
+        return  $this->getEnabledSortedByNameWithPartnerJoinQB()->getQuery();
+    }
+
+    public function getEnabledSortedByNameWithPartnerJoin(): array
+    {
+        return $this->getEnabledSortedByNameWithPartnerJoinQ()->getResult();
+    }
 }
