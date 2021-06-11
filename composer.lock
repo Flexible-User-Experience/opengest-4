@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3f76fd9a649a1778db4051ee9086558",
+    "content-hash": "3db8e48cc9df2cd2f1c9e62017dfa8ce",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -13445,6 +13445,49 @@
                 }
             ],
             "time": "2021-01-25T10:07:17+00:00"
+        },
+        {
+            "name": "thibautselingue/local-php-security-checker-installer",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thislg/local-php-security-checker-installer.git",
+                "reference": "5dc58b19ba58827dc599bcd9188fb764d200db1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thislg/local-php-security-checker-installer/zipball/5dc58b19ba58827dc599bcd9188fb764d200db1d",
+                "reference": "5dc58b19ba58827dc599bcd9188fb764d200db1d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "bin": [
+                "bin/local-php-security-checker-installer"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Selingue",
+                    "email": "thibaut.selingue@gmail.com"
+                }
+            ],
+            "description": "Composer integration for local PHP security check",
+            "support": {
+                "issues": "https://github.com/thislg/local-php-security-checker-installer/issues",
+                "source": "https://github.com/thislg/local-php-security-checker-installer/tree/v1.0.3"
+            },
+            "time": "2021-02-22T18:10:31+00:00"
         }
     ],
     "aliases": [],
