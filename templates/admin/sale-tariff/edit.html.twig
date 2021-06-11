@@ -7,13 +7,13 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
     <script type="text/javascript">
-      console.log('AA');
+      console.error('AA');
         jQuery(document).ready(function() {
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var buildingSitesNode = jQuery('#sonata-ba-field-container-{{ form.partnerBuildingSite.vars.id }}');
             buildingSitesNode.addClass('hidden');
-          console.log('AAA');
+          console.error('AAA');
 
              //on change
             partnerNode.change(function(event) {

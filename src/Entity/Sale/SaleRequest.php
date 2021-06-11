@@ -212,6 +212,13 @@ class SaleRequest extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    private int $status = 0;
+
+    /**
      * Methods.
      */
 
@@ -828,6 +835,26 @@ class SaleRequest extends AbstractBase
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     *
+     * @return SaleRequest
+     */
+    public function setStatus(int $status): SaleRequest
+    {
+        $this->status = $status;
 
         return $this;
     }
