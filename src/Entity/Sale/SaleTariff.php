@@ -45,7 +45,7 @@ class SaleTariff extends AbstractBase
     private ?Partner $partner;
 
     /**
-     * @var PartnerBuildingSite
+     * @var ?PartnerBuildingSite
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleTariffs")
      * @ORM\JoinColumn(nullable=true)
@@ -377,7 +377,11 @@ class SaleTariff extends AbstractBase
      */
     public function setPartnerBuildingSite(?PartnerBuildingSite $partnerBuildingSite = null): SaleTariff
     {
+        if ($this->partnerBuildingSite) {
+            $partnerBuildingSite->removeSaleTariff($this);
+        }
         $this->partnerBuildingSite = $partnerBuildingSite;
+        $partnerBuildingSite->addSaleTariff($this);
 
         return $this;
     }
