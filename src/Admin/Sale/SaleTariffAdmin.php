@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
@@ -78,7 +79,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-//        $this->setTemplate('edit', "admin/sale-tariff/edit.html.twig" );
+        $this->setTemplate('edit', "admin/sale-tariff/edit.html.twig" );
         $formMapper
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -143,13 +144,16 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'partnerBuildingSite',
-                EntityType::class,
+                ChoiceType::class,
                 array(
-                    'choice_label' => 'name',
-                    'class' => PartnerBuildingSite::class,
+//                    'choice_label' => 'name',
+//                    'class' => PartnerBuildingSite::class,
                     'label' => 'Obra',
                     'required' => false,
-                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameWithPartnerJoinQB(), //TODO only return those related to client
+//                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameWithPartnerJoinQB(), //TODO only return those related to client
+                    'attr' => [
+                        'data-sonata-select2' => 'false'
+                    ]
                 )
             )
             ->end()

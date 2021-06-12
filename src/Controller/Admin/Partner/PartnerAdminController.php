@@ -129,8 +129,8 @@ class PartnerAdminController extends BaseAdminController
         }
 
         $serializer = $this->container->get('serializer');
-        $serializedDeliveryNotes = $serializer->serialize($partner->getBuildingSites(), 'json', array('groups' => array('api')));
+        $serializedBuildingSites = $serializer->serialize($partner->getBuildingSites(), 'json', array('groups' => array('api')));
 
-        return new JsonResponse($serializedDeliveryNotes);
+        return new JsonResponse($serializedBuildingSites);
     }
 }

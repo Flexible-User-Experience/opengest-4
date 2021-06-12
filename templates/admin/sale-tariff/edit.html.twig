@@ -7,26 +7,27 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
     <script type="text/javascript">
-      console.error('AA');
         jQuery(document).ready(function() {
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var buildingSitesNode = jQuery('#sonata-ba-field-container-{{ form.partnerBuildingSite.vars.id }}');
+            var buildingSites = jQuery('#{{ form.partnerBuildingSite.vars.id }}');
             buildingSitesNode.addClass('hidden');
-          console.error('AAA');
 
              //on change
             partnerNode.change(function(event) {
                 var partnerId = event.val;
-              console.log('AAA');
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
                 }).done(function(response) {
+                  console.log(response);
                 updateBuildingSites(response);
             })});
 
             function updateBuildingSites(response) {
+              var partnerBuildingSitesData = jQuery.parseJSON(response);
+              console.log(partnerBuildingSitesData);
               buildingSitesNode.removeClass('hidden');
-              buildingSitesNode.select2({data: response});
+              buildingSites.select2({data: partnerBuildingSitesData});;
             }
         });
     </script>
