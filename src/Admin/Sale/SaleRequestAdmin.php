@@ -6,6 +6,7 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
+use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\SaleRequestStatusEnum;
 use App\Enum\UserRolesEnum;
@@ -368,7 +369,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Data', $this->getFormMdSuccessBoxArray(3))
+            ->with('admin.label.information', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'requestDate',
                 DatePickerType::class,
@@ -404,6 +405,17 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'Fi hora servei',
                     'required' => false,
                     'minutes' => array(0, 15, 30, 45),
+                )
+            )
+            ->add(
+                'attendedBy',
+                EntityType::class,
+                array(
+                    'label' => 'admin.label.attended_by',
+                    'required' => false,
+                    'class' => User::class,
+                    'disabled' => true,
+                    'data' => $this->getUser()
                 )
             )
             ->end()

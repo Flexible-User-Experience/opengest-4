@@ -55,6 +55,8 @@ admin:
         increase_for_holidays_percentage: "Increment per vacances (%)"
         sale_serivce_tariff: "Serveis tarifa"
         status: "Estat"
+        information: "Informació"
+        attended_by: "Atès per"
     with:
         general: "General"
         image: "Imatge"
