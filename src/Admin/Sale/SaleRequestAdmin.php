@@ -267,7 +267,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 array(
                     'class' => SaleTariff::class,
                     'label' => 'Tarifa',
-                    'required' => true,
+                    'required' => false,
                     'query_builder' => $this->rm->getSaleTariffRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
             )

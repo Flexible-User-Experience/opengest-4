@@ -72,11 +72,12 @@ class SaleRequest extends AbstractBase
     private $operator;
 
     /**
-     * @var SaleTariff
+     * @var ?SaleTariff
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleTariff")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $tariff;
+    private ?SaleTariff $tariff;
 
     /**
      * @var User
@@ -333,17 +334,17 @@ class SaleRequest extends AbstractBase
     /**
      * @return SaleTariff
      */
-    public function getTariff()
+    public function getTariff(): ?SaleTariff
     {
         return $this->tariff;
     }
 
     /**
-     * @param SaleTariff $tariff
+     * @param ?SaleTariff $tariff
      *
      * @return $this
      */
-    public function setTariff($tariff)
+    public function setTariff(?SaleTariff $tariff = null)
     {
         $this->tariff = $tariff;
 
