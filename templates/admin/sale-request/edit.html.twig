@@ -8,17 +8,16 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function() {
-          console.error('qq');
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
-            var mainAddress = jQuery('#{{ form.mainAddress.vars.id }}');
-            var mainAddressIcon = jQuery('#main-address-icon');
-            var mainCity = jQuery('#{{ form.mainCity.vars.id }}');
-            var mainCityIcon = jQuery('#main-city-icon');
-            var province = jQuery('#{{ form.province.vars.id }}');
-            var provinceIcon = jQuery('#province-icon');
+            {#var mainAddress = jQuery('#{{ form.mainAddress.vars.id }}');#}
+            {#var mainAddressIcon = jQuery('#main-address-icon');#}
+            {#var mainCity = jQuery('#{{ form.mainCity.vars.id }}');#}
+            {#var mainCityIcon = jQuery('#main-city-icon');#}
+            {#var province = jQuery('#{{ form.province.vars.id }}');#}
+            {#var provinceIcon = jQuery('#province-icon');#}
             var selectContactPersonNode = jQuery('#sonata-ba-field-container-{{ form.selectContactPersonName.vars.id }}');
             var selectContactPersonName = jQuery('#{{ form.selectContactPersonName.vars.id }}');
             var contactPersonName = jQuery('#{{ form.contactPersonName.vars.id }}');
@@ -35,23 +34,25 @@
              //on change
             partnerNode.change(function(event) {
                 cifNifIcon.removeClass('hidden');
-                mainAddressIcon.removeClass('hidden');
-                mainCityIcon.removeClass('hidden');
-                provinceIcon.removeClass('hidden');
+                // mainAddressIcon.removeClass('hidden');
+                // mainCityIcon.removeClass('hidden');
+                // provinceIcon.removeClass('hidden');
                 var partnerId = event.val;
-
+                console.log('PartnerID', partnerId);
+              if (partnerId) {
                 //on change Partner
-                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', { id: partnerId }), function() {
-                }).done(function(response) {
-                    updateNodesInfo(response);
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
+                }).done(function (response) {
+                  updateNodesInfo(response);
                 });
 
                 //on change PartnerContact
-                jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', { id: partnerId }), function() {
-                }).done(function(response) {
-                    console.log(response);
-                    updateNodesInfoContacts(response);
+                jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', {id: partnerId}), function () {
+                }).done(function (response) {
+                  console.log(response);
+                  updateNodesInfoContacts(response);
                 });
+              }
 
             });
 
@@ -89,23 +90,27 @@
                 var partner = jQuery.parseJSON(response);
 
                 cifNifIcon.addClass('hidden');
-                mainAddressIcon.addClass('hidden');
-                mainCityIcon.addClass('hidden');
-                provinceIcon.addClass('hidden');
+                // mainAddressIcon.addClass('hidden');
+                // mainCityIcon.addClass('hidden');
+                // provinceIcon.addClass('hidden');
 
                 cifNif.val(partner.cifNif);
-                mainAddress.val(partner.mainAddress);
-                mainCity.val(partner.mainCity.name);
-                province.val(partner.mainCity.province.name);
+                // mainAddress.val(partner.mainAddress);
+                // mainCity.val(partner.mainCity.name);
+                // province.val(partner.mainCity.province.name);
             }
 
             //on load PartnerContacts
-            {% if form.selectContactPersonName.vars.id is not null %}
+            const selectContactPersonNameInit = {{ form.selectContactPersonName.vars.id }};
+{#            {% if form.selectContactPersonName.vars.id is not null %}#}
+          if (selectContactPersonNameInit.value) {
+            console.error("Allo llarg", aaa.value);
             jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', { id: {{ form.selectContactPersonName.vars.id }} }), function() {
             }).done(function(response) {
-                updateNodesInfoContacts(response);
+              updateNodesInfoContacts(response);
             });
-            {% endif %}
+          }
+{#            {% endif %}#}
 
             selectContactPersonNode.addClass('hidden');
 

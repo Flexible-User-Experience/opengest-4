@@ -140,49 +140,49 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
                 )
             )
-            ->add(
-                'mainAddress',
-                TextType::class,
-                array(
-                    'label' => 'Adreça principal',
-                    'required' => false,
-                    'mapped' => false,
-                    'disabled' => true,
-                    'help' => '<i id="main-address-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->add(
-                'mainCity',
-                TextType::class,
-                array(
-                    'label' => 'Població',
-                    'required' => false,
-                    'mapped' => false,
-                    'disabled' => true,
-                    'help' => '<i id="main-city-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->add(
-                'province',
-                TextType::class,
-                array(
-                    'label' => 'Província',
-                    'required' => false,
-                    'mapped' => false,
-                    'disabled' => true,
-                    'help' => '<i id="province-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->add(
-                'paymentType',
-                TextType::class,
-                array(
-                    'label' => 'Forma de pagament',
-                    'required' => false,
-                    'mapped' => false,
-                    'disabled' => true,
-                )
-            )
+//            ->add(
+//                'mainAddress',
+//                TextType::class,
+//                array(
+//                    'label' => 'Adreça principal',
+//                    'required' => false,
+//                    'mapped' => false,
+//                    'disabled' => true,
+//                    'help' => '<i id="main-address-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+//                )
+//            )
+//            ->add(
+//                'mainCity',
+//                TextType::class,
+//                array(
+//                    'label' => 'Població',
+//                    'required' => false,
+//                    'mapped' => false,
+//                    'disabled' => true,
+//                    'help' => '<i id="main-city-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+//                )
+//            )
+//            ->add(
+//                'province',
+//                TextType::class,
+//                array(
+//                    'label' => 'Província',
+//                    'required' => false,
+//                    'mapped' => false,
+//                    'disabled' => true,
+//                    'help' => '<i id="province-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+//                )
+//            )
+//            ->add(
+//                'paymentType',
+//                TextType::class,
+//                array(
+//                    'label' => 'Forma de pagament',
+//                    'required' => false,
+//                    'mapped' => false,
+//                    'disabled' => true,
+//                )
+//            )
             ->add(
                 'selectContactPersonName',
                 TextType::class,
@@ -311,30 +311,30 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         ),
                 )
             )
-            ->add(
-                'height',
-                NumberType::class,
-                array(
-                    'label' => 'Alçada',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'distance',
-                NumberType::class,
-                array(
-                    'label' => 'Distància',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'weight',
-                NumberType::class,
-                array(
-                    'label' => 'Pes',
-                    'required' => false,
-                )
-            )
+//            ->add(
+//                'height',
+//                NumberType::class,
+//                array(
+//                    'label' => 'Alçada',
+//                    'required' => false,
+//                )
+//            )
+//            ->add(
+//                'distance',
+//                NumberType::class,
+//                array(
+//                    'label' => 'Distància',
+//                    'required' => false,
+//                )
+//            )
+//            ->add(
+//                'weight',
+//                NumberType::class,
+//                array(
+//                    'label' => 'Pes',
+//                    'required' => false,
+//                )
+//            )
             ->add(
                 'place',
                 null,
@@ -347,14 +347,14 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     ),
                 )
             )
-            ->add(
-                'utensils',
-                null,
-                array(
-                    'label' => 'Utensilis',
-                    'required' => false,
-                )
-            )
+//            ->add(
+//                'utensils',
+//                null,
+//                array(
+//                    'label' => 'Utensilis',
+//                    'required' => false,
+//                )
+//            )
             ->add(
                 'observations',
                 null,
