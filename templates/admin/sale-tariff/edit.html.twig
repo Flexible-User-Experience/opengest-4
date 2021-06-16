@@ -10,9 +10,8 @@
         jQuery(document).ready(function() {
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
-            var buildingSitesNode = jQuery('#sonata-ba-field-container-{{ form.partnerBuildingSite.vars.id }}');
-            var buildingSites = jQuery('#{{ form.partnerBuildingSite.vars.id }}');
-            buildingSitesNode.addClass('hidden');
+            var buildingSitesNode = jQuery('#{{ form.partnerBuildingSite.vars.id }}');
+            console.error(buildingSitesNode);
 
              //on change
             partnerNode.change(function(event) {
@@ -25,9 +24,8 @@
 
             function updateBuildingSites(response) {
               var partnerBuildingSitesData = jQuery.parseJSON(response);
-              console.log(partnerBuildingSitesData);
-              buildingSitesNode.removeClass('hidden');
-              buildingSites.select2({data: partnerBuildingSitesData});;
+              partnerBuildingSitesData.select2("destroy");
+              console.log(buildingSitesNode.select2({data: partnerBuildingSitesData}));
             }
         });
     </script>

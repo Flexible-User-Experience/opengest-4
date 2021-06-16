@@ -377,9 +377,6 @@ class SaleTariff extends AbstractBase
      */
     public function setPartnerBuildingSite(?PartnerBuildingSite $partnerBuildingSite = null): SaleTariff
     {
-        if ($this->partnerBuildingSite) {
-            $partnerBuildingSite->removeSaleTariff($this);
-        }
         $this->partnerBuildingSite = $partnerBuildingSite;
         $partnerBuildingSite->addSaleTariff($this);
 

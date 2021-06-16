@@ -218,6 +218,16 @@ class PartnerBuildingSite extends AbstractBase
     }
 
     /**
+     * @Groups({"api"})
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->name;
+    }
+
+    /**
      * @return string
      */
     public function __toString()

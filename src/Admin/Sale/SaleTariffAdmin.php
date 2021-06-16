@@ -7,6 +7,7 @@ use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
@@ -97,7 +98,9 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 DatePickerType::class,
                 array(
                     'label' => 'admin.label.date',
+                    'format' => 'd/M/y',
                     'required' => true,
+                    'dp_default_date' => (new DateTime())->format('d/m/Y'),
                 )
             )
             ->add(
@@ -144,16 +147,15 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'partnerBuildingSite',
-                ChoiceType::class,
+                EntityType::class,
                 array(
-//                    'choice_label' => 'name',
-//                    'class' => PartnerBuildingSite::class,
+                    'class' => PartnerBuildingSite::class,
                     'label' => 'Obra',
                     'required' => false,
 //                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameWithPartnerJoinQB(), //TODO only return those related to client
-                    'attr' => [
-                        'data-sonata-select2' => 'false'
-                    ]
+//                    'attr' => [
+//                        'data-sonata-select2' => 'false'
+//                    ]
                 )
             )
             ->end()
