@@ -80,6 +80,13 @@ class SaleRequest extends AbstractBase
     private ?SaleTariff $tariff;
 
     /**
+     * @var ?SaleServiceTariff
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff")
+     */
+    private ?SaleServiceTariff $service;
+
+    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Setting\User")
@@ -856,6 +863,26 @@ class SaleRequest extends AbstractBase
     public function setStatus(int $status): SaleRequest
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return SaleServiceTariff|null
+     */
+    public function getService(): ?SaleServiceTariff
+    {
+        return $this->service;
+    }
+
+    /**
+     * @param SaleServiceTariff|null $service
+     *
+     * @return SaleRequest
+     */
+    public function setService(?SaleServiceTariff $service): SaleRequest
+    {
+        $this->service = $service;
 
         return $this;
     }
