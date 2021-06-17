@@ -61,7 +61,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getSaleTariffs(): ArrayCollection
+    public function getSaleTariffs()
     {
         return $this->saleTariffs;
     }

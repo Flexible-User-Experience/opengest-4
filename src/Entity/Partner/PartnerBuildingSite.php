@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleTariff;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class PartnerBuildingSite.
@@ -30,6 +31,7 @@ class PartnerBuildingSite extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Groups({"api"})
      */
     private $name;
 
@@ -57,7 +59,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="partnerBuildingSite")
      */
     private $saleTariffs;
 
@@ -213,6 +215,16 @@ class PartnerBuildingSite extends AbstractBase
         }
 
         return $this;
+    }
+
+    /**
+     * @Groups({"api"})
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->name;
     }
 
     /**

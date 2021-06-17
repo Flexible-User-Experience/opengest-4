@@ -110,13 +110,12 @@ class PartnerAdminController extends BaseAdminController
         return new JsonResponse($serializedDeliveryNotes);
     }
 
-
     /**
      * @param int $id
      *
      * @return JsonResponse
      */
-    public function getPartnerBuildingSitesByIdAction($id)
+    public function getJsonBuildingSitesByIdAction($id)
     {
         /** @var Partner $partner */
         $partner = $this->admin->getObject($id);
@@ -130,8 +129,8 @@ class PartnerAdminController extends BaseAdminController
         }
 
         $serializer = $this->container->get('serializer');
-        $serializedContacts = $serializer->serialize($partner->getBuildingSites(), 'json', array('groups' => array('api')));
+        $serializedBuildingSites = $serializer->serialize($partner->getBuildingSites(), 'json', array('groups' => array('api')));
 
-        return new JsonResponse($serializedContacts);
+        return new JsonResponse($serializedBuildingSites);
     }
 }

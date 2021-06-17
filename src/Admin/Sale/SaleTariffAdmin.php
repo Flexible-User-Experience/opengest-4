@@ -7,13 +7,16 @@ use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
@@ -77,6 +80,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $this->setTemplate('edit', "admin/sale-tariff/edit.html.twig" );
         $formMapper
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -94,7 +98,9 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 DatePickerType::class,
                 array(
                     'label' => 'admin.label.date',
+                    'format' => 'd/M/y',
                     'required' => true,
+                    'dp_default_date' => (new DateTime())->format('d/m/Y'),
                 )
             )
             ->add(
@@ -164,6 +170,10 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'Obra',
                     'required' => false,
+//                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameWithPartnerJoinQB(), //TODO only return those related to client
+//                    'attr' => [
+//                        'data-sonata-select2' => 'false'
+//                    ]
                 )
             )
             ->end()

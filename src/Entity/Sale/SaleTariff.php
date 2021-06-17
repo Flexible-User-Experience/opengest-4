@@ -45,7 +45,7 @@ class SaleTariff extends AbstractBase
     private ?Partner $partner;
 
     /**
-     * @var PartnerBuildingSite
+     * @var ?PartnerBuildingSite
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleTariffs")
      * @ORM\JoinColumn(nullable=true)
@@ -378,8 +378,22 @@ class SaleTariff extends AbstractBase
     public function setPartnerBuildingSite(?PartnerBuildingSite $partnerBuildingSite = null): SaleTariff
     {
         $this->partnerBuildingSite = $partnerBuildingSite;
+        $partnerBuildingSite->addSaleTariff($this);
 
         return $this;
+    }
+    /**
+     * @Groups({"apiSaleTariff"})
+     */
+    public function getText()
+    {
+        if ($this->id) {
+            $partner = $this->getPartner() ? $this->getPartner() : '';
+            $partnerBuildingSite = $this->getPartnerBuildingSite() ? $this->getPartnerBuildingSite() : '';
+            $date = $this->getDate() ? $this->getDate()->format('d/m/y') : '';
+        }
+
+        return $this->id ? $this->getSaleServiceTariff().' · '.$partner.' · '.$partnerBuildingSite.' · '.$date : '---';
     }
 
     /**
@@ -387,6 +401,6 @@ class SaleTariff extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getEnterprise().' · '.$this->getYear().' · '.$this->getTonnage() : '---';
+        return $this->id ? $this->getSaleServiceTariff().' · '.($this->getDate() ? $this->getDate()->format('d/m/y') : '') : '---';
     }
 }

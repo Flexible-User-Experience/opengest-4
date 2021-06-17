@@ -72,11 +72,19 @@ class SaleRequest extends AbstractBase
     private $operator;
 
     /**
-     * @var SaleTariff
+     * @var ?SaleTariff
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleTariff")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $tariff;
+    private ?SaleTariff $tariff;
+
+    /**
+     * @var ?SaleServiceTariff
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff")
+     */
+    private ?SaleServiceTariff $service;
 
     /**
      * @var User
@@ -212,6 +220,13 @@ class SaleRequest extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    private int $status = 0;
+
+    /**
      * Methods.
      */
 
@@ -326,17 +341,17 @@ class SaleRequest extends AbstractBase
     /**
      * @return SaleTariff
      */
-    public function getTariff()
+    public function getTariff(): ?SaleTariff
     {
         return $this->tariff;
     }
 
     /**
-     * @param SaleTariff $tariff
+     * @param ?SaleTariff $tariff
      *
      * @return $this
      */
-    public function setTariff($tariff)
+    public function setTariff(?SaleTariff $tariff = null)
     {
         $this->tariff = $tariff;
 
@@ -828,6 +843,46 @@ class SaleRequest extends AbstractBase
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     *
+     * @return SaleRequest
+     */
+    public function setStatus(int $status): SaleRequest
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return SaleServiceTariff|null
+     */
+    public function getService(): ?SaleServiceTariff
+    {
+        return $this->service;
+    }
+
+    /**
+     * @param SaleServiceTariff|null $service
+     *
+     * @return SaleRequest
+     */
+    public function setService(?SaleServiceTariff $service): SaleRequest
+    {
+        $this->service = $service;
 
         return $this;
     }

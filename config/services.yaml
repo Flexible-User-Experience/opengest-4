@@ -35,7 +35,7 @@ services:
             $commandName:      ~
     App\:
         resource: '../src/*'
-        exclude:  '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude:  '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
