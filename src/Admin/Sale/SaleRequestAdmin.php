@@ -5,6 +5,7 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
@@ -250,56 +251,17 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Operari', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'operator',
-                EntityType::class,
-                array(
-                    'class' => Operator::class,
-                    'label' => 'Operari',
-                    'required' => true,
-                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
-            )
-            ->add(
-                'tariff',
-                EntityType::class,
-                array(
-                    'class' => SaleTariff::class,
-                    'label' => 'Tarifa',
-                    'required' => false,
-                    'query_builder' => $this->rm->getSaleTariffRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
-            )
-            ->add(
-                'miniumHours',
-                null,
-                array(
-                    'label' => 'Mínim hores',
-                    'required' => false,
-                    'help' => '<i id="minium-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->add(
-                'hourPrice',
-                null,
-                array(
-                    'label' => 'Preu hora',
-                    'required' => false,
-                    'help' => '<i id="hour-price-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->add(
-                'displacement',
-                null,
-                array(
-                    'label' => 'Desplaçament',
-                    'required' => false,
-                    'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->end()
             ->with('Servei', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'service',
+                EntityType::class,
+                array(
+                    'class' => SaleServiceTariff::class,
+                    'label' => 'Servei',
+                    'required' => true,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                )
+            )
             ->add(
                 'serviceDescription',
                 null,
@@ -309,7 +271,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'attr' => array(
                         'style' => 'resize: vertical',
                         'rows' => 7,
-                        ),
+                    ),
                 )
             )
 //            ->add(
@@ -366,6 +328,64 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         'style' => 'resize: vertical',
                         'rows' => 7,
                     ),
+                )
+            )
+            ->end()
+            ->with('Operari', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'operator',
+                EntityType::class,
+                array(
+                    'class' => Operator::class,
+                    'label' => 'Operari',
+                    'required' => true,
+                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'selectTariff',
+                TextType::class,
+                array(
+                    'label' => 'Tarifes',
+                    'required' => false,
+                    'mapped' => false,
+                )
+            )
+//            ->add(
+//                'tariff',
+//                EntityType::class,
+//                array(
+//                    'class' => SaleTariff::class,
+//                    'label' => 'Tarifa',
+//                    'required' => false,
+//                    'query_builder' => $this->rm->getSaleTariffRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+//                )
+//            )
+            ->add(
+                'miniumHours',
+                null,
+                array(
+                    'label' => 'Mínim hores',
+                    'required' => false,
+                    'help' => '<i id="minium-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'hourPrice',
+                null,
+                array(
+                    'label' => 'Preu hora',
+                    'required' => false,
+                    'help' => '<i id="hour-price-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'displacement',
+                null,
+                array(
+                    'label' => 'Desplaçament',
+                    'required' => false,
+                    'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
                 )
             )
             ->end()

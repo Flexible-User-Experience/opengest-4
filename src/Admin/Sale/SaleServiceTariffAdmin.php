@@ -53,7 +53,9 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete')
+        $collection
+            ->add('getJsonSaleTariffById', $this->getRouterIdParameter().'/get-json-sale-tariff-by-id')
+            ->remove('delete')
         ;
     }
 

@@ -22,7 +22,7 @@
             var selectContactPersonName = jQuery('#{{ form.selectContactPersonName.vars.id }}');
             var contactPersonName = jQuery('#{{ form.contactPersonName.vars.id }}');
             var contactPersonPhone = jQuery('#{{ form.contactPersonPhone.vars.id }}');
-            var saleTariff = jQuery('#sonata-ba-field-container-{{ form.tariff.vars.id }}')
+            var saleTariff = jQuery('#sonata-ba-field-container-{{ form.selectTariff.vars.id }}');
             var miniumHours = jQuery('#{{ form.miniumHours.vars.id }}');
             var miniumHoursIcon = jQuery('#minium-hours-icon');
             var priceHour = jQuery('#{{ form.hourPrice.vars.id }}');
@@ -30,6 +30,7 @@
             var displacement =jQuery('#{{ form.displacement.vars.id }}');
             var displacementIcon =jQuery('#displacement-icon');
             {#var paymentType = jQuery('#{{ form.paymentType.vars.id }}');#}
+            var serviceNode = jQuery('#sonata-ba-field-container-{{ form.service.vars.id }}');
 
              //on change
             partnerNode.change(function(event) {
@@ -54,6 +55,16 @@
                 });
               }
 
+            });
+
+            //on change service node
+            serviceNode.change(function (event) {
+              // Update tarifs node that the service and the partner can have. First service partner date, then service date, then date
+              const serviceId = event.val;
+              jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: serviceId}), function () {
+              }).done(function (response) {
+                console.log(response);
+              });
             });
 
             //on change PartnerContact
@@ -121,7 +132,7 @@
             }
 
             //on load Tariff
-            {% if form.tariff.vars.data is not null %}
+            {% if form.selectTariff.vars.data is not null %}
                 jQuery.get(Routing.generate('admin_app_sale_saletariff_getJsonSaleTariffById', { id: {{ form.tariff.vars.data.id }} }), function() {
                 }).done(function(response) {
                      updateNodesInfoTariff(response);
