@@ -74,6 +74,7 @@
 
           function updateNodeTariff(response) {
             var tariffs = jQuery.parseJSON(response);
+            console.log(tariffs);
             selectTariffNode.removeClass('hidden');
             selectTariffName.select2({data: tariffs});
           }
