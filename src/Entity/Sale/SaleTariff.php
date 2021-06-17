@@ -382,12 +382,25 @@ class SaleTariff extends AbstractBase
 
         return $this;
     }
+    /**
+     * @Groups({"apiSaleTariff"})
+     */
+    public function getText()
+    {
+        if ($this->id) {
+            $partner = $this->getPartner() ? $this->getPartner() : '';
+            $partnerBuildingSite = $this->getPartnerBuildingSite() ? $this->getPartnerBuildingSite() : '';
+            $date = $this->getDate() ? $this->getDate()->format('d/m/y') : '';
+        }
+
+        return $this->id ? $this->getSaleServiceTariff().' · '.$partner.' · '.$partnerBuildingSite.' · '.$date : '---';
+    }
 
     /**
      * @return string
      */
     public function __toString()
     {
-        return $this->id ? $this->getEnterprise().' · '.$this->getYear().' · '.$this->getTonnage() : '---';
+        return $this->id ? $this->getSaleServiceTariff().' · '.($this->getDate() ? $this->getDate()->format('d/m/y') : '') : '---';
     }
 }

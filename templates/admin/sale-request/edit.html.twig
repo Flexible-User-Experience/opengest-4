@@ -31,6 +31,8 @@
             var displacementIcon =jQuery('#displacement-icon');
             {#var paymentType = jQuery('#{{ form.paymentType.vars.id }}');#}
             var serviceNode = jQuery('#sonata-ba-field-container-{{ form.service.vars.id }}');
+            var selectTariffNode = jQuery('#sonata-ba-field-container-{{ form.selectTariff.vars.id }}');
+            var selectTariffName = jQuery('#{{ form.selectTariff.vars.id }}');
 
              //on change
             partnerNode.change(function(event) {
@@ -64,8 +66,17 @@
               jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: serviceId}), function () {
               }).done(function (response) {
                 console.log(response);
+                updateNodeTariff(response);
               });
             });
+
+          selectTariffNode.addClass('hidden');
+
+          function updateNodeTariff(response) {
+            var tariffs = jQuery.parseJSON(response);
+            selectTariffNode.removeClass('hidden');
+            selectTariffName.select2({data: tariffs});
+          }
 
             //on change PartnerContact
             selectContactPersonName.on("change", function(event) {
