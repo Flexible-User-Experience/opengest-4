@@ -53,7 +53,7 @@ class SaleRequestAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function pdfAction(Request $request)
+    public function pdfAction(Request $request, SaleRequestPdfManager $rps)
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -69,8 +69,8 @@ class SaleRequestAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
-        /** @var SaleRequestPdfManager $rps */
-        $rps = $this->container->get('app.sale_request_pdf_manager');
+//        /** @var SaleRequestPdfManager $rps */
+//        $rps = $this->container->get('app.sale_request_pdf_manager');
 
         return new Response($rps->outputSingle($saleRequest), 200, array('Content-type' => 'application/pdf'));
     }
