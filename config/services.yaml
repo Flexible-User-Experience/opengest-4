@@ -142,6 +142,11 @@ services:
         arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
+    app.block.sale_request_status_in_process:
+        class: App\Block\SaleRequestStatusInProcessBlock
+        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        tags:
+            - { name: sonata.block }
     # File
     app.file_service:
         class: App\Service\FileService

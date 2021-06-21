@@ -9,6 +9,8 @@ admin:
         empty_service_description: "--- descripció de la feina pendent ---"
         empty_service_place: "--- ubicació de la feina pendent ---"
         pending: "Pendents"
+        in_process: "En procés"
+        to_be_approved_or_to_settle_on: "Ofertades o per concretar"
     label:
         position: "Posició"
         enabled_male: "Actiu"
