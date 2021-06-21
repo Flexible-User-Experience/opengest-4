@@ -67,7 +67,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="partnerBuildingSite")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="buildingSite")
      */
     private $saleRequests;
 

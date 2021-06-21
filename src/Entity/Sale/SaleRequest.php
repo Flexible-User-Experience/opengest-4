@@ -40,7 +40,7 @@ class SaleRequest extends AbstractBase
     /**
      * @var ?PartnerBuildingSite
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleRequests")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?PartnerBuildingSite $buildingSite;
