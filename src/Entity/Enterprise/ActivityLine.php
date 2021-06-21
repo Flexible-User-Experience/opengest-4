@@ -3,7 +3,9 @@
 namespace App\Entity\Enterprise;
 
 use App\Entity\AbstractBase;
+use App\Entity\Sale\SaleServiceTariff;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class ActivityLine.
@@ -30,6 +32,14 @@ class ActivityLine extends AbstractBase
      * @ORM\Column(type="string")
      */
     private $name;
+
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleServiceTariff", mappedBy="activityLine")
+     */
+    private $saleServiceTariffs;
 
     /**
      * Methods.
@@ -74,6 +84,56 @@ class ActivityLine extends AbstractBase
 
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSaleServiceTariffs() : ArrayCollection
+    {
+        return $this->saleServiceTariffs;
+    }
+
+    /**
+     * @param ArrayCollection $SaleServiceTariffs
+     *
+     * @return ActivityLine
+     */
+    public function setSaleServiceTariffs(ArrayCollection $SaleServiceTariffs): ActivityLine
+    {
+        $this->SaleServiceTariffs = $SaleServiceTariffs;
+
+        return $this;
+    }
+
+    /**
+     * @param SaleServiceTariff $saleServiceTariff
+     *
+     * @return ActivityLine
+     */
+    public function addSaleServiceTariff(SaleServiceTariff $saleServiceTariff): ActivityLine
+    {
+        if (!$this->saleServiceTariffs->contains($saleServiceTariff)) {
+            $this->saleServiceTariffs->add($saleServiceTariff);
+            $saleServiceTariff->setActivityLine($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleServiceTariff $SaleServiceTariff
+     *
+     * @return ActivityLine
+     */
+    public function removeSaleServiceTariff(SaleServiceTariff $SaleServiceTariff) : ActivityLine
+    {
+        if ($this->saleServiceTariffs->contains($SaleServiceTariff)) {
+            $this->saleServiceTariffs->removeElement($SaleServiceTariff);
+        }
+
+        return $this;
+    }
+
 
     /**
      * @return string
