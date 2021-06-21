@@ -45,7 +45,7 @@ class SaleRequestStatusInProcessBlock extends AbstractBlockService
                 'title' => 'admin.dashboard.in_process',
                 'background' => $backgroundColor,
                 'content' => $inProcessSaleRequests,
-                'show_date' => false,
+                'show_date' => true,
             ],
             $response
         );

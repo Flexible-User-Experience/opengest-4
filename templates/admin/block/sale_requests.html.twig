@@ -12,7 +12,10 @@
                         <div class="box-header with-border" style="overflow:hidden">
                             <h3 class="box-title">{{ item.partner.name }}</h3>
                             <div class="box-tools pull-right" style="right:7px;top:10px;">
-                                <span class="label label-default" style="font-size:100%;font-weight:600;">{% if show_date %}{{ item.serviceDate | date('d/m/Y') }} {% endif %}{% if not show_date %}{{ item.serviceTime | date('h:i') }}{% endif %}</span>
+                                {% if show_date %}
+                                    <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceDate | date('d/m/Y') }}</span>
+                                    <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceTime | date('h:i') }}</span>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="box-body">
