@@ -57,6 +57,7 @@ admin:
         status: "Estat"
         information: "Informació"
         attended_by: "Atès per"
+        activity_line: "Línia d'activitat"
     with:
         general: "General"
         image: "Imatge"

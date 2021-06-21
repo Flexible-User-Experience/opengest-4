@@ -3,6 +3,7 @@
 namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Sale\SaleTariff;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -10,6 +11,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -75,6 +77,16 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                     'label' => 'Descripció',
                 )
             )
+            ->add(
+                'activityLine',
+                EntityType::class,
+                array(
+                    'class' => ActivityLine::class,
+                    'label' => 'admin.label.activity_line',
+                    'required' => false,
+                    'query_builder' => $this->rm->getActivityLineRepository()->getEnabledSortedByNameQB(),
+                )
+            )
             ->end()
             ->with('Controls', $this->getFormMdSuccessBoxArray(6))
             ->add(
@@ -102,6 +114,19 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 )
             )
+            ->add(
+                'activityLine',
+                null,
+                array(
+                    'label' => 'admin.label.activity_line',
+                    )
+                ,
+                EntityType::class,
+                array(
+                    'class' => ActivityLine::class,
+                    'query_builder' => $this->rm->getActivityLineRepository()->getEnabledSortedByNameQB()
+                )
+            )
         ;
     }
 
@@ -117,6 +142,14 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'admin.label.description',
                     'editable' => true,
+                )
+            )
+            ->add(
+                'activityLine',
+                EntityType::class,
+                array(
+                    'class' => ActivityLine::class,
+                    'label' => 'admin.label.activity_line',
                 )
             )
             ->add(
