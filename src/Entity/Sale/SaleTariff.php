@@ -393,7 +393,7 @@ class SaleTariff extends AbstractBase
             $date = $this->getDate() ? $this->getDate()->format('d/m/y') : '';
         }
 
-        return $this->id ? $this->getSaleServiceTariff().' · '.$partner.' · '.$partnerBuildingSite.' · '.$date : '---';
+        return $this->id ? $partner.' · '.$partnerBuildingSite.' · '.$date : '---';
     }
 
     /**

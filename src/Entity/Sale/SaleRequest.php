@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
@@ -35,6 +36,14 @@ class SaleRequest extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleRequests")
      */
     private $partner;
+
+    /**
+     * @var ?PartnerBuildingSite
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?PartnerBuildingSite $buildingSite;
 
     /**
      * @var string
@@ -274,6 +283,26 @@ class SaleRequest extends AbstractBase
     public function setPartner($partner)
     {
         $this->partner = $partner;
+
+        return $this;
+    }
+
+    /**
+     * @return PartnerBuildingSite|null
+     */
+    public function getBuildingSite(): ?PartnerBuildingSite
+    {
+        return $this->buildingSite;
+    }
+
+    /**
+     * @param PartnerBuildingSite|null $buildingSite
+     *
+     * @return SaleRequest
+     */
+    public function setBuildingSite(?PartnerBuildingSite $buildingSite = null): SaleRequest
+    {
+        $this->buildingSite = $buildingSite;
 
         return $this;
     }
