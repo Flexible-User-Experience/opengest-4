@@ -4,6 +4,7 @@ namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
+use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
@@ -274,30 +275,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     ),
                 )
             )
-//            ->add(
-//                'height',
-//                NumberType::class,
-//                array(
-//                    'label' => 'Alçada',
-//                    'required' => false,
-//                )
-//            )
-//            ->add(
-//                'distance',
-//                NumberType::class,
-//                array(
-//                    'label' => 'Distància',
-//                    'required' => false,
-//                )
-//            )
-//            ->add(
-//                'weight',
-//                NumberType::class,
-//                array(
-//                    'label' => 'Pes',
-//                    'required' => false,
-//                )
-//            )
             ->add(
                 'place',
                 null,
@@ -310,14 +287,17 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     ),
                 )
             )
-//            ->add(
-//                'utensils',
-//                null,
-//                array(
-//                    'label' => 'Utensilis',
-//                    'required' => false,
-//                )
-//            )
+            ->add(
+                'buildingSite',
+                EntityType::class,
+                array(
+                    'class' => PartnerBuildingSite::class,
+                    'label' => 'Obra',
+                    'required' => false,
+                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                )
+
+            )
             ->add(
                 'observations',
                 null,
