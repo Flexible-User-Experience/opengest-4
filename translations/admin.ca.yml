@@ -8,6 +8,7 @@ admin:
         empty: "no hi han peticions pendents"
         empty_service_description: "--- descripció de la feina pendent ---"
         empty_service_place: "--- ubicació de la feina pendent ---"
+        pending: "Pendents"
     label:
         position: "Posició"
         enabled_male: "Actiu"

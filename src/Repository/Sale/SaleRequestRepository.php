@@ -119,4 +119,23 @@ class SaleRequestRepository extends ServiceEntityRepository
             ->addOrderBy('s.serviceTime', 'ASC')
         ;
     }
+
+    public function getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDateQB(Enterprise $enterprise, $status): QueryBuilder
+    {
+        return $this->getFilteredByEnterpriseEnabledSortedByRequestDateQB($enterprise)
+            ->andWhere('s.status = :status')
+            ->setParameter('status', $status)
+            ->addOrderBy('s.serviceTime', 'ASC')
+        ;
+    }
+
+    public function getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDateQ(Enterprise $enterprise, $status): Query
+    {
+        return $this->getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDateQB($enterprise, $status)->getQuery();
+    }
+
+    public function getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDate(Enterprise $enterprise, $status): array
+    {
+        return $this->getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDateQ($enterprise, $status)->getResult();
+    }
 }

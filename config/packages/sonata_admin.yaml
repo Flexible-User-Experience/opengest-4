@@ -63,15 +63,19 @@ sonata_admin:
                 settings:
                     content: >
                         <h4 class="c-grey"><strong>Peticions</strong></h4>
+#            -
+#                position: top
+#                type: app.block.sale_request_today
+#                class: 'col-md-4'
+#            -
+#                position: top
+#                type: app.block.sale_request_tomorrow
+#                class: 'col-md-4'
+#            -
+#                position: top
+#                type: app.block.sale_request_next
+#                class: 'col-md-4'
             -
                 position: top
-                type: app.block.sale_request_today
-                class: 'col-md-4'
-            -
-                position: top
-                type: app.block.sale_request_tomorrow
-                class: 'col-md-4'
-            -
-                position: top
-                type: app.block.sale_request_next
+                type: app.block.sale_request_status_pending
                 class: 'col-md-4'
