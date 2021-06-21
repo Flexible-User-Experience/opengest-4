@@ -26,7 +26,6 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -107,10 +106,10 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'status',
                 ChoiceType::class,
-                [
+                array(
                     'choices' => SaleRequestStatusEnum::getEnumArray(),
-                    'label' => 'admin.label.status'
-                ]
+                    'label' => 'admin.label.status',
+                )
             )
             ->add(
                 'partner',
@@ -141,6 +140,44 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'mapped' => false,
                     'disabled' => true,
                     'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'buildingSite',
+                EntityType::class,
+                array(
+                    'class' => PartnerBuildingSite::class,
+                    'label' => 'Obra',
+                    'required' => false,
+                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                )
+
+            )
+            ->add(
+                'serviceDate',
+                DatePickerType::class,
+                array(
+                    'label' => 'Data servei',
+                    'format' => 'd/M/y',
+                    'required' => true,
+                )
+            )
+            ->add(
+                'serviceTime',
+                TimeType::class,
+                array(
+                    'label' => 'Hora servei',
+                    'required' => true,
+                    'minutes' => array(0, 15, 30, 45),
+                )
+            )
+            ->add(
+                'endServiceTime',
+                TimeType::class,
+                array(
+                    'label' => 'Fi hora servei',
+                    'required' => false,
+                    'minutes' => array(0, 15, 30, 45),
                 )
             )
 //            ->add(
@@ -186,6 +223,123 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 //                    'disabled' => true,
 //                )
 //            )
+            ->end()
+            ->with('Servei', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'service',
+                EntityType::class,
+                array(
+                    'class' => SaleServiceTariff::class,
+                    'label' => 'Servei',
+                    'required' => true,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                )
+            )
+            ->add(
+                'vehicle',
+                EntityType::class,
+                array(
+                    'class' => Vehicle::class,
+                    'label' => 'Vehicle',
+                    'required' => true,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'secondaryVehicle',
+                EntityType::class,
+                array(
+                    'class' => Vehicle::class,
+                    'label' => 'Vehicle secundari',
+                    'required' => false,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'operator',
+                EntityType::class,
+                array(
+                    'class' => Operator::class,
+                    'label' => 'Operari',
+                    'required' => true,
+                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'serviceDescription',
+                null,
+                array(
+                    'label' => 'Descripció servei',
+                    'required' => true,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 7,
+                    ),
+                )
+            )
+            ->add(
+                'place',
+                null,
+                array(
+                    'label' => 'Lloc',
+                    'required' => false,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 3,
+                    ),
+                )
+            )
+            ->end()
+            ->with('Tarifa', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'selectTariff',
+                TextType::class,
+                array(
+                    'label' => 'Tarifes',
+                    'required' => false,
+                    'mapped' => false,
+                    'disabled' => true,
+                )
+            )
+//            ->add(
+//                'tariff',
+//                EntityType::class,
+//                array(
+//                    'class' => SaleTariff::class,
+//                    'label' => 'Tarifa',
+//                    'required' => false,
+//                    'query_builder' => $this->rm->getSaleTariffRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+//                )
+//            )
+            ->add(
+                'miniumHours',
+                null,
+                array(
+                    'label' => 'Mínim hores',
+                    'required' => false,
+                    'help' => '<i id="minium-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'hourPrice',
+                null,
+                array(
+                    'label' => 'Preu hora',
+                    'required' => false,
+                    'help' => '<i id="hour-price-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'displacement',
+                null,
+                array(
+                    'label' => 'Desplaçament',
+                    'required' => false,
+                    'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->end()
+            ->with('Contacte', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'selectContactPersonName',
                 TextType::class,
@@ -231,145 +385,8 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     },
                 )
             )
-            ->add(
-                'vehicle',
-                EntityType::class,
-                array(
-                    'class' => Vehicle::class,
-                    'label' => 'Vehicle',
-                    'required' => true,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
-            )
-            ->add(
-                'secondaryVehicle',
-                EntityType::class,
-                array(
-                    'class' => Vehicle::class,
-                    'label' => 'Vehicle secundari',
-                    'required' => false,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
-            )
             ->end()
-            ->with('Servei', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'service',
-                EntityType::class,
-                array(
-                    'class' => SaleServiceTariff::class,
-                    'label' => 'Servei',
-                    'required' => true,
-                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
-                )
-            )
-            ->add(
-                'serviceDescription',
-                null,
-                array(
-                    'label' => 'Descripció servei',
-                    'required' => true,
-                    'attr' => array(
-                        'style' => 'resize: vertical',
-                        'rows' => 7,
-                    ),
-                )
-            )
-            ->add(
-                'place',
-                null,
-                array(
-                    'label' => 'Lloc',
-                    'required' => false,
-                    'attr' => array(
-                        'style' => 'resize: vertical',
-                        'rows' => 3,
-                    ),
-                )
-            )
-            ->add(
-                'buildingSite',
-                EntityType::class,
-                array(
-                    'class' => PartnerBuildingSite::class,
-                    'label' => 'Obra',
-                    'required' => false,
-                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
-                )
-
-            )
-            ->add(
-                'observations',
-                null,
-                array(
-                    'label' => 'Observacions',
-                    'required' => false,
-                    'attr' => array(
-                        'style' => 'resize: vertical',
-                        'rows' => 7,
-                    ),
-                )
-            )
-            ->end()
-            ->with('Operari', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'operator',
-                EntityType::class,
-                array(
-                    'class' => Operator::class,
-                    'label' => 'Operari',
-                    'required' => true,
-                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
-            )
-            ->add(
-                'selectTariff',
-                TextType::class,
-                array(
-                    'label' => 'Tarifes',
-                    'required' => false,
-                    'mapped' => false,
-                )
-            )
-//            ->add(
-//                'tariff',
-//                EntityType::class,
-//                array(
-//                    'class' => SaleTariff::class,
-//                    'label' => 'Tarifa',
-//                    'required' => false,
-//                    'query_builder' => $this->rm->getSaleTariffRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-//                )
-//            )
-            ->add(
-                'miniumHours',
-                null,
-                array(
-                    'label' => 'Mínim hores',
-                    'required' => false,
-                    'help' => '<i id="minium-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->add(
-                'hourPrice',
-                null,
-                array(
-                    'label' => 'Preu hora',
-                    'required' => false,
-                    'help' => '<i id="hour-price-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->add(
-                'displacement',
-                null,
-                array(
-                    'label' => 'Desplaçament',
-                    'required' => false,
-                    'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
-            )
-            ->end()
-            ->with('admin.label.information', $this->getFormMdSuccessBoxArray(3))
+            ->with('Altres', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'requestDate',
                 DatePickerType::class,
@@ -381,33 +398,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'serviceDate',
-                DatePickerType::class,
-                array(
-                    'label' => 'Data servei',
-                    'format' => 'd/M/y',
-                    'required' => true,
-                )
-            )
-            ->add(
-                'serviceTime',
-                TimeType::class,
-                array(
-                    'label' => 'Hora servei',
-                    'required' => true,
-                    'minutes' => array(0, 15, 30, 45),
-                )
-            )
-            ->add(
-                'endServiceTime',
-                TimeType::class,
-                array(
-                    'label' => 'Fi hora servei',
-                    'required' => false,
-                    'minutes' => array(0, 15, 30, 45),
-                )
-            )
-            ->add(
                 'attendedBy',
                 EntityType::class,
                 array(
@@ -416,6 +406,18 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'class' => User::class,
                     'disabled' => true,
                     'data' => $this->getUser()
+                )
+            )
+            ->add(
+                'observations',
+                null,
+                array(
+                    'label' => 'Observacions',
+                    'required' => false,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 2,
+                    ),
                 )
             )
             ->end()

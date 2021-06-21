@@ -70,12 +70,10 @@
               });
             });
 
-          selectTariffNode.addClass('hidden');
-
           function updateNodeTariff(response) {
             var tariffs = jQuery.parseJSON(response);
             console.log(tariffs);
-            selectTariffNode.removeClass('hidden');
+            selectTariffName.removeAttr('disabled');
             selectTariffName.select2({data: tariffs});
           }
 

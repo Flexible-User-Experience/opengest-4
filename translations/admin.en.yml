@@ -112,3 +112,6 @@ Factura_list: "Factures"
 Factura_create: "Crear"
 Factura_delete: "Esborrar"
 Factura: "Factura"
+Petició_list: Petició
+Petició_create: Crear
+Petició_delete: Esborrar
