@@ -45,7 +45,7 @@ class SaleRequestStatusPendingBlock extends AbstractBlockService
                 'title' => 'admin.dashboard.pending',
                 'background' => $backgroundColor,
                 'content' => $pendingSaleRequests,
-                'show_date' => false,
+                'show_date' => true,
             ],
             $response
         );

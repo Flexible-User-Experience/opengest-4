@@ -47,7 +47,7 @@ class SaleRequestStatusToBeApprovedOrToSettleOnBlock extends AbstractBlockServic
                 'title' => 'admin.dashboard.to_be_approved_or_to_settle_on',
                 'background' => $backgroundColor,
                 'content' => $saleRequests,
-                'show_date' => false,
+                'show_date' => true,
             ],
             $response
         );

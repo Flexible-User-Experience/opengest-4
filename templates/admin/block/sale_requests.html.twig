@@ -10,7 +10,7 @@
                 {% for item in content %}
                     <div class="box box-info direct-chat direct-chat-info" style="margin-top:10px">
                         <div class="box-header with-border" style="overflow:hidden">
-                            <h3 class="box-title">{{ item.partner.name }}</h3>
+                            <h3 class="box-title">{{ item.service.description }}</h3>
                             <div class="box-tools pull-right" style="right:7px;top:10px;">
                                 {% if show_date %}
                                     <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceDate | date('d/m/Y') }}</span>
@@ -19,6 +19,22 @@
                             </div>
                         </div>
                         <div class="box-body">
+                            <div class="container">
+                                <p class="box-default" style="color:black">{{ item.partner.name }}</p>
+                                <p class="box-comment" style="color:black">{{ item.serviceDescription }}</p>
+                                <p class="box-info" style="color:black">{{ item.operator.shortFullName }}, {{ item.vehicle.name }}, {% if item.secondaryVehicle %} {{ item.secondaryVehicle.name }} {% else %}  {% endif %}</p>
+                                {% if item.observations %}
+                                    <div class="direct-chat-msg">
+                                        <div class="direct-chat-img" style="color:black">
+                                            Observ:
+                                        </div>
+                                        <div class="direct-chat-text">
+                                            {{ item.observations }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+{#
                             <div class="direct-chat-messages" style="border-bottom:solid 1px #F4F4F4">
                                 <div class="direct-chat-msg">
                                     <div class="direct-chat-info clearfix">
@@ -38,7 +54,7 @@
                                         {% if item.place %}{{ item.place }}{% else %}{{ 'admin.dashboard.empty_service_place' | trans }}{% endif %}
                                     </div>
                                 </div>
-                            </div>
+#}
                             <div class="box-tools pull-right">
                                 <a href="{{ path('admin_app_sale_salerequest_edit', {id: item.id}) }}" class="btn btn-box-tool"><i class="fa fa-pencil"></i></a>
                                 <a href="{# TODO #}#" class="btn btn-box-tool"><i class="fa fa-search-plus"></i></a>
