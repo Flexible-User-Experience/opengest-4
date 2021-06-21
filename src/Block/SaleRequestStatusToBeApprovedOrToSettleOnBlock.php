@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Environment;
 
-class SaleRequestStatusInProcessBlock extends AbstractBlockService
+class SaleRequestStatusToBeApprovedOrToSettleOnBlock extends AbstractBlockService
 {
     private SaleRequestRepository $srr;
     private TokenStorageInterface $tss;
@@ -36,15 +36,17 @@ class SaleRequestStatusInProcessBlock extends AbstractBlockService
         // merge settings
         $settings = $blockContext->getSettings();
         $backgroundColor = 'bg-light-blue';
-        $inProcessSaleRequests = $this->srr->getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDate($this->tss->getToken()->getUser()->getDefaultEnterprise(), 1);
+        $toBeApprovedSaleRequests = $this->srr->getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDate($this->tss->getToken()->getUser()->getDefaultEnterprise(), 4);
+        $toSettleOnSaleRequests = $this->srr->getFilteredByStatusFilteredByEnterpriseEnabledSortedByServiceDate($this->tss->getToken()->getUser()->getDefaultEnterprise(), 5);
+        $saleRequests = array_merge($toBeApprovedSaleRequests, $toSettleOnSaleRequests);
 
         return $this->renderResponse(
             $blockContext->getTemplate(), [
                 'block' => $blockContext->getBlock(),
                 'settings' => $settings,
-                'title' => 'admin.dashboard.in_process',
+                'title' => 'admin.dashboard.to_be_approved_or_to_settle_on',
                 'background' => $backgroundColor,
-                'content' => $inProcessSaleRequests,
+                'content' => $saleRequests,
                 'show_date' => false,
             ],
             $response
@@ -54,7 +56,7 @@ class SaleRequestStatusInProcessBlock extends AbstractBlockService
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'title' => 'admin.dashboard.in_process',
+            'title' => 'admin.dashboard.to_be_approved_or_to_settle_on',
             'content' => 'Default content',
             'template' => 'admin/block/sale_requests.html.twig',
         ]);

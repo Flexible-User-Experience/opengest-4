@@ -83,3 +83,7 @@ sonata_admin:
                 position: top
                 type: app.block.sale_request_status_in_process
                 class: 'col-md-4'
+            -
+                position: top
+                type: app.block.sale_request_status_to_be_approved_or_to_settle_on
+                class: 'col-md-4'
