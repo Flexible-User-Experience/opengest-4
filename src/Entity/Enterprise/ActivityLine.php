@@ -100,7 +100,7 @@ class ActivityLine extends AbstractBase
      */
     public function setSaleServiceTariffs(ArrayCollection $SaleServiceTariffs): ActivityLine
     {
-        $this->SaleServiceTariffs = $SaleServiceTariffs;
+        $this->saleServiceTariffs = $SaleServiceTariffs;
 
         return $this;
     }
