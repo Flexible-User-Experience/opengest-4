@@ -125,7 +125,6 @@ class SaleRequestRepository extends ServiceEntityRepository
         return $this->getFilteredByEnterpriseEnabledSortedByRequestDateQB($enterprise)
             ->andWhere('s.status = :status')
             ->setParameter('status', $status)
-            ->addOrderBy('s.serviceTime', 'ASC')
         ;
     }
 
