@@ -682,10 +682,10 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'tariff',
+                'service',
                 null,
                 array(
-                    'label' => 'Tarifa',
+                    'label' => 'Servei',
                 )
             )
             ->add(
