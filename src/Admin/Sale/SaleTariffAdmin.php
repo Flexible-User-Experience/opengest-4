@@ -103,20 +103,20 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'dp_default_date' => (new DateTime())->format('d/m/Y'),
                 )
             )
-            ->add(
-                'tonnage',
-                null,
-                array(
-                    'label' => 'admin.label.tonnage',
-                    'required' => true,
-                )
-            )
+//            ->add(
+//                'tonnage',
+//                null,
+//                array(
+//                    'label' => 'admin.label.tonnage',
+//                    'required' => true,
+//                )
+//            )
             ->add(
                 'saleServiceTariff',
                 EntityType::class,
                 array(
                     'class' => SaleServiceTariff::class,
-                    'label' => 'Serveis tarifa',
+                    'label' => 'admin.label.sale_serivce_tariff',
                     'required' => true,
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 )
@@ -283,13 +283,13 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'property' => 'name',
                 )
             )
-            ->add(
-                'tonnage',
-                null,
-                array(
-                    'label' => 'admin.label.tonnage',
-                )
-            )
+//            ->add(
+//                'tonnage',
+//                null,
+//                array(
+//                    'label' => 'admin.label.tonnage',
+//                )
+//            )
             ->add(
                 'priceHour',
                 null,
@@ -378,14 +378,14 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'format' => 'd/m/Y',
                 )
             )
-            ->add(
-                'tonnage',
-                null,
-                array(
-                    'label' => 'admin.label.tonnage',
-                    'editable' => true,
-                )
-            )
+//            ->add(
+//                'tonnage',
+//                null,
+//                array(
+//                    'label' => 'admin.label.tonnage',
+//                    'editable' => true,
+//                )
+//            )
             ->add(
                 'saleServiceTariff',
                 null,

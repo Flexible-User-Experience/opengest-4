@@ -30,7 +30,7 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Serveis Tarifa';
+    protected $classnameLabel = 'Tonatges';
 
     /**
      * @var string
