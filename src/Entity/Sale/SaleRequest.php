@@ -92,7 +92,7 @@ class SaleRequest extends AbstractBase
     /**
      * @var ?SaleServiceTariff
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleRequests")
      */
     private ?SaleServiceTariff $service;
 

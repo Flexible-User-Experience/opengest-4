@@ -241,7 +241,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => Vehicle::class,
-                    'label' => 'Vehicle',
+                    'label' => 'admin.label.vehicle',
                     'required' => false,
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
@@ -251,7 +251,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => Vehicle::class,
-                    'label' => 'Vehicle secundari',
+                    'label' => 'admin.label.secondary_vehicle',
                     'required' => false,
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
@@ -261,7 +261,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => Operator::class,
-                    'label' => 'Operari',
+                    'label' => 'admin.label.operator',
                     'required' => false,
                     'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
@@ -485,45 +485,49 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'vehicle',
                 null,
-                array(),
+                array(
+                    'label' => 'admin.label.vehicle'
+                ),
                 EntityType::class,
                 array(
                     'class' => Vehicle::class,
-                    'label' => 'Vehicle',
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
             )
             ->add(
                 'secondaryVehicle',
                 null,
-                array(),
+                array(
+                    'label' => 'admin.label.secondary_vehicle'
+                ),
                 EntityType::class,
                 array(
                     'class' => Vehicle::class,
-                    'label' => 'Vehicle secundari',
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
             )
             ->add(
                 'operator',
                 null,
-                array(),
+                array(
+                    'label' => 'admin.label.operator'
+                ),
                 EntityType::class,
                 array(
                     'class' => Operator::class,
-                    'label' => 'Operari',
                     'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
             )
             ->add(
-                'tariff',
+                'service',
                 null,
-                array(),
+                array(
+                    'label' => 'admin.label.sale_serivce_tariff'
+                ),
                 EntityType::class,
                 array(
-                    'class' => SaleTariff::class,
-                    'label' => 'Tarifa',
-                    'query_builder' => $this->rm->getSaleTariffRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'class' => SaleServiceTariff::class,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 )
             )
             ->add(
@@ -554,27 +558,27 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'Descripció servei',
                 )
             )
-            ->add(
-                'height',
-                null,
-                array(
-                    'label' => 'Alçada',
-                )
-            )
-            ->add(
-                'distance',
-                null,
-                array(
-                    'label' => 'Distància',
-                )
-            )
-            ->add(
-                'weight',
-                null,
-                array(
-                    'label' => 'Pes',
-                )
-            )
+//            ->add(
+//                'height',
+//                null,
+//                array(
+//                    'label' => 'Alçada',
+//                )
+//            )
+//            ->add(
+//                'distance',
+//                null,
+//                array(
+//                    'label' => 'Distància',
+//                )
+//            )
+//            ->add(
+//                'weight',
+//                null,
+//                array(
+//                    'label' => 'Pes',
+//                )
+//            )
             ->add(
                 'place',
                 null,
@@ -582,13 +586,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'Lloc',
                 )
             )
-            ->add(
-                'utensils',
-                null,
-                array(
-                    'label' => 'Utensilis',
-                )
-            )
+//            ->add(
+//                'utensils',
+//                null,
+//                array(
+//                    'label' => 'Utensilis',
+//                )
+//            )
             ->add(
                 'observations',
                 null,
@@ -652,11 +656,25 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 //        }
         $listMapper
             ->add(
+                'id',
+                null,
+                array(
+                    'label' => 'Id',
+                )
+            )
+            ->add(
                 'requestDate',
                 null,
                 array(
                     'label' => 'Data petició',
                     'format' => 'd/m/y',
+                )
+            )
+            ->add(
+                'service',
+                null,
+                array(
+                    'label' => 'Tonatge',
                 )
             )
             ->add(
@@ -675,6 +693,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'partner',
+                null,
+                array(
+                    'label' => 'Tercer',
+                )
+            )
+            ->add(
                 'vehicle',
                 null,
                 array(
@@ -682,24 +707,10 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'service',
-                null,
-                array(
-                    'label' => 'Servei',
-                )
-            )
-            ->add(
                 'operator',
                 null,
                 array(
                     'label' => 'Operari',
-                )
-            )
-            ->add(
-                'partner',
-                null,
-                array(
-                    'label' => 'Tercer',
                 )
             )
             ->add(
@@ -720,7 +731,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'actions' => array(
                         'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
                         'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'pdf' => array('template' => 'admin/buttons/list__action_pdf_button.html.twig'),
+//                        'pdf' => array('template' => 'admin/buttons/list__action_pdf_button.html.twig'),
                         'clone' => array('template' => 'admin/buttons/list__action_clone_button.html.twig'),
                         'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
                     ),

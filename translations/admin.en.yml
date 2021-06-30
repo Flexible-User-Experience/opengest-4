@@ -61,6 +61,9 @@ admin:
         information: "Informació"
         attended_by: "Atès per"
         activity_line: "Línia d'activitat"
+        operator: "Operator"
+        vehicle: "Vehicle"
+        secondary_vehicle: "Secondary vehicle"
     with:
         general: "General"
         image: "Imatge"

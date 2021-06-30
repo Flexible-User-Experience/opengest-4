@@ -283,6 +283,18 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'property' => 'name',
                 )
             )
+            ->add(
+                'saleServiceTariff',
+                null,
+                array(
+                    'label' => 'admin.label.sale_serivce_tariff'
+                ),
+                EntityType::class,
+                array(
+                    'class' => SaleServiceTariff::class,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                )
+            )
 //            ->add(
 //                'tonnage',
 //                null,

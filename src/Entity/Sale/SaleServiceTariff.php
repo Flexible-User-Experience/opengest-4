@@ -36,6 +36,13 @@ class SaleServiceTariff extends AbstractBase
     private $saleTariffs;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="service")
+     */
+    private $saleRequests;
+
+    /**
      * @var ?ActivityLine
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\ActivityLine", inversedBy="saleServiceTariffs")
@@ -111,6 +118,55 @@ class SaleServiceTariff extends AbstractBase
     {
         if ($this->saleTariffs->contains($saleTariff)) {
             $this->saleTariffs->removeElement($saleTariff);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSaleRequests()
+    {
+        return $this->saleRequests;
+    }
+
+    /**
+     * @param ArrayCollection $saleRequests
+     *
+     * @return SaleServiceTariff
+     */
+    public function setSaleRequests(ArrayCollection $saleRequests): SaleServiceTariff
+    {
+        $this->saleRequests = $saleRequests;
+
+        return $this;
+    }
+
+    /**
+     * @param SaleRequest $saleRequest
+     *
+     * @return SaleServiceTariff
+     */
+    public function addSaleRequest(ArrayCollection $saleRequest): SaleServiceTariff
+    {
+        if (!$this->saleRequests->contains($saleRequest)) {
+            $this->saleRequests->add($saleRequest);
+            $saleRequest->setService($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleRequest $saleRequest
+     *
+     * @return $this
+     */
+    public function removeSaleRequest(SaleRequest $saleRequest)
+    {
+        if ($this->saleRequests->contains($saleRequest)) {
+            $this->saleRequests->removeElement($saleRequest);
         }
 
         return $this;
