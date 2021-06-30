@@ -168,7 +168,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 TimeType::class,
                 array(
                     'label' => 'Hora servei',
-                    'required' => true,
+                    'required' => false,
                     'minutes' => array(0, 15, 30, 45),
                 )
             )
@@ -242,7 +242,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 array(
                     'class' => Vehicle::class,
                     'label' => 'Vehicle',
-                    'required' => true,
+                    'required' => false,
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
             )
@@ -262,7 +262,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 array(
                     'class' => Operator::class,
                     'label' => 'Operari',
-                    'required' => true,
+                    'required' => false,
                     'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 )
             )
@@ -639,17 +639,17 @@ class SaleRequestAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-            $listMapper
-                ->add(
-                    'enterprise',
-                    null,
-                    array(
-                        'label' => 'Empresa',
-                    )
-                )
-            ;
-        }
+//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
+//            $listMapper
+//                ->add(
+//                    'enterprise',
+//                    null,
+//                    array(
+//                        'label' => 'Empresa',
+//                    )
+//                )
+//            ;
+//        }
         $listMapper
             ->add(
                 'requestDate',

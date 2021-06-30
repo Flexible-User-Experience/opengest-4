@@ -67,18 +67,19 @@ class SaleRequest extends AbstractBase
     private $invoiceTo;
 
     /**
-     * @var Vehicle
+     * @var ?Vehicle
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleRequests")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $vehicle;
+    private ?Vehicle $vehicle;
 
     /**
-     * @var Operator
+     * @var ?Operator
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="saleRequests")
      */
-    private $operator;
+    private ?Operator $operator;
 
     /**
      * @var ?SaleTariff
@@ -175,7 +176,7 @@ class SaleRequest extends AbstractBase
     /**
      * @var DateTime
      *
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     private $serviceTime;
 
@@ -328,7 +329,7 @@ class SaleRequest extends AbstractBase
     }
 
     /**
-     * @return Vehicle
+     * @return ?Vehicle
      */
     public function getVehicle()
     {
@@ -348,7 +349,7 @@ class SaleRequest extends AbstractBase
     }
 
     /**
-     * @return Operator
+     * @return ?Operator
      */
     public function getOperator()
     {
