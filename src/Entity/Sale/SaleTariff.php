@@ -3,9 +3,12 @@
 namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
+use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerBuildingSite;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use DateTime;
 
 /**
  * Class SaleTariff.
@@ -26,6 +29,30 @@ class SaleTariff extends AbstractBase
     private $enterprise;
 
     /**
+     * @var SaleServiceTariff
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleTariffs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?SaleServiceTariff $saleServiceTariff; //TODO it is not nullable, it has to be included in the migrations from old database
+
+    /**
+     * @var Partner
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleTariffs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Partner $partner;
+
+    /**
+     * @var ?PartnerBuildingSite
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleTariffs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?PartnerBuildingSite $partnerBuildingSite;
+
+    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -33,9 +60,16 @@ class SaleTariff extends AbstractBase
     private $year;
 
     /**
+     * @var DateTime
+     *
+     * @ORM\Column(type="date", nullable=true) //TODO change to false once migrations include this field
+     */
+    private $date;
+
+    /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $tonnage;
 
@@ -76,6 +110,13 @@ class SaleTariff extends AbstractBase
      * @ORM\Column(type="float", nullable=true)
      */
     private $increaseForHolidays;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $increaseForHolidaysPercentage;
 
     /**
      * Methods.
@@ -242,10 +283,124 @@ class SaleTariff extends AbstractBase
     }
 
     /**
+     * @return ?DateTime
+     */
+    public function getDate(): ?DateTime
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param DateTime $date
+     *
+     * @return SaleTariff
+     */
+    public function setDate(DateTime $date): SaleTariff
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return ?float
+     */
+    public function getIncreaseForHolidaysPercentage(): ?float
+    {
+        return $this->increaseForHolidaysPercentage;
+    }
+
+    /**
+     * @param ?float $increaseForHolidaysPercentage
+     *
+     * @return SaleTariff
+     */
+    public function setIncreaseForHolidaysPercentage(?float $increaseForHolidaysPercentage): SaleTariff
+    {
+        $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
+
+        return $this;
+    }
+
+    /**
+     * @return ?SaleServiceTariff
+     */
+    public function getSaleServiceTariff(): ?SaleServiceTariff //TODO cannot return null, it is a compulsory field
+    {
+        return $this->saleServiceTariff;
+    }
+
+    /**
+     * @param SaleServiceTariff $saleServiceTariff
+     *
+     * @return SaleTariff
+     */
+    public function setSaleServiceTariff(SaleServiceTariff $saleServiceTariff): SaleTariff
+    {
+        $this->saleServiceTariff = $saleServiceTariff;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Partner
+     */
+    public function getPartner(): ?Partner
+    {
+        return $this->partner;
+    }
+
+    /**
+     * @param ?Partner $partner
+     *
+     * @return SaleTariff
+     */
+    public function setPartner(?Partner $partner = null): SaleTariff
+    {
+        $this->partner = $partner;
+
+        return $this;
+    }
+
+    /**
+     * @return ?PartnerBuildingSite
+     */
+    public function getPartnerBuildingSite(): ?PartnerBuildingSite
+    {
+        return $this->partnerBuildingSite;
+    }
+
+    /**
+     * @param ?PartnerBuildingSite $partnerBuildingSite
+     *
+     * @return SaleTariff
+     */
+    public function setPartnerBuildingSite(?PartnerBuildingSite $partnerBuildingSite = null): SaleTariff
+    {
+        $this->partnerBuildingSite = $partnerBuildingSite;
+        $partnerBuildingSite->addSaleTariff($this);
+
+        return $this;
+    }
+    /**
+     * @Groups({"apiSaleTariff"})
+     */
+    public function getText()
+    {
+        if ($this->id) {
+            $partner = $this->getPartner() ? $this->getPartner() : '';
+            $partnerBuildingSite = $this->getPartnerBuildingSite() ? $this->getPartnerBuildingSite() : '';
+            $date = $this->getDate() ? $this->getDate()->format('d/m/y') : '';
+        }
+
+        return $this->id ? $partner.' · '.$partnerBuildingSite.' · '.$date : '---';
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->id ? $this->getEnterprise().' · '.$this->getYear().' · '.$this->getTonnage() : '---';
+        return $this->id ? $this->getSaleServiceTariff().' · '.($this->getDate() ? $this->getDate()->format('d/m/y') : '') : '---';
     }
 }

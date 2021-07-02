@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
@@ -37,6 +38,14 @@ class SaleRequest extends AbstractBase
     private $partner;
 
     /**
+     * @var ?PartnerBuildingSite
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleRequests")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?PartnerBuildingSite $buildingSite;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -58,25 +67,34 @@ class SaleRequest extends AbstractBase
     private $invoiceTo;
 
     /**
-     * @var Vehicle
+     * @var ?Vehicle
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleRequests")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $vehicle;
+    private ?Vehicle $vehicle;
 
     /**
-     * @var Operator
+     * @var ?Operator
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="saleRequests")
      */
-    private $operator;
+    private ?Operator $operator;
 
     /**
-     * @var SaleTariff
+     * @var ?SaleTariff
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleTariff")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $tariff;
+    private ?SaleTariff $tariff;
+
+    /**
+     * @var ?SaleServiceTariff
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleRequests")
+     */
+    private ?SaleServiceTariff $service;
 
     /**
      * @var User
@@ -158,7 +176,7 @@ class SaleRequest extends AbstractBase
     /**
      * @var DateTime
      *
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     private $serviceTime;
 
@@ -210,6 +228,13 @@ class SaleRequest extends AbstractBase
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestHasDeliveryNote", mappedBy="saleRequest")
      */
     private $saleRequestHasDeliveryNotes;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    private int $status = 0;
 
     /**
      * Methods.
@@ -264,6 +289,26 @@ class SaleRequest extends AbstractBase
     }
 
     /**
+     * @return PartnerBuildingSite|null
+     */
+    public function getBuildingSite(): ?PartnerBuildingSite
+    {
+        return $this->buildingSite;
+    }
+
+    /**
+     * @param PartnerBuildingSite|null $buildingSite
+     *
+     * @return SaleRequest
+     */
+    public function setBuildingSite(?PartnerBuildingSite $buildingSite = null): SaleRequest
+    {
+        $this->buildingSite = $buildingSite;
+
+        return $this;
+    }
+
+    /**
      * @return Partner
      */
     public function getInvoiceTo()
@@ -284,7 +329,7 @@ class SaleRequest extends AbstractBase
     }
 
     /**
-     * @return Vehicle
+     * @return ?Vehicle
      */
     public function getVehicle()
     {
@@ -304,7 +349,7 @@ class SaleRequest extends AbstractBase
     }
 
     /**
-     * @return Operator
+     * @return ?Operator
      */
     public function getOperator()
     {
@@ -326,17 +371,17 @@ class SaleRequest extends AbstractBase
     /**
      * @return SaleTariff
      */
-    public function getTariff()
+    public function getTariff(): ?SaleTariff
     {
         return $this->tariff;
     }
 
     /**
-     * @param SaleTariff $tariff
+     * @param ?SaleTariff $tariff
      *
      * @return $this
      */
-    public function setTariff($tariff)
+    public function setTariff(?SaleTariff $tariff = null)
     {
         $this->tariff = $tariff;
 
@@ -828,6 +873,46 @@ class SaleRequest extends AbstractBase
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     *
+     * @return SaleRequest
+     */
+    public function setStatus(int $status): SaleRequest
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return SaleServiceTariff|null
+     */
+    public function getService(): ?SaleServiceTariff
+    {
+        return $this->service;
+    }
+
+    /**
+     * @param SaleServiceTariff|null $service
+     *
+     * @return SaleRequest
+     */
+    public function setService(?SaleServiceTariff $service): SaleRequest
+    {
+        $this->service = $service;
 
         return $this;
     }

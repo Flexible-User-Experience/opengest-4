@@ -3,7 +3,11 @@
 namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
+use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleTariff;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class PartnerBuildingSite.
@@ -28,6 +32,7 @@ class PartnerBuildingSite extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Groups({"api"})
      */
     private $name;
 
@@ -51,6 +56,20 @@ class PartnerBuildingSite extends AbstractBase
      * @ORM\Column(type="string", nullable=true)
      */
     private $phone;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="partnerBuildingSite")
+     */
+    private $saleTariffs;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="buildingSite")
+     */
+    private $saleRequests;
 
     /**
      * Methods.
@@ -154,6 +173,116 @@ class PartnerBuildingSite extends AbstractBase
         $this->phone = $phone;
 
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSaleTariffs(): ArrayCollection
+    {
+        return $this->saleTariffs;
+    }
+
+    /**
+     * @param ArrayCollection $saleTariffs
+     *
+     * @return PartnerBuildingSite
+     */
+    public function setSaleTariffs(ArrayCollection $saleTariffs): PartnerBuildingSite
+    {
+        $this->saleTariffs = $saleTariffs;
+
+        return $this;
+    }
+
+    /**
+     * @param SaleTariff $saleTariff
+     *
+     * @return PartnerBuildingSite
+     */
+    public function addSaleTariff(SaleTariff $saleTariff): PartnerBuildingSite
+    {
+        if (!$this->saleTariffs->contains($saleTariff)) {
+            $this->saleTariffs->add($saleTariff);
+            $saleTariff->setPartnerBuildingSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleTariff $saleTariff
+     *
+     * @return $this
+     */
+    public function removeSaleTariff(SaleTariff $saleTariff)
+    {
+        if ($this->saleTariffs->contains($saleTariff)) {
+            $this->saleTariffs->removeElement($saleTariff);
+            $saleTariff->setPartnerBuildingSite();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSaleRequests(): ArrayCollection
+    {
+        return $this->saleRequests;
+    }
+
+    /**
+     * @param ArrayCollection $saleRequests
+     *
+     * @return PartnerBuildingSite
+     */
+    public function setSaleRequests(ArrayCollection $saleRequests): PartnerBuildingSite
+    {
+        $this->saleRequests = $saleRequests;
+
+        return $this;
+    }
+
+    /**
+     * @param SaleRequest $saleRequests
+     *
+     * @return PartnerBuildingSite
+     */
+    public function addSaleRequests(SaleRequest $saleRequests): PartnerBuildingSite
+    {
+        if (!$this->saleRequests->contains($saleRequests)) {
+            $this->saleRequests->add($saleRequests);
+            $saleRequests->setBuildingSite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleRequest $saleRequests
+     *
+     * @return $this
+     */
+    public function removeSaleRequests(SaleRequest $saleRequests)
+    {
+        if ($this->saleRequests->contains($saleRequests)) {
+            $this->saleRequests->removeElement($saleRequests);
+            $saleRequests->setBuildingSite();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"api"})
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->name;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Command\Sale;
 
 use App\Command\AbstractBaseCommand;
 use App\Entity\Enterprise\Enterprise;
+use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
 use DateTimeImmutable;
 use Exception;
@@ -70,6 +71,17 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$year.' · '.$tonnage.' · '.$priceHour.' · '.$miniumHours.' · '.$miniumHolidayHours.' · '.$displacement.' · '.$increaseForHolidays.' · '.$enterpriseTaxIdentificationNumber);
 
             if ($year && $tonnage && $enterprise) {
+                //Todo Check if SaleServiceTariff exists, if not, create new one
+                /** @var SaleServiceTariff $saleServiceTariff */
+                $saleServiceTariff = $this->rm->getSaleServiceTariffRepository()->findOneBy([
+                    'description' => $tonnage
+                ]);
+                if (!$saleServiceTariff) {
+                    // new record
+                    $saleServiceTariff = new SaleServiceTariff();
+                    $saleServiceTariff->setDescription($tonnage);
+                    $this->em->persist($saleServiceTariff);
+                }
                 /** @var SaleTariff $saleTariff */
                 $saleTariff = $this->rm->getSaleTariffRepository()->findOneBy([
                     'year' => $year,
@@ -81,6 +93,7 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
                     $saleTariff = new SaleTariff();
                     ++$newRecords;
                 }
+                //Todo Add fields data, saleServiceTariff (as they are mandatory)
                 $saleTariff
                     ->setEnterprise($enterprise)
                     ->setYear($year)
@@ -90,6 +103,8 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
                     ->setMiniumHolidayHours($miniumHolidayHours)
                     ->setDisplacement($displacement)
                     ->setIncreaseForHolidays($increaseForHolidays)
+                    ->setDate(date_create('1-1-'.$year))
+                    ->setSaleServiceTariff($saleServiceTariff)
                 ;
                 $this->em->persist($saleTariff);
                 if (0 == $rowsRead % self::CSV_BATCH_WINDOW && !$input->getOption('dry-run')) {

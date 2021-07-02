@@ -1,0 +1,32 @@
+{% extends 'admin/edit.html.twig' %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+             // Handler for .ready() called.
+            var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            var buildingSitesNode = jQuery('#{{ form.partnerBuildingSite.vars.id }}');
+            console.error(buildingSitesNode);
+
+             //on change
+            partnerNode.change(function(event) {
+                var partnerId = event.val;
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
+                }).done(function(response) {
+                  console.log(response);
+                updateBuildingSites(response);
+            })});
+
+            function updateBuildingSites(response) {
+              var partnerBuildingSitesData = jQuery.parseJSON(response);
+              partnerBuildingSitesData.select2("destroy");
+              console.log(buildingSitesNode.select2({data: partnerBuildingSitesData}));
+            }
+        });
+    </script>
+{% endblock %}

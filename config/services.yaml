@@ -43,7 +43,8 @@ services:
     app.pdf_engine:
         class: App\Service\PdfEngineService
         arguments: [ '@app.smart_assets_helper_service', '%mailer_url_base%', '%project_admin_title%' ]
-    app.sale_request_pdf_manager:
+#    app.sale_request_pdf_manager:
+    App\Manager\Pdf\SaleRequestPdfManager:
         class: App\Manager\Pdf\SaleRequestPdfManager
         arguments: [ '@app.pdf_engine' ]
     # Messaging
@@ -134,6 +135,21 @@ services:
             - { name: sonata.block }
     app.block.sale_request_next:
         class: App\Block\SaleRequestNextBlock
+        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        tags:
+            - { name: sonata.block }
+    app.block.sale_request_status_pending:
+        class: App\Block\SaleRequestStatusPendingBlock
+        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        tags:
+            - { name: sonata.block }
+    app.block.sale_request_status_in_process:
+        class: App\Block\SaleRequestStatusInProcessBlock
+        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        tags:
+            - { name: sonata.block }
+    app.block.sale_request_status_to_be_approved_or_to_settle_on:
+        class: App\Block\SaleRequestStatusToBeApprovedOrToSettleOnBlock
         arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
