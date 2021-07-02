@@ -30,6 +30,7 @@
     ansistrano_before_symlink_shared_tasks_file: "{{ playbook_dir }}/hooks/before-symlink-shared-tasks.yml"
     # symfony config
     symfony_console_path: "bin/console"
+    symfony_php_path: "/usr/bin/php{{ vhost_php_version }}"
     symfony_run_composer: true
     symfony_composer_path: "{{ ansistrano_deploy_to }}/composer.phar"
     symfony_composer_options: "--no-dev --optimize-autoloader --no-interaction --no-plugins --no-scripts"
