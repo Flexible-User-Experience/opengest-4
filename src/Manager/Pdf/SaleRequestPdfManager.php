@@ -116,7 +116,7 @@ class SaleRequestPdfManager
         $this->pdfEngineService->setStyleSize('B', 9);
         $pdf->Cell(15, ConstantsEnum::PDF_CELL_HEIGHT, 'TM', 0, 0, 'L', true);
         $this->pdfEngineService->setStyleSize('', 9);
-        $pdf->Cell(44, ConstantsEnum::PDF_CELL_HEIGHT, $saleRequest->getTariff()->getTonnage(), 0, 0, 'L', true);
+        $pdf->Cell(44, ConstantsEnum::PDF_CELL_HEIGHT, $saleRequest->getService()->getDescription(), 0, 0, 'L', true);
         $pdf->Cell(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, ConstantsEnum::PDF_CELL_HEIGHT, '', 0, 1, 'L', true);
 
         $pdf->setX($total);

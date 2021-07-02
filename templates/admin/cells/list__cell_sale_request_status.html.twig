@@ -1,0 +1,19 @@
+{% extends "@SonataAdmin/CRUD/base_list_field.html.twig" %}
+
+{% trans_default_domain 'admin' %}
+
+{% block field %}
+    {% if object.status is same as(0) %}
+        <span class="label label-warning" style="margin-right:10px">{{ 'enum.sale_request_status.pending' | trans }}</span>
+    {% elseif object.status == 1 %}
+        <span class="label label-info" style="margin-right:10px">{{ 'enum.sale_request_status.in_process' | trans }}</span>
+    {% elseif object.status == 2 %}
+        <span class="label label-success" style="margin-right:10px">{{ 'enum.sale_request_status.finished' | trans }}</span>
+    {% elseif object.status == 3 %}
+        <span class="label label-default" style="margin-right:10px">{{ 'enum.sale_request_status.discarded' | trans }}</span>
+    {% elseif object.status == 4 %}
+        <span class="label label-default" style="margin-right:10px">{{ 'enum.sale_request_status.to_be_approved' | trans }}</span>
+    {% elseif object.status == 5 %}
+        <span class="label label-default" style="margin-right:10px">{{ 'enum.sale_request_status.to_settle_on' | trans }}</span>
+    {% endif %}
+{% endblock %}

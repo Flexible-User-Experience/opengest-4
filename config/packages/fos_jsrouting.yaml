@@ -2,5 +2,7 @@ fos_js_routing:
     routes_to_expose:
         - 'admin_app_partner_partner_getJsonPartnerById'
         - 'admin_app_partner_partner_getPartnerContactsById'
+        - 'admin_app_partner_partner_getJsonBuildingSitesById'
         - 'admin_app_partner_partner_getJsonDeliveryNotesById'
         - 'admin_app_sale_saletariff_getJsonSaleTariffById'
+        - 'admin_app_sale_saleservicetariff_getJsonSaleTariffById'

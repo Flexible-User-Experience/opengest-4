@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleRequest;
 use App\Manager\Pdf\SaleRequestPdfManager;
 use App\Service\GuardService;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -52,12 +53,12 @@ class SaleRequestAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function pdfAction(Request $request)
+    public function pdfAction(Request $request, SaleRequestPdfManager $rps)
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
 
-        /** @var SaleRequest $object */
+        /** @var SaleRequest $saleRequest */
         $saleRequest = $this->admin->getObject($id);
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
@@ -68,10 +69,43 @@ class SaleRequestAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
-        /** @var SaleRequestPdfManager $rps */
-        $rps = $this->container->get('app.sale_request_pdf_manager');
+//        /** @var SaleRequestPdfManager $rps */
+//        $rps = $this->container->get('app.sale_request_pdf_manager');
 
         return new Response($rps->outputSingle($saleRequest), 200, array('Content-type' => 'application/pdf'));
+    }
+
+    /**
+     * Clone sale request and go te edit view
+     *
+     * @param Request $request
+     *
+     * @return Response
+     *
+     * @throws NotFoundHttpException If the object does not exist
+     * @throws AccessDeniedException If access is not granted
+     */
+    public function cloneAction (Request $request, EntityManagerInterface $em) {
+        $request = $this->resolveRequest($request);
+        $id = $request->get($this->admin->getIdParameter());
+        /** @var SaleRequest $saleRequest */
+        $saleRequest = $this->admin->getObject($id);
+        if (!$saleRequest) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        /** @var GuardService $guardService */
+        $guardService = $this->container->get('app.guard_service');
+        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
+            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
+        }
+        $newSaleRequest = clone $saleRequest;
+        $newSaleRequest->getServiceDate()->add(\DateInterval::createFromDateString('1 day'));
+        $newSaleRequest->setStatus(0);
+        $em->clear(SaleRequest::class);
+        $em->persist($newSaleRequest);
+        $em->flush();
+
+        return new RedirectResponse($this->admin->generateUrl('list'));
     }
 
     /**

@@ -40,3 +40,10 @@ $ php bin/console hautelook:fixtures:load
 $ ./scripts/developer-tools/test-database-reset.sh
 $ ./scripts/developer-tools/run-test.sh
 ```
+
+#### Import Opengest v1 database
+
+```bash
+$ ./scripts/developer-tools/test-database-reset.sh
+$ ./scripts/developer-tools/run-test.sh
+```

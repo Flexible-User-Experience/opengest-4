@@ -17,8 +17,8 @@ sonata_admin:
         pager_results: 'admin/pager_results.html.twig'
     dashboard:
         groups:
-            Web:
-                icon: '<i class="fa fa-chrome"></i>'
+            Vendes:
+                icon: '<i class="fa fa-eur"></i>'
             Operaris:
                 icon: '<i class="fa fa-users"></i>'
             Vehicles:
@@ -27,8 +27,8 @@ sonata_admin:
                 icon: '<i class="fa fa-user"></i>'
             Empreses:
                 icon: '<i class="fa fa-building"></i>'
-            Vendes:
-                icon: '<i class="fa fa-eur"></i>'
+            Web:
+                icon: '<i class="fa fa-chrome"></i>'
             Configuracio:
                 label: 'Configuració'
                 icon:  '<i class="fa fa-briefcase"></i>'
@@ -63,15 +63,27 @@ sonata_admin:
                 settings:
                     content: >
                         <h4 class="c-grey"><strong>Peticions</strong></h4>
+#            -
+#                position: top
+#                type: app.block.sale_request_today
+#                class: 'col-md-4'
+#            -
+#                position: top
+#                type: app.block.sale_request_tomorrow
+#                class: 'col-md-4'
+#            -
+#                position: top
+#                type: app.block.sale_request_next
+#                class: 'col-md-4'
             -
                 position: top
-                type: app.block.sale_request_today
+                type: app.block.sale_request_status_pending
                 class: 'col-md-4'
             -
                 position: top
-                type: app.block.sale_request_tomorrow
+                type: app.block.sale_request_status_in_process
                 class: 'col-md-4'
             -
                 position: top
-                type: app.block.sale_request_next
+                type: app.block.sale_request_status_to_be_approved_or_to_settle_on
                 class: 'col-md-4'

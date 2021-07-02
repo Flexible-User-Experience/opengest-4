@@ -26,6 +26,7 @@ abstract class AbstractBase
      *
      * @ORM\Column(type="integer")
      * @Groups({"api"})
+     * @Groups({"apiSaleTariff"})
      */
     protected $id;
 

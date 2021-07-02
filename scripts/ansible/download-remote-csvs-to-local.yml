@@ -4,18 +4,18 @@
   vars_files:
     - "{{ playbook_dir }}/vars/config.yml"
   tasks:
-    - name: copy remote uploads directory to local
+    - name: copy remote csv directory to local
       synchronize:
         mode: pull
         recursive: yes
         perms: yes
         times: yes
-        src: "{{ vhost_path }}/shared/public/uploads"
-        dest: "{{ playbook_dir }}/../../public"
+        src: "{{ vhost_path }}/current/var/csv"
+        dest: "{{ playbook_dir }}/../../var"
     - name: fix ownership in downloaded files locally
       delegate_to: mother
       file:
-        path: "{{ playbook_dir }}/../../public/uploads"
+        path: "{{ playbook_dir }}/../../var/csv"
         recurse: yes
         follow: yes
         owner: "{{ local_system_user }}"
