@@ -735,7 +735,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 //                        'pdf' => array('template' => 'admin/buttons/list__action_pdf_button.html.twig'),
                         'clone' => array('template' => 'admin/buttons/list__action_clone_button.html.twig'),
                         'generateDeliveryNoteFromSaleRequest' => array('template' => 'admin/buttons/list__action_generate_delivery_note_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
+                        'delete' => array('template' => 'admin/buttons/list__action_delete_sale_request_button.html.twig'),
                     ),
                     'label' => 'Accions',
                 )
