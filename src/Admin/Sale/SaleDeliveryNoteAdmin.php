@@ -180,19 +180,19 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->with('Factures', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'saleInvoices',
-                EntityType::class,
-                array(
-                    'class' => SaleInvoice::class,
-                    'label' => 'Factures',
-                    'required' => false,
-                    'multiple' => true,
-                    'expanded' => true,
-                    'query_builder' => $this->rm->getSaleInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
-//                    'by_reference' => false,
-                )
-            )
+//            ->add(
+//                'saleInvoices',
+//                EntityType::class,
+//                array(
+//                    'class' => SaleInvoice::class,
+//                    'label' => 'Factures',
+//                    'required' => false,
+//                    'multiple' => true,
+//                    'expanded' => true,
+//                    'query_builder' => $this->rm->getSaleInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
+////                    'by_reference' => false,
+//                )
+//            )
             ->add(
                 'wontBeInvoiced',
                 CheckboxType::class,
