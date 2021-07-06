@@ -10,6 +10,7 @@ use App\Manager\Pdf\SaleRequestPdfManager;
 use App\Service\GuardService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\DoctrineORMAdminBundle\Model\ModelManager;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,7 +121,7 @@ class SaleRequestAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function generateDeliveryNoteFromSaleRequestAction (Request $request, EntityManagerInterface $em) {
+    public function generateDeliveryNoteFromSaleRequestAction (Request $request) {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
         /** @var SaleRequest $saleRequest */
@@ -133,21 +134,7 @@ class SaleRequestAdminController extends BaseAdminController
         if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
             throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
-        $deliveryNote = new SaleDeliveryNote();
-        $deliveryNote->setDate($saleRequest->getServiceDate());
-        $deliveryNote->setPartner($saleRequest->getPartner());
-        $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
-        $deliveryNote->setDeliveryNoteNumber($saleRequest->getId());
-        $deliveryNote->setEnterprise($saleRequest->getEnterprise());
-        $deliveryNote->setActivityLine($saleRequest->getService()->getActivityLine());
-        $em->persist($deliveryNote);
-        $saleRequestHasDeliveryNote = new SaleRequestHasDeliveryNote();
-        $saleRequestHasDeliveryNote->setSaleRequest($saleRequest);
-        $saleRequestHasDeliveryNote->setSaleDeliveryNote($deliveryNote);
-        $em->persist($saleRequestHasDeliveryNote);
-        $saleRequest->setStatus(1);
-        $em->persist($saleRequest);
-        $em->flush();
+        $deliveryNote = $this->generateDeliveryNoteFromSaleRequest($saleRequest);
 
         return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_edit', [
             'id' => $deliveryNote->getId()
@@ -168,5 +155,47 @@ class SaleRequestAdminController extends BaseAdminController
         $rps = $this->container->get('app.sale_request_pdf_manager');
 
         return new Response($rps->outputCollection($selectedModels), 200, array('Content-type' => 'application/pdf'));
+    }
+
+    /**
+     * @param ProxyQueryInterface $selectedModelQuery
+     *
+     * @return Response|RedirectResponse
+     */
+    public function batchActionGeneratedeliverynotefromsalerequests(ProxyQueryInterface $selectedModelQuery)
+    {
+        $this->admin->checkAccess('edit');
+        $selectedModels = $selectedModelQuery->execute();
+        foreach ($selectedModels as $saleRequest) {
+            $this->generateDeliveryNoteFromSaleRequest($saleRequest);
+        }
+
+        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+    }
+
+    /**
+     * @param SaleRequest $saleRequest
+     * @param EntityManagerInterface $em
+     *
+     * @return SaleDeliveryNote
+     */
+    private function generateDeliveryNoteFromSaleRequest(SaleRequest $saleRequest)
+    {
+        $deliveryNote = new SaleDeliveryNote();
+        $deliveryNote->setDate($saleRequest->getServiceDate());
+        $deliveryNote->setPartner($saleRequest->getPartner());
+        $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
+        $deliveryNote->setDeliveryNoteNumber($saleRequest->getId());
+        $deliveryNote->setEnterprise($saleRequest->getEnterprise());
+        $deliveryNote->setActivityLine($saleRequest->getService()->getActivityLine());
+        $this->admin->getModelManager()->create($deliveryNote);
+        $saleRequestHasDeliveryNote = new SaleRequestHasDeliveryNote();
+        $saleRequestHasDeliveryNote->setSaleRequest($saleRequest);
+        $saleRequestHasDeliveryNote->setSaleDeliveryNote($deliveryNote);
+        $this->admin->getModelManager()->create($deliveryNote);
+        $saleRequest->setStatus(1);
+        $this->admin->getModelManager()->update($saleRequest);
+
+        return $deliveryNote;
     }
 }
