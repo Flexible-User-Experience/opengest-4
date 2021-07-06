@@ -139,6 +139,8 @@ class SaleRequestAdminController extends BaseAdminController
         $deliveryNote->setDeliveryNoteNumber($saleRequest->getId());
         $deliveryNote->setEnterprise($saleRequest->getEnterprise());
         $em->persist($deliveryNote);
+        $saleRequest->setStatus(1);
+        $em->persist($saleRequest);
         $em->flush();
 
         return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_edit', [
