@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Manager\Pdf\SaleRequestPdfManager;
 use App\Service\GuardService;
@@ -106,6 +107,43 @@ class SaleRequestAdminController extends BaseAdminController
         $em->flush();
 
         return new RedirectResponse($this->admin->generateUrl('list'));
+    }
+
+    /**
+     * Generate delivery note from sale request and go to edit view
+     *
+     * @param Request $request
+     *
+     * @return Response
+     *
+     * @throws NotFoundHttpException If the object does not exist
+     * @throws AccessDeniedException If access is not granted
+     */
+    public function generateDeliveryNoteFromSaleRequestAction (Request $request, EntityManagerInterface $em) {
+        $request = $this->resolveRequest($request);
+        $id = $request->get($this->admin->getIdParameter());
+        /** @var SaleRequest $saleRequest */
+        $saleRequest = $this->admin->getObject($id);
+        if (!$saleRequest) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        /** @var GuardService $guardService */
+        $guardService = $this->container->get('app.guard_service');
+        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
+            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
+        }
+        $deliveryNote = new SaleDeliveryNote();
+        $deliveryNote->setDate($saleRequest->getServiceDate());
+        $deliveryNote->setPartner($saleRequest->getPartner());
+        $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
+        $deliveryNote->setDeliveryNoteNumber($saleRequest->getId());
+        $deliveryNote->setEnterprise($saleRequest->getEnterprise());
+        $em->persist($deliveryNote);
+        $em->flush();
+
+        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_edit', [
+            'id' => $deliveryNote->getId()
+        ]));
     }
 
     /**

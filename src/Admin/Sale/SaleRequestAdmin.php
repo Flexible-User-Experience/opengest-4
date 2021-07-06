@@ -73,6 +73,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('clone', $this->getRouterIdParameter().'/clone')
+            ->add('generateDeliveryNoteFromSaleRequest', $this->getRouterIdParameter().'/generateDeliveryNote')
             ->remove('show')
         ;
     }
@@ -733,6 +734,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
 //                        'pdf' => array('template' => 'admin/buttons/list__action_pdf_button.html.twig'),
                         'clone' => array('template' => 'admin/buttons/list__action_clone_button.html.twig'),
+                        'generateDeliveryNoteFromSaleRequest' => array('template' => 'admin/buttons/list__action_generate_delivery_note_button.html.twig'),
                         'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
                     ),
                     'label' => 'Accions',
