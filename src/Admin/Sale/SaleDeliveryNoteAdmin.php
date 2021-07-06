@@ -317,13 +317,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'saleInvoices',
-                null,
-                array(
-                    'label' => 'Factura',
-                )
-            )
-            ->add(
                 'wontBeInvoiced',
                 null,
                 array(
@@ -343,8 +336,9 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = parent::createQuery($context);
         $queryBuilder
-            ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
-            ->orderBy('e.name', 'ASC')
+//            ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
+            ->leftJoin($queryBuilder->getRootAliases()[0].'.partner', 'pa')
+//            ->orderBy('e.name', 'ASC')
         ;
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
@@ -361,17 +355,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-            $listMapper
-                ->add(
-                    'enterprise',
-                    null,
-                    array(
-                        'label' => 'Empresa',
-                    )
-                )
-            ;
-        }
+//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
+//            $listMapper
+//                ->add(
+//                    'enterprise',
+//                    null,
+//                    array(
+//                        'label' => 'Empresa',
+//                    )
+//                )
+//            ;
+//        }
         $listMapper
             ->add(
                 'date',
@@ -385,8 +379,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'deliveryNoteNumber',
                 null,
                 array(
-                    'label' => 'Número albarà',
-                    'editable' => true,
+                    'label' => 'Número albarà'
                 )
             )
             ->add(

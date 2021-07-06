@@ -173,6 +173,6 @@ class PartnerOrder extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getPartner()->getName().' - '.$this->getNumber() : '---';
+        return $this->id ? $this->getNumber() : '---';
     }
 }
