@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Sale;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Manager\Pdf\SaleRequestPdfManager;
 use App\Service\GuardService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -139,6 +140,10 @@ class SaleRequestAdminController extends BaseAdminController
         $deliveryNote->setDeliveryNoteNumber($saleRequest->getId());
         $deliveryNote->setEnterprise($saleRequest->getEnterprise());
         $em->persist($deliveryNote);
+        $saleRequestHasDeliveryNote = new SaleRequestHasDeliveryNote();
+        $saleRequestHasDeliveryNote->setSaleRequest($saleRequest);
+        $saleRequestHasDeliveryNote->setSaleDeliveryNote($deliveryNote);
+        $em->persist($saleRequestHasDeliveryNote);
         $saleRequest->setStatus(1);
         $em->persist($saleRequest);
         $em->flush();
