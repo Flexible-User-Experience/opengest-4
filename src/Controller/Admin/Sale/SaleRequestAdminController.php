@@ -139,6 +139,7 @@ class SaleRequestAdminController extends BaseAdminController
         $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
         $deliveryNote->setDeliveryNoteNumber($saleRequest->getId());
         $deliveryNote->setEnterprise($saleRequest->getEnterprise());
+        $deliveryNote->setActivityLine($saleRequest->getService()->getActivityLine());
         $em->persist($deliveryNote);
         $saleRequestHasDeliveryNote = new SaleRequestHasDeliveryNote();
         $saleRequestHasDeliveryNote->setSaleRequest($saleRequest);
