@@ -31,3 +31,4 @@ php bin/console  app:import:partner:order var/csv/partner_orders.csv
 php bin/console  app:import:setting:sale:invoice:series var/csv/setting_sale_invoice_series.csv
 php bin/console  app:import:sale:tariff var/csv/sale_tariff.csv
 php bin/console  app:import:sale:invoice var/csv/sale_invoice.csv
+php bin/console  app:create:sale:items

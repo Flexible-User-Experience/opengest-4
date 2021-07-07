@@ -2,7 +2,6 @@
 
 namespace App\Repository\Sale;
 
-use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
