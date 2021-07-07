@@ -20,7 +20,14 @@ class SaleDeliveryNoteLine extends AbstractBase
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleDeliveryNoteLines")
      */
-    private $deliveryNote;
+    private SaleDeliveryNote $deliveryNote;
+
+    /**
+     * @var SaleItem
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleItem", inversedBy="saleDeliveryNoteLines")
+     */
+    private SaleItem $saleItem;
 
     /**
      * @var float
@@ -91,6 +98,26 @@ class SaleDeliveryNoteLine extends AbstractBase
     public function setDeliveryNote($deliveryNote)
     {
         $this->deliveryNote = $deliveryNote;
+
+        return $this;
+    }
+
+    /**
+     * @return SaleItem
+     */
+    public function getSaleItem(): SaleItem
+    {
+        return $this->saleItem;
+    }
+
+    /**
+     * @param SaleItem $saleItem
+     *
+     * @return SaleDeliveryNoteLine
+     */
+    public function setSaleItem(SaleItem $saleItem): SaleDeliveryNoteLine
+    {
+        $this->saleItem = $saleItem;
 
         return $this;
     }

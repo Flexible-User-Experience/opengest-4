@@ -4,6 +4,7 @@
 namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -39,6 +40,13 @@ class SaleItem extends AbstractBase
      * @ORM\Column(type="integer")
      */
     private int $type = 0;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestHasDeliveryNote", mappedBy="saleItem")
+     */
+    private $saleDeliveryNoteLines;
 
     /**
      * Methods.
@@ -102,5 +110,13 @@ class SaleItem extends AbstractBase
         $this->type = $type;
 
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSaleDeliveryNoteLines(): ArrayCollection
+    {
+        return $this->saleDeliveryNoteLines;
     }
 }
