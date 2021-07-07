@@ -46,6 +46,11 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/albara';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = array(
@@ -205,7 +210,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         ;
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
-                ->with('Albarà línies', $this->getFormMdSuccessBoxArray(12))
+                ->with('Línies', $this->getFormMdSuccessBoxArray(12))
                 ->add(
                     'saleDeliveryNoteLines',
                     CollectionType::class,

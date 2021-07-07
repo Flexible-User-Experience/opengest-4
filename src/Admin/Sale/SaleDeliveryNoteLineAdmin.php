@@ -4,6 +4,7 @@ namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Sale\SaleDeliveryNote;
+use App\Entity\Sale\SaleItem;
 use App\Enum\ConstantsEnum;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\QueryBuilder;
@@ -30,6 +31,11 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
      * @var string
      */
     protected $baseRoutePattern = 'vendes/albara-linia';
+
+    /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
 
     /**
      * @var array
@@ -60,6 +66,15 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                     'attr' => array(
                         'style' => 'display:none;',
                     ),
+                )
+            )
+            ->add(
+                'saleItem',
+                EntityType::class,
+                array(
+                    'class' => SaleItem::class,
+                    'label' => 'admin.label.item',
+                    'required' => true,
                 )
             )
             ->add(

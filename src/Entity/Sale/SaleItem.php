@@ -140,4 +140,9 @@ class SaleItem extends AbstractBase
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getId().'-'.$this->getDescription();
+    }
 }
