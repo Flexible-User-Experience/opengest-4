@@ -5,6 +5,7 @@ namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -20,18 +21,18 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class SaleItem extends AbstractBase
 {
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string")
      */
-    private $description;
+    private ?string $description;
 
     /**
-     * @var float
+     * @var ?float
      *
      * @ORM\Column(type="float", nullable=true)
      */
-    private $unitPrice;
+    private ?float $unitPrice;
 
 
     /**
@@ -42,20 +43,28 @@ class SaleItem extends AbstractBase
     private int $type = 0;
 
     /**
-     * @var ArrayCollection
+     * @var ?Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNoteLine", mappedBy="saleItem")
      */
-    private $saleDeliveryNoteLines;
+    private ?Collection $saleDeliveryNoteLines;
 
     /**
      * Methods.
      */
 
     /**
-     * @return string
+     * SaleItem constructor.
      */
-    public function getDescription(): string
+    public function __construct()
+    {
+        $this->saleDeliveryNoteLines = new ArrayCollection();
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -73,9 +82,9 @@ class SaleItem extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return ?float
      */
-    public function getUnitPrice(): float
+    public function getUnitPrice(): ?float
     {
         return $this->unitPrice;
     }
@@ -113,10 +122,22 @@ class SaleItem extends AbstractBase
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getSaleDeliveryNoteLines(): ArrayCollection
+    public function getSaleDeliveryNoteLines(): Collection
     {
         return $this->saleDeliveryNoteLines;
+    }
+
+    /**
+     * @param Collection|null $saleDeliveryNoteLines
+     *
+     * @return SaleItem
+     */
+    public function setSaleDeliveryNoteLines(?Collection $saleDeliveryNoteLines): SaleItem
+    {
+        $this->saleDeliveryNoteLines = $saleDeliveryNoteLines;
+
+        return $this;
     }
 }

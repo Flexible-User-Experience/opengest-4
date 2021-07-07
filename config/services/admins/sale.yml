@@ -41,3 +41,8 @@ services:
         arguments: [ ~, App\Entity\Sale\SaleServiceTariff, App\Controller\Admin\Sale\SaleServiceTariffAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Tonatges", group: "Vendes", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+    app.admin.sale_item:
+        class: App\Admin\Sale\SaleItemAdmin
+        arguments: [ ~, App\Entity\Sale\SaleItem, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Items", group: "Vendes", label_translator_strategy: "sonata.admin.label.strategy.noop" }

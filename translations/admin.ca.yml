@@ -64,6 +64,7 @@ admin:
         operator: "Operari"
         vehicle: "Vehicle"
         secondary_vehicle: "Vehicle secundari"
+        unit_price: "Preu unitari"
     with:
         general: "General"
         image: "Imatge"
