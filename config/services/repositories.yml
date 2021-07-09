@@ -179,6 +179,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Sale\SaleDeliveryNote
+    app.sale_item_repository:
+        class: App\Repository\Sale\SaleItemRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Sale\SaleItem
     app.contact_message_repository:
         class: App\Repository\Web\ContactMessageRepository
         factory: [ '@doctrine', getRepository ]
@@ -222,4 +227,5 @@ services:
             - '@app.sale_delivery_note_repository'
             - '@app.sale_invoice_repository'
             - '@app.sale_service_tariff_repository'
+            - '@app.sale_item_repository'
             - '@app.work_repository'

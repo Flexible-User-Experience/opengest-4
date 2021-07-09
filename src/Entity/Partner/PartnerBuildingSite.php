@@ -290,6 +290,6 @@ class PartnerBuildingSite extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getPartner()->getName().' - '.$this->getName() : '---';
+        return $this->id ? $this->getName() : '---';
     }
 }

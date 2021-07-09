@@ -4,6 +4,7 @@ namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\ActivityLine;
+use App\Enum\SaleItemTypeEnum;
 use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -11,13 +12,14 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
- * Class SaleServiceTariffAdmin.
+ * Class SaleItemAdmin.
  *
  * @category    Admin
  */
-class SaleServiceTariffAdmin extends AbstractBaseAdmin
+class SaleItemAdmin extends AbstractBaseAdmin
 {
     /**
      * @var string
@@ -27,12 +29,12 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Tonatges';
+    protected $classnameLabel = 'Items';
 
     /**
      * @var string
      */
-    protected $baseRoutePattern = 'vendes/serveis_tarifa';
+    protected $baseRoutePattern = 'vendes/items';
 
     /**
      * @var array
@@ -53,7 +55,6 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
-            ->add('getJsonSaleTariffById', $this->getRouterIdParameter().'/get-json-sale-tariff-by-id')
             ->remove('delete')
         ;
     }
@@ -71,17 +72,22 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 'description',
                 null,
                 array(
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                 )
             )
             ->add(
-                'activityLine',
-                EntityType::class,
+                'unitPrice',
+                null,
                 array(
-                    'class' => ActivityLine::class,
-                    'label' => 'admin.label.activity_line',
-                    'required' => false,
-                    'query_builder' => $this->rm->getActivityLineRepository()->getEnabledSortedByNameQB(),
+                    'label' => 'admin.label.unit_price',
+                )
+            )
+            ->add(
+                'type',
+                ChoiceType::class,
+                array(
+                    'choices' => SaleItemTypeEnum::getEnumArray(),
+                    'label' => 'admin.label.type',
                 )
             )
             ->end()
@@ -112,16 +118,21 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'activityLine',
+                'unitPrice',
                 null,
                 array(
-                    'label' => 'admin.label.activity_line',
-                    )
-                ,
-                EntityType::class,
+                    'label' => 'admin.label.unit_price',
+                )
+            )
+            ->add(
+                'type',
+                null,
                 array(
-                    'class' => ActivityLine::class,
-                    'query_builder' => $this->rm->getActivityLineRepository()->getEnabledSortedByNameQB()
+                    'label' => 'admin.label.type',
+                ),
+                ChoiceType::class,
+                array(
+                    'choices' => SaleItemTypeEnum::getEnumArray(),
                 )
             )
         ;
@@ -142,19 +153,19 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'activityLine',
-                EntityType::class,
+                'unitPrice',
+                null,
                 array(
-                    'class' => ActivityLine::class,
-                    'label' => 'admin.label.activity_line',
+                    'label' => 'admin.label.unit_price',
+                    'editable' => true,
                 )
             )
             ->add(
-                'enabled',
-                null,
+                'type',
+                ChoiceType::class,
                 array(
-                    'label' => 'Actiu',
-                    'editable' => true,
+                    'choices' => SaleItemTypeEnum::getEnumArray(),
+                    'label' => 'admin.label.type',
                 )
             )
             ->add(
@@ -162,7 +173,6 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 'actions',
                 array(
                     'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
                         'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
                     ),
                     'label' => 'admin.actions',

@@ -9,6 +9,7 @@ use App\Repository\Operator\OperatorVariousAmountRepository;
 use App\Repository\Partner\PartnerContactRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
+use App\Repository\Sale\SaleItemRepository;
 use App\Repository\Sale\SaleServiceTariffRepository;
 use App\Repository\Setting\CityRepository;
 use App\Repository\Enterprise\CollectionDocumentTypeRepository;
@@ -219,6 +220,11 @@ class RepositoriesManager
     private SaleServiceTariffRepository $saleServiceTariffRepository;
 
     /**
+     * @var SaleItemRepository
+     */
+    private SaleItemRepository $saleItemRepository;
+
+    /**
      * @var WorkRepository
      */
     private WorkRepository $workRepository;
@@ -230,41 +236,42 @@ class RepositoriesManager
     /**
      * RepositoriesManager constructor.
      *
-     * @param ServiceRepository                   $serviceRepository
-     * @param VehicleCategoryRepository           $vehicleCategoryRepository
-     * @param UserRepository                      $userRepository
-     * @param OperatorRepository                  $operatorRepository
-     * @param EnterpriseRepository                $enterpriseRepository
-     * @param EnterpriseGroupBountyRepository     $enterpriseGroupBountyRepository
+     * @param ServiceRepository $serviceRepository
+     * @param VehicleCategoryRepository $vehicleCategoryRepository
+     * @param UserRepository $userRepository
+     * @param OperatorRepository $operatorRepository
+     * @param EnterpriseRepository $enterpriseRepository
+     * @param EnterpriseGroupBountyRepository $enterpriseGroupBountyRepository
      * @param EnterpriseTransferAccountRepository $enterpriseTransferAccountRepository
-     * @param EnterpriseHolidaysRepository        $enterpriseHolidaysRepository
-     * @param OperatorCheckingRepository          $operatorCheckingRepository
-     * @param OperatorCheckingTypeRepository      $operatorCheckingTypeRepository
-     * @param OperatorAbsenceTypeRepository       $operatorAbsenceTypeRepository
-     * @param OperatorAbsenceRepository           $operatorAbsenceRepository
+     * @param EnterpriseHolidaysRepository $enterpriseHolidaysRepository
+     * @param OperatorCheckingRepository $operatorCheckingRepository
+     * @param OperatorCheckingTypeRepository $operatorCheckingTypeRepository
+     * @param OperatorAbsenceTypeRepository $operatorAbsenceTypeRepository
+     * @param OperatorAbsenceRepository $operatorAbsenceRepository
      * @param OperatorDigitalTachographRepository $operatorDigitalTachographRepository
-     * @param OperatorVariousAmountRepository     $operatorVariousAmountRepository
-     * @param VehicleRepository                   $vehicleRepository
-     * @param VehicleCheckingTypeRepository       $vehicleCheckingTypeRepository
-     * @param VehicleCheckingRepository           $vehicleCheckingRepository
-     * @param PartnerRepository                   $partnerRepository
-     * @param PartnerClassRepository              $partnerClassRepository
-     * @param PartnerTypeRepository               $partnerTypeRepository
-     * @param PartnerContactRepository            $partnerContactRepository
-     * @param PartnerUnableDaysRepository         $partnerUnableDaysRepository
-     * @param CityRepository                      $cityRepository
-     * @param ProvinceRepository                  $provinceRepository
-     * @param SaleTariffRepository                $saleTariffRepository
-     * @param PartnerBuildingSiteRepository       $partnerBuildingSiteRepository
-     * @param PartnerOrderRepository              $partnerOrderRepository
-     * @param CollectionDocumentTypeRepository    $collectionDocumentTypeRepository
-     * @param ActivityLineRepository              $activityLineRepository
-     * @param SaleInvoiceSeriesRepository         $saleInvoiceSeriesRepository
-     * @param SaleRequestRepository               $saleRequestRepository
-     * @param SaleDeliveryNoteRepository          $saleDeliveryNoteRepository
-     * @param SaleInvoiceRepository               $saleInvoiceRepository
-     * @param SaleServiceTariffRepository         $saleServiceTariffRepository
-     * @param WorkRepository                      $workRepository
+     * @param OperatorVariousAmountRepository $operatorVariousAmountRepository
+     * @param VehicleRepository $vehicleRepository
+     * @param VehicleCheckingTypeRepository $vehicleCheckingTypeRepository
+     * @param VehicleCheckingRepository $vehicleCheckingRepository
+     * @param PartnerRepository $partnerRepository
+     * @param PartnerClassRepository $partnerClassRepository
+     * @param PartnerTypeRepository $partnerTypeRepository
+     * @param PartnerContactRepository $partnerContactRepository
+     * @param PartnerUnableDaysRepository $partnerUnableDaysRepository
+     * @param CityRepository $cityRepository
+     * @param ProvinceRepository $provinceRepository
+     * @param SaleTariffRepository $saleTariffRepository
+     * @param PartnerBuildingSiteRepository $partnerBuildingSiteRepository
+     * @param PartnerOrderRepository $partnerOrderRepository
+     * @param CollectionDocumentTypeRepository $collectionDocumentTypeRepository
+     * @param ActivityLineRepository $activityLineRepository
+     * @param SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository
+     * @param SaleRequestRepository $saleRequestRepository
+     * @param SaleDeliveryNoteRepository $saleDeliveryNoteRepository
+     * @param SaleInvoiceRepository $saleInvoiceRepository
+     * @param SaleServiceTariffRepository $saleServiceTariffRepository
+     * @param SaleItemRepository $saleItemRepository
+     * @param WorkRepository $workRepository
      */
     public function __construct(
         ServiceRepository $serviceRepository,
@@ -301,6 +308,7 @@ class RepositoriesManager
         SaleDeliveryNoteRepository $saleDeliveryNoteRepository,
         SaleInvoiceRepository $saleInvoiceRepository,
         SaleServiceTariffRepository $saleServiceTariffRepository,
+        SaleItemRepository $saleItemRepository,
         WorkRepository $workRepository
     ) {
         $this->serviceRepository = $serviceRepository;
@@ -337,6 +345,7 @@ class RepositoriesManager
         $this->saleDeliveryNoteRepository = $saleDeliveryNoteRepository;
         $this->saleInvoiceRepository = $saleInvoiceRepository;
         $this->saleServiceTariffRepository = $saleServiceTariffRepository;
+        $this->saleItemRepository = $saleItemRepository;
         $this->workRepository = $workRepository;
     }
 
@@ -610,6 +619,14 @@ class RepositoriesManager
     public function getSaleInvoiceRepository()
     {
         return $this->saleInvoiceRepository;
+    }
+
+    /**
+     * @return SaleItemRepository
+     */
+    public function getSaleItemRepository(): SaleItemRepository
+    {
+        return $this->saleItemRepository;
     }
 
     /**
