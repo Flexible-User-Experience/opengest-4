@@ -192,7 +192,7 @@ class SaleRequestAdminController extends BaseAdminController
         $saleRequestHasDeliveryNote = new SaleRequestHasDeliveryNote();
         $saleRequestHasDeliveryNote->setSaleRequest($saleRequest);
         $saleRequestHasDeliveryNote->setSaleDeliveryNote($deliveryNote);
-        $this->admin->getModelManager()->create($deliveryNote);
+        $this->admin->getModelManager()->create($saleRequestHasDeliveryNote);
         $saleRequest->setStatus(1);
         $this->admin->getModelManager()->update($saleRequest);
 
