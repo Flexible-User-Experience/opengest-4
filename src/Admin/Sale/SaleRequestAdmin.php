@@ -7,7 +7,6 @@ use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleServiceTariff;
-use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\SaleRequestStatusEnum;
@@ -73,6 +72,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('clone', $this->getRouterIdParameter().'/clone')
+            ->add('generateDeliveryNoteFromSaleRequest', $this->getRouterIdParameter().'/generateDeliveryNote')
             ->remove('show')
         ;
     }
@@ -85,8 +85,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     public function configureBatchActions($actions)
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generatepdfs'] = array(
-                'label' => 'Imprimir peticions marcades',
+//            $actions['generatepdfs'] = array(
+//                'label' => 'Imprimir peticions marcades',
+//                'translation_domain' => 'messages',
+//                'ask_confirmation' => false,
+//            );
+            $actions['generatedeliverynotefromsalerequests'] = array(
+                'label' => 'Generar albarans de les peticions marcades',
                 'translation_domain' => 'messages',
                 'ask_confirmation' => false,
             );
@@ -733,7 +738,8 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
 //                        'pdf' => array('template' => 'admin/buttons/list__action_pdf_button.html.twig'),
                         'clone' => array('template' => 'admin/buttons/list__action_clone_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
+                        'generateDeliveryNoteFromSaleRequest' => array('template' => 'admin/buttons/list__action_generate_delivery_note_button.html.twig'),
+                        'delete' => array('template' => 'admin/buttons/list__action_delete_sale_request_button.html.twig'),
                     ),
                     'label' => 'Accions',
                 )
