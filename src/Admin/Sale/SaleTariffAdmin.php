@@ -26,6 +26,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 /**
  * Class SaleTariffAdmin.
@@ -155,21 +157,23 @@ class SaleTariffAdmin extends AbstractBaseAdmin
 //                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
 //                )
 //            )
-            ->add(
-                'selectPartnerBuildingSite',
-                TextType::class,
-                array(
-                    'label' => 'Obres del client',
-                    'required' => false,
-                    'mapped' => false,
-                )
-            )
+//            ->add(
+//                'selectPartnerBuildingSite',
+//                TextType::class,
+//                array(
+//                    'label' => 'Obres del client',
+//                    'required' => false,
+//                    'mapped' => false,
+//                )
+//            )
             ->add(
                 'partnerBuildingSite',
-                TextType::class,
+                EntityType::class,
                 array(
                     'label' => 'Obra',
                     'required' => false,
+                    'class' => PartnerBuildingSite::class,
+                    'choices' => []
 //                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameWithPartnerJoinQB(), //TODO only return those related to client
 //                    'attr' => [
 //                        'data-sonata-select2' => 'false'
@@ -238,6 +242,11 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             )
             ->end()
         ;
+
+//        $admin = $this;
+//        $formMapper->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT,
+//            function (FormEvent $event) use ($formMapper, $admin) {
+//            });
     }
 
     /**
