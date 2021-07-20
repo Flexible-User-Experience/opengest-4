@@ -344,6 +344,33 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
                 )
             )
+            ->add(
+                'miniumHolidayHours',
+                null,
+                array(
+                    'label' => 'Minim hores festiu',
+                    'required' => false,
+                    'help' => '<i id="minium-holiday-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'increaseForHolidays',
+                null,
+                array(
+                    'label' => 'Increment per festiu',
+                    'required' => false,
+                    'help' => '<i id="increase-for-holidays-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'increaseForHolidaysPercentage',
+                null,
+                array(
+                    'label' => 'Increment per festiu %',
+                    'required' => false,
+                    'help' => '<i id="increase-for-holidays-percentage-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
             ->end()
             ->with('Contacte', $this->getFormMdSuccessBoxArray(3))
             ->add(

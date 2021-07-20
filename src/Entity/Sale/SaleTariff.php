@@ -93,6 +93,7 @@ class SaleTariff extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"apiSaleTariff"})
      */
     private $miniumHolidayHours;
 
