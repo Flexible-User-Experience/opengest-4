@@ -74,11 +74,26 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             $formMapper
                 ->with('General', $this->getFormMdSuccessBoxArray(4))
                 ->add(
-                    'deliveryNoteNumber',
+                    'id',
                     null,
                     array(
-                        'label' => 'Número d\'albarà',
+                        'label' => 'Id d\'albarà',
                         'required' => true,
+                        'disabled' => true,
+                    )
+                )
+                ->end()
+            ;
+        }
+        if ($this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
+            $formMapper
+                ->with('General', $this->getFormMdSuccessBoxArray(4))
+                ->add(
+                    'saleRequestNumber',
+                    TextType::class,
+                    array(
+                        'label' => 'Número de petició',
+                        'required' => false,
                         'disabled' => true,
                     )
                 )
@@ -91,8 +106,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'date',
                 DatePickerType::class,
                 array(
-                    'label' => 'Data petició',
-                    'format' => 'd/m/Y',
+                    'label' => 'Data',
+                    'format' => 'dd/MM/yyyy',
                     'required' => true,
                     'dp_default_date' => (new \DateTime())->format('d/m/Y'),
                 )
@@ -126,6 +141,15 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'mapped' => false,
                     'disabled' => true,
                     'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'deliveryNoteNumber',
+                null,
+                array(
+                    'label' => 'Número d\'albarà',
+                    'required' => true,
+                    'disabled' => false,
                 )
             )
             ->add(

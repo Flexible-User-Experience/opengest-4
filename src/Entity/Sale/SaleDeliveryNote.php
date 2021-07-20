@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteRepository")
  * @ORM\Table(name="sale_delivery_note")
- * @UniqueEntity({"enterprise", "deliveryNoteNumber"})
+ * @UniqueEntity({"enterprise", "deliveryNoteReference"})
  */
 class SaleDeliveryNote extends AbstractBase
 {
@@ -62,12 +62,12 @@ class SaleDeliveryNote extends AbstractBase
     private $order;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=50)
      * @Groups({"api"})
      */
-    private $deliveryNoteNumber;
+    private $deliveryNoteReference;
 
     /**
      * @var float
@@ -231,20 +231,17 @@ class SaleDeliveryNote extends AbstractBase
         $this->order = $order;
     }
 
-    /**
-     * @return int
-     */
-    public function getDeliveryNoteNumber()
+    public function getDeliveryNoteReference()
     {
-        return $this->deliveryNoteNumber;
+        return $this->deliveryNoteReference;
     }
 
     /**
-     * @param int $deliveryNoteNumber
+     * @param $deliveryNoteReference
      */
-    public function setDeliveryNoteNumber($deliveryNoteNumber): void
+    public function setDeliveryNoteReference($deliveryNoteReference): void
     {
-        $this->deliveryNoteNumber = $deliveryNoteNumber;
+        $this->deliveryNoteReference = $deliveryNoteReference;
     }
 
     /**
@@ -492,6 +489,16 @@ class SaleDeliveryNote extends AbstractBase
         }
 
         return $this;
+    }
+
+    public function getSaleRequestNumber()
+    {
+        $value = null;
+        if ($this->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
+            $value = $this->getSaleRequestHasDeliveryNotes()->first()->getSaleRequest()->getId();
+        }
+
+        return $value;
     }
 
     /**
