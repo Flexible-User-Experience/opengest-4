@@ -97,7 +97,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 'discount',
                 null,
                 array(
-                    'label' => 'Descompte',
+                    'label' => 'admin.label.discount',
                     'required' => false,
                 )
             )
@@ -105,7 +105,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 'iva',
                 null,
                 array(
-                    'label' => 'IVA',
+                    'label' => 'admin.label.iva',
                     'required' => true,
                     'empty_data' => (string) ConstantsEnum::IVA,
                     'attr' => array(
@@ -117,7 +117,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 'irpf',
                 null,
                 array(
-                    'label' => 'IRPF',
+                    'label' => 'admin.label.irpf',
                     'required' => true,
                     'empty_data' => (string) ConstantsEnum::IRPF,
                     'attr' => array(

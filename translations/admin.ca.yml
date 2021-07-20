@@ -69,6 +69,9 @@ admin:
         contact: "Contacte"
         contact_person_name: "Persona de contacte"
         contact_person_phone: "Telèfon persona de contacte"
+        irpf: "Retenció (%)"
+        iva: "Iva (%)"
+        discount: "Descompte (%)"
     with:
         general: "General"
         image: "Imatge"
