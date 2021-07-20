@@ -633,9 +633,9 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getServiceDescription(): string
+    public function getServiceDescription(): ?string
     {
         return $this->serviceDescription;
     }

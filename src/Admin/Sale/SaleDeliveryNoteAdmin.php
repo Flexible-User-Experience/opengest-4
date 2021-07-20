@@ -5,11 +5,14 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\CollectionDocumentType;
+use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Sale\SaleServiceTariff;
+use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -25,6 +28,7 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
@@ -101,7 +105,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ;
         }
         $formMapper
-            ->with('General', $this->getFormMdSuccessBoxArray(4))
+            ->with('General', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'date',
                 DatePickerType::class,
@@ -173,7 +177,73 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Import', $this->getFormMdSuccessBoxArray(4))
+            ->with('Service', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'saleServiceTariff',
+                EntityType::class,
+                array(
+                    'class' => SaleServiceTariff::class,
+                    'label' => 'Servei',
+                    'required' => true,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                )
+            )
+            ->add(
+                'vehicle',
+                EntityType::class,
+                array(
+                    'class' => Vehicle::class,
+                    'label' => 'admin.label.vehicle',
+                    'required' => false,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'secondaryVehicle',
+                EntityType::class,
+                array(
+                    'class' => Vehicle::class,
+                    'label' => 'admin.label.secondary_vehicle',
+                    'required' => false,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'operator',
+                EntityType::class,
+                array(
+                    'class' => Operator::class,
+                    'label' => 'admin.label.operator',
+                    'required' => false,
+                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'serviceDescription',
+                TextareaType::class,
+                array(
+                    'label' => 'Descripció servei',
+                    'required' => true,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 7,
+                    ),
+                )
+            )
+            ->add(
+                'place',
+                TextareaType::class,
+                array(
+                    'label' => 'Lloc',
+                    'required' => false,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 3,
+                    ),
+                )
+            )
+            ->end()
+            ->with('Import', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'baseAmount',
                 null,
@@ -220,7 +290,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Factures', $this->getFormMdSuccessBoxArray(4))
+            ->with('Factures', $this->getFormMdSuccessBoxArray(3))
 //            ->add(
 //                'saleInvoices',
 //                EntityType::class,
@@ -240,6 +310,20 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'No facturable',
                     'required' => false,
+                )
+            )
+            ->end()
+            ->with('Altres', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'observations',
+                TextareaType::class,
+                array(
+                    'label' => 'Observacions',
+                    'required' => false,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 3,
+                    ),
                 )
             )
             ->end()
