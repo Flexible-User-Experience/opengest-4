@@ -57,7 +57,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
     public function getLastDeliveryNoteByEnterpriseQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->getFilteredByEnterpriseSortedByNameQB($enterprise)
-             ->orderBy('s.deliveryNoteNumber', 'DESC')
+             ->orderBy('s.deliveryNoteReference', 'DESC')
              ->setMaxResults(1)
          ;
     }

@@ -316,10 +316,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'deliveryNoteNumber',
+                'deliveryNoteReference',
                 null,
                 array(
-                    'label' => 'Número albarà',
+                    'label' => 'Referencia d\'albarà',
                 )
             )
             ->add(
@@ -417,10 +417,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'deliveryNoteNumber',
+                'deliveryNoteReference',
                 null,
                 array(
-                    'label' => 'Número albarà'
+                    'label' => 'Referència d\'albarà'
                 )
             )
             ->add(
@@ -469,7 +469,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     public function prePersist($object)
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setDeliveryNoteNumber($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
+        $object->setDeliveryNoteReference($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
     }
 
     /**
