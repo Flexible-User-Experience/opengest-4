@@ -6,9 +6,11 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\Enterprise;
+use App\Entity\Operator\Operator;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -53,6 +55,34 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite")
      */
     private $buildingSite;
+
+    /**
+     * @var SaleServiceTariff
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff")
+     */
+    private $saleServiceTariff;
+
+    /**
+     * @var Vehicle
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     */
+    private $vehicle;
+
+    /**
+     * @var Vehicle
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     */
+    private $secondaryVehicle;
+
+    /**
+     * @var Operator
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator")
+     */
+    private $operator;
 
     /**
      * @var PartnerOrder
@@ -213,6 +243,86 @@ class SaleDeliveryNote extends AbstractBase
     public function setBuildingSite($buildingSite): void
     {
         $this->buildingSite = $buildingSite;
+    }
+
+    /**
+     * @return ?SaleServiceTariff
+     */
+    public function getSaleServiceTariff(): ?SaleServiceTariff
+    {
+        return $this->saleServiceTariff;
+    }
+
+    /**
+     * @param SaleServiceTariff $saleServiceTariff
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setSaleServiceTariff(SaleServiceTariff $saleServiceTariff): SaleDeliveryNote
+    {
+        $this->saleServiceTariff = $saleServiceTariff;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Vehicle
+     */
+    public function getVehicle(): ?Vehicle
+    {
+        return $this->vehicle;
+    }
+
+    /**
+     * @param Vehicle $vehicle
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setVehicle(Vehicle $vehicle): SaleDeliveryNote
+    {
+        $this->vehicle = $vehicle;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Vehicle
+     */
+    public function getSecondaryVehicle(): ?Vehicle
+    {
+        return $this->secondaryVehicle;
+    }
+
+    /**
+     * @param Vehicle $secondaryVehicle
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setSecondaryVehicle(Vehicle $secondaryVehicle): SaleDeliveryNote
+    {
+        $this->secondaryVehicle = $secondaryVehicle;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Operator
+     */
+    public function getOperator(): ?Operator
+    {
+        return $this->operator;
+    }
+
+    /**
+     * @param Operator $operator
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setOperator(Operator $operator): SaleDeliveryNote
+    {
+        $this->operator = $operator;
+
+        return $this;
     }
 
     /**
