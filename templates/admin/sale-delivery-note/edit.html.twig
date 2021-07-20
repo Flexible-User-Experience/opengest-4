@@ -1,0 +1,47 @@
+{% extends 'admin/edit.html.twig' %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+             // Handler for .ready() called.
+            var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
+            var cifNifIcon = jQuery('#cif-nif-icon');
+
+             //on change
+            partnerNode.change(function(event) {
+                cifNifIcon.removeClass('hidden');
+                var partnerId = event.val;
+                console.log('PartnerID', partnerId);
+              if (partnerId) {
+                //on change Partner
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
+                }).done(function (response) {
+                  updateNodesInfo(response);
+                });
+              }
+
+            });
+
+            //on load Partner
+            {% if form.partner.vars.data is not null %}
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', { id: {{ form.partner.vars.data.id }} }), function() {
+                }).done(function(response) {
+                     updateNodesInfo(response);
+                });
+            {% endif %}
+
+            function updateNodesInfo(response) {
+                var partner = jQuery.parseJSON(response);
+                cifNifIcon.addClass('hidden');
+                cifNif.val(partner.cifNif);
+            }
+
+        });
+    </script>
+{% endblock %}

@@ -25,6 +25,7 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class SaleDeliveryNoteAdmin.
@@ -114,6 +115,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
+                )
+            )
+            ->add(
+                'cifNif',
+                TextType::class,
+                array(
+                    'label' => 'CIF',
+                    'required' => false,
+                    'mapped' => false,
+                    'disabled' => true,
+                    'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
                 )
             )
             ->add(
