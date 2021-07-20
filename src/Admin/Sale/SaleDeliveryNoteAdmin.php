@@ -144,10 +144,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'deliveryNoteNumber',
+                'deliveryNoteReference',
                 null,
                 array(
-                    'label' => 'Número d\'albarà',
+                    'label' => 'Referencia d\'albarà',
                     'required' => true,
                     'disabled' => false,
                 )
