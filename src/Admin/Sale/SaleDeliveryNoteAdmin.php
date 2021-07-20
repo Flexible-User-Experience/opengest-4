@@ -292,74 +292,79 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Tarifa', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'miniumHours',
-                NumberType::class,
-                array(
-                    'label' => 'admin.label.minimum_hours',
-                    'disabled' => true
+        ;
+        if ($this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
+            $formMapper
+                ->with('Tarifa', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'miniumHours',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.minimum_hours',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->add(
-                'hourPrice',
-                NumberType::class,
-                array(
-                    'label' => 'admin.label.price_hour',
-                    'disabled' => true
+                ->add(
+                    'hourPrice',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.price_hour',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->add(
-                'displacement',
-                NumberType::class,
-                array(
-                    'label' => 'admin.label.displacement',
-                    'disabled' => true
+                ->add(
+                    'displacement',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.displacement',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->add(
-                'miniumHolidayHours',
-                NumberType::class,
-                array(
-                    'label' => 'admin.label.minimum_holiday_hours',
-                    'disabled' => true
+                ->add(
+                    'miniumHolidayHours',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.minimum_holiday_hours',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->add(
-                'increaseForHolidays',
-                NumberType::class,
-                array(
-                    'label' => 'admin.label.increase_for_holidays',
-                    'disabled' => true
+                ->add(
+                    'increaseForHolidays',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.increase_for_holidays',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->add(
-                'increaseForHolidaysPercentage',
-                PercentType::class,
-                array(
-                    'label' => 'admin.label.increase_for_holidays_percentage',
-                    'disabled' => true
+                ->add(
+                    'increaseForHolidaysPercentage',
+                    PercentType::class,
+                    array(
+                        'label' => 'admin.label.increase_for_holidays_percentage',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->end()
-            ->with('admin.label.contact', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'contactPersonName',
-                TextType::class,
-                array(
-                    'label' => 'admin.label.contact_person_name',
-                    'disabled' => true
+                ->end()
+                ->with('admin.label.contact', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'contactPersonName',
+                    TextType::class,
+                    array(
+                        'label' => 'admin.label.contact_person_name',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->add(
-                'contactPersonPhone',
-                TextType::class,
-                array(
-                    'label' => 'admin.label.contact_person_phone',
-                    'disabled' => true
+                ->add(
+                    'contactPersonPhone',
+                    TextType::class,
+                    array(
+                        'label' => 'admin.label.contact_person_phone',
+                        'disabled' => true
+                    )
                 )
-            )
-            ->end()
+                ->end();
+        }
+        $formMapper
             ->with('Factures', $this->getFormMdSuccessBoxArray(3))
 //            ->add(
 //                'saleInvoices',
