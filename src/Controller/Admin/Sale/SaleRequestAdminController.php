@@ -183,11 +183,24 @@ class SaleRequestAdminController extends BaseAdminController
     {
         $deliveryNote = new SaleDeliveryNote();
         $deliveryNote->setDate($saleRequest->getServiceDate());
-        $deliveryNote->setPartner($saleRequest->getPartner());
+        $deliveryNote->setPartner($saleRequest->getInvoiceTo());
         $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
         $deliveryNote->setDeliveryNoteReference('P-'.$saleRequest->getId());
         $deliveryNote->setEnterprise($saleRequest->getEnterprise());
         $deliveryNote->setActivityLine($saleRequest->getService()->getActivityLine());
+        $deliveryNote->setSaleServiceTariff($saleRequest->getService());
+        $deliveryNote->setServiceDescription($saleRequest->getServiceDescription());
+        $deliveryNote->setPlace($saleRequest->getPlace());
+        $deliveryNote->setObservations($saleRequest->getObservations());
+        if ($saleRequest->getVehicle()) {
+            $deliveryNote->setVehicle($saleRequest->getVehicle());
+        }
+        if ($saleRequest->getSecondaryVehicle()) {
+            $deliveryNote->setSecondaryVehicle($saleRequest->getSecondaryVehicle());
+        }
+        if ($saleRequest->getOperator()) {
+            $deliveryNote->setOperator($saleRequest->getOperator());
+        }
         $this->admin->getModelManager()->create($deliveryNote);
         $saleRequestHasDeliveryNote = new SaleRequestHasDeliveryNote();
         $saleRequestHasDeliveryNote->setSaleRequest($saleRequest);
