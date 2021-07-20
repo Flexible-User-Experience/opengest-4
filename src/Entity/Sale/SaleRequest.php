@@ -941,7 +941,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getMiniumHolidayHours(): float
+    public function getMiniumHolidayHours()
     {
         return $this->miniumHolidayHours;
     }
@@ -961,7 +961,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getIncreaseForHolidays(): float
+    public function getIncreaseForHolidays()
     {
         return $this->increaseForHolidays;
     }
@@ -980,7 +980,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getIncreaseForHolidaysPercentage(): float
+    public function getIncreaseForHolidaysPercentage()
     {
         return $this->increaseForHolidaysPercentage;
     }
