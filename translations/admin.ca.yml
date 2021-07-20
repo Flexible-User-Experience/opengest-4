@@ -66,6 +66,9 @@ admin:
         secondary_vehicle: "Vehicle secundari"
         unit_price: "Preu unitari"
         item: "Item"
+        contact: "Contacte"
+        contact_person_name: "Persona de contacte"
+        contact_person_phone: "Telèfon persona de contacte"
     with:
         general: "General"
         image: "Imatge"

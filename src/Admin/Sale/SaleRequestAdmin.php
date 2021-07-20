@@ -25,6 +25,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -236,7 +237,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => SaleServiceTariff::class,
-                    'label' => 'Servei',
+                    'label' => 'admin.label.sale_serivce_tariff',
                     'required' => true,
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 )
@@ -364,7 +365,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'increaseForHolidaysPercentage',
-                null,
+                PercentType::class,
                 array(
                     'label' => 'Increment per festiu %',
                     'required' => false,

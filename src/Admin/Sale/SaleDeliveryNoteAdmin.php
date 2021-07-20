@@ -28,6 +28,8 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -183,7 +185,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => SaleServiceTariff::class,
-                    'label' => 'Servei',
+                    'label' => 'admin.label.sale_serivce_tariff',
                     'required' => true,
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 )
@@ -287,6 +289,74 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'Línia d\'activitat',
                     'required' => false,
                     'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->end()
+            ->with('Tarifa', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'miniumHours',
+                NumberType::class,
+                array(
+                    'label' => 'admin.label.minimum_hours',
+                    'disabled' => true
+                )
+            )
+            ->add(
+                'hourPrice',
+                NumberType::class,
+                array(
+                    'label' => 'admin.label.price_hour',
+                    'disabled' => true
+                )
+            )
+            ->add(
+                'displacement',
+                NumberType::class,
+                array(
+                    'label' => 'admin.label.displacement',
+                    'disabled' => true
+                )
+            )
+            ->add(
+                'miniumHolidayHours',
+                NumberType::class,
+                array(
+                    'label' => 'admin.label.minimum_holiday_hours',
+                    'disabled' => true
+                )
+            )
+            ->add(
+                'increaseForHolidays',
+                NumberType::class,
+                array(
+                    'label' => 'admin.label.increase_for_holidays',
+                    'disabled' => true
+                )
+            )
+            ->add(
+                'increaseForHolidaysPercentage',
+                PercentType::class,
+                array(
+                    'label' => 'admin.label.increase_for_holidays_percentage',
+                    'disabled' => true
+                )
+            )
+            ->end()
+            ->with('admin.label.contact', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'contactPersonName',
+                TextType::class,
+                array(
+                    'label' => 'admin.label.contact_person_name',
+                    'disabled' => true
+                )
+            )
+            ->add(
+                'contactPersonPhone',
+                TextType::class,
+                array(
+                    'label' => 'admin.label.contact_person_phone',
+                    'disabled' => true
                 )
             )
             ->end()

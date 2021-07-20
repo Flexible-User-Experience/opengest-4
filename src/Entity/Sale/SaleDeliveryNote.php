@@ -622,16 +622,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    public function getSaleRequestNumber()
-    {
-        $value = null;
-        if ($this->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
-            $value = $this->getSaleRequestHasDeliveryNotes()->first()->getSaleRequest()->getId();
-        }
-
-        return $value;
-    }
-
     /**
      * @return ?string
      */
@@ -702,10 +692,73 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
+     * Custom getters without property
+     */
+
+    public function getSaleRequestNumber() :?int
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getId(): null;
+    }
+
+    public function getHourPrice() :?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getHourPrice(): null;
+    }
+
+    public function getMiniumHours() :?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHours(): null;
+    }
+
+    public function getDisplacement() :?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getDisplacement(): null;
+    }
+
+    public function getMiniumHolidayHours() :?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHolidayHours(): null;
+    }
+
+    public function getIncreaseForHolidays() :?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidays(): null;
+    }
+
+    public function getIncreaseForHolidaysPercentage() :?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidaysPercentage(): null;
+    }
+
+    public function getContactPersonName() :?string
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonName(): null;
+    }
+
+    public function getContactPersonPhone() :?string
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonPhone(): null;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
         return $this->id ? $this->getDate()->format('d/m/Y').' · '.$this->getEnterprise().' · '.$this->getPartner() : '---';
+    }
+
+    private function getSaleRequest(): ?SaleRequest
+    {
+        $value = null;
+        if ($this->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
+            /** @var SaleRequestHasDeliveryNote $saleRequestHasDeliveryNote */
+            $saleRequestHasDeliveryNote = $this->getSaleRequestHasDeliveryNotes()->first();
+            if ($saleRequestHasDeliveryNote) {
+                $value = $saleRequestHasDeliveryNote->getSaleRequest();
+            }
+        }
+
+        return $value;
     }
 }
