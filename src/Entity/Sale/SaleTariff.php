@@ -109,6 +109,7 @@ class SaleTariff extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"apiSaleTariff"})
      */
     private $increaseForHolidays;
 
@@ -116,6 +117,7 @@ class SaleTariff extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"apiSaleTariff"})
      */
     private $increaseForHolidaysPercentage;
 

@@ -31,6 +31,10 @@
             var displacementIcon =jQuery('#displacement-icon');
             var miniumHolidayHours =jQuery('#{{ form.miniumHolidayHours.vars.id }}');
             var miniumHolidayHoursIcon =jQuery('#minium-holiday-hours-icon');
+            var increaseForHolidays =jQuery('#{{ form.increaseForHolidays.vars.id }}');
+            var increaseForHolidaysIcon =jQuery('#increase-for-holidays-icon');
+            var increaseForHolidaysPercentage =jQuery('#{{ form.increaseForHolidaysPercentage.vars.id }}');
+            var increaseForHolidaysPercentageIcon =jQuery('#increase-for-holidays-percentage-icon');
             {#var paymentType = jQuery('#{{ form.paymentType.vars.id }}');#}
             var serviceNode = jQuery('#sonata-ba-field-container-{{ form.service.vars.id }}');
             var selectTariffNode = jQuery('#sonata-ba-field-container-{{ form.selectTariff.vars.id }}');
@@ -93,6 +97,8 @@
                miniumHoursIcon.removeClass('hidden');
                priceHourIcon.removeClass('hidden');
                miniumHolidayHoursIcon.removeClass('hidden');
+               increaseForHolidaysIcon.removeClass('hidden');
+               increaseForHolidaysPercentageIcon.removeClass('hidden');
                var saleTariffId = event.val;
                jQuery.get(Routing.generate('admin_app_sale_saletariff_getJsonSaleTariffById', { id: saleTariffId }), function () {
 
@@ -159,11 +165,15 @@
                 miniumHoursIcon.addClass('hidden');
                 priceHourIcon.addClass('hidden');
                 miniumHolidayHoursIcon.addClass('hidden');
+                increaseForHolidaysIcon.addClass('hidden');
+                increaseForHolidaysPercentageIcon.addClass('hidden');
 
                 miniumHours.val(tariff.miniumHours);
                 priceHour.val(tariff.priceHour);
                 displacement.val(tariff.displacement);
                 miniumHolidayHours.val(tariff.miniumHolidayHours);
+                increaseForHolidays.val(tariff.increaseForHolidays);
+                increaseForHolidaysPercentage.val(tariff.increaseForHolidaysPercentage);
             }
 
         });
