@@ -164,6 +164,27 @@ class SaleDeliveryNote extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $serviceDescription;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $place;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $observations;
+
+    /**
      * Methods.
      */
 
@@ -609,6 +630,66 @@ class SaleDeliveryNote extends AbstractBase
         }
 
         return $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceDescription(): string
+    {
+        return $this->serviceDescription;
+    }
+
+    /**
+     * @param string $serviceDescription
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setServiceDescription(string $serviceDescription): SaleDeliveryNote
+    {
+        $this->serviceDescription = $serviceDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    /**
+     * @param string $place
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setPlace(string $place): SaleDeliveryNote
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getObservations(): ?string
+    {
+        return $this->observations;
+    }
+
+    /**
+     * @param string $observations
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setObservations(string $observations): SaleDeliveryNote
+    {
+        $this->observations = $observations;
+
+        return $this;
     }
 
     /**
