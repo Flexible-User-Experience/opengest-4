@@ -209,6 +209,27 @@ class SaleRequest extends AbstractBase
     private $displacement;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $miniumHolidayHours;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $increaseForHolidays;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $increaseForHolidaysPercentage;
+
+    /**
      * @var Vehicle
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
@@ -913,6 +934,65 @@ class SaleRequest extends AbstractBase
     public function setService(?SaleServiceTariff $service): SaleRequest
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMiniumHolidayHours()
+    {
+        return $this->miniumHolidayHours;
+    }
+
+    /**
+     * @param float $miniumHolidayHours
+     *
+     * @return SaleRequest
+     */
+    public function setMiniumHolidayHours(float $miniumHolidayHours): SaleRequest
+    {
+        $this->miniumHolidayHours = $miniumHolidayHours;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIncreaseForHolidays()
+    {
+        return $this->increaseForHolidays;
+    }
+
+    /**
+     * @param float $increaseForHolidays
+     *
+     * @return SaleRequest
+     */
+    public function setIncreaseForHolidays(float $increaseForHolidays): SaleRequest
+    {
+        $this->increaseForHolidays = $increaseForHolidays;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIncreaseForHolidaysPercentage()
+    {
+        return $this->increaseForHolidaysPercentage;
+    }
+
+    /**
+     * @param float $increaseForHolidaysPercentage
+     *
+     * @return SaleRequest
+     */
+    public function setIncreaseForHolidaysPercentage(float $increaseForHolidaysPercentage): SaleRequest
+    {
+        $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
 
         return $this;
     }

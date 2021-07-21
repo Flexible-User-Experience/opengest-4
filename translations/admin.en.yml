@@ -66,6 +66,12 @@ admin:
         secondary_vehicle: "Secondary vehicle"
         unit_price: "Preu unitari"
         item: "Item"
+        contact: "Contacto"
+        contact_person_name: "Persona de contacto"
+        contact_person_phone: "Telefono persona de contacto"
+        irpf: "Retención (%)"
+        iva: "Iva (%)"
+        discount: "Discount (%)"
     with:
         general: "General"
         image: "Imatge"

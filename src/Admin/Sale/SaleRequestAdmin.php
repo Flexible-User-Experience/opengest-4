@@ -25,6 +25,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -236,7 +237,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 array(
                     'class' => SaleServiceTariff::class,
-                    'label' => 'Servei',
+                    'label' => 'admin.label.sale_serivce_tariff',
                     'required' => true,
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 )
@@ -342,6 +343,33 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'Desplaçament',
                     'required' => false,
                     'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'miniumHolidayHours',
+                null,
+                array(
+                    'label' => 'Minim hores festiu',
+                    'required' => false,
+                    'help' => '<i id="minium-holiday-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'increaseForHolidays',
+                null,
+                array(
+                    'label' => 'Increment per festiu',
+                    'required' => false,
+                    'help' => '<i id="increase-for-holidays-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'increaseForHolidaysPercentage',
+                PercentType::class,
+                array(
+                    'label' => 'Increment per festiu %',
+                    'required' => false,
+                    'help' => '<i id="increase-for-holidays-percentage-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
                 )
             )
             ->end()

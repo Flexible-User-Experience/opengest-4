@@ -11,7 +11,6 @@
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var buildingSitesNode = jQuery('#{{ form.partnerBuildingSite.vars.id }}');
-            console.error(buildingSitesNode);
 
              //on change
             partnerNode.change(function(event) {
@@ -24,8 +23,16 @@
 
             function updateBuildingSites(response) {
               var partnerBuildingSitesData = jQuery.parseJSON(response);
-              partnerBuildingSitesData.select2("destroy");
-              console.log(buildingSitesNode.select2({data: partnerBuildingSitesData}));
+              console.log(buildingSitesNode);
+              buildingSitesNode.select2();
+              partnerBuildingSitesData.forEach(
+                function (value, index) {
+                  console.log(value, index);
+                  var newOption = new Option(value.text, value.id, false, false);
+                  buildingSitesNode.append(newOption);
+                });
+              // console.log(partnerBuildingSitesData);
+              // console.log(buildingSitesNode.select2({ data: partnerBuildingSitesData }));
             }
         });
     </script>

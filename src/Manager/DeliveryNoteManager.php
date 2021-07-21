@@ -41,6 +41,6 @@ class DeliveryNoteManager
     {
         $lastDeliveryNote = $this->saleDeliveryNoteRepository->getLastDeliveryNoteByenterprise($enterprise);
 
-        return $lastDeliveryNote ? $lastDeliveryNote->getDeliveryNoteNumber() + 1 : 1;
+        return $lastDeliveryNote ? $lastDeliveryNote->getId() + 1 : 1;
     }
 }

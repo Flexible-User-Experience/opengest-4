@@ -5,11 +5,14 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\CollectionDocumentType;
+use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Sale\SaleServiceTariff;
+use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -25,6 +28,10 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class SaleDeliveryNoteAdmin.
@@ -73,10 +80,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             $formMapper
                 ->with('General', $this->getFormMdSuccessBoxArray(4))
                 ->add(
-                    'deliveryNoteNumber',
+                    'id',
                     null,
                     array(
-                        'label' => 'Número d\'albarà',
+                        'label' => 'Id d\'albarà',
                         'required' => true,
                         'disabled' => true,
                     )
@@ -84,14 +91,29 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ->end()
             ;
         }
+        if ($this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
+            $formMapper
+                ->with('General', $this->getFormMdSuccessBoxArray(4))
+                ->add(
+                    'saleRequestNumber',
+                    TextType::class,
+                    array(
+                        'label' => 'Número de petició',
+                        'required' => false,
+                        'disabled' => true,
+                    )
+                )
+                ->end()
+            ;
+        }
         $formMapper
-            ->with('General', $this->getFormMdSuccessBoxArray(4))
+            ->with('General', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'date',
                 DatePickerType::class,
                 array(
-                    'label' => 'Data petició',
-                    'format' => 'd/m/Y',
+                    'label' => 'Data',
+                    'format' => 'dd/MM/yyyy',
                     'required' => true,
                     'dp_default_date' => (new \DateTime())->format('d/m/Y'),
                 )
@@ -117,6 +139,26 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
+                'cifNif',
+                TextType::class,
+                array(
+                    'label' => 'CIF',
+                    'required' => false,
+                    'mapped' => false,
+                    'disabled' => true,
+                    'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                )
+            )
+            ->add(
+                'deliveryNoteReference',
+                null,
+                array(
+                    'label' => 'Referencia d\'albarà',
+                    'required' => true,
+                    'disabled' => false,
+                )
+            )
+            ->add(
                 'buildingSite',
                 EntityType::class,
                 array(
@@ -137,7 +179,73 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Import', $this->getFormMdSuccessBoxArray(4))
+            ->with('Service', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'saleServiceTariff',
+                EntityType::class,
+                array(
+                    'class' => SaleServiceTariff::class,
+                    'label' => 'admin.label.sale_serivce_tariff',
+                    'required' => true,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                )
+            )
+            ->add(
+                'vehicle',
+                EntityType::class,
+                array(
+                    'class' => Vehicle::class,
+                    'label' => 'admin.label.vehicle',
+                    'required' => false,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'secondaryVehicle',
+                EntityType::class,
+                array(
+                    'class' => Vehicle::class,
+                    'label' => 'admin.label.secondary_vehicle',
+                    'required' => false,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'operator',
+                EntityType::class,
+                array(
+                    'class' => Operator::class,
+                    'label' => 'admin.label.operator',
+                    'required' => false,
+                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                )
+            )
+            ->add(
+                'serviceDescription',
+                TextareaType::class,
+                array(
+                    'label' => 'Descripció servei',
+                    'required' => true,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 7,
+                    ),
+                )
+            )
+            ->add(
+                'place',
+                TextareaType::class,
+                array(
+                    'label' => 'Lloc',
+                    'required' => false,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 3,
+                    ),
+                )
+            )
+            ->end()
+            ->with('Import', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'baseAmount',
                 null,
@@ -184,7 +292,80 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Factures', $this->getFormMdSuccessBoxArray(4))
+        ;
+        if ($this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
+            $formMapper
+                ->with('Tarifa', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'miniumHours',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.minimum_hours',
+                        'disabled' => true
+                    )
+                )
+                ->add(
+                    'hourPrice',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.price_hour',
+                        'disabled' => true
+                    )
+                )
+                ->add(
+                    'displacement',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.displacement',
+                        'disabled' => true
+                    )
+                )
+                ->add(
+                    'miniumHolidayHours',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.minimum_holiday_hours',
+                        'disabled' => true
+                    )
+                )
+                ->add(
+                    'increaseForHolidays',
+                    NumberType::class,
+                    array(
+                        'label' => 'admin.label.increase_for_holidays',
+                        'disabled' => true
+                    )
+                )
+                ->add(
+                    'increaseForHolidaysPercentage',
+                    PercentType::class,
+                    array(
+                        'label' => 'admin.label.increase_for_holidays_percentage',
+                        'disabled' => true
+                    )
+                )
+                ->end()
+                ->with('admin.label.contact', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'contactPersonName',
+                    TextType::class,
+                    array(
+                        'label' => 'admin.label.contact_person_name',
+                        'disabled' => true
+                    )
+                )
+                ->add(
+                    'contactPersonPhone',
+                    TextType::class,
+                    array(
+                        'label' => 'admin.label.contact_person_phone',
+                        'disabled' => true
+                    )
+                )
+                ->end();
+        }
+        $formMapper
+            ->with('Factures', $this->getFormMdSuccessBoxArray(3))
 //            ->add(
 //                'saleInvoices',
 //                EntityType::class,
@@ -204,6 +385,20 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 array(
                     'label' => 'No facturable',
                     'required' => false,
+                )
+            )
+            ->end()
+            ->with('Altres', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'observations',
+                TextareaType::class,
+                array(
+                    'label' => 'Observacions',
+                    'required' => false,
+                    'attr' => array(
+                        'style' => 'resize: vertical',
+                        'rows' => 3,
+                    ),
                 )
             )
             ->end()
@@ -280,10 +475,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'deliveryNoteNumber',
+                'deliveryNoteReference',
                 null,
                 array(
-                    'label' => 'Número albarà',
+                    'label' => 'Referencia d\'albarà',
                 )
             )
             ->add(
@@ -381,10 +576,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 )
             )
             ->add(
-                'deliveryNoteNumber',
+                'deliveryNoteReference',
                 null,
                 array(
-                    'label' => 'Número albarà'
+                    'label' => 'Referència d\'albarà'
                 )
             )
             ->add(
@@ -433,7 +628,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     public function prePersist($object)
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setDeliveryNoteNumber($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
+        $object->setDeliveryNoteReference($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
     }
 
     /**
