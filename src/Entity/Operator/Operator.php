@@ -430,6 +430,13 @@ class Operator extends AbstractBase
     /**
      * @var ArrayCollection
      *
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operator")
+     */
+    private $workRegisters;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorVariousAmount", mappedBy="operator")
      */
     private $operatorVariousAmount;
@@ -1622,6 +1629,55 @@ class Operator extends AbstractBase
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getWorkRegisters() : ArrayCollection
+    {
+        return $this->workRegisters;
+    }
+
+    /**
+     * @param ArrayCollection $workRegisters
+     *
+     * @return $this
+     */
+    public function setWorkRegisters(ArrayCollection $workRegisters) : Operator
+    {
+        $this->workRegisters = $workRegisters;
+
+        return $this;
+    }
+
+    /**
+     * @param OperatorWorkRegister $workRegister
+     *
+     * @return $this
+     */
+    public function addWorkRegister(OperatorWorkRegister $workRegister) : Operator
+    {
+        if (!$this->workRegisters->contains($workRegister)) {
+            $this->workRegisters->add($workRegister);
+            $workRegister->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param OperatorWorkRegister $workRegister
+     *
+     * @return $this
+     */
+    public function removeWorkRegister(OperatorWorkRegister$workRegister) : Operator
+    {
+        if ($this->workRegisters->contains($workRegister)) {
+            $this->workRegisters->removeElement($workRegister);
         }
 
         return $this;

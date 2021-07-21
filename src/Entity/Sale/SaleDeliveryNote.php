@@ -7,6 +7,7 @@ use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
+use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
@@ -162,6 +163,13 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestHasDeliveryNote", mappedBy="saleDeliveryNote", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $saleRequestHasDeliveryNotes;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote")
+     */
+    private $operatorWorkRegisters;
 
     /**
      * @var string
@@ -617,6 +625,55 @@ class SaleDeliveryNote extends AbstractBase
     {
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getOperatorWorkRegisters() : ArrayCollection
+    {
+        return $this->operatorWorkRegisters;
+    }
+
+    /**
+     * @param ArrayCollection $operatorWorkRegisters
+     *
+     * @return $this
+     */
+    public function setOperatorWorkRegisters($operatorWorkRegisters) : SaleDeliveryNote
+    {
+        $this->operatorWorkRegisters = $operatorWorkRegisters;
+
+        return $this;
+    }
+
+    /**
+     * @param OperatorWorkRegister $operatorWorkRegister
+     *
+     * @return $this
+     */
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister) : SaleDeliveryNote
+    {
+        if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
+            $this->operatorWorkRegisters->add($operatorWorkRegister);
+            $operatorWorkRegister->setSaleDeliveryNote($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleRequestHasDeliveryNote $operatorWorkRegister
+     *
+     * @return $this
+     */
+    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister) : SaleDeliveryNote
+    {
+        if ($this->operatorWorkRegisters->contains($operatorWorkRegister)) {
+            $this->operatorWorkRegisters->removeElement($operatorWorkRegister);
         }
 
         return $this;
