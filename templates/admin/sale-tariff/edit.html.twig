@@ -25,8 +25,14 @@
               var partnerBuildingSitesData = jQuery.parseJSON(response);
               console.log(buildingSitesNode);
               buildingSitesNode.select2();
-              console.log(partnerBuildingSitesData);
-              console.log(buildingSitesNode.select2({ data: partnerBuildingSitesData }));
+              partnerBuildingSitesData.forEach(
+                function (value, index) {
+                  console.log(value, index);
+                  var newOption = new Option(value.text, value.id, false, false);
+                  buildingSitesNode.append(newOption);
+                });
+              // console.log(partnerBuildingSitesData);
+              // console.log(buildingSitesNode.select2({ data: partnerBuildingSitesData }));
             }
         });
     </script>
