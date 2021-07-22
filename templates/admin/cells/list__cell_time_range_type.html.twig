@@ -1,0 +1,13 @@
+{% extends "@SonataAdmin/CRUD/base_list_field.html.twig" %}
+
+{% trans_default_domain 'admin' %}
+
+{% block field %}
+    {% if object.status is same as(0) %}
+        <span class="label label-warning" style="margin-right:10px">{{ 'enum.time_range_type.working' | trans }}</span>
+    {% elseif object.status == 1 %}
+        <span class="label label-info" style="margin-right:10px">{{ 'enum.time_range_type.normal' | trans }}</span>
+    {% elseif object.status == 2 %}
+        <span class="label label-success" style="margin-right:10px">{{ 'enum.time_range_type.extra' | trans }}</span>
+    {% endif %}
+{% endblock %}

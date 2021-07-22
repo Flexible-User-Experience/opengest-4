@@ -3,9 +3,11 @@
 namespace App\Admin\Setting;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Enum\TimeRangeTypeEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -60,6 +62,14 @@ class TimeRangeAdmin extends AbstractBaseAdmin
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(6))
             ->add(
+                'type',
+                ChoiceType::class,
+                array(
+                    'choices' => TimeRangeTypeEnum::getEnumArray(),
+                    'label' => 'admin.label.status',
+                )
+            )
+            ->add(
                 'description',
                 null,
                 array(
@@ -104,6 +114,17 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
+                'status',
+                null,
+                array(
+                    'label' => 'admin.label.status',
+                ),
+                ChoiceType::class,
+                array(
+                    'choices' => TimeRangeTypeEnum::getEnumArray(),
+                )
+            )
+            ->add(
                 'description',
                 null,
                 array(
@@ -140,6 +161,17 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add(
+                'type',
+                null,
+                array(
+                    'label' => 'Tipo',
+                    'header_class' => 'text-center',
+                    'row_align' => 'center',
+                    'template' => 'admin/cells/list__cell_time_range_type.html.twig',
+                    'editable' => false,
+                )
+            )
             ->add(
                 'description',
                 null,

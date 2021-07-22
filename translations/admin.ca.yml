@@ -98,6 +98,10 @@ enum:
         discarded: "Descartada"
         to_be_approved: "Ofertada"
         to_settle_on: "Per concretar"
+    time_range_type:
+        working: "Laboral"
+        normal: "Normal"
+        extra: "Extra"
 Servei_list: "Serveis"
 Servei_create: "Crear"
 Servei_delete: "Esborrar"
