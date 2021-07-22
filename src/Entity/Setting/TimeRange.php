@@ -42,6 +42,14 @@ class TimeRange extends AbstractBase
      */
     private DateTime $finish;
 
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    private int $type = 0;
+
     /**
      * Methods.
      */
@@ -102,6 +110,26 @@ class TimeRange extends AbstractBase
     public function setFinish(DateTime $finish): TimeRange
     {
         $this->finish = $finish;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getType(): int
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int $type
+     *
+     * @return TimeRange
+     */
+    public function setType(int $type): TimeRange
+    {
+        $this->type = $type;
 
         return $this;
     }

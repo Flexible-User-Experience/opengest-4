@@ -22,7 +22,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Franjas horaria';
+    protected $classnameLabel = 'Franjas horarias';
 
     /**
      * @var string
