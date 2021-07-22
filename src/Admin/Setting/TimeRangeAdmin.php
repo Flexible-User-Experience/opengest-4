@@ -86,7 +86,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 'start',
                 TimeType::class,
                 array(
-                    'label' => 'Empieza',
+                    'label' => 'admin.label.start',
                     'required' => true,
                 )
             )
@@ -94,7 +94,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 'finish',
                 TimeType::class,
                 array(
-                    'label' => 'Termina',
+                    'label' => 'admin.label.finish',
                     'required' => true,
                 )
             )
