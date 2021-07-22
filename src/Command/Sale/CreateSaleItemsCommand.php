@@ -50,7 +50,7 @@ class CreateSaleItemsCommand extends AbstractBaseCommand
         $errors = 0;
         $newSaleItems = array(
           ['Horas', 1],
-          ['Horas Fetivos', 1],
+          ['Horas Festivos', 1],
           ['Km Delplazamiento', 1],
           ['Presupuesto', 1],
           ['Salida', 1],
