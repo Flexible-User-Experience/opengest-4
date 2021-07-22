@@ -50,17 +50,17 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
         $newRecords = 0;
         $errors = 0;
         $newTimeRanges = array(
-          ['Madrugada', 2, DateTime::createFromFormat('H:i:s', '00:00:00'), DateTime::createFromFormat('H:i:s', '06:00:00')],
-          ['Mañana normal', 1, DateTime::createFromFormat('H:i:s', '06:00:00'), DateTime::createFromFormat('H:i:s', '08:00:00')],
-          ['Mañana', 0, DateTime::createFromFormat('H:i:s', '08:00:00'), DateTime::createFromFormat('H:i:s', '13:00:00')],
-          ['Mediodia', 1, DateTime::createFromFormat('H:i:s', '13:00:00'), DateTime::createFromFormat('H:i:s', '15:00:00')],
-          ['Tarde', 0, DateTime::createFromFormat('H:i:s', '15:00:00'), DateTime::createFromFormat('H:i:s', '18:00:00')],
-          ['Tarde normal', 0, DateTime::createFromFormat('H:i:s', '18:00:00'), DateTime::createFromFormat('H:i:s', '22:00:00')],
-          ['Noche', 0, DateTime::createFromFormat('H:i:s', '22:00:00'), DateTime::createFromFormat('H:i:s', '23:59:59')],
+          array('Madrugada', 2, DateTime::createFromFormat('H:i:s', '00:00:00'), DateTime::createFromFormat('H:i:s', '06:00:00')),
+          array('Mañana normal', 1, DateTime::createFromFormat('H:i:s', '06:00:00'), DateTime::createFromFormat('H:i:s', '08:00:00')),
+          array('Mañana', 0, DateTime::createFromFormat('H:i:s', '08:00:00'), DateTime::createFromFormat('H:i:s', '13:00:00')),
+          array('Mediodia', 1, DateTime::createFromFormat('H:i:s', '13:00:00'), DateTime::createFromFormat('H:i:s', '15:00:00')),
+          array('Tarde', 0, DateTime::createFromFormat('H:i:s', '15:00:00'), DateTime::createFromFormat('H:i:s', '18:00:00')),
+          array('Tarde normal', 1, DateTime::createFromFormat('H:i:s', '18:00:00'), DateTime::createFromFormat('H:i:s', '22:00:00')),
+          array('Noche', 2, DateTime::createFromFormat('H:i:s', '22:00:00'), DateTime::createFromFormat('H:i:s', '23:59:59')),
         );
         foreach ($newTimeRanges as $newTimeRange) {
             $timeRange = $this->rm->getTimeRangeRepository()->findOneBy([
-               'description' => $newTimeRanges[0]
+               'description' => $newTimeRange[0]
             ]);
             if (!$timeRange) {
                 //new Record
@@ -71,9 +71,9 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
                 $timeRange->setFinish($newTimeRange[3]);
                 $this->em->persist($timeRange);
                 $this->em->flush();
+                ++$newRecords;
             }
             ++$rowsRead;
-            ++$newRecords;
         }
         if (!$input->getOption('dry-run')) {
             $this->em->flush();

@@ -198,7 +198,7 @@ services:
         class: App\Repository\Setting\TimeRangeRepository
         factory: [ '@doctrine', getRepository ]
         arguments:
-            - App:Settings\TimeRange
+            - App:Setting\TimeRange
     app.repositories_manager:
         public: true
         class: App\Manager\RepositoriesManager
