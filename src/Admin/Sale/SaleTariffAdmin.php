@@ -173,8 +173,8 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'label' => 'Obra',
                     'required' => false,
                     'class' => PartnerBuildingSite::class,
-                    'choices' => [],
-//                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameWithPartnerJoinQB(), //TODO only return those related to client
+//                    'choices' => [],
+                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
 //                    'attr' => [
 //                        'data-sonata-select2' => 'false'
 //                    ]

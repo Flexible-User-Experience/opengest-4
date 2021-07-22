@@ -14,6 +14,15 @@
 
              //on change
             partnerNode.change(function(event) {
+              console.log(event);
+              if (event.val === '') {
+                buildingSitesNode.empty();
+                buildingSitesNode.select2('val', '');
+                buildingSitesNode.select2({
+                  enable: true,
+                  allowClear: true
+                });
+              }
                 var partnerId = event.val;
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
                 }).done(function(response) {
@@ -24,13 +33,20 @@
             function updateBuildingSites(response) {
               var partnerBuildingSitesData = jQuery.parseJSON(response);
               console.log(buildingSitesNode);
-              buildingSitesNode.select2();
+              buildingSitesNode.empty();
+              let newOption = new Option('-- elige una obra --', '', true, false);
+              buildingSitesNode.append(newOption);
               partnerBuildingSitesData.forEach(
                 function (value, index) {
                   console.log(value, index);
                   var newOption = new Option(value.text, value.id, false, false);
                   buildingSitesNode.append(newOption);
                 });
+              buildingSitesNode.select2('val', '');
+              buildingSitesNode.select2({
+                enable: true,
+                allowClear: true
+              });
               // console.log(partnerBuildingSitesData);
               // console.log(buildingSitesNode.select2({ data: partnerBuildingSitesData }));
             }
