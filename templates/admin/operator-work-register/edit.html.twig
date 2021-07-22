@@ -1,0 +1,8 @@
+{% extends 'admin/edit.html.twig' %}
+
+{% block sonata_page_content %}
+    {{ sonata_block_render({'type': 'app.block.operator_work_register_creation'}, { 'info': 'info'}) }}
+    <h1>Trial</h1>
+    {{ parent() }}
+{% endblock %}
+

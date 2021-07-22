@@ -40,3 +40,5 @@ services:
         arguments: [ ~, App\Entity\Operator\OperatorWorkRegister, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Partes de trabajo", group: "Operaris", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTemplate, [ edit, "admin/operator-work-register/edit.html.twig" ] ]

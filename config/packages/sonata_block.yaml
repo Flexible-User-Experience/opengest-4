@@ -2,3 +2,4 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts: [ admin ]
+        app.block.operator_work_register_creation:
