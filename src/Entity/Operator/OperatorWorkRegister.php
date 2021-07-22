@@ -24,7 +24,7 @@ class OperatorWorkRegister extends AbstractBase
     /**
      * @var Operator
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="workRegisters")
      */
     private Operator $operator;
 
@@ -80,7 +80,7 @@ class OperatorWorkRegister extends AbstractBase
     /**
      * @var ?SaleDeliveryNote
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleDeliveryNoteLines")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="operatorWorkRegisters")
      * @ORM\JoinColumn(nullable=true)
      */
     private ?SaleDeliveryNote $saleDeliveryNote;

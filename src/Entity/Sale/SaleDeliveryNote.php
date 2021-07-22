@@ -169,7 +169,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote")
      */
-    private $operatorWorkRegisters;
+    private ArrayCollection $operatorWorkRegisters;
 
     /**
      * @var string

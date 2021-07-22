@@ -7,9 +7,9 @@ use App\Enum\TimeRangeTypeEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 /**
@@ -21,6 +21,11 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
  */
 class TimeRangeAdmin extends AbstractBaseAdmin
 {
+    /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
     /**
      * @var string
      */
@@ -66,7 +71,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 ChoiceType::class,
                 array(
                     'choices' => TimeRangeTypeEnum::getEnumArray(),
-                    'label' => 'admin.label.status',
+                    'label' => 'admin.label.type',
                 )
             )
             ->add(
@@ -99,7 +104,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 'enabled',
                 CheckboxType::class,
                 array(
-                    'label' => 'Actiu',
+                    'label' => 'Activo',
                     'required' => false,
                 )
             )
@@ -114,10 +119,10 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
-                'status',
+                'type',
                 null,
                 array(
-                    'label' => 'admin.label.status',
+                    'label' => 'admin.label.type',
                 ),
                 ChoiceType::class,
                 array(
@@ -149,7 +154,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 array(
-                    'label' => 'Actiu',
+                    'label' => 'Activo',
                 )
             )
         ;
@@ -165,7 +170,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 array(
-                    'label' => 'Tipo',
+                    'label' => 'admin.label.type',
                     'header_class' => 'text-center',
                     'row_align' => 'center',
                     'template' => 'admin/cells/list__cell_time_range_type.html.twig',
@@ -200,7 +205,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 array(
-                    'label' => 'Actiu',
+                    'label' => 'Activo',
                     'editable' => true,
                 )
             )

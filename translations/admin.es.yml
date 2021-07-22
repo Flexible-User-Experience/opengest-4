@@ -51,7 +51,7 @@ admin:
         invoice_number_long: "Número factura"
         invoice_number: "Número"
         invoice_number_short: "Núm."
-        type: "Tipus"
+        type: "Tipo"
         series_long: "Sèrie factura"
         series: "Sèrie"
         partner_building_site: "Obra"
