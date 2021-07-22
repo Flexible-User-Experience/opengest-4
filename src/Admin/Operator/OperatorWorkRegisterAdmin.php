@@ -4,7 +4,9 @@ namespace App\Admin\Operator;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
+use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Sale\SaleDeliveryNote;
+use Doctrine\ORM\NonUniqueResultException;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -207,7 +209,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 'saleDeliveryNote',
                 null,
                 array(
-                    'label' => 'admin.with.sale_delivery_note',
+                    'label' => 'admin.with.delivery_note',
                 )
             )
             ->add(
@@ -282,5 +284,18 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 )
             )
         ;
+    }
+
+
+    /**
+     * @param OperatorWorkRegister $object
+     *
+     * @throws NonUniqueResultException
+     */
+    public function prePersist($object)
+    {
+        $object->setAmount($object->getUnits()*$object->getPriceUnit());
+
+        $this->em->flush();
     }
 }

@@ -14,6 +14,7 @@ use App\Entity\Partner\PartnerOrder;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -165,11 +166,11 @@ class SaleDeliveryNote extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote")
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
      */
-    private ArrayCollection $operatorWorkRegisters;
+    private Collection $operatorWorkRegisters;
 
     /**
      * @var string
@@ -631,19 +632,19 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getOperatorWorkRegisters() : ArrayCollection
+    public function getOperatorWorkRegisters() : Collection
     {
         return $this->operatorWorkRegisters;
     }
 
     /**
-     * @param ArrayCollection $operatorWorkRegisters
+     * @param Collection $operatorWorkRegisters
      *
      * @return $this
      */
-    public function setOperatorWorkRegisters($operatorWorkRegisters) : SaleDeliveryNote
+    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters) : SaleDeliveryNote
     {
         $this->operatorWorkRegisters = $operatorWorkRegisters;
 
@@ -666,7 +667,7 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleRequestHasDeliveryNote $operatorWorkRegister
+     * @param OperatorWorkRegister $operatorWorkRegister
      *
      * @return $this
      */
