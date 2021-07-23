@@ -3,6 +3,80 @@
 {% trans_default_domain "admin" %}
 
 {% block block %}
-<h2>Create operator work register block {{ settings.info }}</h2>
-    {{ settings.info }}
+    <div class="col-md-6">
+        <div class="box box-success">
+            <div class="box-header">
+                <h4 class="box-title">
+                    Crear partes de trabajo
+                </h4>
+            </div>
+            <form>
+                <div class="box-body">
+                    <div class="form-group" id="sonata-ba-field-container-scustom_date">
+                        <label class="control-label required" for="custom_date">
+                            Data
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                            <div class="input-group">
+                                <div class="input-group date" id="dp_custom_date">
+                                    <input type="text"
+                                           id="custom_date"
+                                           name="custom_date"
+                                           required="required"
+                                           class="sonata-medium-date form-control"
+                                           data-date-format="DD MM YYYY">
+                                    <span class="input-group-addon">
+                                        <span class="fa-calendar fa"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                              jQuery(function ($) {
+                                $('#dp_custom_date').datetimepicker({
+                                  "pickTime": false,
+                                  "pickDate": true,
+                                  "useCurrent": true,
+                                  "minDate": "1\/1\/1900",
+                                  "maxDate": null,
+                                  "showToday": true,
+                                  "language": "es",
+                                  "defaultDate": "",
+                                  "disabledDates": [],
+                                  "enabledDates": [],
+                                  "icons": {
+                                    "time": "fa fa-clock-o",
+                                    "date": "fa fa-calendar",
+                                    "up": "fa fa-chevron-up",
+                                    "down": "fa fa-chevron-down"
+                                  },
+                                  "useStrict": false,
+                                  "sideBySide": false,
+                                  "daysOfWeekDisabled": [],
+                                  "collapse": true,
+                                  "calendarWeeks": false,
+                                  "viewMode": "days",
+                                  "minViewMode": "days",
+                                  "useSeconds": false
+                                });
+                              });
+                            </script>
+                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="s60fa7bcba2582_operator">
+                            Operario
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 30%;">
+                            <select class="select2-container" style="width: 100%;" name="custom_operator">
+                                {% for operator in content.operators %}
+                                    <option value="{{ operator.id }}">{{ operator }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

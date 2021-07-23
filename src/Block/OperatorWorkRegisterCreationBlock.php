@@ -38,6 +38,9 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
         // merge settings
         $settings = $blockContext->getSettings();
         $backgroundColor = 'bg-light-blue';
+        $content = array(
+            'operators' => $operators
+        );
 
         return $this->renderResponse(
             $blockContext->getTemplate(), [
@@ -45,7 +48,7 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
                 'settings' => $settings,
                 'title' => 'admin.dashboard.pending',
                 'background' => $backgroundColor,
-                'content' => $operators,
+                'content' => $content,
                 'show_date' => true,
             ],
             $response
