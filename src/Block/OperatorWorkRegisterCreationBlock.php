@@ -2,6 +2,7 @@
 
 namespace App\Block;
 
+use App\Enum\ConstantsEnum;
 use App\Repository\Operator\OperatorRepository;
 use App\Repository\Sale\SaleRequestRepository;
 use Exception;
@@ -39,7 +40,9 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
         $settings = $blockContext->getSettings();
         $backgroundColor = 'bg-light-blue';
         $content = array(
-            'operators' => $operators
+            'operators' => $operators,
+            'time_picker_hours' => ConstantsEnum::TIME_PICKER_HOURS,
+            'time_picker_minutes' => ConstantsEnum::TIME_PICKER_MINUTES
         );
 
         return $this->renderResponse(

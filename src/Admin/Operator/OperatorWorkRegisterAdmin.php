@@ -62,7 +62,9 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->add('createCustomWorkRegister', 'createCustomWorkRegister')
+            ->remove('delete');
     }
 
     /**

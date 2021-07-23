@@ -10,9 +10,9 @@
                     Crear partes de trabajo
                 </h4>
             </div>
-            <form>
+            <form action="{{ path('admin_app_operator_operatorworkregister_createCustomWorkRegister') }}">
                 <div class="box-body">
-                    <div class="form-group" id="sonata-ba-field-container-scustom_date">
+                    <div class="form-group" id="sonata-ba-field-container-custom_date">
                         <label class="control-label required" for="custom_date">
                             Data
                         </label>
@@ -63,18 +63,42 @@
                             <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="sonata-ba-field-container-custom_operator">
                         <label class="control-label required" for="s60fa7bcba2582_operator">
                             Operario
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 30%;">
                             <select class="select2-container" style="width: 100%;" name="custom_operator">
+                                <option value="">---selecione un operario---</option>
                                 {% for operator in content.operators %}
-                                    <option value="{{ operator.id }}">{{ operator }}</option>
+                                <option value="{{ operator.id }}">{{ operator }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" id="sonata-ba-field-container-custom_start">
+                        <label class="control-label required" for="custom_start">
+                            Empieza
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 30%;">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <select class="select2-container" style="width: 100%;" name="custom_start[hour]">
+                                    {% for time_picker_hour in content.time_picker_hours %}
+                                        <option value="{{ time_picker_hour }}">{{ time_picker_hour }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select class="select2-container" style="width: 100%;" name="custom_start[minute]">
+                                    {% for time_picker_minute in content.time_picker_minutes %}
+                                        <option value="{{ time_picker_minute }}">{{ time_picker_minute }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" type="submit" name="btn_create_and_edit"><i class="fa fa-save" aria-hidden="true"></i> Crear</button>
                 </div>
             </form>
         </div>
