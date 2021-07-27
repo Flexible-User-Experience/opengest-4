@@ -24,7 +24,8 @@
                                            name="custom_date"
                                            required="required"
                                            class="sonata-medium-date form-control"
-                                           data-date-format="DD MM YYYY">
+                                           data-date-format="DD-MM-YYYY"
+                                           value="{{ "now"|date("d-m-y") }}">
                                     <span class="input-group-addon">
                                         <span class="fa-calendar fa"></span>
                                     </span>
@@ -64,11 +65,11 @@
                         </div>
                     </div>
                     <div class="form-group" id="sonata-ba-field-container-custom_operator">
-                        <label class="control-label required" for="s60fa7bcba2582_operator">
+                        <label class="control-label required" for="custom_operator">
                             Operario
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" name="custom_operator">
+                            <select class="select2-container" style="width: 100%;" name="custom_operator" id="custom_operator">
                                 <option value="">---selecione un operario---</option>
                                 {% for operator in content.operators %}
                                 <option value="{{ operator.id }}">{{ operator }}</option>
@@ -81,7 +82,7 @@
                             Tipo
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" id="select_input_type">
+                            <select class="select2-container" style="width: 100%;" id="select_input_type" name="select_input_type">
                                 <option value="hour">Horas</option>
                                 <option value="unit">Items</option>
                             </select>
@@ -134,7 +135,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="sonata-ba-field-container-description">
-                        <label class="control-label required" for="description">
+                        <label class="control-label" for="description">
                             Descripción
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
@@ -151,7 +152,7 @@
                             Item
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" name="custom_item">
+                            <select class="select2-container" style="width: 100%;" name="custom_item" id="custom_item">
                                 <option value="">---selecione un item---</option>
                                 {% for id,item in content.items %}
                                     <option value="{{ id }}">{{ item }}</option>
@@ -160,9 +161,18 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-success" type="submit" name="btn_create_and_edit"><i class="fa fa-save" aria-hidden="true"></i> Crear</button>
+                    <button class="btn btn-success" type="submit" id="btn_custom_submit" name="btn_custom_submit"><i class="fa fa-save" aria-hidden="true"></i> Crear</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="box box-success">
+            <div class="box-header">
+                <h4 class="box-title">
+                    Partes de trabajo
+                </h4>
+            </div>
         </div>
     </div>
 
@@ -170,12 +180,19 @@
       jQuery(document).ready(function() {
 
         var selectInputType = jQuery('#select_input_type');
+        var selectOperator = jQuery('#custom_operator');
+        var selectItem = jQuery('#custom_item');
+
+        var operator = jQuery('#sonata-ba-field-container-custom_operator');
         var customStart = jQuery('#sonata-ba-field-container-custom_start');
         var customFinish = jQuery('#sonata-ba-field-container-custom_finish');
         var customDescription = jQuery('#sonata-ba-field-container-description');
         var item = jQuery('#sonata-ba-field-container-item');
 
+        var submitButton = jQuery('#btn_custom_submit');
+
         item.addClass('hidden');
+        submitButton.addClass('disabled').attr('disabled', 'disabled');
 
         selectInputType.change(function (event) {
           const type = event.added.id;
@@ -190,7 +207,40 @@
             customDescription.removeClass('hidden');
             item.addClass('hidden');
           }
+          enableDisableSubmitButton();
         });
+
+        selectOperator.change(function (event) {
+          enableDisableSubmitButton();
+        });
+
+        selectItem.change(function (event) {
+          enableDisableSubmitButton();
+        });
+
+        function enableDisableSubmitButton() {
+          if (requiredFieldsAreFilled()) {
+            submitButton.removeClass('disabled').removeAttr('disabled', 'disabled');
+          } else {
+            submitButton.addClass('disabled').attr('disabled', 'disabled');
+          }
+        }
+
+        function requiredFieldsAreFilled() {
+          if (selectOperator.val() === '') {
+
+            return false;
+          }
+            if (selectInputType.val() === 'unit') {
+              console.log(selectItem.val(), "select item");
+              if (selectItem.val() === '') {
+
+                return false;
+              }
+            }
+
+          return true;
+        }
 
       });
 
