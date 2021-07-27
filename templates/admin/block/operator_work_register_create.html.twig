@@ -1,0 +1,106 @@
+{% extends sonata_block.templates.block_base %}
+
+{% trans_default_domain "admin" %}
+
+{% block block %}
+    <div class="col-md-6">
+        <div class="box box-success">
+            <div class="box-header">
+                <h4 class="box-title">
+                    Crear partes de trabajo
+                </h4>
+            </div>
+            <form action="{{ path('admin_app_operator_operatorworkregister_createCustomWorkRegister') }}">
+                <div class="box-body">
+                    <div class="form-group" id="sonata-ba-field-container-custom_date">
+                        <label class="control-label required" for="custom_date">
+                            Data
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                            <div class="input-group">
+                                <div class="input-group date" id="dp_custom_date">
+                                    <input type="text"
+                                           id="custom_date"
+                                           name="custom_date"
+                                           required="required"
+                                           class="sonata-medium-date form-control"
+                                           data-date-format="DD MM YYYY">
+                                    <span class="input-group-addon">
+                                        <span class="fa-calendar fa"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                              jQuery(function ($) {
+                                $('#dp_custom_date').datetimepicker({
+                                  "pickTime": false,
+                                  "pickDate": true,
+                                  "useCurrent": true,
+                                  "minDate": "1\/1\/1900",
+                                  "maxDate": null,
+                                  "showToday": true,
+                                  "language": "es",
+                                  "defaultDate": "",
+                                  "disabledDates": [],
+                                  "enabledDates": [],
+                                  "icons": {
+                                    "time": "fa fa-clock-o",
+                                    "date": "fa fa-calendar",
+                                    "up": "fa fa-chevron-up",
+                                    "down": "fa fa-chevron-down"
+                                  },
+                                  "useStrict": false,
+                                  "sideBySide": false,
+                                  "daysOfWeekDisabled": [],
+                                  "collapse": true,
+                                  "calendarWeeks": false,
+                                  "viewMode": "days",
+                                  "minViewMode": "days",
+                                  "useSeconds": false
+                                });
+                              });
+                            </script>
+                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="sonata-ba-field-container-custom_operator">
+                        <label class="control-label required" for="s60fa7bcba2582_operator">
+                            Operario
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 30%;">
+                            <select class="select2-container" style="width: 100%;" name="custom_operator">
+                                <option value="">---selecione un operario---</option>
+                                {% for operator in content.operators %}
+                                <option value="{{ operator.id }}">{{ operator }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="sonata-ba-field-container-custom_start">
+                        <label class="control-label required" for="custom_start">
+                            Empieza
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 30%;">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <select class="select2-container" style="width: 100%;" name="custom_start[hour]">
+                                    {% for time_picker_hour in content.time_picker_hours %}
+                                        <option value="{{ time_picker_hour }}">{{ time_picker_hour }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select class="select2-container" style="width: 100%;" name="custom_start[minute]">
+                                    {% for time_picker_minute in content.time_picker_minutes %}
+                                        <option value="{{ time_picker_minute }}">{{ time_picker_minute }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" type="submit" name="btn_create_and_edit"><i class="fa fa-save" aria-hidden="true"></i> Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
