@@ -6,6 +6,8 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorChecking;
 use App\Entity\Operator\OperatorWorkRegister;
+use App\Enum\OperatorWorkRegisterTimeEnum;
+use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Service\GuardService;
 use DateTime;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,7 +41,9 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             $operatorWorkRegister->setOperator($operator);
             $operatorWorkRegister->setDate($date);
             if ($inputType === 'unit') {
-                $item = $request->query->get('custom_item');
+                $itemId = $request->query->get('custom_item');
+                $item = OperatorWorkRegisterUnitEnum::getCodeFromId($itemId);
+                dd($item);
             } elseif ($inputType === 'hour') {
 
             }

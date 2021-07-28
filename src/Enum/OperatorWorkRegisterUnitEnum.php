@@ -2,6 +2,8 @@
 
 namespace App\Enum;
 
+use ReflectionClass;
+
 /**
  * OperatorWorkRegisterUnitEnum class.
  *
@@ -43,5 +45,21 @@ class OperatorWorkRegisterUnitEnum
             self::TRUCK_OUTPUT         => 'Salida camión',
             self::CAR_OUTPUT           => 'Salida coche',
         ];
+    }
+
+    public static function getCodeFromId($id) {
+        $owruClass = new ReflectionClass ( self::class );
+        $constants = $owruClass->getConstants();
+        $constName = null;
+        foreach ( $constants as $name => $value )
+        {
+            if ( $value == $id )
+            {
+                $constName = $name;
+                break;
+            }
+        }
+
+        return $constName;
     }
 }
