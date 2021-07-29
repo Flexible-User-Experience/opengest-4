@@ -130,9 +130,9 @@ class OperatorWorkRegister extends AbstractBase
     }
 
     /**
-     * @return DateTime
+     * @return ?DateTime
      */
-    public function getStart(): DateTime
+    public function getStart(): ?DateTime
     {
         return $this->start;
     }
@@ -150,9 +150,9 @@ class OperatorWorkRegister extends AbstractBase
     }
 
     /**
-     * @return DateTime
+     * @return ?DateTime
      */
-    public function getFinish(): DateTime
+    public function getFinish(): ?DateTime
     {
         return $this->finish;
     }

@@ -13,6 +13,7 @@ use DateTime;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\String\UnicodeString;
 
 /**
  * Class OperatorWorkRegisterAdminController.
@@ -43,12 +44,27 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             if ($inputType === 'unit') {
                 $itemId = $request->query->get('custom_item');
                 $item = OperatorWorkRegisterUnitEnum::getCodeFromId($itemId);
-                dd($item);
+                $description = OperatorWorkRegisterUnitEnum::getReversedEnumArray()[$itemId];
+                $price = $this->getPriceFromItem($operator, $item);
+                $units = 1;
             } elseif ($inputType === 'hour') {
-
+                //Implement when is time type
             }
+            $operatorWorkRegister->setUnits($units);
+            $operatorWorkRegister->setPriceUnit($price);
+            $operatorWorkRegister->setAmount($units*$price);
+            $operatorWorkRegister->setDescription($description);
+            $this->admin->getModelManager()->create($operatorWorkRegister);
         }
 
         return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_list'));
+    }
+
+    private function getPriceFromItem(Operator $operator, $item)
+    {
+        $bounty = $operator->getEnterpriseGroupBounty();
+        $method = new UnicodeString('GET_'.$item);
+
+        return call_user_func(array($bounty, $method->lower()->camel()->toString()));
     }
 }
