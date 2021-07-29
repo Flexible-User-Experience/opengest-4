@@ -10,6 +10,7 @@ use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Service\GuardService;
 use DateTime;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,6 +59,30 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         }
 
         return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_list'));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getJsonOperatorWorkRegistersByDataAndOperatorIdAction(Request $request): JsonResponse
+    {
+        $operatorId = $request->get('operatorId');
+        $date = new DateTime($request->get('date'));
+        /** @var Operator $operator */
+        $operator = $this->admin->getModelManager()->find(Operator::class, $operatorId);
+        if (!$operator) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorId));
+        }
+        $operatorWorkRegisters = $this->admin->getModelManager()->findBy(OperatorWorkRegister::class, array(
+            'operator' => $operator,
+            'date' => $date
+        ));
+
+        $serializer = $this->container->get('serializer');
+        $serializedOperatorWorkRegisters = $serializer->serialize($operatorWorkRegisters, 'json', array('groups' => array('api')));
+
+        return new JsonResponse($serializedOperatorWorkRegisters);
     }
 
     private function getPriceFromItem(Operator $operator, $item)

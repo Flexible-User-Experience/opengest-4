@@ -7,7 +7,6 @@ use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\ORM\NonUniqueResultException;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -64,6 +63,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('createCustomWorkRegister', 'createCustomWorkRegister')
+            ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters')
             ->remove('delete');
     }
 

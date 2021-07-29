@@ -3,6 +3,8 @@
 {% trans_default_domain "admin" %}
 
 {% block block %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <div class="col-md-3">
         <div class="box box-success">
             <div class="box-header">
@@ -172,6 +174,61 @@
                 <h4 class="box-title">
                     Partes de trabajo
                 </h4>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                        <thead>
+                        <tr class="sonata-ba-list-field-header">
+                            <th class="sonata-ba-list-field-header">
+                                Albarán
+                            </th>
+                            <th class="sonata-ba-list-field-header-time ">
+                                Empieza
+                            </th>
+                            <th class="sonata-ba-list-field-header-time ">
+                                Termina
+                            </th>
+                            <th class="sonata-ba-list-field-header-time ">
+                                Unidades
+                            </th>
+                            <th class="sonata-ba-list-field-header-time ">
+                                Precio/unidad
+                            </th>
+                            <th class="sonata-ba-list-field-header-time ">
+                                Total
+                            </th>
+                            <th class="sonata-ba-list-field-header-time ">
+                                Observaciones
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-orm_many_to_one" objectid="4">
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-time" objectid="4">
+                                    &nbsp;
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-time" objectid="4">
+                                    &nbsp;
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-number" objectid="4">
+                                    1
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-number" objectid="4">
+                                    26
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-number" objectid="4">
+                                    26
+                                </td>
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text" objectid="4">
+                                    Pernoctación extra
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
             </div>
         </div>
     </div>
@@ -182,6 +239,7 @@
         var selectInputType = jQuery('#select_input_type');
         var selectOperator = jQuery('#custom_operator');
         var selectItem = jQuery('#custom_item');
+        var selectDate = jQuery('#custom_date');
 
         var operator = jQuery('#sonata-ba-field-container-custom_operator');
         var customStart = jQuery('#sonata-ba-field-container-custom_start');
@@ -212,6 +270,7 @@
 
         selectOperator.change(function (event) {
           enableDisableSubmitButton();
+          updateOperatorWorkRegistersTable(selectOperator.val(), selectDate.val());
         });
 
         selectItem.change(function (event) {
@@ -240,6 +299,20 @@
             }
 
           return true;
+        }
+
+        function updateOperatorWorkRegistersTable(operatorId, date)
+        {
+          jQuery.get(Routing.generate(
+            'admin_app_operator_operatorworkregister_getJsonOperatorWorkRegistersByDataAndOperatorId',
+            {
+              operatorId: operatorId,
+              date: date
+            }
+          ), function () {
+          }).done(function (response) {
+            console.log(response);
+          });
         }
 
       });
