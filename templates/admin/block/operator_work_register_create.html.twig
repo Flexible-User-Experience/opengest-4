@@ -181,46 +181,46 @@
                             <th class="sonata-ba-list-field-header">
                                 Albarán
                             </th>
-                            <th class="sonata-ba-list-field-header-time ">
+                            <th class="sonata-ba-list-field-header-time">
                                 Empieza
                             </th>
-                            <th class="sonata-ba-list-field-header-time ">
+                            <th class="sonata-ba-list-field-header-time">
                                 Termina
                             </th>
-                            <th class="sonata-ba-list-field-header-time ">
+                            <th class="sonata-ba-list-field-header">
                                 Unidades
                             </th>
-                            <th class="sonata-ba-list-field-header-time ">
+                            <th class="sonata-ba-list-field-header">
                                 Precio/unidad
                             </th>
-                            <th class="sonata-ba-list-field-header-time ">
+                            <th class="sonata-ba-list-field-header">
                                 Total
                             </th>
-                            <th class="sonata-ba-list-field-header-time ">
+                            <th class="sonata-ba-list-field-header">
                                 Observaciones
                             </th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="custom_table">
                             <tr>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-orm_many_to_one" objectid="4">
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
                                 </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-time" objectid="4">
+                                <td class="sonata-ba-list-field sonata-ba-list-field-time">
                                     &nbsp;
                                 </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-time" objectid="4">
+                                <td class="sonata-ba-list-field sonata-ba-list-field-time">
                                     &nbsp;
                                 </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-number" objectid="4">
+                                <td class="sonata-ba-list-field sonata-ba-list-field-number">
                                     1
                                 </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-number" objectid="4">
+                                <td class="sonata-ba-list-field sonata-ba-list-field-number">
                                     26
                                 </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-number" objectid="4">
+                                <td class="sonata-ba-list-field sonata-ba-list-field-number">
                                     26
                                 </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text" objectid="4">
+                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
                                     Pernoctación extra
                                 </td>
                             </tr>
@@ -235,6 +235,7 @@
 
     <script type="text/javascript">
       jQuery(document).ready(function() {
+        var customTable = jQuery('#custom_table');
 
         var selectInputType = jQuery('#select_input_type');
         var selectOperator = jQuery('#custom_operator');
@@ -311,7 +312,19 @@
             }
           ), function () {
           }).done(function (response) {
-            console.log(response);
+            customTable.empty();
+            JSON.parse(response).forEach((element) => {
+              console.log(element.priceUnit);
+              var row = document.createElement('tr');
+              var cell = document.createElement('td');
+              cell.classList.add('sonata-ba-list-field');
+              cell.classList.add('sonata-ba-list-field');
+              cell.append('deliverynote');
+              console.log(cell);
+              row.appendChild(cell);
+              console.log(customTable);
+              customTable.append(row);
+            });
           });
         }
 

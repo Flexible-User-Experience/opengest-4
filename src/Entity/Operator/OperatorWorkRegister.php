@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleDeliveryNote;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -32,6 +33,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var DateTime
      *
      * @ORM\Column(type="date")
+     * @Groups({"api"})
      */
     private DateTime $date;
 
@@ -39,6 +41,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var ?DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     * @Groups({"api"})
      */
     private ?DateTime $start;
 
@@ -46,6 +49,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var ?DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     * @Groups({"api"})
      */
     private ?DateTime $finish;
 
@@ -53,6 +57,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float")
+     * @Groups({"api"})
      */
     private float $units;
 
@@ -60,6 +65,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float")
+     * @Groups({"api"})
      */
     private float $priceUnit;
 
@@ -67,6 +73,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float")
+     * @Groups({"api"})
      */
     private float $amount;
 
@@ -74,6 +81,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"api"})
      */
     private string $description;
 
@@ -82,6 +90,7 @@ class OperatorWorkRegister extends AbstractBase
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="operatorWorkRegisters")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"api"})
      */
     private ?SaleDeliveryNote $saleDeliveryNote;
 

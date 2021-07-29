@@ -63,7 +63,10 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
 
     /**
      * @param Request $request
+     *
      * @return JsonResponse
+     *
+     * @throws \Exception
      */
     public function getJsonOperatorWorkRegistersByDataAndOperatorIdAction(Request $request): JsonResponse
     {
