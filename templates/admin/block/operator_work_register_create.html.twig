@@ -27,7 +27,7 @@
                                            required="required"
                                            class="sonata-medium-date form-control"
                                            data-date-format="DD-MM-YYYY"
-                                           value="{{ "now"|date("d-m-y") }}">
+                                           value="{{ "now"|date("d-m-Y") }}">
                                     <span class="input-group-addon">
                                         <span class="fa-calendar fa"></span>
                                     </span>
@@ -219,6 +219,7 @@
         var selectOperator = jQuery('#custom_operator');
         var selectItem = jQuery('#custom_item');
         var selectDate = jQuery('#custom_date');
+        var eventSelectDate = jQuery('#dp_custom_date');
 
         var operator = jQuery('#sonata-ba-field-container-custom_operator');
         var customStart = jQuery('#sonata-ba-field-container-custom_start');
@@ -230,6 +231,8 @@
 
         item.addClass('hidden');
         submitButton.addClass('disabled').attr('disabled', 'disabled');
+
+        updateOperatorWorkRegistersTable();
 
         selectInputType.change(function (event) {
           const type = event.added.id;
@@ -249,7 +252,11 @@
 
         selectOperator.change(function (event) {
           enableDisableSubmitButton();
-          updateOperatorWorkRegistersTable(selectOperator.val(), selectDate.val());
+          updateOperatorWorkRegistersTable();
+        });
+
+        eventSelectDate.change(function (event) {
+          updateOperatorWorkRegistersTable();
         });
 
         selectItem.change(function (event) {
@@ -280,31 +287,36 @@
           return true;
         }
 
-        function updateOperatorWorkRegistersTable(operatorId, date)
+        function updateOperatorWorkRegistersTable()
         {
+          var operatorId = selectOperator.val();
+          var date = selectDate.val();
           console.log(operatorId, date);
-          jQuery.get(Routing.generate(
-            'admin_app_operator_operatorworkregister_getJsonOperatorWorkRegistersByDataAndOperatorId',
-            {
-              operatorId: operatorId,
-              date: date
-            }
-          ), function () {
-          }).done(function (response) {
-            console.log(response);
-            customTable.empty();
-            JSON.parse(response).forEach((element) => {
-              var row = document.createElement('tr');
-              createCellFromInfoAndAppendToRow(element.saleDeliveryNote || '', row);
-              createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '', row);
-              createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '', row);
-              createCellFromInfoAndAppendToRow(element.units, row);
-              createCellFromInfoAndAppendToRow(element.priceUnit, row);
-              createCellFromInfoAndAppendToRow(element.amount, row);
-              createCellFromInfoAndAppendToRow(element.description, row);
-              customTable.append(row);
+          if (operatorId && date) {
+            jQuery.get(Routing.generate(
+              'admin_app_operator_operatorworkregister_getJsonOperatorWorkRegistersByDataAndOperatorId',
+              {
+                operatorId: operatorId,
+                date: date
+              }
+            ), function () {
+            }).done(function (response) {
+              customTable.empty();
+              JSON.parse(response).forEach((element) => {
+                var row = document.createElement('tr');
+                createCellFromInfoAndAppendToRow(element.saleDeliveryNote || '', row);
+                createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '', row);
+                createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '', row);
+                createCellFromInfoAndAppendToRow(element.units, row);
+                createCellFromInfoAndAppendToRow(element.priceUnit, row);
+                createCellFromInfoAndAppendToRow(element.amount, row);
+                createCellFromInfoAndAppendToRow(element.description, row);
+                customTable.append(row);
+              });
             });
-          });
+          } else {
+            customTable.empty();
+          }
         }
 
         function createCellFromInfoAndAppendToRow(info, row)

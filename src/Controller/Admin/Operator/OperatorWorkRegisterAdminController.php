@@ -37,7 +37,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         if (!$operator) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorId));
         }
-        $date = DateTime::createFromFormat('d-m-y', $request->query->get('custom_date'));
+        $date = DateTime::createFromFormat('d-m-Y', $request->query->get('custom_date'));
         if ($date) {
             $operatorWorkRegister = new OperatorWorkRegister();
             $operatorWorkRegister->setOperator($operator);
@@ -71,7 +71,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
     public function getJsonOperatorWorkRegistersByDataAndOperatorIdAction(Request $request): JsonResponse
     {
         $operatorId = $request->get('operatorId');
-        $date = DateTime::createFromFormat('d-m-y', $request->get('date'));
+        $date = DateTime::createFromFormat('d-m-Y', $request->get('date'));
         /** @var Operator $operator */
         $operator = $this->admin->getModelManager()->find(Operator::class, $operatorId);
         if (!$operator) {
