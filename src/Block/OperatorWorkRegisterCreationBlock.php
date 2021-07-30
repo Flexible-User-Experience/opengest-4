@@ -6,7 +6,6 @@ use App\Enum\ConstantsEnum;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Repository\Operator\OperatorRepository;
-use App\Repository\Sale\SaleRequestRepository;
 use Exception;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;

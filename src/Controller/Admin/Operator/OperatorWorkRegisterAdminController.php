@@ -58,7 +58,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             $this->admin->getModelManager()->create($operatorWorkRegister);
         }
 
-        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_list'));
+        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_create'));
     }
 
     /**
