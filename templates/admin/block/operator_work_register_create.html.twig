@@ -202,28 +202,6 @@
                         </tr>
                         </thead>
                         <tbody id="custom_table">
-                            <tr>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-time">
-                                    &nbsp;
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-time">
-                                    &nbsp;
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-number">
-                                    1
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-number">
-                                    26
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-number">
-                                    26
-                                </td>
-                                <td class="sonata-ba-list-field sonata-ba-list-field-text">
-                                    Pernoctación extra
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
 
@@ -304,6 +282,7 @@
 
         function updateOperatorWorkRegistersTable(operatorId, date)
         {
+          console.log(operatorId, date);
           jQuery.get(Routing.generate(
             'admin_app_operator_operatorworkregister_getJsonOperatorWorkRegistersByDataAndOperatorId',
             {
@@ -312,20 +291,28 @@
             }
           ), function () {
           }).done(function (response) {
+            console.log(response);
             customTable.empty();
             JSON.parse(response).forEach((element) => {
-              console.log(element.priceUnit);
               var row = document.createElement('tr');
-              var cell = document.createElement('td');
-              cell.classList.add('sonata-ba-list-field');
-              cell.classList.add('sonata-ba-list-field');
-              cell.append('deliverynote');
-              console.log(cell);
-              row.appendChild(cell);
-              console.log(customTable);
+              createCellFromInfoAndAppendToRow(element.saleDeliveryNote || '', row);
+              createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '', row);
+              createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '', row);
+              createCellFromInfoAndAppendToRow(element.units, row);
+              createCellFromInfoAndAppendToRow(element.priceUnit, row);
+              createCellFromInfoAndAppendToRow(element.amount, row);
+              createCellFromInfoAndAppendToRow(element.description, row);
               customTable.append(row);
             });
           });
+        }
+
+        function createCellFromInfoAndAppendToRow(info, row)
+        {
+          var cell = document.createElement('td');
+          cell.classList.add('sonata-ba-list-field');
+          cell.append(info);
+          row.appendChild(cell);
         }
 
       });
