@@ -79,6 +79,19 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" id="sonata-ba-field-container-custom_sale_delivery_note">
+                        <label class="control-label" for="custom_sale_delivery_note">
+                            Albaràn
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                            <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
+                                <option value="">---selecione un albaràn---</option>
+                                {% for deliveryNote in content.saleDeliveryNotes %}
+                                <option value="{{ deliveryNote.id }}">{{ deliveryNote }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group" id="sonata-ba-field-container-select_input_type">
                         <label class="control-label required" for="s60fa7bcba2582_operator">
                             Tipo
@@ -304,9 +317,10 @@
               customTable.empty();
               JSON.parse(response).forEach((element) => {
                 var row = document.createElement('tr');
-                createCellFromInfoAndAppendToRow(element.saleDeliveryNote || '', row);
-                createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '', row);
-                createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '', row);
+                console.log(element.saleDeliveryNote);
+                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.deliveryNoteReference || '-', row);
+                createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
+                createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.units, row);
                 createCellFromInfoAndAppendToRow(element.priceUnit, row);
                 createCellFromInfoAndAppendToRow(element.amount, row);

@@ -741,8 +741,9 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return string
      * @Groups({"api"})
+     *
+     * @return string
      */
     public function getDateToString()
     {

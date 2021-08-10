@@ -155,7 +155,7 @@ services:
             - { name: sonata.block }
     app.block.operator_work_register_creation:
         class: App\Block\OperatorWorkRegisterCreationBlock
-        arguments: [ '@twig', '@app.operator_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@app.operator_repository', '@app.sale_delivery_note_repository','@security.token_storage' ]
         tags:
             - { name: sonata.block }
     # File

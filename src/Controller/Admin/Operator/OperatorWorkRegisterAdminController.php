@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorChecking;
 use App\Entity\Operator\OperatorWorkRegister;
+use App\Entity\Sale\SaleDeliveryNote;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Service\GuardService;
@@ -50,6 +51,12 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $units = 1;
             } elseif ($inputType === 'hour') {
                 //Implement when is time type
+            }
+            $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
+            if ($saleDeliveryNoteId != '') {
+                /** @var SaleDeliveryNote $saleDeliveryNote */
+                $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
+                $operatorWorkRegister->setSaleDeliveryNote($saleDeliveryNote);
             }
             $operatorWorkRegister->setUnits($units);
             $operatorWorkRegister->setPriceUnit($price);

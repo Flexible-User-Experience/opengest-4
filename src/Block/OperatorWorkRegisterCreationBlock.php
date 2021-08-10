@@ -6,6 +6,7 @@ use App\Enum\ConstantsEnum;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Repository\Operator\OperatorRepository;
+use App\Repository\Sale\SaleDeliveryNoteRepository;
 use Exception;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
@@ -17,12 +18,14 @@ use Twig\Environment;
 class OperatorWorkRegisterCreationBlock extends AbstractBlockService
 {
     private OperatorRepository $operatorRepository;
+    private SaleDeliveryNoteRepository $deliveryNoteRepository;
     private TokenStorageInterface $tss;
 
-    public function __construct(Environment $twig, OperatorRepository $or, TokenStorageInterface $tss)
+    public function __construct(Environment $twig, OperatorRepository $or, SaleDeliveryNoteRepository $dnr, TokenStorageInterface $tss)
     {
         parent::__construct($twig);
         $this->operatorRepository = $or;
+        $this->deliveryNoteRepository = $dnr;
         $this->tss = $tss;
     }
 
@@ -37,11 +40,13 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
     public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         $operators = $this->operatorRepository->getFilteredByEnterpriseEnabledSortedByName($this->tss->getToken()->getUser()->getDefaultEnterprise());
+        $saleDeliveryNotes = $this->deliveryNoteRepository->getFilteredByEnterpriseSortedByName($this->tss->getToken()->getUser()->getDefaultEnterprise());
         // merge settings
         $settings = $blockContext->getSettings();
         $backgroundColor = 'bg-light-blue';
         $content = array(
             'operators' => $operators,
+            'saleDeliveryNotes' => $saleDeliveryNotes,
             'items' => OperatorWorkRegisterUnitEnum::getReversedEnumArray(),
             'timeDescriptions' => OperatorWorkRegisterTimeEnum::getReversedEnumArray(),
             'time_picker_hours' => ConstantsEnum::TIME_PICKER_HOURS,
