@@ -38,6 +38,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         if (!$operator) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorId));
         }
+        $parameters = [];
         $date = DateTime::createFromFormat('d-m-Y', $request->query->get('custom_date'));
         if ($date) {
             $operatorWorkRegister = new OperatorWorkRegister();
@@ -63,9 +64,14 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             $operatorWorkRegister->setAmount($units*$price);
             $operatorWorkRegister->setDescription($description);
             $this->admin->getModelManager()->create($operatorWorkRegister);
+            $parameters = array(
+              'operator' => $operator->getId(),
+              'date' => $date->format('d-m-Y'),
+              'previousInputType' => $inputType
+            );
         }
 
-        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_create'));
+        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_create', $parameters));
     }
 
     /**
@@ -100,6 +106,12 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         $bounty = $operator->getEnterpriseGroupBounty();
         $method = new UnicodeString('GET_'.$item);
 
-        return call_user_func(array($bounty, $method->lower()->camel()->toString()));
+        if ($bounty) {
+
+            return call_user_func(array($bounty, $method->lower()->camel()->toString()));
+        } else {
+
+            return 0;
+        }
     }
 }

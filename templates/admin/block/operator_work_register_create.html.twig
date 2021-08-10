@@ -27,7 +27,11 @@
                                            required="required"
                                            class="sonata-medium-date form-control"
                                            data-date-format="DD-MM-YYYY"
-                                           value="{{ "now"|date("d-m-Y") }}">
+                                           {% if content.selectedDate %}
+                                            value="{{ content.selectedDate }}">
+                                           {% else %}
+                                            value="{{ "now"|date("d-m-Y") }}">
+                                           {% endif %}
                                     <span class="input-group-addon">
                                         <span class="fa-calendar fa"></span>
                                     </span>
@@ -74,7 +78,11 @@
                             <select class="select2-container" style="width: 100%;" name="custom_operator" id="custom_operator">
                                 <option value="">---selecione un operario---</option>
                                 {% for operator in content.operators %}
-                                <option value="{{ operator.id }}">{{ operator }}</option>
+                                    <option value="{{ operator.id }}"
+                                    {% if operator.id == content.selectedOperator %}
+                                            selected
+                                    {% endif %}
+                                    >{{ operator }}</option>
                                 {% endfor %}
                             </select>
                         </div>

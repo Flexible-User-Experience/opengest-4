@@ -10,6 +10,7 @@ use App\Repository\Sale\SaleDeliveryNoteRepository;
 use Exception;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -20,13 +21,15 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
     private OperatorRepository $operatorRepository;
     private SaleDeliveryNoteRepository $deliveryNoteRepository;
     private TokenStorageInterface $tss;
+    private RequestStack $requestStack;
 
-    public function __construct(Environment $twig, OperatorRepository $or, SaleDeliveryNoteRepository $dnr, TokenStorageInterface $tss)
+    public function __construct(Environment $twig, OperatorRepository $or, SaleDeliveryNoteRepository $dnr, TokenStorageInterface $tss, RequestStack $requestStack)
     {
         parent::__construct($twig);
         $this->operatorRepository = $or;
         $this->deliveryNoteRepository = $dnr;
         $this->tss = $tss;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -39,6 +42,9 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
+        $selectedOperator = $this->requestStack->getCurrentRequest()->query->get('operator');
+        $selectedDate = $this->requestStack->getCurrentRequest()->query->get('date');
+        $previousInputType = $this->requestStack->getCurrentRequest()->query->get('previousInputType');
         $operators = $this->operatorRepository->getFilteredByEnterpriseEnabledSortedByName($this->tss->getToken()->getUser()->getDefaultEnterprise());
         $saleDeliveryNotes = $this->deliveryNoteRepository->getFilteredByEnterpriseSortedByName($this->tss->getToken()->getUser()->getDefaultEnterprise());
         // merge settings
@@ -50,7 +56,10 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
             'items' => OperatorWorkRegisterUnitEnum::getReversedEnumArray(),
             'timeDescriptions' => OperatorWorkRegisterTimeEnum::getReversedEnumArray(),
             'time_picker_hours' => ConstantsEnum::TIME_PICKER_HOURS,
-            'time_picker_minutes' => ConstantsEnum::TIME_PICKER_MINUTES
+            'time_picker_minutes' => ConstantsEnum::TIME_PICKER_MINUTES,
+            'selectedOperator' => $selectedOperator,
+            'selectedDate' => $selectedDate,
+            'previousInputType' => $previousInputType
         );
 
         return $this->renderResponse(
