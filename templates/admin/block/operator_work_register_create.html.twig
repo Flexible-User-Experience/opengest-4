@@ -325,7 +325,6 @@
               customTable.empty();
               JSON.parse(response).forEach((element) => {
                 var row = document.createElement('tr');
-                console.log(element.saleDeliveryNote);
                 createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.deliveryNoteReference || '-', row);
                 createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
