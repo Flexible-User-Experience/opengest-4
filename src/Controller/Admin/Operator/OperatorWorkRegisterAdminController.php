@@ -65,7 +65,11 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $splitTimeRanges = $this->splitRangeInDefinedTimeRanges($start, $finish);
                 foreach ($splitTimeRanges as $splitTimeRange) {
                     $itemId = $request->query->get('custom_description');
-                    $description = OperatorWorkRegisterTimeEnum::getReversedEnumArray()[$itemId];
+                    if ($itemId) {
+                        $description = OperatorWorkRegisterTimeEnum::getReversedEnumArray()[$itemId];
+                    } else {
+                        $description = '';
+                    }
                     $type = $splitTimeRange['type'];
                     $price = 0;
                     if ($type === 0) {
