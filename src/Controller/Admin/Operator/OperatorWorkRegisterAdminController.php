@@ -7,6 +7,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorChecking;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Sale\SaleDeliveryNote;
+use App\Entity\Setting\TimeRange;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Service\GuardService;
@@ -41,29 +42,34 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         $parameters = [];
         $date = DateTime::createFromFormat('d-m-Y', $request->query->get('custom_date'));
         if ($date) {
-            $operatorWorkRegister = new OperatorWorkRegister();
-            $operatorWorkRegister->setOperator($operator);
-            $operatorWorkRegister->setDate($date);
             if ($inputType === 'unit') {
+                $operatorWorkRegister = new OperatorWorkRegister();
+                $operatorWorkRegister->setOperator($operator);
+                $operatorWorkRegister->setDate($date);
                 $itemId = $request->query->get('custom_item');
                 $item = OperatorWorkRegisterUnitEnum::getCodeFromId($itemId);
                 $description = OperatorWorkRegisterUnitEnum::getReversedEnumArray()[$itemId];
                 $price = $this->getPriceFromItem($operator, $item);
                 $units = 1;
+                $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
+                if ($saleDeliveryNoteId != '') {
+                    /** @var SaleDeliveryNote $saleDeliveryNote */
+                    $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
+                    $operatorWorkRegister->setSaleDeliveryNote($saleDeliveryNote);
+                }
+                $operatorWorkRegister->setUnits($units);
+                $operatorWorkRegister->setPriceUnit($price);
+                $operatorWorkRegister->setAmount($units*$price);
+                $operatorWorkRegister->setDescription($description);
+                $this->admin->getModelManager()->create($operatorWorkRegister);
             } elseif ($inputType === 'hour') {
+                $customStart = $request->query->get('custom_start');
+                $customFinish = $request->query->get('custom_finish');
+                $start = DateTime::createFromFormat('!H:i:s', $customStart['hour'].':'.$customStart['minute'].':00');
+                $finish = DateTime::createFromFormat('!H:i:s', $customFinish['hour'].':'.$customFinish['minute'].':00');
+                $this->splitRangeInDefinedTimeRanges($start, $finish);
                 //Implement when is time type
             }
-            $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
-            if ($saleDeliveryNoteId != '') {
-                /** @var SaleDeliveryNote $saleDeliveryNote */
-                $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-                $operatorWorkRegister->setSaleDeliveryNote($saleDeliveryNote);
-            }
-            $operatorWorkRegister->setUnits($units);
-            $operatorWorkRegister->setPriceUnit($price);
-            $operatorWorkRegister->setAmount($units*$price);
-            $operatorWorkRegister->setDescription($description);
-            $this->admin->getModelManager()->create($operatorWorkRegister);
             $parameters = array(
               'operator' => $operator->getId(),
               'date' => $date->format('d-m-Y'),
@@ -113,5 +119,44 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
 
             return 0;
         }
+    }
+
+    private function splitRangeInDefinedTimeRanges($start, $finish): array
+    {
+        /** @var TimeRange[] $timeRanges */
+        $timeRanges = $this->admin->getModelManager()->findBy(TimeRange::class);
+        //Order time ranges by start time in case the retrieval is not properly sorted
+        uasort($timeRanges, function ($tr1, $tr2) {
+           if ($tr1->getStart() == $tr2->getStart()) {
+               return 0;
+           } else {
+               return ($tr1->getStart() < $tr2->getStart()) ? -1 : 1;
+           }
+        });
+        $splitTimeRanges = [];
+        foreach ($timeRanges as $timeRange) {
+//            dd('timeRenge', $timeRange->getFinish(), 'new start', $start);
+            if ($timeRange->getFinish() <= $start) {
+                continue;
+            } else {
+                if ($timeRange->getStart() <= $start) {
+                    $newSplitTimeRange = array(
+                        'start' => $start,
+                        'type' => $timeRange->getType()
+                    );
+                    if($timeRange->getFinish() < $finish) {
+                        $newSplitTimeRange['finish'] = $timeRange->getFinish();
+                        $splitTimeRanges[] = $newSplitTimeRange;
+                        $start = $timeRange->getFinish();
+                    } else {
+                        $newSplitTimeRange['finish'] = $finish;
+                        $splitTimeRanges[] = $newSplitTimeRange;
+
+                        break;
+                    }
+                }
+            }
+        }
+        dd($timeRanges, $start, $finish, $splitTimeRanges);
     }
 }
