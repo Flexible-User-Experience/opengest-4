@@ -43,9 +43,6 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         $date = DateTime::createFromFormat('d-m-Y', $request->query->get('custom_date'));
         if ($date) {
             if ($inputType === 'unit') {
-                $operatorWorkRegister = new OperatorWorkRegister();
-                $operatorWorkRegister->setOperator($operator);
-                $operatorWorkRegister->setDate($date);
                 $itemId = $request->query->get('custom_item');
                 $item = OperatorWorkRegisterUnitEnum::getCodeFromId($itemId);
                 $description = OperatorWorkRegisterUnitEnum::getReversedEnumArray()[$itemId];
@@ -55,12 +52,10 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 if ($saleDeliveryNoteId != '') {
                     /** @var SaleDeliveryNote $saleDeliveryNote */
                     $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-                    $operatorWorkRegister->setSaleDeliveryNote($saleDeliveryNote);
+                } else {
+                    $saleDeliveryNote = null;
                 }
-                $operatorWorkRegister->setUnits($units);
-                $operatorWorkRegister->setPriceUnit($price);
-                $operatorWorkRegister->setAmount($units*$price);
-                $operatorWorkRegister->setDescription($description);
+                $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
                 $this->admin->getModelManager()->create($operatorWorkRegister);
             } elseif ($inputType === 'hour') {
                 $customStart = $request->query->get('custom_start');
@@ -69,12 +64,8 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $finish = DateTime::createFromFormat('!H:i:s', $customFinish['hour'].':'.$customFinish['minute'].':00');
                 $splitTimeRanges = $this->splitRangeInDefinedTimeRanges($start, $finish);
                 foreach ($splitTimeRanges as $splitTimeRange) {
-                    $operatorWorkRegister = new OperatorWorkRegister();
-                    $operatorWorkRegister->setOperator($operator);
-                    $operatorWorkRegister->setDate($date);
                     $itemId = $request->query->get('custom_description');
                     $description = OperatorWorkRegisterTimeEnum::getReversedEnumArray()[$itemId];
-                    $operatorWorkRegister->setDescription($description);
                     $type = $splitTimeRange['type'];
                     $price = 0;
                     if ($type === 0) {
@@ -84,18 +75,16 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                     } elseif ($type === 2) {
                         $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
                     }
-                    $operatorWorkRegister->setPriceUnit($price);
                     $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp())/3600;
-                    $operatorWorkRegister->setUnits($units);
-                    $operatorWorkRegister->setAmount($units*$price);
-                    $operatorWorkRegister->setStart($splitTimeRange['start']);
-                    $operatorWorkRegister->setFinish($splitTimeRange['finish']);
                     $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
-                    if ($saleDeliveryNoteId != '') {
-                        /** @var SaleDeliveryNote $saleDeliveryNote */
-                        $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-                        $operatorWorkRegister->setSaleDeliveryNote($saleDeliveryNote);
-                    }
+                    $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
+//                    if ($saleDeliveryNoteId != '') {
+//                        /** @var SaleDeliveryNote $saleDeliveryNote */
+//                        $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
+//                    } else {
+//                        $saleDeliveryNote = null;
+//                    }
+                    $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $splitTimeRange['start'] , $splitTimeRange['finish']);
                     $this->admin->getModelManager()->create($operatorWorkRegister);
                 }
             }
@@ -188,5 +177,27 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         }
 
         return $splitTimeRanges;
+    }
+
+    private function createOperatorWorkRegister(Operator $operator, DateTime $date, $description, $units, $price, ?SaleDeliveryNote $saleDeliveryNote = null, $start = null, $finish = null)
+    {
+        $operatorWorkRegister = new OperatorWorkRegister;
+        $operatorWorkRegister->setOperator($operator);
+        $operatorWorkRegister->setDate($date);
+        $operatorWorkRegister->setDescription($description);
+        $operatorWorkRegister->setUnits($units);
+        $operatorWorkRegister->setPriceUnit($price);
+        $operatorWorkRegister->setAmount($units*$price);
+        if ($saleDeliveryNote) {
+            $operatorWorkRegister->setSaleDeliveryNote($saleDeliveryNote);
+        }
+        if ($start) {
+            $operatorWorkRegister->setStart($start);
+        }
+        if ($finish) {
+            $operatorWorkRegister->setFinish($finish);
+        }
+
+        return $operatorWorkRegister;
     }
 }
