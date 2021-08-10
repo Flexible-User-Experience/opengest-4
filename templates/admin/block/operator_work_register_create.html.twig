@@ -328,9 +328,12 @@
 
               return false;
             }
+          } else {
+
+            return checkIfStartIsBeforeFinish();
           }
 
-          return checkIfStartIsBeforeFinish();
+          return true;
         }
 
         function updateOperatorWorkRegistersTable()
