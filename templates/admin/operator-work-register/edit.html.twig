@@ -1,6 +1,9 @@
 {% extends 'admin/edit.html.twig' %}
 
 {% block sonata_admin_content %}
+    {% block notice %}
+        {{ parent() }}
+    {% endblock notice %}
     {{ sonata_block_render({'type': 'app.block.operator_work_register_creation'}, { 'info': 'info'}) }}
     {{ parent() }}
 {% endblock %}
