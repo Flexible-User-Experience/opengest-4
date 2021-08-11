@@ -63,8 +63,9 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('createCustomWorkRegister', 'createCustomWorkRegister')
-            ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters')
-            ->remove('delete');
+            ->add('customDelete', 'customDelete')
+            ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters');
+//            ->remove('delete')
     }
 
     /**

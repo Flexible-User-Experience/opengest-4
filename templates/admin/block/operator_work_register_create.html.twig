@@ -223,6 +223,9 @@
                             <th class="sonata-ba-list-field-header">
                                 Observaciones
                             </th>
+                            <th class="sonata-ba-list-field-header">
+                                Acción
+                            </th>
                         </tr>
                         </thead>
                         <tbody id="custom_table">
@@ -359,6 +362,17 @@
                 createCellFromInfoAndAppendToRow(element.priceUnit, row);
                 createCellFromInfoAndAppendToRow(element.amount, row);
                 createCellFromInfoAndAppendToRow(element.description, row);
+                var deleteButton = `
+                    <div class="btn-group">
+                       <a href="{{ path('admin_app_operator_operatorworkregister_customDelete', {'id': 'idOfElement'}) }}" class="btn btn-sm btn-default edit_link" title="Borrar"><i class="fa fa-trash"></i></a>
+                    </div>
+                `
+                ;
+                deleteButton = deleteButton.replace('idOfElement', element.id);
+                var cell = document.createElement('td');
+                cell.classList.add('sonata-ba-list-field');
+                cell.innerHTML = deleteButton;
+                row.appendChild(cell);
                 customTable.append(row);
               });
             });
@@ -374,6 +388,9 @@
           cell.append(info);
           row.appendChild(cell);
         }
+        // <div class="btn-group">
+        //   <a href="/index.php/admin/vendes/albara/22/delete" class="btn btn-sm btn-default edit_link" title="Borrar"><i class="fa fa-trash"></i></a>
+        // </div>
 
         function checkIfStartIsBeforeFinish()
         {

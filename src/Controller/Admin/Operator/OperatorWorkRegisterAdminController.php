@@ -129,6 +129,31 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         return new JsonResponse($serializedOperatorWorkRegisters);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
+     * @throws \Exception
+     */
+    public function customDeleteAction(Request $request)
+    {
+        $request = $this->resolveRequest($request);
+        $operatorWorkRegisterId = $request->query->get('id');
+        /** @var OperatorWorkRegister $operatorWorkRegister */
+        $operatorWorkRegister = $this->admin->getModelManager()->find(OperatorWorkRegister::class, $operatorWorkRegisterId);
+        if (!$operatorWorkRegister) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorWorkRegisterId));
+        }
+        $parameters = array(
+            'operator' => $operatorWorkRegister->getOperator()->getId(),
+            'date' => $operatorWorkRegister->getDate()->format('d-m-Y'),
+            'previousInputType' => 'hour'
+        );
+        $this->admin->getModelManager()->delete($operatorWorkRegister);
+
+        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_create', $parameters));
+    }
+
     private function getPriceFromItem(Operator $operator, $item)
     {
         $bounty = $operator->getEnterpriseGroupBounty();
