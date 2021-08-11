@@ -78,12 +78,12 @@ class OperatorWorkRegister extends AbstractBase
     private float $amount;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      * @Groups({"api"})
      */
-    private string $description;
+    private ?string $description;
 
     /**
      * @var ?SaleDeliveryNote
@@ -239,9 +239,9 @@ class OperatorWorkRegister extends AbstractBase
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
