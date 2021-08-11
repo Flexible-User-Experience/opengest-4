@@ -503,13 +503,14 @@ App\Entity\Sale\SaleDeliveryNote:
         partner: '@partner<numberBetween(1,2)>'
         buildingSite: '@partnerBuildingSite<numberBetween(1,2)>'
         order: '@partnerOrder<numberBetween(1,2)>'
-        deliveryNoteNumber: <randomNumber()>
+        deliveryNoteReference: <randomNumber()>
         baseAmount: <randomFloat()>
         discount: <randomFloat()>
         collectionTerm: <randomNumber()>
         collectionDocument: '@collectionDocumentType<numberBetween(1,2)>'
         activityLine: '@activityLine<numberBetween(1,2)>'
         wontBeInvoiced: <boolean()>
+        serviceDescription: <sentence(10)>
 
 # SaleDeliveryNoteLine
 App\Entity\Sale\SaleDeliveryNoteLine:
