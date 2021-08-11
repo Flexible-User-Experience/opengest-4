@@ -87,7 +87,7 @@
                             <tbody>
                             {% for deliveryNote in object.deliveryNotes %}
                                 <tr>
-                                    <th>{{ deliveryNote.deliveryNoteNumber }}</th>
+                                    <th>{{ deliveryNote.deliveryNoteReference }}</th>
                                     <th>{{ deliveryNote.date|date('d/m/Y') }}</th>
                                     <th>{{ deliveryNote.baseAmount }}</th>
                                     <th>{{ deliveryNote.discount }}</th>
