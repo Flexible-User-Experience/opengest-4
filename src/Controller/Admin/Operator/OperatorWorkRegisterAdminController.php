@@ -57,12 +57,14 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 }
                 $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
                 $this->admin->getModelManager()->create($operatorWorkRegister);
+                $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
             } elseif ($inputType === 'hour') {
                 $customStart = $request->query->get('custom_start');
                 $customFinish = $request->query->get('custom_finish');
                 $start = DateTime::createFromFormat('!H:i:s', $customStart['hour'].':'.$customStart['minute'].':00');
                 $finish = DateTime::createFromFormat('!H:i:s', $customFinish['hour'].':'.$customFinish['minute'].':00');
                 $splitTimeRanges = $this->splitRangeInDefinedTimeRanges($start, $finish);
+                $operatorWorkRegisterIds = [];
                 foreach ($splitTimeRanges as $splitTimeRange) {
                     $itemId = $request->query->get('custom_description');
                     if ($itemId !== '') {
@@ -90,7 +92,9 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
 //                    }
                     $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $splitTimeRange['start'] , $splitTimeRange['finish']);
                     $this->admin->getModelManager()->create($operatorWorkRegister);
+                    $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
                 }
+                $this->addFlash('success', count($operatorWorkRegisterIds).' parte/s de trabajo con id '.implode(', ', $operatorWorkRegisterIds).' creado/s.');
             }
             $parameters = array(
               'operator' => $operator->getId(),
@@ -150,6 +154,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             'previousInputType' => 'hour'
         );
         $this->admin->getModelManager()->delete($operatorWorkRegister);
+        $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegisterId.' eliminado');
 
         return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_create', $parameters));
     }
