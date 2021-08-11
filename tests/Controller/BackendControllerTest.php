@@ -185,7 +185,6 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vendes/serveis_tarifa/list'],
             ['/admin/vendes/serveis_tarifa/create'],
             ['/admin/vendes/serveis_tarifa/1/edit'],
-//            ['/admin/vendes/serveis_tarifa/1/get-json-sale-tariff-by-id '],
             // Setting
             ['/admin/configuracio/provincia/list'],
             ['/admin/configuracio/provincia/create'],
