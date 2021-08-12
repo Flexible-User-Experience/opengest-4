@@ -43,6 +43,6 @@ yarn-error.log
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###
+###> php_cs_fixer ###
 .php_cs.cache
-###<
+###<php_cs_fixer> ###
