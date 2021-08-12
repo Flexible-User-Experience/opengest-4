@@ -1,0 +1,28 @@
+#!/bin/bash
+
+### PRE-COMMIT GIT HOOK TO APPLY SYMFONY CODE STYLE
+##
+## install php-cs-fixer in your system (globally)
+## and link this script in your githooks if you want to use it with command below
+##
+#$ ln -s ../../scripts/githooks/pre-commit .git/hooks/pre-commit
+
+if [ -x "$(command -v php-cs-fixer)" ]; then
+    FILES=$(git diff --name-only --diff-filter=AM)
+    printf '%s\n' "$FILES" | while IFS= read -r FILE
+    do
+        if [[ $FILE == "src/"* ]]; then
+            php-cs-fixer fix "$FILE" --rules=@Symfony
+        fi
+    done
+    FILES=$(git diff --name-only --staged --diff-filter=AM)
+    printf '%s\n' "$FILES" | while IFS= read -r FILE
+    do
+        if [[ $FILE == "src/"* ]]; then
+            php-cs-fixer fix "$FILE" --rules=@Symfony
+            git add "$FILE"
+        fi
+    done
+else
+    echo "Unable to find php-cs-fixer command. Please, check https://github.com/FriendsOfPHP/PHP-CS-Fixer to install it globally (manual) in your system."
+fi
