@@ -763,4 +763,14 @@ class SaleDeliveryNote extends AbstractBase
 
         return $value;
     }
+
+    public function isInvoiced(): bool
+    {
+        $value = false;
+        if ($this->getSaleInvoices()->count() > 0) {
+            $value = true;
+        }
+
+        return $value;
+    }
 }

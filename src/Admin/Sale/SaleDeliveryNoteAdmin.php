@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -113,6 +114,15 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
                     'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                ]
+            )
+            ->add(
+                'isInvoiced',
+                BooleanType::class,
+                [
+                    'label' => 'Facturado',
+                    'disabled' => true,
+                    'transform' => true,
                 ]
             )
             ->add(
