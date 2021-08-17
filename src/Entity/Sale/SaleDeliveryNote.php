@@ -166,8 +166,6 @@ class SaleDeliveryNote extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
-     * @var Collection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
      */
     private Collection $operatorWorkRegisters;
@@ -283,11 +281,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->saleServiceTariff;
     }
 
-    /**
-     * @param SaleServiceTariff $saleServiceTariff
-     *
-     * @return SaleDeliveryNote
-     */
     public function setSaleServiceTariff(SaleServiceTariff $saleServiceTariff): SaleDeliveryNote
     {
         $this->saleServiceTariff = $saleServiceTariff;
@@ -303,11 +296,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->vehicle;
     }
 
-    /**
-     * @param Vehicle $vehicle
-     *
-     * @return SaleDeliveryNote
-     */
     public function setVehicle(Vehicle $vehicle): SaleDeliveryNote
     {
         $this->vehicle = $vehicle;
@@ -323,11 +311,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->secondaryVehicle;
     }
 
-    /**
-     * @param Vehicle $secondaryVehicle
-     *
-     * @return SaleDeliveryNote
-     */
     public function setSecondaryVehicle(Vehicle $secondaryVehicle): SaleDeliveryNote
     {
         $this->secondaryVehicle = $secondaryVehicle;
@@ -343,11 +326,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->operator;
     }
 
-    /**
-     * @param Operator $operator
-     *
-     * @return SaleDeliveryNote
-     */
     public function setOperator(Operator $operator): SaleDeliveryNote
     {
         $this->operator = $operator;
@@ -493,8 +471,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param ArrayCollection $saleInvoices
-     *
      * @return SaleDeliveryNote
      */
     public function setSaleInvoices(ArrayCollection $saleInvoices)
@@ -505,8 +481,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleInvoice $saleInvoice
-     *
      * @return $this
      */
     public function addSaleInvoice(SaleInvoice $saleInvoice)
@@ -519,8 +493,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleInvoice $saleInvoice
-     *
      * @return $this
      */
     public function removeSaleInvoice(SaleInvoice $saleInvoice)
@@ -554,8 +526,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleDeliveryNoteLine $saleDeliveryNoteLine
-     *
      * @return $this
      */
     public function addSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
@@ -569,8 +539,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleDeliveryNoteLine $saleDeliveryNoteLine
-     *
      * @return $this
      */
     public function removeSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
@@ -631,20 +599,15 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getOperatorWorkRegisters() : Collection
+    public function getOperatorWorkRegisters(): Collection
     {
         return $this->operatorWorkRegisters;
     }
 
     /**
-     * @param Collection $operatorWorkRegisters
-     *
      * @return $this
      */
-    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters) : SaleDeliveryNote
+    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters): SaleDeliveryNote
     {
         $this->operatorWorkRegisters = $operatorWorkRegisters;
 
@@ -652,11 +615,9 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param OperatorWorkRegister $operatorWorkRegister
-     *
      * @return $this
      */
-    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister) : SaleDeliveryNote
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
     {
         if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->add($operatorWorkRegister);
@@ -667,11 +628,9 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param OperatorWorkRegister $operatorWorkRegister
-     *
      * @return $this
      */
-    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister) : SaleDeliveryNote
+    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
     {
         if ($this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->removeElement($operatorWorkRegister);
@@ -688,11 +647,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->serviceDescription;
     }
 
-    /**
-     * @param string $serviceDescription
-     *
-     * @return SaleDeliveryNote
-     */
     public function setServiceDescription(string $serviceDescription): SaleDeliveryNote
     {
         $this->serviceDescription = $serviceDescription;
@@ -708,11 +662,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->place;
     }
 
-    /**
-     * @param string $place
-     *
-     * @return SaleDeliveryNote
-     */
     public function setPlace(string $place): SaleDeliveryNote
     {
         $this->place = $place;
@@ -728,11 +677,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->observations;
     }
 
-    /**
-     * @param string $observations
-     *
-     * @return SaleDeliveryNote
-     */
     public function setObservations(string $observations): SaleDeliveryNote
     {
         $this->observations = $observations;
@@ -751,52 +695,51 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * Custom getters without property
+     * Custom getters without property.
      */
-
-    public function getSaleRequestNumber() :?int
+    public function getSaleRequestNumber(): ?int
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getId(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getId() : null;
     }
 
-    public function getHourPrice() :?float
+    public function getHourPrice(): ?float
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getHourPrice(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getHourPrice() : null;
     }
 
-    public function getMiniumHours() :?float
+    public function getMiniumHours(): ?float
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHours(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHours() : null;
     }
 
-    public function getDisplacement() :?float
+    public function getDisplacement(): ?float
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getDisplacement(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getDisplacement() : null;
     }
 
-    public function getMiniumHolidayHours() :?float
+    public function getMiniumHolidayHours(): ?float
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHolidayHours(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHolidayHours() : null;
     }
 
-    public function getIncreaseForHolidays() :?float
+    public function getIncreaseForHolidays(): ?float
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidays(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidays() : null;
     }
 
-    public function getIncreaseForHolidaysPercentage() :?float
+    public function getIncreaseForHolidaysPercentage(): ?float
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidaysPercentage(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidaysPercentage() : null;
     }
 
-    public function getContactPersonName() :?string
+    public function getContactPersonName(): ?string
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonName(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonName() : null;
     }
 
-    public function getContactPersonPhone() :?string
+    public function getContactPersonPhone(): ?string
     {
-        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonPhone(): null;
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonPhone() : null;
     }
 
     /**
@@ -804,13 +747,13 @@ class SaleDeliveryNote extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getDate()->format('d/m/Y').' · '.$this->getEnterprise().' · '.$this->getPartner() : '---';
+        return $this->id ? $this->getId().' - '.$this->getDeliveryNoteReference() : '---';
     }
 
     private function getSaleRequest(): ?SaleRequest
     {
         $value = null;
-        if ($this->getSaleRequestHasDeliveryNotes()->isEmpty() == false) {
+        if (false == $this->getSaleRequestHasDeliveryNotes()->isEmpty()) {
             /** @var SaleRequestHasDeliveryNote $saleRequestHasDeliveryNote */
             $saleRequestHasDeliveryNote = $this->getSaleRequestHasDeliveryNotes()->first();
             if ($saleRequestHasDeliveryNote) {

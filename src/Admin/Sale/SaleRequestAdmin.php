@@ -686,6 +686,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 'onlyDeliveryNote',
                 null,
                 [
+                    'template' => 'admin/cells/list__cell_sale_request_delivery_note.html.twig',
                     'label' => 'Albarán',
                 ]
             )
