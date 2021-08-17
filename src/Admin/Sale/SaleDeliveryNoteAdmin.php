@@ -651,11 +651,11 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'wontBeInvoiced',
-                null,
+                'isInvoiced',
+                'boolean',
                 [
-                    'label' => 'No facturable',
-                    'editable' => true,
+                    'label' => 'Facturado',
+                    'transform' => true,
                 ]
             )
             ->add(
