@@ -3,7 +3,9 @@
 {% trans_default_domain 'admin' %}
 
 {% block field %}
-    <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': object.onlyDeliveryNote.id }) }}">
-        {{ object.onlyDeliveryNote }}
-    </a>
+    {% if object.onlyDeliveryNote %}
+        <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': object.onlyDeliveryNote.id }) }}">
+            {{ object.onlyDeliveryNote }}
+        </a>
+    {% endif %}
 {% endblock %}

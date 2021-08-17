@@ -10,7 +10,6 @@ use App\Manager\Pdf\SaleRequestPdfManager;
 use App\Service\GuardService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\DoctrineORMAdminBundle\Model\ModelManager;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,8 +48,6 @@ class SaleRequestAdminController extends BaseAdminController
     /**
      * Generate PDF receipt action.
      *
-     * @param Request $request
-     *
      * @return Response
      *
      * @throws NotFoundHttpException If the object does not exist
@@ -75,20 +72,19 @@ class SaleRequestAdminController extends BaseAdminController
 //        /** @var SaleRequestPdfManager $rps */
 //        $rps = $this->container->get('app.sale_request_pdf_manager');
 
-        return new Response($rps->outputSingle($saleRequest), 200, array('Content-type' => 'application/pdf'));
+        return new Response($rps->outputSingle($saleRequest), 200, ['Content-type' => 'application/pdf']);
     }
 
     /**
-     * Clone sale request and go te edit view
-     *
-     * @param Request $request
+     * Clone sale request and go te edit view.
      *
      * @return Response
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function cloneAction (Request $request, EntityManagerInterface $em) {
+    public function cloneAction(Request $request, EntityManagerInterface $em)
+    {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
         /** @var SaleRequest $saleRequest */
@@ -112,16 +108,15 @@ class SaleRequestAdminController extends BaseAdminController
     }
 
     /**
-     * Generate delivery note from sale request and go to edit view
-     *
-     * @param Request $request
+     * Generate delivery note from sale request and go to edit view.
      *
      * @return Response
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function generateDeliveryNoteFromSaleRequestAction (Request $request) {
+    public function generateDeliveryNoteFromSaleRequestAction(Request $request)
+    {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
         /** @var SaleRequest $saleRequest */
@@ -134,16 +129,19 @@ class SaleRequestAdminController extends BaseAdminController
         if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
             throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
+        if ($saleRequest->getSaleRequestHasDeliveryNotes()->count() > 0) {
+            $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' ya tiene un albarán asociado');
+
+            return new RedirectResponse($request->headers->get('referer'));
+        }
         $deliveryNote = $this->generateDeliveryNoteFromSaleRequest($saleRequest);
 
         return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_edit', [
-            'id' => $deliveryNote->getId()
+            'id' => $deliveryNote->getId(),
         ]));
     }
 
     /**
-     * @param ProxyQueryInterface $selectedModelQuery
-     *
      * @return Response|RedirectResponse
      */
     public function batchActionGeneratepdfs(ProxyQueryInterface $selectedModelQuery)
@@ -154,30 +152,39 @@ class SaleRequestAdminController extends BaseAdminController
         /** @var SaleRequestPdfManager $rps */
         $rps = $this->container->get('app.sale_request_pdf_manager');
 
-        return new Response($rps->outputCollection($selectedModels), 200, array('Content-type' => 'application/pdf'));
+        return new Response($rps->outputCollection($selectedModels), 200, ['Content-type' => 'application/pdf']);
     }
 
     /**
-     * @param ProxyQueryInterface $selectedModelQuery
-     *
      * @return Response|RedirectResponse
      */
     public function batchActionGeneratedeliverynotefromsalerequests(ProxyQueryInterface $selectedModelQuery)
     {
         $this->admin->checkAccess('edit');
         $selectedModels = $selectedModelQuery->execute();
+        $saleRequestWithDeliveryNotes = [];
         foreach ($selectedModels as $saleRequest) {
-            $this->generateDeliveryNoteFromSaleRequest($saleRequest);
+            if ($saleRequest->getSaleRequestHasDeliveryNotes()->count() > 0) {
+                $saleRequestWithDeliveryNotes[] = $saleRequest->getId();
+            }
+        }
+        if (count($saleRequestWithDeliveryNotes) > 0) {
+            $this->addFlash('warning', 'La/s petición/es con id '.implode(', ', $saleRequestWithDeliveryNotes).' ya tiene/n albarán asociado');
+
+            return new RedirectResponse($this->generateUrl('admin_app_sale_salerequest_list'));
+        } else {
+            foreach ($selectedModels as $saleRequest) {
+                $this->generateDeliveryNoteFromSaleRequest($saleRequest);
+            }
         }
 
         return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
     }
 
     /**
-     * @param SaleRequest $saleRequest
-     * @param EntityManagerInterface $em
-     *
      * @return SaleDeliveryNote
+     *
+     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
      */
     private function generateDeliveryNoteFromSaleRequest(SaleRequest $saleRequest)
     {

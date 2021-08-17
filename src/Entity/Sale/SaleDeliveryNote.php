@@ -178,7 +178,7 @@ class SaleDeliveryNote extends AbstractBase
     private $serviceDescription;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      */
@@ -662,7 +662,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this->place;
     }
 
-    public function setPlace(string $place): SaleDeliveryNote
+    public function setPlace(?string $place): SaleDeliveryNote
     {
         $this->place = $place;
 
