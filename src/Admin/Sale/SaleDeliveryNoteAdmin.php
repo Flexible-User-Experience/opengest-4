@@ -10,7 +10,6 @@ use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
-use App\Entity\Sale\SaleInvoice;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
@@ -76,7 +75,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     {
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('General', $this->getFormMdSuccessBoxArray(4))
+                ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'id',
                     null,
@@ -91,7 +90,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
             $formMapper
-                ->with('General', $this->getFormMdSuccessBoxArray(4))
+                ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'saleRequestNumber',
                     TextType::class,
@@ -105,7 +104,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ;
         }
         $formMapper
-            ->with('General', $this->getFormMdSuccessBoxArray(3))
+            ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'date',
                 DatePickerType::class,
@@ -177,7 +176,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('Service', $this->getFormMdSuccessBoxArray(3))
+            ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'saleServiceTariff',
                 EntityType::class,
@@ -240,53 +239,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'style' => 'resize: vertical',
                         'rows' => 3,
                     ],
-                ]
-            )
-            ->end()
-            ->with('Import', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'baseAmount',
-                null,
-                [
-                    'label' => 'Import base',
-                    'required' => true,
-                    'disabled' => true,
-                ]
-            )
-            ->add(
-                'discount',
-                null,
-                [
-                    'label' => 'Descompte',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'collectionDocument',
-                EntityType::class,
-                [
-                    'class' => CollectionDocumentType::class,
-                    'label' => 'Tipus document cobrament',
-                    'required' => false,
-                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
-            ->add(
-                'collectionTerm',
-                null,
-                [
-                    'label' => 'Venciment (dies)',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'activityLine',
-                EntityType::class,
-                [
-                    'class' => ActivityLine::class,
-                    'label' => 'Línia d\'activitat',
-                    'required' => false,
-                    'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
             ->end()
@@ -363,20 +315,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ->end();
         }
         $formMapper
-            ->with('Factures', $this->getFormMdSuccessBoxArray(3))
-//            ->add(
-//                'saleInvoices',
-//                EntityType::class,
-//                array(
-//                    'class' => SaleInvoice::class,
-//                    'label' => 'Factures',
-//                    'required' => false,
-//                    'multiple' => true,
-//                    'expanded' => true,
-//                    'query_builder' => $this->rm->getSaleInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
-////                    'by_reference' => false,
-//                )
-//            )
+            ->with('Otros', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'activityLine',
+                EntityType::class,
+                [
+                    'class' => ActivityLine::class,
+                    'label' => 'Línia de actividad',
+                    'required' => false,
+                    'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ]
+            )
             ->add(
                 'wontBeInvoiced',
                 CheckboxType::class,
@@ -385,13 +334,11 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->end()
-            ->with('Altres', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'observations',
                 TextareaType::class,
                 [
-                    'label' => 'Observacions',
+                    'label' => 'Observaciones',
                     'required' => false,
                     'attr' => [
                         'style' => 'resize: vertical',
@@ -401,9 +348,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             )
             ->end()
         ;
+
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
-                ->with('Línies', $this->getFormMdSuccessBoxArray(12))
+                ->with('Línies', $this->getFormMdSuccessBoxArray(9))
                 ->add(
                     'saleDeliveryNoteLines',
                     CollectionType::class,
@@ -420,6 +368,45 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ->end()
             ;
         }
+        $formMapper
+            ->with('Importe', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'baseAmount',
+                null,
+                [
+                    'label' => 'Import base',
+                    'required' => true,
+                    'disabled' => true,
+                ]
+            )
+            ->add(
+                'discount',
+                null,
+                [
+                    'label' => 'Descompte',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionDocument',
+                EntityType::class,
+                [
+                    'class' => CollectionDocumentType::class,
+                    'label' => 'Tipus document cobrament',
+                    'required' => false,
+                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ]
+            )
+            ->add(
+                'collectionTerm',
+                null,
+                [
+                    'label' => 'Venciment (dies)',
+                    'required' => false,
+                ]
+            )
+            ->end()
+        ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

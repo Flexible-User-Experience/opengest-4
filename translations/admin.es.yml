@@ -67,7 +67,7 @@ admin:
         secondary_vehicle: "Vehículo secundario"
         unit_price: "Preu unitari"
         item: "Item"
-        contact: "Contact"
+        contact: "Contacto"
         contact_person_name: "Persona de contacte"
         contact_person_phone: "Telèfon persona de contacte"
         irpf: "Retención (%)"
