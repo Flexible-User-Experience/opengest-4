@@ -424,18 +424,25 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-            $datagridMapper
-                ->add(
-                    'enterprise',
-                    null,
-                    [
-                        'label' => 'Empresa',
-                    ]
-                )
-            ;
-        }
+//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
+//            $datagridMapper
+//                ->add(
+//                    'enterprise',
+//                    null,
+//                    [
+//                        'label' => 'Empresa',
+//                    ]
+//                )
+//            ;
+//        }
         $datagridMapper
+            ->add(
+            'id',
+            null,
+                [
+                    'label' => 'Id',
+                ]
+            )
             ->add(
                 'date',
                 DateFilter::class,
@@ -467,6 +474,20 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Comanda',
+                ]
+            )
+            ->add(
+                'serviceDescription',
+                null,
+                [
+                    'label' => 'Descripción servicio',
+                ]
+            )
+            ->add(
+                'saleServiceTariff',
+                null,
+                [
+                    'label' => 'Tonelaje',
                 ]
             )
             ->add(
