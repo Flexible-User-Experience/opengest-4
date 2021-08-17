@@ -251,8 +251,6 @@ class SaleRequest extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(type="integer")
      */
     private int $status = 0;
@@ -309,19 +307,11 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return PartnerBuildingSite|null
-     */
     public function getBuildingSite(): ?PartnerBuildingSite
     {
         return $this->buildingSite;
     }
 
-    /**
-     * @param PartnerBuildingSite|null $buildingSite
-     *
-     * @return SaleRequest
-     */
     public function setBuildingSite(?PartnerBuildingSite $buildingSite = null): SaleRequest
     {
         $this->buildingSite = $buildingSite;
@@ -898,19 +888,11 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     *
-     * @return SaleRequest
-     */
     public function setStatus(int $status): SaleRequest
     {
         $this->status = $status;
@@ -918,19 +900,11 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return SaleServiceTariff|null
-     */
     public function getService(): ?SaleServiceTariff
     {
         return $this->service;
     }
 
-    /**
-     * @param SaleServiceTariff|null $service
-     *
-     * @return SaleRequest
-     */
     public function setService(?SaleServiceTariff $service): SaleRequest
     {
         $this->service = $service;
@@ -946,11 +920,6 @@ class SaleRequest extends AbstractBase
         return $this->miniumHolidayHours;
     }
 
-    /**
-     * @param float $miniumHolidayHours
-     *
-     * @return SaleRequest
-     */
     public function setMiniumHolidayHours(float $miniumHolidayHours): SaleRequest
     {
         $this->miniumHolidayHours = $miniumHolidayHours;
@@ -966,14 +935,10 @@ class SaleRequest extends AbstractBase
         return $this->increaseForHolidays;
     }
 
-    /**
-     * @param float $increaseForHolidays
-     *
-     * @return SaleRequest
-     */
     public function setIncreaseForHolidays(float $increaseForHolidays): SaleRequest
     {
         $this->increaseForHolidays = $increaseForHolidays;
+
         return $this;
     }
 
@@ -985,16 +950,25 @@ class SaleRequest extends AbstractBase
         return $this->increaseForHolidaysPercentage;
     }
 
-    /**
-     * @param float $increaseForHolidaysPercentage
-     *
-     * @return SaleRequest
-     */
     public function setIncreaseForHolidaysPercentage(float $increaseForHolidaysPercentage): SaleRequest
     {
         $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
 
         return $this;
+    }
+
+    /**
+     * Custom methods.
+     */
+    public function getOnlyDeliveryNote(): ?SaleDeliveryNote
+    {
+        $saleRequestHasDeliveryNotes = $this->getSaleRequestHasDeliveryNotes();
+        $deliveryNote = null;
+        if (1 === $saleRequestHasDeliveryNotes->count()) {
+            $deliveryNote = $saleRequestHasDeliveryNotes->first()->getSaleDeliveryNOte();
+        }
+
+        return $deliveryNote;
     }
 
     /**
