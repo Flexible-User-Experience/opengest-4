@@ -750,10 +750,10 @@ class SaleDeliveryNote extends AbstractBase
         return $this->id ? $this->getId().' - '.$this->getDeliveryNoteReference() : '---';
     }
 
-    private function getSaleRequest(): ?SaleRequest
+    public function getSaleRequest(): ?SaleRequest
     {
         $value = null;
-        if (false == $this->getSaleRequestHasDeliveryNotes()->isEmpty()) {
+        if ($this->getSaleRequestHasDeliveryNotes()->count() > 0) {
             /** @var SaleRequestHasDeliveryNote $saleRequestHasDeliveryNote */
             $saleRequestHasDeliveryNote = $this->getSaleRequestHasDeliveryNotes()->first();
             if ($saleRequestHasDeliveryNote) {

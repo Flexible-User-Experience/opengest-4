@@ -976,6 +976,6 @@ class SaleRequest extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getId().' · '.$this->getEnterprise() : '---';
+        return $this->id ? $this->getId().'' : '---';
     }
 }
