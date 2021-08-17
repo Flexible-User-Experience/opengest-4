@@ -683,14 +683,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'onlyDeliveryNote',
-                null,
-                [
-                    'template' => 'admin/cells/list__cell_sale_request_delivery_note.html.twig',
-                    'label' => 'Albarán',
-                ]
-            )
-            ->add(
                 'requestDate',
                 null,
                 [
@@ -750,6 +742,14 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'row_align' => 'center',
                     'template' => 'admin/cells/list__cell_sale_request_status.html.twig',
                     'editable' => false,
+                ]
+            )
+            ->add(
+                'onlyDeliveryNote',
+                null,
+                [
+                    'template' => 'admin/cells/list__cell_sale_request_delivery_note.html.twig',
+                    'label' => 'Albarán',
                 ]
             )
             ->add(
