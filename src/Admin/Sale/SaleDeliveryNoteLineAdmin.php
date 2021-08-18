@@ -125,7 +125,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                     'label' => false,
                     'required' => true,
                     'attr' => [
-                        'class' => 'hidden',
+                        'hidden' => 'true',
                     ],
                 ]
             )

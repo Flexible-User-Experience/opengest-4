@@ -21,7 +21,7 @@ admin:
         description: "Descripción"
         short_description: "Descripció breu"
         image: "Imatge"
-        date: "Data"
+        date: "Fecha"
         checked: "Llegit"
         created_at: "Data creació"
         email: "Email"
