@@ -12,6 +12,11 @@
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
+            var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
+
+            deliveryNoteLinesTable.on('sonata.add_element', function (event) {
+              console.log('trigger is fired ', event);
+            })
 
              //on change
             partnerNode.change(function(event) {
