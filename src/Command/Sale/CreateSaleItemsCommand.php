@@ -33,9 +33,6 @@ class CreateSaleItemsCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|void|null
      *
      * @throws InvalidArgumentException
@@ -48,17 +45,18 @@ class CreateSaleItemsCommand extends AbstractBaseCommand
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
-        $newSaleItems = array(
+        $newSaleItems = [
           ['Horas', 1],
           ['Horas Festivos', 1],
+          ['Horas Desplazamiento', 1],
           ['Km Delplazamiento', 1],
           ['Presupuesto', 1],
           ['Salida', 1],
           ['Desbloqueo', 1],
-        );
+        ];
         foreach ($newSaleItems as $newSaleItem) {
             $saleItem = $this->rm->getSaleItemRepository()->findOneBy([
-               'description' => $newSaleItem[0]
+               'description' => $newSaleItem[0],
             ]);
             if (!$saleItem) {
                 //new Record
