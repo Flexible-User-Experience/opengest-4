@@ -59,6 +59,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                     'class' => SaleItem::class,
                     'label' => 'admin.label.item',
                     'required' => true,
+                    'placeholder' => '--selecciona una opción---'
                 ]
             )
             ->add(
