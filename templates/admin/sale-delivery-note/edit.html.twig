@@ -14,6 +14,26 @@
             var cifNifIcon = jQuery('#cif-nif-icon');
             {% if  admin.id(admin.subject) %}
                 var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
+                var numberOfDeliveryNoteLines = {{ form.saleDeliveryNoteLines.vars.data.count }};
+                for (let i = 0; i < numberOfDeliveryNoteLines; i++) {
+                    jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {
+                            console.log('selctor changed number', i);
+                            var saleItemId = event.val;
+                            console.log('saleItem id', saleItemId);
+                            if (saleItemId < 4){
+                                updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);
+                            }
+                            {#console.log('new value selected', jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem'));#}
+                    }
+                    );
+                }
+
+                function updatePriceAndQuantityDeliveryNoteLine(lineId, saleItemId) {
+                    var hourPrice ={{ admin.subject.hourPrice }};
+                    console.log('hourPrice', hourPrice);
+                    console.log('new value selected', jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_priceUnit'))
+                    jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_priceUnit').val(hourPrice)
+                }
             {% endif %}
 
             deliveryNoteLinesTable.on('sonata.add_element', function (event) {
