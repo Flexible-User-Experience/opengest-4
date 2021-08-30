@@ -29,10 +29,24 @@
                 }
 
                 function updatePriceAndQuantityDeliveryNoteLine(lineId, saleItemId) {
-                    var hourPrice ={{ admin.subject.hourPrice }};
+                    var hourPrice = {{ admin.subject.hourPrice }};
+                    var minimumHours = {{ admin.subject.miniumHours }} + 0;
+                    var displacement = {{ admin.subject.displacement }} + 0;
+                    var minimumHolidayHours = {{ admin.subject.miniumHolidayHours }} + 0;
+                    var increaseForHolidays = {{ admin.subject.increaseForHolidays }} + 0;
+                    var increaseForHolidaysPercentage = {{ admin.subject.increaseForHolidaysPercentage }} + 0;
+                    console.log('saleItemId inside', saleItemId);
+                    if (saleItemId == 2) {
+                        if (increaseForHolidaysPercentage) {
+                            hourPrice = hourPrice*(1 + increaseForHolidaysPercentage);
+                        }
+                        if (increaseForHolidays) {
+                            hourPrice = hourPrice + increaseForHolidays;
+                        }
+                        console.log('im in');
+                    }
                     console.log('hourPrice', hourPrice);
-                    console.log('new value selected', jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_priceUnit'))
-                    jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_priceUnit').val(hourPrice)
+                    jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_priceUnit').val(hourPrice);
                 }
             {% endif %}
 
