@@ -16,6 +16,8 @@
 !/var/cache/.gitkeep
 /var/csv/*
 !/var/csv/.gitkeep
+/var/uploads/*
+!/var/uploads/.gitkeep
 /var/log/*
 !/var/log/.gitkeep
 /vendor/

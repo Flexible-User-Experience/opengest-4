@@ -136,7 +136,7 @@ class AppExtension extends AbstractExtension
     public function drawOperatorImageSrc(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60')
     {
         if ($operator->getProfilePhotoImage()) {
-            $result = $this->licms->getBrowserPath($this->vuhs->asset($operator, $mapping), $filter);
+            $result = $this->rs->generate('admin_app_operator_operator_downloadProfilePhotoImage ',['id' => $operator->getId()]);
         } else {
             $result = 'https://via.placeholder.com/60x60.png?text='.$operator->getUppercaseNameInitials();
         }
@@ -154,7 +154,7 @@ class AppExtension extends AbstractExtension
     public function drawOperatorImage(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60')
     {
         if ($operator->getProfilePhotoImage()) {
-            $result = '<img src="'.$this->licms->getBrowserPath($this->vuhs->asset($operator, $mapping), $filter).'" alt="'.$operator->getFullName().' thumbnail">';
+            $result = '<img src="'.$this->rs->generate('admin_app_operator_operator_downloadProfilePhotoImage ',['id' => $operator->getId()]).'" alt="'.$operator->getFullName().' thumbnail">';
         } else {
             $result = '<img src="https://via.placeholder.com/60x60.png?text='.$operator->getUppercaseNameInitials().'" alt="'.$operator->getFullName().' thumbnail">';
         }

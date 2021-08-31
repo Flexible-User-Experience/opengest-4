@@ -55,7 +55,9 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->add('downloadProfilePhotoImage', $this->getRouterIdParameter().'/profilePhoto')
+            ->remove('delete');
     }
 
     /**
