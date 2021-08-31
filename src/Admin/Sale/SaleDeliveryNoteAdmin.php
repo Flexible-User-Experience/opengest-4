@@ -148,6 +148,9 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             ;
                             $datagrid->setValue($property, null, $value);
                         },
+                    ],
+                    [
+                        'admin_code' => 'app.admin.partner',
                     ]
                 )
                 ->add(
@@ -489,6 +492,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Client',
+                    'admin_code' => 'partner_admin',
                 ],
                 null,
                 [
@@ -641,6 +645,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Client',
+                    'admin_code' => 'partner_admin',
                 ]
             )
             ->add(

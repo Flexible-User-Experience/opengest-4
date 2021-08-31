@@ -130,6 +130,9 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
+                ],
+                [
+                    'admin_code' => 'app.admin.partner',
                 ]
             )
             ->add(
@@ -410,6 +413,9 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
+                ],
+                [
+                'admin_code' => 'app.admin.partner',
                 ]
             )
             ->end()
@@ -488,6 +494,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Client',
+                    'admin_code' => 'partner_admin',
                 ],
                 null,
                 [
@@ -499,6 +506,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Facturar a',
+                    'admin_code' => 'partner_admin',
                 ],
                 null,
                 [
@@ -717,6 +725,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
+                    'admin_code' => 'partner_admin',
                 ]
             )
             ->add(
