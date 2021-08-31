@@ -37,18 +37,16 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'begin',
         '_sort_order' => 'desc',
-    );
+    ];
 
     /**
      * Methods.
      */
 
     /**
-     * @param FormMapper $formMapper
-     *
      * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
@@ -58,7 +56,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
-                array(
+                [
                     'property' => 'name',
                     'label' => 'Tercer',
                     'required' => true,
@@ -73,35 +71,35 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
-                )
+                ],
+                [
+                    'admin_code' => 'app.admin.partner',
+                ]
             )
             ->add(
                 'begin',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data inici',
                     'required' => true,
                     'format' => 'd/M/y',
                     'dp_default_date' => (new \DateTime())->format('d/m/Y'),
-                )
+                ]
             )
             ->add(
                 'end',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data fi',
                     'format' => 'd/M/y',
                     'required' => true,
                     'dp_default_date' => (new \DateTime())->format('d/m/Y'),
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
@@ -109,9 +107,9 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 ->add(
                     'partner.enterprise',
                     null,
-                    array(
+                    [
                         'label' => 'Empresa',
-                    )
+                    ]
                 )
             ;
         }
@@ -119,29 +117,30 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
             ->add(
                 'partner',
                 ModelAutocompleteFilter::class,
-                array(
+                [
                     'label' => 'Partner',
-                ),
+                    'admin_code' => 'partner_admin',
+                ],
                 null,
-                array(
+                [
                     'property' => 'name',
-                )
+                ]
             )
             ->add(
                 'begin',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Data inici',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
             ->add(
                 'end',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Data fi',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
         ;
     }
@@ -171,9 +170,6 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
@@ -181,9 +177,9 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 ->add(
                     'partner.enterprise',
                     null,
-                    array(
+                    [
                         'label' => 'Empresa',
-                    )
+                    ]
                 )
             ;
         }
@@ -191,40 +187,41 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
             ->add(
                 'partner',
                 null,
-                array(
+                [
                     'label' => 'Tercer',
+                    'admin_code' => 'partner_admin',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
                 'begin',
                 null,
-                array(
+                [
                     'label' => 'Data inici',
                     'format' => 'd/m/Y',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'end',
                 null,
-                array(
+                [
                     'label' => 'Data fi',
                     'format' => 'd/m/Y',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }

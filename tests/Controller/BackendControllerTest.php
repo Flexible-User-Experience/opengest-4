@@ -42,7 +42,7 @@ class BackendControllerTest extends AbstractBaseTest
      *
      * @return array
      */
-    public function provideSuccessfulUrls()
+    public function provideSuccessfulUrls() : array
     {
         return [
             // Web
@@ -228,7 +228,7 @@ class BackendControllerTest extends AbstractBaseTest
      *
      * @return array
      */
-    public function provideNotFoundUrls()
+    public function provideNotFoundUrls() : array
     {
         return [
             // Web
