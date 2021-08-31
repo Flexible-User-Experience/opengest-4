@@ -50,17 +50,17 @@
                         jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_units').val(0);
                     }
                 }
-            {% endif %}
 
-            deliveryNoteLinesTable.on('sonata.add_element', function (event) {
+                deliveryNoteLinesTable.on('sonata.add_element', function (event) {
                 numberOfDeliveryNoteLines++;
                 var i = numberOfDeliveryNoteLines - 1;
                 jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {
-                        var saleItemId = parseInt(event.val);
-                        updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);
-                    }
+                    var saleItemId = parseInt(event.val);
+                    updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);
+                  }
                 );
-            })
+                })
+            {% endif %}
 
              //on change
             partnerNode.change(function(event) {
