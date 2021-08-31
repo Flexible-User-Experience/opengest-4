@@ -41,6 +41,13 @@
             var selectTariffNode = jQuery('#sonata-ba-field-container-{{ form.selectTariff.vars.id }}');
             var selectTariffName = jQuery('#{{ form.selectTariff.vars.id }}');
 
+            var previousSelectedServiceId = jQuery('#{{ form.service.vars.id }}').val();
+            jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: previousSelectedServiceId}), function () {
+            }).done(function (response) {
+                console.log(response);
+                updateNodeTariff(response);
+            });
+
              //on change
             partnerNode.change(function(event) {
                 cifNifIcon.removeClass('hidden');
