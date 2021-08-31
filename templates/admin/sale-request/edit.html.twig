@@ -10,6 +10,7 @@
         jQuery(document).ready(function() {
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            var buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
             {#var mainAddress = jQuery('#{{ form.mainAddress.vars.id }}');#}
@@ -48,21 +49,35 @@
                 // provinceIcon.removeClass('hidden');
                 var partnerId = event.val;
                 console.log('PartnerID', partnerId);
-              if (partnerId) {
-                //on change Partner
-                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
-                }).done(function (response) {
-                  updateNodesInfo(response);
-                });
+                if (partnerId === '') {
+                    buildingSitesNode.empty();
+                    buildingSitesNode.select2('val', '');
+                    buildingSitesNode.select2({
+                      enable: true,
+                      allowClear: true
+                    });
+                }
+                if (partnerId) {
+                    //on change Partner
+                    jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
+                    }).done(function (response) {
+                      updateNodesInfo(response);
+                    });
 
-                //on change PartnerContact
-                jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', {id: partnerId}), function () {
-                }).done(function (response) {
-                  console.log(response);
-                  updateNodesInfoContacts(response);
-                });
-              }
+                    //update building sites
+                    jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
+                    }).done(function(response) {
+                    console.log(response);
+                        updateBuildingSites(response);
+                    });
 
+                    //on change PartnerContact
+                    jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', {id: partnerId}), function () {
+                    }).done(function (response) {
+                      console.log(response);
+                      updateNodesInfoContacts(response);
+                    });
+                }
             });
 
             //on change service node
@@ -175,6 +190,27 @@
                 increaseForHolidays.val(tariff.increaseForHolidays);
                 increaseForHolidaysPercentage.val(tariff.increaseForHolidaysPercentage);
             }
+
+          function updateBuildingSites(response) {
+            var partnerBuildingSitesData = jQuery.parseJSON(response);
+            console.log(buildingSitesNode);
+            buildingSitesNode.empty();
+            let newOption = new Option('-- elige una obra --', '', true, false);
+            buildingSitesNode.append(newOption);
+            partnerBuildingSitesData.forEach(
+              function (value, index) {
+                console.log(value, index);
+                var newOption = new Option(value.text, value.id, false, false);
+                buildingSitesNode.append(newOption);
+              });
+            buildingSitesNode.select2('val', '');
+            buildingSitesNode.select2({
+              enable: true,
+              allowClear: true
+            });
+            // console.log(partnerBuildingSitesData);
+            // console.log(buildingSitesNode.select2({ data: partnerBuildingSitesData }));
+          }
 
         });
     </script>

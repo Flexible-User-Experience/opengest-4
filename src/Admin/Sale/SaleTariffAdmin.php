@@ -22,7 +22,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -141,25 +140,6 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
-//            ->add(
-//                'partnerBuildingSite',
-//                EntityType::class,
-//                array(
-//                    'class' => PartnerBuildingSite::class,
-//                    'label' => 'Obra',
-//                    'required' => false,
-//                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
-//                )
-//            )
-//            ->add(
-//                'selectPartnerBuildingSite',
-//                TextType::class,
-//                array(
-//                    'label' => 'Obres del client',
-//                    'required' => false,
-//                    'mapped' => false,
-//                )
-//            )
             ->add(
                 'partnerBuildingSite',
                 EntityType::class,
@@ -167,11 +147,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'label' => 'Obra',
                     'required' => false,
                     'class' => PartnerBuildingSite::class,
-//                    'choices' => [],
-                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(), //TODO only return those related to client
-//                    'attr' => [
-//                        'data-sonata-select2' => 'false'
-//                    ]
+                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
                 ]
             )
             ->end()
