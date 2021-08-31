@@ -33,6 +33,9 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
      */
     protected $baseRoutePattern = 'clientes/cliente';
 
+    /**
+     * @var string
+     */
     protected $baseRouteName = 'admin_app_partner_client';
 
     /**
