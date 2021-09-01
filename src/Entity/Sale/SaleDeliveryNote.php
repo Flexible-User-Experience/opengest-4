@@ -677,7 +677,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this->observations;
     }
 
-    public function setObservations(string $observations): SaleDeliveryNote
+    public function setObservations($observations): SaleDeliveryNote
     {
         $this->observations = $observations;
 
