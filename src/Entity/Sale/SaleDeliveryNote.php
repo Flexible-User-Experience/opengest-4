@@ -203,6 +203,7 @@ class SaleDeliveryNote extends AbstractBase
         $this->saleInvoices = new ArrayCollection();
         $this->saleDeliveryNoteLines = new ArrayCollection();
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
+        $this->operatorWorkRegisters = new ArrayCollection();
     }
 
     /**
