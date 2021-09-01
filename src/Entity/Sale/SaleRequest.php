@@ -209,6 +209,27 @@ class SaleRequest extends AbstractBase
     private $displacement;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $miniumHolidayHours;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $increaseForHolidays;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $increaseForHolidaysPercentage;
+
+    /**
      * @var Vehicle
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
@@ -230,8 +251,6 @@ class SaleRequest extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(type="integer")
      */
     private int $status = 0;
@@ -288,19 +307,11 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return PartnerBuildingSite|null
-     */
     public function getBuildingSite(): ?PartnerBuildingSite
     {
         return $this->buildingSite;
     }
 
-    /**
-     * @param PartnerBuildingSite|null $buildingSite
-     *
-     * @return SaleRequest
-     */
     public function setBuildingSite(?PartnerBuildingSite $buildingSite = null): SaleRequest
     {
         $this->buildingSite = $buildingSite;
@@ -877,19 +888,11 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     *
-     * @return SaleRequest
-     */
     public function setStatus(int $status): SaleRequest
     {
         $this->status = $status;
@@ -897,19 +900,11 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return SaleServiceTariff|null
-     */
     public function getService(): ?SaleServiceTariff
     {
         return $this->service;
     }
 
-    /**
-     * @param SaleServiceTariff|null $service
-     *
-     * @return SaleRequest
-     */
     public function setService(?SaleServiceTariff $service): SaleRequest
     {
         $this->service = $service;
@@ -918,10 +913,69 @@ class SaleRequest extends AbstractBase
     }
 
     /**
+     * @return float
+     */
+    public function getMiniumHolidayHours()
+    {
+        return $this->miniumHolidayHours;
+    }
+
+    public function setMiniumHolidayHours(float $miniumHolidayHours): SaleRequest
+    {
+        $this->miniumHolidayHours = $miniumHolidayHours;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIncreaseForHolidays()
+    {
+        return $this->increaseForHolidays;
+    }
+
+    public function setIncreaseForHolidays(float $increaseForHolidays): SaleRequest
+    {
+        $this->increaseForHolidays = $increaseForHolidays;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIncreaseForHolidaysPercentage()
+    {
+        return $this->increaseForHolidaysPercentage;
+    }
+
+    public function setIncreaseForHolidaysPercentage(float $increaseForHolidaysPercentage): SaleRequest
+    {
+        $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
+
+        return $this;
+    }
+
+    /**
+     * Custom methods.
+     */
+    public function getOnlyDeliveryNote(): ?SaleDeliveryNote
+    {
+        $saleRequestHasDeliveryNotes = $this->getSaleRequestHasDeliveryNotes();
+        $deliveryNote = null;
+        if (1 === $saleRequestHasDeliveryNotes->count()) {
+            $deliveryNote = $saleRequestHasDeliveryNotes->first()->getSaleDeliveryNOte();
+        }
+
+        return $deliveryNote;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->id ? $this->getId().' · '.$this->getEnterprise() : '---';
+        return $this->id ? $this->getId().'' : '---';
     }
 }

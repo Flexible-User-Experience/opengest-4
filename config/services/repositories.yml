@@ -79,6 +79,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Operator\OperatorVariousAmount
+    app.operator_work_register_repository:
+        class: App\Repository\Operator\OperatorWorkRegisterRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorWorkRegister
     app.vehicle_repository:
         class: App\Repository\Vehicle\VehicleRepository
         factory: [ '@doctrine', getRepository ]
@@ -189,6 +194,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Web\ContactMessage
+    app.time_range_repository:
+        class: App\Repository\Setting\TimeRangeRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Setting\TimeRange
     app.repositories_manager:
         public: true
         class: App\Manager\RepositoriesManager
@@ -207,6 +217,7 @@ services:
             - '@app.operator_absence_repository'
             - '@app.operator_digital_tachograf_repository'
             - '@app.operator_various_amount_repository'
+            - '@app.operator_work_register_repository'
             - '@app.vehicle_repository'
             - '@app.vehicle_checking_type_repository'
             - '@app.vehicle_checking_repository'
@@ -229,3 +240,4 @@ services:
             - '@app.sale_service_tariff_repository'
             - '@app.sale_item_repository'
             - '@app.work_repository'
+            - '@app.time_range_repository'

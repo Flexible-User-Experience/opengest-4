@@ -34,17 +34,13 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'partner.name',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
-     */
-
-    /**
-     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -53,7 +49,7 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
-                array(
+                [
                     'property' => 'name',
                     'label' => 'Tercer',
                     'required' => true,
@@ -68,88 +64,89 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
-                )
+                ],
+                [
+                    'admin_code' => 'app.admin.partner',
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'number',
                 null,
-                array(
+                [
                     'label' => 'Número',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'address',
                 null,
-                array(
+                [
                     'label' => 'Adreça',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'Telèfon',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add(
                 'partner',
                 ModelAutocompleteFilter::class,
-                array(
+                [
                     'label' => 'Tercer',
-                ),
+                    'admin_code' => 'partner_admin',
+                ],
                 null,
-                array(
+                [
                     'property' => 'name',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
-                )
+                ]
             )
             ->add(
                 'number',
                 null,
-                array(
+                [
                     'label' => 'Número',
-                )
+                ]
             )
             ->add(
                 'address',
                 null,
-                array(
+                [
                     'label' => 'Adreça',
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'Telèfon',
-                )
+                ]
             )
         ;
     }
@@ -178,67 +175,65 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->add(
                 'partner',
                 null,
-                array(
+                [
                     'label' => 'Tercer',
+                    'admin_code' => 'partner_admin',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'name'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'partner')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'partner']],
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'number',
                 null,
-                array(
+                [
                     'label' => 'Número',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'address',
                 null,
-                array(
+                [
                     'label' => 'Adreça',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'phone',
                 null,
-                array(
+                [
                     'label' => 'Telèfon',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }

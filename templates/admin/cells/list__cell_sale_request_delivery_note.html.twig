@@ -1,0 +1,11 @@
+{% extends "@SonataAdmin/CRUD/base_list_field.html.twig" %}
+
+{% trans_default_domain 'admin' %}
+
+{% block field %}
+    {% if object.onlyDeliveryNote %}
+        <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': object.onlyDeliveryNote.id }) }}">
+            {{ object.onlyDeliveryNote }}
+        </a>
+    {% endif %}
+{% endblock %}

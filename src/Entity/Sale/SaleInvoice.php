@@ -211,8 +211,6 @@ class SaleInvoice extends AbstractBase
     public function getSeries()
     {
         return $this->series;
-
-        return $this;
     }
 
     /**

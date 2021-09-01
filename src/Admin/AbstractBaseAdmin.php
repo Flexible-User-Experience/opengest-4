@@ -229,10 +229,12 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      */
     protected function getProfileHelperFormMapperWithThumbnail()
     {
-        return ($this->getSubject() ? $this->getSubject()->getProfilePhotoImage() ? '<img src="'.$this->lis->getBrowserPath(
-                $this->vus->asset($this->getSubject(), 'profilePhotoImageFile'),
-                '480xY'
-            ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 300px (màx. 10MB amb JPG o PNG)</span>';
+        return ($this->getSubject() ? $this->getSubject()->getProfilePhotoImage() ? '<img src="'.
+                $this->routeGenerator->generate(
+                    'admin_app_operator_operator_downloadProfilePhotoImage',
+                    ['id' => $this->getSubject()->getId()]
+                )
+                .'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 300px (màx. 10MB amb JPG o PNG)</span>';
     }
 
     /**

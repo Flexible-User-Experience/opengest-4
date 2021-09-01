@@ -6,6 +6,7 @@ use App\Entity\Sale\SaleServiceTariff;
 use App\Repository\Enterprise\ActivityLineRepository;
 use App\Repository\Operator\OperatorDigitalTachographRepository;
 use App\Repository\Operator\OperatorVariousAmountRepository;
+use App\Repository\Operator\OperatorWorkRegisterRepository;
 use App\Repository\Partner\PartnerContactRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
@@ -32,6 +33,7 @@ use App\Repository\Setting\ProvinceRepository;
 use App\Repository\Setting\SaleInvoiceSeriesRepository;
 use App\Repository\Sale\SaleRequestRepository;
 use App\Repository\Sale\SaleTariffRepository;
+use App\Repository\Setting\TimeRangeRepository;
 use App\Repository\Web\ServiceRepository;
 use App\Repository\Setting\UserRepository;
 use App\Repository\Vehicle\VehicleCategoryRepository;
@@ -230,6 +232,16 @@ class RepositoriesManager
     private WorkRepository $workRepository;
 
     /**
+     * @var TimeRangeRepository
+     */
+    private TimeRangeRepository $timeRangeRepository;
+
+    /**
+     * @var OperatorWorkRegisterRepository
+     */
+    private OperatorWorkRegisterRepository $operatorWorkRegisterRepository;
+
+    /**
      * Methods.
      */
 
@@ -272,6 +284,7 @@ class RepositoriesManager
      * @param SaleServiceTariffRepository $saleServiceTariffRepository
      * @param SaleItemRepository $saleItemRepository
      * @param WorkRepository $workRepository
+     * @param TimeRangeRepository $timeRangeRepository
      */
     public function __construct(
         ServiceRepository $serviceRepository,
@@ -288,6 +301,7 @@ class RepositoriesManager
         OperatorAbsenceRepository $operatorAbsenceRepository,
         OperatorDigitalTachographRepository $operatorDigitalTachographRepository,
         OperatorVariousAmountRepository $operatorVariousAmountRepository,
+        OperatorWorkRegisterRepository $operatorWorkRegisterRepository,
         VehicleRepository $vehicleRepository,
         VehicleCheckingTypeRepository $vehicleCheckingTypeRepository,
         VehicleCheckingRepository $vehicleCheckingRepository,
@@ -309,7 +323,8 @@ class RepositoriesManager
         SaleInvoiceRepository $saleInvoiceRepository,
         SaleServiceTariffRepository $saleServiceTariffRepository,
         SaleItemRepository $saleItemRepository,
-        WorkRepository $workRepository
+        WorkRepository $workRepository,
+        TimeRangeRepository $timeRangeRepository
     ) {
         $this->serviceRepository = $serviceRepository;
         $this->vehicleCategoryRepository = $vehicleCategoryRepository;
@@ -325,6 +340,7 @@ class RepositoriesManager
         $this->operatorAbsenceRepository = $operatorAbsenceRepository;
         $this->operatorDigitalTachographRepository = $operatorDigitalTachographRepository;
         $this->operatorVariousAmountRepository = $operatorVariousAmountRepository;
+        $this->operatorWorkRegisterRepository = $operatorWorkRegisterRepository;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleCheckingTypeRepository = $vehicleCheckingTypeRepository;
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
@@ -347,6 +363,7 @@ class RepositoriesManager
         $this->saleServiceTariffRepository = $saleServiceTariffRepository;
         $this->saleItemRepository = $saleItemRepository;
         $this->workRepository = $workRepository;
+        $this->timeRangeRepository = $timeRangeRepository;
     }
 
     /**
@@ -635,5 +652,21 @@ class RepositoriesManager
     public function getWorkRepository()
     {
         return $this->workRepository;
+    }
+
+    /**
+     * @return TimeRangeRepository
+     */
+    public function getTimeRangeRepository(): TimeRangeRepository
+    {
+        return $this->timeRangeRepository;
+    }
+
+    /**
+     * @return OperatorWorkRegisterRepository
+     */
+    public function getOperatorWorkRegisterRepository(): OperatorWorkRegisterRepository
+    {
+        return $this->operatorWorkRegisterRepository;
     }
 }

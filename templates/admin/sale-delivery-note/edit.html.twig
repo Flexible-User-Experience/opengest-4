@@ -1,0 +1,96 @@
+{% extends 'admin/edit.html.twig' %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+             // Handler for .ready() called.
+            var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
+            var cifNifIcon = jQuery('#cif-nif-icon');
+            {% if  admin.id(admin.subject) %}
+                var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
+                var numberOfDeliveryNoteLines = {{ form.saleDeliveryNoteLines.vars.data.count }};
+                for (let i = 0; i < numberOfDeliveryNoteLines; i++) {
+                    jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {
+                            var saleItemId = parseInt(event.val);
+                            updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);
+                    }
+                    );
+                }
+
+                function updatePriceAndQuantityDeliveryNoteLine(lineId, saleItemId) {
+                    if (saleItemId < 4) {
+                        var hourPrice = {{ admin.subject.hourPrice }};
+                        var minimumHours = {{ admin.subject.miniumHours }} + 0;
+                        var displacement = {{ admin.subject.displacement }} + 0;
+                        var minimumHolidayHours = {{ admin.subject.miniumHolidayHours }} + 0;
+                        var increaseForHolidays = {{ admin.subject.increaseForHolidays }} + 0;
+                        var increaseForHolidaysPercentage = {{ admin.subject.increaseForHolidaysPercentage }} + 0;
+                        if (saleItemId === 1) {
+                            jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_units').val(minimumHours);
+                        } else if (saleItemId === 2) {
+                            if (increaseForHolidaysPercentage) {
+                                hourPrice = hourPrice*(1 + increaseForHolidaysPercentage);
+                            }
+                            if (increaseForHolidays) {
+                                hourPrice = hourPrice + increaseForHolidays;
+                            }
+                            jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_units').val(minimumHolidayHours);
+                        } else if (saleItemId === 3) {
+                            jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_units').val(displacement);
+                        }
+                        jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_priceUnit').val(hourPrice);
+                    } else {
+                        jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_priceUnit').val(0);
+                        jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + lineId + '_units').val(0);
+                    }
+                }
+
+                deliveryNoteLinesTable.on('sonata.add_element', function (event) {
+                numberOfDeliveryNoteLines++;
+                var i = numberOfDeliveryNoteLines - 1;
+                jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {
+                    var saleItemId = parseInt(event.val);
+                    updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);
+                  }
+                );
+                })
+            {% endif %}
+
+             //on change
+            partnerNode.change(function(event) {
+                cifNifIcon.removeClass('hidden');
+                var partnerId = event.val;
+                console.log('PartnerID', partnerId);
+              if (partnerId) {
+                //on change Partner
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
+                }).done(function (response) {
+                  updateNodesInfo(response);
+                });
+              }
+
+            });
+
+            //on load Partner
+            {% if form.partner.vars.data is not null %}
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', { id: {{ form.partner.vars.data.id }} }), function() {
+                }).done(function(response) {
+                     updateNodesInfo(response);
+                });
+            {% endif %}
+
+            function updateNodesInfo(response) {
+                var partner = jQuery.parseJSON(response);
+                cifNifIcon.addClass('hidden');
+                cifNif.val(partner.cifNif);
+            }
+
+        });
+    </script>
+{% endblock %}

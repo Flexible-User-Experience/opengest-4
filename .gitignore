@@ -16,6 +16,8 @@
 !/var/cache/.gitkeep
 /var/csv/*
 !/var/csv/.gitkeep
+/var/uploads/*
+!/var/uploads/.gitkeep
 /var/log/*
 !/var/log/.gitkeep
 /vendor/
@@ -42,3 +44,7 @@ yarn-error.log
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+###> php_cs_fixer ###
+.php_cs.cache
+###<php_cs_fixer ###

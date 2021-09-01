@@ -20,3 +20,8 @@ services:
         arguments: [ ~, App\Entity\Setting\SaleInvoiceSeries, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Sèries factura", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+    app.admin.time_range:
+        class: App\Admin\Setting\TimeRangeAdmin
+        arguments: [ ~, App\Entity\Setting\TimeRange, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Franjas horarias", group: "Configuracio", label_translator_strategy: "sonata.admin.label.strategy.noop" }

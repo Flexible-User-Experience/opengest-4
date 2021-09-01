@@ -25,6 +25,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -55,17 +56,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'requestDate',
         '_sort_order' => 'desc',
-    );
+    ];
 
     /**
      * Methods.
-     */
-
-    /**
-     * @param RouteCollection $collection
      */
     public function configureRoutes(RouteCollection $collection)
     {
@@ -90,19 +87,17 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 //                'translation_domain' => 'messages',
 //                'ask_confirmation' => false,
 //            );
-            $actions['generatedeliverynotefromsalerequests'] = array(
+            $actions['generatedeliverynotefromsalerequests'] = [
                 'label' => 'Generar albarans de les peticions marcades',
                 'translation_domain' => 'messages',
                 'ask_confirmation' => false,
-            );
+            ];
         }
 
         return $actions;
     }
 
     /**
-     * @param FormMapper $formMapper
-     *
      * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
@@ -112,15 +107,15 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'status',
                 ChoiceType::class,
-                array(
+                [
                     'choices' => SaleRequestStatusEnum::getEnumArray(),
                     'label' => 'admin.label.status',
-                )
+                ]
             )
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
-                array(
+                [
                     'property' => 'name',
                     'label' => 'Client',
                     'required' => true,
@@ -135,56 +130,58 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
-                )
+                ],
+                [
+                    'admin_code' => 'app.admin.partner',
+                ]
             )
             ->add(
                 'cifNif',
                 TextType::class,
-                array(
+                [
                     'label' => 'CIF',
                     'required' => false,
                     'mapped' => false,
                     'disabled' => true,
                     'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
+                ]
             )
             ->add(
                 'buildingSite',
                 EntityType::class,
-                array(
+                [
                     'class' => PartnerBuildingSite::class,
                     'label' => 'Obra',
                     'required' => false,
                     'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
-                )
-
+                ]
             )
             ->add(
                 'serviceDate',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data servei',
                     'format' => 'd/M/y',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'serviceTime',
                 TimeType::class,
-                array(
+                [
                     'label' => 'Hora servei',
                     'required' => false,
-                    'minutes' => array(0, 15, 30, 45),
-                )
+                    'minutes' => [0, 15, 30, 45],
+                ]
             )
             ->add(
                 'endServiceTime',
                 TimeType::class,
-                array(
+                [
                     'label' => 'Fi hora servei',
                     'required' => false,
-                    'minutes' => array(0, 15, 30, 45),
-                )
+                    'minutes' => [0, 15, 30, 45],
+                ]
             )
 //            ->add(
 //                'mainAddress',
@@ -234,78 +231,79 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'service',
                 EntityType::class,
-                array(
+                [
                     'class' => SaleServiceTariff::class,
-                    'label' => 'Servei',
+                    'label' => 'admin.label.sale_serivce_tariff',
                     'required' => true,
+                    'placeholder' => '---seleccione una opción---',
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
-                )
+                ]
             )
             ->add(
                 'vehicle',
                 EntityType::class,
-                array(
+                [
                     'class' => Vehicle::class,
                     'label' => 'admin.label.vehicle',
                     'required' => false,
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
+                ]
             )
             ->add(
                 'secondaryVehicle',
                 EntityType::class,
-                array(
+                [
                     'class' => Vehicle::class,
                     'label' => 'admin.label.secondary_vehicle',
                     'required' => false,
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
+                ]
             )
             ->add(
                 'operator',
                 EntityType::class,
-                array(
+                [
                     'class' => Operator::class,
                     'label' => 'admin.label.operator',
                     'required' => false,
                     'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
+                ]
             )
             ->add(
                 'serviceDescription',
                 null,
-                array(
+                [
                     'label' => 'Descripció servei',
                     'required' => true,
-                    'attr' => array(
+                    'attr' => [
                         'style' => 'resize: vertical',
                         'rows' => 7,
-                    ),
-                )
+                    ],
+                ]
             )
             ->add(
                 'place',
                 null,
-                array(
+                [
                     'label' => 'Lloc',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'style' => 'resize: vertical',
                         'rows' => 3,
-                    ),
-                )
+                    ],
+                ]
             )
             ->end()
             ->with('Tarifa', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'selectTariff',
                 TextType::class,
-                array(
+                [
                     'label' => 'Tarifes',
                     'required' => false,
                     'mapped' => false,
                     'disabled' => true,
-                )
+                ]
             )
 //            ->add(
 //                'tariff',
@@ -320,61 +318,88 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'miniumHours',
                 null,
-                array(
+                [
                     'label' => 'Mínim hores',
                     'required' => false,
                     'help' => '<i id="minium-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
+                ]
             )
             ->add(
                 'hourPrice',
                 null,
-                array(
+                [
                     'label' => 'Preu hora',
                     'required' => false,
                     'help' => '<i id="hour-price-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
+                ]
             )
             ->add(
                 'displacement',
                 null,
-                array(
+                [
                     'label' => 'Desplaçament',
                     'required' => false,
                     'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-                )
+                ]
+            )
+            ->add(
+                'miniumHolidayHours',
+                null,
+                [
+                    'label' => 'Minim hores festiu',
+                    'required' => false,
+                    'help' => '<i id="minium-holiday-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                ]
+            )
+            ->add(
+                'increaseForHolidays',
+                null,
+                [
+                    'label' => 'Increment per festiu',
+                    'required' => false,
+                    'help' => '<i id="increase-for-holidays-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                ]
+            )
+            ->add(
+                'increaseForHolidaysPercentage',
+                PercentType::class,
+                [
+                    'label' => 'Increment per festiu %',
+                    'required' => false,
+                    'help' => '<i id="increase-for-holidays-percentage-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                ]
             )
             ->end()
             ->with('Contacte', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'selectContactPersonName',
                 TextType::class,
-                array(
+                [
                     'label' => 'Contactes del client',
                     'required' => false,
                     'mapped' => false,
-                )
+                ]
             )
             ->add(
                 'contactPersonName',
                 TextType::class,
-                array(
+                [
                     'label' => 'Persona de contacte',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'contactPersonPhone',
                 TextType::class,
-                array(
+                [
                     'label' => 'Telèfon persona contacte',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'invoiceTo',
                 ModelAutocompleteType::class,
-                array(
+                [
                     'property' => 'name',
                     'label' => 'Facturar a',
                     'required' => false,
@@ -389,50 +414,50 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
-                )
+                ],
+                [
+                'admin_code' => 'app.admin.partner',
+                ]
             )
             ->end()
             ->with('Altres', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'requestDate',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data petició',
                     'format' => 'd/M/y',
                     'required' => false,
                     'dp_default_date' => (new DateTime())->format('d/m/Y'),
-                )
+                ]
             )
             ->add(
                 'attendedBy',
                 EntityType::class,
-                array(
+                [
                     'label' => 'admin.label.attended_by',
                     'required' => false,
                     'class' => User::class,
                     'disabled' => true,
-                    'data' => $this->getUser()
-                )
+                    'data' => $this->getUser(),
+                ]
             )
             ->add(
                 'observations',
                 null,
-                array(
+                [
                     'label' => 'Observacions',
                     'required' => false,
-                    'attr' => array(
+                    'attr' => [
                         'style' => 'resize: vertical',
                         'rows' => 2,
-                    ),
-                )
+                    ],
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
@@ -440,9 +465,9 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ->add(
                     'enterprise',
                     null,
-                    array(
+                    [
                         'label' => 'Empresa',
-                    )
+                    ]
                 )
             ;
         }
@@ -450,118 +475,120 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'attendedBy',
                 null,
-                array(
+                [
                     'label' => 'Atès per',
-                )
+                ]
             )
             ->add(
                 'status',
                 null,
-                array(
+                [
                     'label' => 'admin.label.status',
-                ),
+                ],
                 ChoiceType::class,
-                array(
+                [
                     'choices' => SaleRequestStatusEnum::getEnumArray(),
-                )
+                ]
             )
             ->add(
                 'partner',
                 ModelAutocompleteFilter::class,
-                array(
+                [
                     'label' => 'Client',
-                ),
+                    'admin_code' => 'partner_admin',
+                ],
                 null,
-                array(
+                [
                     'property' => 'name',
-                )
+                ]
             )
             ->add(
                 'invoiceTo',
                 ModelAutocompleteFilter::class,
-                array(
+                [
                     'label' => 'Facturar a',
-                ),
+                    'admin_code' => 'partner_admin',
+                ],
                 null,
-                array(
+                [
                     'property' => 'name',
-                )
+                ]
             )
             ->add(
                 'vehicle',
                 null,
-                array(
-                    'label' => 'admin.label.vehicle'
-                ),
+                [
+                    'label' => 'admin.label.vehicle',
+                ],
                 EntityType::class,
-                array(
+                [
                     'class' => Vehicle::class,
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
+                ]
             )
             ->add(
                 'secondaryVehicle',
                 null,
-                array(
-                    'label' => 'admin.label.secondary_vehicle'
-                ),
+                [
+                    'label' => 'admin.label.secondary_vehicle',
+                ],
                 EntityType::class,
-                array(
+                [
                     'class' => Vehicle::class,
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
+                ]
             )
             ->add(
                 'operator',
                 null,
-                array(
-                    'label' => 'admin.label.operator'
-                ),
+                [
+                    'label' => 'admin.label.operator',
+                ],
                 EntityType::class,
-                array(
+                [
                     'class' => Operator::class,
                     'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
+                ]
             )
             ->add(
                 'service',
                 null,
-                array(
-                    'label' => 'admin.label.sale_serivce_tariff'
-                ),
+                [
+                    'label' => 'admin.label.sale_serivce_tariff',
+                ],
                 EntityType::class,
-                array(
+                [
                     'class' => SaleServiceTariff::class,
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
-                )
+                ]
             )
             ->add(
                 'hourPrice',
                 null,
-                array(
+                [
                     'label' => 'Preu hora',
-                )
+                ]
             )
             ->add(
                 'miniumHours',
                 null,
-                array(
+                [
                     'label' => 'Mínim hores',
-                )
+                ]
             )
             ->add(
                 'displacement',
                 null,
-                array(
+                [
                     'label' => 'Desplaçament',
-                )
+                ]
             )
             ->add(
                 'serviceDescription',
                 null,
-                array(
+                [
                     'label' => 'Descripció servei',
-                )
+                ]
             )
 //            ->add(
 //                'height',
@@ -587,9 +614,9 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'place',
                 null,
-                array(
+                [
                     'label' => 'Lloc',
-                )
+                ]
             )
 //            ->add(
 //                'utensils',
@@ -601,25 +628,25 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'observations',
                 null,
-                array(
+                [
                     'label' => 'Observacions',
-                )
+                ]
             )
             ->add(
                 'requestDate',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Data petició',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
             ->add(
                 'serviceDate',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Data servei',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
         ;
     }
@@ -643,9 +670,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
 //        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
@@ -663,86 +687,95 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add(
                 'id',
                 null,
-                array(
+                [
                     'label' => 'Id',
-                )
+                ]
             )
             ->add(
                 'requestDate',
                 null,
-                array(
+                [
                     'label' => 'Data petició',
                     'format' => 'd/m/y',
-                )
+                ]
             )
             ->add(
                 'service',
                 null,
-                array(
+                [
                     'label' => 'Tonatge',
-                )
+                ]
             )
             ->add(
                 'serviceDate',
                 null,
-                array(
+                [
                     'label' => 'Data servei',
                     'format' => 'd/m/y',
-                )
+                ]
             )
             ->add(
                 'serviceTime',
                 null,
-                array(
+                [
                     'label' => 'Hora servei',
-                )
+                ]
             )
             ->add(
                 'partner',
                 null,
-                array(
+                [
                     'label' => 'Tercer',
-                )
+                    'admin_code' => 'partner_admin',
+                ]
             )
             ->add(
                 'vehicle',
                 null,
-                array(
+                [
                     'label' => 'Vehicle',
-                )
+                ]
             )
             ->add(
                 'operator',
                 null,
-                array(
+                [
                     'label' => 'Operari',
-                )
+                ]
             )
             ->add(
                 'status',
                 null,
-                array(
+                [
                     'label' => 'Estat',
                     'header_class' => 'text-center',
                     'row_align' => 'center',
                     'template' => 'admin/cells/list__cell_sale_request_status.html.twig',
                     'editable' => false,
-                )
+                ]
+            )
+            ->add(
+                'onlyDeliveryNote',
+                null,
+                [
+                    'template' => 'admin/cells/list__cell_sale_request_delivery_note.html.twig',
+                    'label' => 'Albarán',
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
 //                        'pdf' => array('template' => 'admin/buttons/list__action_pdf_button.html.twig'),
-                        'clone' => array('template' => 'admin/buttons/list__action_clone_button.html.twig'),
-                        'generateDeliveryNoteFromSaleRequest' => array('template' => 'admin/buttons/list__action_generate_delivery_note_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_sale_request_button.html.twig'),
-                    ),
+                        'clone' => ['template' => 'admin/buttons/list__action_clone_button.html.twig'],
+                        'generateDeliveryNoteFromSaleRequest' => ['template' => 'admin/buttons/list__action_generate_delivery_note_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_sale_request_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }

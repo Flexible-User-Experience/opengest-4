@@ -46,6 +46,7 @@
         "symfony/process": "4.4.*",
         "symfony/security-bundle": "4.4.*",
         "symfony/serializer-pack": "*",
+        "symfony/string": "^5.3",
         "symfony/swiftmailer-bundle": "^3.1",
         "symfony/translation": "4.4.*",
         "symfony/twig-pack": "^1.0",
@@ -64,7 +65,8 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
         "symfony/test-pack": "*",
-        "thibautselingue/local-php-security-checker-installer": "^1.0"
+        "thibautselingue/local-php-security-checker-installer": "^1.0",
+        "phpunit/phpunit": "9.5"
     },
     "config": {
         "preferred-install": {

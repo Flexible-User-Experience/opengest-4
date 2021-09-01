@@ -6,11 +6,15 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\Enterprise;
+use App\Entity\Operator\Operator;
+use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,7 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteRepository")
  * @ORM\Table(name="sale_delivery_note")
- * @UniqueEntity({"enterprise", "deliveryNoteNumber"})
+ * @UniqueEntity({"enterprise", "deliveryNoteReference"})
  */
 class SaleDeliveryNote extends AbstractBase
 {
@@ -55,6 +59,34 @@ class SaleDeliveryNote extends AbstractBase
     private $buildingSite;
 
     /**
+     * @var SaleServiceTariff
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff")
+     */
+    private $saleServiceTariff;
+
+    /**
+     * @var Vehicle
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     */
+    private $vehicle;
+
+    /**
+     * @var Vehicle
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     */
+    private $secondaryVehicle;
+
+    /**
+     * @var Operator
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator")
+     */
+    private $operator;
+
+    /**
      * @var PartnerOrder
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerOrder", inversedBy="saleDeliveryNotes")
@@ -62,12 +94,12 @@ class SaleDeliveryNote extends AbstractBase
     private $order;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=50)
      * @Groups({"api"})
      */
-    private $deliveryNoteNumber;
+    private $deliveryNoteReference;
 
     /**
      * @var float
@@ -132,6 +164,32 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestHasDeliveryNote", mappedBy="saleDeliveryNote", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $saleRequestHasDeliveryNotes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
+     */
+    private Collection $operatorWorkRegisters;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $serviceDescription;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $place;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $observations;
 
     /**
      * Methods.
@@ -216,6 +274,66 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
+     * @return ?SaleServiceTariff
+     */
+    public function getSaleServiceTariff(): ?SaleServiceTariff
+    {
+        return $this->saleServiceTariff;
+    }
+
+    public function setSaleServiceTariff(SaleServiceTariff $saleServiceTariff): SaleDeliveryNote
+    {
+        $this->saleServiceTariff = $saleServiceTariff;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Vehicle
+     */
+    public function getVehicle(): ?Vehicle
+    {
+        return $this->vehicle;
+    }
+
+    public function setVehicle(Vehicle $vehicle): SaleDeliveryNote
+    {
+        $this->vehicle = $vehicle;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Vehicle
+     */
+    public function getSecondaryVehicle(): ?Vehicle
+    {
+        return $this->secondaryVehicle;
+    }
+
+    public function setSecondaryVehicle(Vehicle $secondaryVehicle): SaleDeliveryNote
+    {
+        $this->secondaryVehicle = $secondaryVehicle;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Operator
+     */
+    public function getOperator(): ?Operator
+    {
+        return $this->operator;
+    }
+
+    public function setOperator(Operator $operator): SaleDeliveryNote
+    {
+        $this->operator = $operator;
+
+        return $this;
+    }
+
+    /**
      * @return PartnerOrder
      */
     public function getOrder()
@@ -231,20 +349,17 @@ class SaleDeliveryNote extends AbstractBase
         $this->order = $order;
     }
 
-    /**
-     * @return int
-     */
-    public function getDeliveryNoteNumber()
+    public function getDeliveryNoteReference()
     {
-        return $this->deliveryNoteNumber;
+        return $this->deliveryNoteReference;
     }
 
     /**
-     * @param int $deliveryNoteNumber
+     * @param $deliveryNoteReference
      */
-    public function setDeliveryNoteNumber($deliveryNoteNumber): void
+    public function setDeliveryNoteReference($deliveryNoteReference): void
     {
-        $this->deliveryNoteNumber = $deliveryNoteNumber;
+        $this->deliveryNoteReference = $deliveryNoteReference;
     }
 
     /**
@@ -356,8 +471,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param ArrayCollection $saleInvoices
-     *
      * @return SaleDeliveryNote
      */
     public function setSaleInvoices(ArrayCollection $saleInvoices)
@@ -368,8 +481,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleInvoice $saleInvoice
-     *
      * @return $this
      */
     public function addSaleInvoice(SaleInvoice $saleInvoice)
@@ -382,8 +493,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleInvoice $saleInvoice
-     *
      * @return $this
      */
     public function removeSaleInvoice(SaleInvoice $saleInvoice)
@@ -417,8 +526,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleDeliveryNoteLine $saleDeliveryNoteLine
-     *
      * @return $this
      */
     public function addSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
@@ -432,8 +539,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleDeliveryNoteLine $saleDeliveryNoteLine
-     *
      * @return $this
      */
     public function removeSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
@@ -494,9 +599,95 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
+    public function getOperatorWorkRegisters(): Collection
+    {
+        return $this->operatorWorkRegisters;
+    }
+
     /**
-     * @return string
+     * @return $this
+     */
+    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters): SaleDeliveryNote
+    {
+        $this->operatorWorkRegisters = $operatorWorkRegisters;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
+    {
+        if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
+            $this->operatorWorkRegisters->add($operatorWorkRegister);
+            $operatorWorkRegister->setSaleDeliveryNote($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
+    {
+        if ($this->operatorWorkRegisters->contains($operatorWorkRegister)) {
+            $this->operatorWorkRegisters->removeElement($operatorWorkRegister);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getServiceDescription(): ?string
+    {
+        return $this->serviceDescription;
+    }
+
+    public function setServiceDescription(string $serviceDescription): SaleDeliveryNote
+    {
+        $this->serviceDescription = $serviceDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?string $place): SaleDeliveryNote
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getObservations(): ?string
+    {
+        return $this->observations;
+    }
+
+    public function setObservations(string $observations): SaleDeliveryNote
+    {
+        $this->observations = $observations;
+
+        return $this;
+    }
+
+    /**
      * @Groups({"api"})
+     *
+     * @return string
      */
     public function getDateToString()
     {
@@ -504,10 +695,82 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
+     * Custom getters without property.
+     */
+    public function getSaleRequestNumber(): ?int
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getId() : null;
+    }
+
+    public function getHourPrice(): ?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getHourPrice() : null;
+    }
+
+    public function getMiniumHours(): ?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHours() : null;
+    }
+
+    public function getDisplacement(): ?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getDisplacement() : null;
+    }
+
+    public function getMiniumHolidayHours(): ?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getMiniumHolidayHours() : null;
+    }
+
+    public function getIncreaseForHolidays(): ?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidays() : null;
+    }
+
+    public function getIncreaseForHolidaysPercentage(): ?float
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getIncreaseForHolidaysPercentage() : null;
+    }
+
+    public function getContactPersonName(): ?string
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonName() : null;
+    }
+
+    public function getContactPersonPhone(): ?string
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonPhone() : null;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->id ? $this->getDate()->format('d/m/Y').' · '.$this->getEnterprise().' · '.$this->getPartner() : '---';
+        return $this->id ? $this->getId().' - '.$this->getDeliveryNoteReference() : '---';
+    }
+
+    public function getSaleRequest(): ?SaleRequest
+    {
+        $value = null;
+        if ($this->getSaleRequestHasDeliveryNotes()->count() > 0) {
+            /** @var SaleRequestHasDeliveryNote $saleRequestHasDeliveryNote */
+            $saleRequestHasDeliveryNote = $this->getSaleRequestHasDeliveryNotes()->first();
+            if ($saleRequestHasDeliveryNote) {
+                $value = $saleRequestHasDeliveryNote->getSaleRequest();
+            }
+        }
+
+        return $value;
+    }
+
+    public function isInvoiced(): bool
+    {
+        $value = false;
+        if ($this->getSaleInvoices()->count() > 0) {
+            $value = true;
+        }
+
+        return $value;
     }
 }

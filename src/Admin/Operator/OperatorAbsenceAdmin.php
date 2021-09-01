@@ -64,7 +64,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'operator',
                 EntityType::class,
                 array(
-                    'label' => 'Operari',
+                    'label' => 'admin.label.operator',
                     'required' => true,
                     'class' => Operator::class,
                     'choice_label' => 'fullName',

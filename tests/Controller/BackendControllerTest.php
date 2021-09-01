@@ -42,7 +42,7 @@ class BackendControllerTest extends AbstractBaseTest
      *
      * @return array
      */
-    public function provideSuccessfulUrls()
+    public function provideSuccessfulUrls() : array
     {
         return [
             // Web
@@ -85,6 +85,9 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/operaris/imports-varis/list'],
             ['/admin/operaris/imports-varis/create'],
             ['/admin/operaris/imports-varis/1/edit'],
+            ['/admin/operaris/partes-trabajo/list'],
+            ['/admin/operaris/partes-trabajo/create'],
+            ['/admin/operaris/partes-trabajo/1/edit'],
             // Vehicle
             ['/admin/vehicles/vehicle/list'],
             ['/admin/vehicles/vehicle/create'],
@@ -114,6 +117,10 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/tercers/tercer/create'],
             ['/admin/tercers/tercer/1/edit'],
             ['/admin/tercers/tercer/1/delete'],
+            ['/admin/clientes/cliente/list'],
+            ['/admin/clientes/cliente/create'],
+            ['/admin/clientes/cliente/2/edit'],
+            ['/admin/clientes/cliente/2/delete'],
             ['/admin/tercers/comandes/list'],
             ['/admin/tercers/comandes/create'],
             ['/admin/tercers/comandes/1/edit'],
@@ -176,6 +183,12 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vendes/valoracio-peticio-albara/create'],
             ['/admin/vendes/valoracio-peticio-albara/1/edit'],
             ['/admin/vendes/valoracio-peticio-albara/1/delete'],
+            ['/admin/vendes/items/list'],
+            ['/admin/vendes/items/create'],
+            ['/admin/vendes/items/1/edit'],
+            ['/admin/vendes/serveis_tarifa/list'],
+            ['/admin/vendes/serveis_tarifa/create'],
+            ['/admin/vendes/serveis_tarifa/1/edit'],
             // Setting
             ['/admin/configuracio/provincia/list'],
             ['/admin/configuracio/provincia/create'],
@@ -191,6 +204,7 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/configuracio/series-factura/create'],
             ['/admin/configuracio/series-factura/1/edit'],
             ['/admin/configuracio/series-factura/1/delete'],
+            ['/admin/configuracion/franjas_horarias/list'],
         ];
     }
 
@@ -214,7 +228,7 @@ class BackendControllerTest extends AbstractBaseTest
      *
      * @return array
      */
-    public function provideNotFoundUrls()
+    public function provideNotFoundUrls() : array
     {
         return [
             // Web

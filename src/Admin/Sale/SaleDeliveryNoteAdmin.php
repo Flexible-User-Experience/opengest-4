@@ -5,11 +5,13 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\CollectionDocumentType;
+use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
-use App\Entity\Sale\SaleInvoice;
+use App\Entity\Sale\SaleServiceTariff;
+use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -21,10 +23,15 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PercentType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class SaleDeliveryNoteAdmin.
@@ -53,280 +60,521 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'date',
         '_sort_order' => 'DESC',
-    );
+    ];
 
     /**
      * Methods.
      */
 
     /**
-     * @param FormMapper $formMapper
-     *
      * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('General', $this->getFormMdSuccessBoxArray(4))
-                ->add(
-                    'deliveryNoteNumber',
-                    null,
-                    array(
-                        'label' => 'Número d\'albarà',
-                        'required' => true,
-                        'disabled' => true,
+                ->tab('Cabecera')
+                    ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(4))
+                    ->add(
+                        'id',
+                        null,
+                        [
+                            'label' => 'Id d\'albarà',
+                            'required' => true,
+                            'disabled' => true,
+                        ]
                     )
-                )
+                    ->end()
+                ->end()
+            ;
+        }
+        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
+            $formMapper
+                ->tab('Cabecera')
+                    ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(4))
+                    ->add(
+                        'saleRequestNumber',
+                        TextType::class,
+                        [
+                            'label' => 'Número de petició',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                    ->end()
                 ->end()
             ;
         }
         $formMapper
-            ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'date',
-                DatePickerType::class,
-                array(
-                    'label' => 'Data petició',
-                    'format' => 'd/m/Y',
-                    'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+            ->tab('Cabecera')
+                ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'date',
+                    DatePickerType::class,
+                    [
+                        'label' => 'Data',
+                        'format' => 'dd/MM/yyyy',
+                        'required' => true,
+                        'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    ]
                 )
-            )
-            ->add(
-                'partner',
-                ModelAutocompleteType::class,
-                array(
-                    'property' => 'name',
-                    'label' => 'Client',
-                    'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
+                ->add(
+                    'isInvoiced',
+                    BooleanType::class,
+                    [
+                        'label' => 'Facturado',
+                        'disabled' => true,
+                        'transform' => true,
+                    ]
                 )
-            )
-            ->add(
-                'buildingSite',
-                EntityType::class,
-                array(
-                    'class' => PartnerBuildingSite::class,
-                    'label' => 'Obra',
-                    'required' => false,
-                    'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                ->add(
+                    'partner',
+                    ModelAutocompleteType::class,
+                    [
+                        'property' => 'name',
+                        'label' => 'Client',
+                        'required' => true,
+                        'callback' => function ($admin, $property, $value) {
+                            /** @var Admin $admin */
+                            $datagrid = $admin->getDatagrid();
+                            /** @var QueryBuilder $queryBuilder */
+                            $queryBuilder = $datagrid->getQuery();
+                            $queryBuilder
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                            ;
+                            $datagrid->setValue($property, null, $value);
+                        },
+                    ],
+                    [
+                        'admin_code' => 'app.admin.partner',
+                    ]
                 )
-            )
-            ->add(
-                'order',
-                EntityType::class,
-                array(
-                    'class' => PartnerOrder::class,
-                    'label' => 'Comanda',
-                    'required' => false,
-                    'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
+                ->add(
+                    'cifNif',
+                    TextType::class,
+                    [
+                        'label' => 'CIF',
+                        'required' => false,
+                        'mapped' => false,
+                        'disabled' => true,
+                        'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    ]
                 )
-            )
-            ->end()
-            ->with('Import', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'baseAmount',
-                null,
-                array(
-                    'label' => 'Import base',
-                    'required' => true,
-                    'disabled' => true,
+                ->add(
+                    'deliveryNoteReference',
+                    null,
+                    [
+                        'label' => 'Referencia d\'albarà',
+                        'required' => true,
+                        'disabled' => false,
+                    ]
                 )
-            )
-            ->add(
-                'discount',
-                null,
-                array(
-                    'label' => 'Descompte',
-                    'required' => false,
+                ->add(
+                    'buildingSite',
+                    EntityType::class,
+                    [
+                        'class' => PartnerBuildingSite::class,
+                        'label' => 'Obra',
+                        'required' => false,
+                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                    ]
                 )
-            )
-            ->add(
-                'collectionDocument',
-                EntityType::class,
-                array(
-                    'class' => CollectionDocumentType::class,
-                    'label' => 'Tipus document cobrament',
-                    'required' => false,
-                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ->add(
+                    'order',
+                    EntityType::class,
+                    [
+                        'class' => PartnerOrder::class,
+                        'label' => 'Comanda',
+                        'required' => false,
+                        'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
+                    ]
                 )
-            )
-            ->add(
-                'collectionTerm',
-                null,
-                array(
-                    'label' => 'Venciment (dies)',
-                    'required' => false,
+                ->end()
+                ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'saleServiceTariff',
+                    EntityType::class,
+                    [
+                        'class' => SaleServiceTariff::class,
+                        'label' => 'admin.label.sale_serivce_tariff',
+                        'required' => true,
+                        'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                    ]
                 )
-            )
-            ->add(
-                'activityLine',
-                EntityType::class,
-                array(
-                    'class' => ActivityLine::class,
-                    'label' => 'Línia d\'activitat',
-                    'required' => false,
-                    'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ->add(
+                    'vehicle',
+                    EntityType::class,
+                    [
+                        'class' => Vehicle::class,
+                        'label' => 'admin.label.vehicle',
+                        'required' => false,
+                        'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
                 )
-            )
-            ->end()
-            ->with('Factures', $this->getFormMdSuccessBoxArray(4))
-//            ->add(
-//                'saleInvoices',
-//                EntityType::class,
-//                array(
-//                    'class' => SaleInvoice::class,
-//                    'label' => 'Factures',
-//                    'required' => false,
-//                    'multiple' => true,
-//                    'expanded' => true,
-//                    'query_builder' => $this->rm->getSaleInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
-////                    'by_reference' => false,
-//                )
-//            )
-            ->add(
-                'wontBeInvoiced',
-                CheckboxType::class,
-                array(
-                    'label' => 'No facturable',
-                    'required' => false,
+                ->add(
+                    'secondaryVehicle',
+                    EntityType::class,
+                    [
+                        'class' => Vehicle::class,
+                        'label' => 'admin.label.secondary_vehicle',
+                        'required' => false,
+                        'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
                 )
-            )
+                ->add(
+                    'operator',
+                    EntityType::class,
+                    [
+                        'class' => Operator::class,
+                        'label' => 'admin.label.operator',
+                        'required' => false,
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                )
+                ->add(
+                    'serviceDescription',
+                    TextareaType::class,
+                    [
+                        'label' => 'Descripció servei',
+                        'required' => true,
+                        'attr' => [
+                            'style' => 'resize: vertical',
+                            'rows' => 7,
+                        ],
+                    ]
+                )
+                ->add(
+                    'place',
+                    TextareaType::class,
+                    [
+                        'label' => 'Lloc',
+                        'required' => false,
+                        'attr' => [
+                            'style' => 'resize: vertical',
+                            'rows' => 3,
+                        ],
+                    ]
+                )
+                ->end()
             ->end()
         ;
+        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
+            $formMapper
+                ->tab('Cabecera')
+                    ->with('Tarifa', $this->getFormMdSuccessBoxArray(3))
+                    ->add(
+                        'miniumHours',
+                        NumberType::class,
+                        [
+                            'label' => 'admin.label.minimum_hours',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'hourPrice',
+                        NumberType::class,
+                        [
+                            'label' => 'admin.label.price_hour',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'displacement',
+                        NumberType::class,
+                        [
+                            'label' => 'admin.label.displacement',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'miniumHolidayHours',
+                        NumberType::class,
+                        [
+                            'label' => 'admin.label.minimum_holiday_hours',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'increaseForHolidays',
+                        NumberType::class,
+                        [
+                            'label' => 'admin.label.increase_for_holidays',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'increaseForHolidaysPercentage',
+                        PercentType::class,
+                        [
+                            'label' => 'admin.label.increase_for_holidays_percentage',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->end()
+                    ->with('admin.label.contact', $this->getFormMdSuccessBoxArray(3))
+                    ->add(
+                        'contactPersonName',
+                        TextType::class,
+                        [
+                            'label' => 'admin.label.contact_person_name',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'contactPersonPhone',
+                        TextType::class,
+                        [
+                            'label' => 'admin.label.contact_person_phone',
+                            'disabled' => true,
+                        ]
+                    )
+                    ->end()
+                ->end()
+                ;
+        }
+        $formMapper
+            ->tab('Cabecera')
+                ->with('Otros', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'activityLine',
+                    EntityType::class,
+                    [
+                        'class' => ActivityLine::class,
+                        'label' => 'Línia de actividad',
+                        'required' => false,
+                        'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                )
+                ->add(
+                    'wontBeInvoiced',
+                    CheckboxType::class,
+                    [
+                        'label' => 'No facturable',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'observations',
+                    TextareaType::class,
+                    [
+                        'label' => 'Observaciones',
+                        'required' => false,
+                        'attr' => [
+                            'style' => 'resize: vertical',
+                            'rows' => 3,
+                        ],
+                    ]
+                )
+                ->end()
+            ->end()
+        ;
+
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
-                ->with('Línies', $this->getFormMdSuccessBoxArray(12))
-                ->add(
-                    'saleDeliveryNoteLines',
-                    CollectionType::class,
-                    array(
-                        'required' => false,
-                        'error_bubbling' => true,
-                        'label' => false,
-                    ),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table',
+                ->tab('Líneas')
+                    ->with('Línies', $this->getFormMdSuccessBoxArray(9))
+                    ->add(
+                        'saleDeliveryNoteLines',
+                        CollectionType::class,
+                        [
+                            'required' => false,
+                            'error_bubbling' => true,
+                            'label' => false,
+                        ],
+                        [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ]
                     )
-                )
+                    ->end()
                 ->end()
             ;
         }
+        $formMapper
+            ->tab('Líneas')
+                ->with('Importe', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'baseAmount',
+                    null,
+                    [
+                        'label' => 'Importe base',
+                        'required' => true,
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
+                    'discount',
+                    null,
+                    [
+                        'label' => 'Descuento',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'collectionDocument',
+                    EntityType::class,
+                    [
+                        'class' => CollectionDocumentType::class,
+                        'label' => 'Documento de cobro',
+                        'required' => false,
+                        'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                )
+                ->add(
+                    'collectionTerm',
+                    null,
+                    [
+                        'label' => 'Vencimiento (dias)',
+                        'required' => false,
+                    ]
+                )
+                ->end()
+            ->end()
+            ->tab('Partes de trabajo')
+                ->with('Líneas', $this->getFormMdSuccessBoxArray(12))
+                    ->add(
+                        'operatorWorkRegisters',
+                        CollectionType::class,
+                        [
+                            'btn_add' => false,
+                            'type_options' => [
+                                'delete' => false,
+                            ],
+                            'required' => false,
+                            'error_bubbling' => true,
+                            'label' => false,
+                        ],
+                        [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ]
+                    )
+                ->end()
+            ->end()
+        ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-            $datagridMapper
-                ->add(
-                    'enterprise',
-                    null,
-                    array(
-                        'label' => 'Empresa',
-                    )
-                )
-            ;
-        }
+//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
+//            $datagridMapper
+//                ->add(
+//                    'enterprise',
+//                    null,
+//                    [
+//                        'label' => 'Empresa',
+//                    ]
+//                )
+//            ;
+//        }
         $datagridMapper
+            ->add(
+            'id',
+            null,
+                [
+                    'label' => 'Id',
+                ]
+            )
             ->add(
                 'date',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Data albarà',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
             ->add(
                 'partner',
                 ModelAutocompleteFilter::class,
-                array(
+                [
                     'label' => 'Client',
-                ),
+                    'admin_code' => 'partner_admin',
+                ],
                 null,
-                array(
+                [
                     'property' => 'name',
-                )
+                ]
             )
             ->add(
                 'buildingSite',
                 null,
-                array(
+                [
                     'label' => 'Obra',
-                )
+                ]
             )
             ->add(
                 'order',
                 null,
-                array(
+                [
                     'label' => 'Comanda',
-                )
+                ]
             )
             ->add(
-                'deliveryNoteNumber',
+                'serviceDescription',
                 null,
-                array(
-                    'label' => 'Número albarà',
-                )
+                [
+                    'label' => 'Descripción servicio',
+                ]
+            )
+            ->add(
+                'saleServiceTariff',
+                null,
+                [
+                    'label' => 'Tonelaje',
+                ]
+            )
+            ->add(
+                'deliveryNoteReference',
+                null,
+                [
+                    'label' => 'Referencia d\'albarà',
+                ]
             )
             ->add(
                 'baseAmount',
                 null,
-                array(
+                [
                     'label' => 'Import base',
-                )
+                ]
             )
             ->add(
                 'discount',
                 null,
-                array(
+                [
                     'label' => 'Descompte',
-                )
+                ]
             )
             ->add(
                 'collectionTerm',
                 null,
-                array(
+                [
                     'label' => 'Venciment',
-                )
+                ]
             )
             ->add(
                 'collectionDocument',
                 null,
-                array(
+                [
                     'label' => 'Tipus document cobrament',
-                )
+                ]
             )
             ->add(
                 'activityLine',
                 null,
-                array(
+                [
                     'label' => 'Línia activitat',
-                )
+                ]
             )
             ->add(
                 'wontBeInvoiced',
                 null,
-                array(
+                [
                     'label' => 'No facturable',
-                )
+                ]
             )
         ;
     }
@@ -355,9 +603,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
 //        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
@@ -373,54 +618,98 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 //        }
         $listMapper
             ->add(
-                'date',
+                'id',
                 null,
-                array(
-                    'label' => 'Data albarà',
-                    'format' => 'd/m/Y',
-                )
+                [
+                    'label' => 'Id',
+                ]
             )
             ->add(
-                'deliveryNoteNumber',
+                'saleRequest',
                 null,
-                array(
-                    'label' => 'Número albarà'
-                )
+                [
+                    'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
+                    'label' => 'Petición',
+                ]
+            )
+            ->add(
+                'date',
+                null,
+                [
+                    'label' => 'Data albarà',
+                    'format' => 'd/m/Y',
+                ]
             )
             ->add(
                 'partner',
                 null,
-                array(
+                [
                     'label' => 'Client',
-                )
+                    'admin_code' => 'partner_admin',
+                ]
+            )
+            ->add(
+                'deliveryNoteReference',
+                null,
+                [
+                    'label' => 'Referència d\'albarà',
+                ]
+            )
+            ->add(
+                'buildingSite',
+                null,
+                [
+                    'label' => 'Obra',
+                ]
+            )
+            ->add(
+                'order',
+                null,
+                [
+                    'label' => 'Pedido',
+                ]
+            )
+            ->add(
+                'saleServiceTariff',
+                null,
+                [
+                    'label' => 'Tonelaje',
+                ]
+            )
+            ->add(
+                'serviceDescription',
+                null,
+                [
+                    'label' => 'Descripción servicio',
+                ]
             )
             ->add(
                 'baseAmount',
                 null,
-                array(
+                [
                     'label' => 'Import base',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
-                'wontBeInvoiced',
-                null,
-                array(
-                    'label' => 'No facturable',
-                    'editable' => true,
-                )
+                'isInvoiced',
+                'boolean',
+                [
+                    'label' => 'Facturado',
+                    'transform' => true,
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }
@@ -433,7 +722,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     public function prePersist($object)
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setDeliveryNoteNumber($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
+        $object->setDeliveryNoteReference($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
     }
 
     /**
