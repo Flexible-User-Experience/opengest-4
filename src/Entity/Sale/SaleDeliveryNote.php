@@ -203,6 +203,7 @@ class SaleDeliveryNote extends AbstractBase
         $this->saleInvoices = new ArrayCollection();
         $this->saleDeliveryNoteLines = new ArrayCollection();
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
+        $this->operatorWorkRegisters = new ArrayCollection();
     }
 
     /**
@@ -677,7 +678,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this->observations;
     }
 
-    public function setObservations(string $observations): SaleDeliveryNote
+    public function setObservations($observations): SaleDeliveryNote
     {
         $this->observations = $observations;
 

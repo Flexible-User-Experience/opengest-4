@@ -1,0 +1,14 @@
+---
+- hosts: s8
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/vars/config.yml"
+  tasks:
+    - name: execute default create sale items to local database
+      shell: "php bin/console --env=prod app:create:sale:items"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute default create time ranges to local database
+      shell: "php bin/console --env=prod app:create:time:ranges"
+      args:
+        chdir: "{{ vhost_path }}/current/"
