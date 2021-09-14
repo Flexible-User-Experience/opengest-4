@@ -171,7 +171,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'Hora servei',
                     'required' => false,
-                    'minutes' => [0, 15, 30, 45],
+                    'widget' => 'single_text',
                 ]
             )
             ->add(
