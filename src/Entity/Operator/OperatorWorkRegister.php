@@ -23,19 +23,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class OperatorWorkRegister extends AbstractBase
 {
     /**
-     * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="workRegisters")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", inversedBy="operatorWorkRegisters")
      */
-    private Operator $operator;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(type="date")
-     * @Groups({"api"})
-     */
-    private DateTime $date;
+    private OperatorWorkRegisterHeader $operatorWorkRegisterHeader;
 
     /**
      * @var ?DateTime
@@ -54,24 +44,18 @@ class OperatorWorkRegister extends AbstractBase
     private ?DateTime $finish;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      * @Groups({"api"})
      */
     private float $units;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      * @Groups({"api"})
      */
     private float $priceUnit;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      * @Groups({"api"})
      */
@@ -97,43 +81,14 @@ class OperatorWorkRegister extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Operator
-     */
-    public function getOperator() : Operator
+    public function getOperatorWorkRegisterHeader(): OperatorWorkRegisterHeader
     {
-        return $this->operator;
+        return $this->operatorWorkRegisterHeader;
     }
 
-    /**
-     * @param Operator $operator
-     *
-     * @return OperatorWorkRegister
-     */
-    public function setOperator(Operator $operator) : OperatorWorkRegister
+    public function setOperatorWorkRegisterHeader(OperatorWorkRegisterHeader $operatorWorkRegisterHeader): OperatorWorkRegister
     {
-        $this->operator = $operator;
-
-        return $this;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getDate(): DateTime
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param DateTime $date
-     *
-     * @return OperatorWorkRegister
-     */
-    public function setDate(DateTime $date): OperatorWorkRegister
-    {
-        $this->date = $date;
+        $this->operatorWorkRegisterHeader = $operatorWorkRegisterHeader;
 
         return $this;
     }
@@ -146,11 +101,6 @@ class OperatorWorkRegister extends AbstractBase
         return $this->start;
     }
 
-    /**
-     * @param DateTime $start
-     *
-     * @return OperatorWorkRegister
-     */
     public function setStart(DateTime $start): OperatorWorkRegister
     {
         $this->start = $start;
@@ -166,11 +116,6 @@ class OperatorWorkRegister extends AbstractBase
         return $this->finish;
     }
 
-    /**
-     * @param DateTime $finish
-     *
-     * @return OperatorWorkRegister
-     */
     public function setFinish(DateTime $finish): OperatorWorkRegister
     {
         $this->finish = $finish;
@@ -178,19 +123,11 @@ class OperatorWorkRegister extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getUnits(): float
     {
         return $this->units;
     }
 
-    /**
-     * @param float $units
-     *
-     * @return OperatorWorkRegister
-     */
     public function setUnits(float $units): OperatorWorkRegister
     {
         $this->units = $units;
@@ -198,19 +135,11 @@ class OperatorWorkRegister extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getPriceUnit(): float
     {
         return $this->priceUnit;
     }
 
-    /**
-     * @param float $priceUnit
-     *
-     * @return OperatorWorkRegister
-     */
     public function setPriceUnit(float $priceUnit): OperatorWorkRegister
     {
         $this->priceUnit = $priceUnit;
@@ -218,19 +147,11 @@ class OperatorWorkRegister extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @param float $amount
-     *
-     * @return OperatorWorkRegister
-     */
     public function setAmount(float $amount): OperatorWorkRegister
     {
         $this->amount = $amount;
@@ -246,11 +167,6 @@ class OperatorWorkRegister extends AbstractBase
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return OperatorWorkRegister
-     */
     public function setDescription(string $description): OperatorWorkRegister
     {
         $this->description = $description;
@@ -258,19 +174,11 @@ class OperatorWorkRegister extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return SaleDeliveryNote|null
-     */
     public function getSaleDeliveryNote(): ?SaleDeliveryNote
     {
         return $this->saleDeliveryNote;
     }
 
-    /**
-     * @param SaleDeliveryNote|null $saleDeliveryNote
-     *
-     * @return OperatorWorkRegister
-     */
     public function setSaleDeliveryNote(?SaleDeliveryNote $saleDeliveryNote): OperatorWorkRegister
     {
         $this->saleDeliveryNote = $saleDeliveryNote;
@@ -281,8 +189,6 @@ class OperatorWorkRegister extends AbstractBase
 
     /**
      * @Assert\Callback
-     *
-     * @param ExecutionContextInterface $context
      */
     public function validate(ExecutionContextInterface $context)
     {
