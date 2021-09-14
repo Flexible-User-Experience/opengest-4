@@ -174,15 +174,15 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'widget' => 'single_text',
                 ]
             )
-            ->add(
-                'endServiceTime',
-                TimeType::class,
-                [
-                    'label' => 'Fi hora servei',
-                    'required' => false,
-                    'minutes' => [0, 15, 30, 45],
-                ]
-            )
+//            ->add(
+//                'endServiceTime',
+//                TimeType::class,
+//                [
+//                    'label' => 'Fi hora servei',
+//                    'required' => false,
+//                    'minutes' => [0, 15, 30, 45],
+//                ]
+//            )
 //            ->add(
 //                'mainAddress',
 //                TextType::class,
