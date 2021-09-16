@@ -76,6 +76,7 @@ admin:
         start: "Empieza"
         finish: "Termina"
         units: "Unidades"
+        hours: "Horas"
     with:
         general: "General"
         image: "Imatge"

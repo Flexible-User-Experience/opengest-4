@@ -186,6 +186,13 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'hours',
+                null,
+                [
+                    'label' => 'admin.label.hours',
+                ]
+            )
+            ->add(
                 '_action',
                 'actions',
                 [
