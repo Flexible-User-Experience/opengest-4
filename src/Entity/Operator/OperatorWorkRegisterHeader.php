@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class OperatorWorkRegisterHeader extends AbstractBase
 {
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="workRegisters")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="workRegisterHeaders")
      */
     private Operator $operator;
 
@@ -34,7 +34,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operator")
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operatorWorkRegisterHeader")
      */
     private $operatorWorkRegisters;
 
