@@ -11,6 +11,7 @@ use App\Entity\Setting\TimeRange;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use DateTime;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,12 +84,6 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                     $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
                     /** @var SaleDeliveryNote $saleDeliveryNote */
                     $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-//                    if ($saleDeliveryNoteId != '') {
-//                        /** @var SaleDeliveryNote $saleDeliveryNote */
-//                        $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-//                    } else {
-//                        $saleDeliveryNote = null;
-//                    }
                     $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $splitTimeRange['start'], $splitTimeRange['finish']);
                     $this->admin->getModelManager()->create($operatorWorkRegister);
                     $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
@@ -102,7 +97,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             ];
         }
 
-        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_create', $parameters));
+        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_create', $parameters));
     }
 
     /**
@@ -117,10 +112,6 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         if (!$operator) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorId));
         }
-//        $operatorWorkRegisters = $this->admin->getModelManager()->findBy(OperatorWorkRegister::class, [
-//            'operator' => $operator,
-//            'date' => $date,
-//        ]);
         /** @var OperatorWorkRegisterHeader $operatorWorkRegisterHeader */
         $operatorWorkRegisterHeader = $this->admin->getModelManager()->findOneBy(OperatorWorkRegisterHeader::class, [
             'operator' => $operator,
@@ -153,8 +144,8 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorWorkRegisterId));
         }
         $parameters = [
-            'operator' => $operatorWorkRegister->getOperator()->getId(),
-            'date' => $operatorWorkRegister->getDate()->format('d-m-Y'),
+            'operator' => $operatorWorkRegister->getOperatorWorkRegisterHeader()->getOperator()->getId(),
+            'date' => $operatorWorkRegister->getOperatorWorkRegisterHeader()->getDate()->format('d-m-Y'),
             'previousInputType' => 'hour',
         ];
         $this->admin->getModelManager()->delete($operatorWorkRegister);
@@ -217,9 +208,23 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
 
     private function createOperatorWorkRegister(Operator $operator, DateTime $date, $description, $units, $price, ?SaleDeliveryNote $saleDeliveryNote = null, $start = null, $finish = null)
     {
+        /** @var OperatorWorkRegisterHeader $operatorWorkRegisterHeader */
+        $operatorWorkRegisterHeader = $this->admin->getModelManager()->findOneBy(OperatorWorkRegisterHeader::class, [
+            'operator' => $operator,
+            'date' => $date,
+        ]);
+        try {
+            if (!$operatorWorkRegisterHeader) {
+                $operatorWorkRegisterHeader = new OperatorWorkRegisterHeader();
+                $operatorWorkRegisterHeader->setDate($date);
+                $operatorWorkRegisterHeader->setOperator($operator);
+                $this->admin->getModelManager()->create($operatorWorkRegisterHeader);
+            }
+        } catch (ModelManagerException $e) {
+            $this->addFlash('warning', 'No se ha podido crear la cabecera del parte de trabajo. Error: '.$e->getMessage());
+        }
         $operatorWorkRegister = new OperatorWorkRegister();
-        $operatorWorkRegister->setOperator($operator);
-        $operatorWorkRegister->setDate($date);
+        $operatorWorkRegister->setOperatorWorkRegisterHeader($operatorWorkRegisterHeader);
         $operatorWorkRegister->setDescription($description);
         $operatorWorkRegister->setUnits($units);
         $operatorWorkRegister->setPriceUnit($price);
