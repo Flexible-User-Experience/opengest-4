@@ -78,6 +78,30 @@ class OperatorWorkRegisterHeader extends AbstractBase
         return $this->operatorWorkRegisters;
     }
 
+    public function getTotalAmount(): float
+    {
+        $amount = 0;
+        /** @var OperatorWorkRegister $operatorWorkRegister */
+        foreach ($this->operatorWorkRegisters as $operatorWorkRegister) {
+            $amount = $amount + $operatorWorkRegister->getAmount();
+        }
+
+        return $amount;
+    }
+
+    public function getHours(): float
+    {
+        $hours = 0;
+        /** @var OperatorWorkRegister $operatorWorkRegister */
+        foreach ($this->operatorWorkRegisters as $operatorWorkRegister) {
+            if ($operatorWorkRegister->getStart()) {
+                $hours = $hours + $operatorWorkRegister->getUnits();
+            }
+        }
+
+        return $hours;
+    }
+
     /**
      * @return $this
      */

@@ -13,6 +13,8 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
  * Class OperatorWorkRegisterHeaderAdmin.
@@ -74,6 +76,22 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                         'required' => true,
                         'disabled' => true,
                         'widget' => 'single_text',
+                    ]
+                )
+                ->add(
+                    'totalAmount',
+                    MoneyType::class,
+                    [
+                        'label' => 'admin.label.total',
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
+                    'hours',
+                    NumberType::class,
+                    [
+                        'label' => 'admin.label.hours',
+                        'disabled' => true,
                     ]
                 )
                 ->add(
@@ -158,6 +176,13 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.date',
                     'format' => 'd/m/y',
+                ]
+            )
+            ->add(
+                'totalAmount',
+                null,
+                [
+                    'label' => 'admin.label.total',
                 ]
             )
             ->add(
