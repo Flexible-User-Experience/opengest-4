@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -52,7 +53,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     {
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjects
             $formMapper
-                ->with('General', $this->getFormMdSuccessBoxArray(6))
+                ->with('Parte de trabajo', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'operator',
                     EntityType::class,
@@ -73,6 +74,19 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                         'required' => true,
                         'disabled' => true,
                         'widget' => 'single_text',
+                    ]
+                )
+                ->add(
+                    'operatorWorkRegisters',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
                     ]
                 )
                 ->end();

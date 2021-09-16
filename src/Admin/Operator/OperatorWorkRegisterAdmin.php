@@ -145,14 +145,11 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 ->with('General', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'saleDeliveryNote',
-                    EntityType::class,
+                    null,
                     [
-                        'class' => SaleDeliveryNote::class,
-                        'label' => false,
+                        'label' => 'admin.with.delivery_note',
                         'required' => true,
-                        'attr' => [
-                            'hidden' => 'true',
-                        ],
+                        'disabled' => true,
                     ]
                 )
                 ->add(
