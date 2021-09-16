@@ -580,11 +580,16 @@ App\Entity\Sale\SaleItem:
         unitPrice: <randomFloat()>
         type: <numberBetween(0,2)>
 
+# OperatorWorkRegisterHeader
+App\Entity\Operator\OperatorWorkRegisterHeader:
+    operatorWorkRegisterHeader{1..5}:
+        operator: '@operator<numberBetween(1,2)>'
+        date: <dateTime()>
+
 # OperatorWorkRegister
 App\Entity\Operator\OperatorWorkRegister:
     operatorWorkRegister{1..5}:
-        operator: '@operator<numberBetween(1,2)>'
-        date: <dateTime()>
+        operatorWorkRegisterHeader: '@operatorWorkRegisterHeader<numberBetween(1,2)>'
         units: <randomNumber()>
         priceUnit: <randomFloat()>
         amount: <randomFloat()>

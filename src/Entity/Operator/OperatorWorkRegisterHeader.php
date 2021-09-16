@@ -41,6 +41,11 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->operatorWorkRegisters = new ArrayCollection();
+    }
+
     public function getOperator(): Operator
     {
         return $this->operator;
@@ -65,7 +70,10 @@ class OperatorWorkRegisterHeader extends AbstractBase
         return $this;
     }
 
-    public function getOperatorWorkRegisters(): ArrayCollection
+    /**
+     * @return ArrayCollection
+     */
+    public function getOperatorWorkRegisters()
     {
         return $this->operatorWorkRegisters;
     }
