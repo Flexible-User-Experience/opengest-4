@@ -35,10 +35,17 @@ services:
         arguments: [ ~, App\Entity\Operator\OperatorVariousAmount, App\Controller\Admin\Operator\OperatorVariousAmountAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Imports varis", group: "Operaris", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+    app.admin.operator_work_register_header:
+        class: App\Admin\Operator\OperatorWorkRegisterHeaderAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorWorkRegisterHeader,  ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Partes de trabajo", group: "Operaris", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTemplate, [ edit, "admin/operator-work-register-header/edit.html.twig" ] ]
     app.admin.operator_work_register:
         class: App\Admin\Operator\OperatorWorkRegisterAdmin
         arguments: [ ~, App\Entity\Operator\OperatorWorkRegister,  App\Controller\Admin\Operator\OperatorWorkRegisterAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Partes de trabajo", group: "Operaris", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Partes de trabajo líneas", group: "Operaris", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
             - [ setTemplate, [ edit, "admin/operator-work-register/edit.html.twig" ] ]

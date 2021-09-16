@@ -1,0 +1,11 @@
+{% extends 'admin/edit.html.twig' %}
+
+{% block sonata_admin_content %}
+    {% if objectId|default(admin.id(object)) is null %}
+        {% block notice %}
+            {{ parent() }}
+        {% endblock notice %}
+        {{ sonata_block_render({'type': 'app.block.operator_work_register_creation'}, { 'info': 'info'}) }}
+    {% endif %}
+{% endblock %}
+
