@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Operator;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
+use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\TimeRange;
 use App\Enum\OperatorWorkRegisterTimeEnum;
@@ -116,10 +117,20 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         if (!$operator) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorId));
         }
-        $operatorWorkRegisters = $this->admin->getModelManager()->findBy(OperatorWorkRegister::class, [
+//        $operatorWorkRegisters = $this->admin->getModelManager()->findBy(OperatorWorkRegister::class, [
+//            'operator' => $operator,
+//            'date' => $date,
+//        ]);
+        /** @var OperatorWorkRegisterHeader $operatorWorkRegisterHeader */
+        $operatorWorkRegisterHeader = $this->admin->getModelManager()->findOneBy(OperatorWorkRegisterHeader::class, [
             'operator' => $operator,
             'date' => $date,
         ]);
+        if (!$operatorWorkRegisterHeader) {
+            $operatorWorkRegisters = [];
+        } else {
+            $operatorWorkRegisters = $operatorWorkRegisterHeader->getOperatorWorkRegisters();
+        }
 
         $serializer = $this->container->get('serializer');
         $serializedOperatorWorkRegisters = $serializer->serialize($operatorWorkRegisters, 'json', ['groups' => ['api']]);
