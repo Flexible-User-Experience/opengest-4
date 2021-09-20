@@ -110,6 +110,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'class' => SaleServiceTariff::class,
                     'label' => 'admin.label.sale_serivce_tariff',
                     'required' => true,
+                    'placeholder' => '---seleccione una opción---',
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 ]
             )
