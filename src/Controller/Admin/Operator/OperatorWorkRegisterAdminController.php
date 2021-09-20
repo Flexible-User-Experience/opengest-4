@@ -57,6 +57,20 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
                 $this->admin->getModelManager()->create($operatorWorkRegister);
                 $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
+            } elseif ('other' === $inputType) {
+                $description = $request->query->get('custom_text_description');
+                $price = $request->query->get('amount');
+                $units = 1;
+                $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
+                if ('' != $saleDeliveryNoteId) {
+                    /** @var SaleDeliveryNote $saleDeliveryNote */
+                    $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
+                } else {
+                    $saleDeliveryNote = null;
+                }
+                $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
+                $this->admin->getModelManager()->create($operatorWorkRegister);
+                $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
             } elseif ('hour' === $inputType) {
                 $customStart = $request->query->get('custom_start');
                 $customFinish = $request->query->get('custom_finish');
