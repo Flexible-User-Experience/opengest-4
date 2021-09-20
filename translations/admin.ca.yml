@@ -76,6 +76,7 @@ admin:
         start: "Comença"
         finish: "Acaba"
         units: "Unitats"
+        hours: "Hores"
     with:
         general: "General"
         image: "Imatge"
@@ -90,6 +91,7 @@ admin:
         delivery_notes: "Albarans"
         sale_invoice: "Factura"
         delivery_note: "Albarà"
+        operator_work_register_header: "Parte de trabajo"
     action:
         print: "Imprimir"
         print_with_background: "Imprimir amb fons"
