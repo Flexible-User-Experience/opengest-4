@@ -34,7 +34,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operatorWorkRegisterHeader")
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operatorWorkRegisterHeader", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $operatorWorkRegisters;
 
@@ -105,7 +105,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function setWorkRegisters(ArrayCollection $operatorWorkRegisters): OperatorWorkRegisterHeader
+    public function setOperatorWorkRegisters(ArrayCollection $operatorWorkRegisters): OperatorWorkRegisterHeader
     {
         $this->operatorWorkRegisters = $operatorWorkRegisters;
 
@@ -115,7 +115,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function addWorkRegister(OperatorWorkRegister $operatorWorkRegister): OperatorWorkRegisterHeader
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): OperatorWorkRegisterHeader
     {
         if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->add($operatorWorkRegister);
@@ -128,7 +128,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function removeWorkRegister(OperatorWorkRegister $workRegister): OperatorWorkRegisterHeader
+    public function removeOperatorWorkRegister(OperatorWorkRegister $workRegister): OperatorWorkRegisterHeader
     {
         if ($this->operatorWorkRegisters->contains($workRegister)) {
             $this->operatorWorkRegisters->removeElement($workRegister);
