@@ -96,6 +96,7 @@ admin:
         print: "Imprimir"
         print_with_background: "Imprimir amb fons"
         to_count: "Compatbilitzar"
+        generate_delivery_note_from_selected: "Generate deivery note from selected lines"
     actions: "Accions"
 enum:
     sale_request_status:
