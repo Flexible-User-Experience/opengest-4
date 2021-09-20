@@ -151,7 +151,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         $this->admin->getModelManager()->delete($operatorWorkRegister);
         $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegisterId.' eliminado');
 
-        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregister_create', $parameters));
+        return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_create', $parameters));
     }
 
     private function getPriceFromItem(Operator $operator, $item)
