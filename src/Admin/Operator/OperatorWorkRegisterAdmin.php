@@ -189,7 +189,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'admin.label.units',
                         'required' => false,
-                        'disabled' => true,
+//                        'disabled' => true,
                     ]
                 )
                 ->add(
@@ -198,7 +198,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'admin.label.price_unit',
                         'required' => true,
-                        'disabled' => true,
+//                        'disabled' => true,
                     ]
                 )
                 ->add(
@@ -207,7 +207,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Total',
                         'required' => false,
-                        'disabled' => true,
+//                        'disabled' => true,
                     ]
                 )
                 ->end()
