@@ -100,6 +100,7 @@ class SaleRequestAdminController extends BaseAdminController
         $newSaleRequest = clone $saleRequest;
         $newSaleRequest->getServiceDate()->add(\DateInterval::createFromDateString('1 day'));
         $newSaleRequest->setStatus(0);
+        $newSaleRequest->setSaleRequestHasDeliveryNotes([]);
         $em->clear(SaleRequest::class);
         $em->persist($newSaleRequest);
         $em->flush();
