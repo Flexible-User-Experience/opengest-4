@@ -27,7 +27,7 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Tonatges';
+    protected $classnameLabel = 'admin.label.tonnages';
 
     /**
      * @var string
@@ -71,7 +71,7 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 'description',
                 null,
                 array(
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                 )
             )
             ->add(
@@ -85,12 +85,12 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 )
             )
             ->end()
-            ->with('Controls', $this->getFormMdSuccessBoxArray(6))
+            ->with('admin.with.controls', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'enabled',
                 CheckboxType::class,
                 array(
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled_male',
                     'required' => false,
                 )
             )
@@ -153,7 +153,7 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 array(
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled_male',
                     'editable' => true,
                 )
             )

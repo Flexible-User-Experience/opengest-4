@@ -104,6 +104,9 @@ admin:
         payment_document_type: "Tipo de documento de cobro"
         order: "Pedido"
         header: "Cabecera"
+        lines: "Líneas"
+        amount: "Importe"
+        tonnages: "Tonelajes"
     with:
         general: "General"
         image: "Imagen"

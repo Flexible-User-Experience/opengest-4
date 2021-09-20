@@ -376,7 +376,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
                 ->tab('Líneas')
-                    ->with('Línies', $this->getFormMdSuccessBoxArray(9))
+                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(9))
                     ->add(
                         'saleDeliveryNoteLines',
                         CollectionType::class,
@@ -396,7 +396,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         $formMapper
             ->tab('Líneas')
-                ->with('Importe', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'baseAmount',
                     null,
