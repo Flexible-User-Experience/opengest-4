@@ -589,6 +589,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'admin.label.vehicle',
+                ]
+            )
+            ->add(
                 'wontBeInvoiced',
                 null,
                 [
