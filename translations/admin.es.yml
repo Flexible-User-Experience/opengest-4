@@ -70,6 +70,7 @@ admin:
         contact: "Contacto"
         contact_person_name: "Persona de contacto"
         contact_person_phone: "Teléfono persona de contacto"
+        contact_person_email: "Email persona de contacto"
         irpf: "Retención (%)"
         iva: "Iva (%)"
         discount: "Descuento (%)"
