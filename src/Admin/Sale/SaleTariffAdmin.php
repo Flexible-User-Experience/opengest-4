@@ -243,7 +243,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
