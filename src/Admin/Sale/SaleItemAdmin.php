@@ -75,12 +75,12 @@ class SaleItemAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('Controls', $this->getFormMdSuccessBoxArray(6))
+            ->with('admin.with.controls', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'enabled',
                 CheckboxType::class,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled_male',
                     'required' => false,
                 ]
             )

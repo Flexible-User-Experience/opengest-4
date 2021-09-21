@@ -155,7 +155,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 'date',
                 DateFilter::class,
                 [
-                    'label' => 'Data albarà',
+                    'label' => 'admin.label.delivery_note_date',
                     'field_type' => DatePickerType::class,
                 ]
             )
@@ -202,7 +202,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

@@ -59,14 +59,14 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                     'class' => SaleItem::class,
                     'label' => 'admin.label.item',
                     'required' => true,
-                    'placeholder' => '--selecciona una opción---'
+                    'placeholder' => '--selecciona una opción---',
                 ]
             )
             ->add(
                 'description',
                 null,
                 [
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                     'required' => false,
                 ]
             )
@@ -74,7 +74,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 'units',
                 null,
                 [
-                    'label' => 'Unitats',
+                    'label' => 'admin.label.units',
                     'required' => false,
                 ]
             )
@@ -82,7 +82,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 'priceUnit',
                 null,
                 [
-                    'label' => 'Preu unitat',
+                    'label' => 'admin.label.price_unit',
                     'required' => true,
                 ]
             )
@@ -134,7 +134,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 'total',
                 null,
                 [
-                    'label' => 'Total',
+                    'label' => 'admin.label.total',
                     'required' => false,
                     'disabled' => true,
                 ]
@@ -150,56 +150,56 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 'deliveryNote',
                 null,
                 [
-                    'label' => 'Albarà',
+                    'label' => 'admin.label.delivery_note',
                 ]
             )
             ->add(
                 'units',
                 null,
                 [
-                    'label' => 'Unitats',
+                    'label' => 'admin.label.units',
                 ]
             )
             ->add(
                 'priceUnit',
                 null,
                 [
-                    'label' => 'Preu unitat',
+                    'label' => 'admin.label.price_unit',
                 ]
             )
             ->add(
                 'total',
                 null,
                 [
-                    'label' => 'Total',
+                    'label' => 'admin.label.total',
                 ]
             )
             ->add(
                 'discount',
                 null,
                 [
-                    'label' => 'Descompte',
+                    'label' => 'admin.label.discount',
                 ]
             )
             ->add(
                 'description',
                 null,
                 [
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                 ]
             )
             ->add(
                 'iva',
                 null,
                 [
-                    'label' => 'IVA',
+                    'label' => 'admin.label.IVA',
                 ]
             )
             ->add(
                 'irpf',
                 null,
                 [
-                    'label' => 'IRPF',
+                    'label' => 'admin.label.IRPF',
                 ]
             )
         ;

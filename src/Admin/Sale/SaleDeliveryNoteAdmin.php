@@ -89,7 +89,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'id',
                         null,
                         [
-                            'label' => 'Id d\'albarà',
+                            'label' => 'admin.label.delivery_note_id',
                             'required' => true,
                             'disabled' => true,
                         ]
@@ -106,7 +106,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'saleRequestNumber',
                         TextType::class,
                         [
-                            'label' => 'Número de petició',
+                            'label' => 'admin.label.sale_request_id',
                             'required' => false,
                             'disabled' => true,
                         ]
@@ -122,7 +122,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'date',
                     DatePickerType::class,
                     [
-                        'label' => 'Data',
+                        'label' => 'admin.label.date',
                         'format' => 'dd/MM/yyyy',
                         'required' => true,
                         'dp_default_date' => (new \DateTime())->format('d/m/Y'),
@@ -132,7 +132,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'isInvoiced',
                     BooleanType::class,
                     [
-                        'label' => 'Facturado',
+                        'label' => 'admin.label.invoiced',
                         'disabled' => true,
                         'transform' => true,
                     ]
@@ -142,7 +142,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     ModelAutocompleteType::class,
                     [
                         'property' => 'name',
-                        'label' => 'Client',
+                        'label' => 'admin.label.partner',
                         'required' => true,
                         'callback' => function ($admin, $property, $value) {
                             /** @var Admin $admin */
@@ -164,7 +164,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'cifNif',
                     TextType::class,
                     [
-                        'label' => 'CIF',
+                        'label' => 'admin.label.CIF',
                         'required' => false,
                         'mapped' => false,
                         'disabled' => true,
@@ -175,7 +175,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'deliveryNoteReference',
                     null,
                     [
-                        'label' => 'Referencia d\'albarà',
+                        'label' => 'admin.label.delivery_note_reference',
                         'required' => true,
                         'disabled' => false,
                     ]
@@ -185,7 +185,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     EntityType::class,
                     [
                         'class' => PartnerBuildingSite::class,
-                        'label' => 'Obra',
+                        'label' => 'admin.label.partner_building_site',
                         'required' => false,
                         'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
                     ]
@@ -195,7 +195,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     EntityType::class,
                     [
                         'class' => PartnerOrder::class,
-                        'label' => 'Comanda',
+                        'label' => 'admin.label.order',
                         'required' => false,
                         'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
                     ]
@@ -246,7 +246,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'serviceDescription',
                     TextareaType::class,
                     [
-                        'label' => 'Descripció servei',
+                        'label' => 'admin.label.service_description',
                         'required' => true,
                         'attr' => [
                             'style' => 'resize: vertical',
@@ -258,7 +258,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'place',
                     TextareaType::class,
                     [
-                        'label' => 'Lloc',
+                        'label' => 'admin.label.place',
                         'required' => false,
                         'attr' => [
                             'style' => 'resize: vertical',
@@ -359,7 +359,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     EntityType::class,
                     [
                         'class' => ActivityLine::class,
-                        'label' => 'Línia de actividad',
+                        'label' => 'admin.label.activity_line',
                         'required' => false,
                         'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                     ]
@@ -368,7 +368,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'wontBeInvoiced',
                     CheckboxType::class,
                     [
-                        'label' => 'No facturable',
+                        'label' => 'admin.label.no_invoice',
                         'required' => false,
                     ]
                 )
@@ -376,7 +376,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'observations',
                     TextareaType::class,
                     [
-                        'label' => 'Observaciones',
+                        'label' => 'admin.label.comments',
                         'required' => false,
                         'attr' => [
                             'style' => 'resize: vertical',
@@ -391,7 +391,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
                 ->tab('Líneas')
-                    ->with('Línies', $this->getFormMdSuccessBoxArray(9))
+                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(9))
                     ->add(
                         'saleDeliveryNoteLines',
                         CollectionType::class,
@@ -411,12 +411,12 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         $formMapper
             ->tab('Líneas')
-                ->with('Importe', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'baseAmount',
                     null,
                     [
-                        'label' => 'Importe base',
+                        'label' => 'admin.label.base_amount',
                         'required' => true,
                         'disabled' => true,
                     ]
@@ -425,7 +425,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'discount',
                     null,
                     [
-                        'label' => 'Descuento',
+                        'label' => 'admin.label.discount',
                         'required' => false,
                     ]
                 )
@@ -434,7 +434,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     EntityType::class,
                     [
                         'class' => CollectionDocumentType::class,
-                        'label' => 'Documento de cobro',
+                        'label' => 'admin.label.payment_document',
                         'required' => false,
                         'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                     ]
@@ -443,7 +443,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'collectionTerm',
                     null,
                     [
-                        'label' => 'Vencimiento (dias)',
+                        'label' => 'admin.label.expiry_days',
                         'required' => false,
                     ]
                 )
@@ -498,7 +498,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'date',
                 DateFilter::class,
                 [
-                    'label' => 'Data albarà',
+                    'label' => 'admin.label.delivery_note_date',
                     'field_type' => DatePickerType::class,
                 ]
             )
@@ -506,7 +506,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelAutocompleteFilter::class,
                 [
-                    'label' => 'Client',
+                    'label' => 'admin.label.partner',
                     'admin_code' => 'partner_admin',
                 ],
                 null,
@@ -518,77 +518,77 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'buildingSite',
                 null,
                 [
-                    'label' => 'Obra',
+                    'label' => 'admin.label.partner_building_site',
                 ]
             )
             ->add(
                 'order',
                 null,
                 [
-                    'label' => 'Comanda',
+                    'label' => 'admin.label.order',
                 ]
             )
             ->add(
                 'serviceDescription',
                 null,
                 [
-                    'label' => 'Descripción servicio',
+                    'label' => 'admin.label.service_description',
                 ]
             )
             ->add(
                 'saleServiceTariff',
                 null,
                 [
-                    'label' => 'Tonelaje',
+                    'label' => 'admin.label.tonnage',
                 ]
             )
             ->add(
                 'deliveryNoteReference',
                 null,
                 [
-                    'label' => 'Referencia d\'albarà',
+                    'label' => 'admin.label.delivery_note_reference',
                 ]
             )
             ->add(
                 'baseAmount',
                 null,
                 [
-                    'label' => 'Import base',
+                    'label' => 'admin.label.base_amount',
                 ]
             )
             ->add(
                 'discount',
                 null,
                 [
-                    'label' => 'Descompte',
+                    'label' => 'admin.label.discount',
                 ]
             )
             ->add(
                 'collectionTerm',
                 null,
                 [
-                    'label' => 'Venciment',
+                    'label' => 'admin.label.expiry_date',
                 ]
             )
             ->add(
                 'collectionDocument',
                 null,
                 [
-                    'label' => 'Tipus document cobrament',
+                    'label' => 'admin.label.payment_document_type',
                 ]
             )
             ->add(
                 'activityLine',
                 null,
                 [
-                    'label' => 'Línia activitat',
+                    'label' => 'admin.label.activity_line',
                 ]
             )
             ->add(
                 'wontBeInvoiced',
                 null,
                 [
-                    'label' => 'No facturable',
+                    'label' => 'admin.label.no_invoice',
                 ]
             )
         ;
@@ -644,14 +644,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
-                    'label' => 'Petición',
+                    'label' => 'admin.label.sale_request',
                 ]
             )
             ->add(
                 'date',
                 null,
                 [
-                    'label' => 'Data albarà',
+                    'label' => 'admin.label.delivery_note_date',
                     'format' => 'd/m/Y',
                 ]
             )
@@ -659,7 +659,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'partner',
                 null,
                 [
-                    'label' => 'Client',
+                    'label' => 'admin.label.partner',
                     'admin_code' => 'partner_admin',
                 ]
             )
@@ -667,42 +667,42 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'deliveryNoteReference',
                 null,
                 [
-                    'label' => 'Referència d\'albarà',
+                    'label' => 'admin.label.delivery_note_reference',
                 ]
             )
             ->add(
                 'buildingSite',
                 null,
                 [
-                    'label' => 'Obra',
+                    'label' => 'admin.label.partner_building_site',
                 ]
             )
             ->add(
                 'order',
                 null,
                 [
-                    'label' => 'Pedido',
+                    'label' => 'admin.label.order',
                 ]
             )
             ->add(
                 'saleServiceTariff',
                 null,
                 [
-                    'label' => 'Tonelaje',
+                    'label' => 'admin.label.tonnage',
                 ]
             )
             ->add(
                 'serviceDescription',
                 null,
                 [
-                    'label' => 'Descripción servicio',
+                    'label' => 'admin.label.service_description',
                 ]
             )
             ->add(
                 'baseAmount',
                 null,
                 [
-                    'label' => 'Import base',
+                    'label' => 'admin.label.base_amount',
                     'editable' => false,
                 ]
             )
@@ -710,7 +710,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'isInvoiced',
                 'boolean',
                 [
-                    'label' => 'Facturado',
+                    'label' => 'admin.label.invoiced',
                     'transform' => true,
                 ]
             )
@@ -724,7 +724,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'pdf' => ['template' => 'admin/buttons/list__action_pdf_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

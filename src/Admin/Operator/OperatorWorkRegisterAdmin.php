@@ -115,7 +115,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     'amount',
                     null,
                     [
-                        'label' => 'Total',
+                        'label' => 'admin.label.total',
                         'required' => false,
                         'disabled' => true,
                     ]
@@ -134,7 +134,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     'enabled',
                     CheckboxType::class,
                     [
-                        'label' => 'Actiu',
+                        'label' => 'admin.label.enabled_male',
                         'required' => false,
                     ]
                 )
@@ -205,7 +205,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     'amount',
                     null,
                     [
-                        'label' => 'Total',
+                        'label' => 'admin.label.total',
                         'required' => false,
                         'disabled' => true,
                     ]
@@ -222,7 +222,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled_male',
                 ]
             )
         ;
@@ -272,28 +272,28 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 'priceUnit',
                 null,
                 [
-                    'label' => 'Preu unitat',
+                    'label' => 'admin.label.price_unit',
                 ]
             )
             ->add(
                 'amount',
                 null,
                 [
-                    'label' => 'Total',
+                    'label' => 'admin.label.total',
                 ]
             )
             ->add(
                 'description',
                 null,
                 [
-                    'label' => 'Observacions',
+                    'label' => 'admin.label.comments',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled_male',
                     'editable' => true,
                 ]
             )
@@ -305,7 +305,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

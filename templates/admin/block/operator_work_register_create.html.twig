@@ -16,7 +16,7 @@
                 <div class="box-body">
                     <div class="form-group" id="sonata-ba-field-container-custom_date">
                         <label class="control-label required" for="custom_date">
-                            Data
+                            Fecha
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural">
                             <div class="input-group">
@@ -89,11 +89,11 @@
                     </div>
                     <div class="form-group" id="sonata-ba-field-container-custom_sale_delivery_note">
                         <label class="control-label" for="custom_sale_delivery_note">
-                            Albaràn
+                            Albarán
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
                             <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
-                                <option value="">---selecione un albaràn---</option>
+                                <option value="">---selecione un albarán---</option>
                                 {% for deliveryNote in content.saleDeliveryNotes %}
                                 <option value="{{ deliveryNote.id }}">{{ deliveryNote }}</option>
                                 {% endfor %}
@@ -126,7 +126,7 @@
                             Termina
                         </label>
                         <label class="warning hidden" style="color: red" id="label_warning_finish_before_start">
-                            Debe ser más tarde que el tiempo de inicio
+                            Debe ser más posterior al momento de inicio
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural">
                             <input type="time" id="custom_finish" name="custom_finish" class=" form-control">
