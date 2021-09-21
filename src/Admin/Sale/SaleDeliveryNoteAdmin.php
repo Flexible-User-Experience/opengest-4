@@ -21,6 +21,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\BooleanType;
@@ -68,6 +69,12 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function configureRoutes(RouteCollection $collection)
+    {
+        $collection
+            ->add('pdf', $this->getRouterIdParameter().'/pdf')
+        ;
+    }
 
     /**
      * @throws Exception
@@ -706,6 +713,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',

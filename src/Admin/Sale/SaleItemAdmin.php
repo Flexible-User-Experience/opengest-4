@@ -8,7 +8,6 @@ use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -45,13 +44,6 @@ class SaleItemAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        parent::configureRoutes($collection);
-        $collection
-            ->remove('delete')
-        ;
-    }
 
     /**
      * @throws Exception
@@ -149,7 +141,6 @@ class SaleItemAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
-                    'editable' => true,
                 ]
             )
             ->add(
@@ -157,7 +148,6 @@ class SaleItemAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.unit_price',
-                    'editable' => true,
                 ]
             )
             ->add(
@@ -173,7 +163,8 @@ class SaleItemAdmin extends AbstractBaseAdmin
                 'actions',
                 [
                     'actions' => [
-                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_sale_item_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_sale_item_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
