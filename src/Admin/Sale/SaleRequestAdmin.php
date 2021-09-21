@@ -396,6 +396,14 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
+            ->add(
+                'contactPersonEmail',
+                TextType::class,
+                [
+                    'label' => 'Email persona contacte',
+                    'required' => false,
+                ]
+            )
 //            ->add(
 //                'invoiceTo',
 //                ModelAutocompleteType::class,

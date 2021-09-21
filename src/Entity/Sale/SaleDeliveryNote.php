@@ -743,6 +743,11 @@ class SaleDeliveryNote extends AbstractBase
         return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonPhone() : null;
     }
 
+    public function getContactPersonEmail(): ?string
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonEmail() : null;
+    }
+
     /**
      * @return string
      */

@@ -339,6 +339,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             'disabled' => true,
                         ]
                     )
+                    ->add(
+                        'contactPersonEmail',
+                        TextType::class,
+                        [
+                            'label' => 'admin.label.contact_person_email',
+                            'disabled' => true,
+                        ]
+                    )
                     ->end()
                 ->end()
                 ;

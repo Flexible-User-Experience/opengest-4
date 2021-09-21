@@ -60,6 +60,13 @@ class SaleRequest extends AbstractBase
     private $contactPersonPhone;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $contactPersonEmail;
+
+    /**
      * @var Partner
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner")
@@ -792,9 +799,24 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setContactPersonPhone($contactPersonPhone)
+    public function setContactPersonPhone($contactPersonPhone): SaleRequest
     {
         $this->contactPersonPhone = $contactPersonPhone;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getContactPersonEmail(): ?string
+    {
+        return $this->contactPersonEmail;
+    }
+
+    public function setContactPersonEmail(string $contactPersonEmail): SaleRequest
+    {
+        $this->contactPersonEmail = $contactPersonEmail;
 
         return $this;
     }
