@@ -120,45 +120,49 @@ class SaleDeliveryNotePdfManager
         //$pdf->Cell(21, ConstantsEnum::PDF_CELL_HEIGHT, 'EMPRESA', 0, 0, 'L', true);
         //CLIENT
         $this->pdfEngineService->setStyleSize('', 9);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getPartner()->getName(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getName(), 0, 0, 'L', false);
         //CIF
         $pdf->setXY($total, 46);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 18);
         $this->pdfEngineService->setStyleSize('', 9);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getPartner()->getCifNif(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getCifNif(), 0, 0, 'L', false);
         //Telf
         $pdf->setXY($total, 46);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 85);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getPartner()->getPhoneNumber1(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getPhoneNumber1(), 0, 0, 'L', false);
         //Dirección
         $pdf->setXY($total, 52);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getPartner()->getMainAddress(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getMainAddress(), 0, 0, 'L', false);
         //Población
         $pdf->setXY($total, 59);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getSaleRequest()->getPartner()->getMainCityName(), 0, 30), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getPartner()->getMainCity(), 0, 30), 0, 0, 'L', false);
+
         //Provincia
+        $pdf->setXY($total, 65);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getPartner()->getMainCityName(), 0, 30), 0, 0, 'L', false);
 
         //Forma de pago
         $pdf->setXY($total, 65);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 95);
-        $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getSaleRequest()->getPartner()->getClass()->getName()), 0, 0, 'L', false); // TODO not reading properly attribute
+        $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getPartner()->getClass()->getName()), 0, 0, 'L', false); // TODO not reading properly attribute
 
         //Vehículo
         $pdf->setXY($total, 71);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getSaleRequest()->getVehicle()), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()), 0, 0, 'L', false);
 
         //Operario
         $pdf->setXY($total, 71);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 85);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getOperator()->getShortFullName(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getOperator()->getShortFullName(), 0, 0, 'L', false);
 
         //Fecha de servicio
         $pdf->setXY($total, 77);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceDateString(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getDateToString(), 0, 0, 'L', false);
 
         //Hora
         $pdf->setXY($total, 77);
@@ -168,120 +172,142 @@ class SaleDeliveryNotePdfManager
         //Persona de contacto
         $pdf->setXY($total, 83);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 28);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getPartner()->getMainContactName(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getMainContactName(), 0, 0, 'L', false);
 
         //Móvil
         $pdf->setXY($total, 83);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 82);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getPhoneNumber2(), 0, 0, 'L', false);
 
         //Servicio a realizar
         $pdf->setXY($total, 89);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceDescription(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getServiceDescription(), 0, 0, 'L', false);
 
         //Lugar de trabajo
-        $pdf->setXY($total, 85);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getPlace(), 0, 0, 'L', false);
+        $pdf->setXY($total, 96);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 23);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPlace(), 0, 0, 'L', false);
 
         //Observaciones
-        $pdf->setXY($total, 91);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
-        $pdf->MultiCell($availableHoritzontalSpace, 2 * ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getObservations(), 0, 'L', false, 1, '', '', true, 0, false, true, 2 * ConstantsEnum::PDF_CELL_HEIGHT);
+        $pdf->setXY($total, 103);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 22);
+        $pdf->MultiCell($availableHoritzontalSpace, 2 * ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getObservations(), 0, 'L', false, 1, '', '', true, 0, false, true, 2 * ConstantsEnum::PDF_CELL_HEIGHT);
 
         //Hora entrada (precio/h normal)
-        $pdf->setXY($total, 125);
+        $pdf->setXY($total, 120);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Hora salida (precio/h normal)
-        $pdf->setXY($total, 125);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 44);
+        $pdf->setXY($total, 120);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 46);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Total horas (precio/h normal)
-        $pdf->setXY($total, 125);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 64);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 120);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 63);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Precio/hora (precio/h normal)
-        $pdf->setXY($total, 125);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 84);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 120);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 86);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Total (precio/h normal)
-        $pdf->setXY($total, 125);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 104);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 120);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 110);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Hora entrada (precio/h laboral)
-        $pdf->setXY($total, 131);
+        $pdf->setXY($total, 128);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Hora salida (precio/h laboral)
-        $pdf->setXY($total, 131);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 44);
+        $pdf->setXY($total, 128);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 46);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Total horas (precio/h laboral)
-        $pdf->setXY($total, 131);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 64);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 128);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 63);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Precio/hora (precio/h laboral)
-        $pdf->setXY($total, 131);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 84);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 128);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 86);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Total (precio/h laboral)
-        $pdf->setXY($total, 131);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 104);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 128);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 110);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Hora entrada (precio/h extra)
-        $pdf->setXY($total, 137);
+        $pdf->setXY($total, 136);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Hora salida (precio/h extra)
-        $pdf->setXY($total, 137);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 44);
+        $pdf->setXY($total, 136);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 46);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Total horas (precio/h extra)
-        $pdf->setXY($total, 137);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 64);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 136);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 63);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Precio/hora (precio/h extra)
-        $pdf->setXY($total, 137);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 84);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 136);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 86);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Total (precio/h extra)
-        $pdf->setXY($total, 137);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 104);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 136);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 110);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Desplazamiento horas
-        $pdf->setXY($total, 137);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 104);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
+        $pdf->setXY($total, 144);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 63);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Desplazamiento precio/hora
+        $pdf->setXY($total, 144);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 86);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Desplazamiento total
+        $pdf->setXY($total, 144);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 110);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Suma horas
+        $pdf->setXY($total, 152);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 63);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Suma total
+        $pdf->setXY($total, 152);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 110);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getBaseAmount(), 0, 0, 'C', true);
 
         //IVA
+        $pdf->setXY($total, 161);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 110);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Total final
+        $pdf->setXY($total, 169);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 110);
+        $pdf->Cell(20, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'C', true);
 
         //Nº Albarán
+        $pdf->setXY($total, 200);
+        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 10);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getId(), 0, 0, 'L', false);
 
         /*$pdf->setX($pdf->GetX() + 2);
         $this->pdfEngineService->setStyleSize('B', 9);
