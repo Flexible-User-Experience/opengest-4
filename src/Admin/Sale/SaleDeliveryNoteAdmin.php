@@ -339,6 +339,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             'disabled' => true,
                         ]
                     )
+                    ->add(
+                        'contactPersonEmail',
+                        TextType::class,
+                        [
+                            'label' => 'admin.label.contact_person_email',
+                            'disabled' => true,
+                        ]
+                    )
                     ->end()
                 ->end()
                 ;
@@ -499,7 +507,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -567,6 +575,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.payment_document_type',
+                ],
+                null,
+                [
+                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
             ->add(
@@ -574,6 +586,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.activity_line',
+                ]
+            )
+            ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(

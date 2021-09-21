@@ -397,28 +397,36 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'invoiceTo',
-                ModelAutocompleteType::class,
+                'contactPersonEmail',
+                TextType::class,
                 [
-                    'property' => 'name',
-                    'label' => 'admin.label.invoice_to',
+                    'label' => 'Email persona contacte',
                     'required' => false,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                ],
-                [
-                'admin_code' => 'app.admin.partner',
                 ]
             )
+//            ->add(
+//                'invoiceTo',
+//                ModelAutocompleteType::class,
+//                [
+//                    'property' => 'name',
+//                    'label' => 'Facturar a',
+//                    'required' => false,
+//                    'callback' => function ($admin, $property, $value) {
+//                        /** @var Admin $admin */
+//                        $datagrid = $admin->getDatagrid();
+//                        /** @var QueryBuilder $queryBuilder */
+//                        $queryBuilder = $datagrid->getQuery();
+//                        $queryBuilder
+//                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+//                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
+//                        ;
+//                        $datagrid->setValue($property, null, $value);
+//                    },
+//                ],
+//                [
+//                'admin_code' => 'app.admin.partner',
+//                ]
+//            )
             ->end()
             ->with('admin.label.others', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -495,7 +503,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
