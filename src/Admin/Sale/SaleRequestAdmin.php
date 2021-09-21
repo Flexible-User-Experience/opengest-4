@@ -396,29 +396,29 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->add(
-                'invoiceTo',
-                ModelAutocompleteType::class,
-                [
-                    'property' => 'name',
-                    'label' => 'Facturar a',
-                    'required' => false,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                ],
-                [
-                'admin_code' => 'app.admin.partner',
-                ]
-            )
+//            ->add(
+//                'invoiceTo',
+//                ModelAutocompleteType::class,
+//                [
+//                    'property' => 'name',
+//                    'label' => 'Facturar a',
+//                    'required' => false,
+//                    'callback' => function ($admin, $property, $value) {
+//                        /** @var Admin $admin */
+//                        $datagrid = $admin->getDatagrid();
+//                        /** @var QueryBuilder $queryBuilder */
+//                        $queryBuilder = $datagrid->getQuery();
+//                        $queryBuilder
+//                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+//                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
+//                        ;
+//                        $datagrid->setValue($property, null, $value);
+//                    },
+//                ],
+//                [
+//                'admin_code' => 'app.admin.partner',
+//                ]
+//            )
             ->end()
             ->with('Altres', $this->getFormMdSuccessBoxArray(3))
             ->add(
