@@ -145,11 +145,12 @@ class SaleDeliveryNote extends AbstractBase
     private $wontBeInvoiced = false;
 
     /**
-     * @var ArrayCollection
+     * @var ?SaleInvoice
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sale\SaleInvoice", mappedBy="deliveryNotes")
+     * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
+     * @ORM\JoinColumn (nullable=true)
      */
-    private $saleInvoices;
+    private ?SaleInvoice $saleInvoice;
 
     /**
      * @var ArrayCollection
@@ -200,7 +201,6 @@ class SaleDeliveryNote extends AbstractBase
      */
     public function __construct()
     {
-        $this->saleInvoices = new ArrayCollection();
         $this->saleDeliveryNoteLines = new ArrayCollection();
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
         $this->operatorWorkRegisters = new ArrayCollection();
@@ -464,19 +464,21 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return ArrayCollection
+     * @return ?SaleInvoice
      */
-    public function getSaleInvoices()
+    public function getSaleInvoice(): ?SaleInvoice
     {
-        return $this->saleInvoices;
+        return $this->saleInvoice;
     }
 
     /**
+     * @param SaleInvoice $saleInvoice
+     *
      * @return SaleDeliveryNote
      */
-    public function setSaleInvoices(ArrayCollection $saleInvoices)
+    public function setSaleInvoice(SaleInvoice $saleInvoice): SaleDeliveryNote
     {
-        $this->saleInvoices = $saleInvoices;
+        $this->saleInvoice = $saleInvoice;
 
         return $this;
     }

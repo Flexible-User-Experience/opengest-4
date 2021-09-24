@@ -23,10 +23,10 @@ class SaleInvoice extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleInvoices")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
      * @Groups({"api"})
      */
-    private $deliveryNotes;
+    private ArrayCollection $deliveryNotes;
 
     /**
      * @var DateTime
@@ -92,7 +92,7 @@ class SaleInvoice extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getDeliveryNotes()
+    public function getDeliveryNotes(): ArrayCollection
     {
         return $this->deliveryNotes;
     }
@@ -102,7 +102,7 @@ class SaleInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function setDeliveryNotes($deliveryNotes)
+    public function setDeliveryNotes(ArrayCollection $deliveryNotes): ArrayCollection
     {
         $this->deliveryNotes = $deliveryNotes;
 
@@ -114,7 +114,7 @@ class SaleInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function addDeliveryNote($deliveryNote)
+    public function addDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
     {
         if (!$this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->add($deliveryNote);
@@ -128,7 +128,7 @@ class SaleInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function removeDeliveryNote($deliveryNote)
+    public function removeDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
     {
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
