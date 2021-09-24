@@ -7,6 +7,7 @@ use App\Entity\Partner\Partner;
 use App\Entity\Setting\SaleInvoiceSeries;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -21,12 +22,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class SaleInvoice extends AbstractBase
 {
     /**
-     * @var ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
      * @Groups({"api"})
      */
-    private ArrayCollection $deliveryNotes;
+    private Collection $deliveryNotes;
 
     /**
      * @var DateTime
@@ -90,19 +91,19 @@ class SaleInvoice extends AbstractBase
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getDeliveryNotes(): ArrayCollection
+    public function getDeliveryNotes(): Collection
     {
         return $this->deliveryNotes;
     }
 
     /**
-     * @param ArrayCollection $deliveryNotes
+     * @param Collection $deliveryNotes
      *
      * @return $this
      */
-    public function setDeliveryNotes(ArrayCollection $deliveryNotes): ArrayCollection
+    public function setDeliveryNotes(Collection $deliveryNotes): SaleInvoice
     {
         $this->deliveryNotes = $deliveryNotes;
 

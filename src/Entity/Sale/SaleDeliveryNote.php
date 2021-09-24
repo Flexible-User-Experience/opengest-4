@@ -484,31 +484,6 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return $this
-     */
-    public function addSaleInvoice(SaleInvoice $saleInvoice)
-    {
-        if (!$this->saleInvoices->contains($saleInvoice)) {
-            $this->saleInvoices->add($saleInvoice);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function removeSaleInvoice(SaleInvoice $saleInvoice)
-    {
-        if ($this->saleInvoices->contains($saleInvoice)) {
-            $this->saleInvoices->removeElement($saleInvoice);
-            $saleInvoice->setDeliveryNotes(null);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return ArrayCollection
      */
     public function getSaleDeliveryNoteLines()
@@ -775,7 +750,7 @@ class SaleDeliveryNote extends AbstractBase
     public function isInvoiced(): bool
     {
         $value = false;
-        if ($this->getSaleInvoices()->count() > 0) {
+        if ($this->getSaleInvoice()) {
             $value = true;
         }
 

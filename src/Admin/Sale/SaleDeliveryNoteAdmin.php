@@ -77,6 +77,23 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     }
 
     /**
+     * @param array $actions
+     *
+     * @return array
+     */
+    public function configureBatchActions($actions)
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generateSaleInvoiceFromDeliveryNotes'] = [
+                'label' => 'admin.action.generate_invoice_from_selected',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
+    }
+
+    /**
      * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)

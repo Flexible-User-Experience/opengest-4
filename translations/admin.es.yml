@@ -128,6 +128,7 @@ admin:
         print_with_background: "Imprimir con fondo"
         to_count: "Contabilizar"
         generate_delivery_note_from_selected: "Generar albaranes de les peticiones marcadas"
+        generate_invoice_from_selected: "Facturar los albaranes selecionados"
     actions: "Acciones"
 enum:
     sale_request_status:
