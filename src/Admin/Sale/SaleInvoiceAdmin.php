@@ -168,7 +168,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'class' => SaleDeliveryNote::class,
                         'multiple' => true,
-                        'expanded' => true,
                         'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
                         'by_reference' => false,
                     ]
