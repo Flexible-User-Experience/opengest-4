@@ -140,11 +140,18 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
         $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNote->getEnterprise());
         $saleInvoice->setInvoiceNumber($lastSaleInvoice->getInvoiceNumber() + 1);
+        $saleInvoice->setDeliveryNotes($deliveryNotes);
         try {
             $this->admin->getModelManager()->create($saleInvoice);
+            foreach ($deliveryNotes as $deliveryNote) {
+                $deliveryNote->setSaleInvoice($saleInvoice);
+                $this->admin->getModelManager()->update($deliveryNote);
+            }
             $this->addFlash('success', 'Factura con numero '.$saleInvoice->getInvoiceNumber().' creada.' );
         } catch (ModelManagerException $e) {
             $this->addFlash('error', 'Error al facturar los albaranes: '.$e->getMessage(). $e->getFile() );
+
+            return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         }
     }
 }

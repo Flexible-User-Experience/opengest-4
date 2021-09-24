@@ -676,6 +676,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'saleInvoice',
+                null,
+                [
+                    'template' => 'admin/cells/list__cell_sale_invoice_sale_delivery_note.html.twig',
+                    'label' => 'admin.with.sale_invoice',
+                ]
+            )
+            ->add(
                 'date',
                 null,
                 [

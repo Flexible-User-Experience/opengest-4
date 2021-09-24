@@ -148,7 +148,6 @@ class SaleDeliveryNote extends AbstractBase
      * @var ?SaleInvoice
      *
      * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
-     * @ORM\JoinColumn (nullable=true)
      */
     private ?SaleInvoice $saleInvoice;
 
@@ -472,11 +471,11 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param SaleInvoice $saleInvoice
+     * @param ?SaleInvoice $saleInvoice
      *
      * @return SaleDeliveryNote
      */
-    public function setSaleInvoice(SaleInvoice $saleInvoice): SaleDeliveryNote
+    public function setSaleInvoice(?SaleInvoice $saleInvoice): SaleDeliveryNote
     {
         $this->saleInvoice = $saleInvoice;
 
