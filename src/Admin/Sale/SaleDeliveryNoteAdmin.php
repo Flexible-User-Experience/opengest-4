@@ -525,6 +525,12 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.delivery_note_date',
                     'field_type' => DatePickerType::class,
+                    'format' => 'd/m/Y',
+                ],
+                null,
+                [
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
                 ]
             )
             ->add(

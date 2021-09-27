@@ -598,27 +598,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.service_description',
                 ]
             )
-//            ->add(
-//                'height',
-//                null,
-//                array(
-//                    'label' => 'Alçada',
-//                )
-//            )
-//            ->add(
-//                'distance',
-//                null,
-//                array(
-//                    'label' => 'Distància',
-//                )
-//            )
-//            ->add(
-//                'weight',
-//                null,
-//                array(
-//                    'label' => 'Pes',
-//                )
-//            )
             ->add(
                 'place',
                 null,
@@ -626,13 +605,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.place',
                 ]
             )
-//            ->add(
-//                'utensils',
-//                null,
-//                array(
-//                    'label' => 'Utensilis',
-//                )
-//            )
             ->add(
                 'observations',
                 null,
@@ -646,6 +618,12 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.sale_request_date',
                     'field_type' => DatePickerType::class,
+                    'format' => 'd/m/Y',
+                ],
+                null,
+                [
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
                 ]
             )
             ->add(
@@ -654,6 +632,12 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.service_date',
                     'field_type' => DatePickerType::class,
+                    'format' => 'd/m/Y',
+                ],
+                null,
+                [
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
                 ]
             )
         ;
