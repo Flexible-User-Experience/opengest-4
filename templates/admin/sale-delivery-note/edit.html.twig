@@ -103,3 +103,11 @@
         });
     </script>
 {% endblock %}
+
+{% block sonata_form_actions %}
+    {% if form.saleInvoice.vars.data %}
+        <b>No se puede modificar un albaràn facturado.</b>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
