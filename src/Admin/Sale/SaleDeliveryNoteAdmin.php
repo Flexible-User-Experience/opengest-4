@@ -77,6 +77,23 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     }
 
     /**
+     * @param array $actions
+     *
+     * @return array
+     */
+    public function configureBatchActions($actions)
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generateSaleInvoiceFromDeliveryNotes'] = [
+                'label' => 'admin.action.generate_invoice_from_selected',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
+    }
+
+    /**
      * @throws Exception
      */
     protected function configureFormFields(FormMapper $formMapper)
@@ -656,6 +673,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 [
                     'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
                     'label' => 'admin.label.sale_request',
+                ]
+            )
+            ->add(
+                'saleInvoice',
+                null,
+                [
+                    'template' => 'admin/cells/list__cell_sale_invoice_sale_delivery_note.html.twig',
+                    'label' => 'admin.with.sale_invoice',
                 ]
             )
             ->add(

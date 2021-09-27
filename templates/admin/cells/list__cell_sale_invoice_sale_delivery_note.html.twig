@@ -1,0 +1,11 @@
+{% extends "@SonataAdmin/CRUD/base_list_field.html.twig" %}
+
+{% trans_default_domain 'admin' %}
+
+{% block field %}
+    {% if object.saleInvoice %}
+        <a href="{{ path('admin_app_sale_saleinvoice_edit', { 'id': object.saleInvoice.id }) }}">
+            {{ object.saleInvoice.invoiceNumber }}
+        </a>
+    {% endif %}
+{% endblock %}
