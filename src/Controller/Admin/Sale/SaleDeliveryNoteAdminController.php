@@ -104,7 +104,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
             if (null === $deliveryNote->getPartner()) {
-                $this->addFlash('error', 'El albarán con referencia: '.$deliveryNote->getDeliveryNoteReference().' no tiene cliente asignado.');
+                $this->addFlash('warning', 'El albarán con referencia: '.$deliveryNote->getDeliveryNoteReference().' no tiene cliente asignado.');
 
                 return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
             }

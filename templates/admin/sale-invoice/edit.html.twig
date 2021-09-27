@@ -87,7 +87,11 @@
                             <tbody>
                             {% for deliveryNote in object.deliveryNotes %}
                                 <tr>
-                                    <th>{{ deliveryNote.deliveryNoteReference }}</th>
+                                    <th>
+                                        <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': deliveryNote.id }) }}">
+                                            {{ deliveryNote.deliveryNoteReference }}
+                                        </a>
+                                    </th>
                                     <th>{{ deliveryNote.date|date('d/m/Y') }}</th>
                                     <th>{{ deliveryNote.baseAmount }}</th>
                                     <th>{{ deliveryNote.discount }}</th>
