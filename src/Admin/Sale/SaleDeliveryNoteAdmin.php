@@ -155,6 +155,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->add(
+                    'saleInvoice',
+                    TextType::class,
+                    [
+                        'label' => 'admin.with.sale_invoice',
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
                     'partner',
                     ModelAutocompleteType::class,
                     [
