@@ -10,8 +10,6 @@ use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Service\GuardService;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use DoctrineExtensions\Types\CarbonDateType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -75,14 +73,13 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($sdnps->outputSingle($saleDeliveryNote), 200, ['Content-type' => 'application/pdf']);
     }
 
-
     /**
      * @return Response|RedirectResponse
      */
     public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery)
     {
         $this->admin->checkAccess('edit');
-        $selectedModels = $selectedModelQuery->execute()    ;
+        $selectedModels = $selectedModelQuery->execute();
         $saleDeliveryNotesWithSaleInvoice = [];
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($selectedModels as $saleDeliveryNote) {
@@ -95,10 +92,10 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         } else {
-            $this->generateSaleInvoiceFromSaleDeliveryNotes($selectedModels);
+            $return = $this->generateSaleInvoiceFromSaleDeliveryNotes($selectedModels);
         }
 
-        return new RedirectResponse($this->generateUrl('admin_app_sale_saleinvoice_list'));
+        return $return;
     }
 
     public function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes)
@@ -106,16 +103,26 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $partnerIds = [];
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
-            if(!in_array($deliveryNote->getPartner()->getId(), $partnerIds)) {
+            if (null === $deliveryNote->getPartner()) {
+                $this->addFlash('error', 'El albarán con referencia: '.$deliveryNote->getDeliveryNoteReference().' no tiene cliente asignado.');
+
+                return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+            }
+            if (!in_array($deliveryNote->getPartner()->getId(), $partnerIds)) {
                 $partnerIds[] = $deliveryNote->getPartner()->getId();
             }
         }
-        foreach($partnerIds as $partnerId) {
+        $saleInvoiceIds = [];
+        foreach ($partnerIds as $partnerId) {
             $partnerDeliveryNotes = array_filter($deliveryNotes, function (SaleDeliveryNote $deliveryNote) use ($partnerId) {
                 return $deliveryNote->getPartner()->getId() === $partnerId;
             });
-            $this->generateSaleInvoiceFromPartnerSaleDeliveryNotes($partnerDeliveryNotes);
+            $saleInvoice = $this->generateSaleInvoiceFromPartnerSaleDeliveryNotes($partnerDeliveryNotes);
+            $saleInvoiceIds[] = $saleInvoice->getInvoiceNumber();
         }
+        $this->addFlash('success', 'Factura/s con numero '.implode(', ', $saleInvoiceIds).' creada/s.');
+
+        return new RedirectResponse($this->generateUrl('admin_app_sale_saleinvoice_list'));
     }
 
     public function generateSaleInvoiceFromPartnerSaleDeliveryNotes($deliveryNotes)
@@ -128,11 +135,11 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoice->setType(1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
         /** @var SaleInvoiceSeries $saleInvoiceSerie */
-        $saleInvoiceSeries = $this->admin->getModelManager()->findOneBy(SaleInvoiceSeries::class, [ 'id' => 1]);
+        $saleInvoiceSeries = $this->admin->getModelManager()->findOneBy(SaleInvoiceSeries::class, ['id' => 1]);
         $saleInvoice->setSeries($saleInvoiceSeries);
         $totalAmount = 0;
         /** @var SaleDeliveryNote $deliveryNote */
-        foreach($deliveryNotes as $deliveryNote) {
+        foreach ($deliveryNotes as $deliveryNote) {
             $totalAmount = $totalAmount + $deliveryNote->getBaseAmount();
         }
         $saleInvoice->setTotal($totalAmount);
@@ -147,9 +154,10 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
                 $deliveryNote->setSaleInvoice($saleInvoice);
                 $this->admin->getModelManager()->update($deliveryNote);
             }
-            $this->addFlash('success', 'Factura con numero '.$saleInvoice->getInvoiceNumber().' creada.' );
+
+            return $saleInvoice;
         } catch (ModelManagerException $e) {
-            $this->addFlash('error', 'Error al facturar los albaranes: '.$e->getMessage(). $e->getFile() );
+            $this->addFlash('error', 'Error al facturar los albaranes: '.$e->getMessage().$e->getFile());
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         }
