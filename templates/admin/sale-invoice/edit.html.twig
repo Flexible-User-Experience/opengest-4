@@ -78,23 +78,63 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Núm. albarà</th>
-                                    <th>Data albarà</th>
-                                    <th>Import base</th>
-                                    <th>Descompte</th>
+                                    <th>Núm. albarán</th>
+                                    <th>Fecha</th>
+                                    <th>Importe base</th>
+                                    <th>Total con impuestos y retenciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for deliveryNote in object.deliveryNotes %}
                                 <tr>
-                                    <th>
+                                    <td>
                                         <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': deliveryNote.id }) }}">
                                             {{ deliveryNote.deliveryNoteReference }}
                                         </a>
-                                    </th>
-                                    <th>{{ deliveryNote.date|date('d/m/Y') }}</th>
-                                    <th>{{ deliveryNote.baseAmount }}</th>
-                                    <th>{{ deliveryNote.discount }}</th>
+                                    </td>
+                                    <td>{{ deliveryNote.date|date('d/m/Y') }}</td>
+                                    <td>{{ deliveryNote.baseAmount }}</td>
+                                    <td>{{ deliveryNote.discount }}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                   <td colspan="3">
+                                       <table class="table">
+                                           <thead>
+                                               <tr>
+                                                   <th>Item</th>
+                                                   <th>Descripción</th>
+                                                   <th>Unidades</th>
+                                                   <th>Precio unidad (€)</th>
+                                                   <th>Descuento linea (%)</th>
+                                                   <th>Descuento albarán (%)</th>
+                                                   <th>Descuento factura (%)</th>
+                                                   <th>Descuento total (%)</th>
+                                                   <th>Total base</th>
+                                                   <th>Iva</th>
+                                                   <th>Irpf</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody>
+                                           {% for deliveryNoteLine in deliveryNote.saleDeliveryNoteLines %}
+                                               <tr>
+                                                   <td>{{ deliveryNoteLine.saleItem }}</td>
+                                                   <td>{{ deliveryNoteLine.description }}</td>
+                                                   <td>{{ deliveryNoteLine.units }}</td>
+                                                   <td>{{ deliveryNoteLine.priceUnit }}</td>
+                                                   <td>{{ deliveryNoteLine.discount }}</td>
+                                                   <td>{{ deliveryNote.discount }}</td>
+                                                   <td>Desc. factura</td>
+                                                   <td>{{ (1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100))*100 }}</td>
+                                                   <td>{{ deliveryNoteLine.total*(1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100)) }}</td>
+                                                   <td>{{ deliveryNoteLine.iva }}</td>
+                                                   <td>{{ deliveryNoteLine.irpf }}</td>
+                                               </tr>
+                                           {%  endfor %}
+                                           </tbody>
+                                       </table>
+                                   </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
