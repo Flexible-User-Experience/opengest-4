@@ -438,11 +438,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ->tab('Líneas')
                 ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'baseAmount',
-                    null,
+                    'totalLines',
+                    NumberType::class,
                     [
-                        'label' => 'admin.label.base_amount',
-                        'required' => true,
+                        'label' => 'admin.label.total_lines',
                         'disabled' => true,
                     ]
                 )
@@ -452,6 +451,15 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'admin.label.discount',
                         'required' => false,
+                    ]
+                )
+                ->add(
+                    'baseAmount',
+                    null,
+                    [
+                        'label' => 'admin.label.base_amount',
+                        'required' => true,
+                        'disabled' => true,
                     ]
                 )
                 ->add(

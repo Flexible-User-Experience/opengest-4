@@ -102,6 +102,7 @@ admin:
         no_invoice: "No facturable"
         invoiced: "Facturado"
         base_amount: "Importe base"
+        total_lines: "Total líneas"
         payment_document_type: "Tipo de documento de cobro"
         order: "Pedido"
         header: "Cabecera"

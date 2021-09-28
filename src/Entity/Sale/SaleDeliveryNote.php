@@ -722,6 +722,17 @@ class SaleDeliveryNote extends AbstractBase
         return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonEmail() : null;
     }
 
+    public function getTotalLines(): float
+    {
+        $totalPrice = 0;
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal();
+            $totalPrice = $totalPrice + $subtotal;
+        }
+
+        return $totalPrice;
+    }
+
     /**
      * @return string
      */
