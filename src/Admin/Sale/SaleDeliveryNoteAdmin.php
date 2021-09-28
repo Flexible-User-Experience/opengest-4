@@ -769,12 +769,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'actions',
                 [
                     'actions' => [
-                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+//                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'pdf' => ['template' => 'admin/buttons/list__action_pdf_button.html.twig'],
-                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_sale_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
+                    'header_style' => 'width:120px;',
                 ]
             )
         ;
@@ -800,13 +801,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         /** @var SaleDeliveryNoteLine $deliveryNoteLine */
         foreach ($object->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
             $base = $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() - ($deliveryNoteLine->getDiscount() * $deliveryNoteLine->getPriceUnit() * $deliveryNoteLine->getUnits() / 100);
-            $iva = $base * ($deliveryNoteLine->getIva() / 100);
-            $irpf = $base * ($deliveryNoteLine->getIrpf() / 100);
-            $deliveryNoteLine->setTotal($base + $iva - $irpf);
+//            $iva = $base * ($deliveryNoteLine->getIva() / 100);
+//            $irpf = $base * ($deliveryNoteLine->getIrpf() / 100);
+//            $deliveryNoteLine->setTotal($base + $iva - $irpf);
+            $deliveryNoteLine->setTotal($base);
             $subtotal = $deliveryNoteLine->getTotal();
             $totalPrice = $totalPrice + $subtotal;
         }
-        $object->setBaseAmount($totalPrice);
+        $object->setBaseAmount($totalPrice * (1 - $object->getDiscount() / 100));
 
         $this->em->flush();
     }

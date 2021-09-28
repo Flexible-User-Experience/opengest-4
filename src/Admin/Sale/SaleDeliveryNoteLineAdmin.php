@@ -95,6 +95,15 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'total',
+                null,
+                [
+                    'label' => 'admin.label.total',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            )
+            ->add(
                 'iva',
                 null,
                 [
@@ -128,15 +137,6 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                     'attr' => [
                         'hidden' => 'true',
                     ],
-                ]
-            )
-            ->add(
-                'total',
-                null,
-                [
-                    'label' => 'admin.label.total',
-                    'required' => false,
-                    'disabled' => true,
                 ]
             )
             ->end()
