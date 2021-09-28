@@ -166,7 +166,7 @@ class SaleDeliveryNote extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist", "remove"})
      */
     private Collection $operatorWorkRegisters;
 
@@ -472,8 +472,6 @@ class SaleDeliveryNote extends AbstractBase
 
     /**
      * @param ?SaleInvoice $saleInvoice
-     *
-     * @return SaleDeliveryNote
      */
     public function setSaleInvoice(?SaleInvoice $saleInvoice): SaleDeliveryNote
     {
