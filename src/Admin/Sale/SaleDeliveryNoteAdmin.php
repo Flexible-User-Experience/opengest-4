@@ -463,6 +463,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->add(
+                    'finalTotal',
+                    NumberType::class,
+                    [
+                        'label' => 'admin.label.final_total_with_taxes',
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
                     'collectionDocument',
                     EntityType::class,
                     [

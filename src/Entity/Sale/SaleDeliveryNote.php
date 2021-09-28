@@ -733,6 +733,18 @@ class SaleDeliveryNote extends AbstractBase
         return $totalPrice;
     }
 
+    public function getFinalTotal(): float
+    {
+        $finalTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * (1 + $deliveryNoteLine->getIva() / 100 - $deliveryNoteLine->getIrpf() / 100);
+            $finalTotal = $finalTotal + $subtotal;
+        }
+
+        return $finalTotal;
+    }
+
     /**
      * @return string
      */

@@ -103,6 +103,7 @@ admin:
         invoiced: "Facturado"
         base_amount: "Importe base"
         total_lines: "Total líneas"
+        final_total_with_taxes: "Total final con impuestos y retenciones"
         payment_document_type: "Tipo de documento de cobro"
         order: "Pedido"
         header: "Cabecera"
