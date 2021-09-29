@@ -148,6 +148,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'discount',
+                null,
+                [
+                    'label' => 'admin.label.discount',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'hasBeenCounted',
                 null,
                 [

@@ -70,6 +70,27 @@ class SaleInvoice extends AbstractBase
     private $total;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $baseTotal;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $irpf = 0;
+
+    /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
@@ -260,6 +281,42 @@ class SaleInvoice extends AbstractBase
     public function setTotal($total)
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getBaseTotal(): float
+    {
+        return $this->baseTotal;
+    }
+
+    public function setBaseTotal(float $baseTotal): SaleInvoice
+    {
+        $this->baseTotal = $baseTotal;
+
+        return $this;
+    }
+
+    public function getIva(): float
+    {
+        return $this->iva;
+    }
+
+    public function setIva(float $iva): SaleInvoice
+    {
+        $this->iva = $iva;
+
+        return $this;
+    }
+
+    public function getIrpf(): float
+    {
+        return $this->irpf;
+    }
+
+    public function setIrpf(float $irpf): SaleInvoice
+    {
+        $this->irpf = $irpf;
 
         return $this;
     }

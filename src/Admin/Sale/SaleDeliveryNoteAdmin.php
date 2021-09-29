@@ -816,7 +816,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $totalPrice = 0;
         /** @var SaleDeliveryNoteLine $deliveryNoteLine */
         foreach ($object->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-            $base = $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() - ($deliveryNoteLine->getDiscount() * $deliveryNoteLine->getPriceUnit() * $deliveryNoteLine->getUnits() / 100);
+            $base = $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() * (1 - $deliveryNoteLine->getDiscount() / 100);
 //            $iva = $base * ($deliveryNoteLine->getIva() / 100);
 //            $irpf = $base * ($deliveryNoteLine->getIrpf() / 100);
 //            $deliveryNoteLine->setTotal($base + $iva - $irpf);
