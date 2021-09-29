@@ -22,8 +22,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class SaleInvoice extends AbstractBase
 {
     /**
-     * @var Collection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
      * @Groups({"api"})
      */
@@ -79,6 +77,13 @@ class SaleInvoice extends AbstractBase
     private $hasBeenCounted = false;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $discount = 0;
+
+    /**
      * Methods.
      */
 
@@ -90,17 +95,12 @@ class SaleInvoice extends AbstractBase
         $this->deliveryNotes = new ArrayCollection();
     }
 
-    /**
-     * @return Collection
-     */
     public function getDeliveryNotes(): Collection
     {
         return $this->deliveryNotes;
     }
 
     /**
-     * @param Collection $deliveryNotes
-     *
      * @return $this
      */
     public function setDeliveryNotes(Collection $deliveryNotes): SaleInvoice
@@ -111,8 +111,6 @@ class SaleInvoice extends AbstractBase
     }
 
     /**
-     * @param SaleDeliveryNote $deliveryNote
-     *
      * @return $this
      */
     public function addDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
@@ -126,8 +124,6 @@ class SaleInvoice extends AbstractBase
     }
 
     /**
-     * @param SaleDeliveryNote $deliveryNote
-     *
      * @return $this
      */
     public function removeDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
@@ -302,6 +298,22 @@ class SaleInvoice extends AbstractBase
         $this->hasBeenCounted = $hasBeenCounted;
 
         return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param float $discount
+     */
+    public function setDiscount($discount): void
+    {
+        $this->discount = $discount;
     }
 
     /**
