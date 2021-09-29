@@ -142,6 +142,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         foreach ($deliveryNotes as $deliveryNote) {
             $totalAmount = $totalAmount + $deliveryNote->getBaseAmount();
         }
+        // TODO calculate correcly total amount wiht appliable discounts
         $saleInvoice->setTotal($totalAmount);
         /** @var SaleInvoiceRepository $saleInvoiceRepository */
         $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
