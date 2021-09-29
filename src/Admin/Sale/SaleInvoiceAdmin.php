@@ -139,12 +139,43 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'baseTotal',
+                null,
+                [
+                    'label' => 'admin.label.base_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                ]
+            )
+            ->add(
+                'iva',
+                null,
+                [
+                    'label' => 'admin.label.iva_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                ]
+            )
+            ->add(
+                'irpf',
+                null,
+                [
+                    'label' => 'admin.label.irpf_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                ]
+            )
+            ->add(
                 'total',
                 null,
                 [
                     'label' => 'admin.label.total',
                     'required' => false,
                     'disabled' => true,
+                    'scale' => 2,
                 ]
             )
             ->add(

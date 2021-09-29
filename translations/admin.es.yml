@@ -73,6 +73,8 @@ admin:
         contact_person_email: "Email persona de contacto"
         irpf: "Retención (%)"
         iva: "Iva (%)"
+        irpf_amount: "Retención (€)"
+        iva_amount: "Iva (€)"
         discount: "Descuento (%)"
         start: "Empieza"
         finish: "Termina"

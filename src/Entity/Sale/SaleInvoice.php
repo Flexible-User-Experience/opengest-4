@@ -285,7 +285,7 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
-    public function getBaseTotal(): float
+    public function getBaseTotal(): ?float
     {
         return $this->baseTotal;
     }
@@ -297,7 +297,7 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
-    public function getIva(): float
+    public function getIva(): ?float
     {
         return $this->iva;
     }
@@ -309,7 +309,7 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
-    public function getIrpf(): float
+    public function getIrpf(): ?float
     {
         return $this->irpf;
     }

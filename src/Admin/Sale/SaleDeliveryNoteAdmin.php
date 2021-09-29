@@ -460,6 +460,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'label' => 'admin.label.base_amount',
                         'required' => true,
                         'disabled' => true,
+                        'scale' => 2,
                     ]
                 )
                 ->add(
@@ -468,6 +469,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'admin.label.final_total_with_taxes',
                         'disabled' => true,
+                        'scale' => 2,
                     ]
                 )
                 ->add(
