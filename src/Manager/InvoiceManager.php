@@ -48,21 +48,21 @@ class InvoiceManager
         $irpf = 0;
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
-            $baseAmount += $deliveryNote->getBaseAmount();
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-                $baseLineAmount = $deliveryNoteLine->getTotal() * (1 - $deliveryNote->getDiscount() / 100);
+                $baseLineAmount = $deliveryNoteLine->getTotal() * (1 - $deliveryNote->getDiscount() / 100)*(1 - $saleInvoice->getDiscount()/ 100);
                 $lineIva = $baseLineAmount * $deliveryNoteLine->getIva() / 100;
                 $lineIrpf = $baseLineAmount * $deliveryNoteLine->getIrpf() / 100;
                 $finalLineAmount = $baseLineAmount + $lineIva - $lineIrpf;
+                $baseAmount +=$baseLineAmount;
                 $finalTotal += $finalLineAmount;
                 $iva += $lineIva;
                 $irpf += $lineIrpf;
             }
         }
-        $saleInvoice->setBaseTotal($baseAmount);
-        $saleInvoice->setIva($iva);
-        $saleInvoice->setIrpf($irpf);
-        $saleInvoice->setTotal($finalTotal);
+        $saleInvoice->setBaseTotal(round($baseAmount, 2));
+        $saleInvoice->setIva(round($iva, 2));
+        $saleInvoice->setIrpf(round($irpf, 2));
+        $saleInvoice->setTotal(round($saleInvoice->getBaseTotal()+$saleInvoice->getIva()-$saleInvoice->getIrpf(), 2));
     }
 }

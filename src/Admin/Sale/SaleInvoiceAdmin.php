@@ -422,13 +422,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     public function postUpdate($object)
     {
         $this->im->calculateInvoiceImportsFromDeliveryNotes($object, $object->getDeliveryNotes());
-        $totalPrice = 0;
-        /** @var SaleDeliveryNote $deliveryNote */
-        foreach ($object->getDeliveryNotes() as $deliveryNote) {
-            $base = $deliveryNote->getBaseAmount() - ($deliveryNote->getBaseAmount() * $deliveryNote->getDiscount() / 100);
-            $totalPrice = $totalPrice + $base;
-        }
-        $object->setTotal($totalPrice);
 
         $this->em->flush();
     }

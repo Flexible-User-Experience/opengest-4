@@ -145,7 +145,7 @@
                                         Total con impuestos y retenciones:
                                     </th>
                                     <th>
-                                        {{ deliveryNote.baseAmount|number_format(2, ',', '.') }} <br>
+                                        {{ deliveryNote.baseTotalWithDiscounts|number_format(2, ',', '.') }} <br>
                                         {{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }}
                                     </th>
                                 </tr>
