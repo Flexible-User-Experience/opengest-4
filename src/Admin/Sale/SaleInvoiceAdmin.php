@@ -146,6 +146,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'disabled' => true,
                     'scale' => 2,
+                    'grouping' => true
                 ]
             )
             ->add(
@@ -156,6 +157,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'disabled' => true,
                     'scale' => 2,
+                    'grouping' => true
                 ]
             )
             ->add(
@@ -166,6 +168,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'disabled' => true,
                     'scale' => 2,
+                    'grouping' => true
                 ]
             )
             ->add(
@@ -176,6 +179,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'disabled' => true,
                     'scale' => 2,
+                    'grouping' => true
                 ]
             )
             ->add(

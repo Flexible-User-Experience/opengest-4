@@ -93,8 +93,8 @@
                                         </a>
                                     </td>
                                     <td>{{ deliveryNote.date|date('d/m/Y') }}</td>
-                                    <td>{{ deliveryNote.baseAmount }}</td>
-                                    <td>{{ deliveryNote.finalTotalWithDiscounts }}</td>
+                                    <td>{{ deliveryNote.baseAmount|number_format(2, ',', '.') }}</td>
+                                    <td>{{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -107,9 +107,8 @@
                                                    <th>Descripción</th>
                                                    <th>Unidades</th>
                                                    <th>Precio unidad (€)</th>
-                                                   <th>Descuento linea (%)</th>
-                                                   <th>Descuento albarán (%)</th>
-                                                   <th>Descuento factura (%)</th>
+                                                   <th>Subtotal</th>
+                                                   <th>Descuento linea / albarán / factura (%)</th>
                                                    <th>Descuento total (%)</th>
                                                    <th>Total base</th>
                                                    <th>Iva</th>
@@ -122,14 +121,17 @@
                                                    <td>{{ deliveryNoteLine.saleItem }}</td>
                                                    <td>{{ deliveryNoteLine.description }}</td>
                                                    <td>{{ deliveryNoteLine.units }}</td>
-                                                   <td>{{ deliveryNoteLine.priceUnit }}</td>
-                                                   <td>{{ deliveryNoteLine.discount }}</td>
-                                                   <td>{{ deliveryNote.discount }}</td>
-                                                   <td>Desc. factura</td>
-                                                   <td>{{ (1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100))*100 }}</td>
-                                                   <td>{{ deliveryNoteLine.total*(1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100)) }}</td>
-                                                   <td>{{ deliveryNoteLine.iva }}</td>
-                                                   <td>{{ deliveryNoteLine.irpf }}</td>
+                                                   <td>{{ deliveryNoteLine.priceUnit|number_format(2, ',', '.') }}</td>
+                                                   <td>{{ deliveryNoteLine.total|number_format(2, ',', '.') }}</td>
+                                                   <td>
+                                                       {{ deliveryNoteLine.discount|number_format(2, ',', '.') }}
+                                                       / {{ deliveryNote.discount|number_format(2, ',', '.') }}
+                                                       / {{ deliveryNote.saleInvoice.discount|number_format(2, ',', '.') }}
+                                                   </td>
+                                                   <td>{{ ((1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100))*100)|number_format(2, ',', '.') }}</td>
+                                                   <td>{{ deliveryNoteLine.totalWithAllDiscounts|number_format(2, ',', '.') }}</td>
+                                                   <td>{{ deliveryNoteLine.iva|number_format(2, ',', '.') }}</td>
+                                                   <td>{{ deliveryNoteLine.irpf|number_format(2, ',', '.') }}</td>
                                                </tr>
                                            {%  endfor %}
                                            </tbody>
