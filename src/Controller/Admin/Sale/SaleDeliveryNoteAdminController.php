@@ -138,9 +138,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         /** @var SaleInvoiceSeries $saleInvoiceSeries */
         $saleInvoiceSeries = $this->admin->getModelManager()->findOneBy(SaleInvoiceSeries::class, ['id' => 1]);
         $saleInvoice->setSeries($saleInvoiceSeries);
-        /** @var InvoiceManager $invoiceManager */
-        $invoiceManager = $this->container->get('app.invoice_manager');
-        $invoiceManager->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
+        $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
         /** @var SaleInvoiceRepository $saleInvoiceRepository */
         $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
         $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
