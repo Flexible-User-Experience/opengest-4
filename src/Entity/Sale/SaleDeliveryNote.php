@@ -738,7 +738,7 @@ class SaleDeliveryNote extends AbstractBase
         $finalTotal = 0;
         /** @var SaleDeliveryNoteLine $deliveryNoteLine */
         foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-            $subtotal = $deliveryNoteLine->getTotal() * (1 + $deliveryNoteLine->getIva() / 100 - $deliveryNoteLine->getIrpf() / 100);
+            $subtotal = $deliveryNoteLine->getTotal() * (1 - $this->getDiscount() / 100) * (1 + $deliveryNoteLine->getIva() / 100 - $deliveryNoteLine->getIrpf() / 100);
             $finalTotal = $finalTotal + $subtotal;
         }
 
