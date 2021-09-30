@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
+use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
@@ -134,16 +135,31 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoice->setDate($date);
         $saleInvoice->setType(1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
-        /** @var SaleInvoiceSeries $saleInvoiceSerie */
+        /** @var SaleInvoiceSeries $saleInvoiceSeries */
         $saleInvoiceSeries = $this->admin->getModelManager()->findOneBy(SaleInvoiceSeries::class, ['id' => 1]);
         $saleInvoice->setSeries($saleInvoiceSeries);
-        $totalAmount = 0;
+        $baseAmount = 0;
+        $finalTotal = 0;
+        $iva = 0;
+        $irpf = 0;
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
-            $totalAmount = $totalAmount + $deliveryNote->getBaseAmount();
+            $baseAmount += $deliveryNote->getBaseAmount();
+            /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+            foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+                $baseLineAmount = $deliveryNoteLine->getTotal() * (1 - $deliveryNote->getDiscount() / 100);
+                $lineIva = $baseLineAmount * $deliveryNoteLine->getIva() / 100;
+                $lineIrpf = $baseLineAmount * $deliveryNoteLine->getIrpf() / 100;
+                $finalLineAmount = $baseLineAmount + $lineIva - $lineIrpf;
+                $finalTotal += $finalLineAmount;
+                $iva += $lineIva;
+                $irpf += $lineIrpf;
+            }
         }
-        // TODO calculate correcly total amount wiht appliable discounts
-        $saleInvoice->setTotal($totalAmount);
+        $saleInvoice->setBaseTotal($baseAmount);
+        $saleInvoice->setIva($iva);
+        $saleInvoice->setIrpf($irpf);
+        $saleInvoice->setTotal($finalTotal);
         /** @var SaleInvoiceRepository $saleInvoiceRepository */
         $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
         $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNote->getEnterprise());
