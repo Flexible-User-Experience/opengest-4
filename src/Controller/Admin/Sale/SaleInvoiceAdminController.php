@@ -3,8 +3,10 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Service\GuardService;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -120,5 +122,30 @@ class SaleInvoiceAdminController extends BaseAdminController
         $this->addFlash('warning', 'Aquesta acció encara NO funciona!');
 
         return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
+    }
+
+    /**
+     * @param SaleInvoice $object
+     * @throws ModelManagerException
+     */
+    public function preDelete(Request $request, $object)
+    {
+        if ($object->isHasBeenCounted()) {
+            $this->addFlash('warning', 'No se puede borrar una factura contablilizada');
+
+            return new RedirectResponse($request->headers->get('referer'));
+        } else {
+            try{
+                /** @var SaleDeliveryNote $deliveryNote */
+                foreach ($object->getDeliveryNotes() as $deliveryNote) {
+                    $deliveryNote->setSaleInvoice(null);
+                    $this->admin->getModelManager()->update($deliveryNote);
+                }
+            } catch (ModelManagerException $exception) {
+                $this->addFlash('error', 'Error al actualizar albaranes relacionados: '.$exception->getMessage());
+                throw $exception;
+                return new RedirectResponse($request->headers->get('referer'));
+            }
+        }
     }
 }

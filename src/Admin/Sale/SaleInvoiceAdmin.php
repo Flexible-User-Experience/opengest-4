@@ -63,7 +63,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
-            ->remove('delete')
+//            ->remove('delete')
         ;
     }
 
@@ -398,7 +398,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'pdf' => ['template' => 'admin/buttons/list__action_pdf_invoice_button.html.twig'],
                         'pdfWithBackground' => ['template' => 'admin/buttons/list__action_pdf_invoice_with_background_button.html.twig'],
                         'count' => ['template' => 'admin/buttons/list__action_pdf_invoice_to_count_button.html.twig'],
-                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+//                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
