@@ -80,8 +80,6 @@
                                 <tr>
                                     <th>Núm. albarán</th>
                                     <th>Fecha</th>
-                                    <th>Importe base</th>
-                                    <th>Total con impuestos y retenciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -93,13 +91,11 @@
                                         </a>
                                     </td>
                                     <td>{{ deliveryNote.date|date('d/m/Y') }}</td>
-                                    <td>{{ deliveryNote.baseAmount|number_format(2, ',', '.') }}</td>
-                                    <td>{{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <td>
                                     </td>
-                                   <td colspan="3">
+                                   <td colspan="4">
                                        <table class="table">
                                            <thead>
                                                <tr>
@@ -107,12 +103,14 @@
                                                    <th>Descripción</th>
                                                    <th>Unidades</th>
                                                    <th>Precio unidad (€)</th>
-                                                   <th>Subtotal</th>
+                                                   <th>Subtotal (€)</th>
                                                    <th>Descuento linea / albarán / factura (%)</th>
                                                    <th>Descuento total (%)</th>
                                                    <th>Total base</th>
-                                                   <th>Iva</th>
-                                                   <th>Irpf</th>
+                                                   <th>Iva (%)</th>
+                                                   <th>Iva (€)</th>
+                                                   <th>Irpf (%)</th>
+                                                   <th>Irpf (€)</th>
                                                </tr>
                                            </thead>
                                            <tbody>
@@ -130,13 +128,26 @@
                                                    </td>
                                                    <td>{{ ((1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100))*100)|number_format(2, ',', '.') }}</td>
                                                    <td>{{ deliveryNoteLine.totalWithAllDiscounts|number_format(2, ',', '.') }}</td>
-                                                   <td>{{ deliveryNoteLine.iva|number_format(2, ',', '.') }}</td>
-                                                   <td>{{ deliveryNoteLine.irpf|number_format(2, ',', '.') }}</td>
+                                                   <td>{{ deliveryNoteLine.iva }}</td>
+                                                   <td>{{ deliveryNoteLine.ivaAmount|number_format(2, ',', '.') }}</td>
+                                                   <td>{{ deliveryNoteLine.irpf }}</td>
+                                                   <td>{{ deliveryNoteLine.irpfAmount|number_format(2, ',', '.') }}</td>
                                                </tr>
                                            {%  endfor %}
                                            </tbody>
                                        </table>
                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th>
+                                        Importe Base: <br>
+                                        Total con impuestos y retenciones:
+                                    </th>
+                                    <th>
+                                        {{ deliveryNote.baseAmount|number_format(2, ',', '.') }} <br>
+                                        {{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }}
+                                    </th>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -276,4 +276,20 @@ class SaleDeliveryNoteLine extends AbstractBase
         }
         return $totalWithAllDiscounts;
     }
+
+    /**
+     * @return float
+     */
+    public function getIvaAmount(): float
+    {
+        return $this->getTotalWithAllDiscounts()*($this->getIva()/100);
+    }
+
+    /**
+     * @return float
+     */
+    public function getIrpfAmount(): float
+    {
+        return $this->getTotalWithAllDiscounts()*($this->getIrpf()/100);
+    }
 }
