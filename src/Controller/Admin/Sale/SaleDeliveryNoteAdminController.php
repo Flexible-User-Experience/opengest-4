@@ -138,6 +138,29 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         /** @var SaleInvoiceSeries $saleInvoiceSeries */
         $saleInvoiceSeries = $this->admin->getModelManager()->findOneBy(SaleInvoiceSeries::class, ['id' => 1]);
         $saleInvoice->setSeries($saleInvoiceSeries);
+        $this->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
+        /** @var SaleInvoiceRepository $saleInvoiceRepository */
+        $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
+        $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
+        $saleInvoice->setInvoiceNumber($lastSaleInvoice->getInvoiceNumber() + 1);
+        $saleInvoice->setDeliveryNotes($deliveryNotes);
+        try {
+            $this->admin->getModelManager()->create($saleInvoice);
+            foreach ($deliveryNotes as $deliveryNote) {
+                $deliveryNote->setSaleInvoice($saleInvoice);
+                $this->admin->getModelManager()->update($deliveryNote);
+            }
+
+            return $saleInvoice;
+        } catch (ModelManagerException $e) {
+            $this->addFlash('error', 'Error al facturar los albaranes: '.$e->getMessage().$e->getFile());
+
+            return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        }
+    }
+
+    public function calculateInvoiceImportsFromDeliveryNotes(SaleInvoice $saleInvoice, ArrayCollection $deliveryNotes)
+    {
         $baseAmount = 0;
         $finalTotal = 0;
         $iva = 0;
@@ -160,23 +183,5 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoice->setIva($iva);
         $saleInvoice->setIrpf($irpf);
         $saleInvoice->setTotal($finalTotal);
-        /** @var SaleInvoiceRepository $saleInvoiceRepository */
-        $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
-        $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNote->getEnterprise());
-        $saleInvoice->setInvoiceNumber($lastSaleInvoice->getInvoiceNumber() + 1);
-        $saleInvoice->setDeliveryNotes($deliveryNotes);
-        try {
-            $this->admin->getModelManager()->create($saleInvoice);
-            foreach ($deliveryNotes as $deliveryNote) {
-                $deliveryNote->setSaleInvoice($saleInvoice);
-                $this->admin->getModelManager()->update($deliveryNote);
-            }
-
-            return $saleInvoice;
-        } catch (ModelManagerException $e) {
-            $this->addFlash('error', 'Error al facturar los albaranes: '.$e->getMessage().$e->getFile());
-
-            return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
-        }
     }
 }
