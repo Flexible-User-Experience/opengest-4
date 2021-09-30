@@ -126,7 +126,7 @@
                                                        / {{ deliveryNote.discount|number_format(2, ',', '.') }}
                                                        / {{ deliveryNote.saleInvoice.discount|number_format(2, ',', '.') }}
                                                    </td>
-                                                   <td>{{ ((1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100))*100)|number_format(2, ',', '.') }}</td>
+                                                   <td>{{ ((1 - (1-deliveryNoteLine.discount/100)*(1-deliveryNote.discount/100)*(1-deliveryNote.saleInvoice.discount/100))*100)|number_format(2, ',', '.') }}</td>
                                                    <td>{{ deliveryNoteLine.totalWithAllDiscounts|number_format(2, ',', '.') }}</td>
                                                    <td>{{ deliveryNoteLine.iva }}</td>
                                                    <td>{{ deliveryNoteLine.ivaAmount|number_format(2, ',', '.') }}</td>

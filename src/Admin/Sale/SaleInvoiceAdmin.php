@@ -130,14 +130,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->with('admin.with.controls', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'type',
-                null,
-                [
-                    'label' => 'admin.label.type',
-                    'required' => true,
-                ]
-            )
+//            ->add(
+//                'type',
+//                null,
+//                [
+//                    'label' => 'admin.label.type',
+//                    'required' => true,
+//                ]
+//            )
             ->add(
                 'baseTotal',
                 null,
