@@ -4,9 +4,9 @@ namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
-use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
+use App\Manager\InvoiceManager;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Service\GuardService;
@@ -138,7 +138,9 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         /** @var SaleInvoiceSeries $saleInvoiceSeries */
         $saleInvoiceSeries = $this->admin->getModelManager()->findOneBy(SaleInvoiceSeries::class, ['id' => 1]);
         $saleInvoice->setSeries($saleInvoiceSeries);
-        $this->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
+        /** @var InvoiceManager $invoiceManager */
+        $invoiceManager = $this->container->get('app.invoice_manager');
+        $invoiceManager->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
         /** @var SaleInvoiceRepository $saleInvoiceRepository */
         $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
         $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
@@ -157,31 +159,5 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         }
-    }
-
-    public function calculateInvoiceImportsFromDeliveryNotes(SaleInvoice $saleInvoice, ArrayCollection $deliveryNotes)
-    {
-        $baseAmount = 0;
-        $finalTotal = 0;
-        $iva = 0;
-        $irpf = 0;
-        /** @var SaleDeliveryNote $deliveryNote */
-        foreach ($deliveryNotes as $deliveryNote) {
-            $baseAmount += $deliveryNote->getBaseAmount();
-            /** @var SaleDeliveryNoteLine $deliveryNoteLine */
-            foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-                $baseLineAmount = $deliveryNoteLine->getTotal() * (1 - $deliveryNote->getDiscount() / 100);
-                $lineIva = $baseLineAmount * $deliveryNoteLine->getIva() / 100;
-                $lineIrpf = $baseLineAmount * $deliveryNoteLine->getIrpf() / 100;
-                $finalLineAmount = $baseLineAmount + $lineIva - $lineIrpf;
-                $finalTotal += $finalLineAmount;
-                $iva += $lineIva;
-                $irpf += $lineIrpf;
-            }
-        }
-        $saleInvoice->setBaseTotal($baseAmount);
-        $saleInvoice->setIva($iva);
-        $saleInvoice->setIrpf($irpf);
-        $saleInvoice->setTotal($finalTotal);
     }
 }
