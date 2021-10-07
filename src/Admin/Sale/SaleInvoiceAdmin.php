@@ -75,6 +75,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         $formMapper
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
             ->add(
+                'invoiceNumber',
+                null,
+                [
+                    'label' => 'admin.label.invoice_number_long',
+                    'disabled' => true,
+                ]
+            )
+            ->add(
                 'series',
                 EntityType::class,
                 [
@@ -85,16 +93,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => $this->id($this->getSubject()),
                 ]
             )
-            ->add(
-                'invoiceNumber',
-                null,
-                [
-                    'label' => 'admin.label.invoice_number_long',
-                    'disabled' => true,
-                ]
-            )
-            ->end()
-            ->with('admin.with.sale_invoice', $this->getFormMdSuccessBoxArray(5))
             ->add(
                 'date',
                 DatePickerType::class,
@@ -128,60 +126,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
-            ->end()
-            ->with('admin.with.controls', $this->getFormMdSuccessBoxArray(3))
-//            ->add(
-//                'type',
-//                null,
-//                [
-//                    'label' => 'admin.label.type',
-//                    'required' => true,
-//                ]
-//            )
-            ->add(
-                'baseTotal',
-                null,
-                [
-                    'label' => 'admin.label.base_amount',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true
-                ]
-            )
-            ->add(
-                'iva',
-                null,
-                [
-                    'label' => 'admin.label.iva_amount',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true
-                ]
-            )
-            ->add(
-                'irpf',
-                null,
-                [
-                    'label' => 'admin.label.irpf_amount',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true
-                ]
-            )
-            ->add(
-                'total',
-                null,
-                [
-                    'label' => 'admin.label.total',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true
-                ]
-            )
             ->add(
                 'discount',
                 null,
@@ -199,10 +143,56 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
+            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'baseTotal',
+                null,
+                [
+                    'label' => 'admin.label.base_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->add(
+                'iva',
+                null,
+                [
+                    'label' => 'admin.label.iva_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->add(
+                'irpf',
+                null,
+                [
+                    'label' => 'admin.label.irpf_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->add(
+                'total',
+                null,
+                [
+                    'label' => 'admin.label.total',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(12))
+                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'deliveryNotes',
                     EntityType::class,
@@ -219,7 +209,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ;
         } else { // is create mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(12))
+                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'deliveryNotes',
                     EntityType::class,
