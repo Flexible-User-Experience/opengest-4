@@ -145,6 +145,11 @@ class SaleDeliveryNote extends AbstractBase
     private $wontBeInvoiced = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isInvoiced = false;
+
+    /**
      * @var ?SaleInvoice
      *
      * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
@@ -793,11 +798,23 @@ class SaleDeliveryNote extends AbstractBase
 
     public function isInvoiced(): bool
     {
-        $value = false;
-        if ($this->getSaleInvoice()) {
-            $value = true;
-        }
-
-        return $value;
+        return $this->isInvoiced;
     }
+
+    public function setIsInvoiced(bool $isInvoiced): SaleDeliveryNote
+    {
+        $this->isInvoiced = $isInvoiced;
+
+        return $this;
+    }
+
+//    public function isInvoiced(): bool
+//    {
+//        $value = false;
+//        if ($this->getSaleInvoice()) {
+//            $value = true;
+//        }
+//
+//        return $value;
+//    }
 }

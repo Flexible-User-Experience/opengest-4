@@ -651,6 +651,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.no_invoice',
                 ]
             )
+            ->add(
+                'isInvoiced',
+                null,
+                [
+                    'label' => 'admin.label.invoiced',
+                ]
+            )
         ;
     }
 

@@ -6,7 +6,6 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
-use App\Manager\InvoiceManager;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Service\GuardService;
@@ -146,8 +145,10 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoice->setDeliveryNotes($deliveryNotes);
         try {
             $this->admin->getModelManager()->create($saleInvoice);
+            /** @var SaleDeliveryNote $deliveryNote */
             foreach ($deliveryNotes as $deliveryNote) {
                 $deliveryNote->setSaleInvoice($saleInvoice);
+                $deliveryNote->setIsInvoiced(true);
                 $this->admin->getModelManager()->update($deliveryNote);
             }
 

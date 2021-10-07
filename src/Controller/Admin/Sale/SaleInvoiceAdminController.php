@@ -41,8 +41,6 @@ class SaleInvoiceAdminController extends BaseAdminController
     }
 
     /**
-     * @param Request $request
-     *
      * @return RedirectResponse|Response
      */
     public function pdfAction(Request $request)
@@ -71,8 +69,6 @@ class SaleInvoiceAdminController extends BaseAdminController
     }
 
     /**
-     * @param Request $request
-     *
      * @return RedirectResponse|Response
      */
     public function pdfWithBackgroundAction(Request $request)
@@ -98,8 +94,6 @@ class SaleInvoiceAdminController extends BaseAdminController
     }
 
     /**
-     * @param Request $request
-     *
      * @return RedirectResponse|Response
      */
     public function countAction(Request $request)
@@ -126,6 +120,7 @@ class SaleInvoiceAdminController extends BaseAdminController
 
     /**
      * @param SaleInvoice $object
+     *
      * @throws ModelManagerException
      */
     public function preDelete(Request $request, $object)
@@ -135,15 +130,17 @@ class SaleInvoiceAdminController extends BaseAdminController
 
             return new RedirectResponse($request->headers->get('referer'));
         } else {
-            try{
+            try {
                 /** @var SaleDeliveryNote $deliveryNote */
                 foreach ($object->getDeliveryNotes() as $deliveryNote) {
                     $deliveryNote->setSaleInvoice(null);
+                    $deliveryNote->setIsInvoiced(false);
                     $this->admin->getModelManager()->update($deliveryNote);
                 }
             } catch (ModelManagerException $exception) {
                 $this->addFlash('error', 'Error al actualizar albaranes relacionados: '.$exception->getMessage());
                 throw $exception;
+
                 return new RedirectResponse($request->headers->get('referer'));
             }
         }
