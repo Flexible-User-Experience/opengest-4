@@ -63,7 +63,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
-            ->remove('delete')
+//            ->remove('delete')
         ;
     }
 
@@ -75,6 +75,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         $formMapper
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
             ->add(
+                'invoiceNumber',
+                null,
+                [
+                    'label' => 'admin.label.invoice_number_long',
+                    'disabled' => true,
+                ]
+            )
+            ->add(
                 'series',
                 EntityType::class,
                 [
@@ -85,16 +93,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => $this->id($this->getSubject()),
                 ]
             )
-            ->add(
-                'invoiceNumber',
-                null,
-                [
-                    'label' => 'admin.label.invoice_number_long',
-                    'disabled' => true,
-                ]
-            )
-            ->end()
-            ->with('admin.with.sale_invoice', $this->getFormMdSuccessBoxArray(5))
             ->add(
                 'date',
                 DatePickerType::class,
@@ -128,23 +126,12 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
-            ->end()
-            ->with('admin.with.controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
-                'type',
+                'discount',
                 null,
                 [
-                    'label' => 'admin.label.type',
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'total',
-                null,
-                [
-                    'label' => 'admin.label.total',
+                    'label' => 'admin.label.discount',
                     'required' => false,
-                    'disabled' => true,
                 ]
             )
             ->add(
@@ -156,10 +143,56 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
+            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'baseTotal',
+                null,
+                [
+                    'label' => 'admin.label.base_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->add(
+                'iva',
+                null,
+                [
+                    'label' => 'admin.label.iva_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->add(
+                'irpf',
+                null,
+                [
+                    'label' => 'admin.label.irpf_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->add(
+                'total',
+                null,
+                [
+                    'label' => 'admin.label.total',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
+            ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(12))
+                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'deliveryNotes',
                     EntityType::class,
@@ -168,7 +201,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'class' => SaleDeliveryNote::class,
                         'multiple' => true,
-                        'expanded' => true,
                         'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
                         'by_reference' => false,
                     ]
@@ -177,7 +209,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ;
         } else { // is create mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(12))
+                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'deliveryNotes',
                     EntityType::class,
@@ -238,7 +270,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -356,7 +388,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'pdf' => ['template' => 'admin/buttons/list__action_pdf_invoice_button.html.twig'],
                         'pdfWithBackground' => ['template' => 'admin/buttons/list__action_pdf_invoice_with_background_button.html.twig'],
                         'count' => ['template' => 'admin/buttons/list__action_pdf_invoice_to_count_button.html.twig'],
-                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+//                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
@@ -379,13 +411,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      */
     public function postUpdate($object)
     {
-        $totalPrice = 0;
-        /** @var SaleDeliveryNote $deliveryNote */
-        foreach ($object->getDeliveryNotes() as $deliveryNote) {
-            $base = $deliveryNote->getBaseAmount() - ($deliveryNote->getBaseAmount() * $deliveryNote->getDiscount() / 100);
-            $totalPrice = $totalPrice + $base;
-        }
-        $object->setTotal($totalPrice);
+        $this->im->calculateInvoiceImportsFromDeliveryNotes($object, $object->getDeliveryNotes());
 
         $this->em->flush();
     }

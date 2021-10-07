@@ -7,6 +7,7 @@ use App\Entity\Partner\Partner;
 use App\Entity\Setting\SaleInvoiceSeries;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -21,12 +22,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class SaleInvoice extends AbstractBase
 {
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleInvoices")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
      * @Groups({"api"})
      */
-    private $deliveryNotes;
+    private Collection $deliveryNotes;
 
     /**
      * @var DateTime
@@ -71,11 +70,39 @@ class SaleInvoice extends AbstractBase
     private $total;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $baseTotal;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $irpf = 0;
+
+    /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     private $hasBeenCounted = false;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $discount = 0;
 
     /**
      * Methods.
@@ -89,20 +116,15 @@ class SaleInvoice extends AbstractBase
         $this->deliveryNotes = new ArrayCollection();
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getDeliveryNotes()
+    public function getDeliveryNotes(): Collection
     {
         return $this->deliveryNotes;
     }
 
     /**
-     * @param ArrayCollection $deliveryNotes
-     *
      * @return $this
      */
-    public function setDeliveryNotes($deliveryNotes)
+    public function setDeliveryNotes(Collection $deliveryNotes): SaleInvoice
     {
         $this->deliveryNotes = $deliveryNotes;
 
@@ -110,28 +132,26 @@ class SaleInvoice extends AbstractBase
     }
 
     /**
-     * @param SaleDeliveryNote $deliveryNote
-     *
      * @return $this
      */
-    public function addDeliveryNote($deliveryNote)
+    public function addDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
     {
         if (!$this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->add($deliveryNote);
+            $deliveryNote->setSaleInvoice($this);
         }
 
         return $this;
     }
 
     /**
-     * @param SaleDeliveryNote $deliveryNote
-     *
      * @return $this
      */
-    public function removeDeliveryNote($deliveryNote)
+    public function removeDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
     {
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
+            $deliveryNote->setSaleInvoice(null);
         }
 
         return $this;
@@ -265,6 +285,42 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
+    public function getBaseTotal(): ?float
+    {
+        return $this->baseTotal;
+    }
+
+    public function setBaseTotal(float $baseTotal): SaleInvoice
+    {
+        $this->baseTotal = $baseTotal;
+
+        return $this;
+    }
+
+    public function getIva(): ?float
+    {
+        return $this->iva;
+    }
+
+    public function setIva(float $iva): SaleInvoice
+    {
+        $this->iva = $iva;
+
+        return $this;
+    }
+
+    public function getIrpf(): ?float
+    {
+        return $this->irpf;
+    }
+
+    public function setIrpf(float $irpf): SaleInvoice
+    {
+        $this->irpf = $irpf;
+
+        return $this;
+    }
+
     /**
      * @return bool
      */
@@ -299,6 +355,22 @@ class SaleInvoice extends AbstractBase
         $this->hasBeenCounted = $hasBeenCounted;
 
         return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param float $discount
+     */
+    public function setDiscount($discount): void
+    {
+        $this->discount = $discount;
     }
 
     /**

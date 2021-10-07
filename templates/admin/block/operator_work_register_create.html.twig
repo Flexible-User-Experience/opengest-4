@@ -16,7 +16,7 @@
                 <div class="box-body">
                     <div class="form-group" id="sonata-ba-field-container-custom_date">
                         <label class="control-label required" for="custom_date">
-                            Data
+                            Fecha
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural">
                             <div class="input-group">
@@ -89,11 +89,11 @@
                     </div>
                     <div class="form-group" id="sonata-ba-field-container-custom_sale_delivery_note">
                         <label class="control-label" for="custom_sale_delivery_note">
-                            Albaràn
+                            Albarán
                         </label>
                         <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
                             <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
-                                <option value="">---selecione un albaràn---</option>
+                                <option value="">---selecione un albarán---</option>
                                 {% for deliveryNote in content.saleDeliveryNotes %}
                                 <option value="{{ deliveryNote.id }}">{{ deliveryNote }}</option>
                                 {% endfor %}
@@ -108,6 +108,7 @@
                             <select class="select2-container" style="width: 100%;" id="select_input_type" name="select_input_type">
                                 <option value="hour">Horas</option>
                                 <option value="unit">Items</option>
+                                <option value="other">Otros</option>
                             </select>
                         </div>
                     </div>
@@ -115,23 +116,9 @@
                         <label class="control-label required" for="custom_start">
                             Empieza
                         </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <select class="select2-container" style="width: 100%;" name="custom_start[hour]" id="custom_start_hour">
-                                        {% for time_picker_hour in content.time_picker_hours %}
-                                            <option value="{{ time_picker_hour }}">{{ time_picker_hour }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <select class="select2-container" style="width: 100%;" name="custom_start[minute]" id="custom_start_minute">
-                                        {% for time_picker_minute in content.time_picker_minutes %}
-                                            <option value="{{ time_picker_minute }}">{{ time_picker_minute }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                            <input type="time" id="custom_start" name="custom_start" class=" form-control">
+                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                         </div>
                     </div>
                     <div class="form-group" id="sonata-ba-field-container-custom_finish">
@@ -139,25 +126,11 @@
                             Termina
                         </label>
                         <label class="warning hidden" style="color: red" id="label_warning_finish_before_start">
-                            Debe ser más tarde que el tiempo de inicio
+                            Debe ser más posterior al momento de inicio
                         </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <select class="select2-container" style="width: 100%;" name="custom_finish[hour]" id="custom_finish_hour">
-                                        {% for time_picker_hour in content.time_picker_hours %}
-                                            <option value="{{ time_picker_hour }}">{{ time_picker_hour }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <select class="select2-container" style="width: 100%;" name="custom_finish[minute]" id="custom_finish_minute">
-                                        {% for time_picker_minute in content.time_picker_minutes %}
-                                            <option value="{{ time_picker_minute }}">{{ time_picker_minute }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                            <input type="time" id="custom_finish" name="custom_finish" class=" form-control">
+                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                         </div>
                     </div>
                     <div class="form-group" id="sonata-ba-field-container-description">
@@ -184,6 +157,26 @@
                                     <option value="{{ id }}">{{ item }}</option>
                                 {% endfor %}
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="sonata-ba-field-container-text-description">
+                        <label class="control-label required" for="s6148507556dff_description">
+                            Descripción
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                            <input type="text" id="custom_text_description" name="custom_text_description"
+                                   required="required" class=" form-control">
+                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="sonata-ba-field-container-amount">
+                        <label class="control-label required" for="amount">
+                            Total (€)
+                        </label>
+                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                            <input type="text" id="amount" name="amount"
+                                   required="required" class=" form-control">
+                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                         </div>
                     </div>
 
@@ -247,21 +240,24 @@
         var selectItem = jQuery('#custom_item');
         var selectDate = jQuery('#custom_date');
         var eventSelectDate = jQuery('#dp_custom_date');
+        var customTextDescriptionInput = jQuery('#custom_text_description');
+        var amountInput = jQuery('#amount');
 
-        var operator = jQuery('#sonata-ba-field-container-custom_operator');
         var customStart = jQuery('#sonata-ba-field-container-custom_start');
-        var selectStartHour = jQuery('#custom_start_hour');
-        var selectStartMinute = jQuery('#custom_start_minute');
+        var customStartInput = jQuery('#custom_start');
         var customFinish = jQuery('#sonata-ba-field-container-custom_finish');
-        var selectFinishHour = jQuery('#custom_finish_hour');
-        var selectFinishMinute = jQuery('#custom_finish_minute');
+        var customFinishInput = jQuery('#custom_finish');
         var customDescription = jQuery('#sonata-ba-field-container-description');
+        var customTextDescription = jQuery('#sonata-ba-field-container-text-description');
+        var amount = jQuery('#sonata-ba-field-container-amount');
         var item = jQuery('#sonata-ba-field-container-item');
         var labelCheckFinishIsBeforeStart = jQuery('#label_warning_finish_before_start');
 
         var submitButton = jQuery('#btn_custom_submit');
 
         item.addClass('hidden');
+        customTextDescription.addClass('hidden');
+        amount.addClass('hidden');
         submitButton.addClass('disabled').attr('disabled', 'disabled');
 
         updateOperatorWorkRegistersTable();
@@ -290,12 +286,23 @@
             customStart.addClass('hidden');
             customFinish.addClass('hidden');
             customDescription.addClass('hidden');
+            customTextDescription.addClass('hidden');
+            amount.addClass('hidden');
             item.removeClass('hidden');
           } else if (type === "hour") {
             customStart.removeClass('hidden');
             customFinish.removeClass('hidden');
             customDescription.removeClass('hidden');
+            customTextDescription.addClass('hidden');
+            amount.addClass('hidden');
             item.addClass('hidden');
+          } else if (type === "other") {
+            customStart.addClass('hidden');
+            customFinish.addClass('hidden');
+            customDescription.addClass('hidden');
+            item.addClass('hidden');
+            customTextDescription.removeClass('hidden');
+            amount.removeClass('hidden');
           }
           enableDisableSubmitButton();
         });
@@ -310,6 +317,14 @@
         });
 
         selectItem.change(function (event) {
+          enableDisableSubmitButton();
+        });
+
+        customTextDescriptionInput.keyup(function (event) {
+          enableDisableSubmitButton();
+        });
+
+        amountInput.keyup(function (event) {
           enableDisableSubmitButton();
         });
 
@@ -328,6 +343,15 @@
           }
           if (selectInputType.val() === 'unit') {
             if (selectItem.val() === '') {
+
+              return false;
+            }
+          } else if(selectInputType.val() === 'other') {
+            var amountTrans = amountInput.val().replace(',','.');
+            if (customTextDescriptionInput.val() === '') {
+
+              return false;
+            } else if (isNaN(amountTrans) || (amountTrans === '')) {
 
               return false;
             }
@@ -388,23 +412,14 @@
           cell.append(info);
           row.appendChild(cell);
         }
-        // <div class="btn-group">
-        //   <a href="/index.php/admin/vendes/albara/22/delete" class="btn btn-sm btn-default edit_link" title="Borrar"><i class="fa fa-trash"></i></a>
-        // </div>
 
         function checkIfStartIsBeforeFinish()
         {
-          const startHour = selectStartHour.val();
-          const startMinute = selectStartMinute.val();
-          const finishHour = selectFinishHour.val();
-          const finishMinute = selectFinishMinute.val();
+          const start = customStartInput.val();
+          const finish = customFinishInput.val();
           var startIsBeforeFinish = false;
-          if (finishHour > startHour) {
+          if (finish > start) {
             startIsBeforeFinish = true;
-          } else if (finishHour === startHour) {
-            if (finishMinute > startMinute) {
-              startIsBeforeFinish = true;
-            }
           }
 
           return startIsBeforeFinish;

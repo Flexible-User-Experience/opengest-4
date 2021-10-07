@@ -4,8 +4,8 @@ namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class PartnerContact.
@@ -69,6 +69,7 @@ class PartnerContact extends AbstractBase
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(strict=true, checkMX=true, checkHost=true)
+     * @Groups({"api"})
      */
     private $email;
 

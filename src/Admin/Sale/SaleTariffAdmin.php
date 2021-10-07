@@ -110,6 +110,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'class' => SaleServiceTariff::class,
                     'label' => 'admin.label.sale_serivce_tariff',
                     'required' => true,
+                    'placeholder' => '---seleccione una opción---',
                     'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 ]
             )
@@ -144,7 +145,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 'partnerBuildingSite',
                 EntityType::class,
                 [
-                    'label' => 'Obra',
+                    'label' => 'admin.label.partner_building_site',
                     'required' => false,
                     'class' => PartnerBuildingSite::class,
                     'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
@@ -233,7 +234,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 'date',
                 DateFilter::class,
                 [
-                    'label' => 'Data',
+                    'label' => 'admin.label.date',
                     'field_type' => DatePickerType::class,
                 ]
             )
@@ -242,7 +243,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -360,7 +361,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 'date',
                 null,
                 [
-                    'label' => 'Data',
+                    'label' => 'admin.label.date',
                     'format' => 'd/m/Y',
                 ]
             )

@@ -145,11 +145,16 @@ class SaleDeliveryNote extends AbstractBase
     private $wontBeInvoiced = false;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sale\SaleInvoice", mappedBy="deliveryNotes")
+     * @ORM\Column(type="boolean")
      */
-    private $saleInvoices;
+    private bool $isInvoiced = false;
+
+    /**
+     * @var ?SaleInvoice
+     *
+     * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
+     */
+    private ?SaleInvoice $saleInvoice;
 
     /**
      * @var ArrayCollection
@@ -166,7 +171,7 @@ class SaleDeliveryNote extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist", "remove"})
      */
     private Collection $operatorWorkRegisters;
 
@@ -200,7 +205,6 @@ class SaleDeliveryNote extends AbstractBase
      */
     public function __construct()
     {
-        $this->saleInvoices = new ArrayCollection();
         $this->saleDeliveryNoteLines = new ArrayCollection();
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
         $this->operatorWorkRegisters = new ArrayCollection();
@@ -464,44 +468,19 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return ArrayCollection
+     * @return ?SaleInvoice
      */
-    public function getSaleInvoices()
+    public function getSaleInvoice(): ?SaleInvoice
     {
-        return $this->saleInvoices;
+        return $this->saleInvoice;
     }
 
     /**
-     * @return SaleDeliveryNote
+     * @param ?SaleInvoice $saleInvoice
      */
-    public function setSaleInvoices(ArrayCollection $saleInvoices)
+    public function setSaleInvoice(?SaleInvoice $saleInvoice): SaleDeliveryNote
     {
-        $this->saleInvoices = $saleInvoices;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function addSaleInvoice(SaleInvoice $saleInvoice)
-    {
-        if (!$this->saleInvoices->contains($saleInvoice)) {
-            $this->saleInvoices->add($saleInvoice);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function removeSaleInvoice(SaleInvoice $saleInvoice)
-    {
-        if ($this->saleInvoices->contains($saleInvoice)) {
-            $this->saleInvoices->removeElement($saleInvoice);
-            $saleInvoice->setDeliveryNotes(null);
-        }
+        $this->saleInvoice = $saleInvoice;
 
         return $this;
     }
@@ -743,6 +722,58 @@ class SaleDeliveryNote extends AbstractBase
         return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonPhone() : null;
     }
 
+    public function getContactPersonEmail(): ?string
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getContactPersonEmail() : null;
+    }
+
+    public function getTotalLines(): float
+    {
+        $totalPrice = 0;
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal();
+            $totalPrice = $totalPrice + $subtotal;
+        }
+
+        return $totalPrice;
+    }
+
+    public function getFinalTotal(): float
+    {
+        $finalTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * (1 - $this->getDiscount() / 100) * (1 + $deliveryNoteLine->getIva() / 100 - $deliveryNoteLine->getIrpf() / 100);
+            $finalTotal = $finalTotal + $subtotal;
+        }
+
+        return $finalTotal;
+    }
+
+    public function getFinalTotalWithDiscounts(): float
+    {
+        $finalTotalWithDiscounts = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * (1 + $deliveryNoteLine->getIva() / 100 - $deliveryNoteLine->getIrpf() / 100);
+            $finalTotalWithDiscounts = $finalTotalWithDiscounts + $subtotal;
+        }
+
+        return $finalTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
+    }
+
+    public function getBaseTotalWithDiscounts(): float
+    {
+        $baseTotalWithDiscounts = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal();
+            $baseTotalWithDiscounts += $subtotal;
+        }
+
+        return $baseTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
+    }
+
     /**
      * @return string
      */
@@ -767,11 +798,23 @@ class SaleDeliveryNote extends AbstractBase
 
     public function isInvoiced(): bool
     {
-        $value = false;
-        if ($this->getSaleInvoices()->count() > 0) {
-            $value = true;
-        }
-
-        return $value;
+        return $this->isInvoiced;
     }
+
+    public function setIsInvoiced(bool $isInvoiced): SaleDeliveryNote
+    {
+        $this->isInvoiced = $isInvoiced;
+
+        return $this;
+    }
+
+//    public function isInvoiced(): bool
+//    {
+//        $value = false;
+//        if ($this->getSaleInvoice()) {
+//            $value = true;
+//        }
+//
+//        return $value;
+//    }
 }

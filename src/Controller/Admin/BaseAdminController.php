@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Manager\InvoiceManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,6 +15,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class BaseAdminController extends Controller
 {
+    /**
+     * @var InvoiceManager
+     */
+    protected InvoiceManager $im;
+
+    public function __construct(InvoiceManager $invoiceManager)
+    {
+        $this->im = $invoiceManager;
+    }
+
     /**
      * @param Request|null $request
      *

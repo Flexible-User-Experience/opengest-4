@@ -1,0 +1,35 @@
+{% extends 'admin/edit.html.twig' %}
+
+{% block sonata_admin_content %}
+    {% if objectId|default(admin.id(object)) is null %}
+        {% block notice %}
+            {{ parent() }}
+        {% endblock notice %}
+        {{ sonata_block_render({'type': 'app.block.operator_work_register_creation'}, { 'info': 'info'}) }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        {% if objectId|default(admin.id(object)) is not null %}
+              jQuery(document).ready(function() {
+                // Handler for .ready() called.
+                var operatorWorkRegistersTable = jQuery('#sonata-ba-field-container-{{ form.operatorWorkRegisters.vars.id }}');
+                {#var numberOfOperatorWorkRegisters = {{ form.operatorWorkRegisters.vars.data.count }};#}
+                const route = "{{ path('admin_app_operator_operatorworkregisterheader_create', {operator: object.operator.id, date: object.date|date("d-m-Y"), previousInputType: 'hour'}) }}";
+
+                operatorWorkRegistersTable.append(`
+                <a type="submit" class="btn btn-success" href="` + route + `">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                  Editar parte de trabajo
+                </a>
+                `);
+
+              });
+        {% endif %}
+    </script>
+{% endblock %}

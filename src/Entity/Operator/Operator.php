@@ -12,8 +12,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Operator.
@@ -430,9 +430,9 @@ class Operator extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operator")
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", mappedBy="operator")
      */
-    private $workRegisters;
+    private $workRegisterHeaders;
 
     /**
      * @var ArrayCollection
@@ -768,8 +768,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param DateTime $brithDate
-     *
      * @return Operator
      */
     public function setBrithDate(DateTime $brithDate)
@@ -788,8 +786,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param DateTime $registrationDate
-     *
      * @return Operator
      */
     public function setRegistrationDate(DateTime $registrationDate)
@@ -808,8 +804,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $profilePhotoImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -855,8 +849,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $taxIdentificationNumberImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -902,8 +894,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $drivingLicenseImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -949,8 +939,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $cranesOperatorLicenseImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -996,8 +984,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $medicalCheckImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -1043,8 +1029,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $episImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -1090,8 +1074,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $trainingDocumentImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -1137,8 +1119,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $informationImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -1184,8 +1164,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $useOfMachineryAuthorizationImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -1231,8 +1209,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $dischargeSocialSecurityImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -1278,8 +1254,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param File|null $employmentContractImageFile
-     *
      * @return Operator
      *
      * @throws \Exception
@@ -1537,8 +1511,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param OperatorDigitalTachograph $digitalTachograph
-     *
      * @return $this
      */
     public function addOperatorDigitalTachograph(OperatorDigitalTachograph $digitalTachograph)
@@ -1552,8 +1524,6 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @param OperatorDigitalTachograph $digitalTachograph
-     *
      * @return $this
      */
     public function removeOperatorDigitalTachograph(OperatorDigitalTachograph $digitalTachograph)
@@ -1634,50 +1604,41 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getWorkRegisters() : ArrayCollection
+    public function getWorkRegisterHeaders(): ArrayCollection
     {
-        return $this->workRegisters;
+        return $this->workRegisterHeaders;
     }
 
     /**
-     * @param ArrayCollection $workRegisters
-     *
      * @return $this
      */
-    public function setWorkRegisters(ArrayCollection $workRegisters) : Operator
+    public function setWorkRegisterHeaders(ArrayCollection $workRegisterHeaders): Operator
     {
-        $this->workRegisters = $workRegisters;
+        $this->workRegisterHeaders = $workRegisterHeaders;
 
         return $this;
     }
 
     /**
-     * @param OperatorWorkRegister $workRegister
-     *
      * @return $this
      */
-    public function addWorkRegister(OperatorWorkRegister $workRegister) : Operator
+    public function addWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader): Operator
     {
-        if (!$this->workRegisters->contains($workRegister)) {
-            $this->workRegisters->add($workRegister);
-            $workRegister->setOperator($this);
+        if (!$this->workRegisterHeaders->contains($workRegisterHeader)) {
+            $this->workRegisterHeaders->add($workRegisterHeader);
+            $workRegisterHeader->setOperator($this);
         }
 
         return $this;
     }
 
     /**
-     * @param OperatorWorkRegister $workRegister
-     *
      * @return $this
      */
-    public function removeWorkRegister(OperatorWorkRegister$workRegister) : Operator
+    public function removeWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader): Operator
     {
-        if ($this->workRegisters->contains($workRegister)) {
-            $this->workRegisters->removeElement($workRegister);
+        if ($this->workRegisterHeaders->contains($workRegisterHeader)) {
+            $this->workRegisterHeaders->removeElement($workRegisterHeader);
         }
 
         return $this;

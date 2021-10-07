@@ -3,7 +3,6 @@
 namespace App\Admin\Operator;
 
 use App\Admin\AbstractBaseAdmin;
-use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\ORM\NonUniqueResultException;
@@ -11,12 +10,9 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
-use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 /**
@@ -36,7 +32,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Partes de trabajo';
+    protected $classnameLabel = 'Partes de trabajo líneas';
 
     /**
      * @var string
@@ -74,17 +70,6 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
             $formMapper
                 ->with('General', $this->getFormMdSuccessBoxArray(6))
                 ->add(
-                    'operator',
-                    EntityType::class,
-                    [
-                        'label' => 'admin.label.operator',
-                        'required' => true,
-                        'class' => Operator::class,
-                        'choice_label' => 'fullName',
-                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                    ]
-                )
-                ->add(
                     'saleDeliveryNote',
                     EntityType::class,
                     [
@@ -92,14 +77,6 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'class' => SaleDeliveryNote::class,
                         'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
-                    ]
-                )
-                ->add(
-                    'date',
-                    DatePickerType::class,
-                    [
-                        'label' => 'admin.label.date',
-                        'required' => true,
                     ]
                 )
                 ->add(
@@ -138,7 +115,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     'amount',
                     null,
                     [
-                        'label' => 'Total',
+                        'label' => 'admin.label.total',
                         'required' => false,
                         'disabled' => true,
                     ]
@@ -157,7 +134,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     'enabled',
                     CheckboxType::class,
                     [
-                        'label' => 'Actiu',
+                        'label' => 'admin.label.enabled_male',
                         'required' => false,
                     ]
                 )
@@ -167,37 +144,12 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
             $formMapper
                 ->with('General', $this->getFormMdSuccessBoxArray(6))
                 ->add(
-                    'operator',
-                    EntityType::class,
-                    [
-                        'label' => 'admin.label.operator',
-                        'required' => true,
-                        'disabled' => true,
-                        'class' => Operator::class,
-                        'choice_label' => 'fullName',
-                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                    ]
-                )
-                ->add(
                     'saleDeliveryNote',
-                    EntityType::class,
+                    null,
                     [
-                        'class' => SaleDeliveryNote::class,
-                        'label' => false,
-                        'required' => true,
-                        'attr' => [
-                            'hidden' => 'true',
-                        ],
-                    ]
-                )
-                ->add(
-                    'date',
-                    DateType::class,
-                    [
-                        'label' => 'admin.label.date',
+                        'label' => 'admin.with.delivery_note',
                         'required' => true,
                         'disabled' => true,
-                        'widget' => 'single_text',
                     ]
                 )
                 ->add(
@@ -253,7 +205,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     'amount',
                     null,
                     [
-                        'label' => 'Total',
+                        'label' => 'admin.label.total',
                         'required' => false,
                         'disabled' => true,
                     ]
@@ -267,21 +219,10 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
-                'operator',
-                ModelAutocompleteFilter::class,
-                [
-                    'label' => 'admin.label.operator',
-                ],
-                null,
-                [
-                    'property' => 'name',
-                ]
-            )
-            ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled_male',
                 ]
             )
         ;
@@ -291,10 +232,10 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
-                'operator',
+                'operatorWorkRegisterHeader',
                 null,
                 [
-                    'label' => 'admin.label.operator',
+                    'label' => 'admin.with.operator_work_register_header',
                 ]
             )
             ->add(
@@ -302,14 +243,6 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.with.delivery_note',
-                ]
-            )
-            ->add(
-                'date',
-                null,
-                [
-                    'label' => 'admin.label.date',
-                    'format' => 'd/m/y',
                 ]
             )
             ->add(
@@ -339,28 +272,28 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 'priceUnit',
                 null,
                 [
-                    'label' => 'Preu unitat',
+                    'label' => 'admin.label.price_unit',
                 ]
             )
             ->add(
                 'amount',
                 null,
                 [
-                    'label' => 'Total',
+                    'label' => 'admin.label.total',
                 ]
             )
             ->add(
                 'description',
                 null,
                 [
-                    'label' => 'Observacions',
+                    'label' => 'admin.label.comments',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled_male',
                     'editable' => true,
                 ]
             )
@@ -372,7 +305,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

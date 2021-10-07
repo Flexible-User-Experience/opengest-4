@@ -11,8 +11,17 @@
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
+            var invoice = jQuery('#{{ form.saleInvoice.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
             {% if  admin.id(admin.subject) %}
+              {% if form.saleInvoice.vars.data %}
+                  jQuery(`
+                      <a href="{{ path('admin_app_sale_saleinvoice_edit', { 'id': form.saleInvoice.vars.data.id }) }}">
+                          Ir a factura
+                      </a>
+                  `).insertBefore(invoice);
+              {% endif %}
+
                 var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
                 var numberOfDeliveryNoteLines = {{ form.saleDeliveryNoteLines.vars.data.count }};
                 for (let i = 0; i < numberOfDeliveryNoteLines; i++) {
@@ -93,4 +102,12 @@
 
         });
     </script>
+{% endblock %}
+
+{% block sonata_form_actions %}
+    {% if form.saleInvoice.vars.data %}
+        <b>No se puede modificar un albaràn facturado.</b>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
 {% endblock %}

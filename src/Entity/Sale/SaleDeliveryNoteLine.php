@@ -261,4 +261,35 @@ class SaleDeliveryNoteLine extends AbstractBase
 
         return $this;
     }
+
+    /**
+     * @return float
+     */
+    public function getTotalWithAllDiscounts(): float
+    {
+        $saleInvoice = $this->getDeliveryNote()->getSaleInvoice();
+        $totalWithDeliveryNoteDiscount = $this->getTotal()*(1-$this->getDeliveryNote()->getDiscount()/100);
+        if ($saleInvoice) {
+            $totalWithAllDiscounts = $totalWithDeliveryNoteDiscount*(1-$saleInvoice->getDiscount()/100);
+        } else {
+            $totalWithAllDiscounts = $totalWithDeliveryNoteDiscount;
+        }
+        return $totalWithAllDiscounts;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIvaAmount(): float
+    {
+        return $this->getTotalWithAllDiscounts()*($this->getIva()/100);
+    }
+
+    /**
+     * @return float
+     */
+    public function getIrpfAmount(): float
+    {
+        return $this->getTotalWithAllDiscounts()*($this->getIrpf()/100);
+    }
 }
