@@ -2,6 +2,7 @@
 
 namespace App\Entity\Payslip;
 
+use App\Entity\AbstractBase;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -16,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="payslip_line_concept")
  * @UniqueEntity({"description"})
  */
-class PayslipLineConcept
+class PayslipLineConcept extends AbstractBase
 {
     /**
      * @ORM\Column(type="string")
