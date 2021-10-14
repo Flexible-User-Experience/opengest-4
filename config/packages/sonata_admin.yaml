@@ -21,6 +21,8 @@ sonata_admin:
                 icon: '<i class="fa fa-eur"></i>'
             Operaris:
                 icon: '<i class="fa fa-users"></i>'
+            Nóminas:
+                icon: '<i class="fa fa-file-text"></i>'
             Vehicles:
                 icon: '<i class="fa fa-truck"></i>'
             Tercers:
