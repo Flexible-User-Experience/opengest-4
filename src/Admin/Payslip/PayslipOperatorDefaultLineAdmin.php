@@ -69,7 +69,6 @@ class PayslipOperatorDefaultLineAdmin extends AbstractBaseAdmin
                 [
                     'class' => PayslipLineConcept::class,
                     'label' => 'admin.label.payslip_line_concept',
-                    'placeholder' => '--- selecciona un concepto ---',
                     'required' => true,
                 ]
             )
