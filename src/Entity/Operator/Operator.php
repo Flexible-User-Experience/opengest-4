@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleRequest;
 use App\Entity\Setting\City;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
@@ -438,7 +439,7 @@ class Operator extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="operator")
+     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="operator", cascade={"persist", "remove"})
      */
     private $payslipOperatorDefaultLines;
 
@@ -1652,7 +1653,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function getPayslipOperatorDefaultLines(): ArrayCollection
+    public function getPayslipOperatorDefaultLines(): Collection
     {
         return $this->payslipOperatorDefaultLines;
     }

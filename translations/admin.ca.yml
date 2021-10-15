@@ -112,6 +112,7 @@ admin:
         lines: "Líneas"
         amount: "Importe"
         tonnages: "Tonelajes"
+        payslip_line_concept: "Concepto"
     with:
         general: "General"
         image: "Imatge"

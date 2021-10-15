@@ -29,25 +29,19 @@ class PayslipOperatorDefaultLine extends AbstractBase
     private PayslipLineConcept $payslipLineConcept;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      */
-    private $units;
+    private float $units = 0;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      */
-    private $priceUnit;
+    private float $priceUnit = 0;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      */
-    private $amount;
+    private float $amount = 0;
 
     /**
      * Methods.
