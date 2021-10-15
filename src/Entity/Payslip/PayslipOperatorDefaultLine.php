@@ -25,6 +25,7 @@ class PayslipOperatorDefaultLine extends AbstractBase
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Payslip\PayslipLineConcept", inversedBy="payslipOperatorDefaultLines")
+     * @ORM\JoinColumn(name="payslip_line_concept_id", referencedColumnName="id", nullable=false)
      */
     private PayslipLineConcept $payslipLineConcept;
 

@@ -3,10 +3,13 @@
 namespace App\Admin\Payslip;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Operator\Operator;
+use App\Entity\Payslip\PayslipLineConcept;
 use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Class PayslipOperatorDefaultLineAdmin.
@@ -51,8 +54,9 @@ class PayslipOperatorDefaultLineAdmin extends AbstractBaseAdmin
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'operator',
-                null,
+                EntityType::class,
                 [
+                    'class' => Operator::class,
                     'label' => 'admin.label.operator',
                     'attr' => [
                         'hidden' => 'true',
@@ -61,9 +65,12 @@ class PayslipOperatorDefaultLineAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'payslipLineConcept',
-                null,
+                EntityType::class,
                 [
+                    'class' => PayslipLineConcept::class,
                     'label' => 'admin.label.payslip_line_concept',
+                    'placeholder' => '--- selecciona un concepto ---',
+                    'required' => true,
                 ]
             )
             ->add(
