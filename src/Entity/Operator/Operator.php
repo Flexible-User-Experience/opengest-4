@@ -5,6 +5,7 @@ namespace App\Entity\Operator;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
+use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Setting\City;
 use DateTime;
@@ -433,6 +434,13 @@ class Operator extends AbstractBase
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", mappedBy="operator")
      */
     private $workRegisterHeaders;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="operator")
+     */
+    private $payslipOperatorDefaultLines;
 
     /**
      * @var ArrayCollection
@@ -1639,6 +1647,46 @@ class Operator extends AbstractBase
     {
         if ($this->workRegisterHeaders->contains($workRegisterHeader)) {
             $this->workRegisterHeaders->removeElement($workRegisterHeader);
+        }
+
+        return $this;
+    }
+
+    public function getPayslipOperatorDefaultLines(): ArrayCollection
+    {
+        return $this->payslipOperatorDefaultLines;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPayslipOperatorDefaultLines(ArrayCollection $payslipOperatorDefaultLines): Operator
+    {
+        $this->payslipOperatorDefaultLines = $payslipOperatorDefaultLines;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): Operator
+    {
+        if (!$this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
+            $this->payslipOperatorDefaultLines->add($payslipOperatorDefaultLine);
+            $payslipOperatorDefaultLine->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): Operator
+    {
+        if ($this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
+            $this->payslipOperatorDefaultLines->removeElement($payslipOperatorDefaultLine);
         }
 
         return $this;
