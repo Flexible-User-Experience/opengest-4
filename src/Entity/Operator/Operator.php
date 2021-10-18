@@ -5,6 +5,7 @@ namespace App\Entity\Operator;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
+use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Setting\City;
@@ -435,6 +436,11 @@ class Operator extends AbstractBase
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", mappedBy="operator")
      */
     private $workRegisterHeaders;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\Payslip", mappedBy="operator", cascade={"persist", "remove"})
+     */
+    private ArrayCollection $payslips;
 
     /**
      * @var ArrayCollection
@@ -1737,6 +1743,46 @@ class Operator extends AbstractBase
     {
         if ($this->operatorVariousAmount->contains($operatorVariousAmount)) {
             $this->operatorVariousAmount->removeElement($operatorVariousAmount);
+        }
+
+        return $this;
+    }
+
+    public function getPayslips(): Collection
+    {
+        return $this->payslips;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPayslips(ArrayCollection $payslips): Operator
+    {
+        $this->payslips = $payslips;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPayslip(Payslip $payslip): Operator
+    {
+        if (!$this->payslips->contains($payslip)) {
+            $this->payslips->add($payslip);
+            $payslip->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePayslip(Payslip $payslip): Operator
+    {
+        if ($this->payslips->contains($payslip)) {
+            $this->payslips->removeElement($payslip);
         }
 
         return $this;

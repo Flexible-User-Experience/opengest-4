@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Payslip extends AbstractBase
 {
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="payslipOperatorDefaultLines")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="payslips")
      */
     private Operator $operator;
 
