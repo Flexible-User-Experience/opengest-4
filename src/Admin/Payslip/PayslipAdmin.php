@@ -64,7 +64,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'from',
+                'fromDate',
                 DatePickerType::class,
                 [
                     'label' => 'admin.label.from',
@@ -74,7 +74,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'to',
+                'toDate',
                 DatePickerType::class,
                 [
                     'label' => 'admin.label.to',
@@ -151,7 +151,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'from',
+                'fromDate',
                 DateFilter::class,
                 [
                     'label' => 'admin.label.from',
@@ -165,7 +165,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'to',
+                'toDate',
                 DateFilter::class,
                 [
                     'label' => 'admin.label.to',
@@ -241,7 +241,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'from',
+                'fromDate',
                 null,
                 [
                     'label' => 'admin.label.from',
@@ -249,7 +249,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'to',
+                'toDate',
                 null,
                 [
                     'label' => 'admin.label.to',

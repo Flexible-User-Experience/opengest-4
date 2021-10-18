@@ -27,12 +27,12 @@ class Payslip extends AbstractBase
     /**
      * @ORM\Column(type="datetime")
      */
-    private DateTime $from;
+    private DateTime $fromDate;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private DateTime $to;
+    private DateTime $toDate;
 
     /**
      * @ORM\Column(type="integer")
@@ -79,26 +79,26 @@ class Payslip extends AbstractBase
         return $this;
     }
 
-    public function getFrom(): DateTime
+    public function getFromDate(): DateTime
     {
-        return $this->from;
+        return $this->fromDate;
     }
 
-    public function setFrom(DateTime $from): Payslip
+    public function setFromDate(DateTime $fromDate): Payslip
     {
-        $this->from = $from;
+        $this->fromDate = $fromDate;
 
         return $this;
     }
 
-    public function getTo(): DateTime
+    public function getToDate(): DateTime
     {
-        return $this->to;
+        return $this->toDate;
     }
 
-    public function setTo(DateTime $to): Payslip
+    public function setToDate(DateTime $toDate): Payslip
     {
-        $this->to = $to;
+        $this->toDate = $toDate;
 
         return $this;
     }
@@ -207,6 +207,6 @@ class Payslip extends AbstractBase
 
     public function __toString(): string
     {
-        return $this->getOperator().' - '.$this->getFrom()->format('d/m/y');
+        return $this->getOperator().' - '.$this->getFromDate()->format('d/m/y');
     }
 }
