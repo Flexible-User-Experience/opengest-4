@@ -1,5 +1,10 @@
 # Sale group
 services:
+  app.admin.payslip:
+    class: App\Admin\Payslip\PayslipAdmin
+    arguments: [ ~, App\Entity\Payslip\Payslip, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+    tags:
+      - { name: sonata.admin, manager_type: orm, label: "Nóminas", group: "Nóminas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
   app.admin.payslip_line_concept:
     class: App\Admin\Payslip\PayslipLineConceptAdmin
     arguments: [ ~, App\Entity\Payslip\PayslipLineConcept, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]

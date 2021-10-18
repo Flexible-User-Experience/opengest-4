@@ -440,7 +440,7 @@ class Operator extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Payslip\Payslip", mappedBy="operator", cascade={"persist", "remove"})
      */
-    private ArrayCollection $payslips;
+    private Collection $payslips;
 
     /**
      * @var ArrayCollection
@@ -468,6 +468,8 @@ class Operator extends AbstractBase
         $this->operatorDigitalTachographs = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->operatorVariousAmount = new ArrayCollection();
+        $this->payslipOperatorDefaultLines = new ArrayCollection();
+        $this->payslips = new ArrayCollection();
     }
 
     /**
