@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -133,6 +134,24 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.total',
                 ]
             )
+            ->end()
+            ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'payslipLines',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'type_options' => [
+                            'delete' => false,
+                        ],
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
             ->end()
         ;
     }

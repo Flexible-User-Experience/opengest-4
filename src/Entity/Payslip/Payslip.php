@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Operator\Operator;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,7 +69,7 @@ class Payslip extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslip", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private ArrayCollection $payslipLines;
+    private Collection $payslipLines;
 
     /**
      * Methods.
@@ -211,7 +212,7 @@ class Payslip extends AbstractBase
         return $this;
     }
 
-    public function getPayslipLines(): ArrayCollection
+    public function getPayslipLines(): Collection
     {
         return $this->payslipLines;
     }
