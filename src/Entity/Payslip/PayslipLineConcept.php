@@ -26,11 +26,14 @@ class PayslipLineConcept extends AbstractBase
     private string $description;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="payslipLineConcept")
      */
-    private $payslipOperatorDefaultLines;
+    private ArrayCollection $payslipOperatorDefaultLines;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslipLineConcept")
+     */
+    private ArrayCollection $payslipLines;
 
     /**
      * Methods.
@@ -40,6 +43,9 @@ class PayslipLineConcept extends AbstractBase
         return $this->description;
     }
 
+    /**
+     * @return $this
+     */
     public function setDescription(string $description): PayslipLineConcept
     {
         $this->description = $description;
@@ -82,6 +88,46 @@ class PayslipLineConcept extends AbstractBase
     {
         if ($this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
             $this->payslipOperatorDefaultLines->removeElement($payslipOperatorDefaultLine);
+        }
+
+        return $this;
+    }
+
+    public function getPayslipLines(): ArrayCollection
+    {
+        return $this->payslipLines;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPayslipLines(ArrayCollection $payslipLines): PayslipLineConcept
+    {
+        $this->payslipLines = $payslipLines;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPayslipLine(PayslipLine $payslipLine): PayslipLineConcept
+    {
+        if (!$this->payslipLines->contains($payslipLine)) {
+            $this->payslipLines->add($payslipLine);
+            $payslipLine->setPayslipLineConcept($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePayslipLine(PayslipLine $payslipLine): PayslipLineConcept
+    {
+        if ($this->payslipLines->contains($payslipLine)) {
+            $this->payslipLines->removeElement($payslipLine);
         }
 
         return $this;

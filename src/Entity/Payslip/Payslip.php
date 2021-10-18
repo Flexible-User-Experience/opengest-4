@@ -5,6 +5,7 @@ namespace App\Entity\Payslip;
 use App\Entity\AbstractBase;
 use App\Entity\Operator\Operator;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -63,6 +64,11 @@ class Payslip extends AbstractBase
      * @ORM\Column(type="float")
      */
     private float $totalAmount = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslip", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private ArrayCollection $payslipLines;
 
     /**
      * Methods.
@@ -201,6 +207,46 @@ class Payslip extends AbstractBase
     public function setTotalAmount($totalAmount): Payslip
     {
         $this->totalAmount = $totalAmount;
+
+        return $this;
+    }
+
+    public function getPayslipLines(): ArrayCollection
+    {
+        return $this->payslipLines;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPayslipLines(ArrayCollection $payslipLines): Payslip
+    {
+        $this->payslipLines = $payslipLines;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPayslipLine(PayslipLine $payslipLine): Payslip
+    {
+        if (!$this->payslipLines->contains($payslipLine)) {
+            $this->payslipLines->add($payslipLine);
+            $payslipLine->setPayslip($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePayslipLine(PayslipLine $payslipLine): Payslip
+    {
+        if ($this->payslipLines->contains($payslipLine)) {
+            $this->payslipLines->removeElement($payslipLine);
+        }
 
         return $this;
     }
