@@ -91,6 +91,8 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'required' => true,
                 ]
             )
+            ->end()
+            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'expenses',
                 NumberType::class,
