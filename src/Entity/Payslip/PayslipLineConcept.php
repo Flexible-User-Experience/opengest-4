@@ -4,6 +4,7 @@ namespace App\Entity\Payslip;
 
 use App\Entity\AbstractBase;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -28,7 +29,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="payslipLineConcept")
      */
-    private ArrayCollection $payslipOperatorDefaultLines;
+    private Collection $payslipOperatorDefaultLines;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslipLineConcept")
@@ -53,7 +54,7 @@ class PayslipLineConcept extends AbstractBase
         return $this;
     }
 
-    public function getPayslipOperatorDefaultLines(): ArrayCollection
+    public function getPayslipOperatorDefaultLines(): Collection
     {
         return $this->payslipOperatorDefaultLines;
     }
@@ -93,7 +94,7 @@ class PayslipLineConcept extends AbstractBase
         return $this;
     }
 
-    public function getPayslipLines(): ArrayCollection
+    public function getPayslipLines(): Collection
     {
         return $this->payslipLines;
     }
