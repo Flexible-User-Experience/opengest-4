@@ -55,14 +55,19 @@ class PayslipAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'operator',
-                EntityType::class,
-                [
-                    'class' => Operator::class,
-                    'label' => 'admin.label.operator',
-                ]
-            )
+        ;
+        if ($this->getRootCode() === $this->getCode()) { //show only if is not embedded in another admin
+            $formMapper
+                ->add(
+                    'operator',
+                    EntityType::class,
+                    [
+                        'class' => Operator::class,
+                        'label' => 'admin.label.operator',
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'fromDate',
                 DatePickerType::class,

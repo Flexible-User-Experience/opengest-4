@@ -424,6 +424,26 @@ class OperatorAdmin extends AbstractBaseAdmin
                         ]
                     )
                 ->end()
+                ->with('Nóminas', $this->getFormMdSuccessBoxArray(12))
+                    ->add(
+                        'payslips',
+                        CollectionType::class,
+                        [
+                            'required' => false,
+                            'error_bubbling' => true,
+                            'label' => false,
+                            'btn_add' => false,
+                            'disabled' => true,
+                            'type_options' => [
+                                'delete' => false,
+                            ],
+                        ],
+                        [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ]
+                    )
+                ->end()
             ->end()
         ;
     }
