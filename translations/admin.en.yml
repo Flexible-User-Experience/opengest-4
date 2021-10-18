@@ -113,6 +113,12 @@ admin:
         amount: "Importe"
         tonnages: "Tonelajes"
         payslip_line_concept: "Concepto"
+        from: "Desde"
+        to: "Hasta"
+        expenses: "Dietas"
+        social_security_cost: "Coste seguridad social"
+        extra_pay: "Paga extra"
+        other_costs: "Otros costes"
     with:
         general: "General"
         image: "Imatge"

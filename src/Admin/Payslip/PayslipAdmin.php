@@ -87,6 +87,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'year',
                 NumberType::class,
                 [
+                    'label' => 'admin.label.year',
                     'required' => true,
                 ]
             )
@@ -122,7 +123,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 NumberType::class,
                 [
-                    'label' => 'admin.label.total_amount',
+                    'label' => 'admin.label.total',
                 ]
             )
             ->end()
@@ -217,7 +218,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 null,
                 [
-                    'label' => 'admin.label.total_amount',
+                    'label' => 'admin.label.total',
                 ]
             )
         ;
@@ -295,7 +296,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 null,
                 [
-                    'label' => 'admin.label.total_amount',
+                    'label' => 'admin.label.total',
                 ]
             )
             ->add(
