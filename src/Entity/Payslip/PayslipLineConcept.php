@@ -34,7 +34,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslipLineConcept")
      */
-    private ArrayCollection $payslipLines;
+    private Collection $payslipLines;
 
     /**
      * Methods.
@@ -102,7 +102,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslipLines(ArrayCollection $payslipLines): PayslipLineConcept
+    public function setPayslipLines(Collection $payslipLines): PayslipLineConcept
     {
         $this->payslipLines = $payslipLines;
 

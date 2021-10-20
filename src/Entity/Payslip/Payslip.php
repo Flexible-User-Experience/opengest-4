@@ -5,7 +5,6 @@ namespace App\Entity\Payslip;
 use App\Entity\AbstractBase;
 use App\Entity\Operator\Operator;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -220,7 +219,7 @@ class Payslip extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslipLines(ArrayCollection $payslipLines): Payslip
+    public function setPayslipLines(Collection $payslipLines): Payslip
     {
         $this->payslipLines = $payslipLines;
 

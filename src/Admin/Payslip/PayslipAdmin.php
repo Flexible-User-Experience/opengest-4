@@ -4,6 +4,9 @@ namespace App\Admin\Payslip;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
+use App\Entity\Payslip\Payslip;
+use App\Entity\Payslip\PayslipLine;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -337,5 +340,21 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    /**
+     * @param Payslip $object
+     *
+     * @throws NonUniqueResultException
+     */
+    public function preUpdate($object)
+    {
+        $payslipLines = $object->getPayslipLines();
+        /** @var PayslipLine $payslipLine */
+        foreach ($payslipLines as $payslipLine) {
+            $amount = $payslipLine->getUnits() * $payslipLine->getPriceUnit();
+            $payslipLine->setAmount($amount);
+        }
+        $this->em->flush();
     }
 }
