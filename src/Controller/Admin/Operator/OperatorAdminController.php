@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Operator;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
 use App\Service\GuardService;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Vich\UploaderBundle\Handler\DownloadHandler;
@@ -50,6 +51,7 @@ class OperatorAdminController extends BaseAdminController
         if (!$guardService->isOwnOperator($operator)) {
             throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
         }
+
         return $downloadHandler->downloadObject(
             $operator,
             $fileField = 'profilePhotoImageFile',
@@ -57,5 +59,14 @@ class OperatorAdminController extends BaseAdminController
             $fileName = $operator->getProfilePhotoImage(),
             $forceDownload = false
         );
+    }
+
+    public function batchActionCreatePayslipFromOperators(ProxyQueryInterface $selectedModelQuery)
+    {
+        $this->admin->checkAccess('edit');
+        /** @var Operator[] $operators */
+        $operators = $selectedModelQuery->execute();
+
+        return $this->renderView('admin/operator/payslipGeneration.html.twig', $operators);
     }
 }

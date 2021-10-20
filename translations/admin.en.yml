@@ -139,7 +139,8 @@ admin:
         print_with_background: "Imprimir amb fons"
         to_count: "Compatbilitzar"
         generate_delivery_note_from_selected: "Generate deivery note from selected lines"
-        generate_invoice_from_selected: "Facturar los albaranes selecionados"
+        generate_invoice_from_selected: "Facturar los albaranes seleccionados"
+        generate_payslips_from_selected: "Generar nóminas de los operarios seleccionados"
     actions: "Accions"
 enum:
     sale_request_status:

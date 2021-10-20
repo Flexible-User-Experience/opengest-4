@@ -57,7 +57,25 @@ class OperatorAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadProfilePhotoImage', $this->getRouterIdParameter().'/profilePhoto')
+            ->add('batch')
             ->remove('delete');
+    }
+
+    /**
+     * @param array $actions
+     */
+    protected function configureBatchActions($actions): array
+    {
+        if (
+            $this->hasRoute('edit')
+        ) {
+            $actions['createPayslipFromOperators'] = [
+                'label' => 'admin.action.generate_payslips_from_selected',
+                'ask_confirmation' => true,
+            ];
+        }
+
+        return $actions;
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -590,7 +608,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'Acciones',
                 ]
             )
         ;
