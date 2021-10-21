@@ -207,10 +207,10 @@
                                     Unidades
                                 </th>
                                 <th class="sonata-ba-list-field-header">
-                                    Precio/unidad
+                                    Precio (€)/unidad
                                 </th>
                                 <th class="sonata-ba-list-field-header">
-                                    Total
+                                    Total (€)
                                 </th>
                                 <th class="sonata-ba-list-field-header">
                                     Observaciones
@@ -383,8 +383,8 @@
                 createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.units, row);
-                createCellFromInfoAndAppendToRow(element.priceUnit, row);
-                createCellFromInfoAndAppendToRow(element.amount, row);
+                createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
+                createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.description, row);
                 var deleteButton = `
                     <div class="btn-group">
