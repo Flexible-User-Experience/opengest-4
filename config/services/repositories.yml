@@ -199,6 +199,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Setting\TimeRange
+    app.payslip_line_concept_repository:
+        class: App\Repository\Payslip\PayslipLineConceptRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Payslip\PayslipLineConcept
     app.repositories_manager:
         public: true
         class: App\Manager\RepositoriesManager
@@ -241,3 +246,4 @@ services:
             - '@app.sale_item_repository'
             - '@app.work_repository'
             - '@app.time_range_repository'
+            - '@app.payslip_line_concept_repository'

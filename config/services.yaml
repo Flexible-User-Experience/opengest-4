@@ -3,6 +3,7 @@ imports:
     - { resource: 'services/admins/enterprise.yml' }
     - { resource: 'services/admins/operator.yml' }
     - { resource: 'services/admins/partner.yml' }
+    - { resource: 'services/admins/payslip.yml' }
     - { resource: 'services/admins/sale.yml' }
     - { resource: 'services/admins/setting.yml' }
     - { resource: 'services/admins/vehicle.yml' }

@@ -778,7 +778,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.base_amount',
-                    'editable' => false,
+                    'template' => 'admin/cells/list__cell_base_amount_currency_number.html.twig',
                 ]
             )
             ->add(
@@ -796,7 +796,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'actions' => [
 //                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_button.html.twig'],
+                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_sale_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',

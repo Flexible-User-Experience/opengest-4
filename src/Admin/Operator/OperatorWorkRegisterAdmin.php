@@ -148,7 +148,8 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     null,
                     [
                         'label' => 'admin.with.delivery_note',
-                        'required' => true,
+                        'placeholder' => ' - ',
+                        'required' => false,
                         'disabled' => true,
                     ]
                 )

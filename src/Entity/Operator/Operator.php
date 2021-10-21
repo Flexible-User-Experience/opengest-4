@@ -5,10 +5,13 @@ namespace App\Entity\Operator;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
+use App\Entity\Payslip\Payslip;
+use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Setting\City;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
@@ -435,6 +438,18 @@ class Operator extends AbstractBase
     private $workRegisterHeaders;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\Payslip", mappedBy="operator", cascade={"persist", "remove"})
+     */
+    private Collection $payslips;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $payslipOperatorDefaultLines;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorVariousAmount", mappedBy="operator")
@@ -453,6 +468,8 @@ class Operator extends AbstractBase
         $this->operatorDigitalTachographs = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->operatorVariousAmount = new ArrayCollection();
+        $this->payslipOperatorDefaultLines = new ArrayCollection();
+        $this->payslips = new ArrayCollection();
     }
 
     /**
@@ -1644,6 +1661,46 @@ class Operator extends AbstractBase
         return $this;
     }
 
+    public function getPayslipOperatorDefaultLines(): Collection
+    {
+        return $this->payslipOperatorDefaultLines;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPayslipOperatorDefaultLines(ArrayCollection $payslipOperatorDefaultLines): Operator
+    {
+        $this->payslipOperatorDefaultLines = $payslipOperatorDefaultLines;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): Operator
+    {
+        if (!$this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
+            $this->payslipOperatorDefaultLines->add($payslipOperatorDefaultLine);
+            $payslipOperatorDefaultLine->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): Operator
+    {
+        if ($this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
+            $this->payslipOperatorDefaultLines->removeElement($payslipOperatorDefaultLine);
+        }
+
+        return $this;
+    }
+
     /**
      * @return ArrayCollection
      */
@@ -1688,6 +1745,46 @@ class Operator extends AbstractBase
     {
         if ($this->operatorVariousAmount->contains($operatorVariousAmount)) {
             $this->operatorVariousAmount->removeElement($operatorVariousAmount);
+        }
+
+        return $this;
+    }
+
+    public function getPayslips(): Collection
+    {
+        return $this->payslips;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPayslips(ArrayCollection $payslips): Operator
+    {
+        $this->payslips = $payslips;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPayslip(Payslip $payslip): Operator
+    {
+        if (!$this->payslips->contains($payslip)) {
+            $this->payslips->add($payslip);
+            $payslip->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePayslip(Payslip $payslip): Operator
+    {
+        if ($this->payslips->contains($payslip)) {
+            $this->payslips->removeElement($payslip);
         }
 
         return $this;

@@ -112,6 +112,13 @@ admin:
         lines: "Líneas"
         amount: "Importe"
         tonnages: "Tonelajes"
+        payslip_line_concept: "Concepto"
+        from: "Desde"
+        to: "Hasta"
+        expenses: "Dietas"
+        social_security_cost: "Coste seguridad social"
+        extra_pay: "Paga extra"
+        other_costs: "Otros costes"
     with:
         general: "General"
         image: "Imagen"
@@ -132,7 +139,8 @@ admin:
         print_with_background: "Imprimir con fondo"
         to_count: "Contabilizar"
         generate_delivery_note_from_selected: "Generar albaranes de les peticiones marcadas"
-        generate_invoice_from_selected: "Facturar los albaranes selecionados"
+        generate_invoice_from_selected: "Facturar los albaranes seleccionados"
+        generate_payslips_from_selected: "Generar nóminas de los operarios seleccionados"
     actions: "Acciones"
 enum:
     sale_request_status:

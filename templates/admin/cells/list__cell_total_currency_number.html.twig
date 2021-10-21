@@ -1,5 +1,5 @@
 {% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
 
 {% block field %}
-    <span class="{% if object.total < 0 %}text-danger{% else %}text-success{% endif %} pull-right">{{ object.total | number_format(2, '\'', '.') }} €</span>
+    <span class="{% if object.total < 0 %}text-danger{% else %}text-success{% endif %} pull-right">{{ object.total | number_format(2, ',', '.') }} €</span>
 {% endblock %}

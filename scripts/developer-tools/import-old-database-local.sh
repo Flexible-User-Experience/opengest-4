@@ -33,3 +33,4 @@ php bin/console  app:import:sale:tariff var/csv/sale_tariff.csv
 php bin/console  app:import:sale:invoice var/csv/sale_invoice.csv
 php bin/console  app:create:sale:items
 php bin/console  app:create:time:ranges
+php bin/console  app:create:payslip:line:concepts

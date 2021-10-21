@@ -1,12 +1,15 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.30.0",
+        "@symfony/stimulus-bridge": "^2.1.0",
+        "@symfony/webpack-encore": "^1.6.0",
         "bootstrap-less": "^3.3.8",
         "core-js": "^3.0.0",
+        "file-loader": "^6.0.0",
         "font-awesome": "^4.7.0",
         "less": "^3.11.1",
-        "less-loader": "^4.1.0",
+        "less-loader": "^10.0.0",
         "regenerator-runtime": "^0.13.2",
+        "stimulus": "^2.0.0",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",

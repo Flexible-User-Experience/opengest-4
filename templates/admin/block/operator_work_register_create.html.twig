@@ -5,227 +5,227 @@
 {% block block %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    <div class="col-md-3">
-        <div class="box box-success">
-            <div class="box-header">
-                <h4 class="box-title">
-                    Crear partes de trabajo
-                </h4>
-            </div>
-            <form action="{{ path('admin_app_operator_operatorworkregister_createCustomWorkRegister') }}">
-                <div class="box-body">
-                    <div class="form-group" id="sonata-ba-field-container-custom_date">
-                        <label class="control-label required" for="custom_date">
-                            Fecha
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                            <div class="input-group">
-                                <div class="input-group date" id="dp_custom_date">
-                                    <input type="text"
-                                           id="custom_date"
-                                           name="custom_date"
-                                           required="required"
-                                           class="sonata-medium-date form-control"
-                                           data-date-format="DD-MM-YYYY"
-                                           {% if content.selectedDate %}
-                                            value="{{ content.selectedDate }}">
-                                           {% else %}
-                                            value="{{ "now"|date("d-m-Y") }}">
-                                           {% endif %}
-                                    <span class="input-group-addon">
-                                        <span class="fa-calendar fa"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <script type="text/javascript">
-                              jQuery(function ($) {
-                                $('#dp_custom_date').datetimepicker({
-                                  "pickTime": false,
-                                  "pickDate": true,
-                                  "useCurrent": true,
-                                  "minDate": "1\/1\/1900",
-                                  "maxDate": null,
-                                  "showToday": true,
-                                  "language": "es",
-                                  "defaultDate": "",
-                                  "disabledDates": [],
-                                  "enabledDates": [],
-                                  "icons": {
-                                    "time": "fa fa-clock-o",
-                                    "date": "fa fa-calendar",
-                                    "up": "fa fa-chevron-up",
-                                    "down": "fa fa-chevron-down"
-                                  },
-                                  "useStrict": false,
-                                  "sideBySide": false,
-                                  "daysOfWeekDisabled": [],
-                                  "collapse": true,
-                                  "calendarWeeks": false,
-                                  "viewMode": "days",
-                                  "minViewMode": "days",
-                                  "useSeconds": false
-                                });
-                              });
-                            </script>
-                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-custom_operator">
-                        <label class="control-label required" for="custom_operator">
-                            Operario
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" name="custom_operator" id="custom_operator">
-                                <option value="">---selecione un operario---</option>
-                                {% for operator in content.operators %}
-                                    <option value="{{ operator.id }}"
-                                    {% if operator.id == content.selectedOperator %}
-                                            selected
-                                    {% endif %}
-                                    >{{ operator }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-custom_sale_delivery_note">
-                        <label class="control-label" for="custom_sale_delivery_note">
-                            Albarán
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
-                                <option value="">---selecione un albarán---</option>
-                                {% for deliveryNote in content.saleDeliveryNotes %}
-                                <option value="{{ deliveryNote.id }}">{{ deliveryNote }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-select_input_type">
-                        <label class="control-label required" for="s60fa7bcba2582_operator">
-                            Tipo
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" id="select_input_type" name="select_input_type">
-                                <option value="hour">Horas</option>
-                                <option value="unit">Items</option>
-                                <option value="other">Otros</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-custom_start">
-                        <label class="control-label required" for="custom_start">
-                            Empieza
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                            <input type="time" id="custom_start" name="custom_start" class=" form-control">
-                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-custom_finish">
-                        <label class="control-label required" for="custom_finish">
-                            Termina
-                        </label>
-                        <label class="warning hidden" style="color: red" id="label_warning_finish_before_start">
-                            Debe ser más posterior al momento de inicio
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                            <input type="time" id="custom_finish" name="custom_finish" class=" form-control">
-                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-description">
-                        <label class="control-label" for="description">
-                            Descripción
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" name="custom_description">
-                                <option value="">---seleccione una descripción---</option>
-                                {% for id,description in content.timeDescriptions %}
-                                    <option value="{{ id }}">{{ description }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-item">
-                        <label class="control-label required" for="item">
-                            Item
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                            <select class="select2-container" style="width: 100%;" name="custom_item" id="custom_item">
-                                <option value="">---selecione un item---</option>
-                                {% for id,item in content.items %}
-                                    <option value="{{ id }}">{{ item }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-text-description">
-                        <label class="control-label required" for="s6148507556dff_description">
-                            Descripción
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                            <input type="text" id="custom_text_description" name="custom_text_description"
-                                   required="required" class=" form-control">
-                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
-                        </div>
-                    </div>
-                    <div class="form-group" id="sonata-ba-field-container-amount">
-                        <label class="control-label required" for="amount">
-                            Total (€)
-                        </label>
-                        <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                            <input type="text" id="amount" name="amount"
-                                   required="required" class=" form-control">
-                            <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-success" type="submit" id="btn_custom_submit" name="btn_custom_submit"><i class="fa fa-save" aria-hidden="true"></i> Crear</button>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Crear partes de trabajo
+                    </h4>
                 </div>
-            </form>
-        </div>
-    </div>
-    <div class="col-md-9">
-        <div class="box box-success">
-            <div class="box-header">
-                <h4 class="box-title">
-                    Partes de trabajo
-                </h4>
-                <div class="box-body table-responsive no-padding">
-                    <table class="table table-bordered table-striped table-hover sonata-ba-list">
-                        <thead>
-                        <tr class="sonata-ba-list-field-header">
-                            <th class="sonata-ba-list-field-header">
+                <form action="{{ path('admin_app_operator_operatorworkregister_createCustomWorkRegister') }}">
+                    <div class="box-body">
+                        <div class="form-group" id="sonata-ba-field-container-custom_date">
+                            <label class="control-label required" for="custom_date">
+                                Fecha
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                <div class="input-group">
+                                    <div class="input-group date" id="dp_custom_date">
+                                        <input type="text"
+                                               id="custom_date"
+                                               name="custom_date"
+                                               required="required"
+                                               class="sonata-medium-date form-control"
+                                               data-date-format="DD-MM-YYYY"
+                                               {% if content.selectedDate %}
+                                                value="{{ content.selectedDate }}">
+                                               {% else %}
+                                                value="{{ "now"|date("d-m-Y") }}">
+                                               {% endif %}
+                                        <span class="input-group-addon">
+                                            <span class="fa-calendar fa"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                  jQuery(function ($) {
+                                    $('#dp_custom_date').datetimepicker({
+                                      "pickTime": false,
+                                      "pickDate": true,
+                                      "useCurrent": true,
+                                      "minDate": "1\/1\/1900",
+                                      "maxDate": null,
+                                      "showToday": true,
+                                      "language": "es",
+                                      "defaultDate": "",
+                                      "disabledDates": [],
+                                      "enabledDates": [],
+                                      "icons": {
+                                        "time": "fa fa-clock-o",
+                                        "date": "fa fa-calendar",
+                                        "up": "fa fa-chevron-up",
+                                        "down": "fa fa-chevron-down"
+                                      },
+                                      "useStrict": false,
+                                      "sideBySide": false,
+                                      "daysOfWeekDisabled": [],
+                                      "collapse": true,
+                                      "calendarWeeks": false,
+                                      "viewMode": "days",
+                                      "minViewMode": "days",
+                                      "useSeconds": false
+                                    });
+                                  });
+                                </script>
+                                <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-custom_operator">
+                            <label class="control-label required" for="custom_operator">
+                                Operario
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="custom_operator" id="custom_operator">
+                                    <option value="">---selecione un operario---</option>
+                                    {% for operator in content.operators %}
+                                        <option value="{{ operator.id }}"
+                                        {% if operator.id == content.selectedOperator %}
+                                                selected
+                                        {% endif %}
+                                        >{{ operator }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-custom_sale_delivery_note">
+                            <label class="control-label" for="custom_sale_delivery_note">
                                 Albarán
-                            </th>
-                            <th class="sonata-ba-list-field-header-time">
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
+                                    <option value="">---selecione un albarán---</option>
+                                    {% for deliveryNote in content.saleDeliveryNotes %}
+                                    <option value="{{ deliveryNote.id }}">{{ deliveryNote }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-select_input_type">
+                            <label class="control-label required" for="s60fa7bcba2582_operator">
+                                Tipo
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" id="select_input_type" name="select_input_type">
+                                    <option value="hour">Horas</option>
+                                    <option value="unit">Items</option>
+                                    <option value="other">Otros</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-custom_start">
+                            <label class="control-label required" for="custom_start">
                                 Empieza
-                            </th>
-                            <th class="sonata-ba-list-field-header-time">
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                <input type="time" id="custom_start" name="custom_start" class=" form-control">
+                                <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-custom_finish">
+                            <label class="control-label required" for="custom_finish">
                                 Termina
-                            </th>
-                            <th class="sonata-ba-list-field-header">
-                                Unidades
-                            </th>
-                            <th class="sonata-ba-list-field-header">
-                                Precio/unidad
-                            </th>
-                            <th class="sonata-ba-list-field-header">
-                                Total
-                            </th>
-                            <th class="sonata-ba-list-field-header">
-                                Observaciones
-                            </th>
-                            <th class="sonata-ba-list-field-header">
-                                Acción
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody id="custom_table">
-                        </tbody>
-                    </table>
+                            </label>
+                            <label class="warning hidden" style="color: red" id="label_warning_finish_before_start">
+                                Debe ser más posterior al momento de inicio
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                <input type="time" id="custom_finish" name="custom_finish" class=" form-control">
+                                <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-description">
+                            <label class="control-label" for="description">
+                                Descripción
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="custom_description">
+                                    <option value="">---seleccione una descripción---</option>
+                                    {% for id,description in content.timeDescriptions %}
+                                        <option value="{{ id }}">{{ description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-item">
+                            <label class="control-label required" for="item">
+                                Item
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="custom_item" id="custom_item">
+                                    <option value="">---selecione un item---</option>
+                                    {% for id,item in content.items %}
+                                        <option value="{{ id }}">{{ item }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-text-description">
+                            <label class="control-label required" for="s6148507556dff_description">
+                                Descripción
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                <input type="text" id="custom_text_description" name="custom_text_description" class=" form-control">
+                                <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-amount">
+                            <label class="control-label required" for="amount">
+                                Total (€)
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                <input type="number" step=".01" id="amount" name="amount" class=" form-control">
+                                <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" type="submit" id="btn_custom_submit" name="btn_custom_submit"><i class="fa fa-save" aria-hidden="true"></i> Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Partes de trabajo
+                    </h4>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                            <thead>
+                            <tr class="sonata-ba-list-field-header">
+                                <th class="sonata-ba-list-field-header">
+                                    Albarán
+                                </th>
+                                <th class="sonata-ba-list-field-header-time">
+                                    Empieza
+                                </th>
+                                <th class="sonata-ba-list-field-header-time">
+                                    Termina
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Unidades
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Precio (€)/unidad
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Total (€)
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Observaciones
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Acción
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="custom_table">
+                            </tbody>
+                        </table>
 
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -383,8 +383,8 @@
                 createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.units, row);
-                createCellFromInfoAndAppendToRow(element.priceUnit, row);
-                createCellFromInfoAndAppendToRow(element.amount, row);
+                createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
+                createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.description, row);
                 var deleteButton = `
                     <div class="btn-group">

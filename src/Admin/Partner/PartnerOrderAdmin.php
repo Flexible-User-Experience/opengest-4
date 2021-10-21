@@ -50,7 +50,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 ModelAutocompleteType::class,
                 [
                     'property' => 'name',
-                    'label' => 'Tercer',
+                    'label' => 'Tercero',
                     'required' => true,
                     'callback' => function ($admin, $property, $value) {
                         /** @var Admin $admin */
@@ -72,7 +72,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número comanda',
+                    'label' => 'Número orden',
                     'required' => true,
                 ]
             )
@@ -80,7 +80,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referència proveïdor',
+                    'label' => 'Referencia proveedor',
                     'required' => false,
                 ]
             )
@@ -95,7 +95,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelAutocompleteFilter::class,
                 [
-                    'label' => 'Tercer',
+                    'label' => 'Tercero',
                     'admin_code' => 'partner_admin',
                 ],
                 null,
@@ -107,14 +107,14 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número comanda',
+                    'label' => 'Número orden',
                 ]
             )
             ->add(
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referència proveïdor',
+                    'label' => 'Referencia proveedor',
                 ]
             )
         ;
@@ -147,7 +147,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'partner',
                 null,
                 [
-                    'label' => 'Tercer',
+                    'label' => 'Tercero',
                     'admin_code' => 'partner_admin',
                     'editable' => false,
                     'associated_property' => 'name',
@@ -160,7 +160,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número Comanda',
+                    'label' => 'Número Orden',
                     'editable' => true,
                 ]
             )
@@ -168,7 +168,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referència proveïdor',
+                    'label' => 'Referencia proveedor',
                     'editable' => true,
                 ]
             )
