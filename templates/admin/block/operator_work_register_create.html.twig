@@ -165,8 +165,7 @@
                                 Descripción
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                                <input type="text" id="custom_text_description" name="custom_text_description"
-                                       required="required" class=" form-control">
+                                <input type="text" id="custom_text_description" name="custom_text_description" class=" form-control">
                                 <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                             </div>
                         </div>
@@ -175,8 +174,7 @@
                                 Total (€)
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural">
-                                <input type="text" id="amount" name="amount"
-                                       required="required" class=" form-control">
+                                <input type="number" step=".01" id="amount" name="amount" class=" form-control">
                                 <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                             </div>
                         </div>
@@ -209,10 +207,10 @@
                                     Unidades
                                 </th>
                                 <th class="sonata-ba-list-field-header">
-                                    Precio/unidad
+                                    Precio (€)/unidad
                                 </th>
                                 <th class="sonata-ba-list-field-header">
-                                    Total
+                                    Total (€)
                                 </th>
                                 <th class="sonata-ba-list-field-header">
                                     Observaciones
@@ -385,8 +383,8 @@
                 createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.units, row);
-                createCellFromInfoAndAppendToRow(element.priceUnit, row);
-                createCellFromInfoAndAppendToRow(element.amount, row);
+                createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
+                createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.description, row);
                 var deleteButton = `
                     <div class="btn-group">

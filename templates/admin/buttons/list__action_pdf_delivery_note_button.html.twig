@@ -1,4 +1,4 @@
 {% if admin.isGranted('EDIT', object) and admin.hasRoute('edit') %}
     <a href="{{ admin.generateObjectUrl('pdf', object) }}" class="btn btn-sm btn-default edit_link" title="PDF"><i class="fa fa-file-pdf-o"></i></a>
-    <div data-controller="hello"></div>
+{#    <div data-controller="hello"></div>#}
 {% endif %}

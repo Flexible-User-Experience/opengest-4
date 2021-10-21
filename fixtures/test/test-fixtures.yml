@@ -601,3 +601,9 @@ App\Entity\Setting\TimeRange:
         start: <dateTime()>
         finish: <dateTime()>
         type: <numberBetween(0,2)>
+
+# PayslipLineConcept
+App\Entity\Payslip\PayslipLineConcept:
+    payslipLineConcept{1..3}:
+        description: <word()>
+

@@ -17,20 +17,22 @@ sonata_admin:
         pager_results: 'admin/pager_results.html.twig'
     dashboard:
         groups:
-            Vendes:
+            Ventas:
                 icon: '<i class="fa fa-eur"></i>'
-            Operaris:
+            Operarios:
                 icon: '<i class="fa fa-users"></i>'
-            Vehicles:
+            Nóminas:
+                icon: '<i class="fa fa-file-text"></i>'
+            Vehículos:
                 icon: '<i class="fa fa-truck"></i>'
-            Tercers:
+            Terceros:
                 icon: '<i class="fa fa-user"></i>'
-            Empreses:
+            Empresas:
                 icon: '<i class="fa fa-building"></i>'
             Web:
                 icon: '<i class="fa fa-chrome"></i>'
-            Configuracio:
-                label: 'Configuració'
+            Configuración:
+                label: 'Configuración'
                 icon:  '<i class="fa fa-briefcase"></i>'
         blocks:
             -

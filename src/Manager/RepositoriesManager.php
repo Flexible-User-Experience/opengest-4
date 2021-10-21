@@ -2,44 +2,44 @@
 
 namespace App\Manager;
 
-use App\Entity\Sale\SaleServiceTariff;
 use App\Repository\Enterprise\ActivityLineRepository;
-use App\Repository\Operator\OperatorDigitalTachographRepository;
-use App\Repository\Operator\OperatorVariousAmountRepository;
-use App\Repository\Operator\OperatorWorkRegisterRepository;
-use App\Repository\Partner\PartnerContactRepository;
-use App\Repository\Partner\PartnerUnableDaysRepository;
-use App\Repository\Sale\SaleInvoiceRepository;
-use App\Repository\Sale\SaleItemRepository;
-use App\Repository\Sale\SaleServiceTariffRepository;
-use App\Repository\Setting\CityRepository;
 use App\Repository\Enterprise\CollectionDocumentTypeRepository;
 use App\Repository\Enterprise\EnterpriseGroupBountyRepository;
+use App\Repository\Enterprise\EnterpriseHolidaysRepository;
 use App\Repository\Enterprise\EnterpriseRepository;
 use App\Repository\Enterprise\EnterpriseTransferAccountRepository;
-use App\Repository\Enterprise\EnterpriseHolidaysRepository;
 use App\Repository\Operator\OperatorAbsenceRepository;
 use App\Repository\Operator\OperatorAbsenceTypeRepository;
 use App\Repository\Operator\OperatorCheckingRepository;
 use App\Repository\Operator\OperatorCheckingTypeRepository;
+use App\Repository\Operator\OperatorDigitalTachographRepository;
 use App\Repository\Operator\OperatorRepository;
+use App\Repository\Operator\OperatorVariousAmountRepository;
+use App\Repository\Operator\OperatorWorkRegisterRepository;
 use App\Repository\Partner\PartnerBuildingSiteRepository;
 use App\Repository\Partner\PartnerClassRepository;
+use App\Repository\Partner\PartnerContactRepository;
 use App\Repository\Partner\PartnerOrderRepository;
 use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
+use App\Repository\Partner\PartnerUnableDaysRepository;
+use App\Repository\Payslip\PayslipLineConceptRepository;
 use App\Repository\Sale\SaleDeliveryNoteRepository;
+use App\Repository\Sale\SaleInvoiceRepository;
+use App\Repository\Sale\SaleItemRepository;
+use App\Repository\Sale\SaleRequestRepository;
+use App\Repository\Sale\SaleServiceTariffRepository;
+use App\Repository\Sale\SaleTariffRepository;
+use App\Repository\Setting\CityRepository;
 use App\Repository\Setting\ProvinceRepository;
 use App\Repository\Setting\SaleInvoiceSeriesRepository;
-use App\Repository\Sale\SaleRequestRepository;
-use App\Repository\Sale\SaleTariffRepository;
 use App\Repository\Setting\TimeRangeRepository;
-use App\Repository\Web\ServiceRepository;
 use App\Repository\Setting\UserRepository;
 use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
 use App\Repository\Vehicle\VehicleRepository;
+use App\Repository\Web\ServiceRepository;
 use App\Repository\Web\WorkRepository;
 
 /**
@@ -51,195 +51,83 @@ use App\Repository\Web\WorkRepository;
  */
 class RepositoriesManager
 {
-    /**
-     * @var ServiceRepository
-     */
     private ServiceRepository $serviceRepository;
 
-    /**
-     * @var VehicleCategoryRepository
-     */
     private VehicleCategoryRepository $vehicleCategoryRepository;
 
-    /**
-     * @var UserRepository
-     */
     private UserRepository $userRepository;
 
-    /**
-     * @var OperatorRepository
-     */
     private OperatorRepository $operatorRepository;
 
-    /**
-     * @var EnterpriseRepository
-     */
     private EnterpriseRepository $enterpriseRepository;
 
-    /**
-     * @var EnterpriseGroupBountyRepository
-     */
     private EnterpriseGroupBountyRepository $enterpriseGroupBountyRepository;
 
-    /**
-     * @var EnterpriseTransferAccountRepository
-     */
     private EnterpriseTransferAccountRepository $enterpriseTransferAccountRepository;
 
-    /**
-     * @var EnterpriseHolidaysRepository
-     */
     private EnterpriseHolidaysRepository $enterpriseHolidaysRepository;
 
-    /**
-     * @var OperatorCheckingRepository
-     */
     private OperatorCheckingRepository $operatorCheckingRepository;
 
-    /**
-     * @var OperatorCheckingTypeRepository
-     */
     private OperatorCheckingTypeRepository $operatorCheckingTypeRepository;
 
-    /**
-     * @var OperatorAbsenceTypeRepository
-     */
     private OperatorAbsenceTypeRepository $operatorAbsenceTypeRepository;
 
-    /**
-     * @var OperatorAbsenceRepository
-     */
     private OperatorAbsenceRepository $operatorAbsenceRepository;
 
-    /**
-     * @var OperatorDigitalTachographRepository
-     */
     private OperatorDigitalTachographRepository $operatorDigitalTachographRepository;
 
-    /**
-     * @var OperatorVariousAmountRepository
-     */
     private OperatorVariousAmountRepository $operatorVariousAmountRepository;
 
-    /**
-     * @var VehicleRepository
-     */
     private VehicleRepository $vehicleRepository;
 
-    /**
-     * @var VehicleCheckingTypeRepository
-     */
     private VehicleCheckingTypeRepository $vehicleCheckingTypeRepository;
 
-    /**
-     * @var VehicleCheckingRepository
-     */
     private VehicleCheckingRepository $vehicleCheckingRepository;
 
-    /**
-     * @var PartnerRepository
-     */
     private PartnerRepository $partnerRepository;
 
-    /**
-     * @var PartnerClassRepository
-     */
     private PartnerClassRepository $partnerClassRepository;
 
-    /**
-     * @var PartnerTypeRepository
-     */
     private PartnerTypeRepository $partnerTypeRepository;
 
-    /**
-     * @var PartnerContactRepository
-     */
     private PartnerContactRepository $partnerContactRepository;
 
-    /**
-     * @var PartnerUnableDaysRepository
-     */
     private PartnerUnableDaysRepository $partnerUnableDaysRepository;
 
-    /**
-     * @var CityRepository
-     */
     private CityRepository $cityRepository;
 
-    /**
-     * @var ProvinceRepository
-     */
     private ProvinceRepository $provinceRepository;
 
-    /**
-     * @var SaleTariffRepository
-     */
     private SaleTariffRepository $saleTariffRepository;
 
-    /**
-     * @var PartnerBuildingSiteRepository
-     */
     private PartnerBuildingSiteRepository $partnerBuildingSiteRepository;
 
-    /**
-     * @var PartnerOrderRepository
-     */
     private PartnerOrderRepository $partnerOrderRepository;
 
-    /**
-     * @var CollectionDocumentTypeRepository
-     */
     private CollectionDocumentTypeRepository $collectionDocumentTypeRepository;
 
-    /**
-     * @var ActivityLineRepository
-     */
     private ActivityLineRepository $activityLineRepository;
 
-    /**
-     * @var SaleInvoiceSeriesRepository
-     */
     private SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository;
 
-    /**
-     * @var SaleRequestRepository
-     */
     private SaleRequestRepository $saleRequestRepository;
 
-    /**
-     * @var SaleDeliveryNoteRepository
-     */
     private SaleDeliveryNoteRepository $saleDeliveryNoteRepository;
 
-    /**
-     * @var SaleInvoiceRepository
-     */
     private SaleInvoiceRepository $saleInvoiceRepository;
 
-    /**
-     * @var SaleServiceTariffRepository
-     */
     private SaleServiceTariffRepository $saleServiceTariffRepository;
 
-    /**
-     * @var SaleItemRepository
-     */
     private SaleItemRepository $saleItemRepository;
 
-    /**
-     * @var WorkRepository
-     */
     private WorkRepository $workRepository;
 
-    /**
-     * @var TimeRangeRepository
-     */
     private TimeRangeRepository $timeRangeRepository;
 
-    /**
-     * @var OperatorWorkRegisterRepository
-     */
     private OperatorWorkRegisterRepository $operatorWorkRegisterRepository;
+
+    private PayslipLineConceptRepository $payslipLineConceptRepository;
 
     /**
      * Methods.
@@ -247,44 +135,6 @@ class RepositoriesManager
 
     /**
      * RepositoriesManager constructor.
-     *
-     * @param ServiceRepository $serviceRepository
-     * @param VehicleCategoryRepository $vehicleCategoryRepository
-     * @param UserRepository $userRepository
-     * @param OperatorRepository $operatorRepository
-     * @param EnterpriseRepository $enterpriseRepository
-     * @param EnterpriseGroupBountyRepository $enterpriseGroupBountyRepository
-     * @param EnterpriseTransferAccountRepository $enterpriseTransferAccountRepository
-     * @param EnterpriseHolidaysRepository $enterpriseHolidaysRepository
-     * @param OperatorCheckingRepository $operatorCheckingRepository
-     * @param OperatorCheckingTypeRepository $operatorCheckingTypeRepository
-     * @param OperatorAbsenceTypeRepository $operatorAbsenceTypeRepository
-     * @param OperatorAbsenceRepository $operatorAbsenceRepository
-     * @param OperatorDigitalTachographRepository $operatorDigitalTachographRepository
-     * @param OperatorVariousAmountRepository $operatorVariousAmountRepository
-     * @param VehicleRepository $vehicleRepository
-     * @param VehicleCheckingTypeRepository $vehicleCheckingTypeRepository
-     * @param VehicleCheckingRepository $vehicleCheckingRepository
-     * @param PartnerRepository $partnerRepository
-     * @param PartnerClassRepository $partnerClassRepository
-     * @param PartnerTypeRepository $partnerTypeRepository
-     * @param PartnerContactRepository $partnerContactRepository
-     * @param PartnerUnableDaysRepository $partnerUnableDaysRepository
-     * @param CityRepository $cityRepository
-     * @param ProvinceRepository $provinceRepository
-     * @param SaleTariffRepository $saleTariffRepository
-     * @param PartnerBuildingSiteRepository $partnerBuildingSiteRepository
-     * @param PartnerOrderRepository $partnerOrderRepository
-     * @param CollectionDocumentTypeRepository $collectionDocumentTypeRepository
-     * @param ActivityLineRepository $activityLineRepository
-     * @param SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository
-     * @param SaleRequestRepository $saleRequestRepository
-     * @param SaleDeliveryNoteRepository $saleDeliveryNoteRepository
-     * @param SaleInvoiceRepository $saleInvoiceRepository
-     * @param SaleServiceTariffRepository $saleServiceTariffRepository
-     * @param SaleItemRepository $saleItemRepository
-     * @param WorkRepository $workRepository
-     * @param TimeRangeRepository $timeRangeRepository
      */
     public function __construct(
         ServiceRepository $serviceRepository,
@@ -324,7 +174,8 @@ class RepositoriesManager
         SaleServiceTariffRepository $saleServiceTariffRepository,
         SaleItemRepository $saleItemRepository,
         WorkRepository $workRepository,
-        TimeRangeRepository $timeRangeRepository
+        TimeRangeRepository $timeRangeRepository,
+        PayslipLineConceptRepository $payslipLineConceptRepository
     ) {
         $this->serviceRepository = $serviceRepository;
         $this->vehicleCategoryRepository = $vehicleCategoryRepository;
@@ -364,6 +215,7 @@ class RepositoriesManager
         $this->saleItemRepository = $saleItemRepository;
         $this->workRepository = $workRepository;
         $this->timeRangeRepository = $timeRangeRepository;
+        $this->payslipLineConceptRepository = $payslipLineConceptRepository;
     }
 
     /**
@@ -558,9 +410,6 @@ class RepositoriesManager
         return $this->saleTariffRepository;
     }
 
-    /**
-     * @return SaleServiceTariffRepository
-     */
     public function getSaleServiceTariffRepository(): SaleServiceTariffRepository
     {
         return $this->saleServiceTariffRepository;
@@ -638,9 +487,6 @@ class RepositoriesManager
         return $this->saleInvoiceRepository;
     }
 
-    /**
-     * @return SaleItemRepository
-     */
     public function getSaleItemRepository(): SaleItemRepository
     {
         return $this->saleItemRepository;
@@ -654,19 +500,18 @@ class RepositoriesManager
         return $this->workRepository;
     }
 
-    /**
-     * @return TimeRangeRepository
-     */
     public function getTimeRangeRepository(): TimeRangeRepository
     {
         return $this->timeRangeRepository;
     }
 
-    /**
-     * @return OperatorWorkRegisterRepository
-     */
     public function getOperatorWorkRegisterRepository(): OperatorWorkRegisterRepository
     {
         return $this->operatorWorkRegisterRepository;
+    }
+
+    public function getPayslipLineConceptRepository(): PayslipLineConceptRepository
+    {
+        return $this->payslipLineConceptRepository;
     }
 }

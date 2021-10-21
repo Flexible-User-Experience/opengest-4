@@ -39,6 +39,11 @@ class PartnerAdmin extends AbstractBaseAdmin
     protected $baseRouteName = 'admin_app_partner_partner';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [
@@ -76,7 +81,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'Nombre',
                 ]
             )
             ->add(
@@ -84,7 +89,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => PartnerClass::class,
-                    'label' => 'Classe',
+                    'label' => 'Clase',
                     'required' => true,
                     'query_builder' => $this->rm->getPartnerClassRepository()->getEnabledSortedByNameQB(),
                 ]
@@ -94,7 +99,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => PartnerType::class,
-                    'label' => 'Tipus',
+                    'label' => 'Tipo',
                     'required' => true,
                     'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
                 ]
@@ -104,7 +109,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => EnterpriseTransferAccount::class,
-                    'label' => 'Compte bancari empresa',
+                    'label' => 'Cuenta bancaria',
                     'required' => true,
                     'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
@@ -113,7 +118,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'notes',
                 null,
                 [
-                    'label' => 'Notes',
+                    'label' => 'Notas',
                     'attr' => [
                         'style' => 'resize: vertical',
                         'rows' => 7,
@@ -121,12 +126,12 @@ class PartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('Contacte', $this->getFormMdSuccessBoxArray(4))
+            ->with('Contacto', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'mainAddress',
                 null,
                 [
-                    'label' => 'Adreça principal',
+                    'label' => 'Dirección principal',
                     'required' => true,
                 ]
             )
@@ -135,7 +140,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => City::class,
-                    'label' => 'Ciutat principal',
+                    'label' => 'Ciudad principal',
                     'required' => true,
                     'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
                 ]
@@ -144,7 +149,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'secondaryAddress',
                 null,
                 [
-                    'label' => 'Adreça secundària',
+                    'label' => 'Dirección secundària',
                 ]
             )
             ->add(
@@ -152,7 +157,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => City::class,
-                    'label' => 'Ciutat secundària',
+                    'label' => 'Ciudad secundària',
                     'required' => false,
                     'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
                 ]
@@ -161,35 +166,35 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'phoneNumber1',
                 null,
                 [
-                    'label' => 'Telèfon 1',
+                    'label' => 'Teléfono 1',
                 ]
             )
             ->add(
                 'phoneNumber2',
                 null,
                 [
-                    'label' => 'Telèfon 2',
+                    'label' => 'Teléfono 2',
                 ]
             )
             ->add(
                 'phoneNumber3',
                 null,
                 [
-                    'label' => 'Telèfon 3',
+                    'label' => 'Teléfono 3',
                 ]
             )
             ->add(
                 'phoneNumber4',
                 null,
                 [
-                    'label' => 'Telèfon 4',
+                    'label' => 'Teléfono 4',
                 ]
             )
             ->add(
                 'phoneNumber5',
                 null,
                 [
-                    'label' => 'Telèfon 5',
+                    'label' => 'Teléfono 5',
                 ]
             )
             ->add(
@@ -217,7 +222,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'www',
                 null,
                 [
-                    'label' => 'Pàgina web',
+                    'label' => 'Página web',
                 ]
             )
             ->end()
@@ -226,35 +231,35 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'discount',
                 null,
                 [
-                    'label' => 'Descompte',
+                    'label' => 'Descuento',
                 ]
             )
             ->add(
                 'code',
                 null,
                 [
-                    'label' => 'Codi',
+                    'label' => 'Código',
                 ]
             )
             ->add(
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referència proveïdor',
+                    'label' => 'Referencia proveedor',
                 ]
             )
             ->add(
                 'reference',
                 null,
                 [
-                    'label' => 'Referència',
+                    'label' => 'Referencia',
                 ]
             )
             ->add(
                 'ivaTaxFree',
                 null,
                 [
-                    'label' => 'Exent IVA',
+                    'label' => 'Exento IVA',
                 ]
             )
             ->add(
@@ -275,7 +280,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'bankCode',
                 null,
                 [
-                    'label' => 'Codi bancari',
+                    'label' => 'Código bancario',
                 ]
             )
             ->add(
@@ -289,14 +294,14 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'controlDigit',
                 null,
                 [
-                    'label' => 'Dígit control',
+                    'label' => 'Dígito control',
                 ]
             )
             ->add(
                 'accountNumber',
                 null,
                 [
-                    'label' => 'Número compte',
+                    'label' => 'Número cuenta',
                 ]
             )
             ->add(
@@ -324,28 +329,28 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'Nombre',
                 ]
             )
             ->add(
                 'class',
                 null,
                 [
-                    'label' => 'Classe',
+                    'label' => 'Clase',
                 ]
             )
             ->add(
                 'type',
                 null,
                 [
-                    'label' => 'Tipus',
+                    'label' => 'Tipo',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'Activo',
                 ]
             )
         ;
@@ -385,7 +390,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'Nombre',
                     'editable' => true,
                 ]
             )
@@ -393,21 +398,21 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'class',
                 null,
                 [
-                    'label' => 'Classe',
+                    'label' => 'Clase',
                 ]
             )
             ->add(
                 'type',
                 null,
                 [
-                    'label' => 'Tipus',
+                    'label' => 'Tipo',
                 ]
             )
             ->add(
                 'phoneNumber1',
                 null,
                 [
-                    'label' => 'Telèfon 1',
+                    'label' => 'Teléfono 1',
                     'editable' => true,
                 ]
             )
@@ -423,7 +428,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'Activo',
                     'editable' => true,
                 ]
             )
