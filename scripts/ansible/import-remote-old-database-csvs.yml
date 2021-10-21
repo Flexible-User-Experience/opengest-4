@@ -124,7 +124,19 @@
       shell: "php bin/console --env=prod app:import:sale:tariff var/csv/sale_tariff.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
-    - name: execute sale tariff CSV import to local database
+    - name: execute sale invoice CSV import to local database
       shell: "php bin/console --env=prod app:import:sale:invoice var/csv/sale_invoice.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute sale item create to local database
+      shell: "php bin/console --env=prod app:create:sale:items"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute time ranges create to local database
+      shell: "php bin/console --env=prod app:create:time:ranges"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute payslip line concepts create to local database
+      shell: "php bin/console --env=prod app:create:payslip:line:concepts"
       args:
         chdir: "{{ vhost_path }}/current/"
