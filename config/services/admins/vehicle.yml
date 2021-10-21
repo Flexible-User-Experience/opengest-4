@@ -2,197 +2,197 @@
 services:
 
 # Web group
-    app.admin.service:
-        class: App\Admin\Web\ServiceAdmin
-        arguments: [ ~ , App\Entity\Web\Service, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Servei", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.work:
-        class: App\Admin\Web\WorkAdmin
-        arguments: [ ~ , App\Entity\Web\Work, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Treball", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.work_image:
-        class: App\Admin\Web\WorkImageAdmin
-        arguments: [ ~ , App\Entity\Web\WorkImage, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Imatge Treball", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop", show_in_dashboard: false }
-    app.admin.complement:
-        class: App\Admin\Web\ComplementAdmin
-        arguments: [ ~ , App\Entity\Web\Complement, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Accesori", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.contact_message:
-        class: App\Admin\Web\ContactMessageAdmin
-        arguments: [ ~, App\Entity\Web\ContactMessage, App\Controller\Admin\Web\ContactMessageAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Missatge de Contacte", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.service:
+#        class: App\Admin\Web\ServiceAdmin
+#        arguments: [ ~ , App\Entity\Web\Service, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Servei", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.work:
+#        class: App\Admin\Web\WorkAdmin
+#        arguments: [ ~ , App\Entity\Web\Work, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Treball", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.work_image:
+#        class: App\Admin\Web\WorkImageAdmin
+#        arguments: [ ~ , App\Entity\Web\WorkImage, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Imatge Treball", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop", show_in_dashboard: false }
+#    app.admin.complement:
+#        class: App\Admin\Web\ComplementAdmin
+#        arguments: [ ~ , App\Entity\Web\Complement, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Accesori", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.contact_message:
+#        class: App\Admin\Web\ContactMessageAdmin
+#        arguments: [ ~, App\Entity\Web\ContactMessage, App\Controller\Admin\Web\ContactMessageAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Missatge de Contacte", group: "Web", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 
 # Operator group
-    app.admin.operator:
-        class: App\Admin\Operator\OperatorAdmin
-        arguments: [ ~, App\Entity\Operator\Operator, App\Controller\Admin\Operator\OperatorAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Operari", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.operator_checking_type:
-        class: App\Admin\Operator\OperatorCheckingTypeAdmin
-        arguments: [ ~, App\Entity\Operator\OperatorCheckingType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tipus revisió", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.operator_checking:
-        class: App\Admin\Operator\OperatorCheckingAdmin
-        arguments: [ ~, App\Entity\Operator\OperatorChecking, App\Controller\Admin\Operator\OperatorCheckingAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Revisió", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.operator_absence_type:
-        class: App\Admin\Operator\OperatorAbsenceTypeAdmin
-        arguments: [ ~, App\Entity\Operator\OperatorAbsenceType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tipus absència", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.operator_absence:
-        class: App\Admin\Operator\OperatorAbsenceAdmin
-        arguments: [ ~, App\Entity\Operator\OperatorAbsence, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Absència", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.operator.digital_tachograph:
-        class: App\Admin\Operator\OperatorDigitalTachographAdmin
-        arguments: [ ~, App\Entity\Operator\OperatorDigitalTachograph, App\Controller\Admin\Operator\OperatorDigitalTachographAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tacògraf", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.operator.various_amount:
-        class: App\Admin\Operator\OperatorVariousAmountAdmin
-        arguments: [ ~, App\Entity\Operator\OperatorVariousAmount, App\Controller\Admin\Operator\OperatorVariousAmountAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Imports varis", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.operator:
+#        class: App\Admin\Operator\OperatorAdmin
+#        arguments: [ ~, App\Entity\Operator\Operator, App\Controller\Admin\Operator\OperatorAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Operari", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.operator_checking_type:
+#        class: App\Admin\Operator\OperatorCheckingTypeAdmin
+#        arguments: [ ~, App\Entity\Operator\OperatorCheckingType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Tipus revisió", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.operator_checking:
+#        class: App\Admin\Operator\OperatorCheckingAdmin
+#        arguments: [ ~, App\Entity\Operator\OperatorChecking, App\Controller\Admin\Operator\OperatorCheckingAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Revisió", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.operator_absence_type:
+#        class: App\Admin\Operator\OperatorAbsenceTypeAdmin
+#        arguments: [ ~, App\Entity\Operator\OperatorAbsenceType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Tipus absència", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.operator_absence:
+#        class: App\Admin\Operator\OperatorAbsenceAdmin
+#        arguments: [ ~, App\Entity\Operator\OperatorAbsence, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Absència", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.operator.digital_tachograph:
+#        class: App\Admin\Operator\OperatorDigitalTachographAdmin
+#        arguments: [ ~, App\Entity\Operator\OperatorDigitalTachograph, App\Controller\Admin\Operator\OperatorDigitalTachographAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Tacògraf", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.operator.various_amount:
+#        class: App\Admin\Operator\OperatorVariousAmountAdmin
+#        arguments: [ ~, App\Entity\Operator\OperatorVariousAmount, App\Controller\Admin\Operator\OperatorVariousAmountAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Imports varis", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 
 # Vehicle group
     app.admin.vehicle:
         class: App\Admin\Vehicle\VehicleAdmin
         arguments: [ ~ , App\Entity\Vehicle\Vehicle, App\Controller\Admin\Vehicle\VehicleAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Vehicle", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Vehículo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.vehicle_category:
         class: App\Admin\Vehicle\VehicleCategoryAdmin
         arguments: [ ~ , App\Entity\Vehicle\VehicleCategory, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Categoria Vehicle", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Categoría Vehículo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.vehicle_checking_type:
         class: App\Admin\Vehicle\VehicleCheckingTypeAdmin
         arguments: [ ~, App\Entity\Vehicle\VehicleCheckingType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tipus revisió", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Tipo revisión", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.vehicle_checking:
         class: App\Admin\Vehicle\VehicleCheckingAdmin
         arguments: [ ~, App\Entity\Vehicle\VehicleChecking, App\Controller\Admin\Vehicle\VehicleCheckingAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Revisió", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Revisión", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.vehicle.digital_tachograph:
         class: App\Admin\Vehicle\VehicleDigitalTachographAdmin
         arguments: [ ~, App\Entity\Vehicle\VehicleDigitalTachograph, App\Controller\Admin\Vehicle\VehicleDigitalTachographAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tacògraf", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Tacógrafo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 
 # Partner group
-    app.admin.partner:
-        class: App\Admin\Partner\PartnerAdmin
-        arguments: [ ~, App\Entity\Partner\Partner, App\Controller\Admin\Partner\PartnerAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tercer", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.partner_class:
-        class: App\Admin\Partner\PartnerClassAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerClass, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Classe", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.partner_type:
-        class: App\Admin\Partner\PartnerTypeAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tipus", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.partner_order:
-        class: App\Admin\Partner\PartnerOrderAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerOrder, App\Controller\Admin\Partner\PartnerOrderAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Comandes", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.partner_building_site:
-        class: App\Admin\Partner\PartnerBuildingSiteAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerBuildingSite, App\Controller\Admin\Partner\PartnerBuildingSiteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Obres", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.partner_contact:
-        class: App\Admin\Partner\PartnerContactAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerContact, App\Controller\Admin\Partner\PartnerContactAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Contacte", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.partner_unable_days:
-        class: App\Admin\Partner\PartnerUnableDaysAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerUnableDays, App\Controller\Admin\Partner\PartnerUnableDaysAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Dies inhàbils", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.partner:
+#        class: App\Admin\Partner\PartnerAdmin
+#        arguments: [ ~, App\Entity\Partner\Partner, App\Controller\Admin\Partner\PartnerAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Tercer", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.partner_class:
+#        class: App\Admin\Partner\PartnerClassAdmin
+#        arguments: [ ~, App\Entity\Partner\PartnerClass, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Classe", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.partner_type:
+#        class: App\Admin\Partner\PartnerTypeAdmin
+#        arguments: [ ~, App\Entity\Partner\PartnerType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Tipus", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.partner_order:
+#        class: App\Admin\Partner\PartnerOrderAdmin
+#        arguments: [ ~, App\Entity\Partner\PartnerOrder, App\Controller\Admin\Partner\PartnerOrderAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Comandes", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.partner_building_site:
+#        class: App\Admin\Partner\PartnerBuildingSiteAdmin
+#        arguments: [ ~, App\Entity\Partner\PartnerBuildingSite, App\Controller\Admin\Partner\PartnerBuildingSiteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Obres", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.partner_contact:
+#        class: App\Admin\Partner\PartnerContactAdmin
+#        arguments: [ ~, App\Entity\Partner\PartnerContact, App\Controller\Admin\Partner\PartnerContactAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Contacte", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.partner_unable_days:
+#        class: App\Admin\Partner\PartnerUnableDaysAdmin
+#        arguments: [ ~, App\Entity\Partner\PartnerUnableDays, App\Controller\Admin\Partner\PartnerUnableDaysAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Dies inhàbils", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 
 # Enterprise group
-    app.admin.enterprise:
-        class: App\Admin\Enterprise\EnterpriseAdmin
-        arguments: [ ~, App\Entity\Enterprise\Enterprise, App\Controller\Admin\Enterprise\EnterpriseAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Empresa", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.enterprise_group_bounty:
-        class: App\Admin\Enterprise\EnterpriseGroupBountyAdmin
-        arguments: [ ~, App\Entity\Enterprise\EnterpriseGroupBounty, App\Controller\Admin\Enterprise\EnterpriseGroupBountyAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Grup prima", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.enterprise_transfer_account:
-        class: App\Admin\Enterprise\EnterpriseTransferAccountAdmin
-        arguments: [ ~, App\Entity\Enterprise\EnterpriseTransferAccount, App\Controller\Admin\Enterprise\EnterpriseTransferAccountAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Compte bancari", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.enterprise_holidays:
-        class: App\Admin\Enterprise\EnterpriseHolidaysAdmin
-        arguments: [ ~, App\Entity\Enterprise\EnterpriseHolidays, App\Controller\Admin\Enterprise\EnterpriseHolidaysAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Dies festius", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.activity_line:
-        class: App\Admin\Enterprise\ActivityLineAdmin
-        arguments: [ ~, App\Entity\Enterprise\ActivityLine, App\Controller\Admin\Enterprise\ActivityLineAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Línies activitat", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.collection_document_type:
-        class: App\Admin\Enterprise\CollectionDocumentTypeAdmin
-        arguments: [ ~, App\Entity\Enterprise\CollectionDocumentType, App\Controller\Admin\Enterprise\CollectionDocumentTypeAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tipus document cobrament", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.enterprise:
+#        class: App\Admin\Enterprise\EnterpriseAdmin
+#        arguments: [ ~, App\Entity\Enterprise\Enterprise, App\Controller\Admin\Enterprise\EnterpriseAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Empresa", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.enterprise_group_bounty:
+#        class: App\Admin\Enterprise\EnterpriseGroupBountyAdmin
+#        arguments: [ ~, App\Entity\Enterprise\EnterpriseGroupBounty, App\Controller\Admin\Enterprise\EnterpriseGroupBountyAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Grup prima", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.enterprise_transfer_account:
+#        class: App\Admin\Enterprise\EnterpriseTransferAccountAdmin
+#        arguments: [ ~, App\Entity\Enterprise\EnterpriseTransferAccount, App\Controller\Admin\Enterprise\EnterpriseTransferAccountAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Compte bancari", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.enterprise_holidays:
+#        class: App\Admin\Enterprise\EnterpriseHolidaysAdmin
+#        arguments: [ ~, App\Entity\Enterprise\EnterpriseHolidays, App\Controller\Admin\Enterprise\EnterpriseHolidaysAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Dies festius", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.activity_line:
+#        class: App\Admin\Enterprise\ActivityLineAdmin
+#        arguments: [ ~, App\Entity\Enterprise\ActivityLine, App\Controller\Admin\Enterprise\ActivityLineAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Línies activitat", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.collection_document_type:
+#        class: App\Admin\Enterprise\CollectionDocumentTypeAdmin
+#        arguments: [ ~, App\Entity\Enterprise\CollectionDocumentType, App\Controller\Admin\Enterprise\CollectionDocumentTypeAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Tipus document cobrament", group: "Empresas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 
 # Sale group
-    app.admin.sale_tariff:
-        class: App\Admin\Sale\SaleTariffAdmin
-        arguments: [ ~, App\Entity\Sale\SaleTariff, App\Controller\Admin\Sale\SaleTariffAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tarifa", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.sale_request:
-        class: App\Admin\Sale\SaleRequestAdmin
-        arguments: [ ~, App\Entity\Sale\SaleRequest, App\Controller\Admin\Sale\SaleRequestAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Petició", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-        calls:
-            - [ setTemplate, [ edit, "admin/sale-request/edit.html.twig" ] ]
-    app.admin.sale_delivery_note_line:
-        class: App\Admin\Sale\SaleDeliveryNoteLineAdmin
-        arguments: [ ~, App\Entity\Sale\SaleDeliveryNoteLine, App\Controller\Admin\Sale\SaleDeliveryNoteLineAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Albarà línia", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop", show_in_dashboard: false}
-    app.admin.sale_request_has_delivery_note:
-        class: App\Admin\Sale\SaleRequestHasDeliveryNoteAdmin
-        arguments: [ ~, App\Entity\Sale\SaleRequestHasDeliveryNote, App\Controller\Admin\Sale\SaleRequestHasDeliveryNoteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Valoració petició-albarà", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.sale_tariff:
+#        class: App\Admin\Sale\SaleTariffAdmin
+#        arguments: [ ~, App\Entity\Sale\SaleTariff, App\Controller\Admin\Sale\SaleTariffAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Tarifa", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.sale_request:
+#        class: App\Admin\Sale\SaleRequestAdmin
+#        arguments: [ ~, App\Entity\Sale\SaleRequest, App\Controller\Admin\Sale\SaleRequestAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Petició", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#        calls:
+#            - [ setTemplate, [ edit, "admin/sale-request/edit.html.twig" ] ]
+#    app.admin.sale_delivery_note_line:
+#        class: App\Admin\Sale\SaleDeliveryNoteLineAdmin
+#        arguments: [ ~, App\Entity\Sale\SaleDeliveryNoteLine, App\Controller\Admin\Sale\SaleDeliveryNoteLineAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Albarà línia", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop", show_in_dashboard: false}
+#    app.admin.sale_request_has_delivery_note:
+#        class: App\Admin\Sale\SaleRequestHasDeliveryNoteAdmin
+#        arguments: [ ~, App\Entity\Sale\SaleRequestHasDeliveryNote, App\Controller\Admin\Sale\SaleRequestHasDeliveryNoteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Valoració petició-albarà", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 
 # Setting group
-    app.admin.province:
-        class: App\Admin\Setting\ProvinceAdmin
-        arguments: [ ~, App\Entity\Setting\Province, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Província", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-    app.admin.city:
-        class: App\Admin\Setting\CityAdmin
-        arguments: [ ~, App\Entity\Setting\City, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: "Ciutat", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.province:
+#        class: App\Admin\Setting\ProvinceAdmin
+#        arguments: [ ~, App\Entity\Setting\Province, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Província", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+#    app.admin.city:
+#        class: App\Admin\Setting\CityAdmin
+#        arguments: [ ~, App\Entity\Setting\City, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: "Ciutat", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }

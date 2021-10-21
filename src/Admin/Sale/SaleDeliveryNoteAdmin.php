@@ -778,7 +778,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.base_amount',
-                    'editable' => false,
+                    'template' => 'admin/cells/list__cell_base_amount_currency_number.html.twig',
                 ]
             )
             ->add(
