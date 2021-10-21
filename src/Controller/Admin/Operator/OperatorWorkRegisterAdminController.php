@@ -59,7 +59,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
             } elseif ('other' === $inputType) {
                 $description = $request->query->get('custom_text_description');
-                $price = $request->query->get('amount');
+                $price = $request->query->get('amount') * 1;
                 $units = 1;
                 $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
                 if ('' != $saleDeliveryNoteId) {
