@@ -138,6 +138,9 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
+            ;
+        if ($this->getRootCode() === $this->getCode()) { //show only if is not embedded in another admin
+            $formMapper
             ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(12))
                 ->add(
                     'payslipLines',
@@ -155,8 +158,9 @@ class PayslipAdmin extends AbstractBaseAdmin
                         'inline' => 'table',
                     ]
                 )
-            ->end()
-        ;
+                ->end()
+            ->end();
+        }
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
