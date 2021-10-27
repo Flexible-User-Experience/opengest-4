@@ -15,8 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Vehicle.
@@ -127,6 +127,11 @@ class Vehicle extends AbstractBase
     private $vehicleDigitalTachographs;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private ArrayCollection $vehicleConsumptions;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
@@ -144,6 +149,7 @@ class Vehicle extends AbstractBase
     {
         $this->vehicleDigitalTachographs = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
+        $this->vehicleConsumptions = new ArrayCollection();
     }
 
     /**
@@ -235,8 +241,6 @@ class Vehicle extends AbstractBase
     }
 
     /**
-     * @param File|null $attatchmentPDFFile
-     *
      * @return Vehicle
      *
      * @throws \Exception
@@ -282,8 +286,6 @@ class Vehicle extends AbstractBase
     }
 
     /**
-     * @param File|null $mainImageFile
-     *
      * @return Vehicle
      *
      * @throws \Exception
@@ -361,8 +363,6 @@ class Vehicle extends AbstractBase
     }
 
     /**
-     * @param VehicleDigitalTachograph $digitalTachograph
-     *
      * @return $this
      */
     public function addVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph)
@@ -376,14 +376,55 @@ class Vehicle extends AbstractBase
     }
 
     /**
-     * @param VehicleDigitalTachograph $digitalTachograph
-     *
      * @return $this
      */
     public function removeVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph)
     {
         if ($this->vehicleDigitalTachographs->contains($digitalTachograph)) {
             $this->vehicleDigitalTachographs->removeElement($digitalTachograph);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getVehicleConsumptions()
+    {
+        return $this->vehicleConsumptions;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setVehicleConsumptions(ArrayCollection $vehicleConsumptions)
+    {
+        $this->vehicleConsumptions = $vehicleConsumptions;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addVehicleConsumption(VehicleConsumption $vehicleConsumption)
+    {
+        if (!$this->vehicleConsumptions->contains($vehicleConsumption)) {
+            $this->vehicleConsumptions->add($vehicleConsumption);
+            $vehicleConsumption->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeVehicleConsumption(VehicleConsumption $vehicleConsumption)
+    {
+        if ($this->vehicleConsumptions->contains($vehicleConsumption)) {
+            $this->vehicleConsumptions->removeElement($vehicleConsumption);
         }
 
         return $this;
