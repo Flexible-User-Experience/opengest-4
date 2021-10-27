@@ -38,7 +38,7 @@ class VehicleConsumption extends AbstractBase
     private ?string $supplyCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleConsumptions")
      * @ORM\JoinColumn(name="vehicle_id", referencedColumnName="id", nullable=false)
      */
     private Vehicle $vehicle;
