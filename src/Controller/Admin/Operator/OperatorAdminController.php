@@ -67,6 +67,6 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator[] $operators */
         $operators = $selectedModelQuery->execute();
 
-        return $this->renderView('admin/operator/payslipGeneration.html.twig', $operators);
+        return $this->render('admin/operator/payslipGeneration.html.twig', $operators);
     }
 }
