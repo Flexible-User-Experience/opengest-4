@@ -3,9 +3,12 @@
 namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Vehicle\Vehicle;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\Form\Type\DatePickerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Class VehicleConsumptionAdmin.
@@ -43,10 +46,12 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
             ->with('General', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'supplyDate',
-                null,
+                DatePickerType::class,
                 [
                     'label' => 'Fecha suministro',
+                    'format' => 'dd/MM/yyyy',
                     'required' => true,
+                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
                 ]
             )
             ->add(
@@ -67,10 +72,12 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'vehicle',
-                null,
+                EntityType::class,
                 [
+                    'class' => Vehicle::class,
                     'label' => 'Vehículo',
                     'required' => true,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
             ->add(
@@ -179,6 +186,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Fecha suministro',
+                    'format' => 'd/m/Y',
                 ]
             )
             ->add(
@@ -186,6 +194,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Hora suministro',
+                    'format' => 'h:i',
                 ]
             )
             ->add(

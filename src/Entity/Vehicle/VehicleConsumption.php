@@ -5,7 +5,6 @@ namespace App\Entity\Vehicle;
 use App\Entity\AbstractBase;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class VehicleConsumption.
@@ -16,7 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleConsumptionRepository")
  * @ORM\Table(name="vehicle_consumption")
- * @UniqueEntity({"description"})
  */
 class VehicleConsumption extends AbstractBase
 {

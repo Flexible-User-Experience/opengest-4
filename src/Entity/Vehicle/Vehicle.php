@@ -11,6 +11,7 @@ use App\Entity\Traits\PositionTrait;
 use App\Entity\Traits\SlugTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -129,7 +130,7 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private ArrayCollection $vehicleConsumptions;
+    private Collection $vehicleConsumptions;
 
     /**
      * @var ArrayCollection
@@ -388,7 +389,7 @@ class Vehicle extends AbstractBase
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
     public function getVehicleConsumptions()
     {
@@ -398,7 +399,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function setVehicleConsumptions(ArrayCollection $vehicleConsumptions)
+    public function setVehicleConsumptions(Collection $vehicleConsumptions)
     {
         $this->vehicleConsumptions = $vehicleConsumptions;
 
