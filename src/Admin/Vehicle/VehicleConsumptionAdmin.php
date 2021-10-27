@@ -113,24 +113,59 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
-                'name',
+                'supplyDate',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'Fecha suministro',
                 ]
             )
             ->add(
-                'prefix',
+                'supplyTime',
                 null,
                 [
-                    'label' => 'Prefix',
+                    'label' => 'Hora suministro',
                 ]
             )
             ->add(
-                'isDefault',
+                'supplyCode',
                 null,
                 [
-                    'label' => 'Sèrie per defecte',
+                    'label' => 'Código suministro',
+                ]
+            )
+            ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'Vehículo',
+                ]
+            )
+            ->add(
+                'amount',
+                null,
+                [
+                    'label' => 'Importe',
+                ]
+            )
+            ->add(
+                'quantity',
+                null,
+                [
+                    'label' => 'Cantidad',
+                ]
+            )
+            ->add(
+                'priceUnit',
+                null,
+                [
+                    'label' => '€/l',
+                ]
+            )
+            ->add(
+                'fuelType',
+                null,
+                [
+                    'label' => 'Tipo Combustible',
                 ]
             )
         ;
@@ -140,27 +175,59 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
-                'name',
+                'supplyDate',
                 null,
                 [
-                    'label' => 'Nom',
-                    'editable' => true,
+                    'label' => 'Fecha suministro',
                 ]
             )
             ->add(
-                'prefix',
+                'supplyTime',
                 null,
                 [
-                    'label' => 'Prefix',
-                    'editable' => true,
+                    'label' => 'Hora suministro',
                 ]
             )
             ->add(
-                'isDefault',
+                'supplyCode',
                 null,
                 [
-                    'label' => 'Sèrie per defecte',
-                    'editable' => true,
+                    'label' => 'Código suministro',
+                ]
+            )
+            ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'Vehículo',
+                ]
+            )
+            ->add(
+                'amount',
+                null,
+                [
+                    'label' => 'Importe',
+                ]
+            )
+            ->add(
+                'quantity',
+                null,
+                [
+                    'label' => 'Cantidad',
+                ]
+            )
+            ->add(
+                'priceUnit',
+                null,
+                [
+                    'label' => '€/l',
+                ]
+            )
+            ->add(
+                'fuelType',
+                null,
+                [
+                    'label' => 'Tipo Combustible',
                 ]
             )
             ->add(
