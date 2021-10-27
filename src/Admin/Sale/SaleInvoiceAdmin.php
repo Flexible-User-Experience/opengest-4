@@ -64,6 +64,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
 //            ->remove('delete')
+            ->remove('create')
         ;
     }
 
