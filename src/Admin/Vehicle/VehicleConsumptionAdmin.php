@@ -42,26 +42,66 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
             ->add(
-                'name',
+                'supplyDate',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'Fecha suministro',
                     'required' => true,
                 ]
             )
             ->add(
-                'prefix',
+                'supplyTime',
                 null,
                 [
-                    'label' => 'Prefix',
+                    'label' => 'Hora suministro',
                     'required' => false,
                 ]
             )
             ->add(
-                'isDefault',
+                'supplyCode',
                 null,
                 [
-                    'label' => 'Sèrie per defecte',
+                    'label' => 'Código suministro',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'Vehículo',
+                    'required' => true,
+                ]
+            )
+            ->add(
+                'amount',
+                null,
+                [
+                    'label' => 'Importe',
+                    'required' => true,
+                ]
+            )
+            ->add(
+                'quantity',
+                null,
+                [
+                    'label' => 'Cantidad',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'priceUnit',
+                null,
+                [
+                    'label' => '€/l',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'fuelType',
+                null,
+                [
+                    'label' => 'Tipo Combustible',
                     'required' => false,
                 ]
             )
