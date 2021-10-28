@@ -49,7 +49,6 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
-            ->add('uploadCsvView', 'upload-csv-view')
             ->add('uploadCsv', 'upload-csv')
             ;
     }

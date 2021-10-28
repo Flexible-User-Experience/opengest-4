@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Vehicle;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Form\Type\UploadCsvFormType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,31 +18,34 @@ class VehicleConsumptionAdminController extends BaseAdminController
      *
      * @return Response
      */
-    public function uploadCsvViewAction($id = null)
-    {
-        //formtype
-        return $this->renderWithExtraParams(
-            'admin/vehicle-consumption/uploadCsv.html.twig'
-        );
-    }
-
-    /**
-     * @param int|null $id
-     *
-     * @return Response
-     */
     public function uploadCsvAction(Request $request, $id = null)
     {
-        //TODO check user has en enoght permissions
-        $records = [];
-        $file = fopen($request->files->get('csvFile'), 'r');
-        while (($line = fgetcsv($file)) !== false) {
-            $records[] = $line;
-        }
-        fclose($file);
-        foreach ($records as $record) {
-        }
+        $form = $this->createForm(UploadCsvFormType::class);
+        $form->handleRequest($request);
 
-        return new RedirectResponse($this->generateUrl('admin_app_vehicle_vehicleconsumption_list'));
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($request);
+            // Persist new contact message into DB
+            //        $records = [];
+//        $file = fopen($request->files->get('csvFile'), 'r');
+//        while (($line = fgetcsv($file)) !== false) {
+//            $records[] = $line;
+//        }
+//        fclose($file);
+//        foreach ($records as $record) {
+//        }
+            // Set frontend flash message
+            $this->addFlash(
+                'notice',
+                'Fichero importado correctamente'
+            );
+        }
+        //formtype
+        return $this->renderWithExtraParams(
+            'admin/vehicle-consumption/uploadCsv.html.twig',
+            ['uploadCsvForm' => $form->createView()]
+        );
+//
+//        return new RedirectResponse($this->generateUrl('admin_app_vehicle_vehicleconsumption_list'));
     }
 }
