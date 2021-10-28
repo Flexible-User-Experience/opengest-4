@@ -18,7 +18,7 @@ class VehicleConsumptionAdminController extends BaseAdminController
     public function uploadCsvViewAction($id = null)
     {
         return $this->render(
-            'admin/operator/payslipGeneration.html.twig'
+            'admin/vehicle-consumption/uploadCsv.html.twig'
         );
     }
 }
