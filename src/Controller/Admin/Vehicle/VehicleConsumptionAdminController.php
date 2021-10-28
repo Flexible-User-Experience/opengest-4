@@ -19,7 +19,8 @@ class VehicleConsumptionAdminController extends BaseAdminController
      */
     public function uploadCsvViewAction($id = null)
     {
-        return $this->render(
+        //formtype
+        return $this->renderWithExtraParams(
             'admin/vehicle-consumption/uploadCsv.html.twig'
         );
     }
@@ -31,7 +32,15 @@ class VehicleConsumptionAdminController extends BaseAdminController
      */
     public function uploadCsvAction(Request $request, $id = null)
     {
-        dd($request);
+        //TODO check user has en enoght permissions
+        $records = [];
+        $file = fopen($request->files->get('csvFile'), 'r');
+        while (($line = fgetcsv($file)) !== false) {
+            $records[] = $line;
+        }
+        fclose($file);
+        foreach ($records as $record) {
+        }
 
         return new RedirectResponse($this->generateUrl('admin_app_vehicle_vehicleconsumption_list'));
     }
