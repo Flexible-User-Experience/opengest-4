@@ -3,13 +3,11 @@
 namespace App\Form\Type;
 
 use App\Entity\Operator\Operator;
-use phpDocumentor\Reflection\Types\Collection;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class GeneratePayslipsFormType.

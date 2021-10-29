@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Operator;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
+use App\Entity\Payslip\Payslip;
 use App\Form\Type\GeneratePayslipsFormType;
 use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,9 +69,6 @@ class OperatorAdminController extends BaseAdminController
         $this->admin->checkAccess('edit');
         $form = $this->createForm(GeneratePayslipsFormType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-        }
         /** @var Operator[] $operators */
         $operators = $selectedModelQuery->execute();
         $form->get('operators')->setData($operators);
@@ -82,5 +80,21 @@ class OperatorAdminController extends BaseAdminController
                 'operators' => $operators
             ]
         );
+    }
+
+    public function generatePayslipsAction(Request $request)
+    {
+        $form = $this->createForm(GeneratePayslipsFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $operators = $form->get('operators')->getData();
+            foreach ($operators as $operator) {
+                $payslip = new Payslip();
+                $payslip->setOperator($operator);
+                $payslip->setFromDate($form->get('fromDate')->getData());
+                dd($payslip);
+                dd($operator);
+            }
+        }
     }
 }

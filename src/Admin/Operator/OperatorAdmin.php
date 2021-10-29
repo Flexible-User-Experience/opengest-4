@@ -62,6 +62,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadProfilePhotoImage', $this->getRouterIdParameter().'/profilePhoto')
+            ->add('generatePayslips', 'generate-payslips')
             ->add('batch')
             ->remove('delete');
     }
