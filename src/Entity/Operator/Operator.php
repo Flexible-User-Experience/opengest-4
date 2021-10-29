@@ -443,11 +443,11 @@ class Operator extends AbstractBase
     private Collection $payslips;
 
     /**
-     * @var ArrayCollection
+     * @var ?Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $payslipOperatorDefaultLines;
+    private ?Collection $payslipOperatorDefaultLines;
 
     /**
      * @var ArrayCollection
@@ -1661,7 +1661,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function getPayslipOperatorDefaultLines(): Collection
+    public function getPayslipOperatorDefaultLines(): ?Collection
     {
         return $this->payslipOperatorDefaultLines;
     }

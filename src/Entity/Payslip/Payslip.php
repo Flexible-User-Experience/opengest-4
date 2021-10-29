@@ -103,6 +103,7 @@ class Payslip extends AbstractBase
     public function setFromDate(DateTime $fromDate): Payslip
     {
         $this->fromDate = $fromDate;
+        $this->year = $fromDate->format('Y');
 
         return $this;
     }
