@@ -105,7 +105,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.year',
-                    'required' => true,
+                    'required' => false,
                 ]
             )
             ->end()
@@ -115,6 +115,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.expenses',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -122,6 +123,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.social_security_cost',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -129,6 +131,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.extra_pay',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -136,6 +139,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.other_costs',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -143,6 +147,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.total',
+                    'required' => false,
                 ]
             )
             ->end()
