@@ -4,7 +4,9 @@ namespace App\Controller\Admin\Operator;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
+use App\Form\Type\GeneratePayslipsFormType;
 use App\Service\GuardService;
+use Symfony\Component\HttpFoundation\Request;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,12 +63,24 @@ class OperatorAdminController extends BaseAdminController
         );
     }
 
-    public function batchActionCreatePayslipFromOperators(ProxyQueryInterface $selectedModelQuery)
+    public function batchActionCreatePayslipFromOperators(ProxyQueryInterface $selectedModelQuery, Request $request)
     {
         $this->admin->checkAccess('edit');
+        $form = $this->createForm(GeneratePayslipsFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+        }
         /** @var Operator[] $operators */
         $operators = $selectedModelQuery->execute();
+        $form->get('operators')->setData($operators);
 
-        return $this->render('admin/operator/payslipGeneration.html.twig', $operators);
+        return $this->renderWithExtraParams(
+            'admin/operator/payslipGeneration.html.twig',
+            [
+                'generatePayslipsForm' => $form->createView(),
+                'operators' => $operators
+            ]
+        );
     }
 }
