@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleConsumption;
 use App\Form\Type\UploadCsvFormType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -73,6 +74,9 @@ class VehicleConsumptionAdminController extends BaseAdminController
                 'notice',
                 'Fichero importado correctamente'
             );
+
+            return new RedirectResponse($this->generateUrl('admin_app_vehicle_vehicleconsumption_list'));
+
         }
 
         return $this->renderWithExtraParams(
