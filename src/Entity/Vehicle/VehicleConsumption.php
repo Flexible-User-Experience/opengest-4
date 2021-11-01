@@ -179,6 +179,14 @@ class VehicleConsumption extends AbstractBase
         return $this;
     }
 
+    /**
+     * Custom methods.
+     */
+    public function getSupplyDateFormatted(): string
+    {
+        return $this->getSupplyDate()->format('d/m/y');
+    }
+
     public function __toString(): string
     {
         return $this->getSupplyDate()->format('d/m/y').' - '.$this->getVehicle()->getVehicleRegistrationNumber();
