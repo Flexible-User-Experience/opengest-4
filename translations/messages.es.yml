@@ -104,4 +104,9 @@ Valoració petició-albarà_list: Valoració petició-albarà
 Valoració petició-albarà_create: Crear
 Valoració petició-albarà_delete: Esborrar
 supplyDate: "Fecha de suministro"
-vehicle.description: "Matrícula"
+vehicle.description: "Vehículo"
+vehicle.vehicleRegistrationNumber: "Matrícula"
+amount: "Importe"
+quantity: Cantidad
+priceUnit: "Precio unitario"
+fuelType: "Combustible"
