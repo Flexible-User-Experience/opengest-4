@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 /**
  * Class VehicleConsumptionAdmin.
@@ -73,10 +74,11 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'supplyTime',
-                null,
+                TimeType::class,
                 [
                     'label' => 'Hora suministro',
                     'required' => false,
+                    'widget' => 'single_text',
                 ]
             )
             ->add(
@@ -211,7 +213,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Hora suministro',
-                    'format' => 'h:i',
+                    'format' => 'H:i',
                 ]
             )
             ->add(
