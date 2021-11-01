@@ -264,6 +264,6 @@ class Payslip extends AbstractBase
 
     public function __toString(): string
     {
-        return $this->getOperator().' - '.$this->getFromDate()->format('d/m/y');
+        return $this->getId();
     }
 }

@@ -7,19 +7,31 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
     <script type="text/javascript">
-      console.log('Hey');
         jQuery(document).ready(function() {
                 var payslipsTable = jQuery('#sonata-ba-field-container-{{ form.payslips.vars.id }}');
                 var numberOfPayslips = {{ form.payslips.vars.data.count }};
-                console.log(payslipsTable);
-                //TODO add edit link button
-                {#for (let i = 0; i < numberOfPayslips; i++) {#}
-                {#    jQuery('#{{ form.payslips.vars.id }}_' + i + '_saleItem').change(function(event) {#}
-                {#            var saleItemId = parseInt(event.val);#}
-                {#            updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);#}
-                {#    }#}
-                {#    );#}
-                {#}#}
+                const payslipIds = {{ form.payslips.vars.data.values|json_encode }};
+                console.log('payslipIds', payslipIds);
+                {% for key, id in form.payslips.vars.data.values %}
+                    let payslipLine{{ key }} = jQuery('#{{ form.payslips.vars.id }}_' + {{ key }} + '_totalAmount');
+                    jQuery(`
+                    <td class ="form-group control-group">
+                      <a class="btn btn-default" href="{{ path('admin_app_payslip_payslip_edit', { 'id': id }) }}">
+                          Ver nómina
+                      </a>
+                    </td>
+                    `).insertAfter(payslipLine{{ key }}.parent());
+                {% endfor %}
+                for (let i = 0; i < numberOfPayslips; i++) {
+                    let payslipLine = jQuery('#{{ form.payslips.vars.id }}_' + i + '_totalAmount');
+                    {#console.log('form', "{{ form.payslips.vars.data.values }}" )#}
+                    {#  jQuery(`#}
+                    {#      <a href="{{ path('admin_app_payslip_payslip_edit', { 'id': form.payslips.vars.data.id }) }}">#}
+                    {#          Ir a factura#}
+                    {#      </a>#}
+                    {#  `).insertBefore(invoice);#}
+                    {#payslipLine.parent().#}
+                }
         });
     </script>
 {% endblock %}
