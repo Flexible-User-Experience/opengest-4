@@ -91,7 +91,13 @@ services:
         arguments: [ ~, App\Entity\Vehicle\VehicleDigitalTachograph, App\Controller\Admin\Vehicle\VehicleDigitalTachographAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Tacógrafo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-
+    app.admin.vehicle.consumption:
+        class: App\Admin\Vehicle\VehicleConsumptionAdmin
+        arguments: [ ~, App\Entity\Vehicle\VehicleConsumption, App\Controller\Admin\Vehicle\VehicleConsumptionAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Consumos de combustible", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTemplate, [ list, "admin/vehicle-consumption/list.html.twig" ] ]
 # Partner group
 #    app.admin.partner:
 #        class: App\Admin\Partner\PartnerAdmin

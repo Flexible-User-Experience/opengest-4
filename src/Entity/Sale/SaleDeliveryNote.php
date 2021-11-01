@@ -94,12 +94,12 @@ class SaleDeliveryNote extends AbstractBase
     private $order;
 
     /**
-     * @var string
+     * @var ?string
      *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      * @Groups({"api"})
      */
-    private $deliveryNoteReference;
+    private ?string $deliveryNoteReference;
 
     /**
      * @var float
@@ -176,25 +176,25 @@ class SaleDeliveryNote extends AbstractBase
     private Collection $operatorWorkRegisters;
 
     /**
-     * @var string
+     * @var ?string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $serviceDescription;
+    private ?string $serviceDescription;
 
     /**
      * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $place;
+    private ?string $place;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $observations;
+    private ?string $observations;
 
     /**
      * Methods.
@@ -349,12 +349,14 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @param PartnerOrder $order
      */
-    public function setOrder($order): void
+    public function setOrder($order): SaleDeliveryNote
     {
         $this->order = $order;
+
+        return $this;
     }
 
-    public function getDeliveryNoteReference()
+    public function getDeliveryNoteReference(): ?string
     {
         return $this->deliveryNoteReference;
     }
@@ -362,9 +364,11 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @param $deliveryNoteReference
      */
-    public function setDeliveryNoteReference($deliveryNoteReference): void
+    public function setDeliveryNoteReference($deliveryNoteReference): SaleDeliveryNote
     {
         $this->deliveryNoteReference = $deliveryNoteReference;
+
+        return $this;
     }
 
     /**
@@ -378,9 +382,11 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @param float $baseAmount
      */
-    public function setBaseAmount($baseAmount): void
+    public function setBaseAmount($baseAmount): SaleDeliveryNote
     {
         $this->baseAmount = $baseAmount;
+
+        return $this;
     }
 
     /**
@@ -394,9 +400,11 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @param float $discount
      */
-    public function setDiscount($discount): void
+    public function setDiscount($discount): SaleDeliveryNote
     {
         $this->discount = $discount;
+
+        return $this;
     }
 
     /**
@@ -410,9 +418,11 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @param int $collectionTerm
      */
-    public function setCollectionTerm($collectionTerm): void
+    public function setCollectionTerm($collectionTerm): SaleDeliveryNote
     {
         $this->collectionTerm = $collectionTerm;
+
+        return $this;
     }
 
     /**
@@ -426,9 +436,11 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @param CollectionDocumentType $collectionDocument
      */
-    public function setCollectionDocument($collectionDocument): void
+    public function setCollectionDocument($collectionDocument): SaleDeliveryNote
     {
         $this->collectionDocument = $collectionDocument;
+
+        return $this;
     }
 
     /**
@@ -442,15 +454,14 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @param ActivityLine $activityLine
      */
-    public function setActivityLine($activityLine): void
+    public function setActivityLine($activityLine): SaleDeliveryNote
     {
         $this->activityLine = $activityLine;
+
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isWontBeInvoiced()
+    public function isWontBeInvoiced(): bool
     {
         return $this->wontBeInvoiced;
     }
@@ -460,7 +471,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setWontBeInvoiced($wontBeInvoiced)
+    public function setWontBeInvoiced($wontBeInvoiced): SaleDeliveryNote
     {
         $this->wontBeInvoiced = $wontBeInvoiced;
 

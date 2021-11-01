@@ -70,6 +70,7 @@ class PayslipLineAdmin extends AbstractBaseAdmin
                     'class' => PayslipLineConcept::class,
                     'label' => 'admin.label.payslip_line_concept',
                     'required' => true,
+                    'query_builder' => $this->rm->getPayslipLineConceptRepository()->getPayslipLineConceptsEnabledSortedByNameQB(),
                 ]
             )
             ->add(

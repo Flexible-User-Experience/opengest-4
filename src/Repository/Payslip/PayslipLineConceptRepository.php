@@ -29,4 +29,22 @@ class PayslipLineConceptRepository extends ServiceEntityRepository
     {
         return $this->getPayslipLineConceptsSortedByNameQ()->getResult();
     }
+
+    public function getPayslipLineConceptsEnabledSortedByNameQB(): QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->orderBy('c.id');
+    }
+
+    public function getPayslipLineConceptsEnabledSortedByNameQ(): Query
+    {
+        return $this->getPayslipLineConceptsEnabledSortedByNameQB()->getQuery();
+    }
+
+    public function getPayslipLineConceptsEnabledSortedByName(): array
+    {
+        return $this->getPayslipLineConceptsEnabledSortedByNameQ()->getResult();
+    }
 }

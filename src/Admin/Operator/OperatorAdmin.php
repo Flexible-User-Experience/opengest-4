@@ -38,6 +38,11 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'operaris/operari';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [
@@ -57,6 +62,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadProfilePhotoImage', $this->getRouterIdParameter().'/profilePhoto')
+            ->add('generatePayslips', 'generate-payslips')
             ->add('batch')
             ->remove('delete');
     }
@@ -71,7 +77,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         ) {
             $actions['createPayslipFromOperators'] = [
                 'label' => 'admin.action.generate_payslips_from_selected',
-                'ask_confirmation' => true,
+                'ask_confirmation' => false,
             ];
         }
 

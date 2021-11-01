@@ -201,7 +201,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     null,
                     [
                         'label' => 'admin.label.delivery_note_reference',
-                        'required' => true,
+                        'required' => false,
                         'disabled' => false,
                     ]
                 )
@@ -226,17 +226,43 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
+            ->end();
+        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
+            $formMapper
+                    ->tab('Cabecera')
+                    ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
+                    ->add(
+                        'saleServiceTariff',
+                        EntityType::class,
+                        [
+                            'class' => SaleServiceTariff::class,
+                            'label' => 'admin.label.sale_serivce_tariff',
+                            'required' => true,
+                            'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                        ]
+                    )
+                    ->end()
+                    ->end();
+        } else {
+            $formMapper
+                    ->tab('Cabecera')
+                    ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
+                    ->add(
+                        'saleServiceTariff',
+                        EntityType::class,
+                        [
+                            'class' => SaleServiceTariff::class,
+                            'label' => 'admin.label.sale_serivce_tariff',
+                            'required' => false,
+                            'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                        ]
+                    )
+                    ->end()
+                    ->end();
+        }
+        $formMapper
+                ->tab('Cabecera')
                 ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'saleServiceTariff',
-                    EntityType::class,
-                    [
-                        'class' => SaleServiceTariff::class,
-                        'label' => 'admin.label.sale_serivce_tariff',
-                        'required' => true,
-                        'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
-                    ]
-                )
                 ->add(
                     'vehicle',
                     EntityType::class,
@@ -267,6 +293,12 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                     ]
                 )
+                ->end()
+                ->end();
+        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
+            $formMapper
+                ->tab('Cabecera')
+                ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'serviceDescription',
                     TextareaType::class,
@@ -279,6 +311,30 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         ],
                     ]
                 )
+                ->end()
+                ->end();
+        } else {
+            $formMapper
+                ->tab('Cabecera')
+                ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'serviceDescription',
+                    TextareaType::class,
+                    [
+                        'label' => 'admin.label.service_description',
+                        'required' => false,
+                        'attr' => [
+                            'style' => 'resize: vertical',
+                            'rows' => 7,
+                        ],
+                    ]
+                )
+                ->end()
+                ->end();
+        }
+        $formMapper
+                ->tab('Cabecera')
+                ->with('Servicio', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'place',
                     TextareaType::class,

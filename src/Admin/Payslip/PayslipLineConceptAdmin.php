@@ -7,6 +7,7 @@ use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 /**
  * Class PayslipLineConceptAdmin.
@@ -56,6 +57,14 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 ]
             )
+//            ->add(
+//                'enabled',
+//                CheckboxType::class,
+//                [
+//                    'label' => 'Actiu',
+//                    'required' => false,
+//                ]
+//            )
             ->end()
         ;
     }
@@ -77,6 +86,13 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 ]
             )
+//            ->add(
+//                'enabled',
+//                null,
+//                [
+//                    'label' => 'Actiu',
+//                ]
+//            )
         ;
     }
 
@@ -97,6 +113,14 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 ]
             )
+//            ->add(
+//                'enabled',
+//                null,
+//                [
+//                    'label' => 'Activo',
+//                    'editable' => true,
+//                ]
+//            )
             ->add(
                 '_action',
                 'actions',

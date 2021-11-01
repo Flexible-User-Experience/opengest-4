@@ -5,6 +5,7 @@ namespace App\Entity\Payslip;
 use App\Entity\AbstractBase;
 use App\Entity\Operator\Operator;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -73,6 +74,15 @@ class Payslip extends AbstractBase
     /**
      * Methods.
      */
+
+    /**
+     * Payslip constructor.
+     */
+    public function __construct()
+    {
+        $this->payslipLines = new ArrayCollection();
+    }
+
     public function getOperator(): Operator
     {
         return $this->operator;
@@ -93,6 +103,7 @@ class Payslip extends AbstractBase
     public function setFromDate(DateTime $fromDate): Payslip
     {
         $this->fromDate = $fromDate;
+        $this->year = $fromDate->format('Y');
 
         return $this;
     }
@@ -253,6 +264,6 @@ class Payslip extends AbstractBase
 
     public function __toString(): string
     {
-        return $this->getOperator().' - '.$this->getFromDate()->format('d/m/y');
+        return $this->getId();
     }
 }

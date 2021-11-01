@@ -11,6 +11,7 @@ use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\CollectionType;
@@ -51,6 +52,13 @@ class PayslipAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        parent::configureRoutes($collection);
+        $collection
+            ->remove('create')
+        ;
+    }
 
     /**
      * @throws Exception
@@ -97,7 +105,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.year',
-                    'required' => true,
+                    'required' => false,
                 ]
             )
             ->end()
@@ -107,6 +115,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.expenses',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -114,6 +123,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.social_security_cost',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -121,6 +131,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.extra_pay',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -128,6 +139,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.other_costs',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -135,6 +147,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.total',
+                    'required' => false,
                 ]
             )
             ->end()
@@ -150,7 +163,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                         'error_bubbling' => true,
                         'label' => false,
                         'type_options' => [
-                            'delete' => false,
+//                            'delete' => false,
                         ],
                     ],
                     [
@@ -354,11 +367,14 @@ class PayslipAdmin extends AbstractBaseAdmin
     public function preUpdate($object)
     {
         $payslipLines = $object->getPayslipLines();
+        $totalAmount = 0;
         /** @var PayslipLine $payslipLine */
         foreach ($payslipLines as $payslipLine) {
             $amount = $payslipLine->getUnits() * $payslipLine->getPriceUnit();
             $payslipLine->setAmount($amount);
+            $totalAmount += $amount;
         }
+        $object->setTotalAmount($totalAmount);
         $this->em->flush();
     }
 }
