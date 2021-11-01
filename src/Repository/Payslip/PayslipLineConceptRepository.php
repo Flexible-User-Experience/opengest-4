@@ -35,7 +35,7 @@ class PayslipLineConceptRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->where('c.enabled = :enabled')
             ->setParameter('enabled', true)
-            ->orderBy('c.description');
+            ->orderBy('c.id');
     }
 
     public function getPayslipLineConceptsEnabledSortedByNameQ(): Query
