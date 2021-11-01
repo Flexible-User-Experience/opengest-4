@@ -41,15 +41,14 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-
-    /**
-     * Configure route collection.
-     */
     public function getExportFields(): array
     {
         return ['supplyDate', 'vehicle.description'];
     }
 
+    /**
+     * Configure route collection.
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
