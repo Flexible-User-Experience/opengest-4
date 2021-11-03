@@ -33,11 +33,6 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
     }
 
     /**
-     * @param BlockContextInterface $blockContext
-     * @param Response|null         $response
-     *
-     * @return Response
-     *
      * @throws Exception
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null): Response
@@ -46,11 +41,11 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
         $selectedDate = $this->requestStack->getCurrentRequest()->query->get('date');
         $previousInputType = $this->requestStack->getCurrentRequest()->query->get('previousInputType');
         $operators = $this->operatorRepository->getFilteredByEnterpriseEnabledSortedByName($this->tss->getToken()->getUser()->getDefaultEnterprise());
-        $saleDeliveryNotes = $this->deliveryNoteRepository->getFilteredByEnterpriseSortedByName($this->tss->getToken()->getUser()->getDefaultEnterprise());
+        $saleDeliveryNotes = $this->deliveryNoteRepository->getFilteredByEnterpriseNotInvoicedSortedById($this->tss->getToken()->getUser()->getDefaultEnterprise());
         // merge settings
         $settings = $blockContext->getSettings();
         $backgroundColor = 'bg-light-blue';
-        $content = array(
+        $content = [
             'operators' => $operators,
             'saleDeliveryNotes' => $saleDeliveryNotes,
             'items' => OperatorWorkRegisterUnitEnum::getReversedEnumArray(),
@@ -59,8 +54,8 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
             'time_picker_minutes' => ConstantsEnum::TIME_PICKER_MINUTES,
             'selectedOperator' => $selectedOperator,
             'selectedDate' => $selectedDate,
-            'previousInputType' => $previousInputType
-        );
+            'previousInputType' => $previousInputType,
+        ];
 
         return $this->renderResponse(
             $blockContext->getTemplate(), [
@@ -81,7 +76,7 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
             'title' => 'admin.operator.operator_work_register_create',
             'content' => 'Default content',
             'template' => 'admin/block/operator_work_register_create.html.twig',
-            'info' => 'Default info'
+            'info' => 'Default info',
         ]);
     }
 }

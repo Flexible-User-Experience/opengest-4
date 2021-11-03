@@ -5,10 +5,10 @@ namespace App\Repository\Sale;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SaleDeliveryNoteRepository extends ServiceEntityRepository
 {
@@ -52,6 +52,29 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
     public function getFilteredByEnterpriseSortedByName(Enterprise $enterprise): array
     {
         return $this->getFilteredByEnterpriseSortedByNameQ($enterprise)->getResult();
+    }
+
+    public function getFilteredByEnterpriseNotInvoicedSortedByIdQB(Enterprise $enterprise): QueryBuilder
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->andWhere('s.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->andWhere('s.isInvoiced = :isInvoiced')
+            ->setParameter('isInvoiced', false)
+            ->orderBy('s.id', 'DESC')
+            ;
+    }
+
+    public function getFilteredByEnterpriseNotInvoicedSortedByIdQ(Enterprise $enterprise): Query
+    {
+        return $this->getFilteredByEnterpriseNotInvoicedSortedByIdQB($enterprise)->getQuery();
+    }
+
+    public function getFilteredByEnterpriseNotInvoicedSortedById(Enterprise $enterprise): array
+    {
+        return $this->getFilteredByEnterpriseNotInvoicedSortedByIdQ($enterprise)->getResult();
     }
 
     public function getLastDeliveryNoteByEnterpriseQB(Enterprise $enterprise): QueryBuilder

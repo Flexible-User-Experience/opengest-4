@@ -790,7 +790,7 @@ class SaleDeliveryNote extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getId().' - '.$this->getDeliveryNoteReference() : '---';
+        return $this->id ? $this->getId().' - '.$this->getPartner() : '---';
     }
 
     public function getSaleRequest(): ?SaleRequest
