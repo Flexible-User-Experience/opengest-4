@@ -807,13 +807,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'deliveryNoteReference',
-                null,
-                [
-                    'label' => 'admin.label.delivery_note_reference',
-                ]
-            )
-            ->add(
                 'buildingSite',
                 null,
                 [
@@ -821,24 +814,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'order',
-                null,
-                [
-                    'label' => 'admin.label.order',
-                ]
-            )
-            ->add(
                 'saleServiceTariff',
                 null,
                 [
                     'label' => 'admin.label.tonnage',
-                ]
-            )
-            ->add(
-                'serviceDescription',
-                null,
-                [
-                    'label' => 'admin.label.service_description',
                 ]
             )
             ->add(
