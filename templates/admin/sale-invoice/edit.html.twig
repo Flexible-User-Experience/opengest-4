@@ -159,3 +159,11 @@
     {% endif %}
     {{ parent() }}
 {% endblock %}
+
+{% block sonata_form_actions %}
+    {% if form.vars.data.hasBeenCounted %}
+        <b>No se puede modificar una factura contabilizada.</b>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
