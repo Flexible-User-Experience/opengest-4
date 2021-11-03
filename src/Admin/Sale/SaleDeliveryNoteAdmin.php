@@ -701,6 +701,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'operator',
+                null,
+                [
+                    'label' => 'admin.label.operator',
+                ]
+            )
+            ->add(
                 'wontBeInvoiced',
                 null,
                 [
