@@ -468,7 +468,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
+        if ($this->acs->isGranted(UserRolesEnum::ROLE_SUPER_ADMIN)) {
             $datagridMapper
                 ->add(
                     'enterprise',
