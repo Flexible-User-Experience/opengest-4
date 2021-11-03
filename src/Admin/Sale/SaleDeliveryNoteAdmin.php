@@ -830,6 +830,20 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'admin.label.vehicle',
+                ]
+            )
+            ->add(
+                'operator',
+                null,
+                [
+                    'label' => 'admin.label.operator',
+                ]
+            )
+            ->add(
                 'baseAmount',
                 null,
                 [
