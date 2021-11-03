@@ -20,9 +20,10 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
@@ -614,30 +615,38 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'requestDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.sale_request_date',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
                 ],
-                null,
+                DateRangePickerType::class,
                 [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options_start' => [
+                        'label' => 'Desde',
+                        'format' => 'dd/MM/yyyy',
+                    ],
+                    'field_options_end' => [
+                        'label' => 'Hasta',
+                        'format' => 'dd/MM/yyyy',
+                    ],
                 ]
             )
             ->add(
                 'serviceDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.service_date',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
                 ],
-                null,
+                DateRangePickerType::class,
                 [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options_start' => [
+                        'label' => 'Desde',
+                        'format' => 'dd/MM/yyyy',
+                    ],
+                    'field_options_end' => [
+                        'label' => 'Hasta',
+                        'format' => 'dd/MM/yyyy',
+                    ],
                 ]
             )
         ;
