@@ -41,11 +41,16 @@ class Vehicle extends AbstractBase
     private string $slug;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
      */
-    private $vehicleRegistrationNumber;
+    private string $vehicleRegistrationNumber;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleCategory", inversedBy="vehicles")
+     * @ORM\JoinColumn(name="vehicle_category_id", referencedColumnName="id")
+     * @ORM\Column(type="string")
+     */
+    private VehicleCategory $category;
 
     /**
      * @ORM\Column(type="string")
@@ -55,52 +60,46 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $chassisNumber;
+    private ?string $chassisNumber;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $vehicleBrand;
+    private ?string $vehicleBrand;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $vehicleModel;
+    private ?string $vehicleModel;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $serialNumber;
+    private ?string $serialNumber;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Url(checkDNS=true)
      */
-    private $link;
+    private ?string $link;
 
     /**
-     * @var File
-     *
      * @Vich\UploadableField(mapping="document_vehicle", fileNameProperty="attatchmentPDF")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"application/pdf", "application/x-pdf"}
      * )
      */
-    private $attatchmentPDFFile;
+    private File $attatchmentPDFFile;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $attatchmentPDF;
+    private string $attatchmentPDF;
 
     /**
-     * @var File
-     *
      * @Vich\UploadableField(mapping="vehicle", fileNameProperty="mainImage")
      * @Assert\File(
      *     maxSize="10M",
@@ -108,28 +107,22 @@ class Vehicle extends AbstractBase
      * )
      * @Assert\Image(minWidth=1200)
      */
-    private $mainImageFile;
+    private File $mainImageFile;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
      */
-    private $mainImage;
+    private string $mainImage;
 
     /**
-     * @var Enterprise
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
-    private $enterprise;
+    private Enterprise $enterprise;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleDigitalTachograph", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $vehicleDigitalTachographs;
+    private ArrayCollection $vehicleDigitalTachographs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -137,11 +130,9 @@ class Vehicle extends AbstractBase
     private Collection $vehicleConsumptions;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
      */
-    private $saleRequests;
+    private ArrayCollection $saleRequests;
 
     /**
      * Methods.
@@ -173,6 +164,18 @@ class Vehicle extends AbstractBase
     public function setVehicleRegistrationNumber($vehicleRegistrationNumber)
     {
         $this->vehicleRegistrationNumber = $vehicleRegistrationNumber;
+
+        return $this;
+    }
+
+    public function getCategory(): VehicleCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(VehicleCategory $category): Vehicle
+    {
+        $this->category = $category;
 
         return $this;
     }
