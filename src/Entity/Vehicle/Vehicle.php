@@ -5,9 +5,7 @@ namespace App\Entity\Vehicle;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleRequest;
-use App\Entity\Traits\DescriptionTrait;
 use App\Entity\Traits\NameTrait;
-use App\Entity\Traits\PositionTrait;
 use App\Entity\Traits\SlugTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,17 +32,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Vehicle extends AbstractBase
 {
     use NameTrait;
-    use PositionTrait;
     use SlugTrait;
-    use DescriptionTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @var string
@@ -54,19 +48,29 @@ class Vehicle extends AbstractBase
     private $vehicleRegistrationNumber;
 
     /**
-     * @var VehicleCategory
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleCategory", inversedBy="vehicles")
-     * @ORM\JoinColumn(name="vehicle_category_id", referencedColumnName="id")
+     * @ORM\Column(type="string")
      */
-    private $category;
+    private string $chassisBrand;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", nullable=true)
      */
-    private $shortDescription;
+    private string $chassisNumber;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private string $vehicleBrand;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private string $vehicleModel;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private string $serialNumber;
 
     /**
      * @var string
@@ -173,42 +177,88 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return VehicleCategory
-     */
-    public function getCategory()
+    public function getChassisBrand(): string
     {
-        return $this->category;
+        return $this->chassisBrand;
     }
 
-    /**
-     * @param VehicleCategory $category
-     *
-     * @return $this
-     */
-    public function setCategory($category)
+    public function setChassisBrand(string $chassisBrand): Vehicle
     {
-        $this->category = $category;
+        $this->chassisBrand = $chassisBrand;
 
         return $this;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getShortDescription()
+    public function getChassisNumber(): ?string
     {
-        return $this->shortDescription;
+        return $this->chassisNumber;
     }
 
     /**
-     * @param string $shortDescription
+     * @param ?string $chassisNumber
+     */
+    public function setChassisNumber(?string $chassisNumber): Vehicle
+    {
+        $this->chassisNumber = $chassisNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getVehicleBrand(): ?string
+    {
+        return $this->vehicleBrand;
+    }
+
+    /**
+     * @param ?string $vehicleBrand
+     */
+    public function setVehicleBrand(?string $vehicleBrand): Vehicle
+    {
+        $this->vehicleBrand = $vehicleBrand;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getVehicleModel(): ?string
+    {
+        return $this->vehicleModel;
+    }
+
+    /**
+     * @param ?string $vehicleModel
+     */
+    public function setVehicleModel(?string $vehicleModel): Vehicle
+    {
+        $this->vehicleModel = $vehicleModel;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getSerialNumber(): ?string
+    {
+        return $this->serialNumber;
+    }
+
+    /**
+     * @param ?string $serialNumber
      *
      * @return Vehicle
      */
-    public function setShortDescription($shortDescription)
+    public function setSerialNumber(?string $serialNumber): ?Vehicle
     {
-        $this->shortDescription = $shortDescription;
+        $this->serialNumber = $serialNumber;
 
         return $this;
     }
