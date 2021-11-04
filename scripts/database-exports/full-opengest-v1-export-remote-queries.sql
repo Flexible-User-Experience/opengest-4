@@ -253,3 +253,11 @@ LINES TERMINATED BY '\n'
 FROM opengest.Revisiones R
 JOIN opengest.Tipos_revision TR ON TR.id = R.tipo_revision_id
 JOIN opengest.Vehiculos V ON V.id = R.vehiculo_id;
+
+SELECT V.*, V.matricula
+INTO OUTFILE '/var/lib/mysql-files/vehicle.csv'
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+ESCAPED BY '\\'
+LINES TERMINATED BY '\n'
+FROM opengest.Vehiculos V;

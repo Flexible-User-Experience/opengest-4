@@ -17,10 +17,11 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
@@ -254,16 +255,20 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'date',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.date',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
                 ],
-                null,
+                DateRangePickerType::class,
                 [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options_start' => [
+                        'label' => 'Desde',
+                        'format' => 'dd/MM/yyyy',
+                    ],
+                    'field_options_end' => [
+                        'label' => 'Hasta',
+                        'format' => 'dd/MM/yyyy',
+                    ],
                 ]
             )
             ->add(

@@ -22,11 +22,12 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -595,16 +596,20 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'date',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.delivery_note_date',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
                 ],
-                null,
+                DateRangePickerType::class,
                 [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options_start' => [
+                        'label' => 'Desde',
+                        'format' => 'dd/MM/yyyy',
+                    ],
+                    'field_options_end' => [
+                        'label' => 'Hasta',
+                        'format' => 'dd/MM/yyyy',
+                    ],
                 ]
             )
             ->add(
@@ -698,6 +703,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle',
+                ]
+            )
+            ->add(
+                'operator',
+                null,
+                [
+                    'label' => 'admin.label.operator',
                 ]
             )
             ->add(
@@ -795,24 +807,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'deliveryNoteReference',
-                null,
-                [
-                    'label' => 'admin.label.delivery_note_reference',
-                ]
-            )
-            ->add(
                 'buildingSite',
                 null,
                 [
                     'label' => 'admin.label.partner_building_site',
-                ]
-            )
-            ->add(
-                'order',
-                null,
-                [
-                    'label' => 'admin.label.order',
                 ]
             )
             ->add(
@@ -823,10 +821,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'serviceDescription',
+                'vehicle',
                 null,
                 [
-                    'label' => 'admin.label.service_description',
+                    'label' => 'admin.label.vehicle',
+                ]
+            )
+            ->add(
+                'operator',
+                null,
+                [
+                    'label' => 'admin.label.operator',
                 ]
             )
             ->add(
