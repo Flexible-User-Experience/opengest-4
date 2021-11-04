@@ -168,6 +168,8 @@
       shell: "cp {{ remote_old_uploads_folder }}/tacografos/S_* {{ remote_new_uploads_folder }}/digital_tachograph/vehicle/"
     - name: copy vehicle digital tachographs 2
       shell: "cp {{ remote_old_uploads_folder }}/tacografos/V_* {{ remote_new_uploads_folder }}/digital_tachograph/vehicle/"
+    - name: copy vehicle images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_grua/* {{ remote_new_uploads_folder }}/images/vehicle/"
     - name: fix ownership to copied files
       file:
         path: "{{ remote_new_uploads_folder }}/"

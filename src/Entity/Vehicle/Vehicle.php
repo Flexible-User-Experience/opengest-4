@@ -260,7 +260,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    public function getLink(): string
+    public function getLink(): ?string
     {
         return $this->link;
     }
