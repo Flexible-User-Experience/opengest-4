@@ -48,7 +48,6 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleCategory", inversedBy="vehicles")
      * @ORM\JoinColumn(name="vehicle_category_id", referencedColumnName="id")
-     * @ORM\Column(type="string")
      */
     private VehicleCategory $category;
 

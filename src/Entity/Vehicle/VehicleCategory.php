@@ -37,11 +37,9 @@ class VehicleCategory extends AbstractBase
     private $slug;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="category")
      */
-    private $vehicles;
+    private ArrayCollection $vehicles;
 
     /**
      * @var ArrayCollection
@@ -84,8 +82,6 @@ class VehicleCategory extends AbstractBase
     }
 
     /**
-     * @param Vehicle $vehicle
-     *
      * @return $this
      */
     public function addVehicle(Vehicle $vehicle)
@@ -96,8 +92,6 @@ class VehicleCategory extends AbstractBase
     }
 
     /**
-     * @param Vehicle $vehicle
-     *
      * @return $this
      */
     public function removeVehicle(Vehicle $vehicle)
