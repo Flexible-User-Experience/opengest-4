@@ -81,14 +81,18 @@
                 console.log('totalUInits', totalUnits);
                 console.log('totalAmount', totalAmount);
                   jQuery(`
-                <div class="row">
-                      <div class="form-control col-md-2">
-                          Total unidades: ${totalUnits}
-                      </div>
-                      <div class="form-control col-md-2">
-                          Total €: ${totalAmount}
-                      </div>
+            <div>
+                <div class="pull-right" style="margin-right: 10px;">
+                    <label for="totalUnits" class="control-label">Total unidades: </label>
+                    <label class="control-label"> ${totalUnits} </label>
                 </div>
+            </div>
+            <div>
+                <div class="pull-right" style="margin-right: 10px;">
+                    <label for="totalUnits" class="control-label">Total: </label>
+                    <label class="control-label"> ${totalAmount} €</label>
+                </div>
+            </div>
                   `).insertAfter(workRegistersTable);
 
             {% endif %}
