@@ -147,20 +147,15 @@ class Vehicle extends AbstractBase
         $this->vehicleConsumptions = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getVehicleRegistrationNumber()
+    public function getVehicleRegistrationNumber(): string
     {
         return $this->vehicleRegistrationNumber;
     }
 
     /**
      * @param string $vehicleRegistrationNumber
-     *
-     * @return Vehicle
      */
-    public function setVehicleRegistrationNumber($vehicleRegistrationNumber)
+    public function setVehicleRegistrationNumber($vehicleRegistrationNumber): Vehicle
     {
         $this->vehicleRegistrationNumber = $vehicleRegistrationNumber;
 
@@ -265,10 +260,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->link;
     }
@@ -278,27 +270,19 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function setLink($link)
+    public function setLink($link): Vehicle
     {
         $this->link = $link;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getAttatchmentPDFFile()
+    public function getAttatchmentPDFFile(): File
     {
         return $this->attatchmentPDFFile;
     }
 
-    /**
-     * @return Vehicle
-     *
-     * @throws \Exception
-     */
-    public function setAttatchmentPDFFile(File $attatchmentPDFFile = null)
+    public function setAttatchmentPDFFile(File $attatchmentPDFFile = null): Vehicle
     {
         $this->attatchmentPDFFile = $attatchmentPDFFile;
         if ($attatchmentPDFFile) {
@@ -310,10 +294,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAttatchmentPDF()
+    public function getAttatchmentPDF(): string
     {
         return $this->attatchmentPDF;
     }
@@ -323,27 +304,19 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function setAttatchmentPDF($attatchmentPDF)
+    public function setAttatchmentPDF($attatchmentPDF): Vehicle
     {
         $this->attatchmentPDF = $attatchmentPDF;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getMainImageFile()
+    public function getMainImageFile(): File
     {
         return $this->mainImageFile;
     }
 
-    /**
-     * @return Vehicle
-     *
-     * @throws \Exception
-     */
-    public function setMainImageFile(File $mainImageFile = null)
+    public function setMainImageFile(File $mainImageFile = null): Vehicle
     {
         $this->mainImageFile = $mainImageFile;
         if ($mainImageFile) {
@@ -355,10 +328,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMainImage()
+    public function getMainImage(): string
     {
         return $this->mainImage;
     }
@@ -368,47 +338,39 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function setMainImage($mainImage)
+    public function setMainImage($mainImage): Vehicle
     {
         $this->mainImage = $mainImage;
 
         return $this;
     }
 
-    /**
-     * @return Enterprise
-     */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
 
     /**
      * @param Enterprise $enterprise
-     *
-     * @return Vehicle
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): Vehicle
     {
         $this->enterprise = $enterprise;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getVehicleDigitalTachographs()
+    public function getVehicleDigitalTachographs(): ArrayCollection
     {
         return $this->vehicleDigitalTachographs;
     }
 
     /**
-     * @param VehicleDigitalTachograph $vehicleDigitalTachographs
+     * @param ArrayCollection $vehicleDigitalTachographs
      *
      * @return $this
      */
-    public function setVehicleDigitalTachographs($vehicleDigitalTachographs)
+    public function setVehicleDigitalTachographs($vehicleDigitalTachographs): Vehicle
     {
         $this->vehicleDigitalTachographs = $vehicleDigitalTachographs;
 
@@ -418,7 +380,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph)
+    public function addVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph): Vehicle
     {
         if (!$this->vehicleDigitalTachographs->contains($digitalTachograph)) {
             $this->vehicleDigitalTachographs->add($digitalTachograph);
@@ -431,7 +393,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph)
+    public function removeVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph): Vehicle
     {
         if ($this->vehicleDigitalTachographs->contains($digitalTachograph)) {
             $this->vehicleDigitalTachographs->removeElement($digitalTachograph);
@@ -440,10 +402,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getVehicleConsumptions()
+    public function getVehicleConsumptions(): Collection
     {
         return $this->vehicleConsumptions;
     }
@@ -451,7 +410,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function setVehicleConsumptions(Collection $vehicleConsumptions)
+    public function setVehicleConsumptions(Collection $vehicleConsumptions): Vehicle
     {
         $this->vehicleConsumptions = $vehicleConsumptions;
 
@@ -461,7 +420,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleConsumption(VehicleConsumption $vehicleConsumption)
+    public function addVehicleConsumption(VehicleConsumption $vehicleConsumption): Vehicle
     {
         if (!$this->vehicleConsumptions->contains($vehicleConsumption)) {
             $this->vehicleConsumptions->add($vehicleConsumption);
@@ -474,7 +433,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleConsumption(VehicleConsumption $vehicleConsumption)
+    public function removeVehicleConsumption(VehicleConsumption $vehicleConsumption): Vehicle
     {
         if ($this->vehicleConsumptions->contains($vehicleConsumption)) {
             $this->vehicleConsumptions->removeElement($vehicleConsumption);
@@ -488,7 +447,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleRequest($saleRequest)
+    public function addSaleRequest($saleRequest): Vehicle
     {
         if (!$this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->add(($saleRequest));
@@ -503,7 +462,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function removeSaleRequest($saleRequest)
+    public function removeSaleRequest($saleRequest): Vehicle
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
@@ -512,10 +471,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }
