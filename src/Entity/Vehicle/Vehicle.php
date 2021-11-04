@@ -59,22 +59,22 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $chassisNumber;
+    private ?string $chassisNumber = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $vehicleBrand;
+    private ?string $vehicleBrand = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $vehicleModel;
+    private ?string $vehicleModel = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $serialNumber;
+    private ?string $serialNumber = null;
 
     /**
      * @var ?string
@@ -96,7 +96,7 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $attatchmentPDF;
+    private ?string $attatchmentPDF = null;
 
     /**
      * @Vich\UploadableField(mapping="vehicle", fileNameProperty="mainImage")
@@ -111,7 +111,7 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\Column(type="string")
      */
-    private string $mainImage;
+    private ?string $mainImage = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
@@ -294,7 +294,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    public function getAttatchmentPDF(): string
+    public function getAttatchmentPDF(): ?string
     {
         return $this->attatchmentPDF;
     }
@@ -328,7 +328,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    public function getMainImage(): string
+    public function getMainImage(): ?string
     {
         return $this->mainImage;
     }

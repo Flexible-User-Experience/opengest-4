@@ -119,6 +119,13 @@ admin:
         social_security_cost: "Coste seguridad social"
         extra_pay: "Paga extra"
         other_costs: "Otros costes"
+        vehicle_registration_number: "Matrícula"
+        chassis_brand: "Marca chasis"
+        chassis_number: "Nº Bastidor"
+        vehicle_brand: "Marca grua"
+        vehicle_model: "Modelo grua"
+        serial_number: "Nº serie grua"
+        manufacturer_webpage: "Página web del fabricante"
     with:
         general: "General"
         image: "Imatge"
