@@ -7,6 +7,7 @@ use App\Entity\Traits\NameTrait;
 use App\Entity\Traits\PositionTrait;
 use App\Entity\Traits\SlugTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,7 +38,7 @@ class VehicleCategory extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="category")
      */
-    private ArrayCollection $vehicles;
+    private Collection $vehicles;
 
     /**
      * @var ArrayCollection
@@ -59,7 +60,7 @@ class VehicleCategory extends AbstractBase
         $this->services = new ArrayCollection();
     }
 
-    public function getVehicles(): ArrayCollection
+    public function getVehicles(): Collection
     {
         return $this->vehicles;
     }

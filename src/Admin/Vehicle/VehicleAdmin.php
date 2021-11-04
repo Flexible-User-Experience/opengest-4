@@ -4,12 +4,14 @@ namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
+use App\Entity\Vehicle\VehicleCategory;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -68,7 +70,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 'name',
                 TextType::class,
                 [
-                    'label' => 'admin.label.name',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(
@@ -92,6 +94,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 TextType::class,
                 [
                     'label' => 'admin.label.chassis_number',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -99,6 +102,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 TextType::class,
                 [
                     'label' => 'admin.label.vehicle_brand',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -106,6 +110,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 TextType::class,
                 [
                     'label' => 'admin.label.vehicle_model',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -113,6 +118,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 TextType::class,
                 [
                     'label' => 'admin.label.serial_number',
+                    'required' => false,
                 ]
             )
             ->end()
@@ -133,6 +139,16 @@ class VehicleAdmin extends AbstractBaseAdmin
                     'label' => 'Document',
                     'help' => $this->getDownloadPdfButton(),
                     'required' => false,
+                ]
+            )
+            ->add(
+                'category',
+                EntityType::class,
+                [
+                    'label' => 'Categoria vehicle',
+                    'class' => VehicleCategory::class,
+                    'required' => true,
+                    'query_builder' => $this->rm->getVehicleCategoryRepository()->getEnabledSortedByNameQBForAdmin(),
                 ]
             )
             ->end()
@@ -164,7 +180,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'admin.label.name',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(
@@ -261,7 +277,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'admin.label.name',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(

@@ -91,7 +91,7 @@ class Vehicle extends AbstractBase
      *     mimeTypes={"application/pdf", "application/x-pdf"}
      * )
      */
-    private File $attatchmentPDFFile;
+    private ?File $attatchmentPDFFile = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -106,7 +106,7 @@ class Vehicle extends AbstractBase
      * )
      * @Assert\Image(minWidth=1200)
      */
-    private File $mainImageFile;
+    private ?File $mainImageFile = null;
 
     /**
      * @ORM\Column(type="string")
@@ -121,7 +121,7 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleDigitalTachograph", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private ArrayCollection $vehicleDigitalTachographs;
+    private Collection $vehicleDigitalTachographs;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -131,7 +131,7 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
      */
-    private ArrayCollection $saleRequests;
+    private Collection $saleRequests;
 
     /**
      * Methods.
@@ -277,7 +277,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    public function getAttatchmentPDFFile(): File
+    public function getAttatchmentPDFFile(): ?File
     {
         return $this->attatchmentPDFFile;
     }
@@ -311,7 +311,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    public function getMainImageFile(): File
+    public function getMainImageFile(): ?File
     {
         return $this->mainImageFile;
     }

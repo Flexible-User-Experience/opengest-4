@@ -30,10 +30,7 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -47,9 +44,18 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
         $beginTimestamp = new DateTimeImmutable();
         $rowsRead = 0;
         $newRecords = 0;
+        // Create default vehicle category if it does not exist
+        /** @var VehicleCategory $vehicleCategory */
+        $vehicleCategory = $this->rm->getVehicleCategoryRepository()->findOneBy(['name' => 'Default']);
+        // new vehicle category
+        if (!$vehicleCategory) {
+            $vehicleCategory = new VehicleCategory();
+            $vehicleCategory->setName('Default');
+            $this->em->persist($vehicleCategory);
+        }
         while (false !== ($row = $this->readRow($fr))) {
             /** @var Vehicle $vehicle */
-            $vehicle = $this->rm->getVehicleRepository()->findOneBy(['name' => $this->readColumn(9, $row)]);
+            $vehicle = $this->rm->getVehicleRepository()->findOneBy(['name' => $this->readColumn(4, $row)]);
             // new vehicle
             if (!$vehicle) {
                 $vehicle = new Vehicle();
@@ -57,24 +63,17 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
             }
             // update vehicle
             $vehicle
-                ->setName($this->readColumn(9, $row))
-                ->setDescription($this->readColumn(11, $row))
-                ->setShortDescription($this->readColumn(10, $row))
+                ->setName($this->readColumn(4, $row))
+                ->setVehicleRegistrationNumber($this->readColumn(3, $row))
+                ->setChassisBrand($this->readColumn(7, $row))
+                ->setChassisNumber($this->readColumn(9, $row))
+                ->setVehicleBrand($this->readColumn(6, $row))
+                ->setVehicleModel($this->readColumn(8, $row))
+                ->setSerialNumber($this->readColumn(10, $row))
             ;
-            /** @var VehicleCategory $vehicleCategory */
-            $vehicleCategory = $this->rm->getVehicleCategoryRepository()->findOneBy(['name' => $this->readColumn(26, $row)]);
-            if ($vehicleCategory) {
-                $vehicle->setCategory($vehicleCategory);
-            }
-            $link = $this->readColumn(18, $row);
-            if (strlen($link) > 0) {
-                $vehicle->setLink($link);
-            }
-            $attatchmentPDF = $this->readColumn(14, $row);
-            if (strlen($attatchmentPDF) > 0) {
-                $vehicle->setAttatchmentPDF($attatchmentPDF);
-            }
-            $image = $this->readColumn(3, $row);
+            $vehicle->setCategory($vehicleCategory);
+
+            $image = $this->readColumn(15, $row);
             if (strlen($image) > 0) {
                 $vehicle->setMainImage($image);
             } else {
