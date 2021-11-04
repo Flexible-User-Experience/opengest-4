@@ -7,6 +7,7 @@ use App\Entity\Traits\NameTrait;
 use App\Entity\Traits\PositionTrait;
 use App\Entity\Traits\SlugTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -29,19 +30,15 @@ class VehicleCategory extends AbstractBase
     use SlugTrait;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
      */
-    private $slug;
+    private string $slug;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="category")
      */
-    private $vehicles;
+    private Collection $vehicles;
 
     /**
      * @var ArrayCollection
@@ -63,10 +60,7 @@ class VehicleCategory extends AbstractBase
         $this->services = new ArrayCollection();
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getVehicles()
+    public function getVehicles(): Collection
     {
         return $this->vehicles;
     }
@@ -76,7 +70,7 @@ class VehicleCategory extends AbstractBase
      *
      * @return $this
      */
-    public function setVehicles($vehicles)
+    public function setVehicles($vehicles): VehicleCategory
     {
         $this->vehicles = $vehicles;
 
@@ -84,11 +78,9 @@ class VehicleCategory extends AbstractBase
     }
 
     /**
-     * @param Vehicle $vehicle
-     *
      * @return $this
      */
-    public function addVehicle(Vehicle $vehicle)
+    public function addVehicle(Vehicle $vehicle): VehicleCategory
     {
         $this->vehicles->add($vehicle);
 
@@ -96,41 +88,31 @@ class VehicleCategory extends AbstractBase
     }
 
     /**
-     * @param Vehicle $vehicle
-     *
      * @return $this
      */
-    public function removeVehicle(Vehicle $vehicle)
+    public function removeVehicle(Vehicle $vehicle): VehicleCategory
     {
         $this->vehicles->removeElement($vehicle);
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getServices()
+    public function getServices(): ArrayCollection
     {
         return $this->services;
     }
 
     /**
      * @param ArrayCollection $services
-     *
-     * @return VehicleCategory
      */
-    public function setServices($services)
+    public function setServices($services): VehicleCategory
     {
         $this->services = $services;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

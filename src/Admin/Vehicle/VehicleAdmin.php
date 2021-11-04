@@ -7,14 +7,13 @@ use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\QueryBuilder;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
@@ -38,12 +37,17 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehicles/vehicle';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
@@ -51,8 +55,6 @@ class VehicleAdmin extends AbstractBaseAdmin
 
     /**
      * Configure route collection.
-     *
-     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -60,9 +62,6 @@ class VehicleAdmin extends AbstractBaseAdmin
         $collection->remove('delete');
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -70,147 +69,177 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add(
                 'name',
                 TextType::class,
-                array(
-                    'label' => 'Nom',
-                )
+                [
+                    'label' => 'admin.label.vehicle',
+                ]
             )
             ->add(
                 'vehicleRegistrationNumber',
                 TextType::class,
-                array(
-                    'label' => 'Matrícula',
+                [
+                    'label' => 'admin.label.vehicle_registration_number',
                     'required' => true,
-                )
+                ]
             )
             ->add(
-                'shortDescription',
+                'chassisBrand',
                 TextType::class,
-                array(
-                    'label' => 'Descripció breu',
-                )
+                [
+                    'label' => 'admin.label.chassis_brand',
+                    'required' => true,
+                ]
             )
             ->add(
-                'description',
-                CKEditorType::class,
-                array(
-                    'label' => 'Descripció',
-                    'config_name' => 'my_config',
-                    'required' => true,
-                )
+                'chassisNumber',
+                TextType::class,
+                [
+                    'label' => 'admin.label.chassis_number',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'vehicleBrand',
+                TextType::class,
+                [
+                    'label' => 'admin.label.vehicle_brand',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'vehicleModel',
+                TextType::class,
+                [
+                    'label' => 'admin.label.vehicle_model',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'serialNumber',
+                TextType::class,
+                [
+                    'label' => 'admin.label.serial_number',
+                    'required' => false,
+                ]
             )
             ->end()
             ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'mainImageFile',
                 FileType::class,
-                array(
+                [
                     'label' => 'Imatge',
                     'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'attatchmentPDFFile',
                 FileType::class,
-                array(
+                [
                     'label' => 'Document',
                     'help' => $this->getDownloadPdfButton(),
                     'required' => false,
-                )
+                ]
             )
-            ->end()
-            ->with('Controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'category',
                 EntityType::class,
-                array(
+                [
                     'label' => 'Categoria vehicle',
                     'class' => VehicleCategory::class,
                     'required' => true,
                     'query_builder' => $this->rm->getVehicleCategoryRepository()->getEnabledSortedByNameQBForAdmin(),
-                )
+                ]
             )
+            ->end()
+            ->with('Controls', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'link',
                 UrlType::class,
-                array(
-                    'label' => 'Pàgina web fabricant',
+                [
+                    'label' => 'admin.label.manufacturer_webpage',
                     'required' => false,
-                )
-            )
-            ->add(
-                'position',
-                null,
-                array(
-                    'label' => 'Posició',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'Actiu',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add(
-                'vehicleRegistrationNumber',
-                null,
-                array(
-                    'label' => 'Matrícula',
-                )
-            )
-            ->add(
                 'name',
                 null,
-                array(
-                    'label' => 'Nom',
-                )
+                [
+                    'label' => 'admin.label.vehicle',
+                ]
             )
             ->add(
-                'category',
+                'vehicleRegistrationNumber',
                 null,
-                array(
-                    'label' => 'Categoria',
-                )
+                [
+                    'label' => 'admin.label.vehicle_registration_number',
+                    'required' => true,
+                ]
             )
             ->add(
-                'shortDescription',
+                'chassisBrand',
                 null,
-                array(
-                    'label' => 'Descripció breu',
-                )
+                [
+                    'label' => 'admin.label.chassis_brand',
+                    'required' => true,
+                ]
             )
             ->add(
-                'description',
+                'chassisNumber',
                 null,
-                array(
-                    'label' => 'Descripció',
-                )
+                [
+                    'label' => 'admin.label.chassis_number',
+                ]
+            )
+            ->add(
+                'vehicleBrand',
+                null,
+                [
+                    'label' => 'admin.label.vehicle_brand',
+                ]
+            )
+            ->add(
+                'vehicleModel',
+                null,
+                [
+                    'label' => 'admin.label.vehicle_model',
+                ]
+            )
+            ->add(
+                'serialNumber',
+                null,
+                [
+                    'label' => 'admin.label.serial_number',
+                ]
             )
             ->add(
                 'link',
                 null,
-                array(
+                [
                     'label' => 'Pàgina web fabricant',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'Actiu',
-                )
+                ]
             );
     }
 
@@ -233,74 +262,58 @@ class VehicleAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->add(
                 'mainImage',
                 null,
-                array(
+                [
                     'label' => 'Imatge',
                     'template' => 'admin/cells/list__cell_main_image_field.html.twig',
-                )
-            )
-            ->add(
-                'vehicleRegistrationNumber',
-                null,
-                array(
-                    'label' => 'Matrícula',
-                    'editable' => true,
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
-                    'label' => 'Nom',
-                    'editable' => true,
-                )
+                [
+                    'label' => 'admin.label.vehicle',
+                ]
             )
             ->add(
-                'category',
+                'vehicleRegistrationNumber',
                 null,
-                array(
-                    'label' => 'Categoria',
-                    'editable' => false,
-                    'associated_property' => 'name',
-                    'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'name'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'category')),
-                )
+                [
+                    'label' => 'admin.label.vehicle_registration_number',
+                    'required' => true,
+                ]
             )
             ->add(
-                'position',
+                'chassisBrand',
                 null,
-                array(
-                    'label' => 'Posició',
-                    'editable' => true,
-                )
+                [
+                    'label' => 'admin.label.chassis_brand',
+                    'required' => true,
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'Actiu',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             );
     }
 
