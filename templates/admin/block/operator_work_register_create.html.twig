@@ -127,7 +127,7 @@
                                 Termina
                             </label>
                             <label class="warning hidden" style="color: red" id="label_warning_finish_before_start">
-                                Debe ser más posterior al momento de inicio
+                                Debe ser posterior al momento de inicio
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural">
                                 <input type="time" id="custom_finish" name="custom_finish" class=" form-control">
@@ -262,23 +262,23 @@
 
         updateOperatorWorkRegistersTable();
         enableDisableSubmitButton();
+        startIsBeforeFinish();
 
         customStart.change(function (event) {
-          if (checkIfStartIsBeforeFinish()) {
-            labelCheckFinishIsBeforeStart.addClass('hidden');
-          } else {
-            labelCheckFinishIsBeforeStart.removeClass('hidden');
-          }
-          enableDisableSubmitButton();
+          startIsBeforeFinish();
         });
         customFinish.change(function (event) {
+          startIsBeforeFinish();
+        })
+
+        function startIsBeforeFinish() {
           if (checkIfStartIsBeforeFinish()) {
             labelCheckFinishIsBeforeStart.addClass('hidden');
           } else {
             labelCheckFinishIsBeforeStart.removeClass('hidden');
           }
           enableDisableSubmitButton();
-        })
+        }
 
         selectInputType.change(function (event) {
           const type = event.added.id;
