@@ -126,6 +126,7 @@ admin:
         vehicle_model: "Modelo grua"
         serial_number: "Nº serie grua"
         manufacturer_webpage: "Página web del fabricante"
+        km: "Km"
     with:
         general: "General"
         image: "Imatge"
