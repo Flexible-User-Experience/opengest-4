@@ -30,7 +30,7 @@ class VehicleMaintenanceTask extends AbstractBase
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private int $amount = 0;
+    private int $km = 0;
 
     /**
      * Methods.
@@ -47,14 +47,14 @@ class VehicleMaintenanceTask extends AbstractBase
         return $this;
     }
 
-    public function getAmount(): int
+    public function getKm(): int
     {
-        return $this->amount;
+        return $this->km;
     }
 
-    public function setAmount(int $amount): VehicleMaintenanceTask
+    public function setAmount(int $km): VehicleMaintenanceTask
     {
-        $this->amount = $amount;
+        $this->km = $km;
 
         return $this;
     }
