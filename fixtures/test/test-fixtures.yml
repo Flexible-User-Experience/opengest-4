@@ -279,6 +279,13 @@ App\Entity\Vehicle\VehicleChecking:
     updatedAt: <dateTimeThisMonth()>
     enabled: true
 
+# VehicleMaintenanceTask
+App\Entity\Vehicle\VehicleMaintenanceTask:
+  vehicleMaintenanceTask{1..2}:
+    name: '@vehicleCheckingType<numberBetween(1,2)>'
+    hours: <numberBetween(1,1000)>
+    km: <numberBetween(0,500)>
+
 # Users
 App\Entity\Setting\User:
     admin:
