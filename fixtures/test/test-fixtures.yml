@@ -87,9 +87,11 @@ App\Entity\Vehicle\Vehicle:
     category: '@vehicleCategory1'
     enterprise: '@enterprise1'
     name: my title
-    position: 1
-    shortDescription: <sentence()>
-    description: <paragraph()>
+    chassisNumber: <sentence()>
+    chassisBrand: <sentence()>
+    vehicleBrand: <sentence()>
+    vehicleModel: <sentence()>
+    serialNumber: <sentence()>
     link: <url()>
     attatchmentPDF: <word()>
     mainImage: <word()>
@@ -101,9 +103,11 @@ App\Entity\Vehicle\Vehicle:
     category: '@vehicleCategory2'
     enterprise: '@enterprise<numberBetween(1,2)>'
     name: <name()>
-    position: 2
-    shortDescription: <sentence()>
-    description: <paragraph()>
+    chassisNumber: <sentence()>
+    chassisBrand: <sentence()>
+    vehicleBrand: <sentence()>
+    vehicleModel: <sentence()>
+    serialNumber: <sentence()>
     link: <url()>
     attatchmentPDF: <word()>
     mainImage: <word()>
@@ -282,7 +286,7 @@ App\Entity\Vehicle\VehicleChecking:
 # VehicleMaintenanceTask
 App\Entity\Vehicle\VehicleMaintenanceTask:
   vehicleMaintenanceTask{1..2}:
-    name: '@vehicleCheckingType<numberBetween(1,2)>'
+    name: <sentence()>
     hours: <numberBetween(1,1000)>
     km: <numberBetween(0,500)>
 

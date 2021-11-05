@@ -52,7 +52,7 @@ class VehicleMaintenanceTask extends AbstractBase
         return $this->km;
     }
 
-    public function setAmount(int $km): VehicleMaintenanceTask
+    public function setKm(int $km): VehicleMaintenanceTask
     {
         $this->km = $km;
 
