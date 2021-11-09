@@ -139,6 +139,11 @@ class Vehicle extends AbstractBase
     private Collection $saleRequests;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $mileage = 0;
+
+    /**
      * Methods.
      */
 
@@ -509,6 +514,18 @@ class Vehicle extends AbstractBase
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
         }
+
+        return $this;
+    }
+
+    public function getMileage(): int
+    {
+        return $this->mileage;
+    }
+
+    public function setMileage(int $mileage): Vehicle
+    {
+        $this->mileage = $mileage;
 
         return $this;
     }
