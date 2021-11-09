@@ -38,6 +38,8 @@ use App\Repository\Setting\UserRepository;
 use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
+use App\Repository\Vehicle\VehicleMaintenanceRepository;
+use App\Repository\Vehicle\VehicleMaintenanceTaskRepository;
 use App\Repository\Vehicle\VehicleRepository;
 use App\Repository\Web\ServiceRepository;
 use App\Repository\Web\WorkRepository;
@@ -84,6 +86,10 @@ class RepositoriesManager
     private VehicleCheckingTypeRepository $vehicleCheckingTypeRepository;
 
     private VehicleCheckingRepository $vehicleCheckingRepository;
+
+    private VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository;
+
+    private VehicleMaintenanceRepository $vehicleMaintenanceRepository;
 
     private PartnerRepository $partnerRepository;
 
@@ -155,6 +161,8 @@ class RepositoriesManager
         VehicleRepository $vehicleRepository,
         VehicleCheckingTypeRepository $vehicleCheckingTypeRepository,
         VehicleCheckingRepository $vehicleCheckingRepository,
+        VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository,
+        VehicleMaintenanceRepository $vehicleMaintenanceRepository,
         PartnerRepository $partnerRepository,
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
@@ -195,6 +203,8 @@ class RepositoriesManager
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleCheckingTypeRepository = $vehicleCheckingTypeRepository;
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
+        $this->vehicleMaintenanceTaskRepository = $vehicleMaintenanceTaskRepository;
+        $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
         $this->partnerRepository = $partnerRepository;
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
@@ -352,6 +362,22 @@ class RepositoriesManager
     public function getVehicleCheckingRepository()
     {
         return $this->vehicleCheckingRepository;
+    }
+
+    /**
+     * @return VehicleMaintenanceTaskRepository
+     */
+    public function getVehicleMaintenanceTaskRepository()
+    {
+        return $this->vehicleMaintenanceTaskRepository;
+    }
+
+    /**
+     * @return VehicleMaintenanceRepository
+     */
+    public function getVehicleMaintenanceRepository()
+    {
+        return $this->vehicleMaintenanceRepository;
     }
 
     /**

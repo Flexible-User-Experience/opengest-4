@@ -34,7 +34,7 @@ class VehicleMaintenanceTask extends AbstractBase
     private int $km = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicle", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicleMaintenanceTask", cascade={"persist", "remove"})
      */
     private Collection $vehicleMaintenances;
 
