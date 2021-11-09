@@ -48,19 +48,23 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->with('General', $this->getFormMdSuccessBoxArray(8))
+                ->add(
+                    'vehicle',
+                    EntityType::class,
+                    [
+                        'label' => 'admin.label.vehicle',
+                        'class' => Vehicle::class,
+                        'placeholder' => '--- selecciona un vehículo ---',
+                        'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                )
+                ->end();
+        }
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(8))
-            ->add(
-                'vehicle',
-                EntityType::class,
-                [
-                    'label' => 'admin.label.vehicle',
-                    'class' => Vehicle::class,
-//                    'required' => true,
-                    'placeholder' => '--- selecciona un vehículo ---',
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
             ->add(
                 'vehicleMaintenanceTask',
                 EntityType::class,

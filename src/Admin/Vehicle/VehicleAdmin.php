@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -65,6 +66,7 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
+            ->tab('General')
             ->with('General', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'name',
@@ -170,7 +172,29 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-        ;
+            ->end()
+            ;
+        if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
+            $formMapper
+                    ->tab('Matenimientos')
+                    ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(12))
+                    ->add(
+                        'vehicleMaintenances',
+                        CollectionType::class,
+                        [
+                            'required' => false,
+                            'error_bubbling' => true,
+                            'label' => false,
+                        ],
+                        [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ]
+                    )
+                    ->end()
+                    ->end()
+                ;
+        }
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
