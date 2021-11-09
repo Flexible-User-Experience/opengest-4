@@ -37,6 +37,11 @@ class VehicleMaintenance extends AbstractBase
     private DateTime $date;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private int $km = 0;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private bool $needsCheck = false;
@@ -81,6 +86,18 @@ class VehicleMaintenance extends AbstractBase
     public function setDate(DateTime $date): VehicleMaintenance
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getKm(): int
+    {
+        return $this->km;
+    }
+
+    public function setKm(int $km): VehicleMaintenance
+    {
+        $this->km = $km;
 
         return $this;
     }

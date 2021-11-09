@@ -81,6 +81,14 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'km',
+                null,
+                [
+                    'label' => 'admin.label.km',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'description',
                 null,
                 [
@@ -143,6 +151,13 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'km',
+                null,
+                [
+                    'label' => 'admin.label.km',
+                ]
+            )
+            ->add(
                 'description',
                 null,
                 [
@@ -189,6 +204,13 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.date',
                     'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
+                'km',
+                null,
+                [
+                    'label' => 'admin.label.km',
                 ]
             )
             ->add(
