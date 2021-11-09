@@ -108,6 +108,11 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vehiculos/procesos-de-taller/create'],
             ['/admin/vehiculos/procesos-de-taller/1/edit'],
             // Partner
+            ['/admin/vehiculos/mantenimientos/list'],
+            ['/admin/vehiculos/mantenimientos/create'],
+            ['/admin/vehiculos/mantenimientos/1/edit'],
+            ['/admin/vehiculos/mantenimientos/1/delete'],
+            // Partner
             ['/admin/tercers/classe/list'],
             ['/admin/tercers/classe/create'],
             ['/admin/tercers/classe/1/edit'],
