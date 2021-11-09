@@ -10,7 +10,11 @@
                 {% for item in content %}
                     <div class="box box-info direct-chat direct-chat-info" style="margin-top:10px">
                         <div class="box-header with-border" style="overflow:hidden">
-                            <h3 class="box-title">{{ item.service.description }}</h3>
+                            <h3 class="box-title">
+                                {% if item.service is not null %}
+                                    {{ item.service.description }}
+                                {% endif %}
+                            </h3>
                             <div class="box-tools pull-right" style="right:7px;top:10px;">
                                 {% if show_date %}
                                     <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceDate | date('d/m/Y') }}</span>

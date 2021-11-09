@@ -6,9 +6,9 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class VehicleRepository extends ServiceEntityRepository
 {
@@ -61,7 +61,7 @@ class VehicleRepository extends ServiceEntityRepository
             ->andWhere('v.category = :category')
             ->setParameter('enabled', true)
             ->setParameter('category', $category)
-            ->orderBy('v.position', 'ASC')
+//            ->orderBy('v.position', 'ASC')
             ->addOrderBy('v.name', 'ASC');
     }
 
