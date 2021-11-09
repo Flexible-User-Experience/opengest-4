@@ -3,6 +3,7 @@
 namespace App\Command\Vehicle;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use DateTimeImmutable;
@@ -71,6 +72,11 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
                 ->setVehicleModel($this->readColumn(8, $row))
                 ->setSerialNumber($this->readColumn(10, $row))
             ;
+            /** @var Enterprise $enterprise */
+            $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['id' => $this->readColumn(1, $row)]);
+            if ($enterprise) {
+                $vehicle->setEnterprise($enterprise);
+            }
             $vehicle->setCategory($vehicleCategory);
 
             $image = $this->readColumn(15, $row);
