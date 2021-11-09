@@ -22,12 +22,12 @@ class VehicleMaintenance extends AbstractBase
     use DescriptionTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleMaintenance")
      */
     private Vehicle $vehicle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleMaintenanceTask")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleMaintenanceTask", inversedBy="vehicleMaintenance")
      */
     private VehicleMaintenanceTask $vehicleMaintenanceTask;
 

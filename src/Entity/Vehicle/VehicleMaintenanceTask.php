@@ -4,6 +4,7 @@ namespace App\Entity\Vehicle;
 
 use App\Entity\AbstractBase;
 use App\Entity\Traits\NameTrait;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -33,6 +34,11 @@ class VehicleMaintenanceTask extends AbstractBase
     private int $km = 0;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicle", cascade={"persist", "remove"})
+     */
+    private Collection $vehicleMaintenances;
+
+    /**
      * Methods.
      */
     public function getHours(): int
@@ -55,6 +61,31 @@ class VehicleMaintenanceTask extends AbstractBase
     public function setKm(int $km): VehicleMaintenanceTask
     {
         $this->km = $km;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): VehicleMaintenanceTask
+    {
+        if (!$this->vehicleMaintenances->contains($vehicleMaintenance)) {
+            $this->vehicleMaintenances->add($vehicleMaintenance);
+            $vehicleMaintenance->setVehicleMaintenanceTask($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): VehicleMaintenanceTask
+    {
+        if ($this->vehicleMaintenances->contains($vehicleMaintenance)) {
+            $this->vehicleMaintenances->removeElement($vehicleMaintenance);
+        }
 
         return $this;
     }

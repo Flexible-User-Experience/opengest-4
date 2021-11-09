@@ -129,6 +129,11 @@ class Vehicle extends AbstractBase
     private Collection $vehicleConsumptions;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $vehicleMaintenances;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
      */
     private Collection $saleRequests;
@@ -437,6 +442,31 @@ class Vehicle extends AbstractBase
     {
         if ($this->vehicleConsumptions->contains($vehicleConsumption)) {
             $this->vehicleConsumptions->removeElement($vehicleConsumption);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): Vehicle
+    {
+        if (!$this->vehicleMaintenances->contains($vehicleMaintenance)) {
+            $this->vehicleMaintenances->add($vehicleMaintenance);
+            $vehicleMaintenance->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): Vehicle
+    {
+        if ($this->vehicleMaintenances->contains($vehicleMaintenance)) {
+            $this->vehicleMaintenances->removeElement($vehicleMaintenance);
         }
 
         return $this;
