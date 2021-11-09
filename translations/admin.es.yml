@@ -127,6 +127,7 @@ admin:
         serial_number: "Nº serie grua"
         manufacturer_webpage: "Página web del fabricante"
         km: "Km"
+        vehicle_maintenance_task: "Proceso de taller"
     with:
         general: "General"
         image: "Imagen"
