@@ -15,6 +15,7 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
@@ -160,6 +161,14 @@ class VehicleAdmin extends AbstractBaseAdmin
                 UrlType::class,
                 [
                     'label' => 'admin.label.manufacturer_webpage',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'mileage',
+                NumberType::class,
+                [
+                    'label' => 'admin.label.mileage',
                     'required' => false,
                 ]
             )
