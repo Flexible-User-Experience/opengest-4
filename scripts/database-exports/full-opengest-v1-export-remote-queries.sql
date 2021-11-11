@@ -261,3 +261,21 @@ OPTIONALLY ENCLOSED BY '"'
 ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Vehiculos V;
+
+SELECT P.*
+INTO OUTFILE '/var/lib/mysql-files/vehicle_maintenance_task.csv'
+    FIELDS TERMINATED BY ','
+    OPTIONALLY ENCLOSED BY '"'
+    ESCAPED BY '\\'
+    LINES TERMINATED BY '\n'
+FROM opengest.Procesos_taller P;
+
+SELECT M.*, V.matricula, P.nombre
+INTO OUTFILE '/var/lib/mysql-files/vehicle_maintenance.csv'
+    FIELDS TERMINATED BY ','
+    OPTIONALLY ENCLOSED BY '"'
+    ESCAPED BY '\\'
+    LINES TERMINATED BY '\n'
+FROM opengest.Mantenimientos M
+    JOIN opengest.Vehiculos V ON V.id = M.vehiculo_id
+    JOIN opengest.Procesos_taller P ON P.id = M.proceso_taller_id;
