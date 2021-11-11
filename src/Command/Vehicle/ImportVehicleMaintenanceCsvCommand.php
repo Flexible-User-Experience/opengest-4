@@ -57,7 +57,6 @@ class ImportVehicleMaintenanceCsvCommand extends AbstractBaseCommand
                 [
                     'vehicle' => $vehicle,
                     'vehicleMaintenanceTask' => $vehicleMaintenanceTask,
-                    'date' => $date,
                 ]
             );
             // new vehicle maintenance
@@ -66,13 +65,13 @@ class ImportVehicleMaintenanceCsvCommand extends AbstractBaseCommand
                 $vehicleMaintenance
                     ->setVehicle($vehicle)
                     ->setVehicleMaintenanceTask($vehicleMaintenanceTask)
-                    ->setDate($date)
                 ;
                 ++$newRecords;
             }
             // update vehicle maintenance
             $vehicleMaintenance
                 ->setDescription($this->readColumn(4, $row))
+                ->setDate($date)
             ;
 
             $this->em->persist($vehicleMaintenance);
