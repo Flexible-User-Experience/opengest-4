@@ -75,6 +75,14 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
 
     private function numberOfHoursFromDate(Vehicle $vehicle, DateTime $date): int
     {
+        $saleDeliveryNotes = $vehicle->getSaleDeliveryNotes();
+        if ($saleDeliveryNotes->first()) {
+            $operatorWorkRegisters = $this->rm->getOperatorWorkRegisterRepository()->getOperatorWorkRegistersFromDeliveryNotesAndDateQB($saleDeliveryNotes, $date);
+            dd('hey');
+        } else {
+            return 0;
+        }
+
         return 0;
     }
 }
