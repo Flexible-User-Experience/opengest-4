@@ -48,7 +48,7 @@ class ImportVehicleMaintenanceCsvCommand extends AbstractBaseCommand
         $newRecords = 0;
         while (false !== ($row = $this->readRow($fr))) {
             /** @var Vehicle $vehicle */
-            $vehicle = $this->rm->getVehicleRepository()->findOneBy(['vehicle_registration_number' => $this->readColumn(7, $row)]);
+            $vehicle = $this->rm->getVehicleRepository()->findOneBy(['vehicleRegistrationNumber' => $this->readColumn(7, $row)]);
             /** @var VehicleMaintenanceTask $vehicleMaintenanceTask */
             $vehicleMaintenanceTask = $this->rm->getVehicleMaintenanceTaskRepository()->findOneBy(['name' => $this->readColumn(8, $row)]);
             $date = DateTime::createFromFormat('Y-m-d', $this->readColumn(3, $row));
@@ -75,7 +75,7 @@ class ImportVehicleMaintenanceCsvCommand extends AbstractBaseCommand
                 ->setDescription($this->readColumn(4, $row))
             ;
 
-            $this->em->persist($vehicleMaintenanceTask);
+            $this->em->persist($vehicleMaintenance);
             $this->em->flush();
             ++$rowsRead;
         }
