@@ -126,7 +126,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 'vehicle',
                 null,
                 [
-                    'label' => 'admin.label.vehiculo',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(
@@ -192,7 +192,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 'vehicle',
                 null,
                 [
-                    'label' => 'admin.label.vehiculo',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(

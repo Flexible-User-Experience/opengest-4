@@ -129,6 +129,7 @@ admin:
         km: "Km"
         vehicle_maintenance_task: "Proceso de taller"
         mileage: "Kilometraje"
+        needs_check: "Necesita revisión"
     with:
         general: "General"
         image: "Imatge"
