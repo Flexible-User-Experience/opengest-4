@@ -98,6 +98,16 @@ services:
             - { name: sonata.admin, manager_type: orm, label: "Consumos de combustible", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
             - [ setTemplate, [ list, "admin/vehicle-consumption/list.html.twig" ] ]
+    app.admin.vehicle.maintenance_task:
+        class: App\Admin\Vehicle\VehicleMaintenanceTaskAdmin
+        arguments: [ ~, App\Entity\Vehicle\VehicleMaintenanceTask, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Procesos de taller", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+    app.admin.vehicle.maintenance:
+        class: App\Admin\Vehicle\VehicleMaintenanceAdmin
+        arguments: [ ~, App\Entity\Vehicle\VehicleMaintenance, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Mantenimientos de vehículo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 # Partner group
 #    app.admin.partner:
 #        class: App\Admin\Partner\PartnerAdmin

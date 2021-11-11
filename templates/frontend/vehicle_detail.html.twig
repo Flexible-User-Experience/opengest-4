@@ -15,7 +15,7 @@
             {# left side #}
             <div class="col-sm-8">
                 <h3 class="no-m-top title">{{ vehicle.name }}</h3>
-                <p class="text-muted">{{ vehicle.description | raw }}</p>
+                <p class="text-muted">{{ vehicle.name | raw }}</p>
                 {% if vehicle.attatchmentPDF %}
                     <a class="btn btn-warning btn-sm small-m-bottom" href="{{ vich_uploader_asset(vehicle, 'attatchmentPDFFile') }}" download="{{ vehicle.name }}.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Ficha técnica</a>
                 {% endif %}

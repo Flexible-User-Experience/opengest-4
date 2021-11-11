@@ -129,9 +129,19 @@ class Vehicle extends AbstractBase
     private Collection $vehicleConsumptions;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $vehicleMaintenances;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
      */
     private Collection $saleRequests;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $mileage = 0;
 
     /**
      * Methods.
@@ -442,6 +452,43 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
+    public function getVehicleMaintenances(): Collection
+    {
+        return $this->vehicleMaintenances;
+    }
+
+    public function setVehicleMaintenances(Collection $vehicleMaintenances): Vehicle
+    {
+        $this->vehicleMaintenances = $vehicleMaintenances;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): Vehicle
+    {
+        if (!$this->vehicleMaintenances->contains($vehicleMaintenance)) {
+            $this->vehicleMaintenances->add($vehicleMaintenance);
+            $vehicleMaintenance->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): Vehicle
+    {
+        if ($this->vehicleMaintenances->contains($vehicleMaintenance)) {
+            $this->vehicleMaintenances->removeElement($vehicleMaintenance);
+        }
+
+        return $this;
+    }
+
     /**
      * @param SaleRequest $saleRequest
      *
@@ -467,6 +514,18 @@ class Vehicle extends AbstractBase
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
         }
+
+        return $this;
+    }
+
+    public function getMileage(): int
+    {
+        return $this->mileage;
+    }
+
+    public function setMileage(int $mileage): Vehicle
+    {
+        $this->mileage = $mileage;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Admin\Operator;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\ORM\NonUniqueResultException;
@@ -150,6 +151,19 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'label' => 'admin.with.delivery_note',
                         'placeholder' => ' - ',
                         'required' => false,
+                        'disabled' => true,
+                        'attr' => [
+                            'hidden' => 'true',
+                        ],
+                    ]
+                )
+                ->add(
+                    'operatorWorkRegisterHeader.operator',
+                    EntityType::class,
+                    [
+                        'class' => Operator::class,
+                        'label' => 'admin.label.operator',
+                        'required' => true,
                         'disabled' => true,
                     ]
                 )

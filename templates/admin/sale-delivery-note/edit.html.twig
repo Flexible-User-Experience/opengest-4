@@ -69,6 +69,32 @@
                   }
                 );
                 })
+
+                var workRegistersTable = jQuery('#sonata-ba-field-container-{{ form.operatorWorkRegisters.vars.id }}');
+                var numberOfWorkRegisters = {{ form.operatorWorkRegisters.vars.data.count }};
+                var totalUnits = 0;
+                var totalAmount = 0;
+                for (var i = 0; i < numberOfWorkRegisters; i++) {
+                  totalUnits += jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_units').val()*1;
+                  totalAmount += jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_amount').val()*1;
+                }
+                console.log('totalUInits', totalUnits);
+                console.log('totalAmount', totalAmount);
+                  jQuery(`
+            <div>
+                <div class="pull-right" style="margin-right: 10px;">
+                    <label for="totalUnits" class="control-label">Total: </label>
+                    <label class="control-label"> ${totalAmount} €</label>
+                </div>
+            </div>
+            <div>
+                <div class="pull-right" style="margin-right: 10px;">
+                    <label for="totalUnits" class="control-label">Total unidades: </label>
+                    <label class="control-label"> ${totalUnits} </label>
+                </div>
+            </div>
+                  `).insertAfter(workRegistersTable);
+
             {% endif %}
 
              //on change
