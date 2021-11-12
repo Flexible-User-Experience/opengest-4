@@ -254,9 +254,12 @@ expenses: Dietas
 socialSecurityCost: "Coste Seguridad Social"
 otherCosts: "Otros costes"
 totalAmount: "Importe total"
-
-
-
-
-
+operatorWorkRegisterHeader.dateFormatted: "Fecha"
+operatorWorkRegisterHeader.operator: Operario
+saleDeliveryNote: Albarán
+saleDeliveryNote.vehicle: Vehículo
+start: Inicio
+finish: Fin
+units: Unidades
+description: Descripción
 

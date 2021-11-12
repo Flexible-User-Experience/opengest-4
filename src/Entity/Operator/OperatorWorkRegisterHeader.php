@@ -140,6 +140,14 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return string
      */
+    public function getDateFormatted(): string
+    {
+        return $this->getDate()->format('d/m/y');
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->id ? $this->getDate()->format('d/m/Y').' · '.$this->getOperator() : '---';

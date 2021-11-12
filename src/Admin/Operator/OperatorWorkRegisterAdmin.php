@@ -52,6 +52,23 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
      * Methods.
      */
 
+    public function getExportFields(): array
+    {
+        return [
+            'id',
+            'operatorWorkRegisterHeader.dateFormatted',
+            'operatorWorkRegisterHeader.operator',
+            'saleDeliveryNote',
+            'saleDeliveryNote.vehicle',
+            'start',
+            'finish',
+            'units',
+            'priceUnit',
+            'amount',
+            'description'
+        ];
+    }
+
     /**
      * Configure route collection.
      */
