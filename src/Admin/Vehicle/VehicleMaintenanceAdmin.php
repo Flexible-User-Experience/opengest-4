@@ -4,11 +4,14 @@ namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
+use App\Entity\Vehicle\VehicleMaintenance;
 use App\Entity\Vehicle\VehicleMaintenanceTask;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -185,6 +188,14 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ;
     }
 
+    protected function configureDefaultFilterValues(array &$filterValues)
+    {
+        $filterValues['enabled'] = [
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => BooleanType::TYPE_YES,
+        ];
+    }
+
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -251,5 +262,21 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    /**
+     * @param VehicleMaintenance $object
+     */
+    public function prePersist($object)
+    {
+        $this->disablePreviousMaintenance($object);
+    }
+
+    /**
+     * @param VehicleMaintenance $object
+     */
+    public function preUpdate($object)
+    {
+        $this->disablePreviousMaintenance($object);
     }
 }

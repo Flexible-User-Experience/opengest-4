@@ -3,12 +3,13 @@
 namespace App\Command;
 
 use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
 use App\Service\NotificationService;
-use App\Transformer\LocationsTransformer;
 use App\Transformer\DatesTransformer;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Transformer\LocationsTransformer;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -29,16 +30,18 @@ abstract class AbstractBaseCommand extends Command
     protected EntityManagerInterface $em;
     protected Filesystem $fss;
     protected RepositoriesManager $rm;
+    protected VehicleMaintenanceManager $vmm;
     protected NotificationService $ns;
     protected LocationsTransformer $lts;
     protected DatesTransformer $dts;
 
-    public function __construct(?string $commandName, EntityManagerInterface $em, Filesystem $fss, RepositoriesManager $rm, NotificationService $ns, LocationsTransformer $lts, DatesTransformer $dts)
+    public function __construct(?string $commandName, EntityManagerInterface $em, Filesystem $fss, RepositoriesManager $rm, VehicleMaintenanceManager $vmm, NotificationService $ns, LocationsTransformer $lts, DatesTransformer $dts)
     {
         parent::__construct($commandName);
         $this->em = $em;
         $this->fss = $fss;
         $this->rm = $rm;
+        $this->vmm = $vmm;
         $this->ns = $ns;
         $this->lts = $lts;
         $this->dts = $dts;
@@ -99,9 +102,6 @@ abstract class AbstractBaseCommand extends Command
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return resource
      *
      * @throws InvalidArgumentException
@@ -130,13 +130,10 @@ abstract class AbstractBaseCommand extends Command
     }
 
     /**
-     * @param OutputInterface   $output
-     * @param int               $rowsRead
-     * @param int               $newRecords
-     * @param DateTimeInterface $beginTimestamp
-     * @param DateTimeInterface $endTimestamp
-     * @param int               $errors
-     * @param bool              $isDryRunModeEnabled
+     * @param int  $rowsRead
+     * @param int  $newRecords
+     * @param int  $errors
+     * @param bool $isDryRunModeEnabled
      */
     protected function printTotals(OutputInterface $output, $rowsRead, $newRecords, DateTimeInterface $beginTimestamp, DateTimeInterface $endTimestamp, $errors = 0, $isDryRunModeEnabled = false)
     {

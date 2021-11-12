@@ -118,6 +118,11 @@ services:
         arguments: [ '@twig', '@app.vehicle_checking_repository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
+    app.block.vehicle_maintenance:
+        class: App\Block\VehicleMaintenanceBlock
+        arguments: [ '@twig', '@app.vehicle_maintenance_repository']
+        tags:
+            - { name: sonata.block }
     app.block.operator_checking:
         class: App\Block\OperatorCheckingBlock
         arguments: [ '@twig', '@app.operator_checking_repository', '@security.token_storage' ]
