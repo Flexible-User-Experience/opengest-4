@@ -6,6 +6,7 @@ use App\Command\AbstractBaseCommand;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleMaintenance;
 use DateTime;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -73,16 +74,18 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
         $this->em->flush();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     private function numberOfHoursFromDate(Vehicle $vehicle, DateTime $date): int
     {
         $saleDeliveryNotes = $vehicle->getSaleDeliveryNotes();
         if ($saleDeliveryNotes->first()) {
-            $operatorWorkRegisters = $this->rm->getOperatorWorkRegisterRepository()->getOperatorWorkRegistersFromDeliveryNotesAndDateQB($saleDeliveryNotes, $date);
-            dd('hey');
+            $hoursFromDate = $this->rm->getOperatorWorkRegisterRepository()->getHoursFromperatorWorkRegistersWithHoursFromDeliveryNotesAndDate($saleDeliveryNotes, $date)['hours'];
         } else {
-            return 0;
+            $hoursFromDate = 0;
         }
 
-        return 0;
+        return $hoursFromDate;
     }
 }
