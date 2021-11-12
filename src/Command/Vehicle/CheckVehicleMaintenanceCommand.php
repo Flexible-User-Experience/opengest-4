@@ -3,10 +3,7 @@
 namespace App\Command\Vehicle;
 
 use App\Command\AbstractBaseCommand;
-use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleMaintenance;
-use DateTime;
-use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,47 +49,14 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
             'needsCheck' => false, ]
         );
         foreach ($vehicleMaintenances as $vehicleMaintenance) {
-            $vehicle = $vehicleMaintenance->getVehicle();
-            $maxKm = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
-            if ($maxKm) {
-                $maintenanceKm = $vehicleMaintenance->getKm();
-                $currentMileage = $vehicle->getMileage();
-                $kmSinceLastMaintenance = $currentMileage - $maintenanceKm;
-                if ($kmSinceLastMaintenance >= $maxKm) {
-                    $vehicleMaintenance->setNeedsCheck(true);
-                    $this->em->persist($vehicleMaintenance);
-                    ++$needMainenance;
-
-                    continue;
-                }
-            }
-            $maxHours = $vehicleMaintenance->getVehicleMaintenanceTask()->getHours();
-            if ($maxHours) {
-                $date = $vehicleMaintenance->getDate();
-                $hours = $this->numberOfHoursFromDate($vehicle, $date);
-                if ($hours >= $maxHours) {
-                    $vehicleMaintenance->setNeedsCheck(true);
-                    $this->em->persist($vehicleMaintenance);
-                    ++$needMainenance;
-                }
+            $needsCheck = $this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance);
+            if ($needsCheck) {
+                $vehicleMaintenance->setNeedsCheck(true);
+                $this->em->persist($vehicleMaintenance);
+                ++$needMainenance;
             }
         }
         $this->em->flush();
-        $output->writeln('<info>'.$needMainenance.' vehicles need new maintenancecommand.</info>');
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     */
-    private function numberOfHoursFromDate(Vehicle $vehicle, DateTime $date): int
-    {
-        $saleDeliveryNotes = $vehicle->getSaleDeliveryNotes();
-        if ($saleDeliveryNotes->first()) {
-            $hoursFromDate = $this->rm->getOperatorWorkRegisterRepository()->getHoursFromperatorWorkRegistersWithHoursFromDeliveryNotesAndDate($saleDeliveryNotes, $date)['hours'];
-        } else {
-            $hoursFromDate = 0;
-        }
-
-        return $hoursFromDate;
+        $output->writeln('<info>'.$needMainenance.' vehicles need new maintenance.</info>');
     }
 }
