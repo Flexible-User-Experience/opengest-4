@@ -9,7 +9,6 @@ use App\Entity\Vehicle\VehicleMaintenanceTask;
 use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -47,7 +46,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
      * @var array
      */
     protected $datagridValues = [
-        '_sort_by' => 'id',
+        '_sort_by' => 'needsCheck',
         '_sort_order' => 'DESC',
     ];
 
@@ -196,15 +195,6 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
             'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_YES,
         ];
-    }
-
-    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        $rootAlias = current($query->getRootAliases());
-
-        $query->addOrderBy($rootAlias.'.needsCheck', 'DESC');
-
-        return $query;
     }
 
     protected function configureListFields(ListMapper $listMapper)
