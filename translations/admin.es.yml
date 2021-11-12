@@ -247,6 +247,14 @@ baseTotal: "Base imponible"
 iva: IVA
 irpf: IRPF
 total: Total
+fromDateFormatted: Desde
+toDateFormatted: Hasta
+year: Año
+expenses: Dietas
+socialSecurityCost: "Coste Seguridad Social"
+otherCosts: "Otros costes"
+totalAmount: "Importe total"
+
 
 
 
