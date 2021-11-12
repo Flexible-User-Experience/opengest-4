@@ -45,8 +45,12 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
 
         // Initializations
         $this->init();
+        $needMainenance = 0;
         /** @var VehicleMaintenance[] $vehicleMaintenances */
-        $vehicleMaintenances = $this->rm->getVehicleMaintenanceRepository()->findBy(['enabled' => true]);
+        $vehicleMaintenances = $this->rm->getVehicleMaintenanceRepository()->findBy(
+            ['enabled' => true,
+            'needsCheck' => false, ]
+        );
         foreach ($vehicleMaintenances as $vehicleMaintenance) {
             $vehicle = $vehicleMaintenance->getVehicle();
             $maxKm = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
@@ -57,6 +61,7 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
                 if ($kmSinceLastMaintenance >= $maxKm) {
                     $vehicleMaintenance->setNeedsCheck(true);
                     $this->em->persist($vehicleMaintenance);
+                    ++$needMainenance;
 
                     continue;
                 }
@@ -68,10 +73,12 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
                 if ($hours >= $maxHours) {
                     $vehicleMaintenance->setNeedsCheck(true);
                     $this->em->persist($vehicleMaintenance);
+                    ++$needMainenance;
                 }
             }
         }
         $this->em->flush();
+        $output->writeln('<info>'.$needMainenance.' vehicles need new maintenancecommand.</info>');
     }
 
     /**
