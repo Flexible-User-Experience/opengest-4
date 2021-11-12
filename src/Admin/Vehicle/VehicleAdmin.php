@@ -5,6 +5,7 @@ namespace App\Admin\Vehicle;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
+use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -356,5 +357,45 @@ class VehicleAdmin extends AbstractBaseAdmin
     public function prePersist($object)
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
+        $vehicleMaintenances = $object->getVehicleMaintenances();
+        /** @var VehicleMaintenance $vehicleMaintenance */
+        foreach ($vehicleMaintenances as $vehicleMaintenance) {
+            $this->disablePreviousMaintenance($vehicleMaintenance);
+        }
+    }
+
+    /**
+     * @param Vehicle $object
+     */
+    public function preUpdate($object)
+    {
+        $vehicleMaintenances = $object->getVehicleMaintenances();
+        /** @var VehicleMaintenance $vehicleMaintenance */
+        foreach ($vehicleMaintenances as $vehicleMaintenance) {
+            $this->disablePreviousMaintenance($vehicleMaintenance);
+        }
+    }
+
+    private function disablePreviousMaintenance(VehicleMaintenance $vehicleMaintenance)
+    {
+        $otherVehicleMaintenances = $this->rm->getVehicleMaintenanceRepository()->findBy(
+            [
+                'vehicle' => $vehicleMaintenance->getVehicle(),
+                'vehicleMaintenanceTask' => $vehicleMaintenance->getVehicleMaintenanceTask(),
+                'enabled' => true,
+            ]
+        );
+        /** @var VehicleMaintenance $otherVehicleMaintenance */
+        foreach ($otherVehicleMaintenances as $otherVehicleMaintenance) {
+            if ($otherVehicleMaintenance->getDate() <= $vehicleMaintenance->getDate()) {
+                $otherVehicleMaintenance->setEnabled(false);
+                $vehicleMaintenance->setEnabled(true);
+            } else {
+                $otherVehicleMaintenance->setEnabled(true);
+                $vehicleMaintenance->setEnabled(false);
+            }
+            $this->em->persist($otherVehicleMaintenance);
+            $this->em->flush();
+        }
     }
 }

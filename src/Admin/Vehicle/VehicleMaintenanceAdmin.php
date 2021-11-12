@@ -4,6 +4,7 @@ namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
+use App\Entity\Vehicle\VehicleMaintenance;
 use App\Entity\Vehicle\VehicleMaintenanceTask;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -251,5 +252,44 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    /**
+     * @param VehicleMaintenance $object
+     */
+    public function prePersist($object)
+    {
+        $this->disablePreviousMaintenance($object);
+    }
+
+    /**
+     * @param VehicleMaintenance $object
+     */
+    public function preUpdate($object)
+    {
+        $this->disablePreviousMaintenance($object);
+    }
+
+    private function disablePreviousMaintenance(VehicleMaintenance $vehicleMaintenance)
+    {
+        $otherVehicleMaintenances = $this->rm->getVehicleMaintenanceRepository()->findBy(
+            [
+                'vehicle' => $vehicleMaintenance->getVehicle(),
+                'vehicleMaintenanceTask' => $vehicleMaintenance->getVehicleMaintenanceTask(),
+                'enabled' => true,
+            ]
+        );
+        /** @var VehicleMaintenance $otherVehicleMaintenance */
+        foreach ($otherVehicleMaintenances as $otherVehicleMaintenance) {
+            if ($otherVehicleMaintenance->getDate() <= $vehicleMaintenance->getDate()) {
+                $otherVehicleMaintenance->setEnabled(false);
+                $vehicleMaintenance->setEnabled(true);
+            } else {
+                $otherVehicleMaintenance->setEnabled(true);
+                $vehicleMaintenance->setEnabled(false);
+            }
+            $this->em->persist($otherVehicleMaintenance);
+            $this->em->flush();
+        }
     }
 }

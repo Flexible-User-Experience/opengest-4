@@ -29,7 +29,10 @@ class VehicleMaintenanceManager
         $this->operatorWorkRegisterRepository = $operatorWorkRegisterRepository;
     }
 
-    public function checkIfMaintenanceNeedsCheck(VehicleMaintenance $vehicleMaintenance)
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function checkIfMaintenanceNeedsCheck(VehicleMaintenance $vehicleMaintenance): bool
     {
         $vehicle = $vehicleMaintenance->getVehicle();
         $maxKm = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
