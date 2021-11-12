@@ -36,9 +36,9 @@ class VehicleMaintenanceManager
     {
         $vehicle = $vehicleMaintenance->getVehicle();
         $maxKm = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
-        if ($maxKm) {
+        $currentMileage = $vehicle->getMileage();
+        if ($maxKm && $currentMileage) {
             $maintenanceKm = $vehicleMaintenance->getKm();
-            $currentMileage = $vehicle->getMileage();
             $kmSinceLastMaintenance = $currentMileage - $maintenanceKm;
             if ($kmSinceLastMaintenance >= $maxKm) {
                 return true;
@@ -59,7 +59,7 @@ class VehicleMaintenanceManager
     /**
      * @throws NonUniqueResultException
      */
-    private function numberOfHoursFromDate(Vehicle $vehicle, DateTime $date): int
+    private function numberOfHoursFromDate(Vehicle $vehicle, DateTime $date): ?int
     {
         $saleDeliveryNotes = $vehicle->getSaleDeliveryNotes();
         if ($saleDeliveryNotes->first()) {

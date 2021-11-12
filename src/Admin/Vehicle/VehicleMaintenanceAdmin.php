@@ -6,8 +6,10 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Entity\Vehicle\VehicleMaintenanceTask;
+use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -196,6 +198,15 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ];
     }
 
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $rootAlias = current($query->getRootAliases());
+
+        $query->addOrderBy($rootAlias.'.needsCheck', 'DESC');
+
+        return $query;
+    }
+
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -266,17 +277,34 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
 
     /**
      * @param VehicleMaintenance $object
+     *
+     * @throws NonUniqueResultException
      */
     public function prePersist($object)
     {
-        $this->disablePreviousMaintenance($object);
+        $this->disablePreviousAndCheckIfNeedMaintenance($object);
     }
 
     /**
      * @param VehicleMaintenance $object
+     *
+     * @throws NonUniqueResultException
      */
     public function preUpdate($object)
     {
+        $this->disablePreviousAndCheckIfNeedMaintenance($object);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function disablePreviousAndCheckIfNeedMaintenance(VehicleMaintenance $object): void
+    {
         $this->disablePreviousMaintenance($object);
+        if ($this->vmm->checkIfMaintenanceNeedsCheck($object)) {
+            $object->setNeedsCheck(true);
+        } else {
+            $object->setNeedsCheck(false);
+        }
     }
 }

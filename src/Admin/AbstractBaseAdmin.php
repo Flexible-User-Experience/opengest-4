@@ -8,6 +8,7 @@ use App\Entity\Vehicle\VehicleMaintenance;
 use App\Manager\DeliveryNoteManager;
 use App\Manager\InvoiceManager;
 use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
 use App\Manager\YearChoicesManager;
 use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,6 +39,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     protected DeliveryNoteManager $dnm;
 
+    protected VehicleMaintenanceManager $vmm;
+
     protected EntityManagerInterface $em;
 
     protected FileService $fs;
@@ -67,7 +70,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      * @param string $class
      * @param string $baseControllerName
      */
-    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, EntityManagerInterface $em, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
+    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
     {
         parent::__construct($code, $class, $baseControllerName);
         $this->vus = $fs->getUhs();
@@ -76,6 +79,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         $this->im = $im;
         $this->rm = $rm;
         $this->dnm = $dnm;
+        $this->vmm = $vmm;
         $this->em = $em;
         $this->fs = $fs;
         $this->tws = $tws;

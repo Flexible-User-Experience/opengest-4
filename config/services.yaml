@@ -226,6 +226,9 @@ services:
     app.delivery_note_manager:
         class: App\Manager\DeliveryNoteManager
         arguments: [ '@app.sale_delivery_note_repository']
+    app.vehicle_maintenance_manager:
+        class: App\Manager\VehicleMaintenanceManager
+        arguments: [ '@app.vehicle_maintenance_repository']
     # Transformers
     app.locations_transformer:
         class: App\Transformer\LocationsTransformer

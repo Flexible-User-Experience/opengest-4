@@ -7,6 +7,7 @@ use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -353,6 +354,8 @@ class VehicleAdmin extends AbstractBaseAdmin
 
     /**
      * @param Vehicle $object
+     *
+     * @throws NonUniqueResultException
      */
     public function prePersist($object)
     {
@@ -361,6 +364,11 @@ class VehicleAdmin extends AbstractBaseAdmin
         /** @var VehicleMaintenance $vehicleMaintenance */
         foreach ($vehicleMaintenances as $vehicleMaintenance) {
             $this->disablePreviousMaintenance($vehicleMaintenance);
+            if ($this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance)) {
+                $vehicleMaintenance->setNeedsCheck(true);
+                $this->em->persist($vehicleMaintenance);
+                $this->em->flush();
+            }
         }
     }
 
@@ -373,6 +381,11 @@ class VehicleAdmin extends AbstractBaseAdmin
         /** @var VehicleMaintenance $vehicleMaintenance */
         foreach ($vehicleMaintenances as $vehicleMaintenance) {
             $this->disablePreviousMaintenance($vehicleMaintenance);
+            if ($this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance)) {
+                $vehicleMaintenance->setNeedsCheck(true);
+                $this->em->persist($vehicleMaintenance);
+                $this->em->flush();
+            }
         }
     }
 }
