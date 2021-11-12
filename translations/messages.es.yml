@@ -110,3 +110,21 @@ amount: "Importe"
 quantity: Cantidad
 priceUnit: "Precio unitario"
 fuelType: "Combustible"
+id: Id
+requestDate: "Fecha petición"
+service: Tonelaje
+serviceDate: "Fecha servicio"
+serviceTime: "Hora servicio"
+partner.name: Cliente
+buildingSite: Obra
+secondaryVechicle: "Vehículo secundario"
+operator: Operario
+status: Estado
+onlyDeliveryNote: Albarán
+partner.cifNif: NIF
+miniumHours: "Horas mínimas"
+displacement: Desplazamiento
+serviceDescription: "Descripción del servicio"
+place: Ubicación
+observations: Observaciones
+

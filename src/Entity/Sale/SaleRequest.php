@@ -993,6 +993,13 @@ class SaleRequest extends AbstractBase
         return $deliveryNote;
     }
 
+
+    public function getRequestDateFormatted(): string
+    {
+        return $this->getRequestDate()->format('d/m/y');
+    }
+
+
     /**
      * @return string
      */

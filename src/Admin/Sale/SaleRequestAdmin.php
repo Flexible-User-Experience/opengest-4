@@ -75,6 +75,31 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         ;
     }
 
+    public function getExportFields(): array
+    {
+        return [
+            'id',
+            'requestDateFormatted',
+            'service',
+            'serviceDescription',
+            'serviceDateString',
+            'partner.name',
+            'partner.cifNif',
+            'place',
+            'buildingSite',
+            'vehicle',
+            'secondaryVehicle',
+            'operator',
+            'miniumHours',
+            'hourPrice',
+            'displacement',
+            'miniumHolidayHours',
+            'status',
+            'onlyDeliveryNote',
+            'observations'
+        ];
+    }
+
     /**
      * @param array $actions
      *
