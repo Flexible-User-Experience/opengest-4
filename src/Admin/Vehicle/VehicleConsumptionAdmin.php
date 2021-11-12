@@ -44,7 +44,15 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
      */
     public function getExportFields(): array
     {
-        return ['supplyDateFormatted', 'vehicle.description', 'vehicle.vehicleRegistrationNumber', 'amount', 'quantity', 'priceUnit', 'fuelType'];
+        return [
+            'supplyDateFormatted',
+            'vehicle.description',
+            'vehicle.vehicleRegistrationNumber',
+            'amount',
+            'quantity',
+            'priceUnit',
+            'fuelType'
+        ];
     }
 
     /**
