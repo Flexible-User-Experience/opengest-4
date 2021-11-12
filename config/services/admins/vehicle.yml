@@ -71,6 +71,8 @@ services:
         arguments: [ ~ , App\Entity\Vehicle\Vehicle, App\Controller\Admin\Vehicle\VehicleAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Vehículo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTemplate, [ edit, "admin/vehicle/edit.html.twig" ] ]
     app.admin.vehicle_category:
         class: App\Admin\Vehicle\VehicleCategoryAdmin
         arguments: [ ~ , App\Entity\Vehicle\VehicleCategory, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
