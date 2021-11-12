@@ -682,7 +682,7 @@ class SaleDeliveryNote extends AbstractBase
      */
     public function getDateToString()
     {
-        return $this->getDate()->format('Y-m-d');
+        return $this->getDate()->format('d/m/Y');
     }
 
     /**

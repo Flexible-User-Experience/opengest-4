@@ -24,6 +24,11 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
+    protected $translationDomain = 'admin';
+
+    /**
+     * @var string
+     */
     protected $classnameLabel = 'Consumos de combustible';
 
     /**
