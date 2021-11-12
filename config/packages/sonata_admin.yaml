@@ -56,6 +56,10 @@ sonata_admin:
                 class: 'col-md-3'
             -
                 position: top
+                type: app.block.vehicle_maintenance
+                class: 'col-md-3'
+            -
+                position: top
                 type: app.block.contact_message
                 class: 'col-md-3'
             -
