@@ -69,6 +69,24 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ;
     }
 
+    public function getExportFields(): array
+    {
+        return [
+            'id',
+            'series',
+            'invoiceNumber',
+            'dateFormatted',
+            'hasBeenCounted',
+            'partner.name',
+            'partner.cifNif',
+            'discount',
+            'baseTotal',
+            'iva',
+            'irpf',
+            'total'
+        ];
+    }
+
     /**
      * @throws Exception
      */

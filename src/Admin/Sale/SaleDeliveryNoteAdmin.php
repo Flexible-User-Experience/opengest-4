@@ -81,7 +81,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     {
         return [
             'id',
-            'date',
+            'dateToString',
             'saleRequestNumber',
             'isInvoiced',
             'saleInvoice',
@@ -95,6 +95,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'buildingSite',
             'vehicle',
             'secondaryVehicle',
+            'activityLine',
             'operator',
             'miniumHours',
             'hourPrice',

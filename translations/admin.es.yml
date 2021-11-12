@@ -196,3 +196,59 @@ Factura: "Factura"
 Petició_list: "Petición"
 Petició_create: "Crear"
 Petició_delete: "Borrar"
+supplyDateFormatted: "Fecha de suministro"
+vehicle.description: "Vehículo"
+vehicle.vehicleRegistrationNumber: "Matrícula"
+amount: "Importe"
+quantity: Cantidad
+priceUnit: "Precio unitario"
+fuelType: "Combustible"
+id: Id
+requestDate: "Fecha petición"
+service: Tonelaje
+serviceDate: "Fecha servicio"
+serviceTime: "Hora servicio"
+partner.name: Cliente
+buildingSite: Obra
+secondaryVechicle: "Vehículo secundario"
+operator: Operario
+status: Estado
+onlyDeliveryNote: Albarán
+partner.cifNif: NIF
+miniumHours: "Horas mínimas"
+displacement: Desplazamiento
+serviceDescription: "Descripción del servicio"
+place: Ubicación
+observations: Observaciones
+requestDateFormatted: "Fecha petición"
+serviceDateString: "Fecha servicio"
+vehicle: "Vehículo"
+secondaryVehicle: "Vehículo secundario"
+hourPrice: "Precio hora"
+miniumHolidayHours: "Horas mínimas en vacaciones"
+saleRequestNumber: "Id de petición"
+date: "Fecha"
+dateFormatted: "Fecha"
+dateToString: "Fecha"
+isInvoiced: "Facturado"
+saleInvoice: "Factura"
+order: "Pedido"
+deliveryNoteReference: "Referencia"
+saleServiceTariff: "Tonelaje"
+totalLines: "Total de líneas"
+discount: "Descuento"
+baseAmount: "Base imponible"
+finalTotal: "Total"
+activityLine: "Línea de actividad"
+series: "Série"
+invoiceNumber: "Factura"
+hasBeenCounted: Contabilizada
+baseTotal: "Base imponible"
+iva: IVA
+irpf: IRPF
+total: Total
+
+
+
+
+
