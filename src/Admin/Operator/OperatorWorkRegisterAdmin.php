@@ -168,6 +168,17 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->add(
+                    'operatorWorkRegisterHeader.date',
+                    DateTimeType::class,
+                    [
+                        'label' => 'admin.label.date',
+                        'required' => true,
+                        'disabled' => true,
+                        'widget' => 'single_text',
+                        'format' => 'd/M/Y',
+                    ]
+                )
+                ->add(
                     'description',
                     null,
                     [
