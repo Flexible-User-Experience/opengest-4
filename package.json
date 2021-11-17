@@ -28,7 +28,7 @@
         "@fullcalendar/interaction": "^4.3.0",
         "@fullcalendar/list": "^4.3.0",
         "@fullcalendar/timegrid": "^4.3.0",
-        "ckeditor4": "^4.11.0",
+        "ckeditor4": "^4.17.0",
         "dropzone": "^5.5.1",
         "google-charts": "^2.0.0",
         "jquery": "^3.5.1",
