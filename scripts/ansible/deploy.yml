@@ -14,8 +14,7 @@
     # ansistrano shared resources
     ansistrano_shared_paths:
       - "var/log"
-      - "public/uploads"
-      - "public/pdfs"
+      - "var/uploads"
     ansistrano_shared_files: []
     ansistrano_ensure_shared_paths_exist: yes
     ansistrano_ensure_basedirs_shared_files_exist: yes
