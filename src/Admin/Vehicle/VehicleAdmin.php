@@ -5,7 +5,9 @@ namespace App\Admin\Vehicle;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
+use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -352,9 +354,38 @@ class VehicleAdmin extends AbstractBaseAdmin
 
     /**
      * @param Vehicle $object
+     *
+     * @throws NonUniqueResultException
      */
     public function prePersist($object)
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
+        $vehicleMaintenances = $object->getVehicleMaintenances();
+        /** @var VehicleMaintenance $vehicleMaintenance */
+        foreach ($vehicleMaintenances as $vehicleMaintenance) {
+            $this->disablePreviousMaintenance($vehicleMaintenance);
+            if ($this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance)) {
+                $vehicleMaintenance->setNeedsCheck(true);
+                $this->em->persist($vehicleMaintenance);
+                $this->em->flush();
+            }
+        }
+    }
+
+    /**
+     * @param Vehicle $object
+     */
+    public function preUpdate($object)
+    {
+        $vehicleMaintenances = $object->getVehicleMaintenances();
+        /** @var VehicleMaintenance $vehicleMaintenance */
+        foreach ($vehicleMaintenances as $vehicleMaintenance) {
+            $this->disablePreviousMaintenance($vehicleMaintenance);
+            if ($this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance)) {
+                $vehicleMaintenance->setNeedsCheck(true);
+                $this->em->persist($vehicleMaintenance);
+                $this->em->flush();
+            }
+        }
     }
 }

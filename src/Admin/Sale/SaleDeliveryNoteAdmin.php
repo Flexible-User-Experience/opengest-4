@@ -77,6 +77,38 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         ;
     }
 
+    public function getExportFields(): array
+    {
+        return [
+            'id',
+            'dateToString',
+            'saleRequestNumber',
+            'isInvoiced',
+            'saleInvoice',
+            'order',
+            'deliveryNoteReference',
+            'saleServiceTariff',
+            'serviceDescription',
+            'partner.name',
+            'partner.cifNif',
+            'place',
+            'buildingSite',
+            'vehicle',
+            'secondaryVehicle',
+            'activityLine',
+            'operator',
+            'miniumHours',
+            'hourPrice',
+            'displacement',
+            'miniumHolidayHours',
+            'totalLines',
+            'discount',
+            'baseAmount',
+            'finalTotal',
+            'observations'
+        ];
+    }
+
     /**
      * @param array $actions
      *

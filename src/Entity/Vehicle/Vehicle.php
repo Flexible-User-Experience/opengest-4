@@ -139,6 +139,11 @@ class Vehicle extends AbstractBase
     private Collection $saleRequests;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="vehicle")
+     */
+    private Collection $saleDeliveryNotes;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private int $mileage = 0;
@@ -154,6 +159,7 @@ class Vehicle extends AbstractBase
     {
         $this->vehicleDigitalTachographs = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
+        $this->saleDeliveryNotes = new ArrayCollection();
         $this->vehicleConsumptions = new ArrayCollection();
     }
 
@@ -514,6 +520,24 @@ class Vehicle extends AbstractBase
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getSaleDeliveryNotes()
+    {
+        return $this->saleDeliveryNotes;
+    }
+
+    /**
+     * @param ArrayCollection|Collection $saleDeliveryNotes
+     */
+    public function setSaleDeliveryNotes($saleDeliveryNotes): Vehicle
+    {
+        $this->saleDeliveryNotes = $saleDeliveryNotes;
 
         return $this;
     }

@@ -60,6 +60,21 @@ class PayslipAdmin extends AbstractBaseAdmin
         ;
     }
 
+    public function getExportFields(): array
+    {
+        return [
+            'id',
+            'operator',
+            'fromDateFormatted',
+            'toDateFormatted',
+            'year',
+            'expenses',
+            'socialSecurityCost',
+            'otherCosts',
+            'totalAmount',
+        ];
+    }
+
     /**
      * @throws Exception
      */

@@ -261,6 +261,18 @@ class Payslip extends AbstractBase
 
         return $this;
     }
+    /**
+     * @return string
+     */
+    public function getFromDateFormatted(): string
+    {
+        return $this->getFromDate()->format('d/m/y');
+    }
+
+    public function getToDateFormatted(): string
+    {
+        return $this->getToDate()->format('d/m/y');
+    }
 
     public function __toString(): string
     {

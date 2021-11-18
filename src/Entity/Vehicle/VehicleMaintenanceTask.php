@@ -65,6 +65,18 @@ class VehicleMaintenanceTask extends AbstractBase
         return $this;
     }
 
+    public function getVehicleMaintenances(): Collection
+    {
+        return $this->vehicleMaintenances;
+    }
+
+    public function setVehicleMaintenances(Collection $vehicleMaintenances): VehicleMaintenanceTask
+    {
+        $this->vehicleMaintenances = $vehicleMaintenances;
+
+        return $this;
+    }
+
     /**
      * @return $this
      */

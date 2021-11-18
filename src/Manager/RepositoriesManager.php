@@ -15,6 +15,7 @@ use App\Repository\Operator\OperatorCheckingTypeRepository;
 use App\Repository\Operator\OperatorDigitalTachographRepository;
 use App\Repository\Operator\OperatorRepository;
 use App\Repository\Operator\OperatorVariousAmountRepository;
+use App\Repository\Operator\OperatorWorkRegisterHeaderRepository;
 use App\Repository\Operator\OperatorWorkRegisterRepository;
 use App\Repository\Partner\PartnerBuildingSiteRepository;
 use App\Repository\Partner\PartnerClassRepository;
@@ -133,6 +134,8 @@ class RepositoriesManager
 
     private OperatorWorkRegisterRepository $operatorWorkRegisterRepository;
 
+    private OperatorWorkRegisterHeaderRepository $operatorWorkRegisterHeaderRepository;
+
     private PayslipLineConceptRepository $payslipLineConceptRepository;
 
     /**
@@ -158,6 +161,7 @@ class RepositoriesManager
         OperatorDigitalTachographRepository $operatorDigitalTachographRepository,
         OperatorVariousAmountRepository $operatorVariousAmountRepository,
         OperatorWorkRegisterRepository $operatorWorkRegisterRepository,
+        OperatorWorkRegisterHeaderRepository $operatorWorkRegisterHeaderRepository,
         VehicleRepository $vehicleRepository,
         VehicleCheckingTypeRepository $vehicleCheckingTypeRepository,
         VehicleCheckingRepository $vehicleCheckingRepository,
@@ -200,6 +204,7 @@ class RepositoriesManager
         $this->operatorDigitalTachographRepository = $operatorDigitalTachographRepository;
         $this->operatorVariousAmountRepository = $operatorVariousAmountRepository;
         $this->operatorWorkRegisterRepository = $operatorWorkRegisterRepository;
+        $this->operatorWorkRegisterHeaderRepository = $operatorWorkRegisterHeaderRepository;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleCheckingTypeRepository = $vehicleCheckingTypeRepository;
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
@@ -534,6 +539,11 @@ class RepositoriesManager
     public function getOperatorWorkRegisterRepository(): OperatorWorkRegisterRepository
     {
         return $this->operatorWorkRegisterRepository;
+    }
+
+    public function getOperatorWorkRegisterHeaderRepository(): OperatorWorkRegisterHeaderRepository
+    {
+        return $this->operatorWorkRegisterHeaderRepository;
     }
 
     public function getPayslipLineConceptRepository(): PayslipLineConceptRepository

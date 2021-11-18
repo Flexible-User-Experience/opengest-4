@@ -84,6 +84,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Operator\OperatorWorkRegister
+    app.operator_work_register_header_repository:
+        class: App\Repository\Operator\OperatorWorkRegisterHeaderRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Operator\OperatorWorkRegisterHeader
     app.vehicle_repository:
         class: App\Repository\Vehicle\VehicleRepository
         factory: [ '@doctrine', getRepository ]
@@ -233,6 +238,7 @@ services:
             - '@app.operator_digital_tachograf_repository'
             - '@app.operator_various_amount_repository'
             - '@app.operator_work_register_repository'
+            - '@app.operator_work_register_header_repository'
             - '@app.vehicle_repository'
             - '@app.vehicle_checking_type_repository'
             - '@app.vehicle_checking_repository'

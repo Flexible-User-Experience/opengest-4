@@ -50,19 +50,20 @@ class ImportVehicleMaintenanceTaskCsvCommand extends AbstractBaseCommand
             // new vehicle
             if (!$vehicleMaintenanceTask) {
                 $vehicleMaintenanceTask = new VehicleMaintenanceTask();
+                $vehicleMaintenanceTask
+                    ->setName($this->readColumn(2, $row))
+                ;
                 ++$newRecords;
             }
-            // update vehicle
+            // update vehicle maintenance task
             $vehicleMaintenanceTask
-                ->setName($this->readColumn(2, $row))
                 ->setHours($this->readColumn(3, $row))
             ;
 
             $this->em->persist($vehicleMaintenanceTask);
+            $this->em->flush();
             ++$rowsRead;
         }
-
-        $this->em->flush();
         $endTimestamp = new DateTimeImmutable();
         // Print totals
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);

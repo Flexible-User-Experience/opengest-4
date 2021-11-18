@@ -4,11 +4,15 @@ namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
+use App\Entity\Vehicle\VehicleMaintenance;
 use App\Entity\Vehicle\VehicleMaintenanceTask;
+use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -42,7 +46,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
      * @var array
      */
     protected $datagridValues = [
-        '_sort_by' => 'id',
+        '_sort_by' => 'needsCheck',
         '_sort_order' => 'DESC',
     ];
 
@@ -126,7 +130,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 'vehicle',
                 null,
                 [
-                    'label' => 'admin.label.vehiculo',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(
@@ -185,6 +189,14 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ;
     }
 
+    protected function configureDefaultFilterValues(array &$filterValues)
+    {
+        $filterValues['enabled'] = [
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => BooleanType::TYPE_YES,
+        ];
+    }
+
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -192,7 +204,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 'vehicle',
                 null,
                 [
-                    'label' => 'admin.label.vehiculo',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(
@@ -251,5 +263,38 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    /**
+     * @param VehicleMaintenance $object
+     *
+     * @throws NonUniqueResultException
+     */
+    public function prePersist($object)
+    {
+        $this->disablePreviousAndCheckIfNeedMaintenance($object);
+    }
+
+    /**
+     * @param VehicleMaintenance $object
+     *
+     * @throws NonUniqueResultException
+     */
+    public function preUpdate($object)
+    {
+        $this->disablePreviousAndCheckIfNeedMaintenance($object);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function disablePreviousAndCheckIfNeedMaintenance(VehicleMaintenance $object): void
+    {
+        $this->disablePreviousMaintenance($object);
+        if ($this->vmm->checkIfMaintenanceNeedsCheck($object)) {
+            $object->setNeedsCheck(true);
+        } else {
+            $object->setNeedsCheck(false);
+        }
     }
 }

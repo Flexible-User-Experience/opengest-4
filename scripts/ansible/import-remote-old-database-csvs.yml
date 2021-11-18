@@ -132,6 +132,14 @@
       shell: "php bin/console  app:import:vehicle var/csv/vehicle.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
+    - name: execute vehicle maintenance task CSV import to local database
+      shell: "php bin/console  app:import:vehicle_maintenance_task var/csv/vehicle_maintenance_task.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute vehicle maintenance CSV import to local database
+      shell: "php bin/console  app:import:vehicle_maintenance var/csv/vehicle_maintenance.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
     - name: execute sale item create to local database
       shell: "php bin/console --env=prod app:create:sale:items"
       args:

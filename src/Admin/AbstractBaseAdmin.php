@@ -4,9 +4,11 @@ namespace App\Admin;
 
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Setting\User;
+use App\Entity\Vehicle\VehicleMaintenance;
 use App\Manager\DeliveryNoteManager;
 use App\Manager\InvoiceManager;
 use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
 use App\Manager\YearChoicesManager;
 use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,65 +27,34 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
  */
 abstract class AbstractBaseAdmin extends AbstractAdmin
 {
-    /**
-     * @var UploaderHelper
-     */
     private UploaderHelper $vus;
 
-    /**
-     * @var CacheManager
-     */
     private CacheManager $lis;
 
-    /**
-     * @var YearChoicesManager
-     */
     protected YearChoicesManager $ycm;
 
-    /**
-     * @var InvoiceManager
-     */
     protected InvoiceManager $im;
 
-    /**
-     * @var RepositoriesManager
-     */
     protected RepositoriesManager $rm;
 
-    /**
-     * @var DeliveryNoteManager
-     */
     protected DeliveryNoteManager $dnm;
 
-    /**
-     * @var EntityManagerInterface
-     */
+    protected VehicleMaintenanceManager $vmm;
+
     protected EntityManagerInterface $em;
 
-    /**
-     * @var FileService
-     */
     protected FileService $fs;
 
-    /**
-     * @var EngineInterface
-     */
     private EngineInterface $tws;
 
-    /**
-     * @var TokenStorageInterface
-     */
     protected TokenStorageInterface $ts;
 
-    /**
-     * @var AuthorizationCheckerInterface
-     */
     protected AuthorizationCheckerInterface $acs;
 
     /**
      * @var array
      */
-    protected $perPageOptions = array(25, 50, 100, 200);
+    protected $perPageOptions = [25, 50, 100, 200];
 
     /**
      * @var int
@@ -95,21 +66,11 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      */
 
     /**
-     * @param string                        $code
-     * @param string                        $class
-     * @param string                        $baseControllerName
-     * @param CacheManager                  $lis
-     * @param YearChoicesManager            $ycm
-     * @param InvoiceManager                $im
-     * @param RepositoriesManager           $rm
-     * @param DeliveryNoteManager           $dnm
-     * @param EntityManagerInterface        $em
-     * @param FileService                   $fs
-     * @param EngineInterface               $tws
-     * @param TokenStorageInterface         $ts
-     * @param AuthorizationCheckerInterface $acs
+     * @param string $code
+     * @param string $class
+     * @param string $baseControllerName
      */
-    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, EntityManagerInterface $em, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
+    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, EngineInterface $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs)
     {
         parent::__construct($code, $class, $baseControllerName);
         $this->vus = $fs->getUhs();
@@ -118,6 +79,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         $this->im = $im;
         $this->rm = $rm;
         $this->dnm = $dnm;
+        $this->vmm = $vmm;
         $this->em = $em;
         $this->fs = $fs;
         $this->tws = $tws;
@@ -125,9 +87,6 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         $this->acs = $acs;
     }
 
-    /**
-     * @param RouteCollection $collection
-     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
@@ -152,10 +111,10 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      */
     public function getExportFormats()
     {
-        return array(
+        return [
             'csv',
             'xls',
-        );
+        ];
     }
 
     /**
@@ -167,10 +126,10 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      */
     protected function getDefaultFormBoxArray($bootstrapGrid = 'md', $bootstrapSize = '6', $boxClass = 'primary')
     {
-        return array(
+        return [
             'class' => 'col-'.$bootstrapGrid.'-'.$bootstrapSize,
             'box_class' => 'box box-'.$boxClass,
-        );
+        ];
     }
 
     /**
@@ -313,7 +272,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     {
         $result = '';
         if ($this->getSubject() && !is_null($this->getSubject()->getUploadedFileName())) {
-            $url = $this->routeGenerator->generateUrl($this, 'download', array('id' => $this->getSubject()->getId()));
+            $url = $this->routeGenerator->generateUrl($this, 'download', ['id' => $this->getSubject()->getId()]);
             $result = '<a class="btn btn-warning" role="button" href="'.$url.'"><i class="fa fa-download"></i> Descarregar arxiu</a>';
         }
 
@@ -342,5 +301,28 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     protected function getUser()
     {
         return $this->ts->getToken()->getUser();
+    }
+
+    protected function disablePreviousMaintenance(VehicleMaintenance $vehicleMaintenance)
+    {
+        $otherVehicleMaintenances = $this->rm->getVehicleMaintenanceRepository()->findBy(
+            [
+                'vehicle' => $vehicleMaintenance->getVehicle(),
+                'vehicleMaintenanceTask' => $vehicleMaintenance->getVehicleMaintenanceTask(),
+                'enabled' => true,
+            ]
+        );
+        /** @var VehicleMaintenance $otherVehicleMaintenance */
+        foreach ($otherVehicleMaintenances as $otherVehicleMaintenance) {
+            if ($otherVehicleMaintenance->getDate() <= $vehicleMaintenance->getDate()) {
+                $otherVehicleMaintenance->setEnabled(false);
+                $vehicleMaintenance->setEnabled(true);
+            } else {
+                $otherVehicleMaintenance->setEnabled(true);
+                $vehicleMaintenance->setEnabled(false);
+            }
+            $this->em->persist($otherVehicleMaintenance);
+            $this->em->flush();
+        }
     }
 }

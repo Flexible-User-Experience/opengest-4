@@ -68,7 +68,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @var Vehicle
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleDeliveryNotes")
      */
     private $vehicle;
 
@@ -682,7 +682,7 @@ class SaleDeliveryNote extends AbstractBase
      */
     public function getDateToString()
     {
-        return $this->getDate()->format('Y-m-d');
+        return $this->getDate()->format('d/m/Y');
     }
 
     /**
