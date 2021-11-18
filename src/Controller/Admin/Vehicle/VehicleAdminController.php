@@ -37,7 +37,23 @@ class VehicleAdminController extends BaseAdminController
         return parent::editAction($id);
     }
 
-    public function downloadMainImageAction($id = null, DownloadHandler $downloadHandler): Response
+    public function downloadMainImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Vehicle $operator */
+        $vehicle = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, 'mainImageFile', $vehicle->getMainImage());
+    }
+
+    public function downloadChassisImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Vehicle $operator */
+        $vehicle = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, 'chassisImageFile', $vehicle->getChassisImage());
+    }
+
+    private function downloadDocument($id, DownloadHandler $downloadHandler, $documentFile, $documentName): Response
     {
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
@@ -47,9 +63,9 @@ class VehicleAdminController extends BaseAdminController
 
         return $downloadHandler->downloadObject(
             $vehicle,
-            $fileField = 'mainImageFile',
+            $fileField = $documentFile,
             $objectClass = Vehicle::class,
-            $fileName = $vehicle->getMainImage(),
+            $fileName = $documentName,
             $forceDownload = false
         );
     }

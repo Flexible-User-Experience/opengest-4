@@ -231,6 +231,19 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         }
     }
 
+    protected function getDocumentHelper($route, $document)
+    {
+        return $this->tws->render(
+            'admin/helpers/document.html.twig', [
+                'documentSrc' => $this->routeGenerator->generate(
+                    $route,
+                    ['id' => $this->getSubject()->getId()]
+                ),
+                'object' => $this->getSubject(),
+            ]
+        );
+    }
+
     /**
      * Get image helper form mapper with thumbnail for black&white.
      *

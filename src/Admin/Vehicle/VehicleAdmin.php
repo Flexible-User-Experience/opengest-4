@@ -64,7 +64,8 @@ class VehicleAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
-            ->add('downloadMainImage', $this->getRouterIdParameter().'/MainImage')
+            ->add('downloadMainImage', $this->getRouterIdParameter().'/main-image')
+            ->add('downloadChassisImage', $this->getRouterIdParameter().'/chassis-image')
             ->remove('delete');
     }
 
@@ -194,7 +195,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 FileType::class,
                 [
                     'label' => 'Chasis',
-//                    'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
+                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                     'required' => false,
                 ]
             )
