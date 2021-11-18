@@ -154,18 +154,9 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
                     'admin_app_vehicle_vehicle_downloadMainImage',
                     ['id' => $this->getSubject()->getId()]
                 )
-                .'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<p style="width:100%;display:block;margin-top:10px">* imatge amplada mínima 1.200 píxels<br>* arxiu pes màxim 10MB<br>* format JPG o PNG</p>';
+                .'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').
+            '<p style="width:100%;display:block;margin-top:10px">* imatge amplada mínima 1.200 píxels<br>* arxiu pes màxim 10MB<br>* format JPG o PNG</p>';
     }
-
-//    protected function getProfileHelperFormMapperWithThumbnail()
-//    {
-//        return ($this->getSubject() ? $this->getSubject()->getProfilePhotoImage() ? '<img src="'.
-//                $this->routeGenerator->generate(
-//                    'admin_app_operator_operator_downloadProfilePhotoImage',
-//                    ['id' => $this->getSubject()->getId()]
-//                )
-//                .'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 300px (màx. 10MB amb JPG o PNG)</span>';
-//    }
 
     /**
      * Get image helper form mapper with thumbnail.

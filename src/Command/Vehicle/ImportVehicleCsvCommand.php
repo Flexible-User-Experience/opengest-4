@@ -78,7 +78,6 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
                 $vehicle->setEnterprise($enterprise);
             }
             $vehicle->setCategory($vehicleCategory);
-
             $image = $this->readColumn(15, $row);
             if (strlen($image) > 0) {
                 $image = str_replace('vehiculos/', '', $image);
@@ -86,6 +85,14 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
                 $vehicle->setMainImage($image);
             } else {
                 $vehicle->setMainImage(null);
+            }
+            $image = $this->readColumn(13, $row);
+            if (strlen($image) > 0) {
+                $image = str_replace('vehiculos/', '', $image);
+                $image = str_replace('imagen_chasis/', '', $image);
+                $vehicle->setChassisImage($image);
+            } else {
+                $vehicle->setChassisImage(null);
             }
 
             $this->em->persist($vehicle);

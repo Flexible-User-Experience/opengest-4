@@ -186,6 +186,20 @@ class VehicleAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->end()
+
+            ->tab('Recursos')
+            ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'chassisImageFile',
+                FileType::class,
+                [
+                    'label' => 'Chasis',
+//                    'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
+                    'required' => false,
+                ]
+            )
+            ->end()
+            ->end()
             ;
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper

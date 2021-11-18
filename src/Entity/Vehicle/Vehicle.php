@@ -149,6 +149,21 @@ class Vehicle extends AbstractBase
     private int $mileage = 0;
 
     /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="chassisImage")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $chassisImageFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $chassisImage = null;
+
+    /**
      * Methods.
      */
 
@@ -550,6 +565,35 @@ class Vehicle extends AbstractBase
     public function setMileage(int $mileage): Vehicle
     {
         $this->mileage = $mileage;
+
+        return $this;
+    }
+
+    public function getChassisImageFile(): ?File
+    {
+        return $this->chassisImageFile;
+    }
+
+    public function setChassisImageFile(?File $chassisImageFile): Vehicle
+    {
+        $this->chassisImageFile = $chassisImageFile;
+        if ($chassisImageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getChassisImage(): ?string
+    {
+        return $this->chassisImage;
+    }
+
+    public function setChassisImage(?string $chassisImage): Vehicle
+    {
+        $this->chassisImage = $chassisImage;
 
         return $this;
     }
