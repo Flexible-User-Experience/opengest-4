@@ -81,6 +81,8 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
 
             $image = $this->readColumn(15, $row);
             if (strlen($image) > 0) {
+                $image = str_replace('vehiculos/', '', $image);
+                $image = str_replace('imagen_grua/', '', $image);
                 $vehicle->setMainImage($image);
             } else {
                 $vehicle->setMainImage('1.jpg');

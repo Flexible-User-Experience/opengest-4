@@ -63,7 +63,9 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->add('downloadMainImage', $this->getRouterIdParameter().'/MainImage')
+            ->remove('delete');
     }
 
     protected function configureFormFields(FormMapper $formMapper)

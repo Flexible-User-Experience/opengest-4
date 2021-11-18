@@ -16,7 +16,7 @@ vich_uploader:
         vehicle:
             namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/images/vehicle
-            upload_destination: '%kernel.project_dir%/public/uploads/images/vehicle'
+            upload_destination: '%kernel.project_dir%/var/uploads/images/vehicle'
         complement:
             namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/images/complement
@@ -29,10 +29,6 @@ vich_uploader:
             namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/images/operator
             upload_destination: '%kernel.project_dir%/var/uploads/images/operator'
-#        operator:
-#            namer:              vich_uploader.namer_uniqid
-#            uri_prefix:         /uploads/images/operator
-#            upload_destination: '%kernel.project_dir%/public/uploads/images/operator'
         user:
             namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/images/user
