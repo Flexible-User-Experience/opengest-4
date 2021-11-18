@@ -85,7 +85,7 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
                 $image = str_replace('imagen_grua/', '', $image);
                 $vehicle->setMainImage($image);
             } else {
-                $vehicle->setMainImage('1.jpg');
+                $vehicle->setMainImage(null);
             }
 
             $this->em->persist($vehicle);

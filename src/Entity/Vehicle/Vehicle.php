@@ -109,7 +109,7 @@ class Vehicle extends AbstractBase
     private ?File $mainImageFile = null;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private ?string $mainImage = null;
 

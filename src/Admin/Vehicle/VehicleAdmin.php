@@ -136,7 +136,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'Imatge',
                     'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
-                    'required' => true,
+                    'required' => false,
                 ]
             )
             ->add(
@@ -225,7 +225,6 @@ class VehicleAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle_registration_number',
-                    'required' => true,
                 ]
             )
             ->add(
@@ -233,7 +232,6 @@ class VehicleAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.chassis_brand',
-                    'required' => true,
                 ]
             )
             ->add(
