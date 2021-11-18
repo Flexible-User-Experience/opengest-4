@@ -9,9 +9,9 @@ use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Form\Type\GeneratePayslipsFormType;
 use App\Service\GuardService;
-use Symfony\Component\HttpFoundation\Request;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
@@ -79,7 +79,7 @@ class OperatorAdminController extends BaseAdminController
             'admin/operator/payslipGeneration.html.twig',
             [
                 'generatePayslipsForm' => $form->createView(),
-                'operators' => $operators
+//                'operators' => $operators
             ]
         );
     }
@@ -111,11 +111,11 @@ class OperatorAdminController extends BaseAdminController
                 $payslip->setTotalAmount($totalAmount);
                 $em->persist($payslip);
                 $em->flush();
-                $i++;
+                ++$i;
             }
 
             $this->addFlash(
-                'notice',
+                'success',
                 'Nóminas generadas: '.$i.'.'
             );
 
