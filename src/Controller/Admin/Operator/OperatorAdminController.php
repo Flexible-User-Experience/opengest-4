@@ -9,6 +9,7 @@ use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Form\Type\GeneratePayslipsFormType;
 use App\Service\GuardService;
+use DateTime;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,18 +87,21 @@ class OperatorAdminController extends BaseAdminController
 
     public function generatePayslipsAction(Request $request)
     {
-        $form = $this->createForm(GeneratePayslipsFormType::class);
-        $form->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formData = $request->request->get('app_generate_payslips');
+        try {
+            $em = $this->getDoctrine()->getManager();
             $i = 0;
-            $operators = $form->get('operators')->getData();
+            /** @var Operator $operators */
+            $operators = $formData['operators'];
             /** @var Operator $operator */
             foreach ($operators as $operator) {
+                $operator = $em->getRepository(Operator::class)->find($operator);
+                $fromDate = DateTime::createFromFormat('d/m/Y', $formData['fromDate']);
+                $toDate = DateTime::createFromFormat('d/m/Y', $formData['toDate']);
                 $payslip = new Payslip();
                 $payslip->setOperator($operator);
-                $payslip->setFromDate($form->get('fromDate')->getData());
-                $payslip->setToDate($form->get('toDate')->getData());
+                $payslip->setFromDate($fromDate);
+                $payslip->setToDate($toDate);
                 $em->persist($payslip);
                 $totalAmount = 0;
                 $operatorDefaultLines = $operator->getPayslipOperatorDefaultLines();
@@ -120,7 +124,7 @@ class OperatorAdminController extends BaseAdminController
             );
 
             return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
-        } else {
+        } catch (\Exception $exception) {
             $this->addFlash(
                 'warning',
                 'No se han podido generar las nòminas. Error en el formulario.'

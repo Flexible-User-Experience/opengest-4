@@ -92,6 +92,14 @@
         group: "{{ remote_system_group }}"
         mode: 0755
         recurse: no
+    - name: creates vehicles directory
+      file:
+        path: "{{ remote_new_uploads_folder }}/images/vehicle"
+        state: directory
+        owner: "{{ remote_system_user }}"
+        group: "{{ remote_system_group }}"
+        mode: 0755
+        recurse: no
     - name: copy enterprise logos
       shell: "cp {{ remote_old_uploads_folder }}/logos/* {{ remote_new_uploads_folder }}/images/enterprise/"
     - name: copy enterprise docs 1

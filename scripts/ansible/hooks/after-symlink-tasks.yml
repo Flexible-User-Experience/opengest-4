@@ -4,3 +4,9 @@
     recurse: yes
     owner: "{{ remote_system_user }}"
     group: "{{ remote_system_group }}"
+- name: fix symfony uploads directory apache ownership
+  file:
+    path: "{{ ansistrano_deploy_to }}/shared/var/uploads"
+    recurse: yes
+    owner: "{{ remote_system_user }}"
+    group: "{{ remote_system_group }}"
