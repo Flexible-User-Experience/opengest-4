@@ -257,14 +257,6 @@ class OperatorAdmin extends AbstractBaseAdmin
                         ]
                     )
                     ->add(
-                        'hourCost',
-                        null,
-                        [
-                            'label' => 'Cost hora',
-                            'required' => true,
-                        ]
-                    )
-                    ->add(
                         'enabled',
                         CheckboxType::class,
                         [
