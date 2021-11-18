@@ -25,6 +25,8 @@ class GeneratePayslipsFormType extends AbstractType
                     'required' => true,
                     'class' => Operator::class,
                     'multiple' => true,
+                    'error_bubbling' => false,
+                    'by_reference' => true,
                 ]
             )
             ->add(
@@ -50,13 +52,13 @@ class GeneratePayslipsFormType extends AbstractType
             ->add(
                 'create',
                 SubmitType::class,
-                array(
+                [
                     'label' => 'Crear',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'btn btn-primary no-m-bottom',
                         'style' => 'margin-bottom: -15px',
-                    ),
-                )
+                    ],
+                ]
             )
         ;
     }
