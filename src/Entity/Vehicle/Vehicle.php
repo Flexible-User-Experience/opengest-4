@@ -129,6 +129,11 @@ class Vehicle extends AbstractBase
     private Collection $vehicleConsumptions;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleChecking", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $vehicleCheckings;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $vehicleMaintenances;
@@ -468,6 +473,46 @@ class Vehicle extends AbstractBase
     {
         if ($this->vehicleConsumptions->contains($vehicleConsumption)) {
             $this->vehicleConsumptions->removeElement($vehicleConsumption);
+        }
+
+        return $this;
+    }
+
+    public function getVehicleCheckings(): Collection
+    {
+        return $this->vehicleCheckings;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setVehicleCheckings(Collection $vehicleCheckings): Vehicle
+    {
+        $this->vehicleCheckings = $vehicleCheckings;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addVehicleChecking(VehicleChecking $vehicleChecking): Vehicle
+    {
+        if (!$this->vehicleCheckings->contains($vehicleChecking)) {
+            $this->vehicleCheckings->add($vehicleChecking);
+            $vehicleChecking->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeVehicleChecking(VehicleChecking $vehicleChecking): Vehicle
+    {
+        if ($this->vehicleCheckings->contains($vehicleChecking)) {
+            $this->vehicleCheckings->removeElement($vehicleChecking);
         }
 
         return $this;

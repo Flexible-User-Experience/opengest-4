@@ -188,8 +188,8 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->end()
             ->end()
 
-            ->tab('Recursos')
-            ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
+            ->tab('Documentación')
+            ->with('Chasis', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'chassisImageFile',
                 FileType::class,
@@ -199,6 +199,27 @@ class VehicleAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
+            ->end()
+            ->end()
+            ->tab('Revisiones')
+            ->with('Revisiones', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'vehicleCheckings',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
+            ->tab('Libro historial')
+            ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
             ->end()
             ->end()
             ;
