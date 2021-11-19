@@ -53,6 +53,14 @@ class VehicleAdminController extends BaseAdminController
         return $this->downloadDocument($id, $downloadHandler, 'chassisImageFile', $vehicle->getChassisImage());
     }
 
+    public function downloadTechnicalDatasheet1Action($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Vehicle $operator */
+        $vehicle = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, 'technicalDatasheet1File', $vehicle->getTechnicalDatasheet1());
+    }
+
     private function downloadDocument($id, DownloadHandler $downloadHandler, $documentFile, $documentName): Response
     {
         /** @var Vehicle $operator */

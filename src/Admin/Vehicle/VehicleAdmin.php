@@ -66,6 +66,7 @@ class VehicleAdmin extends AbstractBaseAdmin
         $collection
             ->add('downloadMainImage', $this->getRouterIdParameter().'/main-image')
             ->add('downloadChassisImage', $this->getRouterIdParameter().'/chassis-image')
+            ->add('downloadTechnicalDatasheet1', $this->getRouterIdParameter().'/technical-datasheet')
             ->remove('delete');
     }
 
@@ -196,7 +197,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     'chassisImageFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -204,21 +205,21 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Ficha técnica 1', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'technicalDatasheet1',
+                    'technicalDatasheet1File',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet1', 'technicalDatasheet1'),
                         'required' => false,
                     ]
                 )
                 ->end()
                 ->with('Ficha técnica 2', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'technicalDatasheet2',
+                    'technicalDatasheet2File',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -226,10 +227,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Tabla cargas', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'loadTable',
+                    'loadTableFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -237,10 +238,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Diagrama alcances', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'reachDiagram',
+                    'reachDiagramFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -248,10 +249,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Permiso circulación', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'trafficCertificate',
+                    'trafficCertificateFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -259,10 +260,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Dimensiones', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'dimensions',
+                    'dimensionsFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -270,10 +271,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Tarjeta transporte', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'transportCard',
+                    'transportCardFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -281,10 +282,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Seguro circulación', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'trafficInsurance',
+                    'trafficInsuranceFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -292,10 +293,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('ITV', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'itv',
+                    'itvFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -303,10 +304,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('ITC', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'itc',
+                    'itcFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
@@ -314,10 +315,10 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->with('Declaración CE', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'CEDeclaration',
+                    'CEDeclarationFile',
                     FileType::class,
                     [
-                        'label' => 'Chasis',
+                        'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'required' => false,
                     ]
