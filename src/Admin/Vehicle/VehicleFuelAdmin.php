@@ -102,7 +102,6 @@ class VehicleFuelAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Nombre',
-                    'editable' => true,
                 ]
             )
             ->add(
@@ -110,7 +109,6 @@ class VehicleFuelAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Activo',
-                    'editable' => true,
                 ]
             )
             ->add(

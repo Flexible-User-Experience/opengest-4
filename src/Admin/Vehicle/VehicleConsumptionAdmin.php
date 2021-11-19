@@ -56,7 +56,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
             'amount',
             'quantity',
             'priceUnit',
-            'fuelType'
+            'fuelType',
         ];
     }
 
@@ -137,10 +137,10 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'fuelType',
+                'vehicleFuel',
                 null,
                 [
-                    'label' => 'Tipo Combustible',
+                    'label' => 'Combustible',
                     'required' => false,
                 ]
             )
@@ -201,7 +201,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'fuelType',
+                'vehicleFuel',
                 null,
                 [
                     'label' => 'Tipo Combustible',
@@ -265,7 +265,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'fuelType',
+                'vehicleFuel',
                 null,
                 [
                     'label' => 'Tipo Combustible',
