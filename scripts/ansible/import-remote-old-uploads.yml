@@ -180,6 +180,28 @@
       shell: "cp {{ remote_old_uploads_folder }}/imagen_grua/* {{ remote_new_uploads_folder }}/images/vehicle/"
     - name: copy vehicle images
       shell: "cp {{ remote_old_uploads_folder }}/vehiculos/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle chassis images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_chasis/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle technicalDatasheet1 images
+      shell: "cp {{ remote_old_uploads_folder }}/ficha_tecnica1/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle technicalDatasheet2 images
+      shell: "cp {{ remote_old_uploads_folder }}/ficha_tecnica2/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle loadTable images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_tabla_carga1/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle loadTable2 images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_tabla_carga2/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle traffic certificate images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_pemiso_circulacion/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle transport card images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_tarjeta_transporte/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle traffic insurance images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_seguro_circulacion/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle itv images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_itv/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle itc images
+      shell: "cp {{ remote_old_uploads_folder }}/imagen_itc/* {{ remote_new_uploads_folder }}/images/vehicle/"
+    - name: copy vehicle CE declaration images
+      shell: "cp {{ remote_old_uploads_folder }}/declaracion_conformidad_ce/* {{ remote_new_uploads_folder }}/images/vehicle/"
     - name: fix ownership to copied files
       file:
         path: "{{ remote_new_uploads_folder }}/"
