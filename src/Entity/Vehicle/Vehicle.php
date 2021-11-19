@@ -169,6 +169,171 @@ class Vehicle extends AbstractBase
     private ?string $chassisImage = null;
 
     /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="technicalDatasheet1")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $technicalDatasheet1File = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $technicalDatasheet1 = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="technicalDatasheet2")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $technicalDatasheet2File = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $technicalDatasheet2 = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="loadTable")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $loadTableFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $loadTable = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="reachDiagram")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $reachDiagramFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $reachDiagram = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="trafficCertificate")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $trafficCertificateFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $trafficCertificate = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="dimensions")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $dimensionsFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $dimensions = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="transportCard")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $transportCardFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $transportCard = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="trafficInsurance")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $trafficInsuranceFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $trafficInsurance = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="itv")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $itvFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $itv = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="itc")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $itcFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $itc = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="CEDeclaration")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     * @Assert\Image(minWidth=1200)
+     */
+    private ?File $CEDeclarationFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $CEDeclaration = null;
+
+    /**
      * Methods.
      */
 
@@ -639,6 +804,303 @@ class Vehicle extends AbstractBase
     public function setChassisImage(?string $chassisImage): Vehicle
     {
         $this->chassisImage = $chassisImage;
+
+        return $this;
+    }
+
+    public function getTechnicalDatasheet1File(): ?File
+    {
+        return $this->technicalDatasheet1File;
+    }
+
+    public function setTechnicalDatasheet1File(?File $technicalDatasheet1File): Vehicle
+    {
+        $this->technicalDatasheet1File = $technicalDatasheet1File;
+        if ($technicalDatasheet1File) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getTechnicalDatasheet1(): ?string
+    {
+        return $this->technicalDatasheet1;
+    }
+
+    public function setTechnicalDatasheet1(?string $technicalDatasheet1): Vehicle
+    {
+        $this->technicalDatasheet1 = $technicalDatasheet1;
+
+        return $this;
+    }
+
+    public function getTechnicalDatasheet2File(): ?File
+    {
+        return $this->technicalDatasheet2File;
+    }
+
+    public function setTechnicalDatasheet2File(?File $technicalDatasheet2File): Vehicle
+    {
+        $this->technicalDatasheet2File = $technicalDatasheet2File;
+        if ($technicalDatasheet2File) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getTechnicalDatasheet2(): ?string
+    {
+        return $this->technicalDatasheet2;
+    }
+
+    public function setTechnicalDatasheet2(?string $technicalDatasheet2): Vehicle
+    {
+        $this->technicalDatasheet2 = $technicalDatasheet2;
+
+        return $this;
+    }
+
+    public function getLoadTableFile(): ?File
+    {
+        return $this->loadTableFile;
+    }
+
+    public function setLoadTableFile(?File $loadTableFile): Vehicle
+    {
+        $this->loadTableFile = $loadTableFile;
+        if ($loadTableFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getLoadTable(): ?string
+    {
+        return $this->loadTable;
+    }
+
+    public function setLoadTable(?string $loadTable): Vehicle
+    {
+        $this->loadTable = $loadTable;
+
+        return $this;
+    }
+
+    public function getReachDiagramFile(): ?File
+    {
+        return $this->reachDiagramFile;
+    }
+
+    public function setReachDiagramFile(?File $reachDiagramFile): Vehicle
+    {
+        $this->reachDiagramFile = $reachDiagramFile;
+        if ($reachDiagramFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getReachDiagram(): ?string
+    {
+        return $this->reachDiagram;
+    }
+
+    public function setReachDiagram(?string $reachDiagram): Vehicle
+    {
+        $this->reachDiagram = $reachDiagram;
+
+        return $this;
+    }
+
+    public function getTrafficCertificateFile(): ?File
+    {
+        return $this->trafficCertificateFile;
+    }
+
+    public function setTrafficCertificateFile(?File $trafficCertificateFile): Vehicle
+    {
+        $this->trafficCertificateFile = $trafficCertificateFile;
+        if ($trafficCertificateFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getTrafficCertificate(): ?string
+    {
+        return $this->trafficCertificate;
+    }
+
+    public function setTrafficCertificate(?string $trafficCertificate): Vehicle
+    {
+        $this->trafficCertificate = $trafficCertificate;
+
+        return $this;
+    }
+
+    public function getDimensionsFile(): ?File
+    {
+        return $this->dimensionsFile;
+    }
+
+    public function setDimensionsFile(?File $dimensionsFile): Vehicle
+    {
+        $this->dimensionsFile = $dimensionsFile;
+        if ($dimensionsFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getDimensions(): ?string
+    {
+        return $this->dimensions;
+    }
+
+    public function setDimensions(?string $dimensions): Vehicle
+    {
+        $this->dimensions = $dimensions;
+
+        return $this;
+    }
+
+    public function getTransportCardFile(): ?File
+    {
+        return $this->transportCardFile;
+    }
+
+    public function setTransportCardFile(?File $transportCardFile): Vehicle
+    {
+        $this->transportCardFile = $transportCardFile;
+        if ($transportCardFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getTransportCard(): ?string
+    {
+        return $this->transportCard;
+    }
+
+    public function setTransportCard(?string $transportCard): Vehicle
+    {
+        $this->transportCard = $transportCard;
+
+        return $this;
+    }
+
+    public function getTrafficInsuranceFile(): ?File
+    {
+        return $this->trafficInsuranceFile;
+    }
+
+    public function setTrafficInsuranceFile(?File $trafficInsuranceFile): Vehicle
+    {
+        $this->trafficInsuranceFile = $trafficInsuranceFile;
+        if ($trafficInsuranceFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getTrafficInsurance(): ?string
+    {
+        return $this->trafficInsurance;
+    }
+
+    public function setTrafficInsurance(?string $trafficInsurance): Vehicle
+    {
+        $this->trafficInsurance = $trafficInsurance;
+
+        return $this;
+    }
+
+    public function getItvFile(): ?File
+    {
+        return $this->itvFile;
+    }
+
+    public function setItvFile(?File $itvFile): Vehicle
+    {
+        $this->itvFile = $itvFile;
+        if ($itvFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getItv(): ?string
+    {
+        return $this->itv;
+    }
+
+    public function setItv(?string $itv): Vehicle
+    {
+        $this->itv = $itv;
+
+        return $this;
+    }
+
+    public function getItcFile(): ?File
+    {
+        return $this->itcFile;
+    }
+
+    public function setItcFile(?File $itcFile): Vehicle
+    {
+        $this->itcFile = $itcFile;
+        if ($itcFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getItc(): ?string
+    {
+        return $this->itc;
+    }
+
+    public function setItc(?string $itc): Vehicle
+    {
+        $this->itc = $itc;
+
+        return $this;
+    }
+
+    public function getCEDeclarationFile(): ?File
+    {
+        return $this->CEDeclarationFile;
+    }
+
+    public function setCEDeclarationFile(?File $CEDeclarationFile): Vehicle
+    {
+        $this->CEDeclarationFile = $CEDeclarationFile;
+        if ($CEDeclarationFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getCEDeclaration(): ?string
+    {
+        return $this->CEDeclaration;
+    }
+
+    public function setCEDeclaration(?string $CEDeclaration): Vehicle
+    {
+        $this->CEDeclaration = $CEDeclaration;
 
         return $this;
     }
