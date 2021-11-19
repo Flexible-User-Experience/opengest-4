@@ -114,6 +114,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Vehicle\VehicleMaintenance
+    app.vehicle_fuel_repository:
+        class: App\Repository\Vehicle\VehicleFuelRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Vehicle\VehicleFuel
     app.partner_repository:
         class: App\Repository\Partner\PartnerRepository
         factory: [ '@doctrine', getRepository ]
@@ -244,6 +249,7 @@ services:
             - '@app.vehicle_checking_repository'
             - '@app.vehicle_maintenance_task_repository'
             - '@app.vehicle_maintenance_repository'
+            - '@app.vehicle_fuel_repository'
             - '@app.partner_repository'
             - '@app.partner_class_repository'
             - '@app.partner_type_repository'

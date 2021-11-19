@@ -39,6 +39,7 @@ use App\Repository\Setting\UserRepository;
 use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
+use App\Repository\Vehicle\VehicleFuelRepository;
 use App\Repository\Vehicle\VehicleMaintenanceRepository;
 use App\Repository\Vehicle\VehicleMaintenanceTaskRepository;
 use App\Repository\Vehicle\VehicleRepository;
@@ -91,6 +92,8 @@ class RepositoriesManager
     private VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository;
 
     private VehicleMaintenanceRepository $vehicleMaintenanceRepository;
+
+    private VehicleFuelRepository $vehicleFuelRepository;
 
     private PartnerRepository $partnerRepository;
 
@@ -167,6 +170,7 @@ class RepositoriesManager
         VehicleCheckingRepository $vehicleCheckingRepository,
         VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository,
         VehicleMaintenanceRepository $vehicleMaintenanceRepository,
+        VehicleFuelRepository $vehicleFuelRepository,
         PartnerRepository $partnerRepository,
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
@@ -210,6 +214,7 @@ class RepositoriesManager
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
         $this->vehicleMaintenanceTaskRepository = $vehicleMaintenanceTaskRepository;
         $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
+        $this->vehicleFuelRepository = $vehicleFuelRepository;
         $this->partnerRepository = $partnerRepository;
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
@@ -383,6 +388,14 @@ class RepositoriesManager
     public function getVehicleMaintenanceRepository()
     {
         return $this->vehicleMaintenanceRepository;
+    }
+
+    /**
+     * @return VehicleFuelRepository
+     */
+    public function getVehicleFuelRepository()
+    {
+        return $this->vehicleFuelRepository;
     }
 
     /**
