@@ -87,7 +87,7 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->tab('Informació')
+            ->tab('General')
                 ->with('General', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'profilePhotoImageFile',
@@ -316,7 +316,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     )
                 ->end()
             ->end()
-            ->tab('Recursos')
+            ->tab('Documentación')
                 ->with('No. d\'identificació fiscal', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'taxIdentificationNumberImageFile',
@@ -423,6 +423,40 @@ class OperatorAdmin extends AbstractBaseAdmin
                         ]
                     )
                 ->end()
+            ->end()
+            ->tab('Revisiones')
+            ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'operatorCheckings',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
+            ->tab('Ausencias')
+            ->with('Ausencias', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'operatorAbsences',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
             ->end()
             ->tab('Nóminas')
                 ->with('Conceptos por defecto', $this->getFormMdSuccessBoxArray(12))
