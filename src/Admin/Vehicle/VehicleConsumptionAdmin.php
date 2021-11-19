@@ -264,13 +264,13 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                     'label' => '€/l',
                 ]
             )
-            ->add(
-                'vehicleFuel',
-                null,
-                [
-                    'label' => 'Tipo Combustible',
-                ]
-            )
+//            ->add(
+//                'vehicleFuel',
+//                null,
+//                [
+//                    'label' => 'Combustible',
+//                ]
+//            )
             ->add(
                 '_action',
                 'actions',
