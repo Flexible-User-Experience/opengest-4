@@ -187,62 +187,87 @@ class VehicleAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->end()
-
-            ->tab('Documentación')
-            ->with('Chasis', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'chassisImageFile',
-                FileType::class,
-                [
-                    'label' => 'Chasis',
-                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
-                    'required' => false,
-                ]
-            )
-            ->end()
-            ->end()
-            ->tab('Revisiones')
-            ->with('Revisiones', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'vehicleCheckings',
-                CollectionType::class,
-                [
-                    'required' => false,
-                    'error_bubbling' => true,
-                    'label' => false,
-                ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                ]
-            )
-            ->end()
-            ->end()
-            ->tab('Libro historial')
-            ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
-            ->end()
-            ->end()
             ;
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
-                    ->tab('Matenimientos')
-                    ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(12))
-                    ->add(
-                        'vehicleMaintenances',
-                        CollectionType::class,
-                        [
-                            'required' => false,
-                            'error_bubbling' => true,
-                            'label' => false,
+                ->tab('Documentación')
+                ->with('Chasis', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'chassisImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Revisiones')
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'vehicleCheckings',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Permisos especiales')
+                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(8))
+                ->end()
+                ->end()
+                ->tab('Libro historial')
+                ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
+                ->end()
+                ->end()
+                ->tab('Matenimientos')
+                ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleMaintenances',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Consumos')
+                ->with('Consumos', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleConsumptions',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'btn_add' => false,
+                        'disabled' => true,
+                        'type_options' => [
+                            'delete' => false,
                         ],
-                        [
-                            'edit' => 'inline',
-                            'inline' => 'table',
-                        ]
-                    )
-                    ->end()
-                    ->end()
-                ;
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+            ;
         }
     }
 
