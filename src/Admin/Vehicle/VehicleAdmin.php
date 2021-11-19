@@ -202,6 +202,127 @@ class VehicleAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
+                ->with('Ficha técnica 1', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'technicalDatasheet1',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Ficha técnica 2', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'technicalDatasheet2',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Tabla cargas', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'loadTable',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Diagrama alcances', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'reachDiagram',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Permiso circulación', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'trafficCertificate',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Dimensiones', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'dimensions',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Tarjeta transporte', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'transportCard',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Seguro circulación', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'trafficInsurance',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('ITV', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'itv',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('ITC', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'itc',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Declaración CE', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'CEDeclaration',
+                    FileType::class,
+                    [
+                        'label' => 'Chasis',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
                 ->end()
                 ->tab('Revisiones')
                 ->with('Revisiones', $this->getFormMdSuccessBoxArray(3))
