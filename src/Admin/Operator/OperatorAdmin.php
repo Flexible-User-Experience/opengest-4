@@ -458,6 +458,23 @@ class OperatorAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->end()
+            ->tab('Tacógrafo')
+            ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'operatorDigitalTachographs',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
             ->tab('Nóminas')
                 ->with('Conceptos por defecto', $this->getFormMdSuccessBoxArray(12))
                     ->add(

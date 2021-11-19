@@ -396,7 +396,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    public function getVehicleDigitalTachographs(): ArrayCollection
+    public function getVehicleDigitalTachographs(): Collection
     {
         return $this->vehicleDigitalTachographs;
     }

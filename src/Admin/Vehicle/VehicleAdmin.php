@@ -267,6 +267,23 @@ class VehicleAdmin extends AbstractBaseAdmin
                 )
                 ->end()
                 ->end()
+                ->tab('Tacógrafo')
+                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleDigitalTachographs',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
             ;
         }
     }
