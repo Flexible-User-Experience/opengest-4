@@ -43,6 +43,13 @@ class SaleServiceTariff extends AbstractBase
     private $saleRequests;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="tonnage")
+     */
+    private $vehicles;
+
+    /**
      * @var ?ActivityLine
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\ActivityLine", inversedBy="saleServiceTariffs")
@@ -62,11 +69,6 @@ class SaleServiceTariff extends AbstractBase
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return SaleServiceTariff
-     */
     public function setDescription(string $description): SaleServiceTariff
     {
         $this->description = $description;
@@ -82,11 +84,6 @@ class SaleServiceTariff extends AbstractBase
         return $this->saleTariffs;
     }
 
-    /**
-     * @param ArrayCollection $saleTariffs
-     *
-     * @return SaleServiceTariff
-     */
     public function setSaleTariffs(ArrayCollection $saleTariffs): SaleServiceTariff
     {
         $this->saleTariffs = $saleTariffs;
@@ -96,8 +93,6 @@ class SaleServiceTariff extends AbstractBase
 
     /**
      * @param SaleTariff $saleTariff
-     *
-     * @return SaleServiceTariff
      */
     public function addSaleTariff(ArrayCollection $saleTariff): SaleServiceTariff
     {
@@ -110,8 +105,6 @@ class SaleServiceTariff extends AbstractBase
     }
 
     /**
-     * @param SaleTariff $saleTariff
-     *
      * @return $this
      */
     public function removeSaleTariff(SaleTariff $saleTariff)
@@ -131,11 +124,6 @@ class SaleServiceTariff extends AbstractBase
         return $this->saleRequests;
     }
 
-    /**
-     * @param ArrayCollection $saleRequests
-     *
-     * @return SaleServiceTariff
-     */
     public function setSaleRequests(ArrayCollection $saleRequests): SaleServiceTariff
     {
         $this->saleRequests = $saleRequests;
@@ -145,8 +133,6 @@ class SaleServiceTariff extends AbstractBase
 
     /**
      * @param SaleRequest $saleRequest
-     *
-     * @return SaleServiceTariff
      */
     public function addSaleRequest(ArrayCollection $saleRequest): SaleServiceTariff
     {
@@ -159,8 +145,6 @@ class SaleServiceTariff extends AbstractBase
     }
 
     /**
-     * @param SaleRequest $saleRequest
-     *
      * @return $this
      */
     public function removeSaleRequest(SaleRequest $saleRequest)
@@ -168,6 +152,18 @@ class SaleServiceTariff extends AbstractBase
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
         }
+
+        return $this;
+    }
+
+    public function getVehicles(): ArrayCollection
+    {
+        return $this->vehicles;
+    }
+
+    public function setVehicles(ArrayCollection $vehicles): SaleServiceTariff
+    {
+        $this->vehicles = $vehicles;
 
         return $this;
     }
@@ -182,8 +178,6 @@ class SaleServiceTariff extends AbstractBase
 
     /**
      * @param ?ActivityLine $activityLine
-     *
-     * @return SaleServiceTariff
      */
     public function setActivityLine(?ActivityLine $activityLine = null): SaleServiceTariff
     {
@@ -192,10 +186,7 @@ class SaleServiceTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->id ? $this->getDescription() : '---';
     }

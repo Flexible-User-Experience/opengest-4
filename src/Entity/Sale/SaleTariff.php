@@ -5,10 +5,10 @@ namespace App\Entity\Sale;
 use App\Entity\AbstractBase;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
-use DateTime;
 
 /**
  * Class SaleTariff.
@@ -29,12 +29,12 @@ class SaleTariff extends AbstractBase
     private $enterprise;
 
     /**
-     * @var SaleServiceTariff
+     * @var ?SaleServiceTariff
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleTariffs")
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?SaleServiceTariff $saleServiceTariff; //TODO it is not nullable, it has to be included in the migrations from old database
+    private ?SaleServiceTariff $saleServiceTariff;
 
     /**
      * @var Partner
@@ -293,11 +293,6 @@ class SaleTariff extends AbstractBase
         return $this->date;
     }
 
-    /**
-     * @param DateTime $date
-     *
-     * @return SaleTariff
-     */
     public function setDate(DateTime $date): SaleTariff
     {
         $this->date = $date;
@@ -315,8 +310,6 @@ class SaleTariff extends AbstractBase
 
     /**
      * @param ?float $increaseForHolidaysPercentage
-     *
-     * @return SaleTariff
      */
     public function setIncreaseForHolidaysPercentage(?float $increaseForHolidaysPercentage): SaleTariff
     {
@@ -333,11 +326,6 @@ class SaleTariff extends AbstractBase
         return $this->saleServiceTariff;
     }
 
-    /**
-     * @param SaleServiceTariff $saleServiceTariff
-     *
-     * @return SaleTariff
-     */
     public function setSaleServiceTariff(SaleServiceTariff $saleServiceTariff): SaleTariff
     {
         $this->saleServiceTariff = $saleServiceTariff;
@@ -355,8 +343,6 @@ class SaleTariff extends AbstractBase
 
     /**
      * @param ?Partner $partner
-     *
-     * @return SaleTariff
      */
     public function setPartner(?Partner $partner = null): SaleTariff
     {
@@ -375,8 +361,6 @@ class SaleTariff extends AbstractBase
 
     /**
      * @param ?PartnerBuildingSite $partnerBuildingSite
-     *
-     * @return SaleTariff
      */
     public function setPartnerBuildingSite(?PartnerBuildingSite $partnerBuildingSite = null): SaleTariff
     {
@@ -385,6 +369,7 @@ class SaleTariff extends AbstractBase
 
         return $this;
     }
+
     /**
      * @Groups({"apiSaleTariff"})
      */
