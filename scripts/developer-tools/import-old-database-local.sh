@@ -36,6 +36,7 @@ php bin/console  app:import:vehicle_maintenance_task var/csv/vehicle_maintenance
 php bin/console  app:import:vehicle_maintenance var/csv/vehicle_maintenance.csv
 php bin/console  app:import:vehicle_special_permit var/csv/vehicle_special_permit.csv
 php bin/console  app:import:vehicle_digital_tachograph var/csv/vehicle_digital_tachograph.csv
+php bin/console  app:import:vehicle_checking:type var/csv/vehicle_checking_types.csv
 php bin/console  app:create:sale:items
 php bin/console  app:create:time:ranges
 php bin/console  app:create:payslip:line:concepts
