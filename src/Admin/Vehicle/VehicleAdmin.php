@@ -3,6 +3,7 @@
 namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use App\Entity\Vehicle\VehicleMaintenance;
@@ -185,6 +186,15 @@ class VehicleAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.mileage',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'tonnage',
+                EntityType::class,
+                [
+                    'label' => 'admin.label.tonnage',
+                    'class' => SaleServiceTariff::class,
                     'required' => false,
                 ]
             )
