@@ -39,6 +39,7 @@ use App\Repository\Setting\UserRepository;
 use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
+use App\Repository\Vehicle\VehicleDigitalTachographRepository;
 use App\Repository\Vehicle\VehicleFuelRepository;
 use App\Repository\Vehicle\VehicleMaintenanceRepository;
 use App\Repository\Vehicle\VehicleMaintenanceTaskRepository;
@@ -97,6 +98,8 @@ class RepositoriesManager
     private VehicleFuelRepository $vehicleFuelRepository;
 
     private VehicleSpecialPermitRepository $vehicleSpecialPermitRepository;
+
+    private VehicleDigitalTachographRepository $vehicleDigitalTachographRepository;
 
     private PartnerRepository $partnerRepository;
 
@@ -175,6 +178,7 @@ class RepositoriesManager
         VehicleMaintenanceRepository $vehicleMaintenanceRepository,
         VehicleFuelRepository $vehicleFuelRepository,
         VehicleSpecialPermitRepository $vehicleSpecialPermitRepository,
+        VehicleDigitalTachographRepository $vehicleDigitalTachographRepository,
         PartnerRepository $partnerRepository,
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
@@ -220,6 +224,7 @@ class RepositoriesManager
         $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
         $this->vehicleFuelRepository = $vehicleFuelRepository;
         $this->vehicleSpecialPermitRepository = $vehicleSpecialPermitRepository;
+        $this->vehicleDigitalTachographRepository = $vehicleDigitalTachographRepository;
         $this->partnerRepository = $partnerRepository;
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
@@ -406,6 +411,11 @@ class RepositoriesManager
     public function getVehicleSpecialPermitRepository(): VehicleSpecialPermitRepository
     {
         return $this->vehicleSpecialPermitRepository;
+    }
+
+    public function getVehicleDigitalTachographRepository(): VehicleDigitalTachographRepository
+    {
+        return $this->vehicleDigitalTachographRepository;
     }
 
     /**

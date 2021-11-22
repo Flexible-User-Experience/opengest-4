@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class ImportVehicleMaintenanceTaskCsvCommand.
+ * Class ImportVehicleSpecialPermitCsvCommand.
  */
 class ImportVehicleSpecialPermitCsvCommand extends AbstractBaseCommand
 {
