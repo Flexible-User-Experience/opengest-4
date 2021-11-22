@@ -139,7 +139,7 @@ admin:
         total_width: "Ancho total"
         maximum_weight: "Peso máximo"
         number_of_axes: "Nº ejes"
-        load: "Carga"
+        load_content: "Carga"
         route: "Itinerario"
         route_image: "Imagen ruta"
         notes: "Notas"

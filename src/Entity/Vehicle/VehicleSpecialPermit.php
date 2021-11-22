@@ -90,7 +90,7 @@ class VehicleSpecialPermit extends AbstractBase
      *
      * @ORM\Column(type="float", nullable=true)
      */
-    private ?float $load;
+    private ?float $loadContent;
 
     /**
      * @var ?string
@@ -114,7 +114,7 @@ class VehicleSpecialPermit extends AbstractBase
     private ?string $notes;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="loadTable")
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="routeImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
@@ -251,14 +251,14 @@ class VehicleSpecialPermit extends AbstractBase
         return $this;
     }
 
-    public function getLoad(): ?float
+    public function getLoadContent(): ?float
     {
-        return $this->load;
+        return $this->loadContent;
     }
 
-    public function setLoad(?float $load): VehicleSpecialPermit
+    public function setLoadContent(?float $loadContent): VehicleSpecialPermit
     {
-        $this->load = $load;
+        $this->loadContent = $loadContent;
 
         return $this;
     }
