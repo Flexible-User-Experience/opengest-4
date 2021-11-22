@@ -5,6 +5,7 @@
     {{ parent() }}
 <script type="text/javascript">
   jQuery(document).ready(function() {
+    {% if  admin.id(admin.subject) %}
     var vehicleMaintenance =  jQuery('#sonata-ba-field-container-{{ form.vehicleMaintenances.vars.id }}');
     var numberOfVehicleMaintenances = {{ form.vehicleMaintenances.vars.data.count }};
     console.log(numberOfVehicleMaintenances);
@@ -15,6 +16,7 @@
         currentLine.parent().parent().parent().parent().parent().addClass('hidden');
       }
     }
+    {% endif %}
   });
 </script>
 {% endblock %}

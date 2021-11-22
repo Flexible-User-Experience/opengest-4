@@ -1,8 +1,12 @@
 {% block field %}
     {% if object %}
         <img src="{{ documentSrc }}" alt="thumbnail" style="height: 150px">
-        <span class="span-helper">màxim 10MB amb JPG, PNG o GIF</span>
+        <span class="span-helper">màxim 10MB amb PDF, JPG, PNG o GIF</span>
         <span class="span-helper">amplada mínima 1.200px</span>
+        <a class="btn btn-warning btn-xs" href="{{ documentSrc }}">
+            <i class="fa fa-cloud-download"></i>
+            Descargar
+        </a>
     {% else %}
         <img src="https://via.placeholder.com/60x60.png?text=?" alt="thumbnail">
     {% endif %}

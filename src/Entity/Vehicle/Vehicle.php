@@ -136,7 +136,7 @@ class Vehicle extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private Collection $vehicleMaintenances;
+    private ?Collection $vehicleMaintenances;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
@@ -159,7 +159,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $chassisImageFile = null;
 
@@ -174,7 +173,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $technicalDatasheet1File = null;
 
@@ -189,7 +187,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $technicalDatasheet2File = null;
 
@@ -204,7 +201,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $loadTableFile = null;
 
@@ -219,7 +215,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $reachDiagramFile = null;
 
@@ -234,7 +229,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $trafficCertificateFile = null;
 
@@ -249,7 +243,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $dimensionsFile = null;
 
@@ -264,7 +257,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $transportCardFile = null;
 
@@ -279,7 +271,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $trafficInsuranceFile = null;
 
@@ -294,7 +285,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $itvFile = null;
 
@@ -309,7 +299,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $itcFile = null;
 
@@ -324,7 +313,6 @@ class Vehicle extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=1200)
      */
     private ?File $CEDeclarationFile = null;
 
@@ -346,6 +334,7 @@ class Vehicle extends AbstractBase
         $this->saleRequests = new ArrayCollection();
         $this->saleDeliveryNotes = new ArrayCollection();
         $this->vehicleConsumptions = new ArrayCollection();
+        $this->vehicleMaintenances = new ArrayCollection();
     }
 
     public function getVehicleRegistrationNumber(): string
@@ -683,7 +672,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    public function getVehicleMaintenances(): Collection
+    public function getVehicleMaintenances(): ?Collection
     {
         return $this->vehicleMaintenances;
     }
