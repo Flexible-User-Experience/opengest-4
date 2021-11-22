@@ -5,6 +5,7 @@ namespace App\Entity\Vehicle;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Traits\NameTrait;
 use App\Entity\Traits\SlugTrait;
 use DateTime;
@@ -325,6 +326,14 @@ class Vehicle extends AbstractBase
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $CEDeclaration = null;
+
+    /**
+     * @var ?SaleServiceTariff
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="vehicles")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?SaleServiceTariff $tonnage;
 
     /**
      * Methods.
@@ -1133,6 +1142,18 @@ class Vehicle extends AbstractBase
     public function setCEDeclaration(?string $CEDeclaration): Vehicle
     {
         $this->CEDeclaration = $CEDeclaration;
+
+        return $this;
+    }
+
+    public function getTonnage(): ?SaleServiceTariff
+    {
+        return $this->tonnage;
+    }
+
+    public function setTonnage(?SaleServiceTariff $tonnage): Vehicle
+    {
+        $this->tonnage = $tonnage;
 
         return $this;
     }

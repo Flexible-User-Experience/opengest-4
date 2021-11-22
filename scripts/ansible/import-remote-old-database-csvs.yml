@@ -140,6 +140,22 @@
       shell: "php bin/console  app:import:vehicle_maintenance var/csv/vehicle_maintenance.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
+    - name: execute vehicle special permits CSV import to local database
+      shell: "php bin/console  app:import:vehicle_special_permit var/csv/vehicle_special_permit.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute vehicle digital tachograph CSV import to local database
+      shell: "php bin/console  app:import:vehicle_digital_tachograph var/csv/vehicle_digital_tachograph.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute vehicle checking types CSV import to local database
+      shell: "php bin/console  app:import:vehicle_checking:type var/csv/vehicle_checking_types.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+    - name: execute vehicle checkings CSV import to local database
+      shell: "php bin/console  app:import:vehicle_checking var/csv/vehicle_checkings.csv"
+      args:
+        chdir: "{{ vhost_path }}/current/"
     - name: execute sale item create to local database
       shell: "php bin/console --env=prod app:create:sale:items"
       args:
