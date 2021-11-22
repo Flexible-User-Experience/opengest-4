@@ -23,7 +23,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @var Vehicle
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleCheckings")
      */
     private $vehicle;
 
@@ -101,8 +101,6 @@ class VehicleChecking extends AbstractBase
     }
 
     /**
-     * @param DateTime $begin
-     *
      * @return VehicleChecking
      */
     public function setBegin(DateTime $begin)
@@ -121,8 +119,6 @@ class VehicleChecking extends AbstractBase
     }
 
     /**
-     * @param DateTime $end
-     *
      * @return VehicleChecking
      */
     public function setEnd(DateTime $end)
@@ -134,8 +130,6 @@ class VehicleChecking extends AbstractBase
 
     /**
      * @Assert\Callback
-     *
-     * @param ExecutionContextInterface $context
      */
     public function validate(ExecutionContextInterface $context)
     {

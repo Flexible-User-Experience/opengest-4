@@ -23,24 +23,12 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
  */
 class AppExtension extends AbstractExtension
 {
-    /**
-     * @var RouterInterface
-     */
     private RouterInterface $rs;
 
-    /**
-     * @var UploaderHelper
-     */
     private UploaderHelper $vuhs;
 
-    /**
-     * @var CacheManager
-     */
     private CacheManager $licms;
 
-    /**
-     * @var ContactMessageRepository
-     */
     private ContactMessageRepository $cmrs;
 
     /**
@@ -49,11 +37,6 @@ class AppExtension extends AbstractExtension
 
     /**
      * AppExtension constructor.
-     *
-     * @param RouterInterface          $rs
-     * @param UploaderHelper           $vuhs
-     * @param CacheManager             $licms
-     * @param ContactMessageRepository $cmrs
      */
     public function __construct(RouterInterface $rs, UploaderHelper $vuhs, CacheManager $licms, ContactMessageRepository $cmrs)
     {
@@ -72,10 +55,10 @@ class AppExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return array(
-            new TwigFunction('randomErrorText', array($this, 'randomErrorTextFunction')),
-            new TwigFunction('showUnreadMessages', array($this, 'showUnreadMessages')),
-        );
+        return [
+            new TwigFunction('randomErrorText', [$this, 'randomErrorTextFunction']),
+            new TwigFunction('showUnreadMessages', [$this, 'showUnreadMessages']),
+        ];
     }
 
     /**
@@ -118,25 +101,24 @@ class AppExtension extends AbstractExtension
      */
     public function getFilters()
     {
-        return array(
-            new TwigFilter('draw_operator_image_src', array($this, 'drawOperatorImageSrc')),
-            new TwigFilter('draw_operator_image', array($this, 'drawOperatorImage')),
-            new TwigFilter('draw_role_span', array($this, 'drawRoleSpan')),
-            new TwigFilter('age', array($this, 'ageCalculate')),
-        );
+        return [
+            new TwigFilter('draw_operator_image_src', [$this, 'drawOperatorImageSrc']),
+            new TwigFilter('draw_operator_image', [$this, 'drawOperatorImage']),
+            new TwigFilter('draw_role_span', [$this, 'drawRoleSpan']),
+            new TwigFilter('age', [$this, 'ageCalculate']),
+        ];
     }
 
     /**
-     * @param Operator $operator
-     * @param string   $mapping
-     * @param string   $filter
+     * @param string $mapping
+     * @param string $filter
      *
      * @return string
      */
     public function drawOperatorImageSrc(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60')
     {
         if ($operator->getProfilePhotoImage()) {
-            $result = $this->rs->generate('admin_app_operator_operator_downloadProfilePhotoImage ',['id' => $operator->getId()]);
+            $result = $this->rs->generate('admin_app_operator_operator_downloadProfilePhotoImage ', ['id' => $operator->getId()]);
         } else {
             $result = 'https://via.placeholder.com/60x60.png?text='.$operator->getUppercaseNameInitials();
         }
@@ -145,16 +127,20 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @param Operator $operator
-     * @param string   $mapping
-     * @param string   $filter
+     * @param string $mapping
+     * @param string $filter
      *
      * @return string
      */
     public function drawOperatorImage(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60')
     {
         if ($operator->getProfilePhotoImage()) {
-            $result = '<img src="'.$this->rs->generate('admin_app_operator_operator_downloadProfilePhotoImage ',['id' => $operator->getId()]).'" alt="'.$operator->getFullName().' thumbnail">';
+            $result = '<img src="'.
+                $this->rs->generate(
+                    'admin_app_operator_operator_downloadProfilePhotoImage',
+                    ['id' => $operator->getId()]
+                )
+                .'" alt="'.$operator->getFullName().' thumbnail" style="height: 60px">';
         } else {
             $result = '<img src="https://via.placeholder.com/60x60.png?text='.$operator->getUppercaseNameInitials().'" alt="'.$operator->getFullName().' thumbnail">';
         }
@@ -191,8 +177,6 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @param DateTimeInterface $birthday
-     *
      * @return int
      *
      * @throws Exception

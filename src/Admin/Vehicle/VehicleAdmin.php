@@ -63,7 +63,21 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->add('downloadMainImage', $this->getRouterIdParameter().'/main-image')
+            ->add('downloadChassisImage', $this->getRouterIdParameter().'/chasis')
+            ->add('downloadTechnicalDatasheet1', $this->getRouterIdParameter().'/ficha-tecnica')
+            ->add('downloadTechnicalDatasheet2', $this->getRouterIdParameter().'/ficha-tecnica2')
+            ->add('downloadLoadTable', $this->getRouterIdParameter().'/tabla-carga')
+            ->add('downloadReachDiagram', $this->getRouterIdParameter().'/diagrama-alcances')
+            ->add('downloadTrafficCertificate', $this->getRouterIdParameter().'/permiso-circulacion')
+            ->add('downloadDimensions', $this->getRouterIdParameter().'/dimensiones')
+            ->add('downloadTransportCard', $this->getRouterIdParameter().'/tarjeta-transporte')
+            ->add('downloadTrafficInsurance', $this->getRouterIdParameter().'/seguro-circulacion')
+            ->add('downloadItv', $this->getRouterIdParameter().'/itv')
+            ->add('downloadItc', $this->getRouterIdParameter().'/itc')
+            ->add('downloadCEDeclaration', $this->getRouterIdParameter().'/declaracion-ce')
+            ->remove('delete');
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -134,7 +148,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'Imatge',
                     'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
-                    'required' => true,
+                    'required' => false,
                 ]
             )
             ->add(
@@ -187,24 +201,238 @@ class VehicleAdmin extends AbstractBaseAdmin
             ;
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
-                    ->tab('Matenimientos')
-                    ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(12))
-                    ->add(
-                        'vehicleMaintenances',
-                        CollectionType::class,
-                        [
-                            'required' => false,
-                            'error_bubbling' => true,
-                            'label' => false,
+                ->tab('Documentación')
+                ->with('Chasis', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'chassisImageFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Ficha técnica 1', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'technicalDatasheet1File',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet1', 'technicalDatasheet1'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Ficha técnica 2', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'technicalDatasheet2File',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet2', 'technicalDatasheet2'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Tabla cargas', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'loadTableFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Diagrama alcances', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'reachDiagramFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadReachDiagram', 'reachDiagram'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Permiso circulación', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'trafficCertificateFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficCertificate', 'trafficCertificate'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Dimensiones', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'dimensionsFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadDimensions', 'dimensions'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Tarjeta transporte', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'transportCardFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTransportCard', 'transportCard'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Seguro circulación', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'trafficInsuranceFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficInsurance', 'trafficInsurance'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('ITV', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'itvFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItv', 'itv'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('ITC', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'itcFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itv'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Declaración CE', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'CEDeclarationFile',
+                    FileType::class,
+                    [
+                        'label' => '-',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadCEDeclaration', 'CEDeclaration'),
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Revisiones')
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'vehicleCheckings',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Permisos especiales')
+                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleSpecialPermits',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'type_options' => [
+                            'delete' => false,
                         ],
-                        [
-                            'edit' => 'inline',
-                            'inline' => 'table',
-                        ]
-                    )
-                    ->end()
-                    ->end()
-                ;
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Libro historial')
+                ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
+                ->end()
+                ->end()
+                ->tab('Matenimientos')
+                ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleMaintenances',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Consumos')
+                ->with('Consumos', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleConsumptions',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'btn_add' => false,
+                        'disabled' => true,
+                        'type_options' => [
+                            'delete' => false,
+                        ],
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Tacógrafo')
+                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleDigitalTachographs',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+            ;
         }
     }
 
@@ -223,7 +451,6 @@ class VehicleAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle_registration_number',
-                    'required' => true,
                 ]
             )
             ->add(
@@ -231,7 +458,6 @@ class VehicleAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.chassis_brand',
-                    'required' => true,
                 ]
             )
             ->add(

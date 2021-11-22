@@ -23,7 +23,7 @@ class OperatorAbsence extends AbstractBase
     /**
      * @var Operator
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorAbsences")
      */
     private $operator;
 
@@ -101,8 +101,6 @@ class OperatorAbsence extends AbstractBase
     }
 
     /**
-     * @param DateTime $begin
-     *
      * @return OperatorAbsence
      */
     public function setBegin(DateTime $begin)
@@ -121,8 +119,6 @@ class OperatorAbsence extends AbstractBase
     }
 
     /**
-     * @param DateTime $end
-     *
      * @return OperatorAbsence
      */
     public function setEnd(DateTime $end)
@@ -134,8 +130,6 @@ class OperatorAbsence extends AbstractBase
 
     /**
      * @Assert\Callback
-     *
-     * @param ExecutionContextInterface $context
      */
     public function validate(ExecutionContextInterface $context)
     {

@@ -23,7 +23,7 @@ class OperatorChecking extends AbstractBase
     /**
      * @var Operator
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckings")
      */
     private $operator;
 
@@ -101,8 +101,6 @@ class OperatorChecking extends AbstractBase
     }
 
     /**
-     * @param DateTime $begin
-     *
      * @return OperatorChecking
      */
     public function setBegin(DateTime $begin)
@@ -121,8 +119,6 @@ class OperatorChecking extends AbstractBase
     }
 
     /**
-     * @param DateTime $end
-     *
      * @return OperatorChecking
      */
     public function setEnd(DateTime $end)
@@ -134,8 +130,6 @@ class OperatorChecking extends AbstractBase
 
     /**
      * @Assert\Callback
-     *
-     * @param ExecutionContextInterface $context
      */
     public function validate(ExecutionContextInterface $context)
     {

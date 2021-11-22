@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Templating\EngineInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
@@ -149,10 +150,13 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      */
     protected function getMainImageHelperFormMapperWithThumbnail()
     {
-        return ($this->getSubject() ? $this->getSubject()->getMainImage() ? '<img src="'.$this->lis->getBrowserPath(
-                $this->vus->asset($this->getSubject(), 'mainImageFile'),
-                '480xY'
-            ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<p style="width:100%;display:block;margin-top:10px">* imatge amplada mínima 1.200 píxels<br>* arxiu pes màxim 10MB<br>* format JPG o PNG</p>';
+        return ($this->getSubject() ? $this->getSubject()->getMainImage() ? '<img src="'.
+                $this->routeGenerator->generate(
+                    'admin_app_vehicle_vehicle_downloadMainImage',
+                    ['id' => $this->getSubject()->getId()]
+                )
+                .'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').
+            '<p style="width:100%;display:block;margin-top:10px">* imatge amplada mínima 1.200 píxels<br>* arxiu pes màxim 10MB<br>* format JPG o PNG</p>';
     }
 
     /**
@@ -226,6 +230,35 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
             // Undefined case
             return '<span style="width:100%;display:block;">Pots adjuntar un PDF o una imatge d\'una amplada mínima de 1200px. Pes màxim 10MB.</span>';
         }
+    }
+
+    protected function getDocumentHelper($route, $document)
+    {
+        $docFunction = new UnicodeString($document);
+        $isPdf = false;
+        $fileAvailable = false;
+        $object = $this->getSubject();
+        $docFunction = 'get'.$docFunction->camel()->title();
+        $fileName = $object->$docFunction();
+        if ($fileName) {
+            $fileAvailable = true;
+            if (strpos($fileName, '.pdf')) {
+                $isPdf = true;
+            }
+        }
+
+        return $this->tws->render(
+            'admin/helpers/document.html.twig', [
+                'documentSrc' => $this->routeGenerator->generate(
+                    $route,
+                    ['id' => $object->getId()]
+                ),
+                'object' => $object,
+                'fileAvailable' => $fileAvailable,
+                'isPdf' => $isPdf,
+                'fileName' => $fileName,
+            ]
+        );
     }
 
     /**

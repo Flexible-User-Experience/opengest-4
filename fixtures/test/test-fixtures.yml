@@ -283,12 +283,29 @@ App\Entity\Vehicle\VehicleChecking:
     updatedAt: <dateTimeThisMonth()>
     enabled: true
 
+# VehicleSpecialPermit
+App\Entity\Vehicle\VehicleSpecialPermit:
+  vehicleSpecialPermit{1..2}:
+    vehicle: '@vehicle1'
+    expeditionDate: <dateTimeThisMonth()>
+    expiryDate: <dateTimeThisMonth()>
+    createdAt: <dateTimeBetween('-2 months', '-1 months')>
+    updatedAt: <dateTimeThisMonth()>
+    enabled: true
+
 # VehicleMaintenanceTask
 App\Entity\Vehicle\VehicleMaintenanceTask:
   vehicleMaintenanceTask{1..2}:
     name: <sentence()>
     hours: <numberBetween(1,1000)>
     km: <numberBetween(0,500)>
+
+# VehicleMaintenance
+App\Entity\Vehicle\VehicleMaintenance:
+  vehicleMaintenance{1..2}:
+    vehicle: '@vehicle1'
+    vehicleMaintenanceTask: '@vehicleMaintenanceTask1'
+    date: <dateTimeThisMonth()>
 
 # Users
 App\Entity\Setting\User:
@@ -558,7 +575,7 @@ App\Entity\Sale\SaleInvoice:
         series: '@saleInvoiceSeries<numberBetween(1,2)>'
         type: <randomNumber()>
         total: <randomFloat()>
-        hasBeenCounted: <boolean()>
+        hasBeenCounted: false
 
 # SaleRequestHasDeliveryNote
 App\Entity\Sale\SaleRequestHasDeliveryNote:

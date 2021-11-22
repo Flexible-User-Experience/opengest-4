@@ -37,3 +37,4 @@ php bin/console  app:import:vehicle_maintenance var/csv/vehicle_maintenance.csv
 php bin/console  app:create:sale:items
 php bin/console  app:create:time:ranges
 php bin/console  app:create:payslip:line:concepts
+php bin/console  app:create:vehicle:fuels

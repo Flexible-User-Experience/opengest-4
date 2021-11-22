@@ -417,6 +417,20 @@ class Operator extends AbstractBase
     private $operatorDigitalTachographs;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $operatorCheckings;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $operatorAbsences;
+
+    /**
      * @var EnterpriseGroupBounty
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseGroupBounty", inversedBy="operators")
@@ -466,6 +480,7 @@ class Operator extends AbstractBase
     public function __construct()
     {
         $this->operatorDigitalTachographs = new ArrayCollection();
+        $this->operatorCheckings = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->operatorVariousAmount = new ArrayCollection();
         $this->payslipOperatorDefaultLines = new ArrayCollection();
@@ -1547,6 +1562,96 @@ class Operator extends AbstractBase
     {
         if ($this->operatorDigitalTachographs->contains($digitalTachograph)) {
             $this->operatorDigitalTachographs->removeElement($digitalTachograph);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getOperatorCheckings()
+    {
+        return $this->operatorCheckings;
+    }
+
+    /**
+     * @param $operatorCheckings
+     *
+     * @return $this
+     */
+    public function setOperatorCheckings($operatorCheckings)
+    {
+        $this->operatorCheckings = $operatorCheckings;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addOperatorChecking(OperatorChecking $operatorChecking)
+    {
+        if (!$this->operatorCheckings->contains($operatorChecking)) {
+            $this->operatorCheckings->add($operatorChecking);
+            $operatorChecking->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeOperatorChecking(OperatorChecking $operatorChecking)
+    {
+        if ($this->operatorCheckings->contains($operatorChecking)) {
+            $this->operatorCheckings->removeElement($operatorChecking);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getOperatorAbsences()
+    {
+        return $this->operatorAbsences;
+    }
+
+    /**
+     * @param $operatorAbsences
+     *
+     * @return $this
+     */
+    public function setOperatorAbsences($operatorAbsences)
+    {
+        $this->operatorAbsences = $operatorAbsences;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addOperatorAbsence(OperatorAbsence $operatorAbsence)
+    {
+        if (!$this->operatorAbsences->contains($operatorAbsence)) {
+            $this->operatorAbsences->add($operatorAbsence);
+            $operatorAbsence->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeOperatorAbsence(OperatorAbsence $operatorAbsence)
+    {
+        if ($this->operatorAbsences->contains($operatorAbsence)) {
+            $this->operatorAbsences->removeElement($operatorAbsence);
         }
 
         return $this;

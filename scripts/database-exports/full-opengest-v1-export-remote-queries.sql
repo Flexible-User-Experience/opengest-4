@@ -279,3 +279,21 @@ INTO OUTFILE '/var/lib/mysql-files/vehicle_maintenance.csv'
 FROM opengest.Mantenimientos M
     JOIN opengest.Vehiculos V ON V.id = M.vehiculo_id
     JOIN opengest.Procesos_taller P ON P.id = M.proceso_taller_id;
+
+SELECT PE.*, V.matricula
+INTO OUTFILE '/var/lib/mysql-files/vehicle_special_permit.csv'
+    FIELDS TERMINATED BY ','
+    OPTIONALLY ENCLOSED BY '"'
+    ESCAPED BY '\\'
+    LINES TERMINATED BY '\n'
+FROM opengest.Permisos_especiales PE
+    JOIN opengest.Vehiculos V ON V.id = PE.vehiculo_id
+
+SELECT TacV.*, V.matricula
+INTO OUTFILE '/var/lib/mysql-files/vehicle_digital_tachograph.csv'
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+ESCAPED BY '\\'
+LINES TERMINATED BY '\n'
+FROM opengest.Tacografos_vehiculo TacV
+    JOIN opengest.Vehiculos V ON V.id = TacV.vehiculo_id;

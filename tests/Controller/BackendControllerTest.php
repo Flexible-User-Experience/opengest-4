@@ -89,6 +89,10 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/operaris/partes-trabajo/create'],
             ['/admin/operaris/partes-trabajo/1/edit'],
             // Vehicle
+            ['/admin/vehiculos/mantenimientos/list'],
+            ['/admin/vehiculos/mantenimientos/create'],
+            ['/admin/vehiculos/mantenimientos/1/edit'],
+            ['/admin/vehiculos/mantenimientos/1/delete'],
             ['/admin/vehicles/vehicle/list'],
             ['/admin/vehicles/vehicle/create'],
             ['/admin/vehicles/vehicle/1/edit'],
@@ -107,11 +111,10 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vehiculos/procesos-de-taller/list'],
             ['/admin/vehiculos/procesos-de-taller/create'],
             ['/admin/vehiculos/procesos-de-taller/1/edit'],
-            // Partner
-            ['/admin/vehiculos/mantenimientos/list'],
-            ['/admin/vehiculos/mantenimientos/create'],
-            ['/admin/vehiculos/mantenimientos/1/edit'],
-            ['/admin/vehiculos/mantenimientos/1/delete'],
+            ['/admin/vehiculos/permisos-especiales/list'],
+            ['/admin/vehiculos/permisos-especiales/create'],
+            ['/admin/vehiculos/permisos-especiales/1/edit'],
+            ['/admin/vehiculos/permisos-especiales/1/delete'],
             // Partner
             ['/admin/tercers/classe/list'],
             ['/admin/tercers/classe/create'],

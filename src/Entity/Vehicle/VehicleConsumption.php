@@ -44,6 +44,11 @@ class VehicleConsumption extends AbstractBase
     private Vehicle $vehicle;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleFuel", inversedBy="vehicleConsumptions")
+     */
+    private ?VehicleFuel $vehicleFuel;
+
+    /**
      * @var float
      *
      * @ORM\Column(type="float")
@@ -175,6 +180,21 @@ class VehicleConsumption extends AbstractBase
     public function setFuelType(?string $fuelType): VehicleConsumption
     {
         $this->fuelType = $fuelType;
+
+        return $this;
+    }
+
+    /**
+     * @return VehicleFuel
+     */
+    public function getVehicleFuel(): ?VehicleFuel
+    {
+        return $this->vehicleFuel;
+    }
+
+    public function setVehicleFuel(VehicleFuel $vehicleFuel): VehicleConsumption
+    {
+        $this->vehicleFuel = $vehicleFuel;
 
         return $this;
     }

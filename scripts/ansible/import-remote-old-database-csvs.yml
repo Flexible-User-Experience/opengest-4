@@ -152,3 +152,7 @@
       shell: "php bin/console --env=prod app:create:payslip:line:concepts"
       args:
         chdir: "{{ vhost_path }}/current/"
+    - name: execute vehicle fuel create to local database
+      shell: "php bin/console --env=prod app:create:vehicle:fuels"
+      args:
+        chdir: "{{ vhost_path }}/current/"
