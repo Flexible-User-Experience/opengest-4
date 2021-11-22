@@ -74,7 +74,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'loadTableFile', $vehicle->getLoadTable()());
+        return $this->downloadDocument($id, $downloadHandler, 'loadTableFile', $vehicle->getLoadTable());
     }
 
     public function downloadReachTableAction($id, DownloadHandler $downloadHandler): Response
@@ -82,7 +82,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'reachDiagramFile', $vehicle->getLoadTable()());
+        return $this->downloadDocument($id, $downloadHandler, 'reachDiagramFile', $vehicle->getLoadTable());
     }
 
     public function downloadTrafficCertificateAction($id, DownloadHandler $downloadHandler): Response
@@ -90,7 +90,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'trafficCertificateFile', $vehicle->getTrafficCertificate()());
+        return $this->downloadDocument($id, $downloadHandler, 'trafficCertificateFile', $vehicle->getTrafficCertificate());
     }
 
     public function downloadDimensionsAction($id, DownloadHandler $downloadHandler): Response
@@ -98,7 +98,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'dimensionsFile', $vehicle->getDimensions()());
+        return $this->downloadDocument($id, $downloadHandler, 'dimensionsFile', $vehicle->getDimensions());
     }
 
     public function downloadTransportCardAction($id, DownloadHandler $downloadHandler): Response
@@ -106,7 +106,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'transportCardFile', $vehicle->getTransportCard()());
+        return $this->downloadDocument($id, $downloadHandler, 'transportCardFile', $vehicle->getTransportCard());
     }
 
     public function downloadTrafficInsuranceAction($id, DownloadHandler $downloadHandler): Response
@@ -114,7 +114,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'trafficInsuranceFile', $vehicle->getTrafficInsurance()());
+        return $this->downloadDocument($id, $downloadHandler, 'trafficInsuranceFile', $vehicle->getTrafficInsurance());
     }
 
     public function downloadItvAction($id, DownloadHandler $downloadHandler): Response
@@ -122,7 +122,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'itvFile', $vehicle->getItv()());
+        return $this->downloadDocument($id, $downloadHandler, 'itvFile', $vehicle->getItv());
     }
 
     public function downloadItcAction($id, DownloadHandler $downloadHandler): Response
@@ -130,7 +130,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'itcFile', $vehicle->getItc()());
+        return $this->downloadDocument($id, $downloadHandler, 'itcFile', $vehicle->getItc());
     }
 
     public function downloadCEDeclarationAction($id, DownloadHandler $downloadHandler): Response
@@ -138,7 +138,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'CEDeclarationFile', $vehicle->getCEDeclaration()());
+        return $this->downloadDocument($id, $downloadHandler, 'CEDeclarationFile', $vehicle->getCEDeclaration());
     }
 
     private function downloadDocument($id, DownloadHandler $downloadHandler, $documentFile, $documentName): Response

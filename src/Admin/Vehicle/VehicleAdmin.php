@@ -76,7 +76,7 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add('downloadTrafficInsurance', $this->getRouterIdParameter().'/seguro-circulacion')
             ->add('downloadItvAction', $this->getRouterIdParameter().'/itv')
             ->add('downloadItcAction', $this->getRouterIdParameter().'/itc')
-            ->add('downloadCEDeclarationAction', $this->getRouterIdParameter().'/declaracion-ce')
+            ->add('downloadCEDeclaration', $this->getRouterIdParameter().'/declaracion-ce')
             ->remove('delete');
     }
 
@@ -230,7 +230,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet2', 'technicalDatasheet2'),
                         'required' => false,
                     ]
                 )
@@ -241,7 +241,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
                         'required' => false,
                     ]
                 )
@@ -252,7 +252,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadReachTable', 'reachTable'),
                         'required' => false,
                     ]
                 )
@@ -263,7 +263,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficCertificate', 'trafficCertificate'),
                         'required' => false,
                     ]
                 )
@@ -274,7 +274,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadDimensions', 'dimensions'),
                         'required' => false,
                     ]
                 )
@@ -285,7 +285,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTransportCard', 'transportCard'),
                         'required' => false,
                     ]
                 )
@@ -296,7 +296,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficInsurance', 'trafficInsurance'),
                         'required' => false,
                     ]
                 )
@@ -307,7 +307,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItvAction', 'itv'),
                         'required' => false,
                     ]
                 )
@@ -318,7 +318,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItcAction', 'itv'),
                         'required' => false,
                     ]
                 )
@@ -329,7 +329,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadCEDeclaration', 'CEDeclaration'),
                         'required' => false,
                     ]
                 )
