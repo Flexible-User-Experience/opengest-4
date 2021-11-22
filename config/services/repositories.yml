@@ -124,6 +124,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Vehicle\VehicleSpecialPermit
+    app.vehicle_digital_tachograph:
+        class: App\Repository\Vehicle\VehicleDigitalTachographRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Vehicle\VehicleDigitalTachograph
     app.partner_repository:
         class: App\Repository\Partner\PartnerRepository
         factory: [ '@doctrine', getRepository ]
@@ -256,6 +261,7 @@ services:
             - '@app.vehicle_maintenance_repository'
             - '@app.vehicle_fuel_repository'
             - '@app.vehicle_special_permit_repository'
+            - '@app.vehicle_digital_tachograph'
             - '@app.partner_repository'
             - '@app.partner_class_repository'
             - '@app.partner_type_repository'

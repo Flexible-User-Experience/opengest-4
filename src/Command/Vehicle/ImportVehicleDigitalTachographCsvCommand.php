@@ -48,7 +48,7 @@ class ImportVehicleDigitalTachographCsvCommand extends AbstractBaseCommand
         while (false !== ($row = $this->readRow($fr))) {
             /** @var Vehicle $vehicle */
             $vehicle = $this->rm->getVehicleRepository()->findOneBy(['vehicleRegistrationNumber' => $this->readColumn(4, $row)]);
-            $date = DateTime::createFromFormat('Y-m-d', $this->readColumn(2, $row));
+            $date = DateTime::createFromFormat('Y-m-d H:i:s', $this->readColumn(2, $row));
             /** @var VehicleDigitalTachograph $vehicleDigitalTachograph */
             $vehicleDigitalTachograph = $this->rm->getVehicleDigitalTachographRepository()->findOneBy(
                 [
