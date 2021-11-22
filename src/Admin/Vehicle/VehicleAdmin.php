@@ -336,7 +336,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Revisiones')
-                ->with('Revisiones', $this->getFormMdSuccessBoxArray(3))
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
                 ->add(
                     'vehicleCheckings',
                     CollectionType::class,
@@ -344,6 +344,9 @@ class VehicleAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
+                        'type_options' => [
+                            'delete' => false,
+                        ],
                     ],
                     [
                         'edit' => 'inline',
