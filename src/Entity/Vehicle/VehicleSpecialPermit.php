@@ -22,7 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class VehicleSpecialPermit extends AbstractBase
 {
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleCheckings")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleSpecialPermits")
      */
     private Vehicle $vehicle;
 
