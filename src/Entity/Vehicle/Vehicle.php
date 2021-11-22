@@ -139,6 +139,11 @@ class Vehicle extends AbstractBase
     private ?Collection $vehicleMaintenances;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleSpecialPermit", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private ?Collection $vehicleSpecialPermits;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
      */
     private Collection $saleRequests;
@@ -335,6 +340,7 @@ class Vehicle extends AbstractBase
         $this->saleDeliveryNotes = new ArrayCollection();
         $this->vehicleConsumptions = new ArrayCollection();
         $this->vehicleMaintenances = new ArrayCollection();
+        $this->vehicleSpecialPermits = new ArrayCollection();
     }
 
     public function getVehicleRegistrationNumber(): string
@@ -704,6 +710,43 @@ class Vehicle extends AbstractBase
     {
         if ($this->vehicleMaintenances->contains($vehicleMaintenance)) {
             $this->vehicleMaintenances->removeElement($vehicleMaintenance);
+        }
+
+        return $this;
+    }
+
+    public function getVehicleSpecialPermits(): ?Collection
+    {
+        return $this->vehicleSpecialPermits;
+    }
+
+    public function setVehicleSpecialPermits(Collection $vehicleSpecialPermits): Vehicle
+    {
+        $this->vehicleSpecialPermits = $vehicleSpecialPermits;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addVehicleSpecialPermit(VehicleSpecialPermit $vehicleSpecialPermit): Vehicle
+    {
+        if (!$this->vehicleSpecialPermits->contains($vehicleSpecialPermit)) {
+            $this->vehicleSpecialPermits->add($vehicleSpecialPermit);
+            $vehicleSpecialPermit->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeVehicleSpecialPermit(VehicleSpecialPermit $vehicleSpecialPermit): Vehicle
+    {
+        if ($this->vehicleSpecialPermits->contains($vehicleSpecialPermit)) {
+            $this->vehicleSpecialPermits->removeElement($vehicleSpecialPermit);
         }
 
         return $this;
