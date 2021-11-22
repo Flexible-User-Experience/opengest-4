@@ -74,8 +74,8 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add('downloadDimensions', $this->getRouterIdParameter().'/dimensiones')
             ->add('downloadTransportCard', $this->getRouterIdParameter().'/tarjeta-transporte')
             ->add('downloadTrafficInsurance', $this->getRouterIdParameter().'/seguro-circulacion')
-            ->add('downloadItvAction', $this->getRouterIdParameter().'/itv')
-            ->add('downloadItcAction', $this->getRouterIdParameter().'/itc')
+            ->add('downloadItv', $this->getRouterIdParameter().'/itv')
+            ->add('downloadItc', $this->getRouterIdParameter().'/itc')
             ->add('downloadCEDeclaration', $this->getRouterIdParameter().'/declaracion-ce')
             ->remove('delete');
     }
@@ -307,7 +307,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItvAction', 'itv'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItv', 'itv'),
                         'required' => false,
                     ]
                 )
@@ -318,7 +318,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItcAction', 'itv'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itv'),
                         'required' => false,
                     ]
                 )
