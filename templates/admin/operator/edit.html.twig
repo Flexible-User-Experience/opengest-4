@@ -8,10 +8,6 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function() {
-                var payslipsTable = jQuery('#sonata-ba-field-container-{{ form.payslips.vars.id }}');
-                var numberOfPayslips = {{ form.payslips.vars.data.count }};
-                const payslipIds = {{ form.payslips.vars.data.values|json_encode }};
-                console.log('payslipIds', payslipIds);
                 {% for key, id in form.payslips.vars.data.values %}
                     let payslipLine{{ key }} = jQuery('#{{ form.payslips.vars.id }}_' + {{ key }} + '_totalAmount');
                     jQuery(`
@@ -22,16 +18,6 @@
                     </td>
                     `).insertAfter(payslipLine{{ key }}.parent());
                 {% endfor %}
-                for (let i = 0; i < numberOfPayslips; i++) {
-                    let payslipLine = jQuery('#{{ form.payslips.vars.id }}_' + i + '_totalAmount');
-                    {#console.log('form', "{{ form.payslips.vars.data.values }}" )#}
-                    {#  jQuery(`#}
-                    {#      <a href="{{ path('admin_app_payslip_payslip_edit', { 'id': form.payslips.vars.data.id }) }}">#}
-                    {#          Ir a factura#}
-                    {#      </a>#}
-                    {#  `).insertBefore(invoice);#}
-                    {#payslipLine.parent().#}
-                }
         });
     </script>
 {% endblock %}

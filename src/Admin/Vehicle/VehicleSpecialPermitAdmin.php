@@ -53,24 +53,44 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadRouteImage', $this->getRouterIdParameter().'/imagen-ruta')
-            ->remove('delete');
+            ;
     }
 
     protected function configureFormFields(FormMapper $formMapper)
     {
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->with('General', $this->getFormMdSuccessBoxArray(4))
+                ->add(
+                    'vehicle',
+                    EntityType::class,
+                    [
+                        'label' => 'admin.label.vehicle',
+                        'required' => true,
+                        'class' => Vehicle::class,
+                        'choice_label' => 'name',
+                        'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                );
+        } else {
+            $formMapper
+                ->with('General', $this->getFormMdSuccessBoxArray(4))
+                ->add(
+                    'vehicle',
+                    EntityType::class,
+                    [
+                        'label' => 'admin.label.vehicle',
+                        'required' => true,
+                        'class' => Vehicle::class,
+                        'choice_label' => 'name',
+                        'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        'attr' => [
+                            'hidden' => 'true',
+                        ],
+                    ]
+                );
+        }
         $formMapper
-            ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'vehicle',
-                EntityType::class,
-                [
-                    'label' => 'admin.label.vehicle',
-                    'required' => true,
-                    'class' => Vehicle::class,
-                    'choice_label' => 'name',
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
             ->add(
                 'expedientNumber',
                 null,
@@ -116,84 +136,87 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('Caracterísitcas', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'totalLength',
-                null,
-                [
-                    'label' => 'admin.label.total_length',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'totalHeight',
-                null,
-                [
-                    'label' => 'admin.label.total_height',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'totalWidth',
-                null,
-                [
-                    'label' => 'admin.label.total_width',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'maximumWeight',
-                null,
-                [
-                    'label' => 'admin.label.maximum_weight',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'numberOfAxes',
-                null,
-                [
-                    'label' => 'admin.label.number_of_axes',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'loadContent',
-                null,
-                [
-                    'label' => 'admin.label.load_content',
-                    'required' => false,
-                ]
-            )
-            ->end()
-            ->with('Ruta y notas', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'route',
-                null,
-                [
-                    'label' => 'admin.label.route',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'routeImageFile',
-                FileType::class,
-                [
-                    'label' => 'admin.label.route_image',
-                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehiclespecialpermit_downloadRouteImage', 'routeImage'),
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'notes',
-                null,
-                [
-                    'label' => 'admin.label.notes',
-                    'required' => false,
-                ]
-            )
-            ->end()
-        ;
+            ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->with('Caracterísitcas', $this->getFormMdSuccessBoxArray(4))
+                ->add(
+                    'totalLength',
+                    null,
+                    [
+                        'label' => 'admin.label.total_length',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'totalHeight',
+                    null,
+                    [
+                        'label' => 'admin.label.total_height',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'totalWidth',
+                    null,
+                    [
+                        'label' => 'admin.label.total_width',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'maximumWeight',
+                    null,
+                    [
+                        'label' => 'admin.label.maximum_weight',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'numberOfAxes',
+                    null,
+                    [
+                        'label' => 'admin.label.number_of_axes',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'loadContent',
+                    null,
+                    [
+                        'label' => 'admin.label.load_content',
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('Ruta y notas', $this->getFormMdSuccessBoxArray(4))
+                ->add(
+                    'route',
+                    null,
+                    [
+                        'label' => 'admin.label.route',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'routeImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'admin.label.route_image',
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehiclespecialpermit_downloadRouteImage', 'routeImage'),
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'notes',
+                    null,
+                    [
+                        'label' => 'admin.label.notes',
+                        'required' => false,
+                    ]
+                )
+                ->end();
+        }
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

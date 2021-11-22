@@ -353,7 +353,23 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Permisos especiales')
-                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(8))
+                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'vehicleSpecialPermits',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'type_options' => [
+                            'delete' => false,
+                        ],
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
                 ->end()
                 ->end()
                 ->tab('Libro historial')

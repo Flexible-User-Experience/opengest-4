@@ -6,16 +6,24 @@
 <script type="text/javascript">
   jQuery(document).ready(function() {
     {% if  admin.id(admin.subject) %}
-    var vehicleMaintenance =  jQuery('#sonata-ba-field-container-{{ form.vehicleMaintenances.vars.id }}');
-    var numberOfVehicleMaintenances = {{ form.vehicleMaintenances.vars.data.count }};
-    console.log(numberOfVehicleMaintenances);
-    for (let i = 0; i < numberOfVehicleMaintenances; i++) {
-      var currentLine = jQuery('#{{ form.vehicleMaintenances.vars.id }}_' + i + '_enabled');
-      console.log(currentLine.prop('checked'));
-      if (currentLine.prop('checked') === false) {
-        currentLine.parent().parent().parent().parent().parent().addClass('hidden');
+      var vehicleMaintenance =  jQuery('#sonata-ba-field-container-{{ form.vehicleMaintenances.vars.id }}');
+      var numberOfVehicleMaintenances = {{ form.vehicleMaintenances.vars.data.count }};
+      for (let i = 0; i < numberOfVehicleMaintenances; i++) {
+        var currentLine = jQuery('#{{ form.vehicleMaintenances.vars.id }}_' + i + '_enabled');
+        if (currentLine.prop('checked') === false) {
+          currentLine.parent().parent().parent().parent().parent().addClass('hidden');
+        }
       }
-    }
+      {% for key, value in form.vehicleSpecialPermits.vars.data.values %}
+        let vehicleSpecialPermitLine{{ key }} = jQuery('#{{ form.vehicleSpecialPermits.vars.id }}_' + {{ key }} + '_additionalRegistrationNumber');
+        jQuery(`
+                        <td class ="form-group control-group">
+                          <a class="btn btn-default" href="{{ path('admin_app_vehicle_vehiclespecialpermit_edit', { 'id': value.id }) }}">
+                              Ver
+                          </a>
+                        </td>
+                        `).insertAfter(vehicleSpecialPermitLine{{ key }}.parent());
+      {% endfor %}
     {% endif %}
   });
 </script>
