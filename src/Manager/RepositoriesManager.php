@@ -43,6 +43,7 @@ use App\Repository\Vehicle\VehicleFuelRepository;
 use App\Repository\Vehicle\VehicleMaintenanceRepository;
 use App\Repository\Vehicle\VehicleMaintenanceTaskRepository;
 use App\Repository\Vehicle\VehicleRepository;
+use App\Repository\Vehicle\VehicleSpecialPermitRepository;
 use App\Repository\Web\ServiceRepository;
 use App\Repository\Web\WorkRepository;
 
@@ -94,6 +95,8 @@ class RepositoriesManager
     private VehicleMaintenanceRepository $vehicleMaintenanceRepository;
 
     private VehicleFuelRepository $vehicleFuelRepository;
+
+    private VehicleSpecialPermitRepository $vehicleSpecialPermitRepository;
 
     private PartnerRepository $partnerRepository;
 
@@ -171,6 +174,7 @@ class RepositoriesManager
         VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository,
         VehicleMaintenanceRepository $vehicleMaintenanceRepository,
         VehicleFuelRepository $vehicleFuelRepository,
+        VehicleSpecialPermitRepository $vehicleSpecialPermitRepository,
         PartnerRepository $partnerRepository,
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
@@ -215,6 +219,7 @@ class RepositoriesManager
         $this->vehicleMaintenanceTaskRepository = $vehicleMaintenanceTaskRepository;
         $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
         $this->vehicleFuelRepository = $vehicleFuelRepository;
+        $this->vehicleSpecialPermitRepository = $vehicleSpecialPermitRepository;
         $this->partnerRepository = $partnerRepository;
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
@@ -396,6 +401,11 @@ class RepositoriesManager
     public function getVehicleFuelRepository()
     {
         return $this->vehicleFuelRepository;
+    }
+
+    public function getVehicleSpecialPermitRepository(): VehicleSpecialPermitRepository
+    {
+        return $this->vehicleSpecialPermitRepository;
     }
 
     /**

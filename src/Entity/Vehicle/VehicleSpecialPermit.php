@@ -87,11 +87,11 @@ class VehicleSpecialPermit extends AbstractBase
     private ?int $numberOfAxes;
 
     /**
-     * @var ?float
+     * @var ?string
      *
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private ?float $loadContent;
+    private ?string $loadContent;
 
     /**
      * @var ?string
@@ -252,12 +252,12 @@ class VehicleSpecialPermit extends AbstractBase
         return $this;
     }
 
-    public function getLoadContent(): ?float
+    public function getLoadContent(): ?string
     {
         return $this->loadContent;
     }
 
-    public function setLoadContent(?float $loadContent): VehicleSpecialPermit
+    public function setLoadContent(?string $loadContent): VehicleSpecialPermit
     {
         $this->loadContent = $loadContent;
 
