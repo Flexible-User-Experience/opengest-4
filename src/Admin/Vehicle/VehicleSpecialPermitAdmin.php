@@ -33,6 +33,11 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehiculos/permisos-especiales';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [
@@ -52,16 +57,24 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('General', $this->getFormMdSuccessBoxArray(6))
+            ->with('General', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'vehicle',
                 EntityType::class,
                 [
-                    'label' => 'Vehicle',
+                    'label' => 'admin.label.vehicle',
                     'required' => true,
                     'class' => Vehicle::class,
                     'choice_label' => 'name',
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ]
+            )
+            ->add(
+                'expedientNumber',
+                null,
+                [
+                    'label' => 'admin.label.expedient_number',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -98,6 +111,8 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
+            ->end()
+            ->with('Caracterísitcas', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'totalLength',
                 null,
@@ -146,14 +161,8 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->add(
-                'expedientNumber',
-                null,
-                [
-                    'label' => 'admin.label.expedient_number',
-                    'required' => false,
-                ]
-            )
+            ->end()
+            ->with('Ruta y notas', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'route',
                 null,
@@ -163,19 +172,19 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'notes',
-                null,
+                'routeImageFile',
+                FileType::class,
                 [
-                    'label' => 'admin.label.notes',
+                    'label' => 'admin.label.route_image',
+//                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
                     'required' => false,
                 ]
             )
             ->add(
-                'routeImageFile',
-                FileType::class,
+                'notes',
+                null,
                 [
-                    'label' => '-',
-//                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
+                    'label' => 'admin.label.notes',
                     'required' => false,
                 ]
             )
