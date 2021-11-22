@@ -1,0 +1,283 @@
+<?php
+
+namespace App\Admin\Vehicle;
+
+use App\Admin\AbstractBaseAdmin;
+use App\Entity\Vehicle\Vehicle;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\Form\Type\DatePickerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
+/**
+ * Class VehicleSpecialPermitAdmin.
+ *
+ * @category Admin
+ *
+ * @author   Jordi Sort <jordi.sort@mirmit.com>
+ */
+class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
+{
+    /**
+     * @var string
+     */
+    protected $classnameLabel = 'Permisos especiales';
+
+    /**
+     * @var string
+     */
+    protected $baseRoutePattern = 'vehiculos/permisos-especiales';
+
+    /**
+     * @var array
+     */
+    protected $datagridValues = [
+        '_sort_by' => 'expeditionDate',
+        '_sort_order' => 'desc',
+    ];
+
+    /**
+     * Methods.
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        parent::configureRoutes($collection);
+        $collection->remove('delete');
+    }
+
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        $formMapper
+            ->with('General', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'vehicle',
+                EntityType::class,
+                [
+                    'label' => 'Vehicle',
+                    'required' => true,
+                    'class' => Vehicle::class,
+                    'choice_label' => 'name',
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ]
+            )
+            ->add(
+                'expeditionDate',
+                DatePickerType::class,
+                [
+                    'label' => 'admin.label.expedition_date',
+                    'format' => 'd/M/y',
+                    'required' => true,
+                ]
+            )
+            ->add(
+                'expiryDate',
+                DatePickerType::class,
+                [
+                    'label' => 'admin.label.expiry_date',
+                    'format' => 'd/M/y',
+                    'required' => true,
+                ]
+            )
+            ->add(
+                'additionalVehicle',
+                null,
+                [
+                    'label' => 'admin.label.additional_vehicle',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'additionalRegistrationNumber',
+                null,
+                [
+                    'label' => 'admin.label.additional_registration_number',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'totalLength',
+                null,
+                [
+                    'label' => 'admin.label.total_length',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'totalHeight',
+                null,
+                [
+                    'label' => 'admin.label.total_height',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'totalWidth',
+                null,
+                [
+                    'label' => 'admin.label.total_width',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'maximumWeight',
+                null,
+                [
+                    'label' => 'admin.label.maximum_weight',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'numberOfAxes',
+                null,
+                [
+                    'label' => 'admin.label.number_of_axes',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'load',
+                null,
+                [
+                    'label' => 'admin.label.load',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'expedientNumber',
+                null,
+                [
+                    'label' => 'admin.label.expedient_number',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'route',
+                null,
+                [
+                    'label' => 'admin.label.route',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'notes',
+                null,
+                [
+                    'label' => 'admin.label.notes',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'routeImageFile',
+                FileType::class,
+                [
+                    'label' => '-',
+//                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
+                    'required' => false,
+                ]
+            )
+            ->end()
+        ;
+    }
+
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper
+            ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'admin.label.vehicle',
+                ],
+                EntityType::class,
+                [
+                    'class' => Vehicle::class,
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ]
+            )
+            ->add(
+                'expeditionDate',
+                DateFilter::class,
+                [
+                    'label' => 'admin.label.expedition_date',
+                    'field_type' => DatePickerType::class,
+                ],
+                null,
+                [
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
+                ]
+            )
+            ->add(
+                'expiryDate',
+                DateFilter::class,
+                [
+                    'label' => 'admin.label.expiry_date',
+                    'field_type' => DatePickerType::class,
+                ]
+            )
+            ->add(
+                'expedientNumber',
+                null,
+                [
+                    'label' => 'admin.label.expedient_number',
+                ]
+            )
+        ;
+    }
+
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'Vehicle',
+                    'editable' => false,
+                    'associated_property' => 'name',
+                    'sortable' => true,
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'vehicle']],
+                ]
+            )
+            ->add(
+                'expeditionDate',
+                'date',
+                [
+                    'label' => 'admin.label.expedition_date',
+                    'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
+                'expiryDate',
+                'date',
+                [
+                    'label' => 'admin.label.expiry_date',
+                    'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
+                'expedientNumber',
+                null,
+                [
+                    'label' => 'admin.label.expedient_number',
+                ]
+            )
+            ->add(
+                '_action',
+                'actions',
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                    ],
+                    'label' => 'Accions',
+                ]
+            )
+        ;
+    }
+}
