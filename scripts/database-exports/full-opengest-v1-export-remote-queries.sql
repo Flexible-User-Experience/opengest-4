@@ -287,7 +287,7 @@ INTO OUTFILE '/var/lib/mysql-files/vehicle_special_permit.csv'
     ESCAPED BY '\\'
     LINES TERMINATED BY '\n'
 FROM opengest.Permisos_especiales PE
-    JOIN opengest.Vehiculos V ON V.id = PE.vehiculo_id
+    JOIN opengest.Vehiculos V ON V.id = PE.vehiculo_id;
 
 SELECT TV.*, V.matricula
 INTO OUTFILE '/var/lib/mysql-files/vehicle_digital_tachograph.csv'
