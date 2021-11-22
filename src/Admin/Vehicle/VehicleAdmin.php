@@ -65,8 +65,18 @@ class VehicleAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadMainImage', $this->getRouterIdParameter().'/main-image')
-            ->add('downloadChassisImage', $this->getRouterIdParameter().'/chassis-image')
-            ->add('downloadTechnicalDatasheet1', $this->getRouterIdParameter().'/technical-datasheet')
+            ->add('downloadChassisImage', $this->getRouterIdParameter().'/chasis')
+            ->add('downloadTechnicalDatasheet1', $this->getRouterIdParameter().'/ficha-tecnica')
+            ->add('downloadTechnicalDatasheet2', $this->getRouterIdParameter().'/ficha-tecnica2')
+            ->add('downloadLoadTable', $this->getRouterIdParameter().'/tabla-carga')
+            ->add('downloadReachTable', $this->getRouterIdParameter().'/diagrama-alcances')
+            ->add('downloadTrafficCertificate', $this->getRouterIdParameter().'/permiso-circulacion')
+            ->add('downloadDimensions', $this->getRouterIdParameter().'/dimensiones')
+            ->add('downloadTransportCard', $this->getRouterIdParameter().'/tarjeta-transporte')
+            ->add('downloadTrafficInsurance', $this->getRouterIdParameter().'/seguro-circulacion')
+            ->add('downloadItvAction', $this->getRouterIdParameter().'/itv')
+            ->add('downloadItcAction', $this->getRouterIdParameter().'/itc')
+            ->add('downloadCEDeclarationAction', $this->getRouterIdParameter().'/declaracion-ce')
             ->remove('delete');
     }
 
