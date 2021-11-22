@@ -43,3 +43,6 @@ vich_uploader:
         digital_tachograph_vehicle:
             uri_prefix:         /uploads/digital_tachograph/vehicle
             upload_destination: '%kernel.project_dir%/public/uploads/digital_tachograph/vehicle'
+        special_permit_vehicle:
+            uri_prefix:         /uploads/special_permit/vehicle
+            upload_destination: '%kernel.project_dir%/public/uploads/special_permit/vehicle'

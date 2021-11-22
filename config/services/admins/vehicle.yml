@@ -119,7 +119,7 @@ services:
             - { name: sonata.admin, manager_type: orm, label: "Mantenimientos de vehículo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.vehicle.special_permit:
         class: App\Admin\Vehicle\VehicleSpecialPermitAdmin
-        arguments: [ ~, App\Entity\Vehicle\VehicleSpecialPermit, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
+        arguments: [ ~, App\Entity\Vehicle\VehicleSpecialPermit, App\Controller\Admin\Vehicle\VehicleSpecialPermitAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Permisos especiales", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
 # Partner group

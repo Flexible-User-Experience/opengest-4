@@ -140,21 +140,4 @@ class VehicleAdminController extends BaseAdminController
 
         return $this->downloadDocument($id, $downloadHandler, 'CEDeclarationFile', $vehicle->getCEDeclaration());
     }
-
-    private function downloadDocument($id, DownloadHandler $downloadHandler, $documentFile, $documentName): Response
-    {
-        /** @var Vehicle $operator */
-        $vehicle = $this->admin->getObject($id);
-        if (!$vehicle) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-
-        return $downloadHandler->downloadObject(
-            $vehicle,
-            $fileField = $documentFile,
-            $objectClass = Vehicle::class,
-            $fileName = $documentName,
-            $forceDownload = false
-        );
-    }
 }

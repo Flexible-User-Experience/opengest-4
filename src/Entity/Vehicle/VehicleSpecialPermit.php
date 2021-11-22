@@ -17,6 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
  * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleSpecialPermitRepository")
+ * @Vich\Uploadable()
  * @ORM\Table(name="vehicle_special_permit")
  */
 class VehicleSpecialPermit extends AbstractBase
@@ -114,12 +115,12 @@ class VehicleSpecialPermit extends AbstractBase
     private ?string $notes;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="routeImage")
+     * @Vich\UploadableField(mapping="special_permit_vehicle", fileNameProperty="routeImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image()
+     * @Assert\Image(minWidth=300)
      */
     private ?File $routeImageFile = null;
 

@@ -51,7 +51,9 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->add('downloadRouteImage', $this->getRouterIdParameter().'/imagen-ruta')
+            ->remove('delete');
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -178,7 +180,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                 FileType::class,
                 [
                     'label' => 'admin.label.route_image',
-//                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
+                    'help' => $this->getDocumentHelper('admin_app_vehicle_vehiclespecialpermit_downloadRouteImage', 'routeImage'),
                     'required' => false,
                 ]
             )
