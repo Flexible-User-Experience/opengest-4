@@ -69,7 +69,7 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add('downloadTechnicalDatasheet1', $this->getRouterIdParameter().'/ficha-tecnica')
             ->add('downloadTechnicalDatasheet2', $this->getRouterIdParameter().'/ficha-tecnica2')
             ->add('downloadLoadTable', $this->getRouterIdParameter().'/tabla-carga')
-            ->add('downloadReachTable', $this->getRouterIdParameter().'/diagrama-alcances')
+            ->add('downloadReachDiagram', $this->getRouterIdParameter().'/diagrama-alcances')
             ->add('downloadTrafficCertificate', $this->getRouterIdParameter().'/permiso-circulacion')
             ->add('downloadDimensions', $this->getRouterIdParameter().'/dimensiones')
             ->add('downloadTransportCard', $this->getRouterIdParameter().'/tarjeta-transporte')
@@ -252,7 +252,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => '-',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadReachTable', 'reachTable'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadReachDiagram', 'reachDiagram'),
                         'required' => false,
                     ]
                 )

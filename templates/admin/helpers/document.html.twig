@@ -1,8 +1,12 @@
 {% block field %}
-    {% if object %}
-        <img src="{{ documentSrc }}" alt="thumbnail" style="height: 150px">
-        <span class="span-helper">màxim 10MB amb PDF, JPG, PNG o GIF</span>
-        <span class="span-helper">amplada mínima 1.200px</span>
+    {% if fileAvailable %}
+        {% if isPdf %}
+{#            TODO View pdf correctly #}
+{#            <canvas id="pdf-{{ object.id }}" class="pdf-canvas"></canvas>#}
+        {% else %}
+            <img src="{{ documentSrc }}" alt="thumbnail" style="height: 150px">
+        {% endif %}
+        <span class="span-helper">PDF, JPG o PNG. 10MB max</span>
         <a class="btn btn-warning btn-xs" href="{{ documentSrc }}">
             <i class="fa fa-cloud-download"></i>
             Descargar
@@ -11,3 +15,25 @@
         <img src="https://via.placeholder.com/60x60.png?text=?" alt="thumbnail">
     {% endif %}
 {% endblock %}
+
+{#{% block javascripts %}#}
+{#<script type="text/javascript">#}
+{#  jQuery(document).ready(function() {#}
+{#    PDFJS.getDocument('{{ documentSrc }}').then(function (pdf) {#}
+{#      pdf.getPage(1).then(function (page) {#}
+{#        var scale = 1;#}
+{#        var viewport = page.getViewport(scale);#}
+{#        var canvas = document.getElementById('pdf-{{ object.id }}');#}
+{#        var context = canvas.getContext('2d');#}
+{#        canvas.height = viewport.height;#}
+{#        canvas.width = viewport.width;#}
+{#        var renderContext = {#}
+{#          canvasContext: context,#}
+{#          viewport: viewport#}
+{#        };#}
+{#        page.render(renderContext);#}
+{#      });#}
+{#    });#}
+{#  });#}
+{#</script>#}
+{#{% endblock %}#}

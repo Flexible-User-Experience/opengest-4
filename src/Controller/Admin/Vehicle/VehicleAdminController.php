@@ -77,12 +77,12 @@ class VehicleAdminController extends BaseAdminController
         return $this->downloadDocument($id, $downloadHandler, 'loadTableFile', $vehicle->getLoadTable());
     }
 
-    public function downloadReachTableAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadReachDiagramAction($id, DownloadHandler $downloadHandler): Response
     {
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'reachDiagramFile', $vehicle->getLoadTable());
+        return $this->downloadDocument($id, $downloadHandler, 'reachDiagramFile', $vehicle->getReachDiagram());
     }
 
     public function downloadTrafficCertificateAction($id, DownloadHandler $downloadHandler): Response

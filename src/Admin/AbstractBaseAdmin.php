@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Templating\EngineInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
@@ -233,13 +234,29 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     protected function getDocumentHelper($route, $document)
     {
+        $docFunction = new UnicodeString($document);
+        $isPdf = false;
+        $fileAvailable = false;
+        $object = $this->getSubject();
+        $docFunction = 'get'.$docFunction->camel()->title();
+        $fileName = $object->$docFunction();
+        if ($fileName) {
+            $fileAvailable = true;
+            if (strpos($fileName, '.pdf')) {
+                $isPdf = true;
+            }
+        }
+
         return $this->tws->render(
             'admin/helpers/document.html.twig', [
                 'documentSrc' => $this->routeGenerator->generate(
                     $route,
-                    ['id' => $this->getSubject()->getId()]
+                    ['id' => $object->getId()]
                 ),
-                'object' => $this->getSubject(),
+                'object' => $object,
+                'fileAvailable' => $fileAvailable,
+                'isPdf' => $isPdf,
+                'fileName' => $fileName,
             ]
         );
     }
