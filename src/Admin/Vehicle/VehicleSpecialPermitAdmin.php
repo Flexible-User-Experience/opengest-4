@@ -198,15 +198,21 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                         'required' => false,
                     ]
                 )
-                ->add(
-                    'routeImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'admin.label.route_image',
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehiclespecialpermit_downloadRouteImage', 'routeImage'),
-                        'required' => false,
-                    ]
-                )
+                ;
+
+            if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
+                $formMapper
+                    ->add(
+                        'routeImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'admin.label.route_image',
+                            'help' => $this->getDocumentHelper('admin_app_vehicle_vehiclespecialpermit_downloadRouteImage', 'routeImage'),
+                            'required' => false,
+                        ]
+                    );
+            }
+            $formMapper
                 ->add(
                     'notes',
                     null,
