@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Vehicle\Vehicle;
 use App\Manager\InvoiceManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,18 +36,16 @@ abstract class BaseAdminController extends Controller
         return $request;
     }
 
-    protected function downloadDocument($id, DownloadHandler $downloadHandler, $documentFile, $documentName): Response
+    protected function downloadDocument($id, DownloadHandler $downloadHandler, $object, $documentFile, $documentName): Response
     {
-        /** @var Vehicle $operator */
-        $vehicle = $this->admin->getObject($id);
-        if (!$vehicle) {
+        if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
         return $downloadHandler->downloadObject(
-            $vehicle,
+            $object,
             $fileField = $documentFile,
-            $objectClass = Vehicle::class,
+            $objectClass = get_class($object),
             $fileName = $documentName,
             $forceDownload = false
         );

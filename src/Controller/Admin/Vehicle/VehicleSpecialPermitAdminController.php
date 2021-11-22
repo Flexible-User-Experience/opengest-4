@@ -17,6 +17,6 @@ class VehicleSpecialPermitAdminController extends BaseAdminController
         /** @var VehicleSpecialPermit $operator */
         $vehiclePermit = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, 'routeImageFile', $vehiclePermit->getRouteImage());
+        return $this->downloadDocument($id, $downloadHandler, $vehiclePermit, 'routeImageFile', $vehiclePermit->getRouteImage());
     }
 }
