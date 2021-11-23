@@ -141,14 +141,14 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->add(
-                'extraPay',
-                NumberType::class,
-                [
-                    'label' => 'admin.label.extra_pay',
-                    'required' => false,
-                ]
-            )
+//            ->add(
+//                'extraPay',
+//                NumberType::class,
+//                [
+//                    'label' => 'admin.label.extra_pay',
+//                    'required' => false,
+//                ]
+//            )
             ->add(
                 'otherCosts',
                 NumberType::class,
@@ -261,13 +261,13 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.social_security_cost',
                 ]
             )
-            ->add(
-                'extraPay',
-                null,
-                [
-                    'label' => 'admin.label.extra_pay',
-                ]
-            )
+//            ->add(
+//                'extraPay',
+//                null,
+//                [
+//                    'label' => 'admin.label.extra_pay',
+//                ]
+//            )
             ->add(
                 'otherCosts',
                 null,
@@ -339,13 +339,13 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.social_security_cost',
                 ]
             )
-            ->add(
-                'extraPay',
-                null,
-                [
-                    'label' => 'admin.label.extra_pay',
-                ]
-            )
+//            ->add(
+//                'extraPay',
+//                null,
+//                [
+//                    'label' => 'admin.label.extra_pay',
+//                ]
+//            )
             ->add(
                 'otherCosts',
                 null,
