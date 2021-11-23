@@ -85,20 +85,23 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                     } else {
                         $description = '';
                     }
+                    $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
                     // Check if hour is negative (itemId ==3)
                     if ($itemId < 3) {
                         $type = $splitTimeRange['type'];
                         $price = 0;
                         if (0 === $type) {
                             $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
+                            $description = 'Hora laboral - '.$description;
                         } elseif (1 === $type) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
+                            $description = 'Hora normal - '.$description;
                         } elseif (2 === $type) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                            $description = 'Hora extra - '.$description;
                         }
                     } else {
                         $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
-                        $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
                         $units = $units * (-1);
                     }
                     $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');

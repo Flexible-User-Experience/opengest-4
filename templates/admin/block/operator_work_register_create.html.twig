@@ -194,14 +194,14 @@
                         <table class="table table-bordered table-striped table-hover sonata-ba-list">
                             <thead>
                             <tr class="sonata-ba-list-field-header">
-                                <th class="sonata-ba-list-field-header">
-                                    Albarán
-                                </th>
                                 <th class="sonata-ba-list-field-header-time">
                                     Empieza
                                 </th>
                                 <th class="sonata-ba-list-field-header-time">
                                     Termina
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Observaciones
                                 </th>
                                 <th class="sonata-ba-list-field-header">
                                     Unidades
@@ -213,7 +213,10 @@
                                     Total (€)
                                 </th>
                                 <th class="sonata-ba-list-field-header">
-                                    Observaciones
+                                    Albarán
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Vehículo
                                 </th>
                                 <th class="sonata-ba-list-field-header">
                                     Acción
@@ -379,13 +382,14 @@
               customTable.empty();
               JSON.parse(response).forEach((element) => {
                 var row = document.createElement('tr');
-                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.deliveryNoteReference || '-', row);
                 createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
                 createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
+                createCellFromInfoAndAppendToRow(element.description, row);
                 createCellFromInfoAndAppendToRow(element.units, row);
                 createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
-                createCellFromInfoAndAppendToRow(element.description, row);
+                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.deliveryNoteReference || '-', row);
+                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.vehicle?.name || '-', row);
                 var deleteButton = `
                     <div class="btn-group">
                        <a href="{{ path('admin_app_operator_operatorworkregister_customDelete', {'id': 'idOfElement'}) }}" class="btn btn-sm btn-default edit_link" title="Borrar"><i class="fa fa-trash"></i></a>
