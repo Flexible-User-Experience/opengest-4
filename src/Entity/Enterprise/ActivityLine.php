@@ -4,8 +4,9 @@ namespace App\Entity\Enterprise;
 
 use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleServiceTariff;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class ActivityLine.
@@ -32,7 +33,6 @@ class ActivityLine extends AbstractBase
      * @ORM\Column(type="string")
      */
     private $name;
-
 
     /**
      * @var ArrayCollection
@@ -85,19 +85,11 @@ class ActivityLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleServiceTariffs() : ArrayCollection
+    public function getSaleServiceTariffs(): Collection
     {
         return $this->saleServiceTariffs;
     }
 
-    /**
-     * @param ArrayCollection $SaleServiceTariffs
-     *
-     * @return ActivityLine
-     */
     public function setSaleServiceTariffs(ArrayCollection $SaleServiceTariffs): ActivityLine
     {
         $this->saleServiceTariffs = $SaleServiceTariffs;
@@ -105,11 +97,6 @@ class ActivityLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param SaleServiceTariff $saleServiceTariff
-     *
-     * @return ActivityLine
-     */
     public function addSaleServiceTariff(SaleServiceTariff $saleServiceTariff): ActivityLine
     {
         if (!$this->saleServiceTariffs->contains($saleServiceTariff)) {
@@ -120,12 +107,7 @@ class ActivityLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param SaleServiceTariff $SaleServiceTariff
-     *
-     * @return ActivityLine
-     */
-    public function removeSaleServiceTariff(SaleServiceTariff $SaleServiceTariff) : ActivityLine
+    public function removeSaleServiceTariff(SaleServiceTariff $SaleServiceTariff): ActivityLine
     {
         if ($this->saleServiceTariffs->contains($SaleServiceTariff)) {
             $this->saleServiceTariffs->removeElement($SaleServiceTariff);
@@ -133,7 +115,6 @@ class ActivityLine extends AbstractBase
 
         return $this;
     }
-
 
     /**
      * @return string
