@@ -64,6 +64,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
+            ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
 //            ->remove('delete')
             ->remove('create')
         ;
@@ -83,7 +84,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             'baseTotal',
             'iva',
             'irpf',
-            'total'
+            'total',
         ];
     }
 

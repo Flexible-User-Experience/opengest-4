@@ -119,6 +119,37 @@ class SaleInvoiceAdminController extends BaseAdminController
     }
 
     /**
+     * @return RedirectResponse|Response
+     *
+     * @throws ModelManagerException
+     */
+    public function setHasNotBeenCountedAction(Request $request)
+    {
+        $request = $this->resolveRequest($request);
+        $id = $request->get($this->admin->getIdParameter());
+
+        /** @var SaleInvoice $saleInvoice */
+        $saleInvoice = $this->admin->getObject($id);
+        if (!$saleInvoice) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        /** @var GuardService $guardService */
+        $guardService = $this->container->get('app.guard_service');
+        if (!$guardService->isOwnEnterprise($saleInvoice->getPartner()->getEnterprise())) {
+            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
+        }
+        $saleInvoice->setHasBeenCounted(false);
+        try {
+            $this->admin->getModelManager()->update($saleInvoice);
+            $this->addFlash('success', 'La factura se ha descontabilizado');
+        } catch (\Exception $ex) {
+            $this->addFlash('warning', 'No se pudo realizar la acción');
+        }
+
+        return $this->redirectToRoute('admin_app_sale_saleinvoice_edit', ['id' => $id]);
+    }
+
+    /**
      * @param SaleInvoice $object
      *
      * @throws ModelManagerException
