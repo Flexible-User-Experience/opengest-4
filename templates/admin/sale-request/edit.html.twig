@@ -45,7 +45,7 @@
             var selectTariffName = jQuery('#{{ form.selectTariff.vars.id }}');
 
             var previousSelectedServiceId = jQuery('#{{ form.service.vars.id }}').val();
-            jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: previousSelectedServiceId}), function () {
+            jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: previousSelectedServiceId, partnerId: partnerId}), function () {
             }).done(function (response) {
                 updateNodeTariff(response);
             });
