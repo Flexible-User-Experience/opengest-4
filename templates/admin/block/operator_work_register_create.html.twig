@@ -188,7 +188,7 @@
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
-                        Partes de trabajo
+                        Horas
                     </h4>
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-bordered table-striped table-hover sonata-ba-list">
@@ -232,11 +232,52 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-9">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Items y otros
+                    </h4>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                            <thead>
+                            <tr class="sonata-ba-list-field-header">
+                                <th class="sonata-ba-list-field-header">
+                                    Observaciones
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Unidades
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Precio (€)/unidad
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Total (€)
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Albarán
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Vehículo
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Acción
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="custom_table_2">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript">
       jQuery(document).ready(function() {
         var customTable = jQuery('#custom_table');
+        var customTable2 = jQuery('#custom_table_2');
 
         var selectInputType = jQuery('#select_input_type');
         var selectOperator = jQuery('#custom_operator');
@@ -380,10 +421,13 @@
             ), function () {
             }).done(function (response) {
               customTable.empty();
+              customTable2.empty();
               JSON.parse(response).forEach((element) => {
                 var row = document.createElement('tr');
-                createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
-                createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
+                if (element.start) {
+                  createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
+                  createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
+                }
                 createCellFromInfoAndAppendToRow(element.description, row);
                 createCellFromInfoAndAppendToRow(element.units, row);
                 createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
@@ -401,11 +445,16 @@
                 cell.classList.add('sonata-ba-list-field');
                 cell.innerHTML = deleteButton;
                 row.appendChild(cell);
-                customTable.append(row);
+                if (element.start) {
+                  customTable.append(row);
+                } else {
+                  customTable2.append(row);
+                }
               });
             });
           } else {
             customTable.empty();
+            customTable2.empty();
           }
         }
 
