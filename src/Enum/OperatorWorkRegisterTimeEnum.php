@@ -9,9 +9,10 @@ namespace App\Enum;
  */
 class OperatorWorkRegisterTimeEnum
 {
-    const SERVICE          = '0';
-    const JOURNEY           = '1';
-    const WAIT            = '2';
+    public const SERVICE = '0';
+    public const JOURNEY = '1';
+    public const WAIT = '2';
+    public const NEGATIVE_HOUR = '3';
 
     /**
      * @return array
@@ -30,6 +31,7 @@ class OperatorWorkRegisterTimeEnum
             self::SERVICE => 'Servicio',
             self::JOURNEY => 'Desplazamiento',
             self::WAIT => 'Espera',
+            self::NEGATIVE_HOUR => 'Hora negativa',
         ];
     }
 }

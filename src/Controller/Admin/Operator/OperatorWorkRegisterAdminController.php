@@ -85,16 +85,22 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                     } else {
                         $description = '';
                     }
-                    $type = $splitTimeRange['type'];
-                    $price = 0;
-                    if (0 === $type) {
-                        $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
-                    } elseif (1 === $type) {
-                        $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
-                    } elseif (2 === $type) {
-                        $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                    // Check if hour is negative (itemId ==3)
+                    if ($itemId < 3) {
+                        $type = $splitTimeRange['type'];
+                        $price = 0;
+                        if (0 === $type) {
+                            $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
+                        } elseif (1 === $type) {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
+                        } elseif (2 === $type) {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                        }
+                    } else {
+                        $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
+                        $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
+                        $units = $units * (-1);
                     }
-                    $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
                     $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
                     /** @var SaleDeliveryNote $saleDeliveryNote */
                     $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
