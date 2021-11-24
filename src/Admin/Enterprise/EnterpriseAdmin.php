@@ -55,6 +55,28 @@ class EnterpriseAdmin extends AbstractBaseAdmin
             ->remove('delete')
             ->add('change', $this->getRouterIdParameter().'/change-user-default-enterprise')
             ->add('downloadTc1receipt', $this->getRouterIdParameter().'/tc1')
+            ->add('downloadTc2receipt', $this->getRouterIdParameter().'/tc2')
+            ->add('downloadSsRegistration', $this->getRouterIdParameter().'/registro-ss')
+            ->add('downloadSsPaymentCertificate', $this->getRouterIdParameter().'/certificado-pago-ss')
+            ->add('downloadRc1Insurance', $this->getRouterIdParameter().'/seguro-rc1')
+            ->add('downloadRc2Insurance', $this->getRouterIdParameter().'/seguro-rc2')
+            ->add('downloadRcReceipt', $this->getRouterIdParameter().'/recibo-rc')
+            ->add('downloadPreventionServiceContract', $this->getRouterIdParameter().'/contracto-servicio-prevencion')
+            ->add('downloadPreventionServiceInvoice', $this->getRouterIdParameter().'/factura-servicio-prevencion')
+            ->add('downloadPreventionServiceReceipt', $this->getRouterIdParameter().'/recibo-servicio-prevencion')
+            ->add('downloadOccupationalAccidentsInsurance', $this->getRouterIdParameter().'/seguro-accidentes-laborales')
+            ->add('downloadOccupationalReceipt', $this->getRouterIdParameter().'/recibo-seguro-accidentes-laborales')
+            ->add('downloadLaborRiskAssessment', $this->getRouterIdParameter().'/evaluacion-riesgos')
+            ->add('downloadSecurityPlan', $this->getRouterIdParameter().'/plan-seguridad')
+            ->add('downloadReaCertificate', $this->getRouterIdParameter().'/certificado-rea')
+            ->add('downloadOilCertificate', $this->getRouterIdParameter().'/certificado-recogida-aceite')
+            ->add('downloadGencatPaymentCertificate', $this->getRouterIdParameter().'/certificado-pago-gencat')
+            ->add('downloadDeedsOfPowers', $this->getRouterIdParameter().'/escritura-poderes')
+            ->add('downloadIaeRegistration', $this->getRouterIdParameter().'/registro-iae')
+            ->add('downloadIaeReceipt', $this->getRouterIdParameter().'/recibo-iae')
+            ->add('downloadMutualPartnership', $this->getRouterIdParameter().'/asociacion-mutua')
+            ->add('downloadDeedOfIncorporationAction', $this->getRouterIdParameter().'/escritura-constitucion')
+            ->add('downloadTaxIdentificationNumberCardAction', $this->getRouterIdParameter().'/tarjeta-nif')
         ;
     }
 
@@ -186,7 +208,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Rebut TC2',
-                        'help' => $this->getSmartHelper('getTc2Receipt', 'tc2ReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadTc2receipt', 'tc2Receipt'),
                         'required' => false,
                     ]
                 )
@@ -197,7 +219,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Rebut SS registre',
-                        'help' => $this->getSmartHelper('getSsRegistration', 'ssRegistrationFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadSsRegistration', 'ssRegistration'),
                         'required' => false,
                     ]
                 )
@@ -206,7 +228,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Rebut pagament certificat',
-                        'help' => $this->getSmartHelper('getSsPaymentCertificate', 'ssPaymentCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadSsPaymentCertificate', 'ssPaymentCertificate'),
                         'required' => false,
                     ]
                 )
@@ -217,7 +239,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'RC 1',
-                        'help' => $this->getSmartHelper('getRc1Insurance', 'rc1InsuranceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadRc1Insurance', 'rc1Insurance'),
                         'required' => false,
                     ]
                 )
@@ -226,7 +248,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'RC 2',
-                        'help' => $this->getSmartHelper('getRc2Insurance', 'rc2InsuranceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadRc2Insurance', 'rc2Insurance'),
                         'required' => false,
                     ]
                 )
@@ -235,7 +257,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Rebut RC',
-                        'help' => $this->getSmartHelper('getRcReceipt', 'rcReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadRcReceipt', 'rcReceipt'),
                         'required' => false,
                     ]
                 )
@@ -246,7 +268,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Contracte',
-                        'help' => $this->getSmartHelper('getPreventionServiceContract', 'preventionServiceContractFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadPreventionServiceContract', 'preventionServiceContract'),
                         'required' => false,
                     ]
                 )
@@ -255,7 +277,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Factura',
-                        'help' => $this->getSmartHelper('getPreventionServiceInvoice', 'preventionServiceInvoiceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadPreventionServiceInvoice', 'preventionServiceInvoice'),
                         'required' => false,
                     ]
                 )
@@ -264,7 +286,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Rebut',
-                        'help' => $this->getSmartHelper('getPreventionServiceReceipt', 'preventionServiceReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadPreventionServiceReceipt', 'preventionServiceReceipt'),
                         'required' => false,
                     ]
                 )
@@ -275,7 +297,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Assegurança d\'accident de treball',
-                        'help' => $this->getSmartHelper('getOccupationalAccidentsInsurance', 'occupationalAccidentsInsuranceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadOccupationalAccidentsInsurance', 'occupationalAccidentsInsurance'),
                         'required' => false,
                     ]
                 )
@@ -284,7 +306,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Rebut',
-                        'help' => $this->getSmartHelper('getOccupationalReceipt', 'occupationalReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadOccupationalReceipt', 'occupationalReceipt'),
                         'required' => false,
                     ]
                 )
@@ -293,7 +315,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Avaluació riscos',
-                        'help' => $this->getSmartHelper('getLaborRiskAssessment', 'laborRiskAssessmentFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadLaborRiskAssessment', 'laborRiskAssessment'),
                         'required' => false,
                     ]
                 )
@@ -302,7 +324,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Pla seguretat',
-                        'help' => $this->getSmartHelper('getSecurityPlan', 'securityPlanFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadSecurityPlan', 'securityPlan'),
                         'required' => false,
                     ]
                 )
@@ -313,7 +335,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Alta IAE',
-                        'help' => $this->getSmartHelper('getIaeRegistration', 'iaeRegistrationFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadIaeRegistration', 'iaeRegistration'),
                         'required' => false,
                     ]
                 )
@@ -322,7 +344,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Rebut IAE',
-                        'help' => $this->getSmartHelper('getIaeReceipt', 'iaeReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadIaeReceipt', 'iaeReceipt'),
                         'required' => false,
                     ]
                 )
@@ -333,7 +355,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Escritura constitució',
-                        'help' => $this->getSmartHelper('getDeedOfIncorporation', 'deedOfIncorporationFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadDeedOfIncorporationAction', 'deedOfIncorporation'),
                         'required' => false,
                     ]
                 )
@@ -342,7 +364,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Carta CIF',
-                        'help' => $this->getSmartHelper('getTaxIdentificationNumberCard', 'taxIdentificationNumberCardFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadTaxIdentificationNumberCardAction', 'taxIdentificationNumberCard'),
                         'required' => false,
                     ]
                 )
@@ -351,7 +373,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Certificat REA',
-                        'help' => $this->getSmartHelper('getReaCertificate', 'reaCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadReaCertificate', 'reaCertificate'),
                         'required' => false,
                     ]
                 )
@@ -360,7 +382,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Certificat recullida d\'oli',
-                        'help' => $this->getSmartHelper('getOilCertificate', 'oilCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadOilCertificate', 'oilCertificate'),
                         'required' => false,
                     ]
                 )
@@ -369,7 +391,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Certificat pagament Generalitat',
-                        'help' => $this->getSmartHelper('getGencatPaymentCertificate', 'gencatPaymentCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadGencatPaymentCertificate', 'gencatPaymentCertificate'),
                         'required' => false,
                     ]
                 )
@@ -378,7 +400,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Escriptura de poder',
-                        'help' => $this->getSmartHelper('getDeedsOfPowers', 'deedsOfPowersFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadDeedsOfPowers', 'deedsOfPowers'),
                         'required' => false,
                     ]
                 )
@@ -387,7 +409,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Document associació a mutua',
-                        'help' => $this->getSmartHelper('getMutualPartnership', 'mutualPartnershipFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadMutualPartnership', 'mutualPartnership'),
                         'required' => false,
                     ]
                 )

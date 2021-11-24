@@ -230,4 +230,20 @@ class EnterpriseAdminController extends BaseAdminController
 
         return $this->downloadDocument($id, $downloadHandler, $enterprise, 'mutualPartnershipFile', $enterprise->getMutualPartnership());
     }
+
+    public function downloadDeedOfIncorporationAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'deedOfIncorporationFile', $enterprise->getDeedOfIncorporation());
+    }
+
+    public function downloadTaxIdentificationNumberCardAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'taxIdentificationNumberCardFile', $enterprise->getTaxIdentificationNumberCard());
+    }
 }
