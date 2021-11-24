@@ -877,7 +877,7 @@ class Operator extends AbstractBase
      */
     public function getTaxIdentificationNumberImageFile()
     {
-        return $this->taxIdentificationNumberImageFile;
+        return $this->$taxIdentificationNumberImageFile;
     }
 
     /**
