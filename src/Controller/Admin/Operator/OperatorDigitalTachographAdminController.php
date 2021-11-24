@@ -22,7 +22,7 @@ class OperatorDigitalTachographAdminController extends BaseAdminController
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
-        /** @var OperatorDigitalTachograph $tachograph */
+        /** @var OperatorDigitalTachograph $operatorDigitalTachograph */
         $operatorDigitalTachograph = $this->admin->getObject($id);
         if (!$operatorDigitalTachograph) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
@@ -35,6 +35,6 @@ class OperatorDigitalTachographAdminController extends BaseAdminController
 
         $downloadHandler = $this->container->get('vich_uploader.download_handler');
 
-        return $downloadHandler->downloadObject($tachograph, 'uploadedFile');
+        return $downloadHandler->downloadObject($operatorDigitalTachograph, 'uploadedFile');
     }
 }

@@ -39,7 +39,7 @@ vich_uploader:
             upload_destination: '%kernel.project_dir%/public/uploads/documents/vehicle'
         digital_tachograph_operator:
             uri_prefix:         /uploads/digital_tachograph/operator
-            upload_destination: '%kernel.project_dir%/public/uploads/digital_tachograph/operator'
+            upload_destination: '%kernel.project_dir%/var/uploads/digital_tachograph/operator'
         digital_tachograph_vehicle:
             uri_prefix:         /uploads/digital_tachograph/vehicle
             upload_destination: '%kernel.project_dir%/var/uploads/digital_tachograph/vehicle'
