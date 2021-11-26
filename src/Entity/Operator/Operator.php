@@ -1726,7 +1726,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function getWorkRegisterHeaders(): ArrayCollection
+    public function getWorkRegisterHeaders(): Collection
     {
         return $this->workRegisterHeaders;
     }

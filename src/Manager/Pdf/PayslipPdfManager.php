@@ -2,6 +2,8 @@
 
 namespace App\Manager\Pdf;
 
+use App\Entity\Operator\OperatorWorkRegister;
+use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Entity\Payslip\Payslip;
 use App\Enum\ConstantsEnum;
 use App\Service\PdfEngineService;
@@ -41,6 +43,44 @@ class PayslipPdfManager
 
     private function buildOnePayslipPerPage(Payslip $payslip, TCPDF $pdf): TCPDF
     {
+        $fromDate = $payslip->getFromDate();
+        $toDate = $payslip->getToDate();
+        $workRegisterHeaders = $payslip->getOperator()->getWorkRegisterHeaders()->filter(function (OperatorWorkRegisterHeader $owrh) use ($fromDate, $toDate) {
+            return ($owrh->getDate() >= $fromDate) && ($owrh->getDate() <= $toDate);
+        });
+        $bountyGroup = $payslip->getOperator()->getEnterpriseGroupBounty();
+        $workingHourPrice = $bountyGroup->getNormalHour();
+        // totals
+        $totalWorkingHours = 0;
+        $totalNormalHours = 0;
+        $totalExtraHours = 0;
+        $totalLunch = 0;
+        /** @var OperatorWorkRegisterHeader $workRegisterHeader */
+        foreach ($workRegisterHeaders as $workRegisterHeader) {
+            $workRegisters = $workRegisterHeader->getOperatorWorkRegisters();
+            $workingHours = 0;
+            $normalHours = 0;
+            $extraHours = 0;
+            $lunch = 0;
+            /** @var OperatorWorkRegister $workRegister */
+            foreach ($workRegisters as $workRegister) {
+                if (str_contains($workRegister->getDescription(), 'Hora laboral')) {
+                    $workingHours += $workRegister->getUnits();
+                }
+                if (str_contains($workRegister->getDescription(), 'Hora normal')) {
+                    $normalHours += $workRegister->getUnits();
+                }
+                if (str_contains($workRegister->getDescription(), 'Hora extra')) {
+                    $extraHours += $workRegister->getUnits();
+                }
+                if (str_contains($workRegister->getDescription(), 'Comida')) {
+                    $lunch += $workRegister->getUnits();
+                }
+            }
+            $totalWorkingHours += $workingHours;
+            $totalNormalHours += $normalHours;
+            // Draw each line, as every workReagister header refers to a date
+        }
         // add start page
         $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
