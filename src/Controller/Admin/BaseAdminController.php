@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Vich\UploaderBundle\Exception\NoFileFoundException;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -51,18 +52,13 @@ abstract class BaseAdminController extends Controller
                 $fileName = $documentName,
                 $forceDownload = false
             );
-        } catch (\ErrorException $e) {
+        } catch (\ErrorException | NoFileFoundException $e) {
             $this->addFlash(
                 'warning',
                 'No se pudo recuperar el documento  '.$documentName.'.'
             );
             $referer = $this->getRequest()->headers->get('referer');
-            if (null == $referer) {
-                $url = $this->router->generate('fallback_url');
-            } else {
-                $url = $referer;
-            }
-            $return = new RedirectResponse($url);
+            $return = new RedirectResponse($referer);
         }
 
         return $return;
