@@ -56,6 +56,7 @@ class PayslipAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
+            ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->remove('create')
         ;
     }
@@ -367,6 +368,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
