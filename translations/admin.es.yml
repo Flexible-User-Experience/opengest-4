@@ -117,7 +117,7 @@ admin:
         to: "Hasta"
         expenses: "Dietas"
         social_security_cost: "Coste seguridad social"
-        extra_pay: "Paga extra"
+        extra_pay: "Plus productividad"
         other_costs: "Otros costes"
         vehicle_registration_number: "Matrícula"
         chassis_brand: "Marca chasis"
