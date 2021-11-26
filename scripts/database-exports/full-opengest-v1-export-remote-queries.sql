@@ -220,8 +220,8 @@ FROM opengest.Facturas F
 JOIN opengest.Serie S ON S.id = F.serie_id
 JOIN opengest.Terceros T ON T.id = F.tercero_id
 JOIN opengest.Empresas E ON E.id = T.empresa_id
-ORDER BY F.id
-WHERE E.id = 1;
+WHERE E.id = 1
+ORDER BY F.id;
 
 SELECT A.*, LA.nombre AS LA_nombre, TDC.nombre AS TDC_nombre, P.num_pedido AS P_num_pedido, T.cif_nif AS T_cif_nif, E.cif_nif AS E_cif_nif, O.nombre AS O_nombre
 INTO OUTFILE '/var/lib/mysql-files/sale_delivery_note.csv'
