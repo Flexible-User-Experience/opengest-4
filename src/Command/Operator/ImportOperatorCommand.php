@@ -38,10 +38,7 @@ class ImportOperatorCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -169,7 +166,7 @@ class ImportOperatorCommand extends AbstractBaseCommand
                     ->setSocialSecurityNumber($this->readColumn(37, $row))
                     ->setEpisImage(is_array($episImg) ? $episImg[1] : null)
                     ->setTrainingDocumentImage(is_array($trainingDocImg) ? $trainingDocImg[1] : null)
-                    ->setInformationImage(is_array($informationImg) ? $trainingDocImg[1] : null)
+                    ->setInformationImage(is_array($informationImg) ? $informationImg[1] : null)
                     ->setUseOfMachineryAuthorizationImage(is_array($useOfMachineryAuthorizationImg) ? $useOfMachineryAuthorizationImg[1] : null)
                     ->setDischargeSocialSecurityImage(is_array($dischargeSocialSecurityImg) ? $dischargeSocialSecurityImg[1] : null)
                     ->setEmploymentContractImage(is_array($employmentContractImg) ? $employmentContractImg[1] : null)
