@@ -25,7 +25,7 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Grupos_primas GP
 JOIN opengest.Empresas E ON E.id = GP.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT DF.*, E.cif_nif
 INTO OUTFILE '/var/lib/mysql-files/enterprise_holidays.csv'
@@ -35,7 +35,7 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Dias_festivos DF
 JOIN opengest.Empresas E ON E.id = DF.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT CT.*, E.cif_nif
 INTO OUTFILE '/var/lib/mysql-files/enterprise_transfer_accounts.csv'
@@ -45,7 +45,7 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Cuentas_transferencia CT
 JOIN opengest.Empresas E ON E.id = CT.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT LA.*, E.cif_nif
 INTO OUTFILE '/var/lib/mysql-files/enterprise_activity_lines.csv'
@@ -55,7 +55,7 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Lineas_actividad LA
 JOIN opengest.Empresas E ON E.id = LA.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 -- Operator
 
@@ -67,7 +67,7 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Operarios O
 JOIN opengest.Empresas E ON E.id = O.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT TRO.*
 INTO OUTFILE '/var/lib/mysql-files/operator_checking_types.csv'
@@ -152,7 +152,7 @@ JOIN opengest.Empresas E ON E.id = T.empresa_id
 JOIN opengest.Tipos_terceros TT ON TT.id = T.tipo_tercero_id
 JOIN opengest.Clases_terceros CT ON CT.id = T.clase_tercero_id
 LEFT JOIN opengest.Cuentas_transferencia CUTR ON CUTR.id = T.cuenta_transferencia_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT C.*, T.cif_nif AS T_cif_nif, E.cif_nif AS E_cif_nif
 INTO OUTFILE '/var/lib/mysql-files/partner_contacts.csv'
@@ -163,7 +163,7 @@ LINES TERMINATED BY '\n'
 FROM opengest.Contactos C
 JOIN opengest.Terceros T ON T.id = C.tercero_id
 JOIN opengest.Empresas E ON E.id = T.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT DI.*, T.cif_nif AS T_cif_nif, E.cif_nif AS E_cif_nif
 INTO OUTFILE '/var/lib/mysql-files/partner_unabled_days.csv'
@@ -174,7 +174,7 @@ LINES TERMINATED BY '\n'
 FROM opengest.Dias_inhabiles DI
 JOIN opengest.Terceros T ON T.id = DI.tercero_id
 JOIN opengest.Empresas E ON E.id = T.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT O.*, T.cif_nif AS T_cif_nif, E.cif_nif AS E_cif_nif
 INTO OUTFILE '/var/lib/mysql-files/partner_building_sites.csv'
@@ -185,7 +185,7 @@ LINES TERMINATED BY '\n'
 FROM opengest.Obras O
 JOIN opengest.Terceros T ON T.id = O.tercero_id
 JOIN opengest.Empresas E ON E.id = T.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT P.*, T.cif_nif AS T_cif_nif, E.cif_nif AS E_cif_nif
 INTO OUTFILE '/var/lib/mysql-files/partner_orders.csv'
@@ -196,7 +196,7 @@ LINES TERMINATED BY '\n'
 FROM opengest.Pedidos P
 JOIN opengest.Terceros T ON T.id = P.tercero_id
 JOIN opengest.Empresas E ON E.id = T.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 -- Sale
 
@@ -208,7 +208,7 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Tarifas T
 JOIN opengest.Empresas E ON E.id = T.empresa_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT F.*, S.nombre AS S_nombre, T.cif_nif AS T_cif_nif, E.cif_nif AS E_cif_nif
 INTO OUTFILE '/var/lib/mysql-files/sale_invoice.csv'
@@ -221,7 +221,7 @@ JOIN opengest.Serie S ON S.id = F.serie_id
 JOIN opengest.Terceros T ON T.id = F.tercero_id
 JOIN opengest.Empresas E ON E.id = T.empresa_id
 ORDER BY F.id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 SELECT A.*, LA.nombre AS LA_nombre, TDC.nombre AS TDC_nombre, P.num_pedido AS P_num_pedido, T.cif_nif AS T_cif_nif, E.cif_nif AS E_cif_nif, O.nombre AS O_nombre
 INTO OUTFILE '/var/lib/mysql-files/sale_delivery_note.csv'
@@ -236,7 +236,7 @@ LEFT JOIN opengest.Pedidos P ON P.id = A.pedido_id
 LEFT JOIN opengest.Terceros T ON T.id = A.tercero_id
 LEFT JOIN opengest.Empresas E ON E.id = A.empresa_id
 LEFT JOIN opengest.Obras O ON O.id = A.obra_id
-WHERE E.id = 1;;
+WHERE E.id = 1;
 
 -- Setting
 
