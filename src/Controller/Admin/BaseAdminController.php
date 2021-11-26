@@ -4,8 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Manager\InvoiceManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Vich\UploaderBundle\Exception\NoFileFoundException;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -42,12 +44,23 @@ abstract class BaseAdminController extends Controller
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
-        return $downloadHandler->downloadObject(
-            $object,
-            $fileField = $documentFile,
-            $objectClass = get_class($object),
-            $fileName = $documentName,
-            $forceDownload = false
-        );
+        try {
+            $return = $downloadHandler->downloadObject(
+                $object,
+                $fileField = $documentFile,
+                $objectClass = get_class($object),
+                $fileName = $documentName,
+                $forceDownload = false
+            );
+        } catch (\ErrorException | NoFileFoundException $e) {
+            $this->addFlash(
+                'warning',
+                'No se pudo recuperar el documento  '.$documentName.'.'
+            );
+            $referer = $this->getRequest()->headers->get('referer');
+            $return = new RedirectResponse($referer);
+        }
+
+        return $return;
     }
 }

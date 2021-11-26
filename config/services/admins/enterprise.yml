@@ -9,7 +9,7 @@ services:
         class: App\Admin\Enterprise\EnterpriseGroupBountyAdmin
         arguments: [ ~, App\Entity\Enterprise\EnterpriseGroupBounty, App\Controller\Admin\Enterprise\EnterpriseGroupBountyAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Grupo prima", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Complementos salariales", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.enterprise_transfer_account:
         class: App\Admin\Enterprise\EnterpriseTransferAccountAdmin
         arguments: [ ~, App\Entity\Enterprise\EnterpriseTransferAccount, App\Controller\Admin\Enterprise\EnterpriseTransferAccountAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]

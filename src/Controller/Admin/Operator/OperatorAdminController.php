@@ -45,26 +45,92 @@ class OperatorAdminController extends BaseAdminController
         return parent::editAction($id);
     }
 
-    public function downloadProfilePhotoImageAction($id = null, DownloadHandler $downloadHandler): Response
+    public function downloadProfilePhotoImageAction($id, DownloadHandler $downloadHandler): Response
     {
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
-        if (!$operator) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->get('app.guard_service');
-        if (!$guardService->isOwnOperator($operator)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
-        }
 
-        return $downloadHandler->downloadObject(
-            $operator,
-            $fileField = 'profilePhotoImageFile',
-            $objectClass = Operator::class,
-            $fileName = $operator->getProfilePhotoImage(),
-            $forceDownload = false
-        );
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'profilePhotoImageFile', $operator->getProfilePhotoImage());
+    }
+
+    public function downloadTaxIdentificationNumberImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'taxIdentificationNumberImageFile', $operator->getTaxIdentificationNumberImage());
+    }
+
+    public function downloadDrivingLicenseImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'drivingLicenseImageFile', $operator->getDrivingLicenseImage());
+    }
+
+    public function downloadCranesOperatorLicenseImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'cranesOperatorLicenseImageFile', $operator->getCranesOperatorLicenseImage());
+    }
+
+    public function downloadMedicalCheckImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'medicalCheckImageFile', $operator->getMedicalCheckImage());
+    }
+
+    public function downloadEpisImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'episImageFile', $operator->getEpisImage());
+    }
+
+    public function downloadTrainingDocumentImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'trainingDocumentImageFile', $operator->getTrainingDocumentImage());
+    }
+
+    public function downloadInformationImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'informationImageFile', $operator->getInformationImage());
+    }
+
+    public function downloadUseOfMachineryAuthorizationImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'useOfMachineryAuthorizationImageFile', $operator->getUseOfMachineryAuthorizationImage());
+    }
+
+    public function downloadDischargeSocialSecurityImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'dischargeSocialSecurityImageFile', $operator->getDischargeSocialSecurityImage());
+    }
+
+    public function downloadEmploymentContractImageAction($id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Operator $operator */
+        $operator = $this->admin->getObject($id);
+
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'employmentContractImageFile', $operator->getEmploymentContractImage());
     }
 
     public function batchActionCreatePayslipFromOperators(ProxyQueryInterface $selectedModelQuery, Request $request)

@@ -3,6 +3,7 @@
 namespace App\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Name trait.
@@ -17,6 +18,7 @@ trait NameTrait
      * @var string
      *
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"api"})
      */
     private $name;
 

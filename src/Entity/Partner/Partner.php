@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\City;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -299,6 +300,13 @@ class Partner extends AbstractBase
     private $saleDeliveryNotes;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoice", mappedBy="partner")
+     */
+    private $saleInvoices;
+
+    /**
      * Methods.
      */
 
@@ -313,6 +321,7 @@ class Partner extends AbstractBase
         $this->saleRequests = new ArrayCollection();
         $this->partnerUnableDays = new ArrayCollection();
         $this->saleDeliveryNotes = new ArrayCollection();
+        $this->saleInvoices = new ArrayCollection();
     }
 
     /**
@@ -968,8 +977,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerOrder $order
-     *
      * @return $this
      */
     public function addOrder(PartnerOrder $order)
@@ -983,8 +990,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerOrder $order
-     *
      * @return $this
      */
     public function remmoveOrder(PartnerOrder $order)
@@ -1017,8 +1022,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerBuildingSite $buildingSite
-     *
      * @return $this
      */
     public function addBuildingSite(PartnerBuildingSite $buildingSite)
@@ -1032,8 +1035,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerBuildingSite $buildingSite
-     *
      * @return $this
      */
     public function removeBuildingSite(PartnerBuildingSite $buildingSite)
@@ -1245,19 +1246,11 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getSaleTariffs(): ArrayCollection
     {
         return $this->saleTariffs;
     }
 
-    /**
-     * @param ArrayCollection $saleTariffs
-     *
-     * @return Partner
-     */
     public function setSaleTariffs(ArrayCollection $saleTariffs): Partner
     {
         $this->saleTariffs = $saleTariffs;
@@ -1265,11 +1258,6 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param SaleTariff $saleTariff
-     *
-     * @return Partner
-     */
     public function addSaleTariff(SaleTariff $saleTariff): Partner
     {
         if (!$this->saleTariffs->contains($saleTariff)) {
@@ -1281,8 +1269,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param SaleTariff $saleTariff
-     *
      * @return $this
      */
     public function removeSaleTariff(SaleTariff $saleTariff)
@@ -1291,6 +1277,21 @@ class Partner extends AbstractBase
             $this->saleTariffs->removeElement($saleTariff);
             $saleTariff->setPartner();
         }
+
+        return $this;
+    }
+
+    /**
+     * @return ?Collection
+     */
+    public function getSaleInvoices(): ?Collection
+    {
+        return $this->saleInvoices;
+    }
+
+    public function setSaleInvoices(ArrayCollection $saleInvoices): Partner
+    {
+        $this->saleInvoices = $saleInvoices;
 
         return $this;
     }

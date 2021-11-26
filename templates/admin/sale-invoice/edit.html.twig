@@ -163,6 +163,12 @@
 {% block sonata_form_actions %}
     {% if form.vars.data.hasBeenCounted %}
         <b>No se puede modificar una factura contabilizada.</b>
+        <p>
+            <a href="{{ path('admin_app_sale_saleinvoice_setHasNotBeenCounted', { 'id': object.id }) }}">
+                Descontabilizar
+            </a>
+            (los cambios <strong>no</strong> se verán reflejados en la contabilidad)
+        </p>
     {% else %}
         {{ parent() }}
     {% endif %}

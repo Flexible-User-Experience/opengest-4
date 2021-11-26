@@ -48,9 +48,13 @@ services:
     App\Manager\Pdf\SaleRequestPdfManager:
         class: App\Manager\Pdf\SaleRequestPdfManager
         arguments: [ '@app.pdf_engine' ]
-#    app.sale_request_pdf_manager:
+#    app.sale_delivery_note_pdf_manager:
     App\Manager\Pdf\SaleDeliveryNotePdfManager:
         class: App\Manager\Pdf\SaleDeliveryNotePdfManager
+        arguments: [ '@app.pdf_engine' ]
+#    app.payslip_pdf_manager:
+    App\Manager\Pdf\PayslipPdfManager:
+        class: App\Manager\Pdf\PayslipPdfManager
         arguments: [ '@app.pdf_engine' ]
     # Messaging
     app.courier:

@@ -173,6 +173,8 @@ class Payslip extends AbstractBase
      */
     public function getExtraPay(): float
     {
+        $this->setExtraPay(0);
+
         return $this->extraPay;
     }
 
@@ -181,6 +183,14 @@ class Payslip extends AbstractBase
      */
     public function setExtraPay($extraPay): Payslip
     {
+        $extraPay = 0;
+        $payslipLineExtraPays = $this->getPayslipLines()->filter(function (PayslipLine $payslipLine) {
+            return 5 == $payslipLine->getPayslipLineConcept()->getId();
+        });
+        /** @var PayslipLine $lineExtraPay */
+        foreach ($payslipLineExtraPays as $lineExtraPay) {
+            $extraPay += $lineExtraPay->getAmount();
+        }
         $this->extraPay = $extraPay;
 
         return $this;
@@ -261,9 +271,7 @@ class Payslip extends AbstractBase
 
         return $this;
     }
-    /**
-     * @return string
-     */
+
     public function getFromDateFormatted(): string
     {
         return $this->getFromDate()->format('d/m/y');
