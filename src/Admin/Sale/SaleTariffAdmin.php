@@ -378,6 +378,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.sale_serivce_tariff',
+                    'associated_property' => 'description',
                     'sortable' => true,
                 ]
             )
