@@ -58,7 +58,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'taxIdentificationNumberImage', $operator->getTaxIdentificationNumberImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'taxIdentificationNumberImageFile', $operator->getTaxIdentificationNumberImage());
     }
 
     public function downloadDrivingLicenseImageAction($id, DownloadHandler $downloadHandler): Response
@@ -66,7 +66,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'drivingLicenseImage', $operator->getDrivingLicenseImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'drivingLicenseImageFile', $operator->getDrivingLicenseImage());
     }
 
     public function downloadCranesOperatorLicenseImageAction($id, DownloadHandler $downloadHandler): Response
@@ -74,7 +74,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'cranesOperatorLicenseImage', $operator->getCranesOperatorLicenseImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'cranesOperatorLicenseImageFile', $operator->getCranesOperatorLicenseImage());
     }
 
     public function downloadMedicalCheckImageAction($id, DownloadHandler $downloadHandler): Response
@@ -82,7 +82,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'medicalCheckImage', $operator->getMedicalCheckImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'medicalCheckImageFile', $operator->getMedicalCheckImage());
     }
 
     public function downloadEpisImageAction($id, DownloadHandler $downloadHandler): Response
@@ -90,7 +90,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'episImage', $operator->getEpisImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'episImageFile', $operator->getEpisImage());
     }
 
     public function downloadTrainingDocumentImageAction($id, DownloadHandler $downloadHandler): Response
@@ -98,7 +98,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'trainingDocumentImage', $operator->getTrainingDocumentImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'trainingDocumentImageFile', $operator->getTrainingDocumentImage());
     }
 
     public function downloadInformationImageAction($id, DownloadHandler $downloadHandler): Response
@@ -106,7 +106,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'informationImage', $operator->getInformationImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'informationImageFile', $operator->getInformationImage());
     }
 
     public function downloadUseOfMachineryAuthorizationImageAction($id, DownloadHandler $downloadHandler): Response
@@ -114,7 +114,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'useOfMachineryAuthorizationImage', $operator->getUseOfMachineryAuthorizationImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'useOfMachineryAuthorizationImageFile', $operator->getUseOfMachineryAuthorizationImage());
     }
 
     public function downloadDischargeSocialSecurityImageAction($id, DownloadHandler $downloadHandler): Response
@@ -122,7 +122,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'dischargeSocialSecurityImage', $operator->getDischargeSocialSecurityImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'dischargeSocialSecurityImageFile', $operator->getDischargeSocialSecurityImage());
     }
 
     public function downloadEmploymentContractImageAction($id, DownloadHandler $downloadHandler): Response
@@ -130,7 +130,7 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $operator, 'employmentContractImage', $operator->getEmploymentContractImage());
+        return $this->downloadDocument($id, $downloadHandler, $operator, 'employmentContractImageFile', $operator->getEmploymentContractImage());
     }
 
     public function batchActionCreatePayslipFromOperators(ProxyQueryInterface $selectedModelQuery, Request $request)

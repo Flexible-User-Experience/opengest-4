@@ -62,6 +62,16 @@ class OperatorAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadProfilePhotoImage', $this->getRouterIdParameter().'/profilePhoto')
+            ->add('downloadTaxIdentificationNumberImage', $this->getRouterIdParameter().'/dni')
+            ->add('downloadDrivingLicenseImage', $this->getRouterIdParameter().'/permiso-conducir')
+            ->add('downloadCranesOperatorLicenseImage', $this->getRouterIdParameter().'/licencia-operador-gruas')
+            ->add('downloadMedicalCheckImage', $this->getRouterIdParameter().'/revision-medica')
+            ->add('downloadEpisImage', $this->getRouterIdParameter().'/epis')
+            ->add('downloadTrainingDocumentImage', $this->getRouterIdParameter().'/formacion')
+            ->add('downloadInformationImage', $this->getRouterIdParameter().'/informacion')
+            ->add('downloadUseOfMachineryAuthorizationImage', $this->getRouterIdParameter().'/autorizacion-maquinaria')
+            ->add('downloadDischargeSocialSecurityImage', $this->getRouterIdParameter().'/baja-seguridad-social')
+            ->add('downloadEmploymentContractImage', $this->getRouterIdParameter().'/contrato-de-trabajo')
             ->add('generatePayslips', 'generate-payslips')
             ->add('batch')
             ->remove('delete');
@@ -323,7 +333,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'DNI/NIE',
-                            'help' => $this->getSmartHelper('getTaxIdentificationNumberImage', 'taxIdentificationNumberImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
                             'required' => false,
                         ]
                     )
@@ -334,7 +344,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'Baixa Seguretat Social',
-                            'help' => $this->getSmartHelper('getDischargeSocialSecurityImage', 'dischargeSocialSecurityImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDischargeSocialSecurityImage', 'dischargeSocialSecurityImage'),
                             'required' => false,
                         ]
                     )
@@ -345,7 +355,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'Contracte',
-                            'help' => $this->getSmartHelper('getEmploymentContractImage', 'employmentContractImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEmploymentContractImage', 'employmentContractImage'),
                             'required' => false,
                         ]
                     )
@@ -356,7 +366,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Revisió mèdica',
-                        'help' => $this->getSmartHelper('getMedicalCheckImage', 'medicalCheckImageFile'),
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadMedicalCheckImage', 'medicalCheckImage'),
                         'required' => false,
                     ]
                 )
@@ -367,7 +377,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'EPI',
-                            'help' => $this->getSmartHelper('getEpisImage', 'episImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEpisImage', 'episImage'),
                             'required' => false,
                         ]
                     )
@@ -378,7 +388,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'Títol de formació',
-                            'help' => $this->getSmartHelper('getTrainingDocumentImage', 'trainingDocumentImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTrainingDocumentImage', 'trainingDocumentImage'),
                             'required' => false,
                         ]
                     )
@@ -389,7 +399,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'Altra informació',
-                            'help' => $this->getSmartHelper('getInformationImage', 'informationImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadInformationImage', 'informationImage'),
                             'required' => false,
                         ]
                     )
@@ -400,7 +410,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'Carnet de conduir',
-                            'help' => $this->getSmartHelper('getDrivingLicenseImage', 'drivingLicenseImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDrivingLicenseImage', 'drivingLicenseImage'),
                             'required' => false,
                         ]
                     )
@@ -409,7 +419,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'Autorització de maquinària',
-                            'help' => $this->getSmartHelper('getUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImage'),
                             'required' => false,
                         ]
                     )
@@ -418,7 +428,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         FileType::class,
                         [
                             'label' => 'Llicència d\'operari',
-                            'help' => $this->getSmartHelper('getCranesOperatorLicenseImage', 'cranesOperatorLicenseImageFile'),
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadCranesOperatorLicenseImage', 'cranesOperatorLicenseImage'),
                             'required' => false,
                         ]
                     )
