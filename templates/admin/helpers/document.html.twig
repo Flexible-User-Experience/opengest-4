@@ -4,7 +4,7 @@
 {#            TODO View pdf correctly #}
 {#            <canvas id="pdf-{{ object.id }}" class="pdf-canvas"></canvas>#}
         {% else %}
-            <img src="{{ documentSrc }}" alt="thumbnail" style="height: 150px">
+            <img src="{{ documentSrc }}" alt="No se puede recuperar la imagen" style="height: 150px">
         {% endif %}
         <span class="span-helper">PDF, JPG o PNG. 10MB max</span>
         <a class="btn btn-warning btn-xs" href="{{ documentSrc }}">
