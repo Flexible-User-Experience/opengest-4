@@ -6,7 +6,6 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
-use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -100,7 +99,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoice_number_long',
-                    'disabled' => true,
                 ]
             )
             ->add(
@@ -111,7 +109,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'class' => SaleInvoiceSeries::class,
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
                     'choice_label' => 'name',
-                    'disabled' => $this->id($this->getSubject()),
                 ]
             )
             ->add(
@@ -119,10 +116,8 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 DatePickerType::class,
                 [
                     'label' => 'admin.label.date',
-                    'format' => 'd/m/Y',
+                    'format' => 'd/M/y',
                     'required' => true,
-                    'dp_default_date' => (new DateTime())->format('d/m/Y'),
-                    'disabled' => true,
                 ]
             )
             ->add(
