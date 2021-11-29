@@ -326,43 +326,40 @@ class OperatorAdmin extends AbstractBaseAdmin
                     )
                 ->end()
             ->end()
-            ;
-        if ($this->id($this->getSubject())) {
-            $formMapper
-                ->tab('Documentación')
+            ->tab('Documentación')
                 ->with('No. d\'identificació fiscal', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'taxIdentificationNumberImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'DNI/NIE',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
-                        'required' => false,
-                    ]
-                )
-                ->end()
+                    ->add(
+                        'taxIdentificationNumberImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'DNI/NIE',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
+                            'required' => false,
+                        ]
+                    )
+                    ->end()
                 ->with('Seguretat Social', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'dischargeSocialSecurityImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'Baixa Seguretat Social',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDischargeSocialSecurityImage', 'dischargeSocialSecurityImage'),
-                        'required' => false,
-                    ]
-                )
+                    ->add(
+                        'dischargeSocialSecurityImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'Baixa Seguretat Social',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDischargeSocialSecurityImage', 'dischargeSocialSecurityImage'),
+                            'required' => false,
+                        ]
+                    )
                 ->end()
                 ->with('Contracte de treball', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'employmentContractImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'Contracte',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEmploymentContractImage', 'employmentContractImage'),
-                        'required' => false,
-                    ]
-                )
-                ->end()
+                    ->add(
+                        'employmentContractImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'Contracte',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEmploymentContractImage', 'employmentContractImage'),
+                            'required' => false,
+                        ]
+                    )
+                    ->end()
                 ->with('Informe mèdic', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'medicalCheckImageFile',
@@ -375,157 +372,157 @@ class OperatorAdmin extends AbstractBaseAdmin
                 )
                 ->end()
                 ->with('EPI\'s', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'episImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'EPI',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEpisImage', 'episImage'),
-                        'required' => false,
-                    ]
-                )
+                    ->add(
+                        'episImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'EPI',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEpisImage', 'episImage'),
+                            'required' => false,
+                        ]
+                    )
                 ->end()
                 ->with('Formació', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'trainingDocumentImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'Títol de formació',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTrainingDocumentImage', 'trainingDocumentImage'),
-                        'required' => false,
-                    ]
-                )
+                    ->add(
+                        'trainingDocumentImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'Títol de formació',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTrainingDocumentImage', 'trainingDocumentImage'),
+                            'required' => false,
+                        ]
+                    )
                 ->end()
                 ->with('Altres Documents', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'informationImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'Altra informació',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadInformationImage', 'informationImage'),
-                        'required' => false,
-                    ]
-                )
+                    ->add(
+                        'informationImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'Altra informació',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadInformationImage', 'informationImage'),
+                            'required' => false,
+                        ]
+                    )
                 ->end()
                 ->with('Llicències', $this->getFormMdSuccessBoxArray(3))
-                ->add(
-                    'drivingLicenseImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'Carnet de conduir',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDrivingLicenseImage', 'drivingLicenseImage'),
-                        'required' => false,
-                    ]
-                )
-                ->add(
-                    'useOfMachineryAuthorizationImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'Autorització de maquinària',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImage'),
-                        'required' => false,
-                    ]
-                )
-                ->add(
-                    'cranesOperatorLicenseImageFile',
-                    FileType::class,
-                    [
-                        'label' => 'Llicència d\'operari',
-                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadCranesOperatorLicenseImage', 'cranesOperatorLicenseImage'),
-                        'required' => false,
-                    ]
-                )
+                    ->add(
+                        'drivingLicenseImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'Carnet de conduir',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDrivingLicenseImage', 'drivingLicenseImage'),
+                            'required' => false,
+                        ]
+                    )
+                    ->add(
+                        'useOfMachineryAuthorizationImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'Autorització de maquinària',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImage'),
+                            'required' => false,
+                        ]
+                    )
+                    ->add(
+                        'cranesOperatorLicenseImageFile',
+                        FileType::class,
+                        [
+                            'label' => 'Llicència d\'operari',
+                            'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadCranesOperatorLicenseImage', 'cranesOperatorLicenseImage'),
+                            'required' => false,
+                        ]
+                    )
                 ->end()
-                ->end()
-                ->tab('Revisiones')
-                ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
-                ->add(
-                    'operatorCheckings',
-                    CollectionType::class,
-                    [
-                        'required' => false,
-                        'error_bubbling' => true,
-                        'label' => false,
-                    ],
-                    [
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                    ]
-                )
-                ->end()
-                ->end()
-                ->tab('Ausencias')
-                ->with('Ausencias', $this->getFormMdSuccessBoxArray(12))
-                ->add(
-                    'operatorAbsences',
-                    CollectionType::class,
-                    [
-                        'required' => false,
-                        'error_bubbling' => true,
-                        'label' => false,
-                    ],
-                    [
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                    ]
-                )
-                ->end()
-                ->end()
-                ->tab('Tacógrafo')
-                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
-                ->add(
-                    'operatorDigitalTachographs',
-                    CollectionType::class,
-                    [
-                        'required' => false,
-                        'error_bubbling' => true,
-                        'label' => false,
-                    ],
-                    [
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                    ]
-                )
-                ->end()
-                ->end()
-                ->tab('Nóminas')
+            ->end()
+            ->tab('Revisiones')
+            ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'operatorCheckings',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
+            ->tab('Ausencias')
+            ->with('Ausencias', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'operatorAbsences',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
+            ->tab('Tacógrafo')
+            ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'operatorDigitalTachographs',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
+            ->tab('Nóminas')
                 ->with('Conceptos por defecto', $this->getFormMdSuccessBoxArray(12))
-                ->add(
-                    'payslipOperatorDefaultLines',
-                    CollectionType::class,
-                    [
-                        'required' => false,
-                        'error_bubbling' => true,
-                        'label' => false,
-                    ],
-                    [
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                    ]
-                )
+                    ->add(
+                        'payslipOperatorDefaultLines',
+                        CollectionType::class,
+                        [
+                            'required' => false,
+                            'error_bubbling' => true,
+                            'label' => false,
+                        ],
+                        [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ]
+                    )
                 ->end()
                 ->with('Nóminas', $this->getFormMdSuccessBoxArray(12))
-                ->add(
-                    'payslips',
-                    CollectionType::class,
-                    [
-                        'required' => false,
-                        'error_bubbling' => true,
-                        'label' => false,
-                        'btn_add' => false,
-                        'disabled' => true,
-                        'type_options' => [
-                            'delete' => false,
+                    ->add(
+                        'payslips',
+                        CollectionType::class,
+                        [
+                            'required' => false,
+                            'error_bubbling' => true,
+                            'label' => false,
+                            'btn_add' => false,
+                            'disabled' => true,
+                            'type_options' => [
+                                'delete' => false,
+                            ],
                         ],
-                    ],
-                    [
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                    ]
-                )
+                        [
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        ]
+                    )
                 ->end()
-                ->end();
-        }
+            ->end()
+        ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

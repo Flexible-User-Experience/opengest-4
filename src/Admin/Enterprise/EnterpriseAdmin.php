@@ -53,7 +53,6 @@ class EnterpriseAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->remove('delete')
-            ->remove('create')
             ->add('change', $this->getRouterIdParameter().'/change-user-default-enterprise')
             ->add('downloadTc1receipt', $this->getRouterIdParameter().'/tc1')
             ->add('downloadTc2receipt', $this->getRouterIdParameter().'/tc2')

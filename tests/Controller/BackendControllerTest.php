@@ -150,6 +150,7 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/tercers/dies-inhabils/1/delete'],
             // Enterprise
             ['/admin/empreses/empresa/list'],
+            ['/admin/empreses/empresa/create'],
             ['/admin/empreses/empresa/1/edit'],
             ['/admin/empreses/grup-prima/list'],
             ['/admin/empreses/grup-prima/create'],
