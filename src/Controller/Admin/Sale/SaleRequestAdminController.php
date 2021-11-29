@@ -135,6 +135,11 @@ class SaleRequestAdminController extends BaseAdminController
 
             return new RedirectResponse($request->headers->get('referer'));
         }
+        if (!$saleRequest->getOperator() || !$saleRequest->getVehicle()) {
+            $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' tiene que tener vehiculo y operario asignado para generar el albarán.');
+
+            return new RedirectResponse($request->headers->get('referer'));
+        }
         $deliveryNote = $this->generateDeliveryNoteFromSaleRequest($saleRequest);
 
         return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_edit', [
@@ -175,7 +180,11 @@ class SaleRequestAdminController extends BaseAdminController
             return new RedirectResponse($this->generateUrl('admin_app_sale_salerequest_list'));
         } else {
             foreach ($selectedModels as $saleRequest) {
-                $this->generateDeliveryNoteFromSaleRequest($saleRequest);
+                if (!$saleRequest->getOperator() || !$saleRequest->getVehicle()) {
+                    $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' tiene que tener vehiculo y operario asignado para generar el albarán.');
+                } else {
+                    $this->generateDeliveryNoteFromSaleRequest($saleRequest);
+                }
             }
         }
 

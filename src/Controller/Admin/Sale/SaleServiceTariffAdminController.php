@@ -29,7 +29,7 @@ class SaleServiceTariffAdminController extends BaseAdminController
         $saleTariffs = $saleServiceTariff->getSaleTariffs();
         if ($partnerId) {
             $saleTariffs = $saleTariffs->filter(function (SaleTariff $saleTariff) use ($partnerId) {
-                return !$saleTariff->getPartner() || ($saleTariff->getPartner()->getId() == $partnerId);
+                return (!$saleTariff->getPartner() || ($saleTariff->getPartner()->getId() == $partnerId)) && $saleTariff->getEnabled();
             });
             $saleTariffs = new ArrayCollection($saleTariffs->getValues());
         }

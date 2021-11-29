@@ -37,7 +37,7 @@ class SaleInvoice extends AbstractBase
     /**
      * @var Partner
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner",inversedBy="saleInvoices")
      */
     private $partner;
 
@@ -373,9 +373,6 @@ class SaleInvoice extends AbstractBase
         $this->discount = $discount;
     }
 
-    /**
-     * @return string
-     */
     public function getDateFormatted(): string
     {
         return $this->getDate()->format('d/m/y');
