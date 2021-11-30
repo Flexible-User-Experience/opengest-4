@@ -47,19 +47,22 @@ class SetActivityLineToSaleServiceTariffCommand extends AbstractBaseCommand
         $errors = 0;
 
         $saleServiceTariffs = $this->rm->getSaleServiceTariffRepository()->findAll();
-        $activityLineCamionPluma = $this->rm->getActivityLineRepository()->findOneBy(['name', 'CAMION PLUMA']);
-        $activityLineHidraulica = $this->rm->getActivityLineRepository()->findOneBy(['name', 'HIDRAULICA']);
-        $activityLineCarretera = $this->rm->getActivityLineRepository()->findOneBy(['name', 'CARRETERA']);
-        $activityLineTransporte = $this->rm->getActivityLineRepository()->findOneBy(['name', 'TRANSPORTE']);
-        $activityLinePlataformaAerea = $this->rm->getActivityLineRepository()->findOneBy(['name', 'PLATAFORMA AEREA']);
-        $activityLineMinigrua = $this->rm->getActivityLineRepository()->findOneBy(['name', 'MINIGRUA']);
+        $activityLineCamionPluma = $this->rm->getActivityLineRepository()->findOneBy(['name' => 'CAMION PLUMA']);
+        $activityLineHidraulica = $this->rm->getActivityLineRepository()->findOneBy(['name' => 'HIDRAULICA']);
+        $activityLineCarretera = $this->rm->getActivityLineRepository()->findOneBy(['name' => 'CARRETERA']);
+        $activityLineTransporte = $this->rm->getActivityLineRepository()->findOneBy(['name' => 'TRANSPORTE']);
+        $activityLinePlataformaAerea = $this->rm->getActivityLineRepository()->findOneBy(['name' => 'PLATAFORMA AEREA']);
+        $activityLineMinigrua = $this->rm->getActivityLineRepository()->findOneBy(['name' => 'MINIGRUA']);
         /** @var SaleServiceTariff $saleServiceTariff */
         foreach ($saleServiceTariffs as $saleServiceTariff) {
             $description = $saleServiceTariff->getDescription();
             if (str_contains($description, 'CP')) {
                 $saleServiceTariff->setActivityLine($activityLineCamionPluma);
             }
-            if (str_contains($description, 'UNIC')) {
+            if (
+                str_contains($description, 'UNIC') ||
+                str_contains($description, 'MINI')
+            ) {
                 $saleServiceTariff->setActivityLine($activityLineMinigrua);
             }
             if (
