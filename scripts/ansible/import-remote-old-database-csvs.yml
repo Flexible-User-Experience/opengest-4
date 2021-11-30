@@ -172,3 +172,7 @@
       shell: "php bin/console --env=prod app:create:vehicle:fuels"
       args:
         chdir: "{{ vhost_path }}/current/"
+    - name: execute set activity line to sale service tariffs
+      shell: "php bin/console --env=prod app:set:sale:tariff:activity_line"
+      args:
+        chdir: "{{ vhost_path }}/current/"
