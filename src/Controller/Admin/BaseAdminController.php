@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Manager\InvoiceManager;
+use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +22,12 @@ abstract class BaseAdminController extends Controller
 {
     protected InvoiceManager $im;
 
-    public function __construct(InvoiceManager $invoiceManager)
+    protected SaleDeliveryNotePdfManager $sdnpm;
+
+    public function __construct(InvoiceManager $invoiceManager, SaleDeliveryNotePdfManager $sdnpm)
     {
         $this->im = $invoiceManager;
+        $this->sdnpm = $sdnpm;
     }
 
     /**

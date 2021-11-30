@@ -179,6 +179,7 @@ admin:
         generate_delivery_note_from_selected: "Generar albaranes de les peticiones marcadas"
         generate_invoice_from_selected: "Facturar los albaranes seleccionados"
         generate_payslips_from_selected: "Generar nóminas de los operarios seleccionados"
+        generate_standard_print_template_delivery_notes: "Generar modelo de impresión estándar de los albaranes seleccionados"
     actions: "Acciones"
 enum:
     sale_request_status:

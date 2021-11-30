@@ -121,6 +121,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_invoice_from_selected',
                 'ask_confirmation' => false,
             ];
+            $actions['generateStandardPrintTemplate'] = [
+                'label' => 'admin.action.generate_standard_print_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
         }
 
         return $actions;

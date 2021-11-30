@@ -98,7 +98,19 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return $return;
     }
 
-    public function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes)
+    /**
+     * @param SaleDeliveryNotePdfManager $sdnps
+     */
+    public function batchActionGenerateStandardPrintTemplate(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $this->admin->checkAccess('edit');
+        /** @var SaleDeliveryNote[] $saleDeliveryNotes */
+        $saleDeliveryNotes = $selectedModelQuery->execute();
+
+        return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    private function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes)
     {
         $partnerIds = [];
         /** @var SaleDeliveryNote $deliveryNote */
@@ -125,7 +137,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new RedirectResponse($this->generateUrl('admin_app_sale_saleinvoice_list'));
     }
 
-    public function generateSaleInvoiceFromPartnerSaleDeliveryNotes($deliveryNotes)
+    private function generateSaleInvoiceFromPartnerSaleDeliveryNotes($deliveryNotes)
     {
         $saleInvoice = new SaleInvoice();
         $deliveryNotes = new ArrayCollection($deliveryNotes);
