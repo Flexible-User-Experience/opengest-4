@@ -98,10 +98,34 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return $return;
     }
 
-    /**
-     * @param SaleDeliveryNotePdfManager $sdnps
-     */
-    public function batchActionGenerateStandardPrintTemplate(ProxyQueryInterface $selectedModelQuery): Response
+    public function batchActionGenerateStandardPrint(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $this->admin->checkAccess('edit');
+        /** @var SaleDeliveryNote[] $saleDeliveryNotes */
+        $saleDeliveryNotes = $selectedModelQuery->execute();
+
+        return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function batchActionGenerateDriverPrint(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $this->admin->checkAccess('edit');
+        /** @var SaleDeliveryNote[] $saleDeliveryNotes */
+        $saleDeliveryNotes = $selectedModelQuery->execute();
+
+        return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function batchActionGenerateStandardMail(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $this->admin->checkAccess('edit');
+        /** @var SaleDeliveryNote[] $saleDeliveryNotes */
+        $saleDeliveryNotes = $selectedModelQuery->execute();
+
+        return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function batchActionGenerateDriverMail(ProxyQueryInterface $selectedModelQuery): Response
     {
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */

@@ -180,6 +180,9 @@ admin:
         generate_invoice_from_selected: "Facturar los albaranes seleccionados"
         generate_payslips_from_selected: "Generar nóminas de los operarios seleccionados"
         generate_standard_print_template_delivery_notes: "Generar modelo de impresión estándar de los albaranes seleccionados"
+        generate_driver_print_template_delivery_notes: "Generar modelo de impresión para transportista de los albaranes seleccionados"
+        generate_standard_mail_template_delivery_notes: "Generar mail estándar de los albaranes seleccionados"
+        generate_driver_mail_template_delivery_notes: "Generar mail para transportista de los albaranes seleccionados"
     actions: "Acciones"
 enum:
     sale_request_status:
