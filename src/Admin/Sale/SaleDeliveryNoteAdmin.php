@@ -105,7 +105,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'discount',
             'baseAmount',
             'finalTotal',
-            'observations'
+            'observations',
         ];
     }
 
@@ -505,7 +505,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
                 ->tab('Líneas')
-                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(9))
+                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(10))
                     ->add(
                         'saleDeliveryNoteLines',
                         CollectionType::class,
@@ -525,7 +525,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         $formMapper
             ->tab('Líneas')
-                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(2))
                 ->add(
                     'totalLines',
                     NumberType::class,

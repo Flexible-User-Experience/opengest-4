@@ -55,7 +55,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     {
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjects
             $formMapper
-                ->with('Parte de trabajo', $this->getFormMdSuccessBoxArray(6))
+                ->with('Parte de trabajo', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'operator',
                     EntityType::class,
@@ -94,6 +94,8 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                         'disabled' => true,
                     ]
                 )
+                ->end()
+                ->with('Líneas', $this->getFormMdSuccessBoxArray(12))
                 ->add(
                     'operatorWorkRegisters',
                     CollectionType::class,
