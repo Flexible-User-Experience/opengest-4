@@ -113,7 +113,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute();
 
-        return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->sdnpm->outputCollectionDriverPrint($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
     public function batchActionGenerateStandardMail(ProxyQueryInterface $selectedModelQuery): Response
@@ -122,7 +122,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute();
 
-        return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->sdnpm->outputCollectionStandardMail($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
     public function batchActionGenerateDriverMail(ProxyQueryInterface $selectedModelQuery): Response
@@ -131,7 +131,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute();
 
-        return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->sdnpm->outputCollectionDriverMail($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
     private function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes)

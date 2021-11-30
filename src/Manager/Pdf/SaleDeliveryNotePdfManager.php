@@ -157,7 +157,7 @@ class SaleDeliveryNotePdfManager
         //Operario
         $pdf->setXY($total, 71);
         $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 85);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getOperator()->getShortFullName(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getOperator() ? $saleDeliveryNote->getOperator()->getShortFullName() : '', 0, 0, 'L', false);
 
         //Fecha de servicio
         $pdf->setXY($total, 77);
