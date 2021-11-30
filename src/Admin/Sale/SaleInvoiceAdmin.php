@@ -233,7 +233,10 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'class' => SaleDeliveryNote::class,
                         'multiple' => true,
-                        'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
+                        'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
+                            $this->getUserLogedEnterprise(),
+                            $this->getSubject()->getPartner()
+                        ),
                         'by_reference' => false,
                     ]
                 )
