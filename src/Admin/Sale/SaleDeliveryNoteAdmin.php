@@ -261,7 +261,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'class' => PartnerBuildingSite::class,
                         'label' => 'admin.label.partner_building_site',
                         'required' => false,
-                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()
+                            ->getEnabledFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()),
                     ]
                 )
                 ->add(
@@ -271,7 +272,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'class' => PartnerOrder::class,
                         'label' => 'admin.label.order',
                         'required' => false,
-                        'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
+                        'query_builder' => $this->rm->getPartnerOrderRepository()
+                            ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
                     ]
                 )
                 ->end()
