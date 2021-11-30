@@ -53,7 +53,7 @@ class SaleInvoicePdfManager
      */
     public function buildCollection($saleInvoices)
     {
-        $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de albaranes');
+        $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de facturas');
         $pdf = $this->pdfEngineService->getEngine();
         /** @var SaleInvoice $saleInvoice */
         foreach ($saleInvoices as $saleInvoice) {
@@ -82,6 +82,12 @@ class SaleInvoicePdfManager
     {
         // add start page
         // TODO make invoice print
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = 70;
+        $total = $width + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT;
+        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
+
         return $pdf;
     }
 

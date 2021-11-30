@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Service\GuardService;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,6 +148,15 @@ class SaleInvoiceAdminController extends BaseAdminController
         }
 
         return $this->redirectToRoute('admin_app_sale_saleinvoice_edit', ['id' => $id]);
+    }
+
+    public function batchActionGeneratePdfs(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $this->admin->checkAccess('edit');
+        /** @var SaleInvoice[] $saleDeliveryNotes */
+        $saleInvoices = $selectedModelQuery->execute();
+
+        return new Response($this->sipm->outputCollection($saleInvoices), 200, ['Content-type' => 'application/pdf']);
     }
 
     /**

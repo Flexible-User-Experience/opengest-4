@@ -58,15 +58,31 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-        parent::configureRoutes($collection);
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
             ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
-//            ->remove('delete')
+            ->remove('show')
             ->remove('create')
         ;
+    }
+
+    /**
+     * @param array $actions
+     *
+     * @return array
+     */
+    public function configureBatchActions($actions)
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generatePdfs'] = [
+                'label' => 'admin.action.generate_sale_invoice_pdf',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
     }
 
     public function getExportFields(): array
