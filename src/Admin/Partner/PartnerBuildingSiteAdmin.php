@@ -46,34 +46,38 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'partner',
-                ModelAutocompleteType::class,
-                [
-                    'property' => 'name',
-                    'label' => 'Tercer',
-                    'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                ],
-                [
-                    'admin_code' => 'app.admin.partner',
-                ]
-            )
+        ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->add(
+                    'partner',
+                    ModelAutocompleteType::class,
+                    [
+                        'property' => 'name',
+                        'label' => 'Tercer',
+                        'required' => true,
+                        'callback' => function ($admin, $property, $value) {
+                            /** @var Admin $admin */
+                            $datagrid = $admin->getDatagrid();
+                            /** @var QueryBuilder $queryBuilder */
+                            $queryBuilder = $datagrid->getQuery();
+                            $queryBuilder
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->setParameter('enterprise', $this->getUserLogedEnterprise());
+                            $datagrid->setValue($property, null, $value);
+                        },
+                    ],
+                    [
+                        'admin_code' => 'app.admin.partner',
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'required' => true,
                 ]
             )
@@ -81,7 +85,7 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número',
+                    'label' => 'admin.label.number',
                     'required' => false,
                 ]
             )
@@ -89,7 +93,7 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 'address',
                 null,
                 [
-                    'label' => 'Adreça',
+                    'label' => 'admin.label.address',
                     'required' => false,
                 ]
             )
@@ -97,7 +101,7 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 'phone',
                 null,
                 [
-                    'label' => 'Telèfon',
+                    'label' => 'admin.label.phone',
                     'required' => false,
                 ]
             )

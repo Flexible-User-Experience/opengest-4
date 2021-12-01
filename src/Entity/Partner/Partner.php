@@ -288,7 +288,7 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner", cascade="persist")
      */
     private $partnerUnableDays;
 
