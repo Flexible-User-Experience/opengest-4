@@ -9,12 +9,12 @@ namespace App\Enum;
  */
 class SaleRequestStatusEnum
 {
-    const PENDING          = '0';
-    const IN_PROCESS       = '1';
-    const FINISHED         = '2';
-    const DISCARDED        = '3';
-    const TO_BE_APPROVED   = '4';
-    const TO_SETTLE_ON     = '5';
+    public const PENDING = '0';
+    public const IN_PROCESS = '1';
+    public const FINISHED = '2';
+    public const DISCARDED = '3';
+    public const TO_BE_APPROVED = '4';
+    public const TO_SETTLE_ON = '5';
 
     /**
      * @return array
@@ -30,12 +30,12 @@ class SaleRequestStatusEnum
     public static function getReversedEnumArray()
     {
         return [
-            self::PENDING => 'Pendent',
-            self::IN_PROCESS => 'En procés',
-            self::FINISHED => 'Finalitzada',
+            self::PENDING => 'Pendiente',
+            self::IN_PROCESS => 'En proceso',
+            self::FINISHED => 'Finalizada',
             self::DISCARDED => 'Descartada',
             self::TO_BE_APPROVED => 'Ofertada',
-            self::TO_SETTLE_ON => 'Per concretar',
+            self::TO_SETTLE_ON => 'Por concretar',
         ];
     }
 }

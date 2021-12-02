@@ -82,22 +82,37 @@
                   totalUnits += jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_units').val().replace(',','.')*1;
                   totalAmount += jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_amount').val()*1;
                 }
-                totalCountedHours = totalUnits;
-                  jQuery(`
-            <div>
-                <div class="pull-right" style="margin-right: 10px;">
-                    <label for="totalUnits" class="control-label">Total: </label>
-                    <label class="control-label"> ${totalAmount} €</label>
-                </div>
-            </div>
-            <div>
-                <div class="pull-right" style="margin-right: 10px;">
-                    <label for="totalUnits" class="control-label">Total unidades: </label>
-                    <label class="control-label"> ${totalUnits} </label>
-                </div>
-            </div>
-                  `).insertAfter(workRegistersTable);
-
+                if (numberOfWorkRegisters) {
+                  totalCountedHours = totalUnits;
+                  $info = `
+                    <div>
+                        <div class="pull-right" style="margin-right: 10px;">
+                            <label for="totalUnits" class="control-label">Total: </label>
+                            <label class="control-label"> ${totalAmount} €</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="pull-right" style="margin-right: 10px;">
+                            <label for="totalUnits" class="control-label">Total unidades: </label>
+                            <label class="control-label"> ${totalUnits} </label>
+                        </div>
+                    </div>
+                  `;
+                } else {
+                  $info = `
+                    <div>
+                        <div class="pull-left" style="margin-right: 10px;">
+                            <label class="control-label">
+                              No se han registrado partes de trabajo.
+                              <a href="{{ path('admin_app_operator_operatorworkregisterheader_create') }}">
+                                Registrar partes de trabajo
+                                </a>
+                            </label>
+                        </div>
+                    </div>
+                  `
+                }
+              jQuery($info).insertAfter(workRegistersTable);
             {% endif %}
 
              //on change

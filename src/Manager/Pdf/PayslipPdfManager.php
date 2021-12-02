@@ -83,7 +83,7 @@ class PayslipPdfManager
         $pdf->Ln();
 
         //Start table
-        $cellWidth = $width/13+1;
+        $cellWidth = $width / 13 + 1;
         $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT,
             '',
             0, 0, 'L', false);
@@ -149,7 +149,20 @@ class PayslipPdfManager
             return ($owrh->getDate() >= $fromDate) && ($owrh->getDate() <= $toDate);
         });
         $bountyGroup = $payslip->getOperator()->getEnterpriseGroupBounty();
-        $workingHourPrice = $bountyGroup->getNormalHour();
+        $workingHourPrice = $bountyGroup ? $bountyGroup->getNormalHour() : 0;
+        $normalHourPrice = $bountyGroup ? $bountyGroup->getExtraNormalHour() : 0;
+        $extraHourPrice = $bountyGroup ? $bountyGroup->getExtraExtraHour() : 0;
+        $negativeHourPrice = $bountyGroup ? $bountyGroup->getNegativeHour() : 0;
+        $lunchPrice = $bountyGroup ? $bountyGroup->getLunch() : 0;
+        $lunchIntPrice = $bountyGroup ? $bountyGroup->getDinner() : 0;
+        $dinnerPrice = $bountyGroup ? $bountyGroup->getInternationalLunch() : 0;
+        $dinnerIntPrice = $bountyGroup ? $bountyGroup->getInternationalDinner() : 0;
+        $dietPrice = $bountyGroup ? $bountyGroup->getDiet() : 0;
+        $dietIntPrice = $bountyGroup ? $bountyGroup->getExtraNight() : 0;
+        $overNightPrice = $bountyGroup ? $bountyGroup->getOverNight() : 0;
+        $roadExtraPrice = $bountyGroup ? $bountyGroup->getRoadExtraHour() : 0;
+        $exitExtraPrice = $bountyGroup ? $bountyGroup->getCarOutput() : 0;
+
         // totals
         $totalWorkingHours = 0;
         $totalNormalHours = 0;
@@ -207,7 +220,7 @@ class PayslipPdfManager
                     $dinnerInt += $workRegister->getUnits();
                 }
                 if (str_contains($workRegister->getDescription(), 'Dieta')) {
-                    $diet+= $workRegister->getUnits();
+                    $diet += $workRegister->getUnits();
                 }
                 if (str_contains($workRegister->getDescription(), 'Dieta internacional')) {
                     $dietInt += $workRegister->getUnits();
@@ -330,43 +343,43 @@ class PayslipPdfManager
             'Precio unit.',
             'B', 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getNormalHour(),
+            $workingHourPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getExtraNormalHour(),
+            $normalHourPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getExtraExtraHour(),
+            $extraHourPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getNegativeHour(),
+            $negativeHourPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getLunch(),
+            $lunchPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getDinner(),
+            $dinnerPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getInternationalLunch(),
+            $lunchIntPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getInternationalDinner(),
+            $dinnerIntPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getDiet(),
+            $dietPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getExtraNight(),
+            $dietIntPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getOverNight(),
+            $overNightPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getRoadExtraHour(),
+            $roadExtraPrice,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getCarOutput(),
+            $exitExtraPrice,
             1, 0, 'L', false);
         $pdf->Ln();
 
@@ -375,67 +388,67 @@ class PayslipPdfManager
             'Total (€)',
             'B', 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getNormalHour() * $totalWorkingHours,
+            $workingHourPrice * $totalWorkingHours,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getExtraNormalHour() * $totalNormalHours,
+            $normalHourPrice * $totalNormalHours,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getExtraExtraHour() * $totalExtraHours,
+            $extraHourPrice * $totalExtraHours,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getNegativeHour() * $totalNegativeHours,
+            $negativeHourPrice * $totalNegativeHours,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getLunch() * $totalLunch,
+            $lunchPrice * $totalLunch,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getDinner() * $totalDinner,
+            $dinnerPrice * $totalDinner,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getInternationalLunch() * $totalLunchInt,
+            $lunchIntPrice * $totalLunchInt,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getInternationalDinner() * $totalDinnerInt,
+            $dinnerIntPrice * $totalDinnerInt,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getDiet() * $totalDiet,
+            $dietPrice * $totalDiet,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getExtraNight() * $totalDietInt,
+            $dietIntPrice * $totalDietInt,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getOverNight() * $totalOverNight,
+            $overNightPrice * $totalOverNight,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getRoadExtraHour() * $totalRoadExtra,
+            $roadExtraPrice * $totalRoadExtra,
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $bountyGroup->getCarOutput() * $totalExitExtra,
+            $exitExtraPrice * $totalExitExtra,
             1, 0, 'L', false);
         $pdf->Ln(10);
-        $finalSum = $bountyGroup->getNormalHour() * $totalWorkingHours +
-            $bountyGroup->getExtraNormalHour() * $totalNormalHours +
-            $bountyGroup->getExtraExtraHour() * $totalExtraHours +
-            $bountyGroup->getNegativeHour() * $totalNegativeHours +
-            $bountyGroup->getLunch() * $totalLunch +
-            $bountyGroup->getDinner() * $totalDinner +
-            $bountyGroup->getInternationalLunch() * $totalLunchInt +
-            $bountyGroup->getInternationalDinner() * $totalDinnerInt +
-            $bountyGroup->getDiet() * $totalDiet +
-            $bountyGroup->getExtraNight() * $totalDietInt +
-            $bountyGroup->getOverNight() * $totalOverNight +
-            $bountyGroup->getRoadExtraHour() * $totalRoadExtra +
-            $bountyGroup->getCarOutput() * $totalExitExtra;
+        $finalSum = $workingHourPrice * $totalWorkingHours +
+            $normalHourPrice * $totalNormalHours +
+            $extraHourPrice * $totalExtraHours +
+            $negativeHourPrice * $totalNegativeHours +
+            $lunchPrice * $totalLunch +
+            $dinnerPrice * $totalDinner +
+            $lunchIntPrice * $totalLunchInt +
+            $dinnerIntPrice * $totalDinnerInt +
+            $dietPrice * $totalDiet +
+            $dietIntPrice * $totalDietInt +
+            $overNightPrice * $totalOverNight +
+            $roadExtraPrice * $totalRoadExtra +
+            $exitExtraPrice * $totalExitExtra;
         //Other imports and final totals
-        $pdf->Cell($cellWidth*5, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 5, ConstantsEnum::PDF_CELL_HEIGHT,
             'Importes varios',
             1, 0, 'C', false);
         $pdf->Ln();
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Fecha',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth*3, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
             'Concepto',
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -446,10 +459,8 @@ class PayslipPdfManager
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
             $otherAmounts = 0;
-            foreach( $workRegisterHeader->getOperatorWorkRegisters() as $workRegister)
-            {
-                if
-                (
+            foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
+                if (
                     !str_contains($workRegister->getDescription(), 'Hora laboral') &&
                     !str_contains($workRegister->getDescription(), 'Hora normal') &&
                     !str_contains($workRegister->getDescription(), 'Hora extra') &&
@@ -468,7 +479,7 @@ class PayslipPdfManager
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegisterHeader->getDateFormatted(),
                         1, 0, 'L', false);
-                    $pdf->Cell($cellWidth*3, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegister->getDescription(),
                         1, 0, 'L', false);
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -490,14 +501,6 @@ class PayslipPdfManager
         $pdf->Ln();
         $pdf->SetX(230);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Prima por TM:',
-            0, 0, 'R', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            '???',
-            0, 0, 'R', false);
-        $pdf->Ln();
-        $pdf->SetX(230);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Importes varios',
             0, 0, 'R', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -512,6 +515,7 @@ class PayslipPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $totalOtherAmounts + $finalSum.' €',
             'T', 0, 'R', false);
+
         return $pdf;
     }
 

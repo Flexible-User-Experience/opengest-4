@@ -45,6 +45,9 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
+        ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
@@ -68,6 +71,9 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
+                ;
+        }
+        $formMapper
             ->add(
                 'number',
                 null,

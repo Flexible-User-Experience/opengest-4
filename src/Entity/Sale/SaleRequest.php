@@ -731,7 +731,11 @@ class SaleRequest extends AbstractBase
      */
     public function getServiceTimeString()
     {
-        return $this->getServiceTime()->format('h:i');
+        if ($this->getServiceTime()) {
+            return $this->getServiceTime()->format('h:i');
+        }
+
+        return null;
     }
 
     /**
@@ -993,12 +997,10 @@ class SaleRequest extends AbstractBase
         return $deliveryNote;
     }
 
-
     public function getRequestDateFormatted(): string
     {
         return $this->getRequestDate()->format('d/m/y');
     }
-
 
     /**
      * @return string

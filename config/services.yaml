@@ -52,6 +52,10 @@ services:
     App\Manager\Pdf\SaleDeliveryNotePdfManager:
         class: App\Manager\Pdf\SaleDeliveryNotePdfManager
         arguments: [ '@app.pdf_engine' ]
+#    app.sale_invoice_pdf_manager:
+    App\Manager\Pdf\SaleInvoicePdfManager:
+        class: App\Manager\Pdf\SaleInvoicePdfManager
+        arguments: [ '@app.pdf_engine' ]
 #    app.payslip_pdf_manager:
     App\Manager\Pdf\PayslipPdfManager:
         class: App\Manager\Pdf\PayslipPdfManager

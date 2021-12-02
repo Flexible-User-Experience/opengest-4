@@ -46,72 +46,54 @@ class PartnerContactAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'partner',
-                ModelAutocompleteType::class,
-                [
-                    'property' => 'name',
-                    'label' => 'Tercer',
-                    'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                ],
-                [
-                    'admin_code' => 'app.admin.partner',
-                ]
-            )
+            ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->add(
+                    'partner',
+                    ModelAutocompleteType::class,
+                    [
+                        'property' => 'name',
+                        'label' => 'Tercer',
+                        'required' => true,
+                        'callback' => function ($admin, $property, $value) {
+                            /** @var Admin $admin */
+                            $datagrid = $admin->getDatagrid();
+                            /** @var QueryBuilder $queryBuilder */
+                            $queryBuilder = $datagrid->getQuery();
+                            $queryBuilder
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->setParameter('enterprise', $this->getUserLogedEnterprise());
+                            $datagrid->setValue($property, null, $value);
+                        },
+                    ],
+                    [
+                        'admin_code' => 'app.admin.partner',
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'required' => true,
+                ]
+            )
+            ->add(
+                'care',
+                null,
+                [
+                    'label' => 'admin.label.care',
+                    'required' => false,
                 ]
             )
             ->add(
                 'phone',
                 null,
                 [
-                    'label' => 'Telèfon',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'fax',
-                null,
-                [
-                    'label' => 'Fax',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'notes',
-                null,
-                [
-                    'label' => 'Notes',
-                    'required' => false,
-                    'attr' => [
-                        'style' => 'resize: vertical',
-                        'rows' => 7,
-                    ],
-                ]
-            )
-            ->end()
-            ->with('Càrrec', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'care',
-                null,
-                [
-                    'label' => 'Càrrec',
+                    'label' => 'admin.label.phone',
                     'required' => false,
                 ]
             )
@@ -119,7 +101,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'mobile',
                 null,
                 [
-                    'label' => 'Mòbil',
+                    'label' => 'admin.label.mobile',
                     'required' => false,
                 ]
             )
@@ -127,8 +109,28 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'admin.label.email',
                     'required' => false,
+                ]
+            )
+            ->add(
+                'fax',
+                null,
+                [
+                    'label' => 'admin.label.fax',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'notes',
+                null,
+                [
+                    'label' => 'admin.label.notes',
+                    'required' => false,
+                    'attr' => [
+                        'style' => 'resize: vertical',
+                        'rows' => 4,
+                    ],
                 ]
             )
             ->end()

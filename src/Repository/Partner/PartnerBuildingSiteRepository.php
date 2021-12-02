@@ -2,11 +2,12 @@
 
 namespace App\Repository\Partner;
 
+use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class PartnerBuildingSiteRepository extends ServiceEntityRepository
 {
@@ -26,7 +27,7 @@ class PartnerBuildingSiteRepository extends ServiceEntityRepository
 
     public function getEnabledSortedByNameQ(): Query
     {
-        return  $this->getEnabledSortedByNameQB()->getQuery();
+        return $this->getEnabledSortedByNameQB()->getQuery();
     }
 
     public function getEnabledSortedByName(): array
@@ -43,11 +44,19 @@ class PartnerBuildingSiteRepository extends ServiceEntityRepository
 
     public function getEnabledSortedByNameWithPartnerJoinQ(): Query
     {
-        return  $this->getEnabledSortedByNameWithPartnerJoinQB()->getQuery();
+        return $this->getEnabledSortedByNameWithPartnerJoinQB()->getQuery();
     }
 
     public function getEnabledSortedByNameWithPartnerJoin(): array
     {
         return $this->getEnabledSortedByNameWithPartnerJoinQ()->getResult();
+    }
+
+    public function getEnabledFilteredByPartnerSortedByNameQB(Partner $partner): QueryBuilder
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->andWhere('p.partner = :partner')
+            ->setParameter('partner', $partner)
+            ;
     }
 }

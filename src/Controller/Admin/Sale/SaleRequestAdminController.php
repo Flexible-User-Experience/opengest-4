@@ -142,9 +142,7 @@ class SaleRequestAdminController extends BaseAdminController
         }
         $deliveryNote = $this->generateDeliveryNoteFromSaleRequest($saleRequest);
 
-        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_edit', [
-            'id' => $deliveryNote->getId(),
-        ]));
+        return new RedirectResponse($request->headers->get('referer'));
     }
 
     /**
@@ -188,7 +186,7 @@ class SaleRequestAdminController extends BaseAdminController
             }
         }
 
-        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        return new RedirectResponse($this->generateUrl('admin_app_sale_salerequest_list'));
     }
 
     /**

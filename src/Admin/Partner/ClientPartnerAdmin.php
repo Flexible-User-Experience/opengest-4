@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -63,7 +64,45 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
+            ->tab('General')
             ->with('General', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
+            ->add(
+                'class',
+                EntityType::class,
+                [
+                    'class' => PartnerClass::class,
+                    'label' => 'admin.label.class',
+                    'required' => true,
+                    'query_builder' => $this->rm->getPartnerClassRepository()->getEnabledSortedByNameQB(),
+                ]
+            )
+            ->add(
+                'notes',
+                null,
+                [
+                    'label' => 'admin.label.notes',
+                    'attr' => [
+                        'style' => 'resize: vertical',
+                        'rows' => 7,
+                    ],
+                ]
+            )
+            ->end()
+            ->with('Datos fiscales', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'name',
+                null,
+                [
+                    'label' => 'admin.label.name',
+                ]
+            )
             ->add(
                 'cifNif',
                 null,
@@ -72,63 +111,23 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'required' => true,
                 ]
             )
-            ->add(
-                'name',
-                null,
-                [
-                    'label' => 'Nom',
-                ]
-            )
-            ->add(
-                'class',
-                EntityType::class,
-                [
-                    'class' => PartnerClass::class,
-                    'label' => 'Classe',
-                    'required' => true,
-                    'query_builder' => $this->rm->getPartnerClassRepository()->getEnabledSortedByNameQB(),
-                ]
-            )
-            ->add(
-                'type',
-                EntityType::class,
-                [
-                    'class' => PartnerType::class,
-                    'label' => 'Tipus',
-                    'required' => true,
-                    'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
-                    'data' => $this->rm->getPartnerTypeRepository()->find(1),
-                    'disabled' => true,
-                ]
-            )
-            ->add(
-                'transferAccount',
-                EntityType::class,
-                [
-                    'class' => EnterpriseTransferAccount::class,
-                    'label' => 'Compte bancari empresa',
-                    'required' => true,
-                    'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
-            ->add(
-                'notes',
-                null,
-                [
-                    'label' => 'Notes',
-                    'attr' => [
-                        'style' => 'resize: vertical',
-                        'rows' => 7,
-                    ],
-                ]
-            )
-            ->end()
-            ->with('Contacte', $this->getFormMdSuccessBoxArray(4))
+//            ->add(
+//                'type',
+//                EntityType::class,
+//                [
+//                    'class' => PartnerType::class,
+//                    'label' => 'Tipus',
+//                    'required' => true,
+//                    'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
+//                    'data' => $this->rm->getPartnerTypeRepository()->find(1),
+//                    'disabled' => true,
+//                ]
+//            )
             ->add(
                 'mainAddress',
                 null,
                 [
-                    'label' => 'Adreça principal',
+                    'label' => 'admin.label.main_address',
                     'required' => true,
                 ]
             )
@@ -137,25 +136,8 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => City::class,
-                    'label' => 'Ciutat principal',
+                    'label' => 'admin.label.main_city',
                     'required' => true,
-                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
-                ]
-            )
-            ->add(
-                'secondaryAddress',
-                null,
-                [
-                    'label' => 'Adreça secundària',
-                ]
-            )
-            ->add(
-                'secondaryCity',
-                EntityType::class,
-                [
-                    'class' => City::class,
-                    'label' => 'Ciutat secundària',
-                    'required' => false,
                     'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
                 ]
             )
@@ -163,102 +145,126 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'phoneNumber1',
                 null,
                 [
-                    'label' => 'Telèfon 1',
+                    'label' => 'admin.label.phone1',
                 ]
             )
             ->add(
                 'phoneNumber2',
                 null,
                 [
-                    'label' => 'Telèfon 2',
-                ]
-            )
-            ->add(
-                'phoneNumber3',
-                null,
-                [
-                    'label' => 'Telèfon 3',
-                ]
-            )
-            ->add(
-                'phoneNumber4',
-                null,
-                [
-                    'label' => 'Telèfon 4',
-                ]
-            )
-            ->add(
-                'phoneNumber5',
-                null,
-                [
-                    'label' => 'Telèfon 5',
+                    'label' => 'admin.label.phone2',
                 ]
             )
             ->add(
                 'faxNumber1',
                 null,
                 [
-                    'label' => 'Fax 1',
+                    'label' => 'admin.label.fax1',
                 ]
             )
+            ->end()
+            ->with('Otros datos', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'reference',
+                null,
+                [
+                    'label' => 'admin.label.reference',
+                ]
+            )
+            ->add(
+                'secondaryAddress',
+                null,
+                [
+                    'label' => 'admin.label.secondary_address',
+                ]
+            )
+            ->add(
+                'secondaryCity',
+                EntityType::class,
+                [
+                    'class' => City::class,
+                    'label' => 'admin.label.secondary_city',
+                    'required' => false,
+                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
+                ]
+            )
+            ->add(
+                'phoneNumber3',
+                null,
+                [
+                    'label' => 'admin.label.phone3',
+                ]
+            )
+//            ->add(
+//                'phoneNumber4',
+//                null,
+//                [
+//                    'label' => 'admin.label.phone2',
+//                ]
+//            )
+//            ->add(
+//                'phoneNumber5',
+//                null,
+//                [
+//                    'label' => 'admin.label.phone2',
+//                ]
+//            )
             ->add(
                 'faxNumber2',
                 null,
                 [
-                    'label' => 'Fax 2',
+                    'label' => 'admin.label.fax2',
                 ]
             )
             ->add(
                 'email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'admin.label.email',
                 ]
             )
             ->add(
                 'www',
                 null,
                 [
-                    'label' => 'Pàgina web',
+                    'label' => 'admin.label.web_page',
                 ]
             )
             ->end()
-            ->with('Controls', $this->getFormMdSuccessBoxArray(4))
+            ->with('Datos contables', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'discount',
                 null,
                 [
-                    'label' => 'Descompte',
+                    'label' => 'admin.label.discount',
                 ]
             )
+            ->end()
+            ->with('Datos bancarios', $this->getFormMdSuccessBoxArray(4))
             ->add(
-                'code',
-                null,
+                'transferAccount',
+                EntityType::class,
                 [
-                    'label' => 'Codi',
+                    'class' => EnterpriseTransferAccount::class,
+                    'label' => 'admin.label.transfer_account',
+                    'required' => true,
+                    'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
-            ->add(
-                'providerReference',
-                null,
-                [
-                    'label' => 'Referència proveïdor',
-                ]
-            )
-            ->add(
-                'reference',
-                null,
-                [
-                    'label' => 'Referència',
-                ]
-            )
-            ->add(
-                'ivaTaxFree',
-                null,
-                [
-                    'label' => 'Exent IVA',
-                ]
-            )
+//            ->add(
+//                'providerReference',
+//                null,
+//                [
+//                    'label' => 'Referència proveïdor',
+//                ]
+//            )
+//            ->add(
+//                'ivaTaxFree',
+//                null,
+//                [
+//                    'label' => 'Exent IVA',
+//                ]
+//            )
             ->add(
                 'iban',
                 null,
@@ -277,37 +283,106 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'bankCode',
                 null,
                 [
-                    'label' => 'Codi bancari',
+                    'label' => 'admin.label.bank_code',
                 ]
             )
             ->add(
                 'officeNumber',
                 null,
                 [
-                    'label' => 'Número oficina',
+                    'label' => 'admin.label.office_number',
                 ]
             )
             ->add(
                 'controlDigit',
                 null,
                 [
-                    'label' => 'Dígit control',
+                    'label' => 'admin.label.control_digit',
                 ]
             )
             ->add(
                 'accountNumber',
                 null,
                 [
-                    'label' => 'Número compte',
+                    'label' => 'admin.label.account_number',
                 ]
             )
+            ->end()
+            ->with('Controles', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'enabled',
                 CheckboxType::class,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                 ]
             )
+            ->end()
+            ->end()
+            ->tab('Contactos')
+            ->with('Contactos', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'contacts',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
+            ->tab('Obras y pedidos')
+            ->with('Obras', $this->getFormMdSuccessBoxArray(12))
+            ->add(
+                'buildingSites',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->with('Pedidos', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'orders',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
+            ->tab('Dias inhábiles')
+            ->with('Dias inhábiles', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'partnerUnableDays',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
             ->end()
         ;
     }
