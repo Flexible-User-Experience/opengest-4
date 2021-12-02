@@ -271,8 +271,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.series',
+//                    'field_type' => EntityType::class,
+//                    'field_options' => [
+//                            'class' => SaleInvoiceSeries::class,
+//                            'choice_label' => 'name',
+//                            'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+//                    ],
                 ],
-                EntityType::class,
+                EntityType::class, // to field_type
                 [
                     'class' => SaleInvoiceSeries::class,
                     'choice_label' => 'name',
