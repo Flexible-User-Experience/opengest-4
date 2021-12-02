@@ -42,3 +42,4 @@ php bin/console  app:create:sale:items
 php bin/console  app:create:time:ranges
 php bin/console  app:create:payslip:line:concepts
 php bin/console  app:create:vehicle:fuels
+php bin/console  app:set:sale:tariff:activity_line

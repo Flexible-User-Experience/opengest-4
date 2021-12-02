@@ -105,7 +105,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'discount',
             'baseAmount',
             'finalTotal',
-            'observations'
+            'observations',
         ];
     }
 
@@ -119,6 +119,22 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generateSaleInvoiceFromDeliveryNotes'] = [
                 'label' => 'admin.action.generate_invoice_from_selected',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateStandardPrint'] = [
+                'label' => 'admin.action.generate_standard_print_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateDriverPrint'] = [
+                'label' => 'admin.action.generate_driver_print_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateStandardMail'] = [
+                'label' => 'admin.action.generate_standard_mail_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateDriverMail'] = [
+                'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
                 'ask_confirmation' => false,
             ];
         }
@@ -245,7 +261,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'class' => PartnerBuildingSite::class,
                         'label' => 'admin.label.partner_building_site',
                         'required' => false,
-                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()
+                            ->getEnabledFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()),
                     ]
                 )
                 ->add(
@@ -255,7 +272,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'class' => PartnerOrder::class,
                         'label' => 'admin.label.order',
                         'required' => false,
-                        'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
+                        'query_builder' => $this->rm->getPartnerOrderRepository()
+                            ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
                     ]
                 )
                 ->end()
@@ -505,7 +523,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
                 ->tab('Líneas')
-                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(9))
+                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(10))
                     ->add(
                         'saleDeliveryNoteLines',
                         CollectionType::class,
@@ -525,7 +543,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         $formMapper
             ->tab('Líneas')
-                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(2))
                 ->add(
                     'totalLines',
                     NumberType::class,
@@ -835,7 +853,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ]
             )
             ->add(

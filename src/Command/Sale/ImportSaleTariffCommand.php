@@ -37,9 +37,6 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|void|null
      *
      * @throws InvalidArgumentException
@@ -74,18 +71,19 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
                 //Todo Check if SaleServiceTariff exists, if not, create new one
                 /** @var SaleServiceTariff $saleServiceTariff */
                 $saleServiceTariff = $this->rm->getSaleServiceTariffRepository()->findOneBy([
-                    'description' => $tonnage
+                    'description' => $tonnage,
                 ]);
                 if (!$saleServiceTariff) {
                     // new record
                     $saleServiceTariff = new SaleServiceTariff();
                     $saleServiceTariff->setDescription($tonnage);
                     $this->em->persist($saleServiceTariff);
+                    $this->em->flush();
                 }
                 /** @var SaleTariff $saleTariff */
                 $saleTariff = $this->rm->getSaleTariffRepository()->findOneBy([
                     'year' => $year,
-                    'tonnage' => $tonnage,
+                    'saleServiceTariff' => $saleServiceTariff,
                     'enterprise' => $enterprise,
                 ]);
                 if (!$saleTariff) {

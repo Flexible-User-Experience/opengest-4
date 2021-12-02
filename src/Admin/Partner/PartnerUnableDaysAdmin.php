@@ -53,47 +53,51 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'partner',
-                ModelAutocompleteType::class,
-                [
-                    'property' => 'name',
-                    'label' => 'Tercer',
-                    'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                ],
-                [
-                    'admin_code' => 'app.admin.partner',
-                ]
-            )
+        ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->add(
+                    'partner',
+                    ModelAutocompleteType::class,
+                    [
+                        'property' => 'name',
+                        'label' => 'Tercer',
+                        'required' => true,
+                        'callback' => function ($admin, $property, $value) {
+                            /** @var Admin $admin */
+                            $datagrid = $admin->getDatagrid();
+                            /** @var QueryBuilder $queryBuilder */
+                            $queryBuilder = $datagrid->getQuery();
+                            $queryBuilder
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->setParameter('enterprise', $this->getUserLogedEnterprise());
+                            $datagrid->setValue($property, null, $value);
+                        },
+                    ],
+                    [
+                        'admin_code' => 'app.admin.partner',
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'begin',
                 DatePickerType::class,
                 [
-                    'label' => 'Data inici',
+                    'label' => 'admin.label.begin',
                     'required' => true,
-                    'format' => 'd/M/y',
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'format' => 'd/M',
+                    'dp_default_date' => (new \DateTime())->format('d/m'),
                 ]
             )
             ->add(
                 'end',
                 DatePickerType::class,
                 [
-                    'label' => 'Data fi',
-                    'format' => 'd/M/y',
+                    'label' => 'admin.label.end',
+                    'format' => 'd/M',
                     'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'dp_default_date' => (new \DateTime())->format('d/m'),
                 ]
             )
             ->end()
@@ -119,7 +123,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -189,7 +193,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                 ]
             )

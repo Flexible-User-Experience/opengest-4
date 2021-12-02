@@ -58,15 +58,31 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-        parent::configureRoutes($collection);
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
             ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
-//            ->remove('delete')
+            ->remove('show')
             ->remove('create')
         ;
+    }
+
+    /**
+     * @param array $actions
+     *
+     * @return array
+     */
+    public function configureBatchActions($actions)
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generatePdfs'] = [
+                'label' => 'admin.action.generate_sale_invoice_pdf',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
     }
 
     public function getExportFields(): array
@@ -217,7 +233,10 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'class' => SaleDeliveryNote::class,
                         'multiple' => true,
-                        'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
+                        'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
+                            $this->getUserLogedEnterprise(),
+                            $this->getSubject()->getPartner()
+                        ),
                         'by_reference' => false,
                     ]
                 )
@@ -252,8 +271,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.series',
+//                    'field_type' => EntityType::class,
+//                    'field_options' => [
+//                            'class' => SaleInvoiceSeries::class,
+//                            'choice_label' => 'name',
+//                            'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+//                    ],
                 ],
-                EntityType::class,
+                EntityType::class, // to field_type
                 [
                     'class' => SaleInvoiceSeries::class,
                     'choice_label' => 'name',
@@ -380,7 +405,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'partner']],
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ]
             )
             ->add(
@@ -424,6 +449,21 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     public function prePersist($object)
     {
         $object->setInvoiceNumber($this->im->getLastInvoiceNumberBySerieAndEnterprise($object->getSeries(), $this->getUserLogedEnterprise()));
+    }
+
+    /**
+     * @param SaleInvoice $object
+     */
+    public function preUpdate($object)
+    {
+        /** @var SaleInvoice $originalObject */
+        $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
+        if ($object->getInvoiceNumber() != $originalObject['invoiceNumber']) {
+            if (!$this->im->checkIfNumberIsAllowedBySerieAndEnterprise($object->getSeries(), $object->getPartner()->getEnterprise(), $object->getInvoiceNumber())) {
+                $this->getRequest()->getSession()->getFlashBag()->add('warning', 'No se ha modificado el numero de factura porque el '.$object->getInvoiceNumber().' no está permitido');
+                $object->setInvoiceNumber($originalObject['invoiceNumber']);
+            }
+        }
     }
 
     /**

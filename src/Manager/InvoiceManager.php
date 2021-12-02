@@ -50,11 +50,11 @@ class InvoiceManager
         foreach ($deliveryNotes as $deliveryNote) {
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-                $baseLineAmount = $deliveryNoteLine->getTotal() * (1 - $deliveryNote->getDiscount() / 100)*(1 - $saleInvoice->getDiscount()/ 100);
+                $baseLineAmount = $deliveryNoteLine->getTotal() * (1 - $deliveryNote->getDiscount() / 100) * (1 - $saleInvoice->getDiscount() / 100);
                 $lineIva = $baseLineAmount * $deliveryNoteLine->getIva() / 100;
                 $lineIrpf = $baseLineAmount * $deliveryNoteLine->getIrpf() / 100;
                 $finalLineAmount = $baseLineAmount + $lineIva - $lineIrpf;
-                $baseAmount +=$baseLineAmount;
+                $baseAmount += $baseLineAmount;
                 $finalTotal += $finalLineAmount;
                 $iva += $lineIva;
                 $irpf += $lineIrpf;
@@ -63,6 +63,25 @@ class InvoiceManager
         $saleInvoice->setBaseTotal(round($baseAmount, 2));
         $saleInvoice->setIva(round($iva, 2));
         $saleInvoice->setIrpf(round($irpf, 2));
-        $saleInvoice->setTotal(round($saleInvoice->getBaseTotal()+$saleInvoice->getIva()-$saleInvoice->getIrpf(), 2));
+        $saleInvoice->setTotal(round($saleInvoice->getBaseTotal() + $saleInvoice->getIva() - $saleInvoice->getIrpf(), 2));
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function checkIfNumberIsAllowedBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise, $invoiceNumber): bool
+    {
+        $return = false;
+        if ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) == $invoiceNumber) {
+            $return = true;
+        } else {
+            if (count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber])) > 1) {
+                $return = false;
+            } elseif ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) > $invoiceNumber) {
+                $return = true;
+            }
+        }
+
+        return $return;
     }
 }

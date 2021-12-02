@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\TimeRange;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
+use App\Enum\SaleRequestStatusEnum;
 use DateTime;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -108,6 +109,14 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                     /** @var SaleDeliveryNote $saleDeliveryNote */
                     $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
                     $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $splitTimeRange['start'], $splitTimeRange['finish']);
+                    // Change status of linked saleRequest to finalized
+                    if ($saleDeliveryNote) {
+                        $saleRequest = $saleDeliveryNote->getSaleRequest();
+                        if ($saleRequest) {
+                            $saleRequest->setStatus(SaleRequestStatusEnum::FINISHED);
+                            $this->admin->getModelManager()->update($saleRequest);
+                        }
+                    }
                     $this->admin->getModelManager()->create($operatorWorkRegister);
                     $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
                 }
