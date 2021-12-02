@@ -96,7 +96,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             'miniumHolidayHours',
             'status',
             'onlyDeliveryNote',
-            'observations'
+            'observations',
         ];
     }
 
@@ -541,7 +541,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'admin.label.invoice_to',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -752,7 +752,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ]
             )
             ->add(

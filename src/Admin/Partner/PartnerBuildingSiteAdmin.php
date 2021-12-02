@@ -117,7 +117,7 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -187,7 +187,7 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,

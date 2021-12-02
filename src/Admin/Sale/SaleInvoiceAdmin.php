@@ -399,7 +399,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'partner']],
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ]
             )
             ->add(

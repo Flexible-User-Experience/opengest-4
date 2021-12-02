@@ -102,7 +102,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Tercero',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -154,7 +154,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercero',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,

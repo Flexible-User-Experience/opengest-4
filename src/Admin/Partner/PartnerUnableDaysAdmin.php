@@ -123,7 +123,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -193,7 +193,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                 ]
             )
