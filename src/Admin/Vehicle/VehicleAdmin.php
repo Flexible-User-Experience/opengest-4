@@ -407,7 +407,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Consumos')
-                ->with('Consumos', $this->getFormMdSuccessBoxArray(12))
+                ->with('Consumos', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'vehicleConsumptions',
                     CollectionType::class,
@@ -429,7 +429,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Tacógrafo')
-                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'vehicleDigitalTachographs',
                     CollectionType::class,
