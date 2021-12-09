@@ -35,17 +35,13 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'begin',
         '_sort_order' => 'desc',
-    );
+    ];
 
     /**
      * Methods.
-     */
-
-    /**
-     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -53,90 +49,106 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
         $collection->remove('delete');
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper
-            ->with('General', $this->getFormMdSuccessBoxArray(6))
-            ->add(
-                'operator',
-                EntityType::class,
-                array(
-                    'label' => 'admin.label.operator',
-                    'required' => true,
-                    'class' => Operator::class,
-                    'choice_label' => 'fullName',
-                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+        if ($this->getCode() === $this->getRootCode()) {
+            $formMapper
+                ->with('General', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'operator',
+                    EntityType::class,
+                    [
+                        'label' => 'admin.label.operator',
+                        'required' => true,
+                        'class' => Operator::class,
+                        'choice_label' => 'fullName',
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
                 )
-            )
+            ;
+        } else {
+            $formMapper
+                ->with('General', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'operator',
+                    EntityType::class,
+                    [
+                        'label' => 'admin.label.operator',
+                        'required' => true,
+                        'class' => Operator::class,
+                        'choice_label' => 'fullName',
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        'attr' => [
+                            'hidden' => 'true',
+                        ],
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'Tipus absència',
                     'required' => true,
                     'query_builder' => $this->rm->getOperatorAbsenceTypeRepository()->getEnabledSortedByNameQB(),
-                )
+                ]
             )
             ->add(
                 'begin',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data inici',
                     'format' => 'd/M/y',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'end',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data fi',
                     'format' => 'd/M/y',
                     'required' => true,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add(
                 'operator',
                 null,
-                array(
+                [
                     'label' => 'Operari',
-                )
+                ]
             )
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'Tipus absència',
-                )
+                ]
             )
             ->add(
                 'begin',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Data inici',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
             ->add(
                 'end',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Data fi',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
         ;
     }
@@ -161,80 +173,77 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->add(
                 'status',
                 null,
-                array(
+                [
                     'label' => 'Estat',
                     'template' => 'admin/cells/list__cell_operator_absence_status.html.twig',
-                )
+                ]
             )
             ->add(
                 'begin',
                 'date',
-                array(
+                [
                     'label' => 'Data inici',
                     'format' => 'd/m/Y',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'end',
                 'date',
-                array(
+                [
                     'label' => 'Data fi',
                     'format' => 'd/m/Y',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'operator.profilePhotoImage',
                 null,
-                array(
+                [
                     'label' => 'Imatge',
                     'template' => 'admin/cells/list__cell_operator_profile_image_field.html.twig',
-                )
+                ]
             )
             ->add(
                 'operator',
                 null,
-                array(
+                [
                     'label' => 'Operari',
                     'editable' => false,
                     'associated_property' => 'fullName',
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'surname1'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'operator')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'surname1'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'operator']],
+                ]
             )
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'Tipus absència',
                     'editable' => true,
                     'associated_property' => 'name',
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'name'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'type')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'type']],
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }
