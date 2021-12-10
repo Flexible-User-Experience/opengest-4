@@ -82,11 +82,39 @@ class SaleInvoicePdfManager
     {
         // add start page
         // TODO make invoice print
-        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-        $width = 70;
-        $total = $width + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT;
-        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
+
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_PORTRAIT - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
+
+        // get the current page break margin
+        $bMargin = $pdf->getBreakMargin();
+        // get current auto-page-break mode
+        $auto_page_break = $pdf->getAutoPageBreak();
+        // disable auto-page-break
+        $pdf->SetAutoPageBreak(false, 0);
+        // restore auto-page-break status
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        // set the starting point for the page content
+        $pdf->setPageMark();
+        // set cell padding
+        $pdf->setCellPaddings(1, 1, 1, 1);
+
+        //Heading with date, invoice number, etc.
+        $pdf->setXY(100, 20);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleInvoice->getFromDateFormatted(),
+            0, 0, 'L', false);
+        $pdf->setXY(100, 20);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleInvoice->getFromDateFormatted(),
+            0, 0, 'L', false);
+        $pdf->Ln();
+
+        //page number
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+            0, 0, 'R', false);
 
         return $pdf;
     }

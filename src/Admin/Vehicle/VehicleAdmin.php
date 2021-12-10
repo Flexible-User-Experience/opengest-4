@@ -346,7 +346,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Revisiones')
-                ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(7))
                 ->add(
                     'vehicleCheckings',
                     CollectionType::class,
@@ -366,7 +366,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Permisos especiales')
-                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(12))
+                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(7))
                 ->add(
                     'vehicleSpecialPermits',
                     CollectionType::class,
@@ -390,7 +390,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Matenimientos')
-                ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(12))
+                ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(10))
                 ->add(
                     'vehicleMaintenances',
                     CollectionType::class,
@@ -407,7 +407,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Consumos')
-                ->with('Consumos', $this->getFormMdSuccessBoxArray(12))
+                ->with('Consumos', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'vehicleConsumptions',
                     CollectionType::class,
@@ -429,7 +429,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Tacógrafo')
-                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'vehicleDigitalTachographs',
                     CollectionType::class,
