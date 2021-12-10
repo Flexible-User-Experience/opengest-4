@@ -438,7 +438,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Revisiones')
-                ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'operatorCheckings',
                     CollectionType::class,
@@ -455,7 +455,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Ausencias')
-                ->with('Ausencias', $this->getFormMdSuccessBoxArray(12))
+                ->with('Ausencias', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'operatorAbsences',
                     CollectionType::class,
@@ -472,7 +472,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Tacógrafo')
-                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'operatorDigitalTachographs',
                     CollectionType::class,
@@ -489,7 +489,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Nóminas')
-                ->with('Conceptos por defecto', $this->getFormMdSuccessBoxArray(12))
+                ->with('Conceptos por defecto', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'payslipOperatorDefaultLines',
                     CollectionType::class,
