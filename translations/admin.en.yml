@@ -312,3 +312,30 @@ start: Inicio
 finish: Fin
 units: Unidades
 description: Descripción
+profilePhotoImageFile: Foto
+taxIdentificationNumber: "DNI/NIE"
+name: Nombre
+surname1: Apellido
+surname2: "Segundo apellido"
+email: Email
+address: Dirección
+city: Ciudad
+enterpriseMobile: "Móvil empresa"
+ownPhone: "Teléfono"
+ownMobile: "Móvil"
+hasCarDrivingLicense: "Licencia de coche"
+hasLorryDrivingLicense: "Licencia de camión"
+hasTowingDrivingLicense: "Licencia de remolque"
+hasCraneDrivingLicense: "Licencia de grua"
+enterpriseGroupBounty: "Grupo salarial"
+brithDate: "Fecha nacimiento"
+registrationDate: "Fecha registro"
+bancAccountNumber: "IBAN"
+socialSecurityNumber: "Número seguridad social"
+shoeSize: "Talla zapato"
+jerseytSize: "Talla jersey"
+jacketSize: "Talla chaqueta"
+tShirtSize: "Talla camiseta"
+pantSize: "Talla pantalón"
+workingDressSize: "Talla ropa trabajo"
+enabled: "Activo"

@@ -77,6 +77,39 @@ class OperatorAdmin extends AbstractBaseAdmin
             ->remove('delete');
     }
 
+    public function getExportFields(): array
+    {
+        return [
+            'profilePhotoImageFile',
+            'taxIdentificationNumber',
+            'name',
+            'surname1',
+            'surname2',
+            'email',
+            'address',
+            'city',
+            'enterpriseMobile',
+            'ownPhone',
+            'ownMobile',
+            'hasCarDrivingLicense',
+            'hasLorryDrivingLicense',
+            'hasTowingDrivingLicense',
+            'hasCraneDrivingLicense',
+            'enterpriseGroupBounty',
+            'brithDate',
+            'registrationDate',
+            'bancAccountNumber',
+            'socialSecurityNumber',
+            'shoeSize',
+            'jerseytSize',
+            'jacketSize',
+            'tShirtSize',
+            'pantSize',
+            'workingDressSize',
+            'enabled',
+        ];
+    }
+
     /**
      * @param array $actions
      */
