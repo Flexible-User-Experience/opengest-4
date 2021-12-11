@@ -312,7 +312,7 @@ start: Inicio
 finish: Fin
 units: Unidades
 description: Descripción
-profilePhotoImageFile: Foto
+profilePhotoImage: Foto
 taxIdentificationNumber: "DNI/NIE"
 name: Nombre
 surname1: Apellido
