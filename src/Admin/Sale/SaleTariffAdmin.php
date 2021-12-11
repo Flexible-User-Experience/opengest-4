@@ -70,6 +70,17 @@ class SaleTariffAdmin extends AbstractBaseAdmin
     public function getExportFields(): array
     {
         return [
+//            'year',
+//            'date',
+//            'saleServiceTariff',
+//            'partner',
+//            'partnerBuildingSite',
+//            'priceHour',
+//            'miniumHours',
+//            'miniumHolidayHours',
+//            'displacement',
+//            'increaseForHolidays',
+//            'increaseForHolidaysPercentage',
             'enabled',
         ];
     }
