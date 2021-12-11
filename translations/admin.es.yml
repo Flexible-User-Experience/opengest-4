@@ -338,5 +338,16 @@ jacketSize: "Talla chaqueta"
 tShirtSize: "Talla camiseta"
 pantSize: "Talla pantalón"
 workingDressSize: "Talla ropa trabajo"
+vehicleRegistrationNumber: Matrícula
+chassisBrand: "Marca chasis"
+chassisNumber: "Número chasis"
+vehicleBrand: "Marca vehículo"
+vehicleModel: "Modelo vehículo"
+serialNumber: "Número série"
+link: "Web fabricante"
+mileage: "Kilometraje"
+tonnage: "Tonelaje"
+mainImage: Foto
+category: Categoría
 enabled: "Activo"
 
