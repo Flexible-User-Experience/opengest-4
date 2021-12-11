@@ -31,6 +31,11 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'tercers/comandes';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [
@@ -78,7 +83,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número orden',
+                    'label' => 'admin.label.number',
                     'required' => true,
                 ]
             )
@@ -86,7 +91,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referencia proveedor',
+                    'label' => 'admin.label.providerReference',
                     'required' => false,
                 ]
             )
@@ -113,14 +118,14 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número orden',
+                    'label' => 'admin.label.number',
                 ]
             )
             ->add(
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referencia proveedor',
+                    'label' => 'admin.label.providerReference',
                 ]
             )
         ;
@@ -166,7 +171,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número Orden',
+                    'label' => 'admin.label.number',
                     'editable' => true,
                 ]
             )
@@ -174,7 +179,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referencia proveedor',
+                    'label' => 'admin.label.providerReference',
                     'editable' => true,
                 ]
             )
