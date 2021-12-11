@@ -97,6 +97,14 @@ class SaleInvoicePdfManager
         $pdf->SetAutoPageBreak(false, 0);
         // restore auto-page-break status
         $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        $withBackground = true;
+        if ($withBackground) {
+            // set background image
+            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/exempleFactura.pdf');
+            $pdf->Image($img_file, 0, 0, 148, 210, '', '', '', false, 300, '', false, false, 0);
+            // restore auto-page-break status
+            $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        }
         // set the starting point for the page content
         $pdf->setPageMark();
         // set cell padding
@@ -268,10 +276,10 @@ class SaleInvoicePdfManager
             0, 0, 'L', false);
 
         //page number
-        $pdf->setXY(80, 280);
+        $pdf->setXY(40, 285);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
-            0, 0, 'R', false);
+            $pdf->getAliasNumPage().' de '.$pdf->getAliasNbPages(),
+            0, 0, 'C', false);
         $pdf->Ln();
 
         return $pdf;
