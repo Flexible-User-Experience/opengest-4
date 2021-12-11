@@ -67,6 +67,13 @@ class SaleTariffAdmin extends AbstractBaseAdmin
         ;
     }
 
+    public function getExportFields(): array
+    {
+        return [
+            'enabled',
+        ];
+    }
+
     /**
      * @throws Exception
      */
