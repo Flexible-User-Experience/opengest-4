@@ -138,7 +138,6 @@ class OperatorAdminController extends BaseAdminController
         $this->admin->checkAccess('edit');
         $form = $this->createForm(GeneratePayslipsFormType::class);
         $form->handleRequest($request);
-//         TODO make selected operators to generate payslips work
         /** @var Operator[] $operators */
         $operators = $selectedModelQuery->execute()->getQuery()->getResult();
         $form->get('operators')->setData($operators);
