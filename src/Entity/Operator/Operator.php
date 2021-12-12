@@ -1528,7 +1528,7 @@ class Operator extends AbstractBase
      */
     public function getOperatorDigitalTachographs()
     {
-        $lastId = $this->operatorDigitalTachographs->last()->getId();
+        $lastId = $this->operatorDigitalTachographs->last() ? $this->operatorDigitalTachographs->last()->getId() : null;
 
         return $this->operatorDigitalTachographs->filter(function (OperatorDigitalTachograph $operatorDigitalTachograph) use ($lastId) {
             return $operatorDigitalTachograph->getId() === $lastId;

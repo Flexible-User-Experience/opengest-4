@@ -254,28 +254,33 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'disabled' => false,
                     ]
                 )
-                ->add(
-                    'buildingSite',
-                    EntityType::class,
-                    [
-                        'class' => PartnerBuildingSite::class,
-                        'label' => 'admin.label.partner_building_site',
-                        'required' => false,
-                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()
-                            ->getEnabledFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()),
-                    ]
-                )
-                ->add(
-                    'order',
-                    EntityType::class,
-                    [
-                        'class' => PartnerOrder::class,
-                        'label' => 'admin.label.order',
-                        'required' => false,
-                        'query_builder' => $this->rm->getPartnerOrderRepository()
-                            ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
-                    ]
-                )
+            ;
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                    ->add(
+                        'buildingSite',
+                        EntityType::class,
+                        [
+                            'class' => PartnerBuildingSite::class,
+                            'label' => 'admin.label.partner_building_site',
+                            'required' => false,
+                            'query_builder' => $this->rm->getPartnerBuildingSiteRepository()
+                                ->getEnabledFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()),
+                        ]
+                    )
+                    ->add(
+                        'order',
+                        EntityType::class,
+                        [
+                            'class' => PartnerOrder::class,
+                            'label' => 'admin.label.order',
+                            'required' => false,
+                            'query_builder' => $this->rm->getPartnerOrderRepository()
+                                ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
+                        ]
+                    );
+        }
+        $formMapper
                 ->end()
             ->end();
         if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
