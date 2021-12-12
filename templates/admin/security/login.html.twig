@@ -13,7 +13,7 @@
 
 {% block sonata_wrapper %}
     <div class="login-box">
-        {% include '@SonataUser/Includes/login_logo_fragment.html.twig' %}
+        {% include 'admin/security/login_logo_fragment.html.twig' %}
         <div class="login-box-body">
             {% block sonata_user_login_form %}
                 {% block sonata_user_login_error %}
@@ -53,6 +53,6 @@
                 </form>
             {% endblock %}
         </div>
-        {% include '@SonataUser/Includes/login_footer_fragment.html.twig' %}
+        {% include 'admin/security/login_footer_fragment.html.twig' %}
     </div>
 {% endblock sonata_wrapper %}
