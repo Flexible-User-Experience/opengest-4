@@ -35,8 +35,8 @@
                     {{ form_row(form._token) }}
 
                     <div class="form-group has-feedback">
-                        <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Username"/>
-{#                        <input type="text" class="form-control" id="username" name="{{ form.username.vars.full_name }}" value="{{ last_username }}" required="required" placeholder="Username"/>#}
+{#                        <input type="text" class="form-control" id="username" name="username" value="{{ last_username }}" required="required" placeholder="Username"/>#}
+                        <input type="text" class="form-control" id="username" name="{{ form.username.vars.full_name }}" value="{{ last_username }}" required="required" placeholder="Username"/>
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
 
