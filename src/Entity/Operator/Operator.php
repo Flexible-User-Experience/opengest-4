@@ -13,6 +13,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DoctrineExtensions\Query\Mysql\Date;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -1527,7 +1528,11 @@ class Operator extends AbstractBase
      */
     public function getOperatorDigitalTachographs()
     {
-        return $this->operatorDigitalTachographs;
+        $lastId = $this->operatorDigitalTachographs->last()->getId();
+
+        return $this->operatorDigitalTachographs->filter(function (OperatorDigitalTachograph $operatorDigitalTachograph) use ($lastId) {
+            return $operatorDigitalTachograph->getId() === $lastId;
+        });
     }
 
     /**
@@ -1572,7 +1577,9 @@ class Operator extends AbstractBase
      */
     public function getOperatorCheckings()
     {
-        return $this->operatorCheckings;
+        return $this->operatorCheckings->filter(function (OperatorChecking $operatorChecking) {
+            return $operatorChecking->getEnd() > new Datetime();
+        });
     }
 
     /**
@@ -1617,7 +1624,11 @@ class Operator extends AbstractBase
      */
     public function getOperatorAbsences()
     {
-        return $this->operatorAbsences;
+        $date = strtotime('-1 year');
+
+        return $this->operatorAbsences->filter(function (OperatorAbsence $operatorAbsence) use ($date) {
+            return $operatorAbsence->getEnd()->getTimestamp() > $date;
+        });
     }
 
     /**

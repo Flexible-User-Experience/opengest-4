@@ -35,6 +35,11 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'tercers/dies-inhabils';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [
@@ -123,7 +128,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -193,7 +198,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                 ]
             )

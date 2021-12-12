@@ -32,6 +32,11 @@ class PartnerContactAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'tercers/contacte';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [
@@ -145,7 +150,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 ModelAutocompleteFilter::class,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                 ],
                 null,
                 [
@@ -229,7 +234,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,

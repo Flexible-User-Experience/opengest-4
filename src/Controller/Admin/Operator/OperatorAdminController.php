@@ -139,7 +139,7 @@ class OperatorAdminController extends BaseAdminController
         $form = $this->createForm(GeneratePayslipsFormType::class);
         $form->handleRequest($request);
         /** @var Operator[] $operators */
-        $operators = $selectedModelQuery->execute();
+        $operators = $selectedModelQuery->execute()->getQuery()->getResult();
         $form->get('operators')->setData($operators);
 
         return $this->renderWithExtraParams(

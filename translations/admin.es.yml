@@ -157,6 +157,24 @@ admin:
         extra_night: "Dieta internacional"
         over_night: "Pernoctación"
         group: "Grupo"
+        code: "Código"
+        class: "Clase"
+        main_address: "Dirección fiscal"
+        main_city: "Población fiscal"
+        phone1: "Teléfono 1"
+        phone2: "Teléfono 2"
+        reference: "Referencia proveedor"
+        web_page: "Página web"
+        transfer_account: "Banco"
+        care: "Cargo"
+        enabled: "Activo"
+        phone: "Teléfono"
+        mobile: "Móvil"
+        number: "Número"
+        address: "Dirección"
+        providerReference: "Referencia proveedor"
+        begin: "Empieza"
+        end: "Termina"
     with:
         general: "General"
         image: "Imagen"
@@ -294,4 +312,42 @@ start: Inicio
 finish: Fin
 units: Unidades
 description: Descripción
+profilePhotoImage: Foto
+taxIdentificationNumber: "DNI/NIE"
+name: Nombre
+surname1: Apellido
+surname2: "Segundo apellido"
+email: Email
+address: Dirección
+city: Ciudad
+enterpriseMobile: "Móvil empresa"
+ownPhone: "Teléfono"
+ownMobile: "Móvil"
+hasCarDrivingLicense: "Licencia de coche"
+hasLorryDrivingLicense: "Licencia de camión"
+hasTowingDrivingLicense: "Licencia de remolque"
+hasCraneDrivingLicense: "Licencia de grua"
+enterpriseGroupBounty: "Grupo salarial"
+brithDate: "Fecha nacimiento"
+registrationDate: "Fecha registro"
+bancAccountNumber: "IBAN"
+socialSecurityNumber: "Número seguridad social"
+shoeSize: "Talla zapato"
+jerseytSize: "Talla jersey"
+jacketSize: "Talla chaqueta"
+tShirtSize: "Talla camiseta"
+pantSize: "Talla pantalón"
+workingDressSize: "Talla ropa trabajo"
+vehicleRegistrationNumber: Matrícula
+chassisBrand: "Marca chasis"
+chassisNumber: "Número chasis"
+vehicleBrand: "Marca vehículo"
+vehicleModel: "Modelo vehículo"
+serialNumber: "Número série"
+link: "Web fabricante"
+mileage: "Kilometraje"
+tonnage: "Tonelaje"
+mainImage: Foto
+category: Categoría
+enabled: "Activo"
 

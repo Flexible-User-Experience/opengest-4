@@ -96,9 +96,6 @@
     "doctrine/persistence": {
         "version": "1.3.6"
     },
-    "doctrine/reflection": {
-        "version": "1.2.2"
-    },
     "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
@@ -327,9 +324,6 @@
             "tests/bootstrap.php"
         ]
     },
-    "predis/predis": {
-        "version": "v1.1.1"
-    },
     "presta/sitemap-bundle": {
         "version": "v1.7.2"
     },
@@ -418,18 +412,6 @@
         },
         "files": [
             "config/packages/sensio_framework_extra.yaml"
-        ]
-    },
-    "snc/redis-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "85bbdb3d2db531e20874de29bab0587f93604fa8"
-        },
-        "files": [
-            "config/packages/snc_redis.yaml"
         ]
     },
     "sonata-project/admin-bundle": {
@@ -533,9 +515,6 @@
         "files": [
             "config/packages/dev/debug.yaml"
         ]
-    },
-    "symfony/debug-pack": {
-        "version": "v1.0.7"
     },
     "symfony/dependency-injection": {
         "version": "v4.4.4"
@@ -667,9 +646,6 @@
     "symfony/options-resolver": {
         "version": "v4.4.4"
     },
-    "symfony/orm-pack": {
-        "version": "v1.0.8"
-    },
     "symfony/phpunit-bridge": {
         "version": "4.3",
         "recipe": {
@@ -715,9 +691,6 @@
     },
     "symfony/process": {
         "version": "v4.4.4"
-    },
-    "symfony/profiler-pack": {
-        "version": "v1.0.4"
     },
     "symfony/property-access": {
         "version": "v4.4.4"
@@ -772,9 +745,6 @@
     "symfony/serializer": {
         "version": "v4.4.4"
     },
-    "symfony/serializer-pack": {
-        "version": "v1.0.2"
-    },
     "symfony/service-contracts": {
         "version": "v2.0.1"
     },
@@ -800,9 +770,6 @@
     },
     "symfony/templating": {
         "version": "v4.4.4"
-    },
-    "symfony/test-pack": {
-        "version": "v1.0.6"
     },
     "symfony/translation": {
         "version": "3.3",
@@ -836,9 +803,6 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
-    },
-    "symfony/twig-pack": {
-        "version": "v1.0.0"
     },
     "symfony/validator": {
         "version": "4.3",

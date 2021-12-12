@@ -67,6 +67,24 @@ class SaleTariffAdmin extends AbstractBaseAdmin
         ;
     }
 
+    public function getExportFields(): array
+    {
+        return [
+//            'year',
+//            'date',
+//            'saleServiceTariff',
+//            'partner',
+//            'partnerBuildingSite',
+//            'priceHour',
+//            'miniumHours',
+//            'miniumHolidayHours',
+//            'displacement',
+//            'increaseForHolidays',
+//            'increaseForHolidaysPercentage',
+            'enabled',
+        ];
+    }
+
     /**
      * @throws Exception
      */
@@ -387,7 +405,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'sortable' => true,
                 ]
             )
