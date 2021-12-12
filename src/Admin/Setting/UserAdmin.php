@@ -136,18 +136,23 @@ class UserAdmin extends AbstractBaseAdmin
                     'required' => true,
                 ]
             )
-            ->add(
-                'roles',
-                ChoiceType::class,
-                [
-                    'label' => 'Rols',
-                    'choices' => UserRolesEnum::getEnumArray(),
-                    'multiple' => true,
-                    'expanded' => true,
-                ]
-            )
-            ->end()
-        ;
+            ;
+        if ($this->getUser()->hasRole('ROLE_SUPER_ADMIN')) {
+            $formMapper
+                ->add(
+                    'roles',
+                    ChoiceType::class,
+                    [
+                        'label' => 'Rols',
+                        'choices' => UserRolesEnum::getEnumArray(),
+                        'multiple' => true,
+                        'expanded' => true,
+                    ]
+                )
+            ;
+        }
+        $formMapper
+            ->end();
     }
 
     protected function configureDatagridFilters(DatagridMapper $filterMapper): void

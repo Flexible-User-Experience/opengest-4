@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use App\Entity\Setting\User;
 use App\Form\LoginForm;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -11,7 +10,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -78,10 +76,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
     {
         if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
             return false;
-        }
-
-        if (!$user->hasRole(User::ADMIN_ROLE)) {
-            throw new CustomUserMessageAuthenticationException("You don't have permission to access that page.");
         }
 
         return true;
