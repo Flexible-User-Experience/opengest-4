@@ -4,6 +4,7 @@ fos_user:
     user_class:    App\Entity\Setting\User
     service:
         user_manager: 'sonata.user.orm.user_manager'
+        mailer: fos_user.mailer.twig_swift
     group:
         group_class:   App\Entity\Setting\Group
         group_manager: 'sonata.user.orm.group_manager'
