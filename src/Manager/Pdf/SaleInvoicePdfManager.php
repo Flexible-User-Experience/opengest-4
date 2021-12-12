@@ -204,6 +204,7 @@ class SaleInvoicePdfManager
         $xVar = 30;
         $yVarStart = 260;
         $cellWidth = 50;
+        $this->pdfEngineService->setStyleSize('', 8);
         $pdf->setXY($xVar, $yVarStart);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartner()->getName(),
@@ -270,6 +271,7 @@ class SaleInvoicePdfManager
                 0, 0, 'L', false);
             $pdf->Ln();
         }
+        $this->pdfEngineService->setStyleSize('b', 10);
         $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'TOTAL: '.$saleInvoice->getTotal().'€',
