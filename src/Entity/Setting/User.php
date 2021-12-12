@@ -99,7 +99,7 @@ class User extends AbstractBase implements UserInterface
     private $salt;
 
     /**
-     * @ORM\Column(name="roles", type="json")
+     * @ORM\Column(name="roles", type="json", nullable=true)
      */
     private $roles = [self::DEFAULT_ROLE];
 
@@ -292,6 +292,14 @@ class User extends AbstractBase implements UserInterface
         return $this->username;
     }
 
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        $this->usernameCanonical = strtolower($username);
+
+        return $this;
+    }
+
     public function eraseCredentials()
     {
         $this->plainPassword = null;
@@ -368,6 +376,7 @@ class User extends AbstractBase implements UserInterface
     public function setEmail(string $email)
     {
         $this->email = $email;
+        $this->emailCanonical = strtolower($email);
 
         return $this;
     }
