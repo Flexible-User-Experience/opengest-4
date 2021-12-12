@@ -143,7 +143,7 @@ class SaleDeliveryNotePdfManager
         $pdf->SetAutoPageBreak(false, 0);
         if ($withBackground) {
             // set background image
-            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/PlantillaAlbara.png');
+            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/plantillaAlbara.png');
             $pdf->Image($img_file, 0, 0, 148, 210, '', '', '', false, 300, '', false, false, 0);
             // restore auto-page-break status
             $pdf->SetAutoPageBreak($auto_page_break, $bMargin);

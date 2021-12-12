@@ -77,6 +77,39 @@ class OperatorAdmin extends AbstractBaseAdmin
             ->remove('delete');
     }
 
+    public function getExportFields(): array
+    {
+        return [
+            'profilePhotoImage',
+            'taxIdentificationNumber',
+            'name',
+            'surname1',
+            'surname2',
+            'email',
+            'address',
+            'city',
+            'enterpriseMobile',
+            'ownPhone',
+            'ownMobile',
+            'hasCarDrivingLicense',
+            'hasLorryDrivingLicense',
+            'hasTowingDrivingLicense',
+            'hasCraneDrivingLicense',
+            'enterpriseGroupBounty',
+            'brithDate',
+            'registrationDate',
+            'bancAccountNumber',
+            'socialSecurityNumber',
+            'shoeSize',
+            'jerseytSize',
+            'jacketSize',
+            'tShirtSize',
+            'pantSize',
+            'workingDressSize',
+            'enabled',
+        ];
+    }
+
     /**
      * @param array $actions
      */
@@ -103,7 +136,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'profilePhotoImageFile',
                         FileType::class,
                         [
-                            'label' => 'Imatge',
+                            'label' => 'profilePhotoImage',
                             'help' => $this->getProfileHelperFormMapperWithThumbnail(),
                             'required' => false,
                         ]
@@ -112,7 +145,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'taxIdentificationNumber',
                         null,
                         [
-                            'label' => 'DNI/NIE',
+                            'label' => 'taxIdentificationNumber',
                             'required' => true,
                         ]
                     )
@@ -120,37 +153,37 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'name',
                         null,
                         [
-                            'label' => 'Nom',
+                            'label' => 'name',
                         ]
                     )
                     ->add(
                         'surname1',
                         null,
                         [
-                            'label' => 'Primer cognom',
+                            'label' => 'surname1',
                         ]
                     )
                     ->add(
                         'surname2',
                         null,
                         [
-                            'label' => 'Segon cognom',
+                            'label' => 'surname2',
                         ]
                     )
                 ->end()
-                ->with('Contacte', $this->getFormMdSuccessBoxArray(3))
+                ->with('Contacto', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'email',
                         null,
                         [
-                            'label' => 'Email',
+                            'label' => 'email',
                         ]
                     )
                     ->add(
                         'address',
                         null,
                         [
-                            'label' => 'Adreça',
+                            'label' => 'address',
                             'required' => true,
                         ]
                     )
@@ -158,7 +191,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'city',
                         null,
                         [
-                            'label' => 'Ciutat',
+                            'label' => 'city',
                             'required' => true,
                         ]
                     )
@@ -166,7 +199,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'enterpriseMobile',
                         null,
                         [
-                            'label' => 'Mòbil d\'empresa',
+                            'label' => 'enterpriseMobile',
                             'required' => true,
                         ]
                     )
@@ -174,7 +207,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'ownPhone',
                         null,
                         [
-                            'label' => 'Telèfon personal',
+                            'label' => 'ownPhone',
                             'required' => true,
                         ]
                     )
@@ -182,17 +215,67 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'ownMobile',
                         null,
                         [
-                            'label' => 'Mòbil personal',
+                            'label' => 'ownMobile',
                             'required' => true,
                         ]
                     )
                 ->end()
-                ->with('Llicència', $this->getFormMdSuccessBoxArray(3))
+            ->with('EPI\'s', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'shoeSize',
+                null,
+                [
+                    'label' => 'shoeSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'jerseytSize',
+                null,
+                [
+                    'label' => 'jerseytSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'jacketSize',
+                null,
+                [
+                    'label' => 'jacketSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'tShirtSize',
+                null,
+                [
+                    'label' => 'tShirtSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'pantSize',
+                null,
+                [
+                    'label' => 'pantSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'workingDressSize',
+                null,
+                [
+                    'label' => 'workingDressSize',
+                    'required' => false,
+                ]
+            )
+            ->end()
+            ->with('Licencias', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'hasCarDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de cotxe',
+                            'label' => 'hasCarDrivingLicense',
                             'required' => true,
                         ]
                     )
@@ -200,7 +283,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'hasLorryDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de camions',
+                            'label' => 'hasLorryDrivingLicense',
                             'required' => true,
                         ]
                     )
@@ -208,7 +291,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'hasTowingDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de remolc',
+                            'label' => 'hasTowingDrivingLicense',
                             'required' => false,
                         ]
                     )
@@ -216,18 +299,18 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'hasCraneDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de grua',
+                            'label' => 'hasCraneDrivingLicense',
                             'required' => false,
                         ]
                     )
                 ->end()
-                ->with('Controls', $this->getFormMdSuccessBoxArray(3))
+                ->with('Controles', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'enterpriseGroupBounty',
                         EntityType::class,
                         [
                             'class' => EnterpriseGroupBounty::class,
-                            'label' => 'Grup prima',
+                            'label' => 'enterpriseGroupBounty',
                             'required' => true,
                             'query_builder' => $this->rm->getEnterpriseGroupBountyRepository()->getEnabledSortedByNameQB(),
                         ]
@@ -236,7 +319,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'brithDate',
                         DatePickerType::class,
                         [
-                            'label' => 'Data de naixement',
+                            'label' => 'brithDate',
                             'format' => 'd/M/y',
                             'required' => true,
                         ]
@@ -245,7 +328,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'registrationDate',
                         DatePickerType::class,
                         [
-                            'label' => 'Data de registre',
+                            'label' => 'registrationDate',
                             'format' => 'd/M/y',
                             'required' => true,
                         ]
@@ -254,7 +337,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'bancAccountNumber',
                         null,
                         [
-                            'label' => 'No. de compte bancari',
+                            'label' => 'bancAccountNumber',
                             'required' => true,
                         ]
                     )
@@ -262,7 +345,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'socialSecurityNumber',
                         null,
                         [
-                            'label' => 'No. de Seguretat Social',
+                            'label' => 'socialSecurityNumber',
                             'required' => true,
                         ]
                     )
@@ -270,57 +353,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'enabled',
                         CheckboxType::class,
                         [
-                            'label' => 'Actiu',
-                            'required' => false,
-                        ]
-                    )
-                ->end()
-                ->with('EPI\'s', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'shoeSize',
-                        null,
-                        [
-                            'label' => 'Mida de sabata',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'jerseytSize',
-                        null,
-                        [
-                            'label' => 'Mida de jersei',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'jacketSize',
-                        null,
-                        [
-                            'label' => 'Mida de jaqueta',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'tShirtSize',
-                        null,
-                        [
-                            'label' => 'Mida de camisa',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'pantSize',
-                        null,
-                        [
-                            'label' => 'Mida de pantaló',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'workingDressSize',
-                        null,
-                        [
-                            'label' => 'Mida de roba de treball',
+                            'label' => 'admin.label.enabled',
                             'required' => false,
                         ]
                     )
@@ -535,42 +568,42 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'taxIdentificationNumber',
                 null,
                 [
-                    'label' => 'DNI/NIE',
+                    'label' => 'taxIdentificationNumber',
                 ]
             )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'name',
                 ]
             )
             ->add(
                 'surname1',
                 null,
                 [
-                    'label' => 'Primer cognom',
+                    'label' => 'surname1',
                 ]
             )
             ->add(
                 'enterpriseGroupBounty',
                 null,
                 [
-                    'label' => 'Grup prima',
+                    'label' => 'enterpriseGroupBounty',
                 ]
             )
             ->add(
                 'email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'email',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                 ]
             )
         ;
@@ -610,7 +643,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'profilePhotoImage',
                 null,
                 [
-                    'label' => 'Imatge',
+                    'label' => 'profilePhotoImage',
                     'template' => 'admin/cells/list__cell_profile_image_field.html.twig',
                 ]
             )
@@ -618,7 +651,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'taxIdentificationNumber',
                 null,
                 [
-                    'label' => 'DNI/NIE',
+                    'label' => 'taxIdentificationNumber',
                     'editable' => true,
                 ]
             )
@@ -626,7 +659,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'name',
                     'editable' => true,
                 ]
             )
@@ -634,7 +667,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'surname1',
                 null,
                 [
-                    'label' => 'Primer cognom',
+                    'label' => 'surname1',
                     'editable' => true,
                 ]
             )
@@ -642,15 +675,15 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'surname2',
                 null,
                 [
-                    'label' => 'Segon cognom',
+                    'label' => 'surname2',
                     'editable' => true,
                 ]
             )
             ->add(
-                'enterprise_mobile',
+                'enterpriseMobile',
                 null,
                 [
-                    'label' => 'Mòbil empresa',
+                    'label' => 'enterpriseMobile',
                     'editable' => true,
                 ]
             )
@@ -658,7 +691,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                     'editable' => true,
                 ]
             )

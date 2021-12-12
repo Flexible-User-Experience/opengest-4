@@ -40,10 +40,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -125,7 +122,13 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         ->setProviderReference($this->readColumn(36, $row))
                         ->setReference($this->readColumn(34, $row))
                         ->setIvaTaxFree('1' == $this->readColumn(32, $row) ? true : false)
-                        ->setIban($this->readColumn(37, $row))
+                        ->setIban(
+                            $this->readColumn(37, $row).
+                            $this->readColumn(27, $row).
+                            $this->readColumn(28, $row).
+                            $this->readColumn(29, $row).
+                            $this->readColumn(30, $row)
+                        )
                         ->setSwift($this->readColumn(38, $row))
                         ->setBankCode($this->readColumn(27, $row))
                         ->setOfficeNumber($this->readColumn(28, $row))

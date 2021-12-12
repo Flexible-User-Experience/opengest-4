@@ -32,6 +32,11 @@ class PartnerContactAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'tercers/contacte';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [

@@ -35,6 +35,11 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'tercers/dies-inhabils';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [

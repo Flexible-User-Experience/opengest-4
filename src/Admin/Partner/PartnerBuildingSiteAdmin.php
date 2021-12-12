@@ -32,6 +32,11 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'tercers/obres';
 
     /**
+     * @var string
+     */
+    protected $translationDomain = 'admin';
+
+    /**
      * @var array
      */
     protected $datagridValues = [

@@ -79,7 +79,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery)
     {
         $this->admin->checkAccess('edit');
-        $selectedModels = $selectedModelQuery->execute();
+        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
         $saleDeliveryNotesWithSaleInvoice = [];
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($selectedModels as $saleDeliveryNote) {
