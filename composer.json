@@ -24,7 +24,6 @@
         "krixer/google-map-form-type-bundle": "^1.2",
         "lexik/maintenance-bundle": "^2.0",
         "liip/imagine-bundle": "^2.1",
-        "mewesk/twig-spreadsheet-bundle": "dev-upgrade-spreadsheet#fc1b231",
         "phpdocumentor/reflection-docblock": "^5.3",
         "presta/sitemap-bundle": "^2.0",
         "qipsius/tcpdf-bundle": "^2.0",
