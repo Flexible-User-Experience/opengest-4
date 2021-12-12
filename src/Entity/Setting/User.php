@@ -390,7 +390,6 @@ class User extends AbstractBase implements UserInterface
     public function setPlainPassword(string $plainPassword = null)
     {
         $this->plainPassword = $plainPassword;
-        $this->password = null;
 
         return $this;
     }

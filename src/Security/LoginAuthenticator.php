@@ -76,7 +76,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
 
     public function checkCredentials($credentials, UserInterface $user): bool
     {
-        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['username'])) {
+        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
             return false;
         }
 
