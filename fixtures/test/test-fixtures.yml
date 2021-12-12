@@ -312,6 +312,7 @@ App\Entity\Setting\User:
     admin:
         username: 'admin'
         plainPassword: 'passwd'
+        password: 'passwd'
         email: <safeEmail()>
         firstname: <name()>
         lastname: <lastname()>
