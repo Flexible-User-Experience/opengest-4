@@ -42,11 +42,6 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehicles/vehicle';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
