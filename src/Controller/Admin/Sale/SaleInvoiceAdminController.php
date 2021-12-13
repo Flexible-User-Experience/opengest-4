@@ -5,7 +5,6 @@ namespace App\Controller\Admin\Sale;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
-use App\Service\GuardService;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -31,11 +30,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleInvoice->getPartner()->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
 
         return parent::editAction($request);
     }
@@ -53,12 +47,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleInvoice->getPartner()->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
-
         /* TODO @var SaleRequestPdfManager $rps /
         $rps = $this->container->get('app.sale_request_pdf_manager');
         return new Response($rps->outputSingle($saleRequest), 200, array('Content-type' => 'application/pdf'));*/
@@ -81,12 +69,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleInvoice->getPartner()->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
-
         // TODO
         $this->addFlash('warning', 'Aquesta acció encara NO funciona!');
 
@@ -106,12 +88,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleInvoice->getPartner()->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
-
         // TODO
         $this->addFlash('warning', 'Aquesta acció encara NO funciona!');
 
@@ -132,11 +108,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         $saleInvoice = $this->admin->getObject($id);
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleInvoice->getPartner()->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
         $saleInvoice->setHasBeenCounted(false);
         try {
@@ -184,5 +155,7 @@ class SaleInvoiceAdminController extends BaseAdminController
                 return new RedirectResponse($request->headers->get('referer'));
             }
         }
+
+        return new RedirectResponse($request->headers->get('referer'));
     }
 }

@@ -8,7 +8,6 @@ use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Form\Type\GeneratePayslipsFormType;
-use App\Service\GuardService;
 use DateTime;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,11 +33,6 @@ class OperatorAdminController extends BaseAdminController
         $operator = $this->admin->getObject($id);
         if (!$operator) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->get('app.guard_service');
-        if (!$guardService->isOwnOperator($operator)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
         }
 
         return parent::editAction($request);

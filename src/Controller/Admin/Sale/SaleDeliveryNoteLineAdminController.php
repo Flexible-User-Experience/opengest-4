@@ -4,7 +4,6 @@ namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNoteLine;
-use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +25,6 @@ class SaleDeliveryNoteLineAdminController extends BaseAdminController
         $saleDeliveryNoteLine = $this->admin->getObject($id);
         if (!$saleDeliveryNoteLine) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleDeliveryNoteLine->getDeliveryNote()->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
         return parent::editAction($request);

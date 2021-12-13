@@ -8,7 +8,6 @@ use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Repository\Sale\SaleInvoiceRepository;
-use App\Service\GuardService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
@@ -36,11 +35,6 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         if (!$saleDeliveryNote) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleDeliveryNote->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
 
         return parent::editAction($request);
     }
@@ -62,11 +56,6 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleDeliveryNote = $this->admin->getObject($id);
         if (!$saleDeliveryNote) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleDeliveryNote->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
         return new Response($sdnps->outputSingle($saleDeliveryNote), 200, ['Content-type' => 'application/pdf']);

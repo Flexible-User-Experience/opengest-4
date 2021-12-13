@@ -7,7 +7,6 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Manager\Pdf\SaleRequestPdfManager;
-use App\Service\GuardService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -35,11 +34,6 @@ class SaleRequestAdminController extends BaseAdminController
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
 
         return parent::editAction($request);
     }
@@ -62,14 +56,6 @@ class SaleRequestAdminController extends BaseAdminController
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
-
-//        /** @var SaleRequestPdfManager $rps */
-//        $rps = $this->container->get('app.sale_request_pdf_manager');
 
         return new Response($rps->outputSingle($saleRequest), 200, ['Content-type' => 'application/pdf']);
     }
@@ -90,11 +76,6 @@ class SaleRequestAdminController extends BaseAdminController
         $saleRequest = $this->admin->getObject($id);
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
         $newSaleRequest = clone $saleRequest;
         $newSaleRequest->getServiceDate()->add(\DateInterval::createFromDateString('1 day'));
@@ -123,11 +104,6 @@ class SaleRequestAdminController extends BaseAdminController
         $saleRequest = $this->admin->getObject($id);
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
         if ($saleRequest->getSaleRequestHasDeliveryNotes()->count() > 0) {
             $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' ya tiene un albarán asociado');

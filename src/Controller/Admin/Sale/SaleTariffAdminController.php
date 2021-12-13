@@ -4,7 +4,6 @@ namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Enterprise\EnterpriseHolidays;
-use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,11 +28,6 @@ class SaleTariffAdminController extends BaseAdminController
         if (!$saleTariff) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleTariff->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
 
         return parent::editAction($request);
     }
@@ -49,11 +43,6 @@ class SaleTariffAdminController extends BaseAdminController
         $saleTariff = $this->admin->getObject($id);
         if (!$saleTariff) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleTariff->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
         $serializer = $this->container->get('serializer');
