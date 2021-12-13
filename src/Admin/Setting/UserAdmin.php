@@ -55,10 +55,7 @@ class UserAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @return array
-     */
-    public function getBatchActions()
+    public function configureBatchActions(array $actions): array
     {
         $actions = parent::getBatchActions();
         unset($actions['delete']);
