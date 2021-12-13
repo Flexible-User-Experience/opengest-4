@@ -110,10 +110,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param array $actions
-     */
-    protected function configureBatchActions($actions): array
+    public function configureBatchActions(array $actions): array
     {
         if (
             $this->hasRoute('edit')
@@ -123,6 +120,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'ask_confirmation' => false,
             ];
         }
+        parent::configureBatchActions($actions);
 
         return $actions;
     }

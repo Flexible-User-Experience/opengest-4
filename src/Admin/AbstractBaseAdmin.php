@@ -14,7 +14,7 @@ use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
@@ -92,7 +92,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('show')
@@ -100,10 +100,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         ;
     }
 
-    /**
-     * @return array
-     */
-    public function getBatchActions()
+    public function configureBatchActions(array $actions): array
     {
         $actions = parent::getBatchActions();
         unset($actions['delete']);
@@ -111,10 +108,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         return $actions;
     }
 
-    /**
-     * @return array
-     */
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return [
             'csv',
@@ -122,14 +116,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         ];
     }
 
-    /**
-     * @param string $bootstrapGrid
-     * @param string $bootstrapSize
-     * @param string $boxClass
-     *
-     * @return array
-     */
-    protected function getDefaultFormBoxArray($bootstrapGrid = 'md', $bootstrapSize = '6', $boxClass = 'primary')
+    protected function getDefaultFormBoxArray(string $bootstrapGrid = 'md', string $bootstrapSize = '6', string $boxClass = 'primary'): array
     {
         return [
             'class' => 'col-'.$bootstrapGrid.'-'.$bootstrapSize,
@@ -137,25 +124,18 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         ];
     }
 
-    /**
-     * @param string $bootstrapColSize
-     *
-     * @return array
-     */
-    protected function getFormMdSuccessBoxArray($bootstrapColSize = '6')
+    protected function getFormMdSuccessBoxArray(string $bootstrapColSize = '6'): array
     {
         return $this->getDefaultFormBoxArray('md', $bootstrapColSize, 'success');
     }
 
     /**
      * Get image helper form mapper with thumbnail.
-     *
-     * @return string
      */
-    protected function getMainImageHelperFormMapperWithThumbnail()
+    protected function getMainImageHelperFormMapperWithThumbnail(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getMainImage() ? '<img src="'.
-                $this->routeGenerator->generate(
+                $this->getRouteGenerator()->generate(
                     'admin_app_vehicle_vehicle_downloadMainImage',
                     ['id' => $this->getSubject()->getId()]
                 )
@@ -165,10 +145,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     /**
      * Get image helper form mapper with thumbnail.
-     *
-     * @return string
      */
-    protected function getImageHelperFormMapperWithThumbnail()
+    protected function getImageHelperFormMapperWithThumbnail(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getImage() ? '<img src="'.$this->lis->getBrowserPath(
                 $this->vus->asset($this->getSubject(), 'imageFile'),
@@ -178,10 +156,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     /**
      * Get image helper form mapper with thumbnail.
-     *
-     * @return string
      */
-    protected function getLogoHelperFormMapperWithThumbnail()
+    protected function getLogoHelperFormMapperWithThumbnail(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getLogo() ? '<img src="'.$this->lis->getBrowserPath(
                 $this->vus->asset($this->getSubject(), 'logoFile'),
@@ -191,13 +167,11 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     /**
      * Get image helper form mapper with thumbnail.
-     *
-     * @return string
      */
-    protected function getProfileHelperFormMapperWithThumbnail()
+    protected function getProfileHelperFormMapperWithThumbnail(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getProfilePhotoImage() ? '<img src="'.
-                $this->routeGenerator->generate(
+                $this->getRouteGenerator()->generate(
                     'admin_app_operator_operator_downloadProfilePhotoImage',
                     ['id' => $this->getSubject()->getId()]
                 )
@@ -206,13 +180,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     /**
      * Get image helper form mapper with thumbnail.
-     *
-     * @param string $attribute
-     * @param string $uploaderMapping
-     *
-     * @return string
      */
-    protected function getSmartHelper($attribute, $uploaderMapping)
+    protected function getSmartHelper(string $attribute, string $uploaderMapping): string
     {
         if ($this->getSubject() && $this->getSubject()->$attribute()) {
             if ($this->fs->isPdf($this->getSubject(), $uploaderMapping)) {
@@ -236,7 +205,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         }
     }
 
-    protected function getDocumentHelper($route, $document)
+    protected function getDocumentHelper($route, $document): string
     {
         $docFunction = new UnicodeString($document);
         $isPdf = false;
@@ -253,7 +222,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
         return $this->tws->render(
             'admin/helpers/document.html.twig', [
-                'documentSrc' => $this->routeGenerator->generate(
+                'documentSrc' => $this->getRouteGenerator()->generate(
                     $route,
                     ['id' => $object->getId()]
                 ),
@@ -267,10 +236,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     /**
      * Get image helper form mapper with thumbnail for black&white.
-     *
-     * @return string
      */
-    protected function getImageHelperFormMapperWithThumbnailBW()
+    protected function getImageHelperFormMapperWithThumbnailBW(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getImageNameBW() ? '<img src="'.$this->lis->getBrowserPath(
                 $this->vus->asset($this->getSubject(), 'imageFileBW'),
@@ -278,10 +245,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
             ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 1200px (màx. 10MB amb JPG o PNG)</span>';
     }
 
-    /**
-     * @return string
-     */
-    protected function getImageHelperFormMapperWithThumbnailGif()
+    protected function getImageHelperFormMapperWithThumbnailGif(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getGifName() ? '<img src="'.$this->lis->getBrowserPath(
                 $this->vus->asset($this->getSubject(), 'gifFile'),
@@ -289,10 +253,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
             ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">mida 780x1168px (màx. 10MB amb GIF)</span>';
     }
 
-    /**
-     * @return string
-     */
-    protected function getDownloadPdfButton()
+    protected function getDownloadPdfButton(): string
     {
         $result = '';
         if ($this->getSubject() && !is_null($this->getSubject()->getAttatchmentPDF())) {
@@ -302,14 +263,11 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    protected function getDownloadDigitalTachographButton()
+    protected function getDownloadDigitalTachographButton(): string
     {
         $result = '';
         if ($this->getSubject() && !is_null($this->getSubject()->getUploadedFileName())) {
-            $url = $this->routeGenerator->generateUrl($this, 'download', ['id' => $this->getSubject()->getId()]);
+            $url = $this->getRouteGenerator()->generateUrl($this, 'download', ['id' => $this->getSubject()->getId()]);
             $result = '<a class="btn btn-warning" role="button" href="'.$url.'"><i class="fa fa-download"></i> Descarregar arxiu</a>';
         }
 
