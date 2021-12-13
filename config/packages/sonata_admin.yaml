@@ -1,6 +1,6 @@
 sonata_admin:
     title:              '%project_admin_title%'
-    title_logo:         'build/fibervent_logo_black_landscape.jpg'
+    title_logo:         'build/img/logo_email_gruasromani.png'
     persist_filters:    true
     show_mosaic_button: false
     options:
