@@ -146,6 +146,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                 ->join($queryBuilder->getRootAliases()[0].'.vehicle', 'v')
                 ->andWhere('v.enterprise = :enterprise')
                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                ->orderBy($queryBuilder->getRootAliases()[0].'.created_at', 'DESC')
             ;
         }
 
@@ -169,7 +170,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Imatge',
-                    'template' => 'admin/cells/list__cell_tachograph_vehicle_image_field.html.twig',
+                    'template' => 'admin/cells/list__cell_main_image_field.html.twig',
                 ]
             )
             ->add(

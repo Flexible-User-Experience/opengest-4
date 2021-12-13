@@ -9,7 +9,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -228,24 +230,29 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle',
-                ],
-                EntityType::class,
-                [
-                    'class' => Vehicle::class,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Vehicle::class,
+                            'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
                 'expeditionDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.expedition_date',
-                    'field_type' => DatePickerType::class,
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(

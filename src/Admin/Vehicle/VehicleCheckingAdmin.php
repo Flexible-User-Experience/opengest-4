@@ -11,8 +11,9 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
@@ -120,23 +121,39 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'begin',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'Data d\'expedició',
-                    'field_type' => DatePickerType::class,
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(
                 'end',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'Data caducitat',
-                    'field_type' => DatePickerType::class,
+
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
         ;

@@ -140,16 +140,16 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
