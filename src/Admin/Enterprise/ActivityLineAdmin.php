@@ -4,7 +4,6 @@ namespace App\Admin\Enterprise;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\ActivityLine;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -69,14 +68,8 @@ class ActivityLineAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')

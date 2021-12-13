@@ -4,9 +4,9 @@ namespace App\Admin\Enterprise;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 
 /**
@@ -44,7 +44,7 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Grupo', $this->getFormMdSuccessBoxArray(4))
@@ -200,7 +200,7 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -213,15 +213,9 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
             ->setParameter('enterprise', $this->getUserLogedEnterprise())
@@ -230,7 +224,7 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
 //            ->add(
@@ -266,7 +260,7 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
     /**
      * @param EnterpriseGroupBounty $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
     }
