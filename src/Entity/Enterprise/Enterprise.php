@@ -4,8 +4,8 @@ namespace App\Entity\Enterprise;
 
 use App\Entity\AbstractBase;
 use App\Entity\Partner\Partner;
-use App\Entity\Sale\SaleTariff;
 use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\City;
 use App\Entity\Setting\User;
 use DateTime;
@@ -13,8 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Enterprise.
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Enterprise extends AbstractBase
 {
-    const GRUAS_ROMANI_TIN = 'A43030287';
+    public const GRUAS_ROMANI_TIN = 'A43030287';
 
     /**
      * @var string
@@ -99,7 +99,9 @@ class Enterprise extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Assert\Email(strict=true, checkMX=true, checkHost=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
      */
     private $email;
 
@@ -856,8 +858,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $logoFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -903,8 +903,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $deedOfIncorporationFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -950,8 +948,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $taxIdentificationNumberCardFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -997,8 +993,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $tc1ReceiptFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1044,8 +1038,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $tc2ReceiptFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1091,8 +1083,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $ssRegistrationFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1138,8 +1128,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $ssPaymentCertificateFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1185,8 +1173,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $rc1InsuranceFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1232,8 +1218,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $rc2InsuranceFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1279,8 +1263,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $rcReceiptFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1326,8 +1308,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $preventionServiceContractFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1373,8 +1353,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $preventionServiceInvoiceFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1420,8 +1398,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $preventionServiceReceiptFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1467,8 +1443,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $occupationalAccidentsInsuranceFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1514,8 +1488,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $occupationalReceiptFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1561,8 +1533,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $laborRiskAssessmentFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1608,8 +1578,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $securityPlanFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1655,8 +1623,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $reaCertificateFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1702,8 +1668,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $oilCertificateFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1749,8 +1713,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $gencatPaymentCertificateFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1796,8 +1758,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $deedsOfPowersFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1890,8 +1850,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $iaeReceiptFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1937,8 +1895,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param File|null $mutualPartnershipFile
-     *
      * @return Enterprise
      *
      * @throws \Exception
@@ -1996,8 +1952,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param User $user
-     *
      * @return $this
      */
     public function addUser(User $user)
@@ -2011,8 +1965,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param User $user
-     *
      * @return $this
      */
     public function removeUser(User $user)
@@ -2044,8 +1996,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param EnterpriseGroupBounty $enterpriseGroupBounty
-     *
      * @return $this
      */
     public function addEnterpriseGroupBounty(EnterpriseGroupBounty $enterpriseGroupBounty)
@@ -2059,8 +2009,6 @@ class Enterprise extends AbstractBase
     }
 
     /**
-     * @param EnterpriseGroupBounty $enterpriseGroupBounty
-     *
      * @return $this
      */
     public function removeEnterpriseGroupBounty(EnterpriseGroupBounty $enterpriseGroupBounty)

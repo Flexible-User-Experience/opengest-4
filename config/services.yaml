@@ -30,7 +30,7 @@ services:
         bind:
             $defaultLocale:    '%default_locale%'
             $project_url_base: '%project_url_base%'
-            $krb:              '%kernel.root_dir%'
+            $krb:              '%kernel.project_dir%'
             $amd:              '%mailer_destination%'
             $urlBase:          '%mailer_url_base%'
             $commandName:      ~
@@ -179,7 +179,7 @@ services:
     # File
     app.file_service:
         class: App\Service\FileService
-        arguments: [ '@Vich\UploaderBundle\Templating\Helper\UploaderHelper', '%kernel.root_dir%' ]
+        arguments: [ '@Vich\UploaderBundle\Templating\Helper\UploaderHelper', '%kernel.project_dir%' ]
     app.smart_assets_helper_service:
         class: App\Service\SmartAssetsHelperService
         arguments: [ '@kernel', '%mailer_url_base%' ]
