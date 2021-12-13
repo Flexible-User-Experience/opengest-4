@@ -171,14 +171,14 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-//            ->add(
-//                'status',
-//                null,
-//                [
-//                    'label' => 'Estat',
-//                    'template' => 'admin/cells/list__cell_operator_absence_status.html.twig',
-//                ]
-//            )
+            ->add(
+                'status',
+                null,
+                [
+                    'label' => 'Estat',
+                    'template' => 'admin/cells/list__cell_operator_absence_status.html.twig',
+                ]
+            )
             ->add(
                 'begin',
                 'date',

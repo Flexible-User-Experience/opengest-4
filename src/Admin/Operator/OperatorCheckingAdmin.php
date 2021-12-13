@@ -145,11 +145,10 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                     'label' => 'Data d\'expedició',
                     'field_type' => DatePickerType::class,
                     'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options' => [
+                            'widget' => 'single_text',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                 ]
             )
             ->add(
@@ -159,11 +158,10 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                     'label' => 'Data caducitat',
                     'field_type' => DatePickerType::class,
                     'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options' => [
+                            'widget' => 'single_text',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                 ]
             )
         ;
@@ -192,6 +190,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'Estat',
                     'template' => 'admin/cells/list__cell_operator_checking_status.html.twig',
+                    'mapped' => false,
                 ]
             )
             ->add(

@@ -7,8 +7,9 @@ use App\Entity\Operator\Operator;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -139,13 +140,13 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'operator',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.operator',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
