@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\OperatorChecking;
 use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,9 +19,8 @@ class OperatorCheckingAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null): Response
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var OperatorChecking $operatorChecking */
@@ -35,6 +35,6 @@ class OperatorCheckingAdminController extends BaseAdminController
             throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
         }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 }

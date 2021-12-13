@@ -76,8 +76,8 @@ class EnterpriseAdmin extends AbstractBaseAdmin
             ->add('downloadIaeRegistration', $this->getRouterIdParameter().'/registro-iae')
             ->add('downloadIaeReceipt', $this->getRouterIdParameter().'/recibo-iae')
             ->add('downloadMutualPartnership', $this->getRouterIdParameter().'/asociacion-mutua')
-            ->add('downloadDeedOfIncorporationAction', $this->getRouterIdParameter().'/escritura-constitucion')
-            ->add('downloadTaxIdentificationNumberCardAction', $this->getRouterIdParameter().'/tarjeta-nif')
+            ->add('downloadDeedOfIncorporation', $this->getRouterIdParameter().'/escritura-constitucion')
+            ->add('downloadTaxIdentificationNumberCard', $this->getRouterIdParameter().'/tarjeta-nif')
         ;
     }
 
@@ -373,7 +373,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Escritura constitució',
-                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadDeedOfIncorporationAction', 'deedOfIncorporation'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadDeedOfIncorporation', 'deedOfIncorporation'),
                         'help_html' => true,
                         'required' => false,
                     ]
@@ -383,7 +383,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => 'Carta CIF',
-                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadTaxIdentificationNumberCardAction', 'taxIdentificationNumberCard'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadTaxIdentificationNumberCard', 'taxIdentificationNumberCard'),
                         'help_html' => true,
                         'required' => false,
                     ]

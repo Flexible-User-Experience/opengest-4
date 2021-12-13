@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,9 +19,8 @@ class SaleDeliveryNoteLineAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null): Response
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
         /** @var SaleDeliveryNoteLine $saleDeliveryNoteLine */
         $saleDeliveryNoteLine = $this->admin->getObject($id);
@@ -33,6 +33,6 @@ class SaleDeliveryNoteLineAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 }

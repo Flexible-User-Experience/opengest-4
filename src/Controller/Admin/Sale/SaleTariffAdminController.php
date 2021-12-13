@@ -7,6 +7,7 @@ use App\Entity\Enterprise\EnterpriseHolidays;
 use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -19,9 +20,8 @@ class SaleTariffAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null): Response
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var EnterpriseHolidays $enterpriseHoliday */
@@ -35,7 +35,7 @@ class SaleTariffAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 
     /**

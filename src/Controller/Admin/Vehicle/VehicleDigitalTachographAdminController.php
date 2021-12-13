@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Vehicle\VehicleDigitalTachograph;
 use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -46,9 +47,8 @@ class VehicleDigitalTachographAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null): Response
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var VehicleDigitalTachograph $vehicleDigitalTachograph */
@@ -63,6 +63,6 @@ class VehicleDigitalTachographAdminController extends BaseAdminController
             throw $this->createNotFoundException('forbidden object wirh id %s', $id);
         }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 }

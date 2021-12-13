@@ -39,14 +39,10 @@ abstract class BaseAdminController extends Controller
      */
     protected function resolveRequest(Request $request = null)
     {
-        if (null === $request) {
-            return $this->getRequest();
-        }
-
         return $request;
     }
 
-    protected function downloadDocument($id, DownloadHandler $downloadHandler, $object, $documentFile, $documentName): Response
+    protected function downloadDocument(Request $request, $id, DownloadHandler $downloadHandler, $object, $documentFile, $documentName): Response
     {
         if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
@@ -65,7 +61,7 @@ abstract class BaseAdminController extends Controller
                 'warning',
                 'No se pudo recuperar el documento  '.$documentName.'.'
             );
-            $referer = $this->getRequest()->headers->get('referer');
+            $referer = $request->headers->get('referer');
             $return = new RedirectResponse($referer);
         }
 

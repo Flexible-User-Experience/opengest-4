@@ -26,9 +26,8 @@ class SaleRequestAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null): Response
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var SaleRequest $saleRequest */
@@ -42,7 +41,7 @@ class SaleRequestAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 
     /**
