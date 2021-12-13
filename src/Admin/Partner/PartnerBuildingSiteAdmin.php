@@ -11,7 +11,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 
 /**
  * Class PartnerBuildingSiteAdmin.
@@ -115,14 +115,14 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'Tercer',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(

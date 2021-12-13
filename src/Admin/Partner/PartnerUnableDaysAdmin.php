@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\DatePickerType;
 
 /**
@@ -121,14 +121,14 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'Partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
