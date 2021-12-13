@@ -12,7 +12,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
@@ -57,7 +57,7 @@ class OperatorAdmin extends AbstractBaseAdmin
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
