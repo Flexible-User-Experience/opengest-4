@@ -54,7 +54,7 @@ class ContactMessageAdminController extends BaseAdminController
         $em->flush();
 
         return $this->renderWithExtraParams(
-            $this->admin->getTemplate('show'),
+            $this->admin->getTemplateRegistry()->getTemplate('show'),
             [
                 'action' => 'show',
                 'object' => $object,

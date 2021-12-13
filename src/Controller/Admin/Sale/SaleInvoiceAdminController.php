@@ -139,7 +139,7 @@ class SaleInvoiceAdminController extends BaseAdminController
         if ($object->isHasBeenCounted()) {
             $this->addFlash('warning', 'No se puede borrar una factura contablilizada');
 
-            return new RedirectResponse($request->headers->get('referer'));
+            return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
         } else {
             try {
                 /** @var SaleDeliveryNote $deliveryNote */
@@ -151,11 +151,9 @@ class SaleInvoiceAdminController extends BaseAdminController
             } catch (ModelManagerException $exception) {
                 $this->addFlash('error', 'Error al actualizar albaranes relacionados: '.$exception->getMessage());
                 throw $exception;
-
-                return new RedirectResponse($request->headers->get('referer'));
             }
         }
 
-        return new RedirectResponse($request->headers->get('referer'));
+        return null;
     }
 }

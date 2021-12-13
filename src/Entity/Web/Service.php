@@ -97,8 +97,6 @@ class Service extends AbstractBase
     }
 
     /**
-     * @param File|null $mainImageFile
-     *
      * @return $this
      *
      * @throws \Exception
@@ -156,8 +154,6 @@ class Service extends AbstractBase
     }
 
     /**
-     * @param Work $work
-     *
      * @return $this
      */
     public function addWork(Work $work)
@@ -168,8 +164,6 @@ class Service extends AbstractBase
     }
 
     /**
-     * @param Work $work
-     *
      * @return $this
      */
     public function removeWork(Work $work)
@@ -197,6 +191,11 @@ class Service extends AbstractBase
         $this->vehicleCategory = $vehicleCategory;
 
         return $this;
+    }
+
+    public function getFakeMainImage()
+    {
+        return true;
     }
 
     /**
