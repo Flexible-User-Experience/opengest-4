@@ -37,7 +37,7 @@ class VehicleAdminController extends BaseAdminController
         /** @var Vehicle $operator */
         $vehicle = $this->admin->getObject($id);
 
-        return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'mainImageFile', $vehicle->getMainImage());
+        return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'mainImageFile', $vehicle->getMainImage(), false);
     }
 
     public function downloadChassisImageAction(Request $request, $id, DownloadHandler $downloadHandler): Response

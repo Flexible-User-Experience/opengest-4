@@ -42,7 +42,7 @@ abstract class BaseAdminController extends Controller
         return $request;
     }
 
-    protected function downloadDocument(Request $request, $id, DownloadHandler $downloadHandler, $object, $documentFile, $documentName): Response
+    protected function downloadDocument(Request $request, $id, DownloadHandler $downloadHandler, $object, $documentFile, $documentName, $fillErrorBag = true): Response
     {
         if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
@@ -57,10 +57,12 @@ abstract class BaseAdminController extends Controller
                 $forceDownload = false
             );
         } catch (\ErrorException | NoFileFoundException $e) {
-            $this->addFlash(
-                'warning',
-                'No se pudo recuperar el documento  '.$documentName.'.'
-            );
+            if ($fillErrorBag) {
+                $this->addFlash(
+                    'warning',
+                    'No se pudo recuperar el documento  '.$documentName.'.'
+                );
+            }
             $referer = $request->headers->get('referer');
             $return = new RedirectResponse($referer);
         }
