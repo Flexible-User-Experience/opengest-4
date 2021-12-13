@@ -27,7 +27,7 @@
                 var numberOfDeliveryNoteLines = {{ form.saleDeliveryNoteLines.vars.data.count }};
                 for (let i = 0; i < numberOfDeliveryNoteLines; i++) {
                     jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {
-                            var saleItemId = parseInt(event.val);
+                            var saleItemId = parseInt(jQuery(event.target).val());
                             updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);
                     }
                     );
@@ -68,7 +68,7 @@
                 numberOfDeliveryNoteLines++;
                 var i = numberOfDeliveryNoteLines - 1;
                 jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {
-                    var saleItemId = parseInt(event.val);
+                    var saleItemId = parseInt(jQuery(event.target).val());
                     updatePriceAndQuantityDeliveryNoteLine(i, saleItemId);
                   }
                 );
@@ -118,7 +118,7 @@
              //on change
             partnerNode.change(function(event) {
                 cifNifIcon.removeClass('hidden');
-                var partnerId = event.val;
+                var partnerId = jQuery(event.target).val();
                 console.log('PartnerID', partnerId);
               if (partnerId) {
                 //on change Partner
