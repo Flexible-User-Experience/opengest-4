@@ -7,9 +7,9 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleItem;
 use App\Enum\ConstantsEnum;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -205,15 +205,9 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->join($queryBuilder->getRootAliases()[0].'.deliveryNote', 's')

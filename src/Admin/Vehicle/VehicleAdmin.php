@@ -9,9 +9,9 @@ use App\Entity\Vehicle\VehicleCategory;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -533,15 +533,9 @@ class VehicleAdmin extends AbstractBaseAdmin
             );
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -612,7 +606,7 @@ class VehicleAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         $vehicleMaintenances = $object->getVehicleMaintenances();
@@ -630,7 +624,7 @@ class VehicleAdmin extends AbstractBaseAdmin
     /**
      * @param Vehicle $object
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $vehicleMaintenances = $object->getVehicleMaintenances();
         /** @var VehicleMaintenance $vehicleMaintenance */

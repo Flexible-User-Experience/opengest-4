@@ -9,6 +9,7 @@ use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
@@ -154,15 +155,9 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.partner', 'p')
             ->orderBy($queryBuilder->getRootAliases()[0].'.begin', 'DESC')

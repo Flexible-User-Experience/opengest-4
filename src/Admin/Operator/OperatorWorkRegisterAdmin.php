@@ -357,7 +357,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setAmount($object->getUnits() * $object->getPriceUnit());
 

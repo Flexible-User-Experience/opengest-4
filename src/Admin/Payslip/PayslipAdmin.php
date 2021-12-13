@@ -381,7 +381,7 @@ class PayslipAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $payslipLines = $object->getPayslipLines();
         $totalAmount = 0;

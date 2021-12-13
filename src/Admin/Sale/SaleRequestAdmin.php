@@ -17,6 +17,7 @@ use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -101,10 +102,8 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 
     /**
      * @param array $actions
-     *
-     * @return array
      */
-    public function configureBatchActions($actions)
+    public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
 //            $actions['generatepdfs'] = array(
@@ -676,15 +675,9 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -810,7 +803,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
      *
      * @throws Exception
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setAttendedBy($this->getUser());
         $object->setEnterprise($this->getUserLogedEnterprise());

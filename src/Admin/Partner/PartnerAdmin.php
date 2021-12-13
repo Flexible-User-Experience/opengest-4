@@ -8,9 +8,9 @@ use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerClass;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -355,15 +355,9 @@ class PartnerAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -449,7 +443,7 @@ class PartnerAdmin extends AbstractBaseAdmin
     /**
      * @param Partner $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
     }

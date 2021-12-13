@@ -12,6 +12,7 @@ use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
@@ -69,10 +70,8 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
 
     /**
      * @param array $actions
-     *
-     * @return array
      */
-    public function configureBatchActions($actions)
+    public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generatePdfs'] = [
@@ -338,7 +337,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['hasBeenCounted'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -346,15 +345,9 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.partner', 'p')
             ->andWhere('p.enterprise = :enterprise')
@@ -445,7 +438,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setInvoiceNumber($this->im->getLastInvoiceNumberBySerieAndEnterprise($object->getSeries(), $this->getUserLogedEnterprise()));
     }
@@ -453,7 +446,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param SaleInvoice $object
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         /** @var SaleInvoice $originalObject */
         $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
@@ -468,7 +461,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param SaleInvoice $object
      */
-    public function postUpdate($object)
+    public function postUpdate($object): void
     {
         $this->im->calculateInvoiceImportsFromDeliveryNotes($object, $object->getDeliveryNotes());
 

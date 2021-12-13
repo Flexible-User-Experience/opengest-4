@@ -240,15 +240,13 @@ class UserAdmin extends AbstractBaseAdmin
 
     /**
      * @param User $object
-     *
-     * @return void
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->managePassword($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->managePassword($object);
     }

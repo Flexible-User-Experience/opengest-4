@@ -7,9 +7,9 @@ use App\Entity\Enterprise\EnterpriseGroupBounty;
 use App\Entity\Operator\Operator;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -607,7 +607,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['enabled'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -615,15 +615,9 @@ class OperatorAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -712,7 +706,7 @@ class OperatorAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         $payslipOperatorDefaultLines = $object->getPayslipOperatorDefaultLines();

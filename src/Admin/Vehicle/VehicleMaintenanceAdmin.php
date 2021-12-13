@@ -189,7 +189,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['enabled'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -270,7 +270,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->disablePreviousAndCheckIfNeedMaintenance($object);
     }
@@ -280,7 +280,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->disablePreviousAndCheckIfNeedMaintenance($object);
     }

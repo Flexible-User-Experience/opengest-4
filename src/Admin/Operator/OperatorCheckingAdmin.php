@@ -4,9 +4,9 @@ namespace App\Admin\Operator;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
@@ -169,15 +169,9 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.operator', 'op')
             ->andWhere('op.enterprise = :enterprise')
