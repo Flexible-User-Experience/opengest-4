@@ -102,11 +102,11 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.activity_line',
-                    ],
-                EntityType::class,
-                [
-                    'class' => ActivityLine::class,
-                    'query_builder' => $this->rm->getActivityLineRepository()->getEnabledSortedByNameQB(),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => ActivityLine::class,
+                            'query_builder' => $this->rm->getActivityLineRepository()->getEnabledSortedByNameQB(),
+                        ],
                 ]
             )
         ;

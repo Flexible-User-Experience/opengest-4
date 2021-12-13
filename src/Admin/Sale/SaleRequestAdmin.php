@@ -22,7 +22,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -512,34 +512,34 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.status',
-                ],
-                ChoiceType::class,
-                [
-                    'choices' => SaleRequestStatusEnum::getEnumArray(),
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                            'choices' => SaleRequestStatusEnum::getEnumArray(),
+                        ],
                 ]
             )
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
                 'invoiceTo',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.invoice_to',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
@@ -547,11 +547,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle',
-                ],
-                EntityType::class,
-                [
-                    'class' => Vehicle::class,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Vehicle::class,
+                            'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
@@ -559,11 +559,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.secondary_vehicle',
-                ],
-                EntityType::class,
-                [
-                    'class' => Vehicle::class,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Vehicle::class,
+                            'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
@@ -571,11 +571,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.operator',
-                ],
-                EntityType::class,
-                [
-                    'class' => Operator::class,
-                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Operator::class,
+                            'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
@@ -583,11 +583,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.sale_serivce_tariff',
-                ],
-                EntityType::class,
-                [
-                    'class' => SaleServiceTariff::class,
-                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => SaleServiceTariff::class,
+                            'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                        ],
                 ]
             )
             ->add(
@@ -637,16 +637,16 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.sale_request_date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
@@ -655,16 +655,16 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.service_date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )

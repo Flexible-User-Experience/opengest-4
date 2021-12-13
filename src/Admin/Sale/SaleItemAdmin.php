@@ -112,11 +112,11 @@ class SaleItemAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.type',
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                            'choices' => SaleItemTypeEnum::getEnumArray(),
+                        ],
                 ],
-                ChoiceType::class,
-                [
-                    'choices' => SaleItemTypeEnum::getEnumArray(),
-                ]
             )
         ;
     }

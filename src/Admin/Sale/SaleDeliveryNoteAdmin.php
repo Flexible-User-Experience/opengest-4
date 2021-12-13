@@ -24,7 +24,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
@@ -647,30 +647,30 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'date',
                 DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.delivery_note_date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'label' => '1r día nómina',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
@@ -734,10 +734,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.payment_document_type',
-                ],
-                null,
-                [
-                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => null,
+                    'field_options' => [
+                            'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(

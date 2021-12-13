@@ -228,23 +228,25 @@ class SaleRequestHasDeliveryNoteAdmin extends AbstractBaseAdmin
             ->add(
                 'saleRequest',
                 null,
-                [],
-                EntityType::class,
                 [
-                    'class' => SaleRequest::class,
-                    'label' => 'Petició',
-                    'query_builder' => $this->rm->getSaleRequestRepository()->getFilteredByEnterpriseEnabledSortedByRequestDateQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => SaleRequest::class,
+                            'label' => 'Petició',
+                            'query_builder' => $this->rm->getSaleRequestRepository()->getFilteredByEnterpriseEnabledSortedByRequestDateQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
                 'saleDeliveryNote',
                 null,
-                [],
-                EntityType::class,
                 [
-                    'class' => SaleDeliveryNote::class,
-                    'label' => 'Albarà',
-                    'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => SaleDeliveryNote::class,
+                            'label' => 'Albarà',
+                            'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
