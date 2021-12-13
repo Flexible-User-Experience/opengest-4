@@ -11,11 +11,13 @@ use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
@@ -200,41 +202,49 @@ class PayslipAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'operator',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.operator',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'property' => 'name',
+                    ],
                 ]
             )
             ->add(
                 'fromDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.from',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'label' => '1r día nómina',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(
                 'toDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.to',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'label' => 'Último día nómina',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(
