@@ -26,7 +26,7 @@ class SaleRequestAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction($id = null): Response
     {
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());

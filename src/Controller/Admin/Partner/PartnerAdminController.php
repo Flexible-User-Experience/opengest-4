@@ -19,7 +19,7 @@ class PartnerAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction($id = null): Response
     {
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
@@ -57,7 +57,7 @@ class PartnerAdminController extends BaseAdminController
         }
 
         $serializer = $this->container->get('serializer');
-        $serializedPartner = $serializer->serialize($partner, 'json', array('groups' => array('api')));
+        $serializedPartner = $serializer->serialize($partner, 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedPartner);
     }
@@ -81,7 +81,7 @@ class PartnerAdminController extends BaseAdminController
         }
 
         $serializer = $this->container->get('serializer');
-        $serializedContacts = $serializer->serialize($partner->getContacts(), 'json', array('groups' => array('api')));
+        $serializedContacts = $serializer->serialize($partner->getContacts(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedContacts);
     }
@@ -105,7 +105,7 @@ class PartnerAdminController extends BaseAdminController
         }
 
         $serializer = $this->container->get('serializer');
-        $serializedDeliveryNotes = $serializer->serialize($partner->getSaleDeliveryNotes(), 'json', array('groups' => array('api')));
+        $serializedDeliveryNotes = $serializer->serialize($partner->getSaleDeliveryNotes(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedDeliveryNotes);
     }
@@ -129,7 +129,7 @@ class PartnerAdminController extends BaseAdminController
         }
 
         $serializer = $this->container->get('serializer');
-        $serializedBuildingSites = $serializer->serialize($partner->getBuildingSites(), 'json', array('groups' => array('api')));
+        $serializedBuildingSites = $serializer->serialize($partner->getBuildingSites(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedBuildingSites);
     }

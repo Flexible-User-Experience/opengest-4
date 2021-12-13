@@ -5,9 +5,9 @@ namespace App\Controller\Admin\Vehicle;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Vehicle\VehicleDigitalTachograph;
 use App\Service\GuardService;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class VehicleDigitalTachographAdminController.
@@ -46,7 +46,7 @@ class VehicleDigitalTachographAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction($id = null): Response
     {
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());

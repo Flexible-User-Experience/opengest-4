@@ -19,7 +19,7 @@ class SaleTariffAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction($id = null): Response
     {
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
@@ -57,7 +57,7 @@ class SaleTariffAdminController extends BaseAdminController
         }
 
         $serializer = $this->container->get('serializer');
-        $serializedSaleTariff = $serializer->serialize($saleTariff, 'json', array('groups' => array('apiSaleTariff')));
+        $serializedSaleTariff = $serializer->serialize($saleTariff, 'json', ['groups' => ['apiSaleTariff']]);
 
         return new JsonResponse($serializedSaleTariff);
     }

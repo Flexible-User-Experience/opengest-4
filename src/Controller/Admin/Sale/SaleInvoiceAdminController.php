@@ -22,7 +22,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction($id = null): Response
     {
         $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
@@ -164,7 +164,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws ModelManagerException
      */
-    public function preDelete(Request $request, $object)
+    public function preDelete(Request $request, $object): ?Response
     {
         if ($object->isHasBeenCounted()) {
             $this->addFlash('warning', 'No se puede borrar una factura contablilizada');
