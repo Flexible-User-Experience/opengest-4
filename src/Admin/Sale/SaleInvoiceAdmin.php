@@ -18,7 +18,7 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
@@ -265,18 +265,12 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.series',
-//                    'field_type' => EntityType::class,
-//                    'field_options' => [
-//                            'class' => SaleInvoiceSeries::class,
-//                            'choice_label' => 'name',
-//                            'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
-//                    ],
-                ],
-                EntityType::class, // to field_type
-                [
-                    'class' => SaleInvoiceSeries::class,
-                    'choice_label' => 'name',
-                    'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => SaleInvoiceSeries::class,
+                            'choice_label' => 'name',
+                            'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+                    ],
                 ]
             )
             ->add(
@@ -291,29 +285,29 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'property' => 'name',
+                    ],
                 ]
             )
             ->add(
