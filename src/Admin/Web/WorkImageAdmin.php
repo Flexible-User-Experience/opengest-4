@@ -46,6 +46,7 @@ class WorkImageAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.file',
                     'help' => $this->getImageHelperFormMapperWithThumbnail(),
+                    'help_html' => true,
                     'sonata_help' => $this->getImageHelperFormMapperWithThumbnail(),
                     'required' => false,
                 ]

@@ -205,6 +205,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                         [
                             'label' => 'admin.label.route_image',
                             'help' => $this->getDocumentHelper('admin_app_vehicle_vehiclespecialpermit_downloadRouteImage', 'routeImage'),
+                            'help_html' => true,
                             'required' => false,
                         ]
                     );

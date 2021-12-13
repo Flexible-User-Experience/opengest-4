@@ -110,6 +110,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'Arxiu tacògraf',
                     'help' => $this->getDownloadDigitalTachographButton(),
+                    'help_html' => true,
                     'required' => true,
                     'disabled' => $this->id($this->getSubject()) ? true : false,
                 ]

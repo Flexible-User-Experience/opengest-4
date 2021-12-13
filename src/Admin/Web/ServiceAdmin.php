@@ -82,6 +82,7 @@ class ServiceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.file',
                     'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
+                    'help_html' => true,
                     'required' => false,
                 ]
             )

@@ -237,6 +237,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'mapped' => false,
                         'disabled' => true,
                         'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                        'help_html' => true,
                     ]
                 )
                 ->add(

@@ -164,6 +164,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'mapped' => false,
                     'disabled' => true,
                     'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -342,6 +343,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.minimum_hours',
                     'required' => false,
                     'help' => '<i id="minium-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -351,6 +353,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.price_hour',
                     'required' => false,
                     'help' => '<i id="hour-price-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -360,6 +363,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.displacement',
                     'required' => false,
                     'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -369,6 +373,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.minimum_holiday_hours',
                     'required' => false,
                     'help' => '<i id="minium-holiday-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -378,6 +383,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.increase_for_holidays',
                     'required' => false,
                     'help' => '<i id="increase-for-holidays-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -387,6 +393,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.increase_for_holidays_percentage',
                     'required' => false,
                     'help' => '<i id="increase-for-holidays-percentage-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->end()
