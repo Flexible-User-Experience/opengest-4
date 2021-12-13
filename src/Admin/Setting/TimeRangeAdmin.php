@@ -115,10 +115,10 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.type',
-                ],
-                ChoiceType::class,
-                [
-                    'choices' => TimeRangeTypeEnum::getEnumArray(),
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                            'choices' => TimeRangeTypeEnum::getEnumArray(),
+                        ],
                 ]
             )
             ->add(
