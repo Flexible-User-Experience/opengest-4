@@ -120,7 +120,6 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'ask_confirmation' => false,
             ];
         }
-        parent::configureBatchActions($actions);
 
         return $actions;
     }
@@ -136,6 +135,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         [
                             'label' => 'profilePhotoImage',
                             'help' => $this->getProfileHelperFormMapperWithThumbnail(),
+                            'help_html' => true,
                             'required' => false,
                         ]
                     )
@@ -368,6 +368,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'DNI/NIE',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -379,6 +380,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Baixa Seguretat Social',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDischargeSocialSecurityImage', 'dischargeSocialSecurityImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -390,6 +392,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Contracte',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEmploymentContractImage', 'employmentContractImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -401,6 +404,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Revisió mèdica',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadMedicalCheckImage', 'medicalCheckImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -412,6 +416,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'EPI',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEpisImage', 'episImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -423,6 +428,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Títol de formació',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTrainingDocumentImage', 'trainingDocumentImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -434,6 +440,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Altra informació',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadInformationImage', 'informationImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -445,6 +452,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Carnet de conduir',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDrivingLicenseImage', 'drivingLicenseImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -454,6 +462,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Autorització de maquinària',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -463,6 +472,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Llicència d\'operari',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadCranesOperatorLicenseImage', 'cranesOperatorLicenseImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
