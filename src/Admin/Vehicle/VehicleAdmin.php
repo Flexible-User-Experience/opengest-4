@@ -109,6 +109,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'mainImage',
                     'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
+                    'help_html' => true,
                     'required' => false,
                 ]
             )
@@ -236,6 +237,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -247,6 +249,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet1', 'technicalDatasheet1'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -258,6 +261,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet2', 'technicalDatasheet2'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -269,6 +273,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -280,6 +285,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadReachDiagram', 'reachDiagram'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -291,6 +297,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficCertificate', 'trafficCertificate'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -302,6 +309,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadDimensions', 'dimensions'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -313,6 +321,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTransportCard', 'transportCard'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -324,6 +333,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficInsurance', 'trafficInsurance'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -335,6 +345,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItv', 'itv'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -346,6 +357,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itv'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -357,6 +369,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadCEDeclaration', 'CEDeclaration'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
