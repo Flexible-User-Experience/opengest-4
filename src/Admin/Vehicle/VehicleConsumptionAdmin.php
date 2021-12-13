@@ -7,7 +7,6 @@ use App\Entity\Vehicle\Vehicle;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -47,7 +46,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'supplyDateFormatted',
@@ -63,7 +62,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -71,7 +70,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
             ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
@@ -148,7 +147,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -210,7 +209,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(

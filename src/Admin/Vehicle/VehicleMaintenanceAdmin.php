@@ -50,7 +50,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         '_sort_order' => 'DESC',
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getRootCode() == $this->getCode()) {
             $formMapper
@@ -123,7 +123,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -197,7 +197,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ];
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(

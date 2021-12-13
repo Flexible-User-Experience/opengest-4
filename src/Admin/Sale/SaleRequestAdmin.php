@@ -19,7 +19,6 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\DatePickerType;
@@ -65,7 +64,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    public function configureRoutes(RouteCollection $collection)
+    public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
@@ -75,7 +74,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         ;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -126,7 +125,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * @throws Exception
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('admin.label.sale_request', $this->getFormMdSuccessBoxArray(3))
@@ -492,7 +491,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_SUPER_ADMIN)) {
             $datagridMapper
@@ -696,7 +695,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
 //        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
 //            $listMapper
