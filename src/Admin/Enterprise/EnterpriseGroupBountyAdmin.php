@@ -29,11 +29,6 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'empreses/grup-prima';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [

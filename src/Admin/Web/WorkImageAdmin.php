@@ -18,11 +18,6 @@ class WorkImageAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Imatge Treball';
 
     /**

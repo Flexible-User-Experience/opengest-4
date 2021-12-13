@@ -33,11 +33,6 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehiculos/permisos-especiales';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [

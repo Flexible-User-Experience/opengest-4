@@ -29,11 +29,6 @@ class PayslipAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Payslip';
 
     /**

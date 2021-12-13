@@ -22,11 +22,6 @@ class ContactMessageAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Missatge de contacte';
 
     /**

@@ -38,11 +38,6 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'operaris/operari';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [

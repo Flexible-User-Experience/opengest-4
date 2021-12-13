@@ -28,11 +28,6 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Partes de trabajo líneas';
 
     /**

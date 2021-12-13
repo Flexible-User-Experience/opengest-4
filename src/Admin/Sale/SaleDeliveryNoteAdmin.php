@@ -56,11 +56,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/albara';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [

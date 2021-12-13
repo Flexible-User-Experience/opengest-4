@@ -37,11 +37,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $baseRouteName = 'admin_app_partner_client';
 
     /**

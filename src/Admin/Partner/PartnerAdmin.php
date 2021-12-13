@@ -39,11 +39,6 @@ class PartnerAdmin extends AbstractBaseAdmin
     protected $baseRouteName = 'admin_app_partner_partner';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [

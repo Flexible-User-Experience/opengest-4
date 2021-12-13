@@ -43,11 +43,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'admin.label.sale_request';
 
     /**

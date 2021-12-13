@@ -32,11 +32,6 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'tercers/comandes';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
