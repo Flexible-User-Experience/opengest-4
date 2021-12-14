@@ -71,6 +71,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.code',
+                    'disabled' => true,
                 ]
             )
             ->add(
@@ -440,6 +441,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
+            ->add(
                 'cifNif',
                 null,
                 [
@@ -509,5 +517,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
         /** @var PartnerType $partnerType */
         $partnerType = $this->rm->getPartnerTypeRepository()->find(1);
         $object->setType($partnerType);
+        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterprise($this->getUserLogedEnterprise())->getCode();
+        $object->setCode($lastPartnerCode + 1);
     }
 }
