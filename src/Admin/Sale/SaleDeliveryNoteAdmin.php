@@ -552,12 +552,22 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'disabled' => true,
                     ]
                 )
+//                ->add(
+//                    'discount',
+//                    null,
+//                    [
+//                        'label' => 'admin.label.discount',
+//                        'required' => false,
+//                    ]
+//                )
                 ->add(
-                    'discount',
-                    null,
+                    'discountTotal',
+                    NumberType::class,
                     [
-                        'label' => 'admin.label.discount',
-                        'required' => false,
+                        'label' => 'admin.label.discount_total',
+                        'required' => true,
+                        'disabled' => true,
+                        'scale' => 2,
                     ]
                 )
                 ->add(
@@ -565,6 +575,26 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     null,
                     [
                         'label' => 'admin.label.base_amount',
+                        'required' => true,
+                        'disabled' => true,
+                        'scale' => 2,
+                    ]
+                )
+                ->add(
+                    'ivaTotal',
+                    NumberType::class,
+                    [
+                        'label' => 'admin.label.iva_total',
+                        'required' => true,
+                        'disabled' => true,
+                        'scale' => 2,
+                    ]
+                )
+                ->add(
+                    'irpfTotal',
+                    NumberType::class,
+                    [
+                        'label' => 'admin.label.irpf_total',
                         'required' => true,
                         'disabled' => true,
                         'scale' => 2,
