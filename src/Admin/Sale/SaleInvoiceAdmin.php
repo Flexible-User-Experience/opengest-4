@@ -87,6 +87,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             'invoiceNumber',
             'dateFormatted',
             'hasBeenCounted',
+            'partner.code',
             'partner.name',
             'partner.cifNif',
             'discount',
@@ -299,6 +300,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
+                ]
+            )
+            ->add(
                 'partner',
                 ModelFilter::class,
                 [
@@ -375,6 +383,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.date',
                     'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
                 ]
             )
             ->add(
