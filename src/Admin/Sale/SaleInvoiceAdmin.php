@@ -10,6 +10,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -42,16 +43,15 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/factura';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'date',
-        '_sort_order' => 'DESC',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'date';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
