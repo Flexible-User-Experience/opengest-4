@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -180,13 +181,12 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 )
                 ->add(
                     'operatorWorkRegisterHeader.date',
-                    DateTimeType::class,
+                    DatePickerType::class,
                     [
                         'label' => 'admin.label.date',
+                        'format' => 'dd/MM/yyyy',
                         'required' => true,
-                        'disabled' => true,
-                        'widget' => 'single_text',
-                        'format' => 'd/M/Y',
+                        'dp_default_date' => (new \DateTime())->format('d/m/Y'),
                     ]
                 )
                 ->add(
@@ -207,6 +207,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'disabled' => true,
                         'widget' => 'single_text',
                         'format' => 'HH:mm',
+                        'html5' => false,
                     ]
                 )
                 ->add(
@@ -218,6 +219,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'disabled' => true,
                         'widget' => 'single_text',
                         'format' => 'HH:mm',
+                        'html5' => false,
                     ]
                 )
                 ->add(
