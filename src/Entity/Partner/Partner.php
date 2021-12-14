@@ -378,7 +378,7 @@ class Partner extends AbstractBase
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private int $invoiceCopiesNumber = 1;
+    private ?int $invoiceCopiesNumber = null;
 
     /**
      * Methods.
@@ -1478,12 +1478,12 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    public function getInvoiceCopiesNumber(): int
+    public function getInvoiceCopiesNumber(): ?int
     {
         return $this->invoiceCopiesNumber;
     }
 
-    public function setInvoiceCopiesNumber(int $invoiceCopiesNumber): Partner
+    public function setInvoiceCopiesNumber(?int $invoiceCopiesNumber = null): Partner
     {
         $this->invoiceCopiesNumber = $invoiceCopiesNumber;
 
