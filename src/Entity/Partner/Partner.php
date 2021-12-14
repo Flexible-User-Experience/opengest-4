@@ -3,6 +3,7 @@
 namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Sale\SaleDeliveryNote;
@@ -69,6 +70,13 @@ class Partner extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="partners")
      */
     private $transferAccount;
+
+    /**
+     * @var CollectionDocumentType
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType", inversedBy="partners")
+     */
+    private $collectionDocumentType;
 
     /**
      * @var ArrayCollection
@@ -307,6 +315,67 @@ class Partner extends AbstractBase
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoice", mappedBy="partner")
      */
     private $saleInvoices;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $invoiceEmail = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?int $accountingAccount = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm1 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm2 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm3 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay1 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay2 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay3 = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private int $invoiceCopiesNumber = 1;
 
     /**
      * Methods.
@@ -1294,6 +1363,126 @@ class Partner extends AbstractBase
     public function setSaleInvoices(ArrayCollection $saleInvoices): Partner
     {
         $this->saleInvoices = $saleInvoices;
+
+        return $this;
+    }
+
+    public function getCollectionDocumentType(): CollectionDocumentType
+    {
+        return $this->collectionDocumentType;
+    }
+
+    public function setCollectionDocumentType(CollectionDocumentType $collectionDocumentType): Partner
+    {
+        $this->collectionDocumentType = $collectionDocumentType;
+
+        return $this;
+    }
+
+    public function getInvoiceEmail(): ?string
+    {
+        return $this->invoiceEmail;
+    }
+
+    public function setInvoiceEmail(?string $invoiceEmail): Partner
+    {
+        $this->invoiceEmail = $invoiceEmail;
+
+        return $this;
+    }
+
+    public function getAccountingAccount(): ?int
+    {
+        return $this->accountingAccount;
+    }
+
+    public function setAccountingAccount(?int $accountingAccount): Partner
+    {
+        $this->accountingAccount = $accountingAccount;
+
+        return $this;
+    }
+
+    public function getCollectionTerm1(): ?int
+    {
+        return $this->collectionTerm1;
+    }
+
+    public function setCollectionTerm1(?int $collectionTerm1): Partner
+    {
+        $this->collectionTerm1 = $collectionTerm1;
+
+        return $this;
+    }
+
+    public function getCollectionTerm2(): ?int
+    {
+        return $this->collectionTerm2;
+    }
+
+    public function setCollectionTerm2(?int $collectionTerm2): Partner
+    {
+        $this->collectionTerm2 = $collectionTerm2;
+
+        return $this;
+    }
+
+    public function getCollectionTerm3(): ?int
+    {
+        return $this->collectionTerm3;
+    }
+
+    public function setCollectionTerm3(?int $collectionTerm3): Partner
+    {
+        $this->collectionTerm3 = $collectionTerm3;
+
+        return $this;
+    }
+
+    public function getPayDay1(): ?int
+    {
+        return $this->payDay1;
+    }
+
+    public function setPayDay1(?int $payDay1): Partner
+    {
+        $this->payDay1 = $payDay1;
+
+        return $this;
+    }
+
+    public function getPayDay2(): ?int
+    {
+        return $this->payDay2;
+    }
+
+    public function setPayDay2(?int $payDay2): Partner
+    {
+        $this->payDay2 = $payDay2;
+
+        return $this;
+    }
+
+    public function getPayDay3(): ?int
+    {
+        return $this->payDay3;
+    }
+
+    public function setPayDay3(?int $payDay3): Partner
+    {
+        $this->payDay3 = $payDay3;
+
+        return $this;
+    }
+
+    public function getInvoiceCopiesNumber(): int
+    {
+        return $this->invoiceCopiesNumber;
+    }
+
+    public function setInvoiceCopiesNumber(int $invoiceCopiesNumber): Partner
+    {
+        $this->invoiceCopiesNumber = $invoiceCopiesNumber;
 
         return $this;
     }

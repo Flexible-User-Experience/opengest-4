@@ -3,6 +3,7 @@
 namespace App\Entity\Enterprise;
 
 use App\Entity\AbstractBase;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,6 +45,13 @@ class CollectionDocumentType extends AbstractBase
      * @ORM\Column(type="string", nullable=true)
      */
     private $sitReference;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Partner", mappedBy="collectionDocumentType")
+     */
+    private $partners;
 
     /**
      * Methods.
