@@ -320,13 +320,16 @@ class Partner extends AbstractBase
      * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
      */
     private ?string $invoiceEmail = null;
 
     /**
      * @var ?integer
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $accountingAccount = null;
 
