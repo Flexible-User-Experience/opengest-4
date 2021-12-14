@@ -1370,7 +1370,7 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    public function getCollectionDocumentType(): CollectionDocumentType
+    public function getCollectionDocumentType(): ?CollectionDocumentType
     {
         return $this->collectionDocumentType;
     }

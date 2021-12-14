@@ -3,6 +3,7 @@
 namespace App\Admin\Partner;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerClass;
@@ -243,6 +244,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'invoiceEmail',
+                null,
+                [
+                    'label' => 'admin.label.invoice_email',
+                ]
+            )
+            ->add(
                 'www',
                 null,
                 [
@@ -251,6 +259,80 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->with('Datos contables', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'accountingAccount',
+                null,
+                [
+                    'label' => 'admin.label.accounting_account',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionDocumentType',
+                EntityType::class,
+                [
+                    'label' => 'admin.label.collection_document_type',
+                    'class' => CollectionDocumentType::class,
+                    'required' => false,
+                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ]
+            )
+            ->add(
+                'payDay1',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay2',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay3',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm1',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm2',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_2',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm3',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_3',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'invoiceCopiesNumber',
+                null,
+                [
+                    'label' => 'admin.label.invoice_copies_number',
+                    'required' => false,
+                ]
+            )
             ->add(
                 'discount',
                 null,
