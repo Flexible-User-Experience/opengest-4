@@ -5,11 +5,11 @@ namespace App\Admin\Vehicle;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -49,7 +49,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -58,7 +58,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Arxiu', $this->getFormMdSuccessBoxArray(6))
@@ -110,6 +110,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'Arxiu tacògraf',
                     'help' => $this->getDownloadDigitalTachographButton(),
+                    'help_html' => true,
                     'required' => true,
                     'disabled' => $this->id($this->getSubject()) ? true : false,
                 ]
@@ -117,7 +118,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -138,27 +139,22 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->join($queryBuilder->getRootAliases()[0].'.vehicle', 'v')
                 ->andWhere('v.enterprise = :enterprise')
                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                ->orderBy($queryBuilder->getRootAliases()[0].'.created_at', 'DESC')
             ;
         }
 
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -175,7 +171,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Imatge',
-                    'template' => 'admin/cells/list__cell_tachograph_vehicle_image_field.html.twig',
+                    'template' => 'admin/cells/list__cell_main_image_field.html.twig',
                 ]
             )
             ->add(

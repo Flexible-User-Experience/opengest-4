@@ -7,9 +7,11 @@ use App\Entity\Vehicle\Vehicle;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -33,11 +35,6 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehiculos/permisos-especiales';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -48,7 +45,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -56,7 +53,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
             ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getRootCode() == $this->getCode()) {
             $formMapper
@@ -208,6 +205,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                         [
                             'label' => 'admin.label.route_image',
                             'help' => $this->getDocumentHelper('admin_app_vehicle_vehiclespecialpermit_downloadRouteImage', 'routeImage'),
+                            'help_html' => true,
                             'required' => false,
                         ]
                     );
@@ -225,7 +223,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -233,24 +231,29 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle',
-                ],
-                EntityType::class,
-                [
-                    'class' => Vehicle::class,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Vehicle::class,
+                            'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
                 'expeditionDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.expedition_date',
-                    'field_type' => DatePickerType::class,
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(
@@ -271,7 +274,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(

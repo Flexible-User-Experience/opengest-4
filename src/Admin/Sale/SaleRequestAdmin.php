@@ -17,11 +17,12 @@ use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -39,11 +40,6 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
  */
 class SaleRequestAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
     /**
      * @var string
      */
@@ -65,7 +61,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    public function configureRoutes(RouteCollection $collection)
+    public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
@@ -75,7 +71,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         ;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -102,10 +98,8 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 
     /**
      * @param array $actions
-     *
-     * @return array
      */
-    public function configureBatchActions($actions)
+    public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
 //            $actions['generatepdfs'] = array(
@@ -126,7 +120,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     /**
      * @throws Exception
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('admin.label.sale_request', $this->getFormMdSuccessBoxArray(3))
@@ -170,6 +164,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'mapped' => false,
                     'disabled' => true,
                     'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -348,6 +343,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.minimum_hours',
                     'required' => false,
                     'help' => '<i id="minium-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -357,6 +353,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.price_hour',
                     'required' => false,
                     'help' => '<i id="hour-price-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -366,6 +363,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.displacement',
                     'required' => false,
                     'help' => '<i id="displacement-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -375,6 +373,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.minimum_holiday_hours',
                     'required' => false,
                     'help' => '<i id="minium-holiday-hours-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -384,6 +383,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.increase_for_holidays',
                     'required' => false,
                     'help' => '<i id="increase-for-holidays-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->add(
@@ -393,6 +393,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.increase_for_holidays_percentage',
                     'required' => false,
                     'help' => '<i id="increase-for-holidays-percentage-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                    'help_html' => true,
                 ]
             )
             ->end()
@@ -492,7 +493,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_SUPER_ADMIN)) {
             $datagridMapper
@@ -518,34 +519,34 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.status',
-                ],
-                ChoiceType::class,
-                [
-                    'choices' => SaleRequestStatusEnum::getEnumArray(),
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                            'choices' => SaleRequestStatusEnum::getEnumArray(),
+                        ],
                 ]
             )
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
                 'invoiceTo',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.invoice_to',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
@@ -553,11 +554,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle',
-                ],
-                EntityType::class,
-                [
-                    'class' => Vehicle::class,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Vehicle::class,
+                            'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
@@ -565,11 +566,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.secondary_vehicle',
-                ],
-                EntityType::class,
-                [
-                    'class' => Vehicle::class,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Vehicle::class,
+                            'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
@@ -577,11 +578,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.operator',
-                ],
-                EntityType::class,
-                [
-                    'class' => Operator::class,
-                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => Operator::class,
+                            'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        ],
                 ]
             )
             ->add(
@@ -589,11 +590,11 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.sale_serivce_tariff',
-                ],
-                EntityType::class,
-                [
-                    'class' => SaleServiceTariff::class,
-                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => SaleServiceTariff::class,
+                            'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                        ],
                 ]
             )
             ->add(
@@ -643,16 +644,16 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.sale_request_date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
@@ -661,31 +662,25 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.service_date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -696,7 +691,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
 //        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
 //            $listMapper
@@ -811,7 +806,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
      *
      * @throws Exception
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setAttendedBy($this->getUser());
         $object->setEnterprise($this->getUserLogedEnterprise());

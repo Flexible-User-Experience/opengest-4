@@ -14,7 +14,7 @@
             //on change Partner
             partnerNode.change(function(event) {
                 // selectDeliveryNotesIcon.removeClass('hidden');
-                var partnerId = event.val;
+                var partnerId = jQuery(event.target).val();
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonDeliveryNotesById', {id: partnerId}), function() {
                 }).done(function (response) {
                     console.log(response);

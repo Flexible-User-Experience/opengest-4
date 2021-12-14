@@ -4,9 +4,9 @@ namespace App\Admin\Enterprise;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 
 /**
@@ -31,109 +31,96 @@ class EnterpriseTransferAccountAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
      */
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Nom', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
                     'required' => true,
-                )
+                ]
             )
             ->end()
             ->with('Compte Bancari', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'iban',
                 null,
-                array(
+                [
                     'label' => 'IBAN',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'swift',
                 null,
-                array(
+                [
                     'label' => 'SWIFT',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'bankCode',
                 null,
-                array(
+                [
                     'label' => 'Codi Entitat',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'officeNumber',
                 null,
-                array(
+                [
                     'label' => 'Codi Oficina',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'controlDigit',
                 null,
-                array(
+                [
                     'label' => 'Digit de control',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'accountNumber',
                 null,
-                array(
+                [
                     'label' => 'Número de compte',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -145,39 +132,36 @@ class EnterpriseTransferAccountAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'enterprise',
                 null,
-                array(
+                [
                     'label' => 'Empresa',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
                     'editable' => true,
-                )
+                ]
             )
 
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }
@@ -185,7 +169,7 @@ class EnterpriseTransferAccountAdmin extends AbstractBaseAdmin
     /**
      * @param EnterpriseTransferAccount $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
     }

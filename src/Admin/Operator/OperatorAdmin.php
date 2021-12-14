@@ -7,12 +7,12 @@ use App\Entity\Enterprise\EnterpriseGroupBounty;
 use App\Entity\Operator\Operator;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
@@ -38,11 +38,6 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'operaris/operari';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -57,7 +52,7 @@ class OperatorAdmin extends AbstractBaseAdmin
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -77,7 +72,7 @@ class OperatorAdmin extends AbstractBaseAdmin
             ->remove('delete');
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'profilePhotoImage',
@@ -110,10 +105,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param array $actions
-     */
-    protected function configureBatchActions($actions): array
+    public function configureBatchActions(array $actions): array
     {
         if (
             $this->hasRoute('edit')
@@ -127,7 +119,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         return $actions;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('General')
@@ -138,6 +130,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         [
                             'label' => 'profilePhotoImage',
                             'help' => $this->getProfileHelperFormMapperWithThumbnail(),
+                            'help_html' => true,
                             'required' => false,
                         ]
                     )
@@ -370,6 +363,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'DNI/NIE',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -381,6 +375,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Baixa Seguretat Social',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDischargeSocialSecurityImage', 'dischargeSocialSecurityImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -392,6 +387,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Contracte',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEmploymentContractImage', 'employmentContractImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -403,6 +399,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Revisió mèdica',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadMedicalCheckImage', 'medicalCheckImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -414,6 +411,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'EPI',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEpisImage', 'episImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -425,6 +423,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Títol de formació',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTrainingDocumentImage', 'trainingDocumentImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -436,6 +435,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Altra informació',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadInformationImage', 'informationImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -447,6 +447,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Carnet de conduir',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDrivingLicenseImage', 'drivingLicenseImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -456,6 +457,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Autorització de maquinària',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -465,6 +467,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'Llicència d\'operari',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadCranesOperatorLicenseImage', 'cranesOperatorLicenseImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -561,7 +564,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -609,7 +612,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['enabled'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -617,15 +620,9 @@ class OperatorAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -636,7 +633,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -714,7 +711,7 @@ class OperatorAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         $payslipOperatorDefaultLines = $object->getPayslipOperatorDefaultLines();

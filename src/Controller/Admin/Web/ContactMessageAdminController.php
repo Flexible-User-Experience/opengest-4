@@ -25,12 +25,10 @@ class ContactMessageAdminController extends BaseAdminController
      * @param int|string|null $id
      * @param Request         $request
      *
-     * @return Response
-     *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function showAction($id = null, Request $request = null)
+    public function showAction($id = null, Request $request = null): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -56,12 +54,12 @@ class ContactMessageAdminController extends BaseAdminController
         $em->flush();
 
         return $this->renderWithExtraParams(
-            $this->admin->getTemplate('show'),
-            array(
+            $this->admin->getTemplateRegistry()->getTemplate('show'),
+            [
                 'action' => 'show',
                 'object' => $object,
                 'elements' => $this->admin->getShow(),
-            )
+            ]
         );
     }
 
@@ -108,12 +106,12 @@ class ContactMessageAdminController extends BaseAdminController
 
         return $this->renderWithExtraParams(
             'admin/contact-message/answer_form.html.twig',
-            array(
+            [
                 'action' => 'answer',
                 'object' => $object,
                 'form' => $form->createView(),
                 'elements' => $this->admin->getShow(),
-            )
+            ]
         );
     }
 }

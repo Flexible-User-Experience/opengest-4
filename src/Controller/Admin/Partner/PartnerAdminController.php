@@ -4,9 +4,9 @@ namespace App\Controller\Admin\Partner;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Partner\Partner;
-use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -19,9 +19,8 @@ class PartnerAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var Partner $partner */
@@ -29,13 +28,8 @@ class PartnerAdminController extends BaseAdminController
         if (!$partner) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnPartner($partner)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
-        }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 
     /**
@@ -50,14 +44,9 @@ class PartnerAdminController extends BaseAdminController
         if (!$partner) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnPartner($partner)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
-        }
 
         $serializer = $this->container->get('serializer');
-        $serializedPartner = $serializer->serialize($partner, 'json', array('groups' => array('api')));
+        $serializedPartner = $serializer->serialize($partner, 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedPartner);
     }
@@ -74,14 +63,9 @@ class PartnerAdminController extends BaseAdminController
         if (!$partner) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnPartner($partner)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
-        }
 
         $serializer = $this->container->get('serializer');
-        $serializedContacts = $serializer->serialize($partner->getContacts(), 'json', array('groups' => array('api')));
+        $serializedContacts = $serializer->serialize($partner->getContacts(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedContacts);
     }
@@ -98,14 +82,9 @@ class PartnerAdminController extends BaseAdminController
         if (!$partner) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnPartner($partner)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
-        }
 
         $serializer = $this->container->get('serializer');
-        $serializedDeliveryNotes = $serializer->serialize($partner->getSaleDeliveryNotes(), 'json', array('groups' => array('api')));
+        $serializedDeliveryNotes = $serializer->serialize($partner->getSaleDeliveryNotes(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedDeliveryNotes);
     }
@@ -122,14 +101,9 @@ class PartnerAdminController extends BaseAdminController
         if (!$partner) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnPartner($partner)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
-        }
 
         $serializer = $this->container->get('serializer');
-        $serializedBuildingSites = $serializer->serialize($partner->getBuildingSites(), 'json', array('groups' => array('api')));
+        $serializedBuildingSites = $serializer->serialize($partner->getBuildingSites(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedBuildingSites);
     }

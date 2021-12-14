@@ -3,7 +3,6 @@
 namespace App\Entity\Setting;
 
 use Doctrine\ORM\Mapping as ORM;
-use Sonata\UserBundle\Entity\BaseGroup;
 
 /**
  * Class Group.
@@ -15,7 +14,7 @@ use Sonata\UserBundle\Entity\BaseGroup;
  * @ORM\Entity(repositoryClass="App\Repository\Setting\GroupRepository")
  * @ORM\Table(name="admin_group")
  */
-class Group extends BaseGroup
+class Group
 {
     /**
      * @var int

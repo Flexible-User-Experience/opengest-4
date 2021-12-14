@@ -128,6 +128,11 @@ class VehicleChecking extends AbstractBase
         return $this;
     }
 
+    public function getStatus(): bool
+    {
+        return true;
+    }
+
     /**
      * @Assert\Callback
      */

@@ -10,7 +10,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -25,11 +25,6 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
  */
 class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
     /**
      * @var string
      */
@@ -51,8 +46,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -65,14 +59,14 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
             'units',
             'priceUnit',
             'amount',
-            'description'
+            'description',
         ];
     }
 
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -82,7 +76,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
 //            ->remove('delete')
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getRootCode() == $this->getCode()) {
             $formMapper
@@ -258,7 +252,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -271,7 +265,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -359,7 +353,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setAmount($object->getUnits() * $object->getPriceUnit());
 

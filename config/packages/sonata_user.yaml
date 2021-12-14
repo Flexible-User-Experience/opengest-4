@@ -1,15 +1,15 @@
-sonata_user:
-    security_acl: false
-    manager_type: orm
-    class:
-        user:  App\Entity\Setting\User
-        group: App\Entity\Setting\Group
-    admin:
-        user:
-            class:       App\Admin\Setting\UserAdmin
-            controller:  App\Controller\Admin\Setting\UserAdminController
-            translation: messages
-        group:
-            class:       Sonata\UserBundle\Admin\Entity\GroupAdmin
-            controller:  SonataAdminBundle:CRUD
-            translation: messages
+#sonata_user:
+#    security_acl: false
+#    manager_type: orm
+#    class:
+#        user:  App\Entity\Setting\User
+#        group: App\Entity\Setting\Group
+#    admin:
+#        user:
+#            class:       App\Admin\Setting\UserAdmin
+#            controller:  App\Controller\Admin\Setting\UserAdminController
+#            translation: messages
+#        group:
+#            class:       Sonata\UserBundle\Admin\Entity\GroupAdmin
+#            controller:  SonataAdminBundle:CRUD
+#            translation: messages
