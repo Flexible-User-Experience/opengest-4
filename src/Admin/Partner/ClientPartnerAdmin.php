@@ -8,6 +8,7 @@ use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerClass;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
+use App\Entity\Setting\Province;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -72,6 +73,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.code',
                     'disabled' => true,
+                ]
+            )
+            ->add(
+                'providerReference',
+                null,
+                [
+                    'label' => 'admin.label.provider_code',
                 ]
             )
             ->add(
@@ -143,6 +151,16 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'mainCity.province',
+                EntityType::class,
+                [
+                    'class' => Province::class,
+                    'label' => 'admin.label.province',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            )
+            ->add(
                 'phoneNumber1',
                 null,
                 [
@@ -156,13 +174,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.phone2',
                 ]
             )
-            ->add(
-                'faxNumber1',
-                null,
-                [
-                    'label' => 'admin.label.fax1',
-                ]
-            )
+//            ->add(
+//                'faxNumber1',
+//                null,
+//                [
+//                    'label' => 'admin.label.fax1',
+//                ]
+//            )
             ->end()
             ->with('Otros datos', $this->getFormMdSuccessBoxArray(4))
             ->add(
@@ -210,13 +228,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
 //                    'label' => 'admin.label.phone2',
 //                ]
 //            )
-            ->add(
-                'faxNumber2',
-                null,
-                [
-                    'label' => 'admin.label.fax2',
-                ]
-            )
+//            ->add(
+//                'faxNumber2',
+//                null,
+//                [
+//                    'label' => 'admin.label.fax2',
+//                ]
+//            )
             ->add(
                 'email',
                 null,
@@ -253,13 +271,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
 //            ->add(
-//                'providerReference',
-//                null,
-//                [
-//                    'label' => 'Referència proveïdor',
-//                ]
-//            )
-//            ->add(
 //                'ivaTaxFree',
 //                null,
 //                [
@@ -280,34 +291,34 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'label' => 'SWIFT',
                 ]
             )
-            ->add(
-                'bankCode',
-                null,
-                [
-                    'label' => 'admin.label.bank_code',
-                ]
-            )
-            ->add(
-                'officeNumber',
-                null,
-                [
-                    'label' => 'admin.label.office_number',
-                ]
-            )
-            ->add(
-                'controlDigit',
-                null,
-                [
-                    'label' => 'admin.label.control_digit',
-                ]
-            )
-            ->add(
-                'accountNumber',
-                null,
-                [
-                    'label' => 'admin.label.account_number',
-                ]
-            )
+//            ->add(
+//                'bankCode',
+//                null,
+//                [
+//                    'label' => 'admin.label.bank_code',
+//                ]
+//            )
+//            ->add(
+//                'officeNumber',
+//                null,
+//                [
+//                    'label' => 'admin.label.office_number',
+//                ]
+//            )
+//            ->add(
+//                'controlDigit',
+//                null,
+//                [
+//                    'label' => 'admin.label.control_digit',
+//                ]
+//            )
+//            ->add(
+//                'accountNumber',
+//                null,
+//                [
+//                    'label' => 'admin.label.account_number',
+//                ]
+//            )
             ->end()
             ->with('Controles', $this->getFormMdSuccessBoxArray(4))
             ->add(
