@@ -492,7 +492,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+//                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
