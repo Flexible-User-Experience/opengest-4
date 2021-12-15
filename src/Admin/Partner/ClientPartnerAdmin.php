@@ -485,6 +485,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
+            ->add(
                 'cifNif',
                 null,
                 [
@@ -495,21 +502,45 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
-                'class',
+                'mainCity',
                 null,
                 [
-                    'label' => 'Classe',
+                    'label' => 'admin.label.main_city',
+                    'editable' => true,
                 ]
             )
+            ->add(
+                'phoneNumber1',
+                null,
+                [
+                    'label' => 'admin.label.phone1',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'Email',
+                null,
+                [
+                    'label' => 'admin.label.email',
+                    'editable' => true,
+                ]
+            )
+//            ->add(
+//                'class',
+//                null,
+//                [
+//                    'label' => 'Classe',
+//                ]
+//            )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                 ]
             )
         ;
@@ -551,22 +582,30 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
+//            ->add(
+//                'class',
+//                null,
+//                [
+//                    'label' => 'Classe',
+//                ]
+//            )
             ->add(
-                'class',
+                'mainCity',
                 null,
                 [
-                    'label' => 'Classe',
+                    'label' => 'admin.label.main_city',
+                    'editable' => true,
                 ]
             )
             ->add(
                 'phoneNumber1',
                 null,
                 [
-                    'label' => 'Telèfon 1',
+                    'label' => 'admin.label.phone1',
                     'editable' => true,
                 ]
             )
@@ -574,7 +613,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'Email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'admin.label.email',
                     'editable' => true,
                 ]
             )
@@ -582,7 +621,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                     'editable' => true,
                 ]
             )
