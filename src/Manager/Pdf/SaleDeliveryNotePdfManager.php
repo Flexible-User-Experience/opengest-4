@@ -47,6 +47,80 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @return TCPDF
+     */
+    public function buildDeliveryNotesByClient($saleDeliveryNotes)
+    {
+        $this->pdfEngineService->initDefaultPageEngineWithTitle('Albaranes por cliente');
+        $pdf = $this->pdfEngineService->getEngine();
+
+        return $this->buildListByClient($saleDeliveryNotes, $pdf);
+    }
+
+    /**
+     * @return string
+     */
+    public function outputDeliveryNotesByClient($saleDeliveryNotes)
+    {
+        $pdf = $this->buildDeliveryNotesByClient($saleDeliveryNotes);
+
+        return $pdf->Output('albaranesPorCliente'.'.pdf', 'I');
+    }
+
+    /**
+     * @return TCPDF
+     */
+    public function buildListByClient(TCPDF $pdf, $saleDeliveryNotes)
+    {
+        // add start page
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = 70;
+        $total = $width + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT;
+        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
+
+        // logo
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+    }
+
+    /**
+     * @return TCPDF
+     */
+    public function buildDeliveryNotesList($saleDeliveryNotes)
+    {
+        $this->pdfEngineService->initDefaultPageEngineWithTitle('Albaranes');
+        $pdf = $this->pdfEngineService->getEngine();
+
+        return $this->buildList($saleDeliveryNotes, $pdf);
+    }
+
+    /**
+     * @return string
+     */
+    public function outputDeliveryNotesList($saleDeliveryNotes)
+    {
+        $pdf = $this->buildDeliveryNotesList($saleDeliveryNotes);
+
+        return $pdf->Output('albaranes'.'.pdf', 'I');
+    }
+
+    /**
+     * @return TCPDF
+     */
+    public function buildList(TCPDF $pdf, $saleDeliveryNotes)
+    {
+        // add start page
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = 70;
+        $total = $width + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT;
+        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
+
+        // logo
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+    }
+
+    /**
      * @param SaleDeliveryNote[]|ArrayCollection|array $saleDeliveryNotes
      *
      * @return TCPDF
