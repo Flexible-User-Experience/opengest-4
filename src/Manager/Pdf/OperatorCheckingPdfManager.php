@@ -2,8 +2,10 @@
 
 namespace App\Manager\Pdf;
 
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorChecking;
 use App\Enum\ConstantsEnum;
+use App\Manager\RepositoriesManager;
 use App\Service\PdfEngineService;
 use TCPDF;
 
@@ -16,12 +18,15 @@ class OperatorCheckingPdfManager
 {
     private PdfEngineService $pdfEngineService;
 
+    private RepositoriesManager $rm;
+
     /**
      * Methods.
      */
-    public function __construct(PdfEngineService $pdfEngineService)
+    public function __construct(PdfEngineService $pdfEngineService, RepositoriesManager $rm)
     {
         $this->pdfEngineService = $pdfEngineService;
+        $this->rm = $rm;
     }
 
     public function buildSingle($operatorCheckings): TCPDF
@@ -39,7 +44,7 @@ class OperatorCheckingPdfManager
         return $pdf->Output('Revisiones de operarios'.'.pdf', 'I');
     }
 
-    private function buildOperatorCheckingsPdf($operatorCheckings, TCPDF $pdf): TCPDF
+    private function buildOperatorCheckingsPdf(array $operatorCheckings, TCPDF $pdf): TCPDF
     {
         // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
@@ -64,12 +69,17 @@ class OperatorCheckingPdfManager
         //TODO why the logo doesn't come up?
         $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
 
-        //TODO get the list of operators
-        $operators = [];
-        /** @var Operator $operators */
-        foreach ($operators as $operator) {
+        $operatorsFromOperatorCheckings = [];
+        /** @var OperatorChecking $operatorChecking */
+        foreach ($operatorCheckings as $operatorChecking) {
+            $operatorsFromOperatorCheckings[$operatorChecking->getOperator()->getId()][] = $operatorChecking;
+        }
+        $pdf->setXY(30, 40);
+        foreach ($operatorsFromOperatorCheckings as $operatorId => $operatorCheckingsFromOperator) {
+            /** @var Operator $operator */
+            $operator = $this->rm->getOperatorRepository()->find($operatorId);
             //Header
-            $pdf->setXY(30, 40);
+
             $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
             $this->pdfEngineService->setStyleSize('b', 10);
             $pdf->Cell(90, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -84,26 +94,27 @@ class OperatorCheckingPdfManager
             $this->pdfEngineService->setStyleSize('', 9);
             $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
                 'Revisión',
-                true, 0, 'L', true);
+                true, 0, 'C', true);
             $pdf->Cell(40, ConstantsEnum::PDF_CELL_HEIGHT,
                 'Caduca',
-                true, 0, 'L', true);
+                true, 0, 'C', true);
             $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
                 'Cita previa',
-                true, 0, 'L', true);
+                true, 0, 'C', true);
             $pdf->Cell(30, ConstantsEnum::PDF_CELL_HEIGHT,
                 'Revisado',
-                true, 0, 'L', true);
+                true, 0, 'C', true);
+            $pdf->Ln();
             //info
             /** @var OperatorChecking $operatorChecking */
-            foreach ($operatorCheckings as $operatorChecking) {
+            foreach ($operatorCheckingsFromOperator as $operatorChecking) {
                 $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
                 $this->pdfEngineService->setStyleSize('', 9);
                 $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
                     $operatorChecking->getType(),
                     true, 0, 'L', false);
                 $pdf->Cell(40, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $operatorChecking->getEnd(),
+                    $operatorChecking->getEnd()->format('d/m/Y'),
                     true, 0, 'L', false);
                 $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
                     '',
@@ -111,7 +122,12 @@ class OperatorCheckingPdfManager
                 $pdf->Cell(30, ConstantsEnum::PDF_CELL_HEIGHT,
                     '',
                     true, 0, 'L', false);
+                $pdf->Ln();
             }
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                '',
+                false, 0, 'L', false);
+            $pdf->Ln();
         }
 
         return $pdf;
