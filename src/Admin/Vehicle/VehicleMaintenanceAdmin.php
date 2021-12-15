@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
@@ -44,6 +45,17 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         '_sort_by' => 'needsCheck',
         '_sort_order' => 'DESC',
     ];
+
+    /**
+     * Configure route collection.
+     */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection
+            ->add('downloadPdfPendingMaintenance', 'download_pdf_pending_maintenance')
+            ;
+    }
 
     protected function configureFormFields(FormMapper $formMapper): void
     {

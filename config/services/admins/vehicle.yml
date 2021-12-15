@@ -62,10 +62,11 @@ services:
             - [ setTranslationDomain, [ "admin" ] ]
     app.admin.vehicle.maintenance:
         class: App\Admin\Vehicle\VehicleMaintenanceAdmin
-        arguments: [ ~, App\Entity\Vehicle\VehicleMaintenance, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
+        arguments: [ ~, App\Entity\Vehicle\VehicleMaintenance, App\Controller\Admin\Vehicle\VehicleMaintenanceAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Mantenimientos de vehículo", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
+            - [ setTemplate, [ list, "admin/vehicle-maintenance/list.html.twig" ] ]
             - [ setTranslationDomain, [ "admin" ] ]
     app.admin.vehicle.special_permit:
         class: App\Admin\Vehicle\VehicleSpecialPermitAdmin
