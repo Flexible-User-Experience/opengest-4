@@ -60,6 +60,10 @@ services:
     App\Manager\Pdf\PayslipPdfManager:
         class: App\Manager\Pdf\PayslipPdfManager
         arguments: [ '@app.pdf_engine' ]
+#    app.vehicle_maintenance_pdf_manager:
+    App\Manager\Pdf\VehicleMaintenancePdfManager:
+        class: App\Manager\Pdf\VehicleMaintenancePdfManager
+        arguments: [ '@app.pdf_engine' ]
     # Messaging
     app.courier:
         class: App\Service\CourierService

@@ -3,6 +3,8 @@
 namespace App\Controller\Admin\Vehicle;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Vehicle\VehicleMaintenance;
+use App\Manager\Pdf\VehicleMaintenancePdfManager;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -10,10 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class VehicleMaintenanceAdminController extends BaseAdminController
 {
-    public function downloadPdfPendingMaintenanceAction(): Response
+    public function downloadPdfPendingMaintenanceAction(VehicleMaintenancePdfManager $vehicleMaintenancePdfManager): Response
     {
-        $this->addFlash('warning', 'Aquesta acció encara NO funciona!');
+        $vehicleMaintenances = $this->admin->getModelManager()->findBy(VehicleMaintenance::class, [
+            'enabled' => true,
+            'needsCheck' => true,
+        ]);
+        if (!$vehicleMaintenances) {
+            $this->addFlash('warning', 'No existen mantenimientos pendientes.');
+        }
 
-        return $this->redirectToRoute('admin_app_vehicle_vehiclemaintenance_list');
+        return new Response($vehicleMaintenancePdfManager->outputSingle($vehicleMaintenances), 200, ['Content-type' => 'application/pdf']);
     }
 }
