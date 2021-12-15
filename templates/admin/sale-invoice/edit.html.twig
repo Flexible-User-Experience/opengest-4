@@ -87,7 +87,7 @@
                                 <tr>
                                     <td>
                                         <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': deliveryNote.id }) }}">
-                                            {{ deliveryNote.deliveryNoteReference }}
+                                            {{ deliveryNote.id }}
                                         </a>
                                     </td>
                                     <td>{{ deliveryNote.date|date('d/m/Y') }}</td>
@@ -139,14 +139,21 @@
                                    </td>
                                 </tr>
                                 <tr>
-                                    <th colspan="4"></th>
+                                    <td colspan="3"></td>
                                     <th>
-                                        Importe Base: <br>
+                                        Importe Base:
+                                    </th>
+                                    <th style="font-size:15px">
+                                        {{ deliveryNote.baseTotalWithDiscounts|number_format(2, ',', '.') }} €
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <th>
                                         Total con impuestos y retenciones:
                                     </th>
-                                    <th>
-                                        {{ deliveryNote.baseTotalWithDiscounts|number_format(2, ',', '.') }} <br>
-                                        {{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }}
+                                    <th style="font-size:15px">
+                                        {{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }} €
                                     </th>
                                 </tr>
                             {% endfor %}

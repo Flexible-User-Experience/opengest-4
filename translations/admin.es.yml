@@ -190,6 +190,7 @@ admin:
         collection_term_2: "Plazo cobro 2"
         collection_term_3: "Plazo cobro 3"
         invoice_copies_number: "Nº copias factura"
+        partner_code: "Código cliente"
     with:
         general: "General"
         image: "Imagen"
