@@ -51,6 +51,9 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
         $collection
             ->add('downloadRouteImage', $this->getRouterIdParameter().'/imagen-ruta')
             ;
+        $collection
+            ->add('downloadPdfPendingSpecialPermits', 'download-pdf-pending-special-permits')
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void

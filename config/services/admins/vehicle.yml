@@ -75,4 +75,5 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Permisos especiales", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
+            - [ setTemplate, [ list, "admin/vehicle-special-permit/list.html.twig" ] ]
             - [ setTranslationDomain, [ "admin" ] ]
