@@ -30,22 +30,43 @@ class SaleInvoicePdfManager
     /**
      * @return TCPDF
      */
-    public function buildSingle(SaleInvoice $saleInvoice)
+    public function buildSingle($saleInvoices)
     {
-        $this->pdfEngineService->initDefaultPageEngineWithTitle('Factura '.$saleInvoice);
+        $this->pdfEngineService->initDefaultPageEngineWithTitle('Facturas');
         $pdf = $this->pdfEngineService->getEngine();
 
-        return $this->buildOneSaleRequestPerPage($saleInvoice, $pdf);
+        return $this->buildInvoiceList($saleInvoices, $pdf);
     }
 
     /**
      * @return string
      */
-    public function outputSingle(SaleInvoice $saleInvoice)
+    public function outputSingle($saleInvoices)
     {
-        $pdf = $this->buildSingle($saleInvoice);
+        $pdf = $this->buildSingle($saleInvoices);
 
-        return $pdf->Output('factura'.$saleInvoice->getInvoiceNumber().'.pdf', 'I');
+        return $pdf->Output('facturas'.'.pdf', 'I');
+    }
+
+    /**
+     * @return TCPDF
+     */
+    public function buildInvoiceList($saleInvoices, TCPDF $pdf)
+    {
+        // add start page
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_PORTRAIT - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
+
+        // get the current page break margin
+        $bMargin = $pdf->getBreakMargin();
+        // get current auto-page-break mode
+        $auto_page_break = $pdf->getAutoPageBreak();
+        // disable auto-page-break
+        $pdf->SetAutoPageBreak(false, 0);
+        // restore auto-page-break status
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
     }
 
     /**
