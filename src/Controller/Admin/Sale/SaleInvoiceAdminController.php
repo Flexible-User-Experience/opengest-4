@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Sale;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
+use App\Manager\Pdf\SaleInvoicePdfManager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,6 +33,14 @@ class SaleInvoiceAdminController extends BaseAdminController
         }
 
         return parent::editAction($request);
+    }
+
+    public function invoiceListPdfAction(SaleInvoicePdfManager $saleInvoicePdfManager): Response
+    {
+        //TODO input client and dates and generate invoice list calling $saleInvoicePdfManager->outputSingle($saleInvoices)
+        $this->addFlash('warning', 'Aquesta acció encara NO funciona!');
+
+        return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
     }
 
     /**
