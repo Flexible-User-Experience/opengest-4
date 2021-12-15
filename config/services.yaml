@@ -72,6 +72,10 @@ services:
     App\Manager\Pdf\VehicleSpecialPermitPdfManager:
         class: App\Manager\Pdf\VehicleSpecialPermitPdfManager
         arguments: [ '@app.pdf_engine' ]
+#    app.operator_checking_pdf_manager:
+    App\Manager\Pdf\OperatorCheckingPdfManager:
+        class: App\Manager\Pdf\OperatorCheckingPdfManager
+        arguments: [ '@app.pdf_engine' ]
     # Messaging
     app.courier:
         class: App\Service\CourierService

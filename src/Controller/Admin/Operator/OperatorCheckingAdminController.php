@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Operator;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\OperatorChecking;
+use App\Manager\Pdf\OperatorCheckingPdfManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,5 +30,17 @@ class OperatorCheckingAdminController extends BaseAdminController
         }
 
         return parent::editAction($request);
+    }
+
+    public function downloadPdfOperatorPendingCheckingsAction(OperatorCheckingPdfManager $operatorCheckingPdfManager): Response
+    {
+        $operatorCheckings = $this->admin->getModelManager()->findBy(OperatorChecking::class, [
+            'enabled' => true,
+        ]);
+        if (!$operatorCheckings) {
+            $this->addFlash('warning', 'No existen revisiones pendientes.');
+        }
+
+        return new Response($operatorCheckingPdfManager->outputSingle($operatorCheckings), 200, ['Content-type' => 'application/pdf']);
     }
 }

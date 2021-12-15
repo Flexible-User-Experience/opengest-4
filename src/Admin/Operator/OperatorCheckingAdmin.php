@@ -50,7 +50,10 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->remove('delete')
+            ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
