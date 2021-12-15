@@ -1,0 +1,11 @@
+{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
+
+{% block actions %}
+    <li>
+        <a class="sonata-action-element" href="{{ admin.generateUrl('downloadPdfPendingCheckings') }}">
+            <i class="fa fa-upload" aria-hidden="true"></i>
+            Descargar informe
+        </a>
+    </li>
+    {{ parent() }}
+{% endblock %}

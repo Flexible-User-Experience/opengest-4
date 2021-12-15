@@ -53,7 +53,10 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->remove('delete')
+            ->add('downloadPdfPendingCheckings', 'download-pdf-pending-checkings')
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void

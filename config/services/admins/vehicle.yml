@@ -29,6 +29,7 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Revisión", group: "Vehículos", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
+            - [ setTemplate, [ list, "admin/vehicle-checking/list.html.twig" ] ]
             - [ setTranslationDomain, [ "admin" ] ]
     app.admin.vehicle.digital_tachograph:
         class: App\Admin\Vehicle\VehicleDigitalTachographAdmin
