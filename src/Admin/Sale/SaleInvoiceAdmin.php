@@ -3,6 +3,7 @@
 namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
@@ -216,29 +217,41 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-//            ->with('admin.label.delivery_address', $this->getFormMdSuccessBoxArray(3))
-//            ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.delivery_address', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'deliveryNotes',
+                    'deliveryAddress',
                     EntityType::class,
                     [
-                        'label' => 'admin.label.delivery_notes',
+                        'label' => 'admin.label.delivery_address',
                         'required' => false,
-                        'class' => SaleDeliveryNote::class,
-                        'multiple' => true,
-                        'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
-                            $this->getUserLogedEnterprise(),
-                            $this->getSubject()->getPartner()
-                        ),
-                        'by_reference' => false,
+                        'class' => PartnerDeliveryAddress::class,
+                        'query_builder' => $this->rm->getPartnerDeliveryAddressRepository()->getFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()->getId()),
+                        'placeholder' => '--- Seleccione una dirección de envio alternativa ---',
+    //                    'choice_label' => 'name',
                     ]
                 )
                 ->end()
-            ;
+                    ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(3))
+                    ->add(
+                        'deliveryNotes',
+                        EntityType::class,
+                        [
+                            'label' => 'admin.label.delivery_notes',
+                            'required' => false,
+                            'class' => SaleDeliveryNote::class,
+                            'multiple' => true,
+                            'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
+                                $this->getUserLogedEnterprise(),
+                                $this->getSubject()->getPartner()
+                            ),
+                            'by_reference' => false,
+                        ]
+                    )
+                    ->end()
+                ;
         } else { // is create mode
             $formMapper
                 ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
