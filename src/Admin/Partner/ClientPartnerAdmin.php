@@ -478,6 +478,23 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->end()
+            ->tab('Direcciones de envío')
+            ->with('Direcciones de envío', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'partnerDeliveryAddresses',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
         ;
     }
 

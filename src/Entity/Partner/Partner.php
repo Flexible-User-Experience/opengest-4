@@ -1190,7 +1190,7 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    public function getPartnerDeliveryAddresses(): ArrayCollection
+    public function getPartnerDeliveryAddresses(): Collection
     {
         return $this->partnerDeliveryAddresses;
     }
