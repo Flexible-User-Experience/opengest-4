@@ -104,7 +104,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'invoiceNumber',
                 null,
@@ -170,7 +170,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'baseTotal',
                 null,
@@ -216,10 +216,12 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
+//            ->with('admin.label.delivery_address', $this->getFormMdSuccessBoxArray(3))
+//            ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
+                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'deliveryNotes',
                     EntityType::class,

@@ -4,6 +4,7 @@ namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Setting\SaleInvoiceSeries;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -103,6 +104,13 @@ class SaleInvoice extends AbstractBase
      * @ORM\Column(type="float", nullable=true)
      */
     private $discount = 0;
+
+    /**
+     * @var ?PartnerDeliveryAddress
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
+     */
+    private $deliveryAddress;
 
     /**
      * Methods.
@@ -371,6 +379,18 @@ class SaleInvoice extends AbstractBase
     public function setDiscount($discount): void
     {
         $this->discount = $discount;
+    }
+
+    public function getDeliveryAddress(): ?PartnerDeliveryAddress
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(?PartnerDeliveryAddress $deliveryAddress): SaleInvoice
+    {
+        $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
     }
 
     public function getDateFormatted(): string
