@@ -8,10 +8,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
-use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -145,16 +145,26 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.operator',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
-                            'property' => 'name',
+                            'property' => 'surname1',
                         ],
                 ]
             )
             ->add(
                 'date',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.delivery_note_date',
-                    'field_type' => DatePickerType::class,
+                    'label' => 'admin.label.date',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
         ;
