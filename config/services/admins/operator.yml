@@ -51,7 +51,7 @@ services:
 #            - { name: sonata.admin, manager_type: orm, label: "Importes varios", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
     app.admin.operator_work_register_header:
         class: App\Admin\Operator\OperatorWorkRegisterHeaderAdmin
-        arguments: [ ~, App\Entity\Operator\OperatorWorkRegisterHeader,  ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
+        arguments: [ ~, App\Entity\Operator\OperatorWorkRegisterHeader,  App\Controller\Admin\Operator\OperatorWorkRegisterHeaderAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Partes de trabajo", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:

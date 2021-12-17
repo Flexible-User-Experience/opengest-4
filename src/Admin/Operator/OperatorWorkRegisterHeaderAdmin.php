@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
@@ -47,6 +48,28 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection
+            ->add('batch')
+        ;
+    }
+
+    /**
+     * @param array $actions
+     */
+    public function configureBatchActions($actions): array
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generateWorkRegisterReportPdf'] = [
+                'label' => 'admin.action.generate_work_register_report',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjects
