@@ -191,23 +191,23 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.reference',
                 ]
             )
-            ->add(
-                'secondaryAddress',
-                null,
-                [
-                    'label' => 'admin.label.secondary_address',
-                ]
-            )
-            ->add(
-                'secondaryCity',
-                EntityType::class,
-                [
-                    'class' => City::class,
-                    'label' => 'admin.label.secondary_city',
-                    'required' => false,
-                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
-                ]
-            )
+//            ->add(
+//                'secondaryAddress',
+//                null,
+//                [
+//                    'label' => 'admin.label.secondary_address',
+//                ]
+//            )
+//            ->add(
+//                'secondaryCity',
+//                EntityType::class,
+//                [
+//                    'class' => City::class,
+//                    'label' => 'admin.label.secondary_city',
+//                    'required' => false,
+//                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
+//                ]
+//            )
             ->add(
                 'phoneNumber3',
                 null,

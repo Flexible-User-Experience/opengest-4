@@ -40,6 +40,8 @@ services:
         arguments: [ ~, App\Entity\Partner\PartnerBuildingSite, App\Controller\Admin\Partner\PartnerBuildingSiteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Obras", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_contact:
         class: App\Admin\Partner\PartnerContactAdmin
         arguments: [ ~, App\Entity\Partner\PartnerContact, App\Controller\Admin\Partner\PartnerContactAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
