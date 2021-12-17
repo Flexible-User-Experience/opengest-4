@@ -291,6 +291,13 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"})
+     */
+    private $partnerDeliveryAddresses;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="partner")
      */
     private $saleRequests;
@@ -392,6 +399,7 @@ class Partner extends AbstractBase
         $this->orders = new ArrayCollection();
         $this->buildingSites = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->partnerDeliveryAddresses = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->partnerUnableDays = new ArrayCollection();
         $this->saleDeliveryNotes = new ArrayCollection();
@@ -1177,6 +1185,46 @@ class Partner extends AbstractBase
     {
         if ($this->contacts->contains($contact)) {
             $this->contacts->removeElement($contact);
+        }
+
+        return $this;
+    }
+
+    public function getPartnerDeliveryAddresses(): ArrayCollection
+    {
+        return $this->partnerDeliveryAddresses;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPartnerDeliveryAddresses(ArrayCollection $partnerDeliveryAddresses): Partner
+    {
+        $this->partnerDeliveryAddresses = $partnerDeliveryAddresses;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    {
+        if (!$this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
+            $this->partnerDeliveryAddresses->add($partnerDeliveryAddress);
+            $partnerDeliveryAddress->setPartner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    {
+        if ($this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
+            $this->partnerDeliveryAddresses->removeElement($partnerDeliveryAddress);
         }
 
         return $this;
