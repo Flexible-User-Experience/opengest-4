@@ -2,6 +2,7 @@
 
 namespace App\Manager\Pdf;
 
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Entity\Sale\SaleDeliveryNote;
@@ -56,7 +57,7 @@ class WorkRegisterHeaderPdfManager
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de nóminas detalladas');
         $pdf = $this->pdfEngineService->getEngine();
         $operatorsFromWorkRegisterHeaders = [];
-        /** @var WorkRegisterHeader $workRegisterHeader */
+        /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
             $operatorsFromWorkRegisterHeaders[$workRegisterHeader->getOperator()->getId()][] = $workRegisterHeader;
         }
