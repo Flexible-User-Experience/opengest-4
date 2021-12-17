@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Manager\InvoiceManager;
+use App\Manager\Pdf\PayslipPdfManager;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Manager\Pdf\SaleInvoicePdfManager;
 use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
@@ -30,12 +31,17 @@ abstract class BaseAdminController extends Controller
 
     protected WorkRegisterHeaderPdfManager $wrhpm;
 
-    public function __construct(InvoiceManager $invoiceManager, SaleDeliveryNotePdfManager $sdnpm, SaleInvoicePdfManager $sipm, WorkRegisterHeaderPdfManager $wrhpm)
+    protected PayslipPdfManager $ppm;
+
+    public function __construct(InvoiceManager $invoiceManager, SaleDeliveryNotePdfManager $sdnpm,
+                                SaleInvoicePdfManager $sipm, WorkRegisterHeaderPdfManager $wrhpm,
+                                PayslipPdfManager $ppm)
     {
         $this->im = $invoiceManager;
         $this->sdnpm = $sdnpm;
         $this->sipm = $sipm;
         $this->wrhpm = $wrhpm;
+        $this->ppm = $ppm;
     }
 
     /**
