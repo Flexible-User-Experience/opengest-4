@@ -61,18 +61,20 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($sdnps->outputSingle($saleDeliveryNote), 200, ['Content-type' => 'application/pdf']);
     }
 
-    public function pdfDeliveryNotesByClient(SaleDeliveryNotePdfManager $deliveryNotePdfManager): Response
+    public function batchActionDeliveryNotesByClient(ProxyQueryInterface $selectedModelQuery): Response
     {
         //TODO get delivery notes by client and date interval calling $deliveryNotePdfManager->outputDeliveryNotesByClient($deliveryNotes)
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
 
-        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        return new Response($this->sdnpm->outputDeliveryNotesByClient($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
-    public function pdfDeliveryNotesList(SaleDeliveryNotePdfManager $deliveryNotePdfManager): Response
+    public function batchActionDeliveryNotesList(ProxyQueryInterface $selectedModelQuery): Response
     {
         //TODO get delivery notes by date interval calling $deliveryNotePdfManager->outputDeliveryNotesList($deliveryNotes)
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
 
-        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
     /**
