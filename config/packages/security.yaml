@@ -77,6 +77,7 @@ security:
             - ROLE_APP_ADMIN_VEHICLE_MAINTENANCE_TASK_ALL
             - ROLE_APP_ADMIN_VEHICLE_SPECIAL_PERMIT_ALL
             - ROLE_APP_ADMIN_VEHICLE_FUEL_ALL
+            - ROLE_APP_ADMIN_PARTNER_DELIVERY_ADDRESS_ALL
         ROLE_CMS:
             - ROLE_USER
             - ROLE_SONATA_CMS
@@ -93,10 +94,10 @@ security:
     access_decision_manager:
         strategy: unanimous
     encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
+        App\Entity\Setting\User: bcrypt
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username_email
+        users:
+            id: App\Security\UserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -105,18 +106,21 @@ security:
             pattern: /admin(.*)
             context: user
             form_login:
-                provider:                       fos_userbundle
-                login_path:                     /admin/login
+                provider:                       users
+                login_path:                     admin_login
                 use_forward:                    false
-                check_path:                     /admin/login_check
-                failure_path:                   /admin/login
+                check_path:                     admin_login
+                failure_path:                   admin_login
                 default_target_path:            /admin/dashboard
                 always_use_default_target_path: true
                 use_referer:                    true
             logout:
-                path:   /admin/logout
-                target: /admin/login
+                path:   admin_logout
+                target: admin_login
             anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\LoginAuthenticator
         frontend:
             pattern:   ^/(.*)
             context:   user

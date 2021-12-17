@@ -30,7 +30,7 @@ services:
         bind:
             $defaultLocale:    '%default_locale%'
             $project_url_base: '%project_url_base%'
-            $krb:              '%kernel.root_dir%'
+            $krb:              '%kernel.project_dir%'
             $amd:              '%mailer_destination%'
             $urlBase:          '%mailer_url_base%'
             $commandName:      ~
@@ -59,6 +59,26 @@ services:
 #    app.payslip_pdf_manager:
     App\Manager\Pdf\PayslipPdfManager:
         class: App\Manager\Pdf\PayslipPdfManager
+        arguments: [ '@app.pdf_engine' ]
+#    app.vehicle_maintenance_pdf_manager:
+    App\Manager\Pdf\VehicleMaintenancePdfManager:
+        class: App\Manager\Pdf\VehicleMaintenancePdfManager
+        arguments: [ '@app.pdf_engine' ]
+#    app.vehicle_checking_pdf_manager:
+    App\Manager\Pdf\VehicleCheckingPdfManager:
+        class: App\Manager\Pdf\VehicleCheckingPdfManager
+        arguments: [ '@app.pdf_engine' ]
+#    app.vehicle_special_permit_pdf_manager:
+    App\Manager\Pdf\VehicleSpecialPermitPdfManager:
+        class: App\Manager\Pdf\VehicleSpecialPermitPdfManager
+        arguments: [ '@app.pdf_engine' ]
+#    app.operator_checking_pdf_manager:
+    App\Manager\Pdf\OperatorCheckingPdfManager:
+        class: App\Manager\Pdf\OperatorCheckingPdfManager
+        arguments: [ '@app.pdf_engine' ]
+#    app.work_register_header_pdf_manager:
+    App\Manager\Pdf\WorkRegisterHeaderPdfManager:
+        class: App\Manager\Pdf\WorkRegisterHeaderPdfManager
         arguments: [ '@app.pdf_engine' ]
     # Messaging
     app.courier:
@@ -179,7 +199,7 @@ services:
     # File
     app.file_service:
         class: App\Service\FileService
-        arguments: [ '@Vich\UploaderBundle\Templating\Helper\UploaderHelper', '%kernel.root_dir%' ]
+        arguments: [ '@Vich\UploaderBundle\Templating\Helper\UploaderHelper', '%kernel.project_dir%' ]
     app.smart_assets_helper_service:
         class: App\Service\SmartAssetsHelperService
         arguments: [ '@kernel', '%mailer_url_base%' ]

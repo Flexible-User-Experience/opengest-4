@@ -3,6 +3,7 @@
 namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Sale\SaleDeliveryNote;
@@ -69,6 +70,13 @@ class Partner extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="partners")
      */
     private $transferAccount;
+
+    /**
+     * @var CollectionDocumentType
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType", inversedBy="partners")
+     */
+    private $collectionDocumentType;
 
     /**
      * @var ArrayCollection
@@ -167,7 +175,9 @@ class Partner extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Email(strict=true, checkMX=true, checkHost=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
      */
     private $email;
 
@@ -281,6 +291,13 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"})
+     */
+    private $partnerDeliveryAddresses;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="partner")
      */
     private $saleRequests;
@@ -307,6 +324,70 @@ class Partner extends AbstractBase
     private $saleInvoices;
 
     /**
+     * @var ?string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
+     */
+    private ?string $invoiceEmail = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $accountingAccount = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm1 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm2 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm3 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay1 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay2 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay3 = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $invoiceCopiesNumber = null;
+
+    /**
      * Methods.
      */
 
@@ -318,6 +399,7 @@ class Partner extends AbstractBase
         $this->orders = new ArrayCollection();
         $this->buildingSites = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->partnerDeliveryAddresses = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->partnerUnableDays = new ArrayCollection();
         $this->saleDeliveryNotes = new ArrayCollection();
@@ -1108,6 +1190,46 @@ class Partner extends AbstractBase
         return $this;
     }
 
+    public function getPartnerDeliveryAddresses(): Collection
+    {
+        return $this->partnerDeliveryAddresses;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPartnerDeliveryAddresses(ArrayCollection $partnerDeliveryAddresses): Partner
+    {
+        $this->partnerDeliveryAddresses = $partnerDeliveryAddresses;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    {
+        if (!$this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
+            $this->partnerDeliveryAddresses->add($partnerDeliveryAddress);
+            $partnerDeliveryAddress->setPartner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    {
+        if ($this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
+            $this->partnerDeliveryAddresses->removeElement($partnerDeliveryAddress);
+        }
+
+        return $this;
+    }
+
     /**
      * @return ArrayCollection
      */
@@ -1296,11 +1418,131 @@ class Partner extends AbstractBase
         return $this;
     }
 
+    public function getCollectionDocumentType(): ?CollectionDocumentType
+    {
+        return $this->collectionDocumentType;
+    }
+
+    public function setCollectionDocumentType(CollectionDocumentType $collectionDocumentType): Partner
+    {
+        $this->collectionDocumentType = $collectionDocumentType;
+
+        return $this;
+    }
+
+    public function getInvoiceEmail(): ?string
+    {
+        return $this->invoiceEmail;
+    }
+
+    public function setInvoiceEmail(?string $invoiceEmail): Partner
+    {
+        $this->invoiceEmail = $invoiceEmail;
+
+        return $this;
+    }
+
+    public function getAccountingAccount(): ?int
+    {
+        return $this->accountingAccount;
+    }
+
+    public function setAccountingAccount(?int $accountingAccount): Partner
+    {
+        $this->accountingAccount = $accountingAccount;
+
+        return $this;
+    }
+
+    public function getCollectionTerm1(): ?int
+    {
+        return $this->collectionTerm1;
+    }
+
+    public function setCollectionTerm1(?int $collectionTerm1): Partner
+    {
+        $this->collectionTerm1 = $collectionTerm1;
+
+        return $this;
+    }
+
+    public function getCollectionTerm2(): ?int
+    {
+        return $this->collectionTerm2;
+    }
+
+    public function setCollectionTerm2(?int $collectionTerm2): Partner
+    {
+        $this->collectionTerm2 = $collectionTerm2;
+
+        return $this;
+    }
+
+    public function getCollectionTerm3(): ?int
+    {
+        return $this->collectionTerm3;
+    }
+
+    public function setCollectionTerm3(?int $collectionTerm3): Partner
+    {
+        $this->collectionTerm3 = $collectionTerm3;
+
+        return $this;
+    }
+
+    public function getPayDay1(): ?int
+    {
+        return $this->payDay1;
+    }
+
+    public function setPayDay1(?int $payDay1): Partner
+    {
+        $this->payDay1 = $payDay1;
+
+        return $this;
+    }
+
+    public function getPayDay2(): ?int
+    {
+        return $this->payDay2;
+    }
+
+    public function setPayDay2(?int $payDay2): Partner
+    {
+        $this->payDay2 = $payDay2;
+
+        return $this;
+    }
+
+    public function getPayDay3(): ?int
+    {
+        return $this->payDay3;
+    }
+
+    public function setPayDay3(?int $payDay3): Partner
+    {
+        $this->payDay3 = $payDay3;
+
+        return $this;
+    }
+
+    public function getInvoiceCopiesNumber(): ?int
+    {
+        return $this->invoiceCopiesNumber;
+    }
+
+    public function setInvoiceCopiesNumber(?int $invoiceCopiesNumber = null): Partner
+    {
+        $this->invoiceCopiesNumber = $invoiceCopiesNumber;
+
+        return $this;
+    }
+
     /**
      * @return string
      */
     public function __toString()
     {
-        return $this->id ? $this->getName() : '---';
+        return $this->id ? $this->getCode().' - '.$this->getName() : '---';
     }
 }

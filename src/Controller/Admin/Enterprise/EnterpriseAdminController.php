@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Setting\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
@@ -19,9 +20,8 @@ class EnterpriseAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var Enterprise $enterprise */
@@ -29,13 +29,8 @@ class EnterpriseAdminController extends BaseAdminController
         if (!$enterprise) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($enterprise)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
-        }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 
     /**
@@ -63,187 +58,187 @@ class EnterpriseAdminController extends BaseAdminController
         return $this->redirectToRoute('sonata_admin_dashboard');
     }
 
-    public function downloadTc1receiptAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadTc1receiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'tc1ReceiptFile', $enterprise->getTc1Receipt());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'tc1ReceiptFile', $enterprise->getTc1Receipt());
     }
 
-    public function downloadTc2receiptAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadTc2receiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'tc2ReceiptFile', $enterprise->getTc2Receipt());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'tc2ReceiptFile', $enterprise->getTc2Receipt());
     }
 
-    public function downloadSsRegistrationAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadSsRegistrationAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'ssRegistrationFile', $enterprise->getSsRegistration());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'ssRegistrationFile', $enterprise->getSsRegistration());
     }
 
-    public function downloadSsPaymentCertificateAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadSsPaymentCertificateAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'ssPaymentCertificateFile', $enterprise->getSsPaymentCertificate());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'ssPaymentCertificateFile', $enterprise->getSsPaymentCertificate());
     }
 
-    public function downloadRc1InsuranceAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadRc1InsuranceAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'rc1InsuranceFile', $enterprise->getRc1Insurance());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'rc1InsuranceFile', $enterprise->getRc1Insurance());
     }
 
-    public function downloadRc2InsuranceAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadRc2InsuranceAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'rc2InsuranceFile', $enterprise->getRc2Insurance());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'rc2InsuranceFile', $enterprise->getRc2Insurance());
     }
 
-    public function downloadRcReceiptAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadRcReceiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'rcReceiptFile', $enterprise->getRcReceipt());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'rcReceiptFile', $enterprise->getRcReceipt());
     }
 
-    public function downloadPreventionServiceContractAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadPreventionServiceContractAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'preventionServiceContractFile', $enterprise->getPreventionServiceContract());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'preventionServiceContractFile', $enterprise->getPreventionServiceContract());
     }
 
-    public function downloadPreventionServiceInvoiceAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadPreventionServiceInvoiceAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'preventionServiceInvoiceFile', $enterprise->getPreventionServiceInvoice());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'preventionServiceInvoiceFile', $enterprise->getPreventionServiceInvoice());
     }
 
-    public function downloadPreventionServiceReceiptAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadPreventionServiceReceiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'preventionServiceReceiptFile', $enterprise->getPreventionServiceReceipt());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'preventionServiceReceiptFile', $enterprise->getPreventionServiceReceipt());
     }
 
-    public function downloadOccupationalAccidentsInsuranceAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadOccupationalAccidentsInsuranceAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'occupationalAccidentsInsuranceFile', $enterprise->getOccupationalAccidentsInsurance());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'occupationalAccidentsInsuranceFile', $enterprise->getOccupationalAccidentsInsurance());
     }
 
-    public function downloadOccupationalReceiptAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadOccupationalReceiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'occupationalReceiptFile', $enterprise->getOccupationalReceipt());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'occupationalReceiptFile', $enterprise->getOccupationalReceipt());
     }
 
-    public function downloadLaborRiskAssessmentAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadLaborRiskAssessmentAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'laborRiskAssessmentFile', $enterprise->getLaborRiskAssessment());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'laborRiskAssessmentFile', $enterprise->getLaborRiskAssessment());
     }
 
-    public function downloadSecurityPlanAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadSecurityPlanAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'securityPlanFile', $enterprise->getSecurityPlan());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'securityPlanFile', $enterprise->getSecurityPlan());
     }
 
-    public function downloadReaCertificateAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadReaCertificateAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'reaCertificateFile', $enterprise->getReaCertificate());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'reaCertificateFile', $enterprise->getReaCertificate());
     }
 
-    public function downloadOilCertificateAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadOilCertificateAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'oilCertificateFile', $enterprise->getOilCertificate());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'oilCertificateFile', $enterprise->getOilCertificate());
     }
 
-    public function downloadGencatPaymentCertificateAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadGencatPaymentCertificateAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'gencatPaymentCertificateFile', $enterprise->getGencatPaymentCertificate());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'gencatPaymentCertificateFile', $enterprise->getGencatPaymentCertificate());
     }
 
-    public function downloadDeedsOfPowersAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadDeedsOfPowersAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'deedsOfPowersFile', $enterprise->getDeedsOfPowers());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'deedsOfPowersFile', $enterprise->getDeedsOfPowers());
     }
 
-    public function downloadIaeRegistrationAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadIaeRegistrationAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'iaeRegistrationFile', $enterprise->getIaeRegistration());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'iaeRegistrationFile', $enterprise->getIaeRegistration());
     }
 
-    public function downloadIaeReceiptAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadIaeReceiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'iaeReceiptFile', $enterprise->getIaeReceipt());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'iaeReceiptFile', $enterprise->getIaeReceipt());
     }
 
-    public function downloadMutualPartnershipAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadMutualPartnershipAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'mutualPartnershipFile', $enterprise->getMutualPartnership());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'mutualPartnershipFile', $enterprise->getMutualPartnership());
     }
 
-    public function downloadDeedOfIncorporationAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadDeedOfIncorporationAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'deedOfIncorporationFile', $enterprise->getDeedOfIncorporation());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'deedOfIncorporationFile', $enterprise->getDeedOfIncorporation());
     }
 
-    public function downloadTaxIdentificationNumberCardAction($id, DownloadHandler $downloadHandler): Response
+    public function downloadTaxIdentificationNumberCardAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getObject($id);
 
-        return $this->downloadDocument($id, $downloadHandler, $enterprise, 'taxIdentificationNumberCardFile', $enterprise->getTaxIdentificationNumberCard());
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'taxIdentificationNumberCardFile', $enterprise->getTaxIdentificationNumberCard());
     }
 }

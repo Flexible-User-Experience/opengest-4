@@ -103,7 +103,9 @@ class Operator extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Email(strict=true, checkMX=true, checkHost=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
      */
     private $email;
 
@@ -1528,7 +1530,7 @@ class Operator extends AbstractBase
      */
     public function getOperatorDigitalTachographs()
     {
-        $lastId = $this->operatorDigitalTachographs->last()->getId();
+        $lastId = $this->operatorDigitalTachographs->last() ? $this->operatorDigitalTachographs->last()->getId() : null;
 
         return $this->operatorDigitalTachographs->filter(function (OperatorDigitalTachograph $operatorDigitalTachograph) use ($lastId) {
             return $operatorDigitalTachograph->getId() === $lastId;

@@ -6,9 +6,10 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class PartnerRepository extends ServiceEntityRepository
 {
@@ -70,5 +71,29 @@ class PartnerRepository extends ServiceEntityRepository
     public function getFilteredByEnterprisePartnerTypeEnabledSortedByName(Enterprise $enterprise, PartnerType $partnerType): array
     {
         return $this->getFilteredByEnterprisePartnerTypeEnabledSortedByNameQ($enterprise, $partnerType)->getResult();
+    }
+
+    public function getLastPartnerIdByEnterpriseQB(Enterprise $enterprise): QueryBuilder
+    {
+        return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)
+            ->orderBy('p.code', 'DESC')
+            ->setMaxResults(1)
+            ;
+    }
+
+    public function getLastPartnerIdByEnterpriseQ(Enterprise $enterprise): Query
+    {
+        return $this->getLastPartnerIdByEnterpriseQB($enterprise)->getQuery();
+    }
+
+    public function getLastPartnerIdByEnterprise(Enterprise $enterprise): ?Partner
+    {
+        try {
+            $result = $this->getLastPartnerIdByEnterpriseQ($enterprise)->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $result = null;
+        }
+
+        return $result;
     }
 }

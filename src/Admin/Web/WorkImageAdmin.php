@@ -3,8 +3,8 @@
 namespace App\Admin\Web;
 
 use App\Admin\AbstractBaseAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -18,11 +18,6 @@ class WorkImageAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Imatge Treball';
 
     /**
@@ -33,138 +28,128 @@ class WorkImageAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'position',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
      */
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('admin.with.image', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'imageFile',
                 FileType::class,
-                array(
+                [
                     'label' => 'admin.label.file',
                     'help' => $this->getImageHelperFormMapperWithThumbnail(),
-                    'sonata_help' => $this->getImageHelperFormMapperWithThumbnail(),
+                    'help_html' => true,
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'alt',
                 null,
-                array(
+                [
                     'label' => 'admin.label.alt',
-                )
+                ]
             )
             ->add(
                 'position',
                 null,
-                array(
+                [
                     'label' => 'admin.label.position',
-                )
+                ]
             )
             ->add(
                 'work',
                 null,
-                array(
-                    'attr' => array(
+                [
+                    'attr' => [
                         'hidden' => true,
-                    ),
+                    ],
                     'required' => true,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'alt',
                 null,
-                array(
+                [
                     'label' => 'admin.label.alt',
-                )
+                ]
             )
             ->add(
                 'position',
                 null,
-                array(
+                [
                     'label' => 'admin.label.position',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'admin.label.enabled_female',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'image',
                 null,
-                array(
+                [
                     'label' => 'admin.label.image',
                     'template' => 'admin/cells/list__cell_image_field.html.twig',
-                )
+                ]
             )
             ->add(
                 'alt',
                 null,
-                array(
+                [
                     'label' => 'admin.label.alt',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'position',
                 null,
-                array(
+                [
                     'label' => 'admin.label.position',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'admin.label.enabled_female',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                    ],
                     'label' => 'admin.actions',
-                )
+                ]
             )
         ;
     }

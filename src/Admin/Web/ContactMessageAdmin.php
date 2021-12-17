@@ -3,12 +3,13 @@
 namespace App\Admin\Web;
 
 use App\Admin\AbstractBaseAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\Form\Type\DatePickerType;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
@@ -18,11 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
  */
 class ContactMessageAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
     /**
      * @var string
      */
@@ -36,10 +32,10 @@ class ContactMessageAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'createdAt',
         '_sort_order' => 'desc',
-    );
+    ];
 
     /**
      * Methods.
@@ -48,7 +44,7 @@ class ContactMessageAdmin extends AbstractBaseAdmin
     /**
      * @param RouteCollection $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->remove('create')
@@ -59,118 +55,117 @@ class ContactMessageAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'checked',
                 null,
-                array(
+                [
                     'label' => 'admin.label.checked',
-                )
+                ]
             )
             ->add(
                 'createdAt',
-                DateFilter::class,
-                array(
+                DateRangeFilter::class,
+                [
                     'label' => 'admin.label.date',
-                    'field_type' => DatePickerType::class,
-                ),
-                null,
-                array(
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                )
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'admin.label.name',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'admin.label.email',
-                )
+                ]
             )
             ->add(
                 'message',
                 null,
-                array(
+                [
                     'label' => 'admin.label.message',
-                )
+                ]
             )
             ->add(
                 'answer',
                 null,
-                array(
+                [
                     'label' => 'admin.label.answer',
-                )
+                ]
             )
             ->add(
                 'answered',
                 null,
-                array(
+                [
                     'label' => 'admin.label.answered',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param ShowMapper $showMapper
-     */
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->add(
                 'checked',
                 null,
-                array(
+                [
                     'label' => 'admin.label.checked',
-                )
+                ]
             )
             ->add(
                 'createdAt',
                 'date',
-                array(
+                [
                     'label' => 'admin.label.date',
                     'format' => 'd/m/Y H:i',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'admin.label.name',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'admin.label.email',
-                )
+                ]
             )
             ->add(
                 'message',
                 TextareaType::class,
-                array(
+                [
                     'label' => 'admin.label.message',
-                )
+                ]
             )
             ->add(
                 'answered',
                 null,
-                array(
+                [
                     'label' => 'admin.label.answered',
-                )
+                ]
             )
         ;
         if ($this->getSubject()->getAnswered()) {
@@ -178,71 +173,68 @@ class ContactMessageAdmin extends AbstractBaseAdmin
                 ->add(
                     'answer',
                     'textarea',
-                    array(
+                    [
                         'label' => 'admin.label.answer',
-                    )
+                    ]
                 )
             ;
         }
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'checked',
                 null,
-                array(
+                [
                     'label' => 'admin.label.checked',
-                )
+                ]
             )
             ->add(
                 'createdAt',
                 'date',
-                array(
+                [
                     'label' => 'admin.label.date',
                     'format' => 'd/m/Y',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'admin.label.name',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'admin.label.email',
-                )
+                ]
             )
             ->add(
                 'answered',
                 null,
-                array(
+                [
                     'label' => 'admin.label.answered',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array(
+                [
+                    'actions' => [
+                        'show' => [
                             'template' => 'admin/buttons/list__action_show_button.html.twig',
-                        ),
-                        'answer' => array(
+                        ],
+                        'answer' => [
                             'template' => 'admin/cells/list__action_answer.html.twig',
-                        ),
-                    ),
+                        ],
+                    ],
                     'label' => 'admin.actions',
-                )
+                ]
             )
         ;
     }

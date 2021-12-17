@@ -4,9 +4,9 @@ namespace App\Entity\Vehicle;
 
 use App\Entity\AbstractBase;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class VehicleDigitalTachograph.
@@ -105,6 +105,11 @@ class VehicleDigitalTachograph extends AbstractBase
         $this->uploadedFileName = $uploadedFileName;
 
         return $this;
+    }
+
+    public function getMainImage(): bool
+    {
+        return true;
     }
 
     /**

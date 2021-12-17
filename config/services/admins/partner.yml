@@ -2,46 +2,64 @@
 services:
     app.admin.partner:
         class: App\Admin\Partner\PartnerAdmin
-        arguments: [ ~, App\Entity\Partner\Partner, App\Controller\Admin\Partner\PartnerAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\Partner, App\Controller\Admin\Partner\PartnerAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Tercero", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.client.partner:
         class: App\Admin\Partner\ClientPartnerAdmin
-        arguments: [ ~, App\Entity\Partner\Partner, App\Controller\Admin\Partner\PartnerAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\Partner, App\Controller\Admin\Partner\PartnerAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Clientes", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
-#    app.admin.partner:
-#        class: App\Admin\Partner\PartnerAdmin
-#        arguments: [ 'partner_admin', App\Entity\Partner\Partner, App\Controller\Admin\Partner\PartnerAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
-#        tags:
-#            - { name: sonata.admin, manager_type: orm, label: "Terceros", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_class:
         class: App\Admin\Partner\PartnerClassAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerClass, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\PartnerClass, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Clase", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_type:
         class: App\Admin\Partner\PartnerTypeAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\PartnerType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Tipo", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_order:
         class: App\Admin\Partner\PartnerOrderAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerOrder, App\Controller\Admin\Partner\PartnerOrderAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\PartnerOrder, App\Controller\Admin\Partner\PartnerOrderAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Órdenes", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_building_site:
         class: App\Admin\Partner\PartnerBuildingSiteAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerBuildingSite, App\Controller\Admin\Partner\PartnerBuildingSiteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\PartnerBuildingSite, App\Controller\Admin\Partner\PartnerBuildingSiteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Obras", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_contact:
         class: App\Admin\Partner\PartnerContactAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerContact, App\Controller\Admin\Partner\PartnerContactAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\PartnerContact, App\Controller\Admin\Partner\PartnerContactAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Contacto", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
+    app.admin.partner_delivery_address:
+        class: App\Admin\Partner\PartnerDeliveryAddressAdmin
+        arguments: [ ~, App\Entity\Partner\PartnerDeliveryAddress, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Direcciones envio", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_unable_days:
         class: App\Admin\Partner\PartnerUnableDaysAdmin
-        arguments: [ ~, App\Entity\Partner\PartnerUnableDays, App\Controller\Admin\Partner\PartnerUnableDaysAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@templating", "@security.token_storage", "@security.authorization_checker" ]
+        arguments: [ ~, App\Entity\Partner\PartnerUnableDays, App\Controller\Admin\Partner\PartnerUnableDaysAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.password_encoder"]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Días inhábiles", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]

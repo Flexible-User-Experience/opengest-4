@@ -786,6 +786,42 @@ class SaleDeliveryNote extends AbstractBase
         return $baseTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
+    public function getDiscountTotal(): float
+    {
+        $discountTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * ($this->getDiscount() / 100) + $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() * ($deliveryNoteLine->getDiscount() / 100);
+            $discountTotal += $subtotal;
+        }
+
+        return $discountTotal;
+    }
+
+    public function getIvaTotal(): float
+    {
+        $ivaTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * (1 - $this->getDiscount() / 100) * ($deliveryNoteLine->getIva() / 100);
+            $ivaTotal += $subtotal;
+        }
+
+        return $ivaTotal;
+    }
+
+    public function getIrpfTotal(): float
+    {
+        $irpfTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * (1 - $this->getDiscount() / 100) * ($deliveryNoteLine->getIrpf() / 100);
+            $irpfTotal += $subtotal;
+        }
+
+        return $irpfTotal;
+    }
+
     /**
      * @return string
      */

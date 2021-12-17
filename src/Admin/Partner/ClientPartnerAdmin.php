@@ -3,16 +3,18 @@
 namespace App\Admin\Partner;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerClass;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
-use Doctrine\ORM\QueryBuilder;
+use App\Entity\Setting\Province;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -37,11 +39,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $baseRouteName = 'admin_app_partner_client';
 
     /**
@@ -55,7 +52,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -66,7 +63,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('General')
@@ -76,6 +73,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.code',
+                    'disabled' => true,
+                ]
+            )
+            ->add(
+                'providerReference',
+                null,
+                [
+                    'label' => 'admin.label.provider_code',
                 ]
             )
             ->add(
@@ -147,6 +152,16 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'mainCity.province',
+                EntityType::class,
+                [
+                    'class' => Province::class,
+                    'label' => 'admin.label.province',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            )
+            ->add(
                 'phoneNumber1',
                 null,
                 [
@@ -160,13 +175,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.phone2',
                 ]
             )
-            ->add(
-                'faxNumber1',
-                null,
-                [
-                    'label' => 'admin.label.fax1',
-                ]
-            )
+//            ->add(
+//                'faxNumber1',
+//                null,
+//                [
+//                    'label' => 'admin.label.fax1',
+//                ]
+//            )
             ->end()
             ->with('Otros datos', $this->getFormMdSuccessBoxArray(4))
             ->add(
@@ -176,23 +191,23 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.reference',
                 ]
             )
-            ->add(
-                'secondaryAddress',
-                null,
-                [
-                    'label' => 'admin.label.secondary_address',
-                ]
-            )
-            ->add(
-                'secondaryCity',
-                EntityType::class,
-                [
-                    'class' => City::class,
-                    'label' => 'admin.label.secondary_city',
-                    'required' => false,
-                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
-                ]
-            )
+//            ->add(
+//                'secondaryAddress',
+//                null,
+//                [
+//                    'label' => 'admin.label.secondary_address',
+//                ]
+//            )
+//            ->add(
+//                'secondaryCity',
+//                EntityType::class,
+//                [
+//                    'class' => City::class,
+//                    'label' => 'admin.label.secondary_city',
+//                    'required' => false,
+//                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
+//                ]
+//            )
             ->add(
                 'phoneNumber3',
                 null,
@@ -214,18 +229,25 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
 //                    'label' => 'admin.label.phone2',
 //                ]
 //            )
-            ->add(
-                'faxNumber2',
-                null,
-                [
-                    'label' => 'admin.label.fax2',
-                ]
-            )
+//            ->add(
+//                'faxNumber2',
+//                null,
+//                [
+//                    'label' => 'admin.label.fax2',
+//                ]
+//            )
             ->add(
                 'email',
                 null,
                 [
                     'label' => 'admin.label.email',
+                ]
+            )
+            ->add(
+                'invoiceEmail',
+                null,
+                [
+                    'label' => 'admin.label.invoice_email',
                 ]
             )
             ->add(
@@ -237,6 +259,80 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->with('Datos contables', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'accountingAccount',
+                null,
+                [
+                    'label' => 'admin.label.accounting_account',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionDocumentType',
+                EntityType::class,
+                [
+                    'label' => 'admin.label.collection_document_type',
+                    'class' => CollectionDocumentType::class,
+                    'required' => false,
+                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                ]
+            )
+            ->add(
+                'payDay1',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay2',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay3',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm1',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm2',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_2',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm3',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_3',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'invoiceCopiesNumber',
+                null,
+                [
+                    'label' => 'admin.label.invoice_copies_number',
+                    'required' => false,
+                ]
+            )
             ->add(
                 'discount',
                 null,
@@ -256,13 +352,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
-//            ->add(
-//                'providerReference',
-//                null,
-//                [
-//                    'label' => 'Referència proveïdor',
-//                ]
-//            )
 //            ->add(
 //                'ivaTaxFree',
 //                null,
@@ -284,34 +373,34 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'label' => 'SWIFT',
                 ]
             )
-            ->add(
-                'bankCode',
-                null,
-                [
-                    'label' => 'admin.label.bank_code',
-                ]
-            )
-            ->add(
-                'officeNumber',
-                null,
-                [
-                    'label' => 'admin.label.office_number',
-                ]
-            )
-            ->add(
-                'controlDigit',
-                null,
-                [
-                    'label' => 'admin.label.control_digit',
-                ]
-            )
-            ->add(
-                'accountNumber',
-                null,
-                [
-                    'label' => 'admin.label.account_number',
-                ]
-            )
+//            ->add(
+//                'bankCode',
+//                null,
+//                [
+//                    'label' => 'admin.label.bank_code',
+//                ]
+//            )
+//            ->add(
+//                'officeNumber',
+//                null,
+//                [
+//                    'label' => 'admin.label.office_number',
+//                ]
+//            )
+//            ->add(
+//                'controlDigit',
+//                null,
+//                [
+//                    'label' => 'admin.label.control_digit',
+//                ]
+//            )
+//            ->add(
+//                'accountNumber',
+//                null,
+//                [
+//                    'label' => 'admin.label.account_number',
+//                ]
+//            )
             ->end()
             ->with('Controles', $this->getFormMdSuccessBoxArray(4))
             ->add(
@@ -389,12 +478,36 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->end()
+            ->tab('Direcciones de envío')
+            ->with('Direcciones de envío', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'partnerDeliveryAddresses',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->end()
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
+            ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
             ->add(
                 'cifNif',
                 null,
@@ -406,35 +519,53 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
-                'class',
+                'mainCity',
                 null,
                 [
-                    'label' => 'Classe',
+                    'label' => 'admin.label.main_city',
+                    'editable' => true,
                 ]
             )
+            ->add(
+                'phoneNumber1',
+                null,
+                [
+                    'label' => 'admin.label.phone1',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'Email',
+                null,
+                [
+                    'label' => 'admin.label.email',
+                    'editable' => true,
+                ]
+            )
+//            ->add(
+//                'class',
+//                null,
+//                [
+//                    'label' => 'Classe',
+//                ]
+//            )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                 ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -447,9 +578,16 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
+            ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
             ->add(
                 'cifNif',
                 null,
@@ -461,22 +599,30 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
+//            ->add(
+//                'class',
+//                null,
+//                [
+//                    'label' => 'Classe',
+//                ]
+//            )
             ->add(
-                'class',
+                'mainCity',
                 null,
                 [
-                    'label' => 'Classe',
+                    'label' => 'admin.label.main_city',
+                    'editable' => true,
                 ]
             )
             ->add(
                 'phoneNumber1',
                 null,
                 [
-                    'label' => 'Telèfon 1',
+                    'label' => 'admin.label.phone1',
                     'editable' => true,
                 ]
             )
@@ -484,7 +630,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'Email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'admin.label.email',
                     'editable' => true,
                 ]
             )
@@ -492,7 +638,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                     'editable' => true,
                 ]
             )
@@ -503,7 +649,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+//                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
@@ -514,11 +660,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     /**
      * @param Partner $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         /** @var PartnerType $partnerType */
         $partnerType = $this->rm->getPartnerTypeRepository()->find(1);
         $object->setType($partnerType);
+        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterprise($this->getUserLogedEnterprise())->getCode();
+        $object->setCode($lastPartnerCode + 1);
     }
 }

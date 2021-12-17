@@ -10,14 +10,16 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
@@ -33,11 +35,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Factura';
 
     /**
@@ -46,17 +43,16 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/factura';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'date',
-        '_sort_order' => 'DESC',
-    ];
-
-    /**
      * Methods.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'date';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
@@ -70,10 +66,8 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
 
     /**
      * @param array $actions
-     *
-     * @return array
      */
-    public function configureBatchActions($actions)
+    public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generatePdfs'] = [
@@ -85,7 +79,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         return $actions;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -93,6 +87,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             'invoiceNumber',
             'dateFormatted',
             'hasBeenCounted',
+            'partner.code',
             'partner.name',
             'partner.cifNif',
             'discount',
@@ -106,7 +101,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     /**
      * @throws Exception
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
@@ -263,7 +258,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -271,18 +266,12 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.series',
-//                    'field_type' => EntityType::class,
-//                    'field_options' => [
-//                            'class' => SaleInvoiceSeries::class,
-//                            'choice_label' => 'name',
-//                            'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
-//                    ],
-                ],
-                EntityType::class, // to field_type
-                [
-                    'class' => SaleInvoiceSeries::class,
-                    'choice_label' => 'name',
-                    'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => SaleInvoiceSeries::class,
+                            'choice_label' => 'name',
+                            'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+                    ],
                 ]
             )
             ->add(
@@ -297,29 +286,36 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
             ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
+                ]
+            )
+            ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'property' => 'name',
+                    ],
                 ]
             )
             ->add(
@@ -339,7 +335,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['hasBeenCounted'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -347,15 +343,9 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.partner', 'p')
             ->andWhere('p.enterprise = :enterprise')
@@ -365,7 +355,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -393,6 +383,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.date',
                     'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
                 ]
             )
             ->add(
@@ -446,7 +443,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setInvoiceNumber($this->im->getLastInvoiceNumberBySerieAndEnterprise($object->getSeries(), $this->getUserLogedEnterprise()));
     }
@@ -454,7 +451,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param SaleInvoice $object
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         /** @var SaleInvoice $originalObject */
         $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
@@ -469,7 +466,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param SaleInvoice $object
      */
-    public function postUpdate($object)
+    public function postUpdate($object): void
     {
         $this->im->calculateInvoiceImportsFromDeliveryNotes($object, $object->getDeliveryNotes());
 

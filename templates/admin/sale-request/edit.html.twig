@@ -45,18 +45,22 @@
             var selectTariffName = jQuery('#{{ form.selectTariff.vars.id }}');
 
             var previousSelectedServiceId = jQuery('#{{ form.service.vars.id }}').val();
-            jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: previousSelectedServiceId, partnerId: partnerId}), function () {
-            }).done(function (response) {
-                updateNodeTariff(response);
-            });
+
+            {% if  admin.id(admin.subject) %}
+                jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: previousSelectedServiceId, partnerId: partnerId}), function () {
+                }).done(function (response) {
+                    updateNodeTariff(response);
+                });
+            {% endif %}
 
              //on change
             partnerNode.change(function(event) {
+              console.log('event de prtner change', jQuery(event.target).val());
                 cifNifIcon.removeClass('hidden');
                 // mainAddressIcon.removeClass('hidden');
                 // mainCityIcon.removeClass('hidden');
                 // provinceIcon.removeClass('hidden');
-                partnerId = event.val;
+                partnerId = jQuery(event.target).val();
                 if (partnerId === '') {
                     buildingSitesNode.empty();
                     buildingSitesNode.select2('val', '');
@@ -89,7 +93,7 @@
             //on change service node
             serviceNode.change(function (event) {
               // Update tarifs node that the service and the partner can have. First service partner date, then service date, then date
-              const serviceId = event.val;
+              const serviceId = jQuery(event.target).val();
               jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: serviceId, partnerId: partnerId}), function () {
               }).done(function (response) {
                 updateNodeTariff(response);
@@ -118,7 +122,7 @@
                miniumHolidayHoursIcon.removeClass('hidden');
                increaseForHolidaysIcon.removeClass('hidden');
                increaseForHolidaysPercentageIcon.removeClass('hidden');
-               var saleTariffId = event.val;
+               var saleTariffId = jQuery(event.target).val();
                jQuery.get(Routing.generate('admin_app_sale_saletariff_getJsonSaleTariffById', { id: saleTariffId }), function () {
 
                }).done(function (response) {
@@ -152,7 +156,6 @@
             const selectContactPersonNameInit = {{ form.selectContactPersonName.vars.id }};
 {#            {% if form.selectContactPersonName.vars.id is not null %}#}
           if (selectContactPersonNameInit.value) {
-            console.error("Allo llarg", aaa.value);
             jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', { id: {{ form.selectContactPersonName.vars.id }} }), function() {
             }).done(function(response) {
               updateNodesInfoContacts(response);

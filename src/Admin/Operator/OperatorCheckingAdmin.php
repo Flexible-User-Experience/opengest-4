@@ -4,11 +4,11 @@ namespace App\Admin\Operator;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -47,13 +47,16 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->remove('delete')
+            ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
+        ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getCode() === $this->getRootCode()) {
             $formMapper
@@ -121,7 +124,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -145,11 +148,10 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                     'label' => 'Data d\'expedició',
                     'field_type' => DatePickerType::class,
                     'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options' => [
+                            'widget' => 'single_text',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                 ]
             )
             ->add(
@@ -159,25 +161,18 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                     'label' => 'Data caducitat',
                     'field_type' => DatePickerType::class,
                     'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'field_options' => [
+                            'widget' => 'single_text',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                 ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.operator', 'op')
             ->andWhere('op.enterprise = :enterprise')
@@ -189,7 +184,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -198,6 +193,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'Estat',
                     'template' => 'admin/cells/list__cell_operator_checking_status.html.twig',
+                    'mapped' => false,
                 ]
             )
             ->add(

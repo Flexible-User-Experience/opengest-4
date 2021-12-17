@@ -5,13 +5,15 @@ namespace App\Admin\Vehicle;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
@@ -36,10 +38,10 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'end',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
@@ -48,114 +50,121 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
     /**
      * @param RouteCollection $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
+        $collection
+            ->remove('delete')
+            ->add('downloadPdfPendingCheckings', 'download-pdf-pending-checkings')
+        ;
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'vehicle',
                 EntityType::class,
-                array(
+                [
                     'label' => 'Vehicle',
                     'required' => true,
                     'class' => Vehicle::class,
                     'choice_label' => 'name',
                     'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                )
+                ]
             )
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'Tipus revisió',
                     'required' => true,
                     'query_builder' => $this->rm->getVehicleCheckingTypeRepository()->getEnabledSortedByNameQB(),
-                )
+                ]
             )
             ->add(
                 'begin',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data d\'expedició',
                     'format' => 'd/M/y',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'end',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Data de caducitat',
                     'format' => 'd/M/y',
                     'required' => true,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'vehicle',
                 null,
-                array(
+                [
                     'label' => 'Vehicle',
-                )
+                ]
             )
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'Tipus revisó',
-                )
+                ]
             )
             ->add(
                 'begin',
-                DateFilter::class,
-                array(
+                DateRangeFilter::class,
+                [
                     'label' => 'Data d\'expedició',
-                    'field_type' => DatePickerType::class,
-                ),
-                null,
-                array(
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
-                )
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
+                ]
             )
             ->add(
                 'end',
-                DateFilter::class,
-                array(
+                DateRangeFilter::class,
+                [
                     'label' => 'Data caducitat',
-                    'field_type' => DatePickerType::class,
-                )
+
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
+                ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.vehicle', 'v')
             ->andWhere('v.enabled = :enabled')
@@ -171,72 +180,69 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'status',
                 null,
-                array(
+                [
                     'label' => 'Estat',
                     'template' => 'admin/cells/list__cell_vehicle_checking_status.html.twig',
-                )
+                ]
             )
             ->add(
                 'begin',
                 'date',
-                array(
+                [
                     'label' => 'Data d\'expedició',
                     'format' => 'd/m/Y',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'end',
                 'date',
-                array(
+                [
                     'label' => 'Data caducitat',
                     'format' => 'd/m/Y',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'vehicle',
                 null,
-                array(
+                [
                     'label' => 'Vehicle',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'name'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'vehicle')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'vehicle']],
+                ]
             )
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'Tipus revisió',
                     'editable' => true,
                     'associated_property' => 'name',
                     'sortable' => true,
-                    'sort_field_mapping' => array('fieldName' => 'name'),
-                    'sort_parent_association_mappings' => array(array('fieldName' => 'type')),
-                )
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'type']],
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }

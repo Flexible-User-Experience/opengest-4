@@ -4,9 +4,9 @@ namespace App\Admin\Enterprise;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseHolidays;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
@@ -33,76 +33,63 @@ class EnterpriseHolidaysAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'day',
         '_sort_order' => 'desc',
-    );
+    ];
 
     /**
      * Methods.
      */
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Dies festius', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'day',
                 DatePickerType::class,
-                array(
+                [
                     'label' => 'Dia festiu',
                     'format' => 'd/M/y',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom festivitat',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'day',
                 DateFilter::class,
-                array(
+                [
                     'label' => 'Dia festiu',
                     'field_type' => DatePickerType::class,
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom festivitat',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -114,47 +101,44 @@ class EnterpriseHolidaysAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'enterprise',
                 null,
-                array(
+                [
                     'label' => 'Empresa',
-                )
+                ]
             )
             ->add(
                 'day',
                 null,
-                array(
+                [
                     'label' => 'Dia festiu',
                     'format' => 'd/m/y',
                     'editable' => true,
-                )
+                ]
             )->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom festivitat',
                     'editable' => true,
-                )
+                ]
             )
 
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                    ],
                     'label' => 'Accions',
-                )
+                ]
             )
         ;
     }
@@ -162,7 +146,7 @@ class EnterpriseHolidaysAdmin extends AbstractBaseAdmin
     /**
      * @param EnterpriseHolidays $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
     }
