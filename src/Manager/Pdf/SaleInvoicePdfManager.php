@@ -72,6 +72,7 @@ class SaleInvoicePdfManager
         // header
         $this->pdfEngineService->setStyleSize('', 12);
         $pdf->SetXY(40,40);
+        //TODO add client and from to date
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             'Listado de facturas del cliente '.'x'.' desde '.'Y'.' hasta '.'Z',
             0, 0, 'L', false);
@@ -115,6 +116,7 @@ class SaleInvoicePdfManager
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $saleInvoice->getDateFormatted(),
                 1, 0, 'C', false);
+            //TODO add obra and pedido to the pdf
             $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
                 'obra',
                 1, 0, 'L', false,'',1);

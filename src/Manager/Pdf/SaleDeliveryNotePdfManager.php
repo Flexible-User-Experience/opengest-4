@@ -80,6 +80,7 @@ class SaleDeliveryNotePdfManager
         $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
         $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
+        //TODO view logo
         // logo
         $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
 
@@ -92,6 +93,7 @@ class SaleDeliveryNotePdfManager
             0, 0, 'L', false);
 
         // header
+        //TODO add partner and from to info
         $this->pdfEngineService->setStyleSize('', 12);
         $pdf->SetXY(40,40);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
