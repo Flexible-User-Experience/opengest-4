@@ -15,9 +15,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\String\UnicodeString;
 use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -53,7 +53,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     protected AuthorizationCheckerInterface $acs;
 
-    protected UserPasswordEncoder $passwordEncoder;
+    protected UserPasswordHasherInterface $passwordEncoder;
 
     /**
      * @var array
@@ -74,7 +74,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      * @param string $class
      * @param string $baseControllerName
      */
-    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordEncoder $passwordEncoder)
+    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder)
     {
         parent::__construct($code, $class, $baseControllerName);
         $this->vus = $fs->getUhs();
