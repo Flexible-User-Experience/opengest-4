@@ -95,6 +95,6 @@ class PartnerDeliveryAddress extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getPartner().' - '.$this->getAddress() : '???';
+        return $this->id ? $this->getAddress().' - '.($this->getCity() ? $this->getCity() : '') : '???';
     }
 }

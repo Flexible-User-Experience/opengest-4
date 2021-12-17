@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52a5d296b389b5121c3caa1daeb5fffb",
+    "content-hash": "c3aba607cd3461c0f526b5759b14cdb3",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -1842,28 +1842,28 @@
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git",
-                "reference": "d56600542504148bf2faa2b6bd7571a6adf6799e"
+                "reference": "c978fabc6a21a77052ff3fe927b41111ec944f0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/d56600542504148bf2faa2b6bd7571a6adf6799e",
-                "reference": "d56600542504148bf2faa2b6bd7571a6adf6799e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/c978fabc6a21a77052ff3fe927b41111ec944f0d",
+                "reference": "c978fabc6a21a77052ff3fe927b41111ec944f0d",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1|^8.0",
-                "symfony/console": "~3.3|^4.0|^5.0",
-                "symfony/framework-bundle": "~3.3|^4.0|^5.0",
-                "symfony/serializer": "~3.3|^4.0|^5.0",
-                "willdurand/jsonp-callback-validator": "~1.0"
+                "symfony/console": "~3.4|^4.4.20|^5.0",
+                "symfony/framework-bundle": "~3.4|^4.4.20|^5.0",
+                "symfony/serializer": "~3.4|^4.4.20|^5.0",
+                "willdurand/jsonp-callback-validator": "~1.1"
             },
             "require-dev": {
-                "symfony/expression-language": "~3.3|^4.0|^5.0",
-                "symfony/phpunit-bridge": "^5.1"
+                "symfony/expression-language": "~3.4|^4.4.20|^5.0",
+                "symfony/phpunit-bridge": "^5.3"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -1902,9 +1902,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/issues",
-                "source": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/tree/2.7.0"
+                "source": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/tree/2.8.0"
             },
-            "time": "2020-11-20T10:38:12+00:00"
+            "time": "2021-12-15T08:51:04+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2190,16 +2190,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "3.16.0",
+            "version": "3.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "9b0b5208a6edb20b979c7d95bdda53a46098a7d9"
+                "reference": "6e17603abc16c5b6eed41f51844bc51dda51cf94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/9b0b5208a6edb20b979c7d95bdda53a46098a7d9",
-                "reference": "9b0b5208a6edb20b979c7d95bdda53a46098a7d9",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/6e17603abc16c5b6eed41f51844bc51dda51cf94",
+                "reference": "6e17603abc16c5b6eed41f51844bc51dda51cf94",
                 "shasum": ""
             },
             "require": {
@@ -2220,7 +2220,7 @@
                 "ocramius/proxy-manager": "^1.0|^2.0",
                 "phpbench/phpbench": "^1.0",
                 "phpstan/phpstan": "^1.0.2",
-                "phpunit/phpunit": "^8.0||^9.0",
+                "phpunit/phpunit": "^8.5.21||^9.0",
                 "psr/container": "^1.0",
                 "symfony/dependency-injection": "^3.0|^4.0|^5.0|^6.0",
                 "symfony/expression-language": "^3.2|^4.0|^5.0|^6.0",
@@ -2272,7 +2272,7 @@
             ],
             "support": {
                 "issues": "https://github.com/schmittjoh/serializer/issues",
-                "source": "https://github.com/schmittjoh/serializer/tree/3.16.0"
+                "source": "https://github.com/schmittjoh/serializer/tree/3.17.0"
             },
             "funding": [
                 {
@@ -2280,7 +2280,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-11-22T07:03:41+00:00"
+            "time": "2021-12-14T15:01:05+00:00"
         },
         {
             "name": "knplabs/knp-components",
@@ -3555,16 +3555,16 @@
         },
         {
             "name": "sonata-project/admin-bundle",
-            "version": "4.5.0",
+            "version": "4.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "79fdf79bb5d6986ce30e4dac7d2eaa1ed12eb234"
+                "reference": "cc8e78c254de184990f34b30aa58a438904b6c52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/79fdf79bb5d6986ce30e4dac7d2eaa1ed12eb234",
-                "reference": "79fdf79bb5d6986ce30e4dac7d2eaa1ed12eb234",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/cc8e78c254de184990f34b30aa58a438904b6c52",
+                "reference": "cc8e78c254de184990f34b30aa58a438904b6c52",
                 "shasum": ""
             },
             "require": {
@@ -3604,7 +3604,7 @@
                 "symfony/security-csrf": "^4.4 || ^5.3 || ^6.0",
                 "symfony/string": "^5.3 || ^6.0",
                 "symfony/translation": "^4.4 || ^5.3 || ^6.0",
-                "symfony/translation-contracts": "^1.1.10 || ^2.3 || ^3.0",
+                "symfony/translation-contracts": "^1.1.10 || ^2.3",
                 "symfony/twig-bridge": "^4.4 || ^5.3 || ^6.0",
                 "symfony/twig-bundle": "^4.4 || ^5.3 || ^6.0",
                 "symfony/validator": "^4.4 || ^5.3 || ^6.0",
@@ -3612,8 +3612,7 @@
                 "twig/twig": "^2.12.1 || ^3.0"
             },
             "conflict": {
-                "doctrine/doctrine-bundle": ">=3",
-                "sonata-project/doctrine-orm-admin-bundle": "<=4.0.0-alpha-1"
+                "doctrine/doctrine-bundle": ">=3"
             },
             "require-dev": {
                 "doctrine/annotations": "^1.7",
@@ -3641,11 +3640,6 @@
                 "twig/extra-bundle": "Auto configures the Twig Intl extension"
             },
             "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Sonata\\AdminBundle\\": "src/"
@@ -3678,7 +3672,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sonata-project/SonataAdminBundle/issues",
-                "source": "https://github.com/sonata-project/SonataAdminBundle/tree/4.5.0"
+                "source": "https://github.com/sonata-project/SonataAdminBundle/tree/4.5.1"
             },
             "funding": [
                 {
@@ -3698,7 +3692,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-04T12:26:35+00:00"
+            "time": "2021-12-16T13:14:34+00:00"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -4549,82 +4543,6 @@
                 "source": "https://github.com/stof/StofDoctrineExtensionsBundle/tree/v1.7.0"
             },
             "time": "2021-11-22T15:17:44+00:00"
-        },
-        {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v6.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "8a5d5072dca8f48460fce2f4131fcc495eec654c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8a5d5072dca8f48460fce2f4131fcc495eec654c",
-                "reference": "8a5d5072dca8f48460fce2f4131fcc495eec654c",
-                "shasum": ""
-            },
-            "require": {
-                "egulias/email-validator": "^2.0|^3.1",
-                "php": ">=7.0.0",
-                "symfony/polyfill-iconv": "^1.0",
-                "symfony/polyfill-intl-idn": "^1.10",
-                "symfony/polyfill-mbstring": "^1.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0",
-                "symfony/phpunit-bridge": "^4.4|^5.4"
-            },
-            "suggest": {
-                "ext-intl": "Needed to support internationalized email addresses"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.2-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "lib/swift_required.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Corbyn"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                }
-            ],
-            "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "https://swiftmailer.symfony.com",
-            "keywords": [
-                "email",
-                "mail",
-                "mailer"
-            ],
-            "support": {
-                "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.3.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/swiftmailer/swiftmailer",
-                    "type": "tidelift"
-                }
-            ],
-            "abandoned": "symfony/mailer",
-            "time": "2021-10-18T15:26:12+00:00"
         },
         {
             "name": "symfony/asset",
@@ -9010,86 +8928,6 @@
                 }
             ],
             "time": "2021-11-24T10:02:00+00:00"
-        },
-        {
-            "name": "symfony/swiftmailer-bundle",
-            "version": "v3.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/swiftmailer-bundle.git",
-                "reference": "fa7d78cbdf0a16a4da126c465f25f6547ad69cf6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/fa7d78cbdf0a16a4da126c465f25f6547ad69cf6",
-                "reference": "fa7d78cbdf0a16a4da126c465f25f6547ad69cf6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1",
-                "swiftmailer/swiftmailer": "^6.1.3",
-                "symfony/config": "^4.4|^5.0",
-                "symfony/dependency-injection": "^4.4|^5.0",
-                "symfony/http-kernel": "^4.4|^5.0"
-            },
-            "conflict": {
-                "twig/twig": "<1.41|>=2.0,<2.10"
-            },
-            "require-dev": {
-                "symfony/console": "^4.4|^5.0",
-                "symfony/framework-bundle": "^4.4|^5.0",
-                "symfony/phpunit-bridge": "^4.4|^5.0",
-                "symfony/yaml": "^4.4|^5.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "3.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Bundle\\SwiftmailerBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony SwiftmailerBundle",
-            "homepage": "http://symfony.com",
-            "support": {
-                "issues": "https://github.com/symfony/swiftmailer-bundle/issues",
-                "source": "https://github.com/symfony/swiftmailer-bundle/tree/v3.5.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-12-02T16:23:52+00:00"
         },
         {
             "name": "symfony/translation",
