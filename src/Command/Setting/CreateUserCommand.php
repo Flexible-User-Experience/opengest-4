@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -55,12 +54,10 @@ class CreateUserCommand extends Command
     /**
      * Execute.
      *
-     * @return Response
-     *
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
 //        $factory = $this->get('security.encoder_factory');
         $username = $input->getArgument('username');
@@ -84,6 +81,6 @@ class CreateUserCommand extends Command
         $this->em->persist($user);
         $this->em->flush();
 
-        return new Response('Successful');
+        return 0;
     }
 }
