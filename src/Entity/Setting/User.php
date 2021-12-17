@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -24,7 +25,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="admin_user")
  * @Vich\Uploadable()
  */
-class User extends AbstractBase implements UserInterface
+class User extends AbstractBase implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const DEFAULT_ROLE = 'ROLE_USER';
     public const ADMIN_ROLE = 'ROLE_SUPER_ADMIN';
@@ -353,21 +354,22 @@ class User extends AbstractBase implements UserInterface
         return $this->getFirstname().' '.$this->getLastname();
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
+        return $this->salt;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -487,5 +489,10 @@ class User extends AbstractBase implements UserInterface
             $this->id,
             $this->username,
             $this->password) = unserialize($serialized);
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
     }
 }

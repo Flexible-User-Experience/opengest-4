@@ -126,7 +126,7 @@ services:
     # Sitemap
     app.sitemap:
         class: App\Listener\SitemapListener
-        arguments: [ '@router', '@app.frontend_menu_builder' ]
+        arguments: [ '@app.frontend_menu_builder' ]
         tags: [ { name: 'presta.sitemap.listener' } ]
     # Twig
 #    app.twig_extension:

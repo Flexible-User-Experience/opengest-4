@@ -7,44 +7,29 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Exception;
 use Knp\Menu\MenuItem;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class SitemapListener.
  */
 class SitemapListener implements EventSubscriberInterface
 {
-    /**
-     * @var RouterInterface
-     */
-    private RouterInterface $router;
-
-    /**
-     * @var FrontendMenuBuilder
-     */
     private FrontendMenuBuilder $menuBuilder;
 
     /**
      * Methods.
      */
-
-    /**
-     * @param RouterInterface     $router
-     * @param FrontendMenuBuilder $menuItem
-     */
-    public function __construct(RouterInterface $router, FrontendMenuBuilder $menuItem)
+    public function __construct(FrontendMenuBuilder $menuItem)
     {
-        $this->router = $router;
         $this->menuBuilder = $menuItem;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SitemapPopulateEvent::ON_SITEMAP_POPULATE => 'populateSitemap',
@@ -52,8 +37,6 @@ class SitemapListener implements EventSubscriberInterface
     }
 
     /**
-     * @param SitemapPopulateEvent $event
-     *
      * @throws Exception
      */
     public function populateSitemap(SitemapPopulateEvent $event)
@@ -105,9 +88,8 @@ class SitemapListener implements EventSubscriberInterface
     }
 
     /**
-     * @param string                 $url
-     * @param int                    $priority
-     * @param DateTimeInterface|null $date
+     * @param string $url
+     * @param int    $priority
      *
      * @return UrlConcrete
      *
