@@ -94,8 +94,9 @@ class PayslipPdfManager
 
         //Heading with date and page number
 //        $this->pdfEngineService->setStyleSize('', 9);
+        $today = date('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Informe nómina general - Grúas Romaní - '.'todayDate???',
+            'Informe nómina general - Grúas Romaní - '.$today,
             1, 0, 'L', true);
 
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
