@@ -253,7 +253,7 @@ class UserAdmin extends AbstractBaseAdmin
     {
         $plainPassword = $user->getPlainPassword();
         if ($plainPassword) {
-            $pass = $this->passwordEncoder->encodePassword($user, $plainPassword);
+            $pass = $this->passwordEncoder->hashPassword($user, $plainPassword);
             $user->setPassword($pass);
             $user->setPlainPassword(null);
         }

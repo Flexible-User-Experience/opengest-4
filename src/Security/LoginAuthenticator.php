@@ -6,9 +6,9 @@ use App\Form\LoginForm;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,7 +24,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
     private $formFactory;
 
     /**
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     private $passwordEncoder;
 
@@ -36,7 +36,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Authe
     public function __construct(
         FormFactoryInterface $formFactory,
         RouterInterface $router,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordHasherInterface $passwordEncoder
     ) {
         $this->formFactory = $formFactory;
         $this->router = $router;
