@@ -76,6 +76,10 @@ services:
     App\Manager\Pdf\OperatorCheckingPdfManager:
         class: App\Manager\Pdf\OperatorCheckingPdfManager
         arguments: [ '@app.pdf_engine' ]
+#    app.work_register_header_pdf_manager:
+    App\Manager\Pdf\WorkRegisterHeaderPdfManager:
+        class: App\Manager\Pdf\WorkRegisterHeaderPdfManager
+        arguments: [ '@app.pdf_engine' ]
     # Messaging
     app.courier:
         class: App\Service\CourierService
