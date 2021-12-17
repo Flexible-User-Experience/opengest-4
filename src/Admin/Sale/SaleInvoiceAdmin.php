@@ -74,7 +74,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_sale_invoice_pdf',
                 'ask_confirmation' => false,
             ];
+            $actions['invoiceList'] = [
+                'label' => 'admin.action.generate_invoice_list',
+                'ask_confirmation' => false,
+            ];
         }
+
+
 
         return $actions;
     }

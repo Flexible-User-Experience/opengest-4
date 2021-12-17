@@ -35,12 +35,13 @@ class SaleInvoiceAdminController extends BaseAdminController
         return parent::editAction($request);
     }
 
-    public function invoiceListPdfAction(SaleInvoicePdfManager $saleInvoicePdfManager): Response
+    public function batchActionInvoiceList(ProxyQueryInterface $selectedModelQuery): Response
     {
         //TODO input client and dates and generate invoice list calling $saleInvoicePdfManager->outputSingle($saleInvoices)
-        $this->addFlash('warning', 'Aquesta acció encara NO funciona!');
+        $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
 
-        return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
+        return new Response($this->sipm->outputSingle($saleInvoices), 200, ['Content-type' => 'application/pdf']);
+
     }
 
     /**

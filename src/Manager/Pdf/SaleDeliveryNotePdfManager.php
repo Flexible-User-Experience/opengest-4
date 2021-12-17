@@ -192,9 +192,10 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @param $saleDeliveryNotes
      * @return TCPDF
      */
-    public function buildDeliveryNotesList($saleDeliveryNotes)
+    public function buildDeliveryNotesList($saleDeliveryNotes): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Albaranes');
         $pdf = $this->pdfEngineService->getEngine();
@@ -203,9 +204,10 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @param $saleDeliveryNotes
      * @return string
      */
-    public function outputDeliveryNotesList($saleDeliveryNotes)
+    public function outputDeliveryNotesList($saleDeliveryNotes): string
     {
         $pdf = $this->buildDeliveryNotesList($saleDeliveryNotes);
 
@@ -213,9 +215,11 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @param $saleDeliveryNotes
+     * @param TCPDF $pdf
      * @return TCPDF
      */
-    public function buildList(TCPDF $pdf, $saleDeliveryNotes)
+    public function buildList($saleDeliveryNotes, TCPDF $pdf): TCPDF
     {
         // add start page
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
