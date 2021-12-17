@@ -183,6 +183,9 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
         $saleInvoice->setInvoiceNumber($lastSaleInvoice->getInvoiceNumber() + 1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
+        if ($saleInvoice->getPartner()->getPartnerDeliveryAddresses()->first()) {
+            $saleInvoice->setDeliveryAddress($saleInvoice->getPartner()->getPartnerDeliveryAddresses()->first());
+        }
         try {
             $this->admin->getModelManager()->create($saleInvoice);
             /** @var SaleDeliveryNote $deliveryNote */

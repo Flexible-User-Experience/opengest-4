@@ -421,6 +421,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'deliveryAddress',
+                null,
+                [
+                    'label' => 'admin.label.delivery_address',
+                ]
+            )
+            ->add(
                 'total',
                 null,
                 [
