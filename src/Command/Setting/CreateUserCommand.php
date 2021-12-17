@@ -12,8 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class CreateUserCommand.
@@ -24,13 +23,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class CreateUserCommand extends Command
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
+    private UserPasswordHasherInterface $passwordEncoder;
 
     protected EntityManagerInterface $em;
 
     private UserRepository $ur;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em, UserRepository $ur)
+    public function __construct(UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $em, UserRepository $ur)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->em = $em;
@@ -55,12 +54,10 @@ class CreateUserCommand extends Command
     /**
      * Execute.
      *
-     * @return Response
-     *
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
 //        $factory = $this->get('security.encoder_factory');
         $username = $input->getArgument('username');
@@ -74,7 +71,7 @@ class CreateUserCommand extends Command
             $user->setUsername($username);
             $user->setEnabled(1);
         }
-        $pass = $this->passwordEncoder->encodePassword($user, $password);
+        $pass = $this->passwordEncoder->hashPassword($user, $password);
         $user->setEmail($email);
         $user->setPassword($pass);
         if ($role) {
@@ -84,6 +81,6 @@ class CreateUserCommand extends Command
         $this->em->persist($user);
         $this->em->flush();
 
-        return new Response('Successful');
+        return 0;
     }
 }
