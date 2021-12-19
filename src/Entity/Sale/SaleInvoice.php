@@ -113,6 +113,13 @@ class SaleInvoice extends AbstractBase
     private $deliveryAddress;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="saleInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $saleInvoiceDueDates;
+
+    /**
      * Methods.
      */
 
@@ -160,6 +167,47 @@ class SaleInvoice extends AbstractBase
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
             $deliveryNote->setSaleInvoice(null);
+        }
+
+        return $this;
+    }
+
+    public function getSaleInvoiceDueDates(): Collection
+    {
+        return $this->saleInvoiceDueDates;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setSaleInvoiceDueDates(Collection $saleInvoiceDueDates): SaleInvoice
+    {
+        $this->saleInvoiceDueDates = $saleInvoiceDueDates;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    {
+        if (!$this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
+            $this->saleInvoiceDueDates->add($saleInvoiceDueDate);
+            $saleInvoiceDueDate->setSaleInvoice($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    {
+        if ($this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
+            $this->saleInvoiceDueDates->removeElement($saleInvoiceDueDate);
+            $saleInvoiceDueDate->setSaleInvoice(null);
         }
 
         return $this;
