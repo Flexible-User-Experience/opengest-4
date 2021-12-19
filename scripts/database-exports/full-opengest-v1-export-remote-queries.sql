@@ -143,7 +143,7 @@ FROM opengest.Tipos_terceros TT;
 
 SELECT T.*, E.cif_nif AS E_cif_nif, TT.nombre AS TT_nombre, CT.nombre AS CT_nombre, CUTR.nombre AS CUTR_nombre,
        TDC.nombre as TDC_nombre, DC.num_cuenta_contable, DC.plazo_de_cobro1,
-       DC.plazo_de_cobro1, DC.plazo_de_cobro2, DC.plazo_de_cobro3, DC.dia_de_pago1, DC.dia_de_pago2, DC.num_copias_factura
+       DC.plazo_de_cobro2, DC.plazo_de_cobro3, DC.dia_de_pago1, DC.dia_de_pago2, DC.num_copias_factura
 INTO OUTFILE '/var/lib/mysql-files/partners.csv'
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'

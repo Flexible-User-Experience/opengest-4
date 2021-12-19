@@ -7,6 +7,7 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerClass;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
 use DateTimeImmutable;
@@ -166,10 +167,22 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         'postalCode' => $secondaryPostalCode,
                         'name' => $secondaryCityName,
                     ]);
+                    $partnerDeliveryAddress = null;
                     if ($secondaryCity) {
                         $partner->setSecondaryCity($secondaryCity);
+                        $partnerDeliveryAddress = $partner->getPartnerDeliveryAddresses()->first();
+                        if (!$partnerDeliveryAddress) {
+                            $partnerDeliveryAddress = new PartnerDeliveryAddress();
+                            $partnerDeliveryAddress->setPartner($partner);
+                        }
+                        $partnerDeliveryAddress->setCity($secondaryCity);
+                        $secondaryAddress = $this->readColumn(16, $row);
+                        $partnerDeliveryAddress->setAddress($secondaryAddress ? $secondaryAddress : ' ');
                     }
                     $this->em->persist($partner);
+                    if ($partnerDeliveryAddress) {
+                        $this->em->persist($partnerDeliveryAddress);
+                    }
                     if (0 == $rowsRead % self::CSV_BATCH_WINDOW && !$input->getOption('dry-run')) {
                         $this->em->flush();
                     }
@@ -203,5 +216,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
         // Print totals
         $endTimestamp = new DateTimeImmutable();
         $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return 1;
     }
 }
