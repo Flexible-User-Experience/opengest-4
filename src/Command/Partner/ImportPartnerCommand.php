@@ -63,6 +63,14 @@ class ImportPartnerCommand extends AbstractBaseCommand
             $partnerClass = $this->readColumn(42, $row);
             $partnerTaxIdentificationNumber = $this->lts->taxIdentificationNumberCleaner($this->readColumn(11, $row));
             $enterpriseTransferAccount = $this->readColumn(43, $row);
+            $collectionDocument = $this->readColumn(44, $row);
+            $accountingAccount = $this->readColumn(45, $row);
+            $collectionTerm1 = $this->readColumn(46, $row);
+            $collectionTerm2 = $this->readColumn(47, $row);
+            $collectionTerm3 = $this->readColumn(48, $row);
+            $payDay1 = $this->readColumn(49, $row);
+            $payDay2 = $this->readColumn(50, $row);
+            $invoiceCopiesNumber = $this->readColumn(51, $row);
             $name = $this->lts->nameCleaner($this->readColumn(5, $row));
             $cityName = $this->lts->cityNameCleaner($this->readColumn(8, $row));
             $postalCode = $this->lts->postalCodeCleaner($this->readColumn(6, $row));
@@ -134,9 +142,22 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         ->setOfficeNumber($this->readColumn(28, $row))
                         ->setControlDigit($this->readColumn(29, $row))
                         ->setAccountNumber($this->readColumn(30, $row))
+                        ->setAccountingAccount($accountingAccount)
+                        ->setCollectionTerm1($collectionTerm1)
+                        ->setCollectionTerm2($collectionTerm2)
+                        ->setCollectionTerm3($collectionTerm3)
+                        ->setPayDay1($payDay1)
+                        ->setPayDay2($payDay2)
+                        ->setInvoiceCopiesNumber($invoiceCopiesNumber)
                     ;
                     if ($enterpriseTransferAccount) {
                         $partner->setTransferAccount($enterpriseTransferAccount);
+                    }
+                    if ($collectionDocument) {
+                        $collectionDocumentType = $this->rm->getCollectionDocumentTypeRepository()->findOneBy(['name' => $collectionDocument]);
+                        if ($collectionDocumentType) {
+                            $partner->setCollectionDocumentType($collectionDocumentType);
+                        }
                     }
                     $secondaryCityName = $this->lts->cityNameCleaner($this->readColumn(18, $row));
                     $secondaryPostalCode = $this->lts->postalCodeCleaner($this->readColumn(17, $row));
