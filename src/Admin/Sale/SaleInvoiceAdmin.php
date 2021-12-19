@@ -22,6 +22,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
+use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -80,8 +81,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'ask_confirmation' => false,
             ];
         }
-
-
 
         return $actions;
     }
@@ -276,6 +275,25 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 )
                 ->end()
             ;
+        }
+        if ($this->id($this->getSubject())) {
+            $formMapper
+            ->with('admin.label.due_dates', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'saleInvoiceDueDates',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ;
         }
     }
 

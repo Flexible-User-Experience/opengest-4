@@ -451,6 +451,6 @@ class SaleInvoice extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getInvoiceNumber().' · '.$this->getPartner() : '---';
+        return $this->id ? $this->getInvoiceNumber().'' : '---';
     }
 }

@@ -38,7 +38,7 @@ class SaleInvoiceDueDate extends AbstractBase
     /**
      * Methods.
      */
-    public function getSaleInvoice(): SaleInvoice
+    public function getSaleInvoice(): ?SaleInvoice
     {
         return $this->saleInvoice;
     }
@@ -62,7 +62,7 @@ class SaleInvoiceDueDate extends AbstractBase
         return $this;
     }
 
-    public function getDate(): DateTime
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }

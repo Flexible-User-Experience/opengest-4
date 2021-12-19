@@ -6,10 +6,10 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SaleInvoiceRepository extends ServiceEntityRepository
 {
@@ -70,5 +70,18 @@ class SaleInvoiceRepository extends ServiceEntityRepository
         }
 
         return $result;
+    }
+
+    public function getRecentFilteredByEnterpriseSortedByDateQB(Enterprise $enterprise): QueryBuilder
+    {
+        $date = strtotime('-1 years');
+
+        return $this->getEnabledSortedByDateQB()
+            ->join('s.partner', 'p')
+            ->andWhere('p.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->andWhere('s.date >= :date')
+            ->setParameter('date', $date)
+            ;
     }
 }
