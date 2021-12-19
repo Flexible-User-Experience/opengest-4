@@ -49,24 +49,109 @@ class SaleInvoicePdfManager
     }
 
     /**
+     * @param $saleInvoices
+     * @param TCPDF $pdf
      * @return TCPDF
      */
-    public function buildInvoiceList($saleInvoices, TCPDF $pdf)
+    public function buildInvoiceList($saleInvoices, TCPDF $pdf): TCPDF
     {
         // add start page
-        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
+        // logo
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
 
-        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_PORTRAIT - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
+        // today date
+        $this->pdfEngineService->setStyleSize('', 18);
+        $pdf->SetXY(40,20);
+        $today = date('d/m/Y');
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $today,
+            0, 0, 'L', false);
+        // header
+        $this->pdfEngineService->setStyleSize('', 12);
+        $pdf->SetXY(40,40);
+        //TODO add client and from to date
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Listado de facturas del cliente '.'x'.' desde '.'Y'.' hasta '.'Z',
+            0, 0, 'L', false);
+        $pdf->SetXY(40,45);
+        $this->drawHoritzontalLineSeparator($pdf,$width);
+        //table headers
+        $this->pdfEngineService->setStyleSize('', 8);
+        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT,50);
+        $colWidth1 = 32;
+        $colWidth2 = 82;
+        $colWidth3 = 48;
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Nº factura',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Fecha',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Obra',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Pedido',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Base Imponible',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'TOTAL',
+            1, 0, 'C', true);
+        $pdf->Ln();
+        $totalBases = 0;
+        $totalTotal = 0;
+        /** @var SaleInvoice $saleInvoice */
+        foreach($saleInvoices as $saleInvoice){
+            $totalBases = $saleInvoice->getBaseTotal() + $totalBases;
+            $totalTotal = $saleInvoice->getTotal() + $totalTotal;
+            $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getInvoiceNumber(),
+                1, 0, 'C', false);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getDateFormatted(),
+                1, 0, 'C', false);
+            //TODO add obra and pedido to the pdf
+            $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+                'obra',
+                1, 0, 'L', false,'',1);
+            $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+                'pedido',
+                1, 0, 'L', false,'',1);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                number_format($saleInvoice->getBaseTotal(),2,',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                number_format($saleInvoice->getTotal(),2,',','.').'€',
+                1, 0, 'C', false);
+            $pdf->Ln();
+        }
+        $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'C', false);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'C', false);
+        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'L', false,'',1);
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'L', false,'',1);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            number_format($totalBases,2,',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            number_format($totalTotal,2,',','.').'€',
+            1, 0, 'C', false);
 
-        // get the current page break margin
-        $bMargin = $pdf->getBreakMargin();
-        // get current auto-page-break mode
-        $auto_page_break = $pdf->getAutoPageBreak();
-        // disable auto-page-break
-        $pdf->SetAutoPageBreak(false, 0);
-        // restore auto-page-break status
-        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        return $pdf;
     }
 
     /**
