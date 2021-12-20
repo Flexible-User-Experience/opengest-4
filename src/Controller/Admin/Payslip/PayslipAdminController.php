@@ -27,4 +27,18 @@ class PayslipAdminController extends BaseAdminController
 
         return new Response($this->ppm->outputCollection($payslips), 200, ['Content-type' => 'application/pdf']);
     }
+
+    /**
+     * Generate XML for payslip payment.
+     */
+    public function batchActionGeneratePayslipXMLPayment(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
+
+        if (!$payslips) {
+            $this->addFlash('warning', 'No existen nóminas en esta selección');
+        }
+
+        return new Response($this->pxm->OutputSingle($payslips), 200, ['Content-type' => 'text/xml']);
+    }
 }
