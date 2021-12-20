@@ -5,6 +5,7 @@ namespace App\Manager\Xml;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Payslip\Payslip;
 use App\Service\PdfEngineService;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -51,7 +52,9 @@ class PayslipXmlManager
      */
     private function buildPayslipXml($payslips)
     {
-        $today = date('Y/m/d');
+        $date = new DateTime();
+//        $today = date('Y/m/d');
+        $today = $date->format('Y/m/d');
         $totalPayment = 0;
         $totalTransactions = 0;
         /** @var Payslip $payslip * */
@@ -67,11 +70,12 @@ class PayslipXmlManager
         })->first();
         $IBAN = $eta->getIban().$eta->getBankCode().$eta->getOfficeNumber().$eta->getControlDigit().$eta->getAccountNumber();
         $swift = $eta->getSwift();
+        $fileId = $date->getTimestamp();
         $xmlDocStart =
             '<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
             <CstmrCdtTrfInitn>
                 <GrpHdr>
-                    <MsgId>1.1 Referencia identificativa del fichero</MsgId>
+                    <MsgId>GR-'.$fileId.'</MsgId>
                     <CreDtTm>'.$today.'</CreDtTm>
                     <NbOfTxs>'.$totalTransactions.'</NbOfTxs>
                     <CtrlSum>'.$totalPayment.'</CtrlSum>
@@ -87,9 +91,8 @@ class PayslipXmlManager
                     </InitgPty>
                 </GrpHdr>
                 <PmtInf>
-                    <PmtInfId>2.1 Identificación de Información del pago – unívoca e irrepetible en un mismo fichero</PmtInfId>
+                    <PmtInfId>GR-'.$fileId.'</PmtInfId>
                     <PmtMtd>TRF</PmtMtd>
-                    <BtchBookg>2.3 Indicador de apunte en cuenta</BtchBookg>
                     <NbOfTxs>'.$totalTransactions.'</NbOfTxs>
                     <CtrlSum>'.$totalPayment.'</CtrlSum>
                     <PmtTpInf>
@@ -104,11 +107,6 @@ class PayslipXmlManager
                     <ReqdExctnDt>'.$today.'</ReqdExctnDt>
                     <Dbtr>
                         <Nm>'.$company.'</Nm>
-                        <PstlAdr>
-                            <Ctry>2.19 País según código ISO 3166 Alpha-2</Ctry>
-                            <AdrLine>2.19 Dirección en texto libre hasta 70 caracteres</AdrLine>
-                            <AdrLine>2.19 Dirección en texto libre hasta 70 caracteres</AdrLine>
-                        </PstlAdr>
                         <Id>
                             <OrgId>
                                 <Othr>
@@ -138,17 +136,12 @@ class PayslipXmlManager
             $intervalDate = 'Nómina desde '.$payslip->getFromDateFormatted().' hasta '.$payslip->getToDateFormatted();
             $xmlDocDetail = $xmlDocDetail.
             '            <PmtId>
-                <InstrId>2.29 Referencia única ordenante para identificar la operación hasta 35 caracteres</InstrId>
-                <EndToEndId>2.30 Referencia única para beneficiario hsta 35 caracteres</EndToEndId>
+                <InstrId>GR-'.$fileId.'-'.$payslip->getOperator()->getId().'</InstrId>
+                <EndToEndId>GR-'.$fileId.'-'.$payslip->getOperator()->getId().'</EndToEndId>
             </PmtId>
             <Amt>
                 <InstdAmt Ccy="EUR">'.$amount.'</InstdAmt>
             </Amt>
-            <CdtrAgt>
-                <FinInstnId>
-                    <BIC>2.77 BIC de la entidad del beneficiario</BIC>
-                </FinInstnId>
-            </CdtrAgt>
             <Cdtr>
                 <Nm>'.$operator.'</Nm>
             </Cdtr>
