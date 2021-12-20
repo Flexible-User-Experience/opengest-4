@@ -37,6 +37,7 @@ class OperatorCheckingAdminController extends BaseAdminController
         $operatorCheckings = $this->admin->getModelManager()->findBy(OperatorChecking::class, [
             'enabled' => true,
         ]);
+        //TODO filter by expedition date <= today plus + 1 month;
         if (!$operatorCheckings) {
             $this->addFlash('warning', 'No existen revisiones pendientes.');
         }

@@ -62,8 +62,7 @@ class VehicleMaintenancePdfManager
         $pdf->setCellPaddings(1, 1, 1, 1);
 
         // logo
-        //TODO why the logo doesn't come up?
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
 
         //TODO get the list of operators
         $vehicles = [];
