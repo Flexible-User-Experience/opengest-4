@@ -151,16 +151,22 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
                 ]
             )
-            ->add(
-                'mainCity.province',
-                EntityType::class,
-                [
-                    'class' => Province::class,
-                    'label' => 'admin.label.province',
-                    'required' => false,
-                    'disabled' => true,
-                ]
-            )
+            ;
+        if ($this->id($this->getSubject())) { // is edit mode
+            $formMapper
+                ->add(
+                    'mainCity.province',
+                    EntityType::class,
+                    [
+                        'class' => Province::class,
+                        'label' => 'admin.label.province',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->add(
                 'phoneNumber1',
                 null,
