@@ -35,10 +35,7 @@ class ImportPartnerClassCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -83,6 +80,7 @@ class ImportPartnerClassCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

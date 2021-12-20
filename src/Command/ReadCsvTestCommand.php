@@ -27,10 +27,7 @@ class ReadCsvTestCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -50,6 +47,6 @@ class ReadCsvTestCommand extends AbstractBaseCommand
 
         $endTimestamp = new DateTimeImmutable();
         // Print totals
-        $this->printTotals($output, $rowsRead, 0, $beginTimestamp, $endTimestamp);
+        return $this->printTotals($output, $rowsRead, 0, $beginTimestamp, $endTimestamp);
     }
 }

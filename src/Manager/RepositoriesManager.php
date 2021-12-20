@@ -20,6 +20,7 @@ use App\Repository\Operator\OperatorWorkRegisterRepository;
 use App\Repository\Partner\PartnerBuildingSiteRepository;
 use App\Repository\Partner\PartnerClassRepository;
 use App\Repository\Partner\PartnerContactRepository;
+use App\Repository\Partner\PartnerDeliveryAddressRepository;
 use App\Repository\Partner\PartnerOrderRepository;
 use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
@@ -109,6 +110,8 @@ class RepositoriesManager
 
     private PartnerContactRepository $partnerContactRepository;
 
+    private PartnerDeliveryAddressRepository $partnerDeliveryAddress;
+
     private PartnerUnableDaysRepository $partnerUnableDaysRepository;
 
     private CityRepository $cityRepository;
@@ -183,6 +186,7 @@ class RepositoriesManager
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
         PartnerContactRepository $partnerContactRepository,
+        PartnerDeliveryAddressRepository $partnerDeliveryAddress,
         PartnerUnableDaysRepository $partnerUnableDaysRepository,
         CityRepository $cityRepository,
         ProvinceRepository $provinceRepository,
@@ -229,6 +233,7 @@ class RepositoriesManager
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
         $this->partnerContactRepository = $partnerContactRepository;
+        $this->partnerDeliveryAddress = $partnerDeliveryAddress;
         $this->partnerUnableDaysRepository = $partnerUnableDaysRepository;
         $this->cityRepository = $cityRepository;
         $this->provinceRepository = $provinceRepository;
@@ -440,6 +445,14 @@ class RepositoriesManager
     public function getPartnerContactRepository()
     {
         return $this->partnerContactRepository;
+    }
+
+    /**
+     * @return PartnerDeliveryAddressRepository
+     */
+    public function getPartnerDeliveryAddressRepository()
+    {
+        return $this->partnerDeliveryAddress;
     }
 
     /**

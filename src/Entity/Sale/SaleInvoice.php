@@ -4,6 +4,7 @@ namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Setting\SaleInvoiceSeries;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -105,6 +106,20 @@ class SaleInvoice extends AbstractBase
     private $discount = 0;
 
     /**
+     * @var ?PartnerDeliveryAddress
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
+     */
+    private $deliveryAddress;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="saleInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $saleInvoiceDueDates;
+
+    /**
      * Methods.
      */
 
@@ -114,6 +129,7 @@ class SaleInvoice extends AbstractBase
     public function __construct()
     {
         $this->deliveryNotes = new ArrayCollection();
+        $this->saleInvoiceDueDates = new ArrayCollection();
     }
 
     public function getDeliveryNotes(): Collection
@@ -152,6 +168,47 @@ class SaleInvoice extends AbstractBase
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
             $deliveryNote->setSaleInvoice(null);
+        }
+
+        return $this;
+    }
+
+    public function getSaleInvoiceDueDates(): Collection
+    {
+        return $this->saleInvoiceDueDates;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setSaleInvoiceDueDates(Collection $saleInvoiceDueDates): SaleInvoice
+    {
+        $this->saleInvoiceDueDates = $saleInvoiceDueDates;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    {
+        if (!$this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
+            $this->saleInvoiceDueDates->add($saleInvoiceDueDate);
+            $saleInvoiceDueDate->setSaleInvoice($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    {
+        if ($this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
+            $this->saleInvoiceDueDates->removeElement($saleInvoiceDueDate);
+            $saleInvoiceDueDate->setSaleInvoice(null);
         }
 
         return $this;
@@ -373,6 +430,18 @@ class SaleInvoice extends AbstractBase
         $this->discount = $discount;
     }
 
+    public function getDeliveryAddress(): ?PartnerDeliveryAddress
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(?PartnerDeliveryAddress $deliveryAddress): SaleInvoice
+    {
+        $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
+    }
+
     public function getDateFormatted(): string
     {
         return $this->getDate()->format('d/m/y');
@@ -383,6 +452,6 @@ class SaleInvoice extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getInvoiceNumber().' · '.$this->getPartner() : '---';
+        return $this->id ? $this->getInvoiceNumber().'' : '---';
     }
 }

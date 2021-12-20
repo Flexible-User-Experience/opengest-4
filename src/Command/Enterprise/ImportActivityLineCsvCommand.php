@@ -8,9 +8,9 @@ use App\Entity\Enterprise\Enterprise;
 use DateTimeImmutable;
 use Exception;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -36,10 +36,7 @@ class ImportActivityLineCsvCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -89,6 +86,7 @@ class ImportActivityLineCsvCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

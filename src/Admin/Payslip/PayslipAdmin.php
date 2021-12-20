@@ -53,9 +53,29 @@ class PayslipAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
-            ->add('pdf', $this->getRouterIdParameter().'/pdf')
+//            ->add('pdf', $this->getRouterIdParameter().'/pdf')
+            ->add('batch')
             ->remove('create')
         ;
+    }
+
+    /**
+     * @param array $actions
+     */
+    public function configureBatchActions($actions): array
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generatePayslip'] = [
+                'label' => 'admin.action.generate_payslip',
+                'ask_confirmation' => false,
+            ];
+            $actions['generatePayslipXMLPayment'] = [
+                'label' => 'admin.action.generate_payslip_xml_payment',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
     }
 
     public function configureExportFields(): array
@@ -374,7 +394,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
-                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
+//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]

@@ -39,9 +39,6 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|void|null
      *
      * @throws InvalidArgumentException
@@ -57,7 +54,7 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
-        $errorMessagesArray = array();
+        $errorMessagesArray = [];
 
         // Import CSV rows
         while (false != ($row = $this->readRow($fr))) {
@@ -140,12 +137,12 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
         if (count($errorMessagesArray) > 0) {
             /** @var string $errorMessage */
             foreach ($errorMessagesArray as $errorMessage) {
                 $output->writeln($errorMessage);
             }
         }
+        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

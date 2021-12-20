@@ -137,6 +137,7 @@ class RemoveUnusedEnterprisesCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead, $rowsDeleted, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return $this->printTotals($output, $rowsRead, $rowsDeleted, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

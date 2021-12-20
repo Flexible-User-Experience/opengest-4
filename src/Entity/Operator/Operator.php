@@ -1626,11 +1626,17 @@ class Operator extends AbstractBase
      */
     public function getOperatorAbsences()
     {
-        $date = strtotime('-1 year');
-
-        return $this->operatorAbsences->filter(function (OperatorAbsence $operatorAbsence) use ($date) {
-            return $operatorAbsence->getEnd()->getTimestamp() > $date;
+        $date = new DateTime();
+        $date->setDate($date->format('Y') * 1 - 1, 1, 1);
+        $operatorAbsences = $this->operatorAbsences->filter(function (OperatorAbsence $operatorAbsence) use ($date) {
+            return $operatorAbsence->getEnd()->getTimestamp() > $date->getTimestamp();
         });
+        $iterator = $operatorAbsences->getIterator();
+        $iterator->uasort(function (OperatorAbsence $a, OperatorAbsence $b) {
+            return ($a->getEnd() > $b->getEnd()) ? -1 : 1;
+        });
+
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
     /**

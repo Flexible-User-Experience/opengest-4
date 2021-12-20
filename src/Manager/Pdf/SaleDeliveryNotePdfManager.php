@@ -3,6 +3,7 @@
 namespace App\Manager\Pdf;
 
 use App\Entity\Sale\SaleDeliveryNote;
+use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Enum\ConstantsEnum;
 use App\Service\PdfEngineService;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -47,9 +48,10 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @param $saleDeliveryNotes
      * @return TCPDF
      */
-    public function buildDeliveryNotesByClient($saleDeliveryNotes)
+    public function buildDeliveryNotesByClient($saleDeliveryNotes): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Albaranes por cliente');
         $pdf = $this->pdfEngineService->getEngine();
@@ -60,7 +62,7 @@ class SaleDeliveryNotePdfManager
     /**
      * @return string
      */
-    public function outputDeliveryNotesByClient($saleDeliveryNotes)
+    public function outputDeliveryNotesByClient($saleDeliveryNotes): string
     {
         $pdf = $this->buildDeliveryNotesByClient($saleDeliveryNotes);
 
@@ -68,25 +70,134 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @param $saleDeliveryNotes
+     * @param TCPDF $pdf
      * @return TCPDF
      */
-    public function buildListByClient(TCPDF $pdf, $saleDeliveryNotes)
+    public function buildListByClient($saleDeliveryNotes, TCPDF $pdf): TCPDF
     {
         // add start page
-        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
+        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-        $width = 70;
-        $total = $width + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT;
-        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
 
         // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+
+        // today date
+        $this->pdfEngineService->setStyleSize('', 18);
+        $pdf->SetXY(40,20);
+        $today = date('d/m/Y');
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $today,
+            0, 0, 'L', false);
+
+        // header
+        //TODO add partner and from to info
+        $this->pdfEngineService->setStyleSize('', 12);
+        $pdf->SetXY(40,40);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Listado de albaranes del cliente '.'X'.' desde '.'Y'.' hasta '.'Z',
+            0, 0, 'L', false);
+        $pdf->SetXY(40,45);
+        $this->drawHoritzontalLineSeparator($pdf,$width);
+        //table headers
+        $this->pdfEngineService->setStyleSize('', 8);
+        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT,50);
+        $colWidth1 = 22;
+        $colWidth2 = 52;
+        $colWidth3 = 42;
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Nº albarán',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Fecha',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Nº factura',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Obra',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Pedido',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Horas',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Precio/Hora',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Base Imponible',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'TOTAL',
+            1, 0, 'C', true);
+        $pdf->Ln();
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach($saleDeliveryNotes as $saleDeliveryNote){
+            $totalHours = 0;
+            /** @var SaleDeliveryNoteLine $saleDeliveryNoteLine */
+            foreach($saleDeliveryNote->getSaleDeliveryNoteLines() as $saleDeliveryNoteLine){
+                if($saleDeliveryNoteLine->getSaleItem()->getId() == '1'
+                    || $saleDeliveryNoteLine->getSaleItem()->getId() == '2'
+                    || $saleDeliveryNoteLine->getSaleItem()->getId() == '3'){
+                    $totalHours = $totalHours + $saleDeliveryNoteLine->getUnits();
+                }
+            }
+            $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleDeliveryNote->getId(),
+            1, 0, 'C', false);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleDeliveryNote->getDateToString(),
+            1, 0, 'C', false);
+            if(!$saleDeliveryNote->getSaleInvoice()){
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    '',
+                    1, 0, 'C', false);
+            } else {
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleDeliveryNote->getSaleInvoice()->getInvoiceNumber(),
+                    1, 0, 'C', false);
+            }
+            $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleDeliveryNote->getBuildingSite(),
+            1, 0, 'L', false,'',1);
+            $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleDeliveryNote->getOrder(),
+            1, 0, 'L', false,'',1);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            $totalHours,
+            1, 0, 'C', false);
+            if($totalHours > 0){
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    number_format($saleDeliveryNote->getBaseAmount()/$totalHours,2,',','.').'€',
+                    1, 0, 'C', false);
+            } else {
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    '0',
+                    1, 0, 'C', false);
+            }
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            number_format($saleDeliveryNote->getBaseAmount(),2,',','.').'€',
+            1, 0, 'C', false);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            number_format($saleDeliveryNote->getFinalTotal(),2,',','.').'€',
+            1, 0, 'C', false);
+            $pdf->Ln();
+        }
+
+
+        return $pdf;
     }
 
     /**
+     * @param $saleDeliveryNotes
      * @return TCPDF
      */
-    public function buildDeliveryNotesList($saleDeliveryNotes)
+    public function buildDeliveryNotesList($saleDeliveryNotes): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Albaranes');
         $pdf = $this->pdfEngineService->getEngine();
@@ -95,9 +206,10 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @param $saleDeliveryNotes
      * @return string
      */
-    public function outputDeliveryNotesList($saleDeliveryNotes)
+    public function outputDeliveryNotesList($saleDeliveryNotes): string
     {
         $pdf = $this->buildDeliveryNotesList($saleDeliveryNotes);
 
@@ -105,9 +217,11 @@ class SaleDeliveryNotePdfManager
     }
 
     /**
+     * @param $saleDeliveryNotes
+     * @param TCPDF $pdf
      * @return TCPDF
      */
-    public function buildList(TCPDF $pdf, $saleDeliveryNotes)
+    public function buildList($saleDeliveryNotes, TCPDF $pdf): TCPDF
     {
         // add start page
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
@@ -117,7 +231,7 @@ class SaleDeliveryNotePdfManager
         $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
 
         // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
     }
 
     /**
@@ -206,7 +320,7 @@ class SaleDeliveryNotePdfManager
         $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
 
         // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
 
         // -- set new background ---
         // get the current page break margin

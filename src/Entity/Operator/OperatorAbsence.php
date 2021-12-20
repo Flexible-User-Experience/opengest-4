@@ -49,6 +49,13 @@ class OperatorAbsence extends AbstractBase
     private $end;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $toPreviousYearCount = false;
+
+    /**
      * Methods.
      */
 
@@ -131,6 +138,18 @@ class OperatorAbsence extends AbstractBase
     public function getStatus(): bool
     {
         return true;
+    }
+
+    public function isToPreviousYearCount(): bool
+    {
+        return $this->toPreviousYearCount;
+    }
+
+    public function setToPreviousYearCount(bool $toPreviousYearCount): OperatorAbsence
+    {
+        $this->toPreviousYearCount = $toPreviousYearCount;
+
+        return $this;
     }
 
     /**

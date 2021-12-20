@@ -4,8 +4,8 @@ namespace App\Controller\Admin\Payslip;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Payslip\Payslip;
-use App\Manager\Pdf\PayslipPdfManager;
-use Symfony\Component\HttpFoundation\Request;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,17 +16,36 @@ class PayslipAdminController extends BaseAdminController
     /**
      * Generate PDF receipt action.
      */
-    public function pdfAction(Request $request, PayslipPdfManager $payslipPdfManager): Response
+    public function batchActionGeneratePayslip(ProxyQueryInterface $selectedModelQuery): Response
     {
-        $request = $this->resolveRequest($request);
-        $id = $request->get($this->admin->getIdParameter());
+        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
 
-        /** @var Payslip $payslip */
-        $payslip = $this->admin->getObject($id);
-        if (!$payslip) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        if (!$payslips) {
+            $this->addFlash('warning', 'No existen nóminas en esta selección');
         }
 
-        return new Response($payslipPdfManager->outputSingle($payslip), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->ppm->outputCollection($payslips), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    /**
+     * Generate XML for payslip payment.
+     */
+    public function batchActionGeneratePayslipXMLPayment(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
+
+        if (!$payslips) {
+            $this->addFlash('warning', 'No existen nóminas en esta selección');
+        }
+        $response = new Response($this->pxm->OutputSingle($payslips));
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'nominas.xml'
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-type', 'text/xml');
+        $response->setStatusCode('200');
+
+        return $response;
     }
 }

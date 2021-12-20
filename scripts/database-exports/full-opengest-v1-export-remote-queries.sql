@@ -141,7 +141,9 @@ ESCAPED BY '\\'
 LINES TERMINATED BY '\n'
 FROM opengest.Tipos_terceros TT;
 
-SELECT T.*, E.cif_nif AS E_cif_nif, TT.nombre AS TT_nombre, CT.nombre AS CT_nombre, CUTR.nombre AS CUTR_nombre
+SELECT T.*, E.cif_nif AS E_cif_nif, TT.nombre AS TT_nombre, CT.nombre AS CT_nombre, CUTR.nombre AS CUTR_nombre,
+       TDC.nombre as TDC_nombre, DC.num_cuenta_contable, DC.plazo_de_cobro1,
+       DC.plazo_de_cobro2, DC.plazo_de_cobro3, DC.dia_de_pago1, DC.dia_de_pago2, DC.num_copias_factura
 INTO OUTFILE '/var/lib/mysql-files/partners.csv'
 FIELDS TERMINATED BY ','
 OPTIONALLY ENCLOSED BY '"'
@@ -151,6 +153,8 @@ FROM opengest.Terceros T
 JOIN opengest.Empresas E ON E.id = T.empresa_id
 JOIN opengest.Tipos_terceros TT ON TT.id = T.tipo_tercero_id
 JOIN opengest.Clases_terceros CT ON CT.id = T.clase_tercero_id
+JOIN opengest.Datos_contables DC ON DC.id = T.id
+LEFT JOIN opengest.Tipos_documentos_cobro TDC ON TDC.id = DC.tipo_documento_cobro_id
 LEFT JOIN opengest.Cuentas_transferencia CUTR ON CUTR.id = T.cuenta_transferencia_id
 WHERE E.id = 1;
 

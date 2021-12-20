@@ -39,6 +39,13 @@ services:
         calls:
             - [ setTemplate, [ edit, "admin/sale-invoice/edit.html.twig" ] ]
             - [ setTranslationDomain, [ "admin" ] ]
+    app.admin.sale_invoice_due_date:
+        class: App\Admin\Sale\SaleInvoiceDueDateAdmin
+        arguments: [ ~, App\Entity\Sale\SaleInvoiceDueDate, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.user_password_hasher"]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Vencimientos", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
     app.admin.sale_request_has_delivery_note:
         class: App\Admin\Sale\SaleRequestHasDeliveryNoteAdmin
         arguments: [ ~, App\Entity\Sale\SaleRequestHasDeliveryNote, App\Controller\Admin\Sale\SaleRequestHasDeliveryNoteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.user_password_hasher"]

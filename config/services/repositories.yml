@@ -159,6 +159,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Partner\PartnerContact
+    app.partner_delivery_address_repository:
+        class: App\Repository\Partner\PartnerDeliveryAddressRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerDeliveryAddress
     app.partner_unable_days_repository:
         class: App\Repository\Partner\PartnerUnableDaysRepository
         factory: [ '@doctrine', getRepository ]
@@ -266,6 +271,7 @@ services:
             - '@app.partner_class_repository'
             - '@app.partner_type_repository'
             - '@app.partner_contact_repository'
+            - '@app.partner_delivery_address_repository'
             - '@app.partner_unable_days_repository'
             - '@app.city_repository'
             - '@app.province_repository'

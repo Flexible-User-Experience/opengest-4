@@ -3,6 +3,7 @@
 namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
@@ -21,6 +22,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
+use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -70,8 +72,16 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generatePdfs'] = [
-                'label' => 'admin.action.generate_sale_invoice_pdf',
+            $actions['generatePdfsForEmail'] = [
+                'label' => 'admin.action.generate_pdfs_for_email',
+                'ask_confirmation' => false,
+            ];
+            $actions['generatePdfsToPrint'] = [
+                'label' => 'admin.action.generate_pdfs_to_print',
+                'ask_confirmation' => false,
+            ];
+            $actions['invoiceList'] = [
+                'label' => 'admin.action.generate_invoice_list',
                 'ask_confirmation' => false,
             ];
         }
@@ -104,7 +114,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'invoiceNumber',
                 null,
@@ -170,7 +180,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'baseTotal',
                 null,
@@ -219,24 +229,38 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
+                ->with('admin.label.delivery_address', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'deliveryNotes',
+                    'deliveryAddress',
                     EntityType::class,
                     [
-                        'label' => 'admin.label.delivery_notes',
+                        'label' => 'admin.label.delivery_address',
                         'required' => false,
-                        'class' => SaleDeliveryNote::class,
-                        'multiple' => true,
-                        'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
-                            $this->getUserLogedEnterprise(),
-                            $this->getSubject()->getPartner()
-                        ),
-                        'by_reference' => false,
+                        'class' => PartnerDeliveryAddress::class,
+                        'query_builder' => $this->rm->getPartnerDeliveryAddressRepository()->getFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()->getId()),
+                        'placeholder' => '--- Seleccione una dirección de envio alternativa ---',
+    //                    'choice_label' => 'name',
                     ]
                 )
                 ->end()
-            ;
+                    ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(3))
+                    ->add(
+                        'deliveryNotes',
+                        EntityType::class,
+                        [
+                            'label' => 'admin.label.delivery_notes',
+                            'required' => false,
+                            'class' => SaleDeliveryNote::class,
+                            'multiple' => true,
+                            'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
+                                $this->getUserLogedEnterprise(),
+                                $this->getSubject()->getPartner()
+                            ),
+                            'by_reference' => false,
+                        ]
+                    )
+                    ->end()
+                ;
         } else { // is create mode
             $formMapper
                 ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
@@ -255,6 +279,25 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 )
                 ->end()
             ;
+        }
+        if ($this->id($this->getSubject())) {
+            $formMapper
+            ->with('admin.label.due_dates', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'saleInvoiceDueDates',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ;
         }
     }
 
@@ -403,6 +446,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'partner']],
                     'admin_code' => 'app.admin.partner',
+                ]
+            )
+            ->add(
+                'deliveryAddress',
+                null,
+                [
+                    'label' => 'admin.label.delivery_address',
                 ]
             )
             ->add(

@@ -48,7 +48,7 @@ class VehicleCheckingPdfManager
     {
         // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
-        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
         $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
 
@@ -66,8 +66,7 @@ class VehicleCheckingPdfManager
         $pdf->setCellPaddings(1, 1, 1, 1);
 
         // logo
-        //TODO why the logo doesn't come up?
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
 
         $vehiclesFromVehicleCheckings = [];
         /** @var VehicleChecking $vehicleChecking */
@@ -78,8 +77,8 @@ class VehicleCheckingPdfManager
         foreach ($vehiclesFromVehicleCheckings as $vehicleId => $vehicleCheckingsFromVehicle) {
             /** @var Vehicle $vehicle */
             $vehicle = $this->rm->getVehicleRepository()->find($vehicleId);
-            //Header
 
+            //Header
             $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
             $this->pdfEngineService->setStyleSize('b', 10);
             $pdf->Cell(90, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -107,22 +106,22 @@ class VehicleCheckingPdfManager
             $pdf->Ln();
             //info
             /** @var VehicleChecking $vehicleChecking */
-            foreach ($vehiclesFromVehicleCheckings as $vehicleChecking) {
-                $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
-                $this->pdfEngineService->setStyleSize('', 9);
-                $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $vehicleChecking->getType(),
-                    true, 0, 'L', false);
-                $pdf->Cell(40, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $vehicleChecking->getEnd()->format('d/m/Y'),
-                    true, 0, 'L', false);
-                $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
-                    '',
-                    true, 0, 'L', false);
-                $pdf->Cell(30, ConstantsEnum::PDF_CELL_HEIGHT,
-                    '',
-                    true, 0, 'L', false);
-                $pdf->Ln();
+            foreach ($vehicleCheckingsFromVehicle as $vehicleChecking) {
+                    $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+                    $this->pdfEngineService->setStyleSize('', 9);
+                    $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
+                        $vehicleChecking->getType(),
+                        true, 0, 'L', false);
+                    $pdf->Cell(40, ConstantsEnum::PDF_CELL_HEIGHT,
+                        $vehicleChecking->getEnd()->format('d/m/Y'),
+                        true, 0, 'L', false);
+                    $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        true, 0, 'L', false);
+                    $pdf->Cell(30, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        true, 0, 'L', false);
+                    $pdf->Ln();
             }
             $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
                 '',
