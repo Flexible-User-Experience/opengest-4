@@ -136,10 +136,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'ask_confirmation' => false,
             ];
 
-//            $actions['generateDriverMail'] = [
-//                'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
-//                'ask_confirmation' => false,
-//            ];
+            $actions['generateDriverMail'] = [
+                'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
         }
 
         return $actions;
