@@ -226,6 +226,8 @@ admin:
         generate_pdfs_to_print: "Generar pdf de factura sin fondo (impresión)"
         generate_pdfs_for_email: "Generar pdf de factura con fondo (e-mail)"
         generate_invoice_list: "Generar listado de facturas"
+        generate_delivery_notes_by_client: "Generar listado de albaranes por cliente"
+        generate_delivery_notes_list: "Generar listado de albaranes"
 
     actions: "Accions"
 enum:

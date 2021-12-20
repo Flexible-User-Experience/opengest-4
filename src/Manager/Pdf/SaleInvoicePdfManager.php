@@ -225,7 +225,6 @@ class SaleInvoicePdfManager
             $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
             // set the starting point for the page content
             $pdf->setPageMark();
-
         }
 
         // set cell padding
