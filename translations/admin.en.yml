@@ -222,6 +222,9 @@ admin:
         generate_sale_invoice_pdf: "Generar pdf de las facturas seleccionadas"
         generate_work_register_report: "Generar el listado con recuento de horas para nómina"
         generate_payslip: "Generar documento de nómina"
+        generate_pdfs_to_print: "Generar pdf de factura sin fondo (impresión)"
+        generate_pdfs_for_email: "Generar pdf de factura con fondo (e-mail)"
+        generate_invoice_list: "Generar listado de facturas"
 
     actions: "Accions"
 enum:
