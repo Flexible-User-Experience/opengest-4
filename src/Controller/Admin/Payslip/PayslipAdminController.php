@@ -4,9 +4,8 @@ namespace App\Controller\Admin\Payslip;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Payslip\Payslip;
-use App\Manager\Pdf\PayslipPdfManager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -38,7 +37,15 @@ class PayslipAdminController extends BaseAdminController
         if (!$payslips) {
             $this->addFlash('warning', 'No existen nóminas en esta selección');
         }
+        $response = new Response($this->pxm->OutputSingle($payslips));
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'nominas.xml'
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-type', 'text/xml');
+        $response->setStatusCode('200');
 
-        return new Response($this->pxm->OutputSingle($payslips), 200, ['Content-type' => 'text/xml']);
+        return $response;
     }
 }
