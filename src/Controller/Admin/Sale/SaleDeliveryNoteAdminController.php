@@ -3,11 +3,15 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerUnableDays;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Setting\SaleInvoiceSeries;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Repository\Sale\SaleInvoiceRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
@@ -170,7 +174,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoice = new SaleInvoice();
         $deliveryNotes = new ArrayCollection($deliveryNotes);
         $saleInvoice->setPartner($deliveryNotes->first()->getPartner());
-        $date = new \DateTime();
+        $date = new DateTime();
         $saleInvoice->setDate($date);
         $saleInvoice->setType(1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
@@ -200,6 +204,82 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             $this->addFlash('error', 'Error al facturar los albaranes: '.$e->getMessage().$e->getFile());
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        }
+    }
+
+    private function createDueDatesFromSaleInvoice(SaleInvoice $saleInvoice)
+    {
+        $partner = $saleInvoice->getPartner();
+        $numberOfCollectionTerms = 1;
+        if ($partner->getCollectionTerm3() > 0) {
+            $numberOfCollectionTerms = 3;
+        } elseif ($partner->getCollectionTerm2() > 0) {
+            $numberOfCollectionTerms = 2;
+        }
+        $amountSplit = $saleInvoice->getTotal() / $numberOfCollectionTerms;
+        $payDay1 = $partner->getPayDay1() ? $partner->getPayDay1() : 1;
+        $payDay2 = $partner->getPayDay2() ? $partner->getPayDay2() : 1;
+        $payDay3 = $partner->getPayDay3() ? $partner->getPayDay3() : 1;
+        $collectionTerm1 = $partner->getCollectionTerm1() ? $partner->getCollectionTerm1() : 0;
+        $saleInvoiceDueDate1 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm1, $partner);
+        $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate1);
+        $collectionTerm2 = $partner->getCollectionTerm2();
+        if ($collectionTerm2) {
+            $saleInvoiceDueDate2 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm2, $partner);
+            $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate2);
+            $collectionTerm3 = $partner->getCollectionTerm3();
+            if ($collectionTerm3) {
+                $saleInvoiceDueDate3 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm3, $partner);
+                $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate3);
+            }
+        }
+    }
+
+    private function generateDueDateWithAmountPayDayCollectionTerm(float $amount, int $payDay1, int $payDay2, int $payDay3, int $collectionTerm, Partner $partner): SaleInvoiceDueDate
+    {
+        $initialDueDate = new DateTime();
+        $dueDate = new DateTime();
+        $initialDueDate = $initialDueDate->setTimestamp(strtotime('+ '.$collectionTerm.' days'));
+        $this->setDueDate($initialDueDate, $payDay1, $dueDate, $payDay2, $payDay3);
+        while ($this->checkIfDateIsInPartnerUnableDates($dueDate, $partner)) {
+            $this->setDueDate($dueDate, $payDay1, $dueDate, $payDay2, $payDay3);
+        }
+        $saleInvoiceDueDate = new SaleInvoiceDueDate();
+
+        return $saleInvoiceDueDate
+                    ->setDate($dueDate)
+                    ->setAmount($amount)
+                ;
+    }
+
+    private function checkIfDateIsInPartnerUnableDates(DateTime $date, Partner $partner): bool
+    {
+        $isInUnableDays = false;
+        $dateFormatted = new DateTime();
+        $dateFormatted->setDate('0000', $date->format('m'), $date->format('d'));
+        $unableDays = $partner->getPartnerUnableDays();
+        /** @var PartnerUnableDays $unableDay */
+        foreach ($unableDays as $unableDay) {
+            if ($dateFormatted->getTimestamp() >= $unableDay->getBegin()->getTimestamp()) {
+                if ($dateFormatted->getTimestamp() <= $unableDay->getEnd()->getTimestamp()) {
+                    $isInUnableDays = true;
+                }
+            }
+        }
+
+        return $isInUnableDays;
+    }
+
+    private function setDueDate(DateTime $initialDueDate, int $payDay1, DateTime $dueDate, int $payDay2, int $payDay3): void
+    {
+        if ($initialDueDate->format('d') * 1 <= $payDay1) {
+            $dueDate->setDate($initialDueDate->format('Y'), $initialDueDate->format('m'), $payDay1);
+        } elseif ($initialDueDate->format('d') * 1 <= $payDay2) {
+            $dueDate->setDate($initialDueDate->format('Y'), $initialDueDate->format('m'), $payDay2);
+        } elseif ($initialDueDate->format('d') * 1 <= $payDay3) {
+            $dueDate->setDate($initialDueDate->format('Y'), $initialDueDate->format('m'), $payDay3);
+        } else {
+            $dueDate->setDate($initialDueDate->format('Y'), $initialDueDate->format('m') * 1 + 1, $payDay1);
         }
     }
 }
