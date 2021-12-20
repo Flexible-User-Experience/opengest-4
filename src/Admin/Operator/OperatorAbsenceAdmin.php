@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 /**
  * Class OperatorAbsenceAdmin.
@@ -111,6 +112,14 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                     'label' => 'Data fi',
                     'format' => 'd/M/y',
                     'required' => true,
+                ]
+            )
+            ->add(
+                'toPreviousYearCount',
+                CheckboxType::class,
+                [
+                    'label' => 'admin.label.to_previous_year_count',
+                    'required' => false,
                 ]
             )
             ->end()
