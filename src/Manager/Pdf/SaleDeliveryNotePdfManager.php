@@ -313,14 +313,11 @@ class SaleDeliveryNotePdfManager
     private function buildOneSaleRequestPerPage(SaleDeliveryNote $saleDeliveryNote, TCPDF $pdf, $withBackground)
     {
         // add start page
-        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
+        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
         $width = 70;
-        $total = $width + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT;
-        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
-
-        // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $total = $width + ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
+        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT * 2);
 
         // -- set new background ---
         // get the current page break margin
@@ -330,101 +327,118 @@ class SaleDeliveryNotePdfManager
         // disable auto-page-break
         $pdf->SetAutoPageBreak(false, 0);
         if ($withBackground) {
+            // logo
+            $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+
             // set background image
-            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/plantillaAlbara.png');
-            $pdf->Image($img_file, 0, 0, 148, 210, '', '', '', false, 300, '', false, false, 0);
+            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/delivery_note_template.png');
+            $pdf->Image($img_file, 0, 0, 297, 210, '', '', '', false, 300, '', false, false, 0);
             // restore auto-page-break status
             $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
         }
         // set the starting point for the page content
         $pdf->setPageMark();
 
-        // customer section
+        // left side
+        $xDim = 20;
+        $this->fillA5deliveryNote($saleDeliveryNote,$pdf,$total,$availableHoritzontalSpace,$xDim);
+        // right side
+        $xDim = 170;
+        $this->fillA5deliveryNote($saleDeliveryNote,$pdf,$total,$availableHoritzontalSpace,$xDim);
 
-        $pdf->setXY($total, 40);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 10);
-        //CLIENT
+        //add back page
+
+        if ($withBackground) {
+            $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+
+            // -- set new background ---
+            // get the current page break margin
+            $bMargin = $pdf->getBreakMargin();
+            // get current auto-page-break mode
+            $auto_page_break = $pdf->getAutoPageBreak();
+            // disable auto-page-break
+            $pdf->SetAutoPageBreak(false, 0);
+            // set background image
+            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/delivery_note_template_back.png');
+            $pdf->Image($img_file, 0, 0, 297, 210, '', '', '', false, 300, '', false, false, 0);
+            // restore auto-page-break status
+            $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        }
+
+        return $pdf;
+    }
+
+    private function fillA5deliveryNote($saleDeliveryNote, $pdf, $total, $availableHoritzontalSpace, $xDim){
+        $yStart = 42;
+        $yInterval = 6;
+        $pdf->setXY($total, $yStart);
         $this->pdfEngineService->setStyleSize('', 9);
+        $pdf->setX($xDim);
+        //CLIENT
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getName(), 0, 0, 'L', false);
         //CIF
-        $pdf->setXY($total, 46);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 18);
-        $this->pdfEngineService->setStyleSize('', 9);
+        $pdf->setXY($xDim + 10, $yStart + $yInterval);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getCifNif(), 0, 0, 'L', false);
         //Telf
-        $pdf->setXY($total, 46);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 85);
+        $pdf->setXY($xDim + 80, $yStart + $yInterval);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getPhoneNumber1(), 0, 0, 'L', false);
         //Dirección
-        $pdf->setXY($total, 52);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
+        $pdf->setXY($xDim+5, $yStart + $yInterval*2);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getMainAddress(), 0, 0, 'L', false);
         //Población
-        $pdf->setXY($total, 59);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
+        $pdf->setXY($xDim+5, $yStart + $yInterval*3);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getPartner()->getMainCity(), 0, 30), 0, 0, 'L', false);
 
         //Provincia
-        $pdf->setXY($total, 65);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
+        $pdf->setXY($xDim+5, $yStart + $yInterval*4);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getPartner()->getMainCityName(), 0, 30), 0, 0, 'L', false);
 
         //Forma de pago
-        $pdf->setXY($total, 65);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 95);
+        $pdf->setXY($xDim+90, $yStart + $yInterval*4);
         $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getPartner()->getClass()->getName()), 0, 0, 'L', false); // TODO not reading properly attribute
 
         //Vehículo
-        $pdf->setXY($total, 71);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 14);
+        $pdf->setXY($xDim+5, $yStart + $yInterval*5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()), 0, 0, 'L', false);
 
         //Operario
-        $pdf->setXY($total, 71);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 85);
+        $pdf->setXY($xDim+80, $yStart + $yInterval*5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getOperator() ? $saleDeliveryNote->getOperator()->getShortFullName() : '', 0, 0, 'L', false);
 
         //Fecha de servicio
-        $pdf->setXY($total, 77);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
+        $pdf->setXY($xDim+15, $yStart + $yInterval*6);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getDateToString(), 0, 0, 'L', false);
 
         //Hora
-        $pdf->setXY($total, 77);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 82);
+        $pdf->setXY($xDim+80, $yStart + $yInterval*6);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Persona de contacto
-        $pdf->setXY($total, 83);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 28);
+        $pdf->setXY($xDim+18, $yStart + $yInterval*7);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getMainContactName(), 0, 0, 'L', false);
 
         //Móvil
-        $pdf->setXY($total, 83);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 82);
+        $pdf->setXY($xDim+80, $yStart + $yInterval*7);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getPhoneNumber2(), 0, 0, 'L', false);
 
         //Servicio a realizar
-        $pdf->setXY($total, 89);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 24);
+        $pdf->setXY($xDim+18, $yStart + $yInterval*8);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getServiceDescription(), 0, 0, 'L', false);
 
         //Lugar de trabajo
-        $pdf->setXY($total, 96);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 23);
+        $pdf->setXY($xDim+15, $yStart + $yInterval*9);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPlace(), 0, 0, 'L', false);
 
         //Observaciones
-        $pdf->setXY($total, 103);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 22);
+        $pdf->setXY($xDim+15, $yStart + $yInterval*10);
         $pdf->MultiCell($availableHoritzontalSpace, 2 * ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getObservations(), 0, 'L', false, 1, '', '', true, 0, false, true, 2 * ConstantsEnum::PDF_CELL_HEIGHT);
 
         //Nº Albarán
-        $pdf->setXY($total, 200);
-        $pdf->setX(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT + 10);
+        $this->pdfEngineService->setStyleSize('b', 15);
+
+        $pdf->setXY($xDim+10, 198);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getId(), 0, 0, 'L', false);
 
-        return $pdf;
     }
 
     /**
