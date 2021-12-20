@@ -151,6 +151,6 @@ abstract class AbstractBaseCommand extends Command
         }
         $output->writeln('<info>Total ellapsed time: '.$beginTimestamp->diff($endTimestamp)->format('%H:%I:%S').'</info>');
 
-        return 1;
+        return Command::SUCCESS;
     }
 }
