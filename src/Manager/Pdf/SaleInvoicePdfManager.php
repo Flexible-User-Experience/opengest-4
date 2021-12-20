@@ -60,7 +60,7 @@ class SaleInvoicePdfManager
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
         $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
         // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/bundles/app/img/logo_romani.png'), ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
 
         // today date
         $this->pdfEngineService->setStyleSize('', 18);
