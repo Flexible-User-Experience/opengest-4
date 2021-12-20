@@ -129,6 +129,7 @@ class SaleInvoice extends AbstractBase
     public function __construct()
     {
         $this->deliveryNotes = new ArrayCollection();
+        $this->saleInvoiceDueDates = new ArrayCollection();
     }
 
     public function getDeliveryNotes(): Collection

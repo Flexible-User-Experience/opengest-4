@@ -190,6 +190,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         if ($saleInvoice->getPartner()->getPartnerDeliveryAddresses()->first()) {
             $saleInvoice->setDeliveryAddress($saleInvoice->getPartner()->getPartnerDeliveryAddresses()->first());
         }
+        $this->createDueDatesFromSaleInvoice($saleInvoice);
         try {
             $this->admin->getModelManager()->create($saleInvoice);
             /** @var SaleDeliveryNote $deliveryNote */
@@ -217,7 +218,8 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             $numberOfCollectionTerms = 2;
         }
         $amountSplit = $saleInvoice->getTotal() / $numberOfCollectionTerms;
-        $payDay1 = $partner->getPayDay1() ? $partner->getPayDay1() : 1;
+        $today = new DateTime();
+        $payDay1 = $partner->getPayDay1() ? $partner->getPayDay1() : 0;
         $payDay2 = $partner->getPayDay2() ? $partner->getPayDay2() : 1;
         $payDay3 = $partner->getPayDay3() ? $partner->getPayDay3() : 1;
         $collectionTerm1 = $partner->getCollectionTerm1() ? $partner->getCollectionTerm1() : 0;
@@ -272,7 +274,9 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
     private function setDueDate(DateTime $initialDueDate, int $payDay1, DateTime $dueDate, int $payDay2, int $payDay3): void
     {
-        if ($initialDueDate->format('d') * 1 <= $payDay1) {
+        if (0 === $payDay1) {
+            $dueDate->setDate($initialDueDate->format('Y'), $initialDueDate->format('m'), $initialDueDate->format('d'));
+        } elseif ($initialDueDate->format('d') * 1 <= $payDay1) {
             $dueDate->setDate($initialDueDate->format('Y'), $initialDueDate->format('m'), $payDay1);
         } elseif ($initialDueDate->format('d') * 1 <= $payDay2) {
             $dueDate->setDate($initialDueDate->format('Y'), $initialDueDate->format('m'), $payDay2);
