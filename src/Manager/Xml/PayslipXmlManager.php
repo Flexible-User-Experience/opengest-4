@@ -133,7 +133,7 @@ class PayslipXmlManager
         $xmlDocDetail = '';
         foreach ($payslips as $payslip) {
             $operator = $payslip->getOperator()->getFullName();
-            $opIBAN = str_replace('-', '', $payslip->getOperator()->getBancAccountNumber());
+            $opIBAN = $payslip->getOperator()->getBancAccountNumber();
             $amount = $payslip->getTotalAmount();
             $intervalDate = 'Nómina desde '.$payslip->getFromDateFormatted().' hasta '.$payslip->getToDateFormatted();
             $xmlDocDetail = $xmlDocDetail.
