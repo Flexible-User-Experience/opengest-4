@@ -127,6 +127,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_standard_mail_template_delivery_notes',
                 'ask_confirmation' => false,
             ];
+            $actions['generateDriverMail'] = [
+                'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
             $actions['deliveryNotesByClient'] = [
                 'label' => 'admin.action.generate_delivery_notes_by_client',
                 'ask_confirmation' => false,
@@ -136,10 +140,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'ask_confirmation' => false,
             ];
 
-            $actions['generateDriverMail'] = [
-                'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
-                'ask_confirmation' => false,
-            ];
         }
 
         return $actions;
