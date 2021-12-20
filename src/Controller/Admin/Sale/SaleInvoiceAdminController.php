@@ -130,13 +130,22 @@ class SaleInvoiceAdminController extends BaseAdminController
         return $this->redirectToRoute('admin_app_sale_saleinvoice_edit', ['id' => $id]);
     }
 
-    public function batchActionGeneratePdfs(ProxyQueryInterface $selectedModelQuery): Response
+    public function batchActionGeneratePdfsToPrint(ProxyQueryInterface $selectedModelQuery): Response
     {
         $this->admin->checkAccess('edit');
         /** @var SaleInvoice[] $saleDeliveryNotes */
         $saleInvoices = $selectedModelQuery->execute();
 
-        return new Response($this->sipm->outputCollection($saleInvoices), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->sipm->outputCollectionPrint($saleInvoices), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function batchActionGeneratePdfsForEmail(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $this->admin->checkAccess('edit');
+        /** @var SaleInvoice[] $saleDeliveryNotes */
+        $saleInvoices = $selectedModelQuery->execute();
+
+        return new Response($this->sipm->outputCollectionEmail($saleInvoices), 200, ['Content-type' => 'application/pdf']);
     }
 
     /**
