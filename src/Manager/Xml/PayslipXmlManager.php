@@ -2,6 +2,7 @@
 
 namespace App\Manager\Xml;
 
+use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Payslip\Payslip;
 use App\Service\PdfEngineService;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -60,7 +61,12 @@ class PayslipXmlManager
         }
         $company = $payslip->getOperator()->getEnterprise()->getName();
         $NIFSuf = $payslip->getOperator()->getEnterprise()->getTaxIdentificationNumber().'SSS';
-        $IBAN = '';
+        /** @var EnterpriseTransferAccount $eta */
+        $eta = $payslip->getOperator()->getEnterprise()->getEnterpriseTransferAccounts()->filter(function (EnterpriseTransferAccount $eta) {
+            return 'La Caixa' === $eta->getName();
+        })->first();
+        $IBAN = $eta->getIban().$eta->getBankCode().$eta->getOfficeNumber().$eta->getControlDigit().$eta->getAccountNumber();
+        $swift = $eta->getSwift();
         $xmlDocStart =
             '<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
             <CstmrCdtTrfInitn>
@@ -118,7 +124,7 @@ class PayslipXmlManager
                     </DbtrAcct>
                     <DbtrAgt>
                         <FinInstnId>
-                            <BIC>CAIXESBBXXX</BIC>
+                            <BIC>'.$swift.'</BIC>
                         </FinInstnId>
                     </DbtrAgt>
                     <ChrgBr>DEBT</ChrgBr>
@@ -127,7 +133,7 @@ class PayslipXmlManager
         $xmlDocDetail = '';
         foreach ($payslips as $payslip) {
             $operator = $payslip->getOperator()->getFullName();
-            $opIBAN = $payslip->getOperator()->getBancAccountNumber();
+            $opIBAN = str_replace('-', '', $payslip->getOperator()->getBancAccountNumber());
             $amount = $payslip->getTotalAmount();
             $intervalDate = 'Nómina desde '.$payslip->getFromDateFormatted().' hasta '.$payslip->getToDateFormatted();
             $xmlDocDetail = $xmlDocDetail.
