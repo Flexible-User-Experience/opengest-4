@@ -191,6 +191,8 @@ admin:
         collection_term_3: "Plazo cobro 3"
         invoice_copies_number: "Nº copias factura"
         partner_code: "Código cliente"
+        due_dates: "Vencimientos"
+        delivery_address: "Dirección de envío"
     with:
         general: "General"
         image: "Imagen"

@@ -278,7 +278,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         }
         if ($this->id($this->getSubject())) {
             $formMapper
-            ->with('admin.label.due_dates', $this->getFormMdSuccessBoxArray(12))
+            ->with('admin.label.due_dates', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'saleInvoiceDueDates',
                     CollectionType::class,
