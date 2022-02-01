@@ -1629,6 +1629,10 @@ class Operator extends AbstractBase
         $date = new DateTime();
         $date->setDate($date->format('Y') * 1 - 1, 1, 1);
         $operatorAbsences = $this->operatorAbsences->filter(function (OperatorAbsence $operatorAbsence) use ($date) {
+            if (null === $operatorAbsence->getBegin()) {
+                return false;
+            }
+
             return $operatorAbsence->getEnd()->getTimestamp() > $date->getTimestamp();
         });
         $iterator = $operatorAbsences->getIterator();

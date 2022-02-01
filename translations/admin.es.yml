@@ -193,7 +193,7 @@ admin:
         partner_code: "Código cliente"
         due_dates: "Vencimientos"
         delivery_address: "Dirección de envío"
-        to_previous_year_count: "Contar año siguiente"
+        to_previous_year_count: "Contar año anterior"
     with:
         general: "General"
         image: "Imagen"
