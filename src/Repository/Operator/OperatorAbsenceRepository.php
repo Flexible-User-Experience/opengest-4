@@ -124,7 +124,7 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
                 ||
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear)
                     &&
-                    (!$operatorAbsence->isToPreviousYearCount()))
+                    ($operatorAbsence->isToPreviousYearCount()))
             ) {
                 if (isset($operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'])) {
                     $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'] += $numberOfDays;
