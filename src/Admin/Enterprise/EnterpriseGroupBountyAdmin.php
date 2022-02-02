@@ -167,14 +167,14 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->add(
-                'roadNormalHour',
-                null,
-                [
-                    'label' => 'admin.label.road_normal_hour',
-                    'required' => false,
-                ]
-            )
+//            ->add(
+//                'roadNormalHour',
+//                null,
+//                [
+//                    'label' => 'admin.label.road_normal_hour',
+//                    'required' => false,
+//                ]
+//            )
             ->add(
                 'carOutput',
                 null,
