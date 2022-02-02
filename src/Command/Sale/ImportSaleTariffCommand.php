@@ -66,7 +66,20 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
             /** @var Enterprise $enterprise */
             $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$year.' · '.$tonnage.' · '.$priceHour.' · '.$miniumHours.' · '.$miniumHolidayHours.' · '.$displacement.' · '.$increaseForHolidays.' · '.$enterpriseTaxIdentificationNumber);
-
+            $saleServiceTariffToCreate = ['GOND60', 'TANQ'];
+            foreach ($saleServiceTariffToCreate as $newTonnage) {
+                /** @var SaleServiceTariff $saleServiceTariff */
+                $saleServiceTariff = $this->rm->getSaleServiceTariffRepository()->findOneBy([
+                    'description' => $newTonnage,
+                ]);
+                if (!$saleServiceTariff) {
+                    // new record
+                    $saleServiceTariff = new SaleServiceTariff();
+                    $saleServiceTariff->setDescription($newTonnage);
+                    $this->em->persist($saleServiceTariff);
+                    $this->em->flush();
+                }
+            }
             if ($year && $tonnage && $enterprise) {
                 //Todo Check if SaleServiceTariff exists, if not, create new one
                 /** @var SaleServiceTariff $saleServiceTariff */
