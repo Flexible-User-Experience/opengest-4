@@ -305,6 +305,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         [
                             'class' => EnterpriseGroupBounty::class,
                             'label' => 'enterpriseGroupBounty',
+                            'placeholder' => '--- seleccione una opcion ---',
                             'required' => true,
                             'query_builder' => $this->rm->getEnterpriseGroupBountyRepository()->getEnabledSortedByNameQB(),
                         ]
