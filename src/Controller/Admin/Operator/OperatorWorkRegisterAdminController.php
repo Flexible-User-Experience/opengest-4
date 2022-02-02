@@ -11,6 +11,7 @@ use App\Entity\Setting\TimeRange;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Enum\SaleRequestStatusEnum;
+use App\Repository\Operator\OperatorWorkRegisterRepository;
 use DateTime;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -152,7 +153,9 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         if (!$operatorWorkRegisterHeader) {
             $operatorWorkRegisters = [];
         } else {
-            $operatorWorkRegisters = $operatorWorkRegisterHeader->getOperatorWorkRegisters();
+            /** @var OperatorWorkRegisterRepository $operatorWorkRegisterRepository */
+            $operatorWorkRegisterRepository = $this->container->get('doctrine')->getRepository(OperatorWorkRegister::class);
+            $operatorWorkRegisters = $operatorWorkRegisterRepository->getFilteredByOperatorWorkRegisterHeaderOrderedByStart($operatorWorkRegisterHeader);
         }
 
         $serializer = $this->container->get('serializer');
