@@ -15,6 +15,7 @@ use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -51,16 +52,14 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/peticio';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'requestDate',
-        '_sort_order' => 'desc',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'requestDate';
+    }
+
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection

@@ -17,6 +17,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -56,16 +57,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/albara';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'date',
-        '_sort_order' => 'DESC',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'date';
+    }
+
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
@@ -139,7 +138,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_delivery_notes_list',
                 'ask_confirmation' => false,
             ];
-
         }
 
         return $actions;
