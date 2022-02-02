@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Sale;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
+use App\Repository\Sale\SaleTariffRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -26,6 +27,9 @@ class SaleServiceTariffAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
         $serializer = $this->container->get('serializer');
+//        /** @var SaleTariffRepository $saleTariffRepository */
+//        $saleTariffRepository = $this->container->get('doctrine')->getRepository(SaleTariff::class);
+//        $saleTariffs = $saleTariffRepository->getFilteredWithoutPartnerSortedByDate();
         $saleTariffs = $saleServiceTariff->getSaleTariffs();
         if ($partnerId) {
             $saleTariffs = $saleTariffs->filter(function (SaleTariff $saleTariff) use ($partnerId) {

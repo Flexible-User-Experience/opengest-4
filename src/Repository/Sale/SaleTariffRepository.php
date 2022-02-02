@@ -3,11 +3,12 @@
 namespace App\Repository\Sale;
 
 use App\Entity\Enterprise\Enterprise;
+use App\Entity\Partner\Partner;
 use App\Entity\Sale\SaleTariff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SaleTariffRepository extends ServiceEntityRepository
 {
@@ -53,5 +54,25 @@ class SaleTariffRepository extends ServiceEntityRepository
     public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterpise): array
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQ($enterpise)->getResult();
+    }
+
+    public function getFilteredByPartnerSortedByDate(Partner $partner)
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->andWhere('st.partner = :partner')
+            ->setParameter('partner', $partner)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function getFilteredWithoutPartnerSortedByDate()
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->andWhere('st.partner = :partner')
+            ->setParameter('partner', null)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }
