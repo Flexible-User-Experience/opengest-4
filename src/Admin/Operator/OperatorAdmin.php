@@ -8,6 +8,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorAbsenceType;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -39,16 +40,13 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'operaris/operari';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'surname1',
-        '_sort_order' => 'asc',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'surname1';
+    }
 
     /**
      * Configure route collection.
