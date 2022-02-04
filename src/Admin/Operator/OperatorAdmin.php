@@ -5,7 +5,6 @@ namespace App\Admin\Operator;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
 use App\Entity\Operator\Operator;
-use App\Entity\Operator\OperatorAbsenceType;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -355,13 +354,7 @@ class OperatorAdmin extends AbstractBaseAdmin
             ;
         if ($this->id($this->getSubject())) {
             $this->operatorAbsences = $this->rm->getOperatorAbsenceRepository()->getAbsencesFilteredByOperator($this->getSubject());
-//            dd($this->operatorAbsences);
-//            $this->operatorAbsenceTypes = array_map(
-//                function(OperatorAbsenceType $operatorAbsenceType) {
-//                    return [ 'id' => $operatorAbsenceType->getId(), 'name' => $operatorAbsenceType->getName()];
-//                }
-//                ,
-//                $this->rm->getOperatorAbsenceTypeRepository()->getEnabledSortedByName());
+
             $formMapper
                 ->tab('Documentación')
                 ->with('No. d\'identificació fiscal', $this->getFormMdSuccessBoxArray(3))
