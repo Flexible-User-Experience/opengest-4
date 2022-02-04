@@ -28,7 +28,7 @@ use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Class SaleInvoicedmin.
+ * Class SaleInvoiceAmin.
  *
  * @category    Admin
  */

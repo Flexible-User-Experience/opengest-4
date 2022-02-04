@@ -10,6 +10,7 @@ use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -23,8 +24,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 
 /**
  * Class SaleTariffAdmin.
@@ -44,16 +43,14 @@ class SaleTariffAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/tarifa';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'year',
-        '_sort_order' => 'DESC',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'year';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
@@ -66,17 +63,18 @@ class SaleTariffAdmin extends AbstractBaseAdmin
     public function configureExportFields(): array
     {
         return [
-//            'year',
-//            'date',
-//            'saleServiceTariff',
-//            'partner',
-//            'partnerBuildingSite',
-//            'priceHour',
-//            'miniumHours',
-//            'miniumHolidayHours',
-//            'displacement',
-//            'increaseForHolidays',
-//            'increaseForHolidaysPercentage',
+            'year',
+            'date',
+            'saleServiceTariff',
+            'partner.code',
+            'partner.name',
+            'partnerBuildingSite',
+            'priceHour',
+            'miniumHours',
+            'miniumHolidayHours',
+            'displacement',
+            'increaseForHolidays',
+            'increaseForHolidaysPercentage',
             'enabled',
         ];
     }
@@ -227,11 +225,6 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             )
             ->end()
         ;
-
-//        $admin = $this;
-//        $formMapper->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT,
-//            function (FormEvent $event) use ($formMapper, $admin) {
-//            });
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
@@ -346,8 +339,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
             ->setParameter('enterprise', $this->getUserLogedEnterprise())
-            ->orderBy('e.name', 'ASC')
-            ->addOrderBy($queryBuilder->getRootAliases()[0].'.year', 'DESC')
+            ->orderBy($queryBuilder->getRootAliases()[0].'.year', 'DESC')
             ->addOrderBy($queryBuilder->getRootAliases()[0].'.tonnage', 'DESC')
         ;
 

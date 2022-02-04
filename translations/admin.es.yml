@@ -286,6 +286,7 @@ serviceDate: "Fecha servicio"
 serviceTime: "Hora servicio"
 partner.name: Cliente
 partner.code: "Código cliente"
+partnerBuildingSite: "Obra"
 buildingSite: Obra
 secondaryVechicle: "Vehículo secundario"
 operator: Operario
@@ -302,6 +303,9 @@ serviceDateString: "Fecha servicio"
 vehicle: "Vehículo"
 secondaryVehicle: "Vehículo secundario"
 hourPrice: "Precio hora"
+priceHour: "Precio hora"
+increaseForHolidays: "Incremento por festivo"
+increaseForHolidaysPercentage: "Incremento por festivo (%)"
 miniumHolidayHours: "Horas mínimas en vacaciones"
 saleRequestNumber: "Id de petición"
 date: "Fecha"
