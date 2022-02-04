@@ -286,6 +286,7 @@ service: Tonelaje
 serviceDate: "Fecha servicio"
 serviceTime: "Hora servicio"
 partner.name: Cliente
+partner.code: "Código cliente"
 buildingSite: Obra
 secondaryVechicle: "Vehículo secundario"
 operator: Operario
