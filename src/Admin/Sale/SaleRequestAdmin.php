@@ -145,7 +145,9 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         $queryBuilder = $datagrid->getQuery();
                         $queryBuilder
                             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
                             ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                            ->setParameter('enabled', true)
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
