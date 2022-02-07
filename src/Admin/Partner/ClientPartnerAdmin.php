@@ -423,6 +423,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 CheckboxType::class,
                 [
                     'label' => 'admin.label.enabled',
+                    'required' => false,
                 ]
             )
             ->end()
