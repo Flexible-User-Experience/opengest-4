@@ -194,6 +194,7 @@ admin:
         due_dates: "Vencimientos"
         delivery_address: "Dirección de envío"
         to_previous_year_count: "Contar año anterior"
+        country_name: "País"
     with:
         general: "General"
         image: "Imatge"

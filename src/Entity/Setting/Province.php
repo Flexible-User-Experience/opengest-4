@@ -5,6 +5,7 @@ namespace App\Entity\Setting;
 use App\Entity\AbstractBase;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -109,8 +110,18 @@ class Province extends AbstractBase
     /**
      * @return string
      */
+    public function getCountryName()
+    {
+        Countries::getName($this->country);
+
+        return Countries::getName($this->country);
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return $this->id ? $this->getCode().' · '.$this->getName() : '---';
+        return $this->id ? $this->getName() : '---';
     }
 }

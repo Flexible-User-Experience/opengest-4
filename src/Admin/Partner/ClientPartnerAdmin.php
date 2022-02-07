@@ -155,6 +155,15 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
                 ->add(
+                    'mainCity.province.countryName',
+                    null,
+                    [
+                        'label' => 'admin.label.country_name',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
                     'mainCity.province',
                     EntityType::class,
                     [
