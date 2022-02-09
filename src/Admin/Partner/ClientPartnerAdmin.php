@@ -293,30 +293,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'payDay1',
-                null,
-                [
-                    'label' => 'admin.label.pay_day_1',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'payDay2',
-                null,
-                [
-                    'label' => 'admin.label.pay_day_1',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'payDay3',
-                null,
-                [
-                    'label' => 'admin.label.pay_day_1',
-                    'required' => false,
-                ]
-            )
-            ->add(
                 'collectionTerm1',
                 null,
                 [
@@ -337,6 +313,30 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.collection_term_3',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay1',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay2',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_2',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay3',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_3',
                     'required' => false,
                 ]
             )
