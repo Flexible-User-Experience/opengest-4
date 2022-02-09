@@ -195,6 +195,9 @@ admin:
         delivery_address: "Dirección de envío"
         to_previous_year_count: "Contar año anterior"
         country_name: "País"
+        iva_total: "Total_Iva"
+        irpf_total: "Total_Irpf"
+        discount_total: "Importe descuento"
     with:
         general: "General"
         image: "Imatge"
