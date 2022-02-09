@@ -317,19 +317,21 @@ class SaleInvoicePdfManager
                 $deliveryNote->getId(),
                 0, 0, 'L', false);
                 if($deliveryNote->getDeliveryNoteReference()){
-                    $pdf->Cell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNote->getDeliveryNoteReference().' - '.$deliveryNote->getServiceDescription(),0, 0, 'L', false);
+                    $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $deliveryNote->getDeliveryNoteReference().' - '.$deliveryNote->getServiceDescription(),
+                        0,  'L', false);
                 } else {
-                    $pdf->Cell($col3 - $col2,'',
-                    $deliveryNote->getServiceDescription(),0, 0, 'L', false);
+                    $pdf->MultiCell($col3 - $col2,ConstantsEnum::PDF_CELL_HEIGHT,
+                    $deliveryNote->getServiceDescription(),
+                        0, 'L', false);
                 }
-            $pdf->Ln();
+
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
                 $pdf->SetAbsX($col2 + 10);
-                $pdf->Cell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNoteLine->getSaleItem(),
-                0, 0, 'L', false);
+                $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $deliveryNoteLine->getSaleItem().($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : ''),
+                0, 'L', false,0);
                 $pdf->Cell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
                     $deliveryNoteLine->getUnits(),
                     0, 0, 'L', false);
@@ -371,7 +373,7 @@ class SaleInvoicePdfManager
         $pdf->Ln(5);
         $pdf->setX($xVar);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity().' '.$saleInvoice->getPartner()->getMainCityName(),
+            $saleInvoice->getPartner()->getMainCity(),
             0, 0, 'L', false, '', 1);
         $pdf->Ln(5);
         $pdf->setX($xVar);
