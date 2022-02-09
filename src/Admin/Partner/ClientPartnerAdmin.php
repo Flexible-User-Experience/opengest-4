@@ -104,6 +104,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     ],
                 ]
             )
+            ->add(
+                'enabled',
+                CheckboxType::class,
+                [
+                    'label' => 'admin.label.enabled',
+                    'required' => false,
+                ]
+            )
             ->end()
             ->with('Datos fiscales', $this->getFormMdSuccessBoxArray(4))
             ->add(
@@ -272,16 +280,17 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.web_page',
                 ]
             )
-            ->end()
-            ->with('Datos contables', $this->getFormMdSuccessBoxArray(4))
             ->add(
-                'accountingAccount',
+                'discount',
                 null,
                 [
-                    'label' => 'admin.label.accounting_account',
-                    'required' => false,
+                    'label' => 'admin.label.discount',
                 ]
             )
+            ->end()
+            ->end()
+            ->tab('Pagos y datos contables')
+            ->with('Datos de pago', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'collectionDocumentType',
                 EntityType::class,
@@ -292,71 +301,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
-            ->add(
-                'collectionTerm1',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_1',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'collectionTerm2',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_2',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'collectionTerm3',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_3',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'payDay1',
-                null,
-                [
-                    'label' => 'admin.label.pay_day_1',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'payDay2',
-                null,
-                [
-                    'label' => 'admin.label.pay_day_2',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'payDay3',
-                null,
-                [
-                    'label' => 'admin.label.pay_day_3',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'invoiceCopiesNumber',
-                null,
-                [
-                    'label' => 'admin.label.invoice_copies_number',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'discount',
-                null,
-                [
-                    'label' => 'admin.label.discount',
-                ]
-            )
-            ->end()
-            ->with('Datos bancarios', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'transferAccount',
                 EntityType::class,
@@ -417,12 +361,70 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
 //                ]
 //            )
             ->end()
-            ->with('Controles', $this->getFormMdSuccessBoxArray(4))
+            ->with('Detalles de pago', $this->getFormMdSuccessBoxArray(4))
             ->add(
-                'enabled',
-                CheckboxType::class,
+                'collectionTerm1',
+                null,
                 [
-                    'label' => 'admin.label.enabled',
+                    'label' => 'admin.label.collection_term_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm2',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_2',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'collectionTerm3',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_3',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay1',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay2',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_2',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'payDay3',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_3',
+                    'required' => false,
+                ]
+            )
+            ->end()
+            ->with('Datos contables', $this->getFormMdSuccessBoxArray(4))
+            ->add(
+                'accountingAccount',
+                null,
+                [
+                    'label' => 'admin.label.accounting_account',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'invoiceCopiesNumber',
+                null,
+                [
+                    'label' => 'admin.label.invoice_copies_number',
                     'required' => false,
                 ]
             )
