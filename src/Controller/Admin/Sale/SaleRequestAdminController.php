@@ -175,7 +175,7 @@ class SaleRequestAdminController extends BaseAdminController
         $deliveryNote->setDate($saleRequest->getServiceDate());
         $deliveryNote->setPartner($saleRequest->getInvoiceTo());
         $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
-        $deliveryNote->setDeliveryNoteReference('P-'.$saleRequest->getId());
+//        $deliveryNote->setDeliveryNoteReference('P-'.$saleRequest->getId());
         $deliveryNote->setEnterprise($saleRequest->getEnterprise());
         $deliveryNote->setActivityLine($saleRequest->getService()->getActivityLine());
         $deliveryNote->setSaleServiceTariff($saleRequest->getService());
