@@ -384,7 +384,12 @@ class SaleInvoicePdfManager
         $xVar2 = 91;
         $pdf->setXY($xVar2, $yVarStart);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getCollectionDocumentType() ? $saleInvoice->getPartner()->getCollectionDocumentType()->getName() : '',
+            ($saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : '').
+            ($saleInvoice->getPartner()->getCollectionTerm1() ? ' a '.$saleInvoice->getPartner()->getCollectionTerm1().(
+                $saleInvoice->getPartner()->getCollectionTerm2() ? '+'.$saleInvoice->getPartner()->getCollectionTerm2().(
+                    $saleInvoice->getPartner()->getCollectionTerm3() ? '+'.$saleInvoice->getPartner()->getCollectionTerm3() : ''
+                    ) : ''
+                ).' días' : ''),
             0, 0, 'L', false);
         $pdf->Ln(5);
         $pdf->setX($xVar2);
