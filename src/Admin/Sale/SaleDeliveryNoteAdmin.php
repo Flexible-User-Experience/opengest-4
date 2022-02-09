@@ -616,24 +616,75 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'scale' => 2,
                     ]
                 )
+            ;
+        if ($this->getSubject()->getPartner()) {
+            $formMapper
                 ->add(
-                    'collectionDocument',
+                    'partner.collectionDocumentType',
                     EntityType::class,
                     [
                         'class' => CollectionDocumentType::class,
                         'label' => 'admin.label.payment_document',
+                        'disabled' => true,
                         'required' => false,
-                        'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                     ]
                 )
                 ->add(
-                    'collectionTerm',
+                    'partner.collectionTerm1',
                     null,
                     [
-                        'label' => 'admin.label.expiry_days',
+                        'label' => 'admin.label.collection_term_1',
+                        'disabled' => true,
                         'required' => false,
                     ]
                 )
+                ;
+            if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm2',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_2',
+                            'disabled' => true,
+                            'required' => false,
+                        ]
+                    )
+                    ;
+                if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
+                    $formMapper
+                        ->add(
+                            'partner.collectionTerm3',
+                            null,
+                            [
+                                'label' => 'admin.label.collection_term_3',
+                                'disabled' => true,
+                                'required' => false,
+                            ]
+                        )
+                    ;
+                }
+            }
+        }
+        $formMapper
+//                ->add(
+//                    'collectionDocument',
+//                    EntityType::class,
+//                    [
+//                        'class' => CollectionDocumentType::class,
+//                        'label' => 'admin.label.payment_document',
+//                        'required' => false,
+//                        'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+//                    ]
+//                )
+//                ->add(
+//                    'collectionTerm',
+//                    null,
+//                    [
+//                        'label' => 'admin.label.expiry_days',
+//                        'required' => false,
+//                    ]
+//                )
                 ->end()
             ->end()
             ->tab('Partes de trabajo')
