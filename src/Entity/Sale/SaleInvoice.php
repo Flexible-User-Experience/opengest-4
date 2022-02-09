@@ -3,6 +3,7 @@
 namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Setting\SaleInvoiceSeries;
@@ -118,6 +119,13 @@ class SaleInvoice extends AbstractBase
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="saleInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $saleInvoiceDueDates;
+
+    /**
+     * @var ?CollectionDocumentType
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
+     */
+    private $collectionDocumentType;
 
     /**
      * Methods.
@@ -428,6 +436,18 @@ class SaleInvoice extends AbstractBase
     public function setDiscount($discount): void
     {
         $this->discount = $discount;
+    }
+
+    public function getCollectionDocumentType(): ?CollectionDocumentType
+    {
+        return $this->collectionDocumentType;
+    }
+
+    public function setCollectionDocumentType(?CollectionDocumentType $collectionDocumentType): SaleInvoice
+    {
+        $this->collectionDocumentType = $collectionDocumentType;
+
+        return $this;
     }
 
     public function getDeliveryAddress(): ?PartnerDeliveryAddress
