@@ -307,18 +307,22 @@ class SaleInvoicePdfManager
             $col1 = 28;
             $col2 = 43;
             $col3 = 124;
-            $col4 = 143;
-            $col5 = 160;
-            $col6 = 177;
-            $col7 = 195;
+            $col4 = 140;
+            $col5 = 155;
+            $col6 = 173;
+            $col7 = 175;
 
             $pdf->setXY($col1, $YDim);
             $pdf->Cell($col2 - $col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getId(),
                 0, 0, 'L', false);
-            $pdf->Cell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                $deliveryNote->getServiceDescription(),
-                0, 0, 'L', false);
+                if($deliveryNote->getDeliveryNoteReference()){
+                    $pdf->Cell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $deliveryNote->getDeliveryNoteReference().' - '.$deliveryNote->getServiceDescription(),0, 0, 'L', false);
+                } else {
+                    $pdf->Cell($col3 - $col2,'',
+                    $deliveryNote->getServiceDescription(),0, 0, 'L', false);
+                }
             $pdf->Ln();
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
@@ -330,13 +334,19 @@ class SaleInvoicePdfManager
                     $deliveryNoteLine->getUnits(),
                     0, 0, 'L', false);
                 $pdf->Cell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNoteLine->getPriceUnit(),
+                    number_format($deliveryNoteLine->getPriceUnit(),2,',','.').' €/u',
                     0, 0, 'L', false);
-                $pdf->Cell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNoteLine->getDiscount().' %',
-                    0, 0, 'L', false);
+                if($deliveryNote->getDiscount()){
+                    $pdf->Cell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
+                        $deliveryNoteLine->getDiscount().' %',
+                        0, 0, 'L', false);
+                } else {
+                    $pdf->Cell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        0, 0, 'L', false);
+                }
                 $pdf->Cell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNoteLine->getTotal().' €',
+                    number_format($deliveryNoteLine->getTotal(),2,',','.').' €',
                     0, 0, 'L', false);
                 $pdf->Ln();
             }
@@ -400,25 +410,25 @@ class SaleInvoicePdfManager
         $xVar3 = 160;
         $pdf->setXY($xVar3, $yVarStart - 3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Base imponible: '.$saleInvoice->getBaseTotal().'€',
+            'Base imponible: '.number_format($saleInvoice->getBaseTotal(),2,',','.').' €',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'IVA 21%: '.$saleInvoice->getIva().'€',
+            'IVA 21%: '.number_format($saleInvoice->getIva(),2,',','.').' €',
             0, 0, 'L', false);
         $pdf->Ln();
         if ($saleInvoice->getIrpf()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IRPF 15%: '.$saleInvoice->getIrpf().'€',
+                'IRPF 15%: '.number_format($saleInvoice->getIrpf(),2,',','.').' €',
                 0, 0, 'L', false);
             $pdf->Ln();
         }
         $this->pdfEngineService->setStyleSize('b', 10);
         $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'TOTAL: '.$saleInvoice->getTotal().'€',
+            'TOTAL: '.number_format($saleInvoice->getTotal(),2,',','.').' €',
             0, 0, 'L', false);
 
         //page number
