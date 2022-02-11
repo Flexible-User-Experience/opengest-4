@@ -483,14 +483,14 @@ class WorkRegisterHeaderPdfManager
 //            $roadExtraPrice * $totalRoadExtra +
             $exitExtraPrice * $totalExitExtra;
         //Other imports and final totals
-        $pdf->Cell($cellWidth * 5, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT,
             'Importes varios',
             1, 0, 'C', false);
         $pdf->Ln();
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Fecha',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 4, ConstantsEnum::PDF_CELL_HEIGHT,
             'Concepto',
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -520,13 +520,13 @@ class WorkRegisterHeaderPdfManager
                     $otherAmounts += $workRegister->getAmount();
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegisterHeader->getDateFormatted(),
-                        1, 0, 'L', false);
-                    $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+                         1, 0,'L', false);
+                    $pdf->Cell($cellWidth *4, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegister->getDescription(),
-                        1, 0, 'L', false);
+                        1,  0,'L', false,'',1);
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegister->getAmount(),
-                        1, 0, 'L', false);
+                         1, 0,'L', false);
                     $pdf->Ln();
                 }
             }
