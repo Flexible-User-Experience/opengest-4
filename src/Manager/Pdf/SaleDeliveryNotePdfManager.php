@@ -317,7 +317,7 @@ class SaleDeliveryNotePdfManager
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
         $width = 70;
         $total = $width + ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
-        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT * 2);
+        $availableHoritzontalSpace = 140 - (ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT * 2);
 
         // -- set new background ---
         // get the current page break margin
@@ -368,7 +368,7 @@ class SaleDeliveryNotePdfManager
         return $pdf;
     }
 
-    private function fillA5deliveryNote($saleDeliveryNote, $pdf, $total, $availableHoritzontalSpace, $xDim){
+    private function fillA5deliveryNote(SaleDeliveryNote $saleDeliveryNote, $pdf, $total, $availableHoritzontalSpace, $xDim){
         $yStart = 42;
         $yInterval = 6;
         $pdf->setXY($total, $yStart);
@@ -391,11 +391,13 @@ class SaleDeliveryNotePdfManager
 
         //Provincia
         $pdf->setXY($xDim+5, $yStart + $yInterval*4);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getPartner()->getMainCityName(), 0, 30), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getPartner()->getMainCity()->getProvince(), 0, 30), 0, 0, 'L', false);
 
         //Forma de pago
         $pdf->setXY($xDim+90, $yStart + $yInterval*4);
-        $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getPartner()->getClass()->getName()), 0, 0, 'L', false); // TODO not reading properly attribute
+        $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleDeliveryNote->getPartner()->getCollectionDocumentType() ? strtoupper($saleDeliveryNote->getPartner()->getCollectionDocumentType()->getDescription()) : '',
+            0, 0, 'L', false);
 
         //Vehículo
         $pdf->setXY($xDim+5, $yStart + $yInterval*5);
@@ -415,23 +417,36 @@ class SaleDeliveryNotePdfManager
 
         //Persona de contacto
         $pdf->setXY($xDim+18, $yStart + $yInterval*7);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getMainContactName(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getContactPersonName(), 0, 0, 'L', false);
 
         //Móvil
         $pdf->setXY($xDim+80, $yStart + $yInterval*7);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getPhoneNumber2(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getContactPersonPhone(), 0, 0, 'L', false);
 
         //Servicio a realizar
-        $pdf->setXY($xDim+18, $yStart + $yInterval*8);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getServiceDescription(), 0, 0, 'L', false);
+        $pdf->setXY($xDim+15, $yStart + $yInterval*8);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            substr($saleDeliveryNote->getServiceDescription(),0,85), 0, 0, 'L', false,'', 1);
 
         //Lugar de trabajo
         $pdf->setXY($xDim+15, $yStart + $yInterval*9);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPlace(), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            substr($saleDeliveryNote->getPlace(),0,85), 0, 0, 'L', false);
 
         //Observaciones
         $pdf->setXY($xDim+15, $yStart + $yInterval*10);
-        $pdf->MultiCell($availableHoritzontalSpace, 2 * ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getObservations(), 0, 'L', false, 1, '', '', true, 0, false, true, 2 * ConstantsEnum::PDF_CELL_HEIGHT);
+        $pdf->MultiCell($availableHoritzontalSpace, ConstantsEnum::PDF_CELL_HEIGHT,
+            substr($saleDeliveryNote->getObservations(),0,240), 0, 'L', false);
+
+        //Fecha impresión
+        $pdf->setXY($xDim+40, 181);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
+        $pdf->setXY($xDim+75, 181);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date('d'), 0, 0, 'L', false);
+        $pdf->setXY($xDim+93, 181);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date('m'), 0, 0, 'L', false);
+        $pdf->setXY($xDim+117, 181);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date('y'), 0, 0, 'L', false);
 
         //Nº Albarán
         $this->pdfEngineService->setStyleSize('b', 15);
