@@ -232,6 +232,8 @@ admin:
         generate_invoice_list: "Generar listado de facturas"
         generate_delivery_notes_by_client: "Generar listado de albaranes por cliente"
         generate_delivery_notes_list: "Generar listado de albaranes"
+        generate_payslip_xml_payment_for_diets: "Generar XML para el pago de dietas"
+        generate_payslip_xml_payment: "Generar XML para el pago de nóminas"
     actions: "Acciones"
 enum:
     sale_request_status:

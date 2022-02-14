@@ -73,6 +73,10 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_payslip_xml_payment',
                 'ask_confirmation' => false,
             ];
+            $actions['generatePayslipDietsXMLPayment'] = [
+                'label' => 'admin.action.generate_payslip_xml_payment_for_diets',
+                'ask_confirmation' => false,
+            ];
         }
 
         return $actions;

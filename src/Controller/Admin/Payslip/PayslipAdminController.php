@@ -37,7 +37,29 @@ class PayslipAdminController extends BaseAdminController
         if (!$payslips) {
             $this->addFlash('warning', 'No existen nóminas en esta selección');
         }
-        $response = new Response($this->pxm->OutputSingle($payslips));
+        $response = new Response($this->pxm->OutputSingle($payslips, false));
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'nominas.xml'
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-type', 'text/xml');
+        $response->setStatusCode('200');
+
+        return $response;
+    }
+
+    /**
+     * Generate XML for payslip payment.
+     */
+    public function batchActionGeneratePayslipDietsXMLPayment(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
+
+        if (!$payslips) {
+            $this->addFlash('warning', 'No existen nóminas en esta selección');
+        }
+        $response = new Response($this->pxm->OutputSingle($payslips, true));
         $disposition = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
             'nominas.xml'
