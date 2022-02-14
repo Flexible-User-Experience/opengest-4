@@ -12,7 +12,7 @@ services:
         class: App\Admin\Operator\OperatorCheckingTypeAdmin
         arguments: [ ~, App\Entity\Operator\OperatorCheckingType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.user_password_hasher"]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tipo revisión", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Tipo revisión", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
             - [ setTranslationDomain, [ "admin" ] ]
     app.admin.operator_checking:
@@ -27,7 +27,7 @@ services:
         class: App\Admin\Operator\OperatorAbsenceTypeAdmin
         arguments: [ ~, App\Entity\Operator\OperatorAbsenceType, ~, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.user_password_hasher"]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Tipo ausencia", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Tipo ausencia", group: "Configuración", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
             - [ setTranslationDomain, [ "admin" ] ]
     app.admin.operator_absence:

@@ -495,4 +495,9 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     {
         return $this->getUsername();
     }
+
+    public function __toString()
+    {
+        return $this->getUserIdentifier();
+    }
 }

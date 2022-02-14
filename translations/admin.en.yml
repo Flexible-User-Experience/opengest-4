@@ -193,7 +193,11 @@ admin:
         partner_code: "Código cliente"
         due_dates: "Vencimientos"
         delivery_address: "Dirección de envío"
-        to_previous_year_count: "Contar año siguiente"
+        to_previous_year_count: "Contar año anterior"
+        country_name: "País"
+        iva_total: "Total_Iva"
+        irpf_total: "Total_Irpf"
+        discount_total: "Importe descuento"
     with:
         general: "General"
         image: "Imatge"
@@ -228,6 +232,8 @@ admin:
         generate_invoice_list: "Generar listado de facturas"
         generate_delivery_notes_by_client: "Generar listado de albaranes por cliente"
         generate_delivery_notes_list: "Generar listado de albaranes"
+        generate_payslip_xml_payment_for_diets: "Generar XML para el pago de dietas"
+        generate_payslip_xml_payment: "Generar XML para el pago de nóminas"
 
     actions: "Accions"
 enum:
@@ -286,6 +292,8 @@ service: Tonelaje
 serviceDate: "Fecha servicio"
 serviceTime: "Hora servicio"
 partner.name: Cliente
+partner.code: "Código cliente"
+partnerBuildingSite: "Obra"
 buildingSite: Obra
 secondaryVechicle: "Vehículo secundario"
 operator: Operario

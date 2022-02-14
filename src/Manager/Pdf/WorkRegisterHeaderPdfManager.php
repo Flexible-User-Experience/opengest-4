@@ -125,7 +125,7 @@ class WorkRegisterHeaderPdfManager
         $pdf->Ln();
 
         //Start table
-        $cellWidth = $width / 13 + 1;
+        $cellWidth = $width / 12 + 1;
         $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT,
             '',
             0, 0, 'L', false);
@@ -133,7 +133,7 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth * 4, ConstantsEnum::PDF_CELL_HEIGHT,
             'HORAS',
             1, 0, 'C', false);
-        $pdf->Cell($cellWidth * 7, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT,
             'DIETAS',
             1, 0, 'C', false);
         $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -176,9 +176,9 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'PERN.',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'CARRET.',
-            1, 0, 'L', false);
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//            'CARRET.',
+//            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'SALIDA',
             1, 0, 'L', false);
@@ -202,7 +202,7 @@ class WorkRegisterHeaderPdfManager
         $dietPrice = $bountyGroup ? $bountyGroup->getDiet() : 0;
         $dietIntPrice = $bountyGroup ? $bountyGroup->getExtraNight() : 0;
         $overNightPrice = $bountyGroup ? $bountyGroup->getOverNight() : 0;
-        $roadExtraPrice = $bountyGroup ? $bountyGroup->getRoadExtraHour() : 0;
+//        $roadExtraPrice = $bountyGroup ? $bountyGroup->getRoadExtraHour() : 0;
         $exitExtraPrice = $bountyGroup ? $bountyGroup->getCarOutput() : 0;
 
         // totals
@@ -217,7 +217,7 @@ class WorkRegisterHeaderPdfManager
         $totalDiet = 0;
         $totalDietInt = 0;
         $totalOverNight = 0;
-        $totalRoadExtra = 0;
+//        $totalRoadExtra = 0;
         $totalExitExtra = 0;
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
@@ -233,7 +233,7 @@ class WorkRegisterHeaderPdfManager
             $diet = 0;
             $dietInt = 0;
             $overNight = 0;
-            $roadExtra = 0;
+//            $roadExtra = 0;
             $exitExtra = 0;
             /** @var OperatorWorkRegister $workRegister */
             foreach ($workRegisters as $workRegister) {
@@ -270,9 +270,9 @@ class WorkRegisterHeaderPdfManager
                 if (str_contains($workRegister->getDescription(), 'Pernoctación')) {
                     $overNight += $workRegister->getUnits();
                 }
-                if (str_contains($workRegister->getDescription(), 'Plus carretera')) {
-                    $roadExtra += $workRegister->getUnits();
-                }
+//                if (str_contains($workRegister->getDescription(), 'Plus carretera')) {
+//                    $roadExtra += $workRegister->getUnits();
+//                }
                 if (str_contains($workRegister->getDescription(), 'Salida')) {
                     $exitExtra += $workRegister->getUnits();
                 }
@@ -288,7 +288,7 @@ class WorkRegisterHeaderPdfManager
             $totalDiet += $diet;
             $totalDietInt += $dietInt;
             $totalOverNight += $overNight;
-            $totalRoadExtra += $roadExtra;
+//            $totalRoadExtra += $roadExtra;
             $totalExitExtra += $exitExtra;
             // Draw each line, as every workReagister header refers to a date
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -327,9 +327,9 @@ class WorkRegisterHeaderPdfManager
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                 $overNight,
                 1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $roadExtra,
-                1, 0, 'L', false);
+//            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//                $roadExtra,
+//                1, 0, 'L', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                 $exitExtra,
                 1, 0, 'L', false);
@@ -372,9 +372,9 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $totalOverNight,
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalRoadExtra,
-            1, 0, 'L', false);
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//            $totalRoadExtra,
+//            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $totalExitExtra,
             1, 0, 'L', false);
@@ -417,9 +417,9 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $overNightPrice,
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $roadExtraPrice,
-            1, 0, 'L', false);
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//            $roadExtraPrice,
+//            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $exitExtraPrice,
             1, 0, 'L', false);
@@ -462,9 +462,9 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $overNightPrice * $totalOverNight,
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $roadExtraPrice * $totalRoadExtra,
-            1, 0, 'L', false);
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//            $roadExtraPrice * $totalRoadExtra,
+//            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $exitExtraPrice * $totalExitExtra,
             1, 0, 'L', false);
@@ -480,17 +480,17 @@ class WorkRegisterHeaderPdfManager
             $dietPrice * $totalDiet +
             $dietIntPrice * $totalDietInt +
             $overNightPrice * $totalOverNight +
-            $roadExtraPrice * $totalRoadExtra +
+//            $roadExtraPrice * $totalRoadExtra +
             $exitExtraPrice * $totalExitExtra;
         //Other imports and final totals
-        $pdf->Cell($cellWidth * 5, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT,
             'Importes varios',
             1, 0, 'C', false);
         $pdf->Ln();
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Fecha',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 4, ConstantsEnum::PDF_CELL_HEIGHT,
             'Concepto',
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -514,19 +514,19 @@ class WorkRegisterHeaderPdfManager
                     !str_contains($workRegister->getDescription(), 'Dieta') &&
                     !str_contains($workRegister->getDescription(), 'Dieta internacional') &&
                     !str_contains($workRegister->getDescription(), 'Pernoctación') &&
-                    !str_contains($workRegister->getDescription(), 'Plus carretera') &&
+//                    !str_contains($workRegister->getDescription(), 'Plus carretera') &&
                     !str_contains($workRegister->getDescription(), 'Salida')
                 ) {
                     $otherAmounts += $workRegister->getAmount();
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegisterHeader->getDateFormatted(),
-                        1, 0, 'L', false);
-                    $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+                         1, 0,'L', false);
+                    $pdf->Cell($cellWidth *4, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegister->getDescription(),
-                        1, 0, 'L', false);
+                        1,  0,'L', false,'',1);
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                         $workRegister->getAmount(),
-                        1, 0, 'L', false);
+                         1, 0,'L', false);
                     $pdf->Ln();
                 }
             }

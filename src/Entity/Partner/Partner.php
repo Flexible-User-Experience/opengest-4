@@ -270,28 +270,28 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerOrder", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerOrder", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $orders;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $buildingSites;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerContact", mappedBy="partner", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerContact", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
      */
     private $contacts;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
      */
     private $partnerDeliveryAddresses;
 
@@ -305,7 +305,7 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner", cascade={"persist"}, orphanRemoval=true)
      */
     private $partnerUnableDays;
 
@@ -1074,7 +1074,7 @@ class Partner extends AbstractBase
     /**
      * @return $this
      */
-    public function remmoveOrder(PartnerOrder $order)
+    public function removeOrder(PartnerOrder $order)
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);

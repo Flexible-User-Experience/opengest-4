@@ -12,18 +12,29 @@
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var invoice = jQuery('#{{ form.saleInvoice.vars.id }}');
+            var partner = jQuery('#{{ form.partner.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
             var totalCountedHours = 0;
             {% if  admin.id(admin.subject) %}
               {% if form.saleInvoice.vars.data %}
+            console.log(invoice);
                   jQuery(`
                       <a href="{{ path('admin_app_sale_saleinvoice_edit', { 'id': form.saleInvoice.vars.data.id }) }}">
                           Ir a factura
                       </a>
-                  `).insertBefore(invoice);
+                  `).insertAfter(invoice);
               {% endif %}
+                {% if form.partner.vars.data %}
+            console.log(partner);
+                jQuery(`
+                          <a href="{{ path('admin_app_partner_client_edit', { 'id': form.partner.vars.data.id }) }}">
+                              Ir a cliente
+                          </a>
+                      `).insertAfter(partnerNode);
+                {% endif %}
 
-                var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
+
+            var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
                 var numberOfDeliveryNoteLines = {{ form.saleDeliveryNoteLines.vars.data.count }};
                 for (let i = 0; i < numberOfDeliveryNoteLines; i++) {
                     jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {

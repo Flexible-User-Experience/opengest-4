@@ -17,6 +17,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -56,16 +57,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/albara';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'date',
-        '_sort_order' => 'DESC',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'date';
+    }
+
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
@@ -139,7 +138,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_delivery_notes_list',
                 'ask_confirmation' => false,
             ];
-
         }
 
         return $actions;
@@ -618,24 +616,75 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'scale' => 2,
                     ]
                 )
+            ;
+        if ($this->getSubject()->getPartner()) {
+            $formMapper
                 ->add(
-                    'collectionDocument',
+                    'partner.collectionDocumentType',
                     EntityType::class,
                     [
                         'class' => CollectionDocumentType::class,
                         'label' => 'admin.label.payment_document',
+                        'disabled' => true,
                         'required' => false,
-                        'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                     ]
                 )
                 ->add(
-                    'collectionTerm',
+                    'partner.collectionTerm1',
                     null,
                     [
-                        'label' => 'admin.label.expiry_days',
+                        'label' => 'admin.label.collection_term_1',
+                        'disabled' => true,
                         'required' => false,
                     ]
                 )
+                ;
+            if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm2',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_2',
+                            'disabled' => true,
+                            'required' => false,
+                        ]
+                    )
+                    ;
+                if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
+                    $formMapper
+                        ->add(
+                            'partner.collectionTerm3',
+                            null,
+                            [
+                                'label' => 'admin.label.collection_term_3',
+                                'disabled' => true,
+                                'required' => false,
+                            ]
+                        )
+                    ;
+                }
+            }
+        }
+        $formMapper
+//                ->add(
+//                    'collectionDocument',
+//                    EntityType::class,
+//                    [
+//                        'class' => CollectionDocumentType::class,
+//                        'label' => 'admin.label.payment_document',
+//                        'required' => false,
+//                        'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+//                    ]
+//                )
+//                ->add(
+//                    'collectionTerm',
+//                    null,
+//                    [
+//                        'label' => 'admin.label.expiry_days',
+//                        'required' => false,
+//                    ]
+//                )
                 ->end()
             ->end()
             ->tab('Partes de trabajo')
@@ -683,11 +732,18 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'Id',
                 ]
             )
+//            ->add(
+//                'saleRequest.id',
+//                null,
+//                [
+//                    'label' => 'admin.label.sale_request',
+//                ]
+//            )
             ->add(
                 'date',
                 DateRangeFilter::class,
                 [
-                    'label' => '1r día nómina',
+                    'label' => 'admin.label.date',
                     'field_type' => DateRangePickerType::class,
                     'field_options' => [
                         'field_options_start' => [
@@ -713,6 +769,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         ],
                 ]
             )
+            ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
+                ]
+            )
+
             ->add(
                 'buildingSite',
                 null,
@@ -762,24 +826,24 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.discount',
                 ]
             )
-            ->add(
-                'collectionTerm',
-                null,
-                [
-                    'label' => 'admin.label.expiry_date',
-                ]
-            )
-            ->add(
-                'collectionDocument',
-                null,
-                [
-                    'label' => 'admin.label.payment_document_type',
-                    'field_type' => null,
-                    'field_options' => [
-                            'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                        ],
-                ]
-            )
+//            ->add(
+//                'collectionTerm',
+//                null,
+//                [
+//                    'label' => 'admin.label.expiry_date',
+//                ]
+//            )
+//            ->add(
+//                'collectionDocument',
+//                null,
+//                [
+//                    'label' => 'admin.label.payment_document_type',
+//                    'field_type' => null,
+//                    'field_options' => [
+//                            'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+//                        ],
+//                ]
+//            )
             ->add(
                 'activityLine',
                 null,

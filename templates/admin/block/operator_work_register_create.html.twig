@@ -325,7 +325,7 @@
         }
 
         selectInputType.change(function (event) {
-          const type = event.added.id;
+          const type = jQuery(event.target).val();
           if (type === "unit") {
             customStart.addClass('hidden');
             customFinish.addClass('hidden');

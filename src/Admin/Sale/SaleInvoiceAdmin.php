@@ -3,6 +3,7 @@
 namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
@@ -28,7 +29,7 @@ use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Class SaleInvoicedmin.
+ * Class SaleInvoiceAmin.
  *
  * @category    Admin
  */
@@ -223,6 +224,15 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                     'scale' => 2,
                     'grouping' => true,
+                ]
+            )
+            ->add(
+                'collectionDocumentType',
+                EntityType::class,
+                [
+                    'class' => CollectionDocumentType::class,
+                    'label' => 'admin.label.collection_document_type',
+                    'required' => false,
                 ]
             )
             ->end()

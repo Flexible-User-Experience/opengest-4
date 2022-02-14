@@ -33,13 +33,19 @@
                              <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Ausencias médicas - falta configurar</th>
+                                        <th>Tipo ausencia</th>
+                                        <th>Año anterior</th>
+                                        <th>Año actual</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                      <td>7 - falta configurar</td>
-                                    </tr>
+                                    {% for operatorAbsenceType,countGrouped in admin.operatorAbsences  %}
+                                        <tr>
+                                          <td>{{ operatorAbsenceType }}</td>
+                                          <td>{{ countGrouped.lastYear is defined ? countGrouped.lastYear : 0 }}</td>
+                                          <td>{{ countGrouped.currentYear is defined ? countGrouped.currentYear : 0 }}</td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -47,7 +53,6 @@
                 </div>
             </div>
 `));
-            console.log('operatorAbsencesId', operatorAbsencesId)
           {% endif %}
         });
     </script>

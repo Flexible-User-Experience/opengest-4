@@ -95,7 +95,7 @@ admin:
         sale_request: "Petición"
         sale_request_id: "Id petición"
         others: "Otros"
-        payment_document: "Documento de cobro"
+        payment_document: "Documento de pago"
         expiry_days: "Vencimiento (días)"
         expiry_date: "Fecha de vencimiento"
         delivery_note_id: "Id albarán"
@@ -106,7 +106,7 @@ admin:
         base_amount: "Importe base"
         total_lines: "Total líneas"
         final_total_with_taxes: "Total final con impuestos y retenciones"
-        payment_document_type: "Tipo de documento de cobro"
+        payment_document_type: "Tipo de documento de pago"
         order: "Pedido"
         header: "Cabecera"
         lines: "Líneas"
@@ -186,14 +186,18 @@ admin:
         pay_day_1: "Día pago 1"
         pay_day_2: "Día pago 2"
         pay_day_3: "Día pago 3"
-        collection_term_1: "Plazo cobro 1"
-        collection_term_2: "Plazo cobro 2"
-        collection_term_3: "Plazo cobro 3"
+        collection_term_1: "Plazo de pago 1"
+        collection_term_2: "Plazo de pago 2"
+        collection_term_3: "Plazo de pago 3"
         invoice_copies_number: "Nº copias factura"
         partner_code: "Código cliente"
         due_dates: "Vencimientos"
         delivery_address: "Dirección de envío"
-        to_previous_year_count: "Contar año siguiente"
+        to_previous_year_count: "Contar año anterior"
+        country_name: "País"
+        iva_total: "Total_Iva"
+        irpf_total: "Total_Irpf"
+        discount_total: "Importe descuento"
     with:
         general: "General"
         image: "Imatge"
@@ -228,6 +232,8 @@ admin:
         generate_invoice_list: "Generar listado de facturas"
         generate_delivery_notes_by_client: "Generar listado de albaranes por cliente"
         generate_delivery_notes_list: "Generar listado de albaranes"
+        generate_payslip_xml_payment_for_diets: "Generar XML para el pago de dietas"
+        generate_payslip_xml_payment: "Generar XML para el pago de nóminas"
 
     actions: "Accions"
 enum:
@@ -286,6 +292,8 @@ service: Tonelaje
 serviceDate: "Fecha servicio"
 serviceTime: "Hora servicio"
 partner.name: Cliente
+partner.code: "Código cliente"
+partnerBuildingSite: "Obra"
 buildingSite: Obra
 secondaryVechicle: "Vehículo secundario"
 operator: Operario

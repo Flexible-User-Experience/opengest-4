@@ -24,7 +24,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @var Partner
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="buildingSites", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="buildingSites")
      */
     private $partner;
 
@@ -175,19 +175,11 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getSaleTariffs(): ArrayCollection
     {
         return $this->saleTariffs;
     }
 
-    /**
-     * @param ArrayCollection $saleTariffs
-     *
-     * @return PartnerBuildingSite
-     */
     public function setSaleTariffs(ArrayCollection $saleTariffs): PartnerBuildingSite
     {
         $this->saleTariffs = $saleTariffs;
@@ -195,11 +187,6 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param SaleTariff $saleTariff
-     *
-     * @return PartnerBuildingSite
-     */
     public function addSaleTariff(SaleTariff $saleTariff): PartnerBuildingSite
     {
         if (!$this->saleTariffs->contains($saleTariff)) {
@@ -211,8 +198,6 @@ class PartnerBuildingSite extends AbstractBase
     }
 
     /**
-     * @param SaleTariff $saleTariff
-     *
      * @return $this
      */
     public function removeSaleTariff(SaleTariff $saleTariff)
@@ -225,19 +210,11 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getSaleRequests(): ArrayCollection
     {
         return $this->saleRequests;
     }
 
-    /**
-     * @param ArrayCollection $saleRequests
-     *
-     * @return PartnerBuildingSite
-     */
     public function setSaleRequests(ArrayCollection $saleRequests): PartnerBuildingSite
     {
         $this->saleRequests = $saleRequests;
@@ -245,11 +222,6 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param SaleRequest $saleRequests
-     *
-     * @return PartnerBuildingSite
-     */
     public function addSaleRequests(SaleRequest $saleRequests): PartnerBuildingSite
     {
         if (!$this->saleRequests->contains($saleRequests)) {
@@ -261,8 +233,6 @@ class PartnerBuildingSite extends AbstractBase
     }
 
     /**
-     * @param SaleRequest $saleRequests
-     *
      * @return $this
      */
     public function removeSaleRequests(SaleRequest $saleRequests)

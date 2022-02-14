@@ -108,9 +108,10 @@
 
             //on change PartnerContact
             selectContactPersonName.on("change", function(event) {
-                contactPersonName.val(event.added.name);
-                contactPersonPhone.val(event.added.publicPhone);
-                contactPersonEmail.val(event.added.email);
+              let selectedContactPerson = jQuery(event.target).select2('data')[0];
+                contactPersonName.val(selectedContactPerson.name);
+                contactPersonPhone.val(selectedContactPerson.publicPhone);
+                contactPersonEmail.val(selectedContactPerson.email);
 
             });
 

@@ -7,6 +7,7 @@ use App\Entity\Enterprise\EnterpriseGroupBounty;
 use App\Entity\Operator\Operator;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -38,16 +39,13 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'operaris/operari';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'surname1',
-        '_sort_order' => 'asc',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'surname1';
+    }
 
     /**
      * Configure route collection.
@@ -304,6 +302,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         [
                             'class' => EnterpriseGroupBounty::class,
                             'label' => 'enterpriseGroupBounty',
+                            'placeholder' => '--- seleccione una opcion ---',
                             'required' => true,
                             'query_builder' => $this->rm->getEnterpriseGroupBountyRepository()->getEnabledSortedByNameQB(),
                         ]
@@ -354,6 +353,8 @@ class OperatorAdmin extends AbstractBaseAdmin
             ->end()
             ;
         if ($this->id($this->getSubject())) {
+            $this->operatorAbsences = $this->rm->getOperatorAbsenceRepository()->getAbsencesFilteredByOperator($this->getSubject());
+
             $formMapper
                 ->tab('Documentación')
                 ->with('No. d\'identificació fiscal', $this->getFormMdSuccessBoxArray(3))

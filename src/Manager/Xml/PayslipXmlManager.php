@@ -28,9 +28,9 @@ class PayslipXmlManager
      *
      * @return string
      */
-    public function buildSingle($payslips)
+    public function buildSingle($payslips, $diets)
     {
-        return $this->buildPayslipXml($payslips);
+        return $this->buildPayslipXml($payslips, $diets);
     }
 
     /**
@@ -38,9 +38,9 @@ class PayslipXmlManager
      *
      * @return string
      */
-    public function outputSingle($payslips)
+    public function outputSingle($payslips, $diets)
     {
-        $xmlDoc = $this->buildSingle($payslips);
+        $xmlDoc = $this->buildSingle($payslips, $diets);
 
         return $xmlDoc;
     }
@@ -50,7 +50,7 @@ class PayslipXmlManager
      *
      * @return string
      */
-    private function buildPayslipXml($payslips)
+    private function buildPayslipXml($payslips, $diets)
     {
         $date = new DateTime();
 //        $today = date('Y/m/d');
@@ -59,8 +59,12 @@ class PayslipXmlManager
         $totalTransactions = 0;
         /** @var Payslip $payslip * */
         foreach ($payslips as $payslip) {
-            $totalPayment = $payslip->getTotalAmount() + $totalPayment;
-            $totalTransactions = $totalTransactions++;
+            if ( $diets ){
+                $totalPayment = $payslip->getExpenses() + $totalPayment;
+            } else {
+                $totalPayment = $payslip->getTotalAmount() + $totalPayment;
+            }
+            $totalTransactions = $totalTransactions + 1 ;
         }
         $company = $payslip->getOperator()->getEnterprise()->getName();
         $NIFSuf = $payslip->getOperator()->getEnterprise()->getTaxIdentificationNumber().'SSS';
@@ -132,7 +136,11 @@ class PayslipXmlManager
         foreach ($payslips as $payslip) {
             $operator = $payslip->getOperator()->getFullName();
             $opIBAN = $payslip->getOperator()->getBancAccountNumber();
-            $amount = $payslip->getTotalAmount();
+            if($diets){
+                $amount = $payslip->getExpenses();
+            } else{
+                $amount = $payslip->getTotalAmount();
+            }
             $intervalDate = 'Nómina desde '.$payslip->getFromDateFormatted().' hasta '.$payslip->getToDateFormatted();
             $xmlDocDetail = $xmlDocDetail.
             '            <PmtId>
