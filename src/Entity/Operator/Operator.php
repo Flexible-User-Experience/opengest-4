@@ -12,6 +12,7 @@ use App\Entity\Setting\City;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineExtensions\Query\Mysql\Date;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -427,7 +428,7 @@ class Operator extends AbstractBase
     private $operatorCheckings;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
@@ -484,6 +485,7 @@ class Operator extends AbstractBase
     {
         $this->operatorDigitalTachographs = new ArrayCollection();
         $this->operatorCheckings = new ArrayCollection();
+        $this->operatorAbsences = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->operatorVariousAmount = new ArrayCollection();
         $this->payslipOperatorDefaultLines = new ArrayCollection();
@@ -1641,6 +1643,10 @@ class Operator extends AbstractBase
         });
 
         return new ArrayCollection(iterator_to_array($iterator));
+
+//        $criteria = Criteria::create()->where(Criteria::expr()->gt('begin', $date));
+
+//        return $this->operatorAbsences;//->matching($criteria);
     }
 
     /**
