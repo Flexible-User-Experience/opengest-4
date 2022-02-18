@@ -5,7 +5,7 @@
     - "{{ playbook_dir }}/vars/config.yml"
   tasks:
     - name: execute province CSV import by partner primary address to local database
-      shell: "php bin/console --env=prod app:import:province var/csv/partners.csv 9 10"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:province var/csv/partners.csv 9 10"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute province CSV import by partner secondary address to local database
