@@ -209,13 +209,13 @@ class SaleInvoicePdfManager
 
         //deliveryNoteInfo
         $YDim = 110;
-        $col1 = 28;
-        $col2 = 43;
-        $col3 = 124;
-        $col4 = 142;
-        $col5 = 162;
-        $col6 = 176;
-        $col7 = 197;
+        $col1 = 32;
+        $col2 = 46;
+        $col3 = 122;
+        $col4 = 140;
+        $col5 = 160;
+        $col6 = 168;
+        $col7 = 194;
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
             $pdf->setXY($col1, $YDim);
@@ -337,8 +337,8 @@ class SaleInvoicePdfManager
         //Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
 
-        $xVar = 23;
-        $yVarStart = 255;
+        $xVar = 26;
+        $yVarStart = 250;
         $cellWidth = 60;
         $this->pdfEngineService->setStyleSize('', 8);
         $pdf->setXY($xVar, $yVarStart);
@@ -396,7 +396,7 @@ class SaleInvoicePdfManager
         }
 
         //Final amount
-        $xVar3 = 160;
+        $xVar3 = 156;
         $pdf->setXY($xVar3, $yVarStart - 3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Base imponible: ' . number_format($saleInvoice->getBaseTotal(), 2, ',', '.') . ' €',
@@ -422,7 +422,7 @@ class SaleInvoicePdfManager
 
         //page number
         $this->pdfEngineService->setStyleSize('', 9);
-        $pdf->setXY(40, 281);
+        $pdf->setXY(40, 275);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $pdf->getAliasNumPage() . ' de ' . $pdf->getAliasNbPages(),
             0, 0, 'C', false);
@@ -450,8 +450,8 @@ class SaleInvoicePdfManager
     private function setHeading(TCPDF $pdf, SaleInvoice $saleInvoice): void
     {
 //Heading with sending address
-        $xDim = 20;
-        $pdf->setXY($xDim, 55);
+        $xDim = 32;
+        $pdf->setXY($xDim, 60);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartner()->getName(),
             0, 0, 'L', false);
@@ -492,7 +492,7 @@ class SaleInvoicePdfManager
         //Heading with date, invoice number, etc.
         $xVar = 130;
         $xVar2 = 170;
-        $yVarStart = 49;
+        $yVarStart = 54;
         $incrY = 16;
         $pdf->setXY($xVar, $yVarStart);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
