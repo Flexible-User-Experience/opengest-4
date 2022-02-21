@@ -100,7 +100,7 @@ admin:
         expiry_date: "Fecha de vencimiento"
         delivery_note_id: "Id albarán"
         delivery_note_date: "Fecha de albarán"
-        delivery_note_reference: "Referencia de albarán"
+        delivery_note_reference: "Referencia"
         no_invoice: "No facturable"
         invoiced: "Facturado"
         base_amount: "Importe base"
