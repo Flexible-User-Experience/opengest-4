@@ -115,18 +115,18 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add(
-                'enterprise',
-                null,
-                [
-                    'label' => 'Empresa',
-                ]
-            )
+//            ->add(
+//                'enterprise',
+//                null,
+//                [
+//                    'label' => 'Empresa',
+//                ]
+//            )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
@@ -134,7 +134,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
                 'description',
                 null,
                 [
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                     'editable' => true,
                 ]
             )
@@ -142,7 +142,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
                 'sitReference',
                 null,
                 [
-                    'label' => 'Referència SIT',
+                    'label' => 'admin.label.SITReference',
                     'editable' => true,
                 ]
             )
@@ -155,7 +155,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.label.actions',
                 ]
             )
         ;

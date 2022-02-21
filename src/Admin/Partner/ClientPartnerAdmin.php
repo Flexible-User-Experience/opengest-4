@@ -76,13 +76,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             )
-            ->add(
-                'providerReference',
-                null,
-                [
-                    'label' => 'admin.label.provider_code',
-                ]
-            )
+//            ->add(
+//                'providerReference',
+//                null,
+//                [
+//                    'label' => 'admin.label.provider_code',
+//                ]
+//            )
             ->add(
                 'class',
                 EntityType::class,
@@ -322,14 +322,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'iban',
                 null,
                 [
-                    'label' => 'IBAN',
+                    'label' => 'IBAN Domiciliación',
                 ]
             )
             ->add(
                 'swift',
                 null,
                 [
-                    'label' => 'SWIFT',
+                    'label' => 'SWIFT Domiciliación',
                 ]
             )
 //            ->add(

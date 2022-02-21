@@ -165,23 +165,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ->end()
             ;
         }
-        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
-            $formMapper
-                ->tab('Cabecera')
-                    ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(4))
-                    ->add(
-                        'saleRequestNumber',
-                        TextType::class,
-                        [
-                            'label' => 'admin.label.sale_request_id',
-                            'required' => false,
-                            'disabled' => true,
-                        ]
-                    )
-                    ->end()
-                ->end()
-            ;
-        }
+        //estava aqui
         $formMapper
             ->tab('Cabecera')
                 ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(3))
@@ -503,6 +487,29 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                     ]
                 )
+                ->end()
+            ->end()
+        ;
+        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
+            $formMapper
+                ->tab('Cabecera')
+                ->with('Otros', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'saleRequestNumber',
+                    TextType::class,
+                    [
+                        'label' => 'admin.label.sale_request_id',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
+                ->end()
+                ->end()
+            ;
+        }
+        $formMapper
+            ->tab('Cabecera')
+            ->with('Otros', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'wontBeInvoiced',
                     CheckboxType::class,
@@ -921,14 +928,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'Id',
                 ]
             )
-            ->add(
-                'saleRequest',
-                null,
-                [
-                    'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
-                    'label' => 'admin.label.sale_request',
-                ]
-            )
+//            ->add(
+//                'saleRequest',
+//                null,
+//                [
+//                    'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
+//                    'label' => 'admin.label.sale_request',
+//                ]
+//            )
             ->add(
                 'saleInvoice',
                 null,

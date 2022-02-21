@@ -373,16 +373,33 @@ class SaleInvoicePdfManager
                     ) : ''
                 ) . ' días' : ''),
             0, 0, 'L', false);
-        $pdf->Ln(5);
-        $pdf->setX($xVar2);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getIban(),
-            0, 0, 'L', false);
-        $pdf->Ln(3);
-        $pdf->setX($xVar2);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getSwift(),
-            0, 0, 'L', false);
+        if(str_contains($saleInvoice->getCollectionDocumentType()->getName(),'transferencia')){
+            $pdf->Ln(5);
+            $pdf->setX($xVar2);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getPartner()->getTransferAccount()->getName(),
+                0, 0, 'L', false);
+            $pdf->Ln(3);
+            $pdf->setX($xVar2);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getPartner()->getTransferAccount()->getIban().' '.
+                $saleInvoice->getPartner()->getTransferAccount()->getBankCode().' '.
+                $saleInvoice->getPartner()->getTransferAccount()->getOfficeNumber().' '.
+                $saleInvoice->getPartner()->getTransferAccount()->getControlDigit().' '.
+                $saleInvoice->getPartner()->getTransferAccount()->getAccountNumber(),
+                0, 0, 'L', false);
+        } elseif (str_contains($saleInvoice->getCollectionDocumentType()->getName(),'recibo')) {
+            $pdf->Ln(5);
+            $pdf->setX($xVar2);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getPartner()->getIban(),
+                0, 0, 'L', false);
+            $pdf->Ln(3);
+            $pdf->setX($xVar2);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getPartner()->getSwift(),
+                0, 0, 'L', false);
+        }
         $pdf->Ln(3);
         $pdf->setX($xVar2);
         foreach ($saleInvoice->getSaleInvoiceDueDates() as $dueDate) {

@@ -100,7 +100,7 @@ admin:
         expiry_date: "Fecha de vencimiento"
         delivery_note_id: "Id albarán"
         delivery_note_date: "Fecha de albarán"
-        delivery_note_reference: "Referencia de albarán"
+        delivery_note_reference: "Referencia"
         no_invoice: "No facturable"
         invoiced: "Facturado"
         base_amount: "Importe base"
@@ -165,7 +165,7 @@ admin:
         phone2: "Teléfono 2"
         reference: "Referencia proveedor"
         web_page: "Página web"
-        transfer_account: "Banco"
+        transfer_account: "Transferencia"
         care: "Cargo"
         enabled: "Activo"
         phone: "Teléfono"
@@ -198,6 +198,8 @@ admin:
         iva_total: "Total Iva"
         irpf_total: "Total Irpf"
         discount_total: "Importe descuento"
+        SITReference: "Referencia SIT"
+
     with:
         general: "General"
         image: "Imagen"
