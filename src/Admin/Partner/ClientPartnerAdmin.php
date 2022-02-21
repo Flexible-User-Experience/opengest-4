@@ -76,13 +76,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             )
-            ->add(
-                'providerReference',
-                null,
-                [
-                    'label' => 'admin.label.provider_code',
-                ]
-            )
+//            ->add(
+//                'providerReference',
+//                null,
+//                [
+//                    'label' => 'admin.label.provider_code',
+//                ]
+//            )
             ->add(
                 'class',
                 EntityType::class,
