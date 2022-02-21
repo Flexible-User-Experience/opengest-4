@@ -5,7 +5,6 @@ namespace App\Controller\Admin\Sale;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
-use App\Manager\Pdf\SaleInvoicePdfManager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -41,7 +40,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
 
         return new Response($this->sipm->outputSingle($saleInvoices), 200, ['Content-type' => 'application/pdf']);
-
     }
 
     /**
@@ -154,6 +152,26 @@ class SaleInvoiceAdminController extends BaseAdminController
      * @throws ModelManagerException
      */
     public function preDelete(Request $request, $object): ?Response
+    {
+        return $this->generalPreDelete($object);
+    }
+
+    public function batchActionDelete(ProxyQueryInterface $query): Response
+    {
+        $saleInvoices = $query->execute();
+        /** @var SaleInvoice $saleInvoice */
+        foreach ($saleInvoices as $saleInvoice) {
+            $this->generalPreDelete($saleInvoice);
+        }
+
+        return parent::batchActionDelete($query);
+    }
+
+    /**
+     * @throws ModelManagerException
+     * @throws \Sonata\AdminBundle\Exception\ModelManagerThrowable
+     */
+    private function generalPreDelete(SaleInvoice $object): ?RedirectResponse
     {
         if ($object->isHasBeenCounted()) {
             $this->addFlash('warning', 'No se puede borrar una factura contablilizada');
