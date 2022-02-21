@@ -8,12 +8,13 @@
     <script type="text/javascript">
         jQuery(document).ready(function() {
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            var seriesNode = jQuery('#sonata-ba-field-container-{{ form.series.vars.id }}');
+            var invoiceNumberInput = jQuery('#{{ form.invoiceNumber.vars.id }}');
             var ulDeliveryNotesNode = jQuery('#{{ form.deliveryNotes.vars.id }}');
-            // var selectDeliveryNotesIcon = jQuery('#delivery-notes-icon');
+            let hasInvoiceNumberWaring = false;
 
             //on change Partner
             partnerNode.change(function(event) {
-                // selectDeliveryNotesIcon.removeClass('hidden');
                 var partnerId = jQuery(event.target).val();
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonDeliveryNotesById', {id: partnerId}), function() {
                 }).done(function (response) {
@@ -22,13 +23,22 @@
                 });
             });
 
-            {#//on load#}
-            {#{% if form.partner.vars.data is not null %}#}
-                {#jQuery.get(Routing.generate('admin_app_partner_partner_getJsonDeliveryNotesById', { id: {{ form.partner.vars.data.id }} }), function() {#}
-                {#}).done(function(response) {#}
-                    {#updateNodesInfo(response);#}
-                {#});#}
-            {#{% endif %}#}
+            seriesNode.change(function (event) {
+              var seriesId = jQuery(event.target).val();
+              jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
+              }).done(function (response) {
+                const nextInvoiceNumber = response.nextInvoiceNumber;
+                invoiceNumberInput.val(nextInvoiceNumber);
+                if (!hasInvoiceNumberWaring) {
+                  hasInvoiceNumberWaring = true;
+                  jQuery(`
+                          <p style="color:red" id="newinvoicenumberwarning">
+                              Nuevo número de factura propuesto
+                          </p>
+                      `).insertAfter(invoiceNumberInput);
+                }
+              });
+            });
 
             function updateNodesInfo(response) {
                 var deliveryNotes = jQuery.parseJSON(response);
@@ -36,10 +46,6 @@
                 console.log('{{ form.deliveryNotes.vars.id }}');
                 console.log('{{ form.vars.id }}[deliveryNotes][]');
                 ulDeliveryNotesNode.html(buildLiCheckboxNodes(deliveryNotes));
-
-                // selectDeliveryNotesNodeIcon.addClass('hidden');
-
-                // selectDeliveryNotesNode.val(deliveryNotes.XXXXXX);
             }
 
             function buildLiCheckboxNodes(deliveryNotes) {

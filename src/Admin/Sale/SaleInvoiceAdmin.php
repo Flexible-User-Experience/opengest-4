@@ -62,6 +62,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
             ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
+            ->add('getJsonNextInvoiceNumberForSeriesIdAndInvoice', $this->getRouterIdParameter().'/get-json-next-invoice-number-for-series-id-and-invoice')
             ->remove('show')
             ->remove('create')
         ;
