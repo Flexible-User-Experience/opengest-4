@@ -928,14 +928,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'Id',
                 ]
             )
-            ->add(
-                'saleRequest',
-                null,
-                [
-                    'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
-                    'label' => 'admin.label.sale_request',
-                ]
-            )
+//            ->add(
+//                'saleRequest',
+//                null,
+//                [
+//                    'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
+//                    'label' => 'admin.label.sale_request',
+//                ]
+//            )
             ->add(
                 'saleInvoice',
                 null,
