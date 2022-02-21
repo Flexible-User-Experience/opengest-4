@@ -322,14 +322,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'iban',
                 null,
                 [
-                    'label' => 'IBAN',
+                    'label' => 'IBAN Domiciliación',
                 ]
             )
             ->add(
                 'swift',
                 null,
                 [
-                    'label' => 'SWIFT',
+                    'label' => 'SWIFT Domiciliación',
                 ]
             )
 //            ->add(

@@ -165,7 +165,7 @@ admin:
         phone2: "Teléfono 2"
         reference: "Referencia proveedor"
         web_page: "Página web"
-        transfer_account: "Banco"
+        transfer_account: "Transferencia"
         care: "Cargo"
         enabled: "Activo"
         phone: "Teléfono"
@@ -198,6 +198,8 @@ admin:
         iva_total: "Total Iva"
         irpf_total: "Total Irpf"
         discount_total: "Importe descuento"
+        SITReference: "Referencia SIT"
+
     with:
         general: "General"
         image: "Imagen"
