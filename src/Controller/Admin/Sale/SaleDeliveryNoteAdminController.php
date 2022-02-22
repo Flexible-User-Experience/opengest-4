@@ -158,9 +158,30 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         }
         $saleInvoiceIds = [];
         foreach ($partnerIds as $partnerId) {
+            /** @var SaleDeliveryNote[] $partnerDeliveryNotes */
             $partnerDeliveryNotes = array_filter($deliveryNotes, function (SaleDeliveryNote $deliveryNote) use ($partnerId) {
                 return $deliveryNote->getPartner()->getId() === $partnerId;
             });
+            // Check if all deliveryNotes from partner have same collectionDocument and terms
+            $collectionDocument = $partnerDeliveryNotes[0]->getCollectionDocument();
+            $collectionTerm1 = $partnerDeliveryNotes[0]->getCollectionTerm();
+            $collectionTerm2 = $partnerDeliveryNotes[0]->getCollectionTerm2();
+            $collectionTerm3 = $partnerDeliveryNotes[0]->getCollectionTerm3();
+            foreach ($partnerDeliveryNotes as $partnerDeliveryNote) {
+                if (
+                    ($partnerDeliveryNote->getCollectionDocument() !== $collectionDocument)
+                    ||
+                    ($partnerDeliveryNote->getCollectionTerm() !== $collectionTerm1)
+                    ||
+                    ($partnerDeliveryNote->getCollectionTerm2() !== $collectionTerm2)
+                    ||
+                    ($partnerDeliveryNote->getCollectionTerm3() !== $collectionTerm3)
+                ) {
+                    $this->addFlash('warning', 'Los albaranes del cliente '.$partnerDeliveryNote->getPartner().' tienen que tener la misma forma y plazos de pago');
+
+                    return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+                }
+            }
             $saleInvoice = $this->generateSaleInvoiceFromPartnerSaleDeliveryNotes($partnerDeliveryNotes);
             $saleInvoiceIds[] = $saleInvoice->getInvoiceNumber();
         }
