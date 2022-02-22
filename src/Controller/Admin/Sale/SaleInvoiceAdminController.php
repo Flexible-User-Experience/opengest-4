@@ -3,10 +3,13 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Setting\SaleInvoiceSeries;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -192,5 +195,24 @@ class SaleInvoiceAdminController extends BaseAdminController
         }
 
         return null;
+    }
+
+    /**
+     * @return JsonResponse
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getJsonNextInvoiceNumberForSeriesIdAndInvoiceAction(Request $request, int $id)
+    {
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+        /** @var SaleInvoiceSeries $series */
+        $series = $this->admin->getModelManager()->find(SaleInvoiceSeries::class, $id);
+        if (!$series) {
+            throw $this->createNotFoundException(sprintf('unable to find the sale invoice series with id: %s', $id));
+        }
+        $nextInvoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($series, $enterprise);
+
+        return new JsonResponse(['nextInvoiceNumber' => $nextInvoiceNumber]);
     }
 }

@@ -125,6 +125,20 @@ class SaleDeliveryNote extends AbstractBase
     private $collectionTerm;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $collectionTerm2;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $collectionTerm3;
+
+    /**
      * @var CollectionDocumentType
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
@@ -411,17 +425,38 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return int
      */
-    public function getCollectionTerm()
+    public function getCollectionTerm(): ?int
     {
         return $this->collectionTerm;
     }
 
-    /**
-     * @param int $collectionTerm
-     */
-    public function setCollectionTerm($collectionTerm): SaleDeliveryNote
+    public function setCollectionTerm(?int $collectionTerm): SaleDeliveryNote
     {
         $this->collectionTerm = $collectionTerm;
+
+        return $this;
+    }
+
+    public function getCollectionTerm2(): ?int
+    {
+        return $this->collectionTerm2;
+    }
+
+    public function setCollectionTerm2(?int $collectionTerm2): SaleDeliveryNote
+    {
+        $this->collectionTerm2 = $collectionTerm2;
+
+        return $this;
+    }
+
+    public function getCollectionTerm3(): ?int
+    {
+        return $this->collectionTerm3;
+    }
+
+    public function setCollectionTerm3(?int $collectionTerm3): SaleDeliveryNote
+    {
+        $this->collectionTerm3 = $collectionTerm3;
 
         return $this;
     }
