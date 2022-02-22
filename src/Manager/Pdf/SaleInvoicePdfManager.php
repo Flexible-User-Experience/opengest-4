@@ -537,46 +537,32 @@ class SaleInvoicePdfManager
             $saleInvoice->getPartner()->getName(),
             0, 0, 'L', false);
         $pdf->Ln(8);
-        if (!$saleInvoice->getDeliveryAddress()) {
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getPartner()->getMainAddress(),
-                0, 0, 'L', false);
-            $pdf->Ln(5);
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getPartner()->getMainCity(),
-                0, 0, 'L', false);
-            $pdf->Ln(5);
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getPartner()->getMainCity()->getProvince(),
-                0, 0, 'L', false);
-            $pdf->Ln(5);
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getPartner()->getMainCity()->getProvince()->getCountryName(),
-                0, 0, 'L', false);
+        if ($saleInvoice->getDeliveryAddress()) {
+            if ($saleInvoice->getDeliveryAddress()->getAddress()) {
+                $pdf->setX($xDim);
+                $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getDeliveryAddress()->getAddress(),
+                    0, 0, 'L', false);
+                $pdf->Ln(5);
+                $pdf->setX($xDim);
+                $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getDeliveryAddress()->getCity(),
+                    0, 0, 'L', false);
+                $pdf->Ln(5);
+                $pdf->setX($xDim);
+                $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getDeliveryAddress()->getCity()->getProvince(),
+                    0, 0, 'L', false);
+                $pdf->Ln(5);
+                $pdf->setX($xDim);
+                $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getDeliveryAddress()->getCity()->getProvince()->getCountryName(),
+                    0, 0, 'L', false);
+            } else {
+                $this->printAddressFromPartner($pdf, $xDim, $saleInvoice);
+            }
         } else {
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getDeliveryAddress()->getAddress(),
-                0, 0, 'L', false);
-            $pdf->Ln(5);
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getDeliveryAddress()->getCity(),
-                0, 0, 'L', false);
-            $pdf->Ln(5);
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getDeliveryAddress()->getCity()->getProvince(),
-                0, 0, 'L', false);
-            $pdf->Ln(5);
-            $pdf->setX($xDim);
-            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getDeliveryAddress()->getCity()->getProvince()->getCountryName(),
-                0, 0, 'L', false);
+            $this->printAddressFromPartner($pdf, $xDim, $saleInvoice);
         }
         $this->pdfEngineService->setStyleSize('', 9);
 
@@ -609,6 +595,35 @@ class SaleInvoicePdfManager
         $pdf->setXY($xVar2, $yVarStart + $incrY * 2);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getDeliveryNotes()->first()->getOrder(),
+            0, 0, 'L', false);
+    }
+
+    /**
+     * @param TCPDF $pdf
+     * @param int $xDim
+     * @param SaleInvoice $saleInvoice
+     * @return void
+     */
+    private function printAddressFromPartner(TCPDF $pdf, int $xDim, SaleInvoice $saleInvoice): void
+    {
+        $pdf->setX($xDim);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleInvoice->getPartner()->getMainAddress(),
+            0, 0, 'L', false);
+        $pdf->Ln(5);
+        $pdf->setX($xDim);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleInvoice->getPartner()->getMainCity(),
+            0, 0, 'L', false);
+        $pdf->Ln(5);
+        $pdf->setX($xDim);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleInvoice->getPartner()->getMainCity()->getProvince(),
+            0, 0, 'L', false);
+        $pdf->Ln(5);
+        $pdf->setX($xDim);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $saleInvoice->getPartner()->getMainCity()->getProvince()->getCountryName(),
             0, 0, 'L', false);
     }
 }
