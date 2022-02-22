@@ -987,6 +987,19 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         $object->setDeliveryNoteReference($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
+        $partner = $object->getPartner();
+        if (!$object->getCollectionDocument()) {
+            $object->setCollectionDocument($partner->getCollectionDocumentType());
+        }
+        if (!$object->getCollectionTerm()) {
+            $object->setCollectionTerm($partner->getCollectionTerm1());
+        }
+        if (!$object->getCollectionTerm2()) {
+            $object->setCollectionTerm2($partner->getCollectionTerm2());
+        }
+        if (!$object->getCollectionTerm3()) {
+            $object->setCollectionTerm3($partner->getCollectionTerm3());
+        }
     }
 
     /**
