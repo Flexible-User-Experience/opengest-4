@@ -86,7 +86,7 @@ class SaleDeliveryNotePdfManager
 
         // today date
         $this->pdfEngineService->setStyleSize('', 18);
-        $pdf->SetXY(40,20);
+        $pdf->SetXY(50,20);
         $today = date('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $today,
@@ -95,12 +95,16 @@ class SaleDeliveryNotePdfManager
         // header
         //TODO add partner and from to info
         $this->pdfEngineService->setStyleSize('', 12);
-        $pdf->SetXY(40,40);
+        /** @var SaleDeliveryNote $lastSaleDeliveryNote */
+        $lastSaleDeliveryNote = $saleDeliveryNotes[count($saleDeliveryNotes) - 1];
+        /** @var SaleDeliveryNote $firstDeliveryNote */
+        $firstDeliveryNote = $saleDeliveryNotes[0];
+        $pdf->SetXY(50,30);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Listado de albaranes del cliente '.'X'.' desde '.'Y'.' hasta '.'Z',
+            'Listado de albaranes del cliente '.$lastSaleDeliveryNote->getPartner()->getName().
+            ' desde '.$lastSaleDeliveryNote->getDateToString().' hasta '.$firstDeliveryNote->getDateToString(),
             0, 0, 'L', false);
         $pdf->SetXY(40,45);
-        $this->drawHoritzontalLineSeparator($pdf,$width);
         //table headers
         $this->pdfEngineService->setStyleSize('', 8);
         $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT,50);
@@ -224,14 +228,107 @@ class SaleDeliveryNotePdfManager
     public function buildList($saleDeliveryNotes, TCPDF $pdf): TCPDF
     {
         // add start page
-        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);
+        // add start page
+        $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
+        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-        $width = 70;
-        $total = $width + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT;
-        $availableHoritzontalSpace = 149 - (ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT * 2);
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
 
-        // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        // get the current page break margin
+        $bMargin = $pdf->getBreakMargin();
+        // get current auto-page-break mode
+        $auto_page_break = $pdf->getAutoPageBreak();
+        // disable auto-page-break
+        $pdf->SetAutoPageBreak(false, 0);
+        // restore auto-page-break status
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        // set the starting point for the page content
+        $pdf->setPageMark();
+        // set cell padding
+        $pdf->setCellPaddings(1, 1, 1, 1);
+
+        //Heading with date and page number
+        $this->pdfEngineService->setStyleSize('', 10);
+        $today = date('d/m/Y');
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Listado de servicios - Grúas Romaní - '.$today,
+            1, 0, 'L', true);
+
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+            0, 0, 'R', true);
+        $pdf->Ln(10);
+
+                //Start table
+        $this->pdfEngineService->setStyleSize('b', 10);
+        $col1 = 50;
+        $col2 = 60;
+        $col3 = 55;
+        $col4 = 15;
+        $col6 = 35;
+        $col7 = 40;
+        $pdf->Cell($col1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Vehículo',
+            1, 0, 'L', true);
+        $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Cliente',
+            1, 0, 'C', true);
+        $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Lugar',
+            1, 0, 'C', true);
+        $pdf->Cell($col4, ConstantsEnum::PDF_CELL_HEIGHT,
+            'TM',
+            1, 0, 'C', true);
+        $pdf->Cell($col6, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Operario',
+            1, 0, 'C', true);
+        $pdf->Cell($col7, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Albaranes',
+            1, 0, 'C', true);
+
+        $pdf->Ln();
+        $this->pdfEngineService->setStyleSize('', 9);
+
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach($saleDeliveryNotes as $saleDeliveryNote){
+            //deliverynotes info
+            //VEhicle
+            $pdf->Cell($col1, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleDeliveryNote->getVehicle(),
+                1, 0, 'L', false,'',1);
+            //Cliente
+            $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleDeliveryNote->getPartner()->getName(),
+                1, 0, 'L', false,'',1);
+            //LUgar
+            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleDeliveryNote->getPlace(),
+                1, 0, 'L', false,'',1);
+            //TM
+            $pdf->Cell($col4, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleDeliveryNote->getSaleServiceTariff(),
+                1, 0, 'C', false,'',1);
+            //Operario
+            if($saleDeliveryNote->getOperator()){
+                $pdf->Cell($col6, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleDeliveryNote->getOperator()->getName(),
+                    1, 0, 'L', false,'',1);
+            } else {
+                $pdf->Cell($col6, ConstantsEnum::PDF_CELL_HEIGHT,
+                    '',
+                    1, 0, 'L', false,'',1);
+            }
+            //Albaran
+            $pdf->Cell($col7, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Alb. '.$saleDeliveryNote->getId().' '.
+                number_format($saleDeliveryNote->getFinalTotal(),2,',','.').'€',
+                1, 0, 'L', false,'',1);
+
+            $pdf->Ln();
+        }
+
+
+        return $pdf;
     }
 
     /**
