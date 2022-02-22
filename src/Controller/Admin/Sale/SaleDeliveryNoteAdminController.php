@@ -235,25 +235,26 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     private function createDueDatesFromSaleInvoice(SaleInvoice $saleInvoice)
     {
         $partner = $saleInvoice->getPartner();
+        /** @var SaleDeliveryNote $deliveryNote */
+        $deliveryNote = $saleInvoice->getDeliveryNotes()->first();
         $numberOfCollectionTerms = 1;
-        if ($partner->getCollectionTerm3() > 0) {
+        if ($deliveryNote->getCollectionTerm3() > 0) {
             $numberOfCollectionTerms = 3;
-        } elseif ($partner->getCollectionTerm2() > 0) {
+        } elseif ($deliveryNote->getCollectionTerm2() > 0) {
             $numberOfCollectionTerms = 2;
         }
         $amountSplit = $saleInvoice->getTotal() / $numberOfCollectionTerms;
-        $today = new DateTime();
         $payDay1 = $partner->getPayDay1() ? $partner->getPayDay1() : 0;
         $payDay2 = $partner->getPayDay2() ? $partner->getPayDay2() : 1;
         $payDay3 = $partner->getPayDay3() ? $partner->getPayDay3() : 1;
-        $collectionTerm1 = $partner->getCollectionTerm1() ? $partner->getCollectionTerm1() : 0;
+        $collectionTerm1 = $deliveryNote->getCollectionTerm() ? $deliveryNote->getCollectionTerm() : 0;
         $saleInvoiceDueDate1 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm1, $partner);
         $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate1);
-        $collectionTerm2 = $partner->getCollectionTerm2();
+        $collectionTerm2 = $deliveryNote->getCollectionTerm2();
         if ($collectionTerm2) {
             $saleInvoiceDueDate2 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm2, $partner);
             $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate2);
-            $collectionTerm3 = $partner->getCollectionTerm3();
+            $collectionTerm3 = $deliveryNote->getCollectionTerm3();
             if ($collectionTerm3) {
                 $saleInvoiceDueDate3 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm3, $partner);
                 $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate3);
