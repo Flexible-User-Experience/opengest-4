@@ -64,21 +64,27 @@ class SaleInvoicePdfManager
 
         // today date
         $this->pdfEngineService->setStyleSize('', 18);
-        $pdf->SetXY(40,20);
+        $pdf->SetXY(50,20);
         $today = date('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $today,
             0, 0, 'L', false);
         // header
         $this->pdfEngineService->setStyleSize('', 12);
-        $pdf->SetXY(40,40);
-        //TODO add from to date
+        $pdf->SetXY(50,30);
         /** @var SaleInvoice $oneSaleInvoice */
         $oneSaleInvoice =$saleInvoices[0];
+        /** @var SaleInvoice $lastSaleInvoice */
+        $lastSaleInvoice =$saleInvoices[count($saleInvoices)-1];
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             'Listado de facturas del cliente '.$oneSaleInvoice->getPartner(),
             0, 0, 'L', false);
-        $pdf->SetXY(40,45);
+        $pdf->SetXY(50,35);
+        $this->pdfEngineService->setStyleSize('', 11);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Desde '.$lastSaleInvoice->getDateFormatted().' hasta '.$oneSaleInvoice->getDateFormatted(),
+            0, 0, 'L', false);
+        $pdf->SetXY(50,43);
         $this->drawHoritzontalLineSeparator($pdf,$width);
         //table headers
         $this->pdfEngineService->setStyleSize('', 8);
@@ -119,11 +125,16 @@ class SaleInvoicePdfManager
                 $saleInvoice->getDateFormatted(),
                 1, 0, 'C', false);
             //TODO add obra and pedido to the pdf
+            /** @var DeliveryNote $deliveryNote */
+            foreach($saleInvoice->getDeliveryNotes() as $deliveryNote){
+                $buildingSite = $deliveryNote->getBuildingSite();
+                $order = $deliveryNote->getOrder();
+            }
             $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
-                'obra',
+                $buildingSite,
                 1, 0, 'L', false,'',1);
             $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
-                'pedido',
+                $order,
                 1, 0, 'L', false,'',1);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
                 number_format($saleInvoice->getBaseTotal(),2,',','.'),
