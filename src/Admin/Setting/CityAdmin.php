@@ -60,21 +60,21 @@ class CityAdmin extends AbstractBaseAdmin
                 'postalCode',
                 null,
                 [
-                    'label' => 'Codi postal',
+                    'label' => 'admin.label.postal_code',
                 ]
             )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'province',
                 null,
                 [
-                    'label' => 'Província',
+                    'label' => 'admin.label.province',
                     'required' => true,
                 ]
             )
@@ -84,7 +84,7 @@ class CityAdmin extends AbstractBaseAdmin
                 'enabled',
                 CheckboxType::class,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                     'required' => false,
                 ]
             )
@@ -99,28 +99,28 @@ class CityAdmin extends AbstractBaseAdmin
                 'postalCode',
                 null,
                 [
-                    'label' => 'Codi postal',
+                    'label' => 'admin.label.posta_code',
                 ]
             )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'province',
                 null,
                 [
-                    'label' => 'Província',
+                    'label' => 'admin.label.province',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                 ]
             )
         ;
@@ -133,7 +133,7 @@ class CityAdmin extends AbstractBaseAdmin
                 'postalCode',
                 null,
                 [
-                    'label' => 'Codi Postal',
+                    'label' => 'admin.label.postal_code',
                     'editable' => true,
                 ]
             )
@@ -141,7 +141,7 @@ class CityAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
@@ -149,7 +149,7 @@ class CityAdmin extends AbstractBaseAdmin
                 'province',
                 null,
                 [
-                    'label' => 'Província',
+                    'label' => 'admin.label.province',
                     'editable' => true,
                     'associated_property' => 'name',
                     'sortable' => true,
@@ -161,7 +161,7 @@ class CityAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                     'editable' => true,
                 ]
             )
@@ -173,7 +173,7 @@ class CityAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

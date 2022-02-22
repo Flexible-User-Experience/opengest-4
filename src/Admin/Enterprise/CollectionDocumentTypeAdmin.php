@@ -21,7 +21,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Tipus document cobrament';
+    protected $classnameLabel = 'Formas de pago';
 
     /**
      * @var string
@@ -47,7 +47,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'required' => true,
                 ]
             )
@@ -55,7 +55,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
                 'description',
                 null,
                 [
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                     'required' => false,
                 ]
             )
@@ -63,7 +63,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
                 'sitReference',
                 null,
                 [
-                    'label' => 'Referència SIT',
+                    'label' => 'admin.label.SITReference',
                     'required' => false,
                 ]
             )
@@ -74,25 +74,25 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            ->add(
-                'name',
-                null,
-                [
-                    'label' => 'Línia d\'activitat',
-                ]
-            )
+//            ->add(
+//                'name',
+//                null,
+//                [
+//                    'label' => 'Línia d\'activitat',
+//                ]
+//            )
             ->add(
                 'description',
                 null,
                 [
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                 ]
             )
             ->add(
                 'sitReference',
                 null,
                 [
-                    'label' => 'Referència SIT',
+                    'label' => 'admin.label.SITReference',
                 ]
             )
         ;
@@ -155,7 +155,7 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
-                    'label' => 'admin.label.actions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

@@ -61,14 +61,14 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'description',
                 CKEditorType::class,
                 [
-                    'label' => 'Descripció',
+                    'label' => 'admin.label.description',
                     'config_name' => 'my_config',
                     'required' => false,
                 ]
@@ -79,7 +79,7 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
                 'enabled',
                 CheckboxType::class,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                     'required' => false,
                 ]
             )
@@ -94,14 +94,14 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                 ]
             )
         ;
@@ -114,7 +114,7 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
@@ -122,7 +122,7 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                     'editable' => true,
                 ]
             )
@@ -134,7 +134,7 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;
