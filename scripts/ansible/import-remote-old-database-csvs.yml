@@ -5,174 +5,174 @@
     - "{{ playbook_dir }}/vars/config.yml"
   tasks:
     - name: execute province CSV import by partner primary address to local database
-      shell: "php bin/console --env=prod app:import:province var/csv/partners.csv 9 10"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:province var/csv/partners.csv 9 10"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute province CSV import by partner secondary address to local database
-      shell: "php bin/console --env=prod app:import:province var/csv/partners.csv 19 20"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:province var/csv/partners.csv 19 20"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute province CSV import by enterprise to local database
-      shell: "php bin/console --env=prod app:import:province var/csv/enterprises.csv 5 6"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:province var/csv/enterprises.csv 5 6"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute province CSV import by operator to local database
-      shell: "php bin/console --env=prod app:import:province var/csv/operators.csv 12 12"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:province var/csv/operators.csv 12 12"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute city CSV import by partner primary address to local database
-      shell: "php bin/console --env=prod app:import:city var/csv/partners.csv 8 6 9 10"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:city var/csv/partners.csv 8 6 9 10"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute city CSV import by partner secondary address to local database
-      shell: "php bin/console --env=prod app:import:city var/csv/partners.csv 18 17 19 20"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:city var/csv/partners.csv 18 17 19 20"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute city CSV import by enterprise to local database
-      shell: "php bin/console --env=prod app:import:city var/csv/enterprises.csv 4 7 5 6"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:city var/csv/enterprises.csv 4 7 5 6"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute city CSV import by operator to local database
-      shell: "php bin/console --env=prod app:import:city var/csv/operators.csv 11 10 12 12"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:city var/csv/operators.csv 11 10 12 12"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute enterprise CSV import to local database
-      shell: "php bin/console --env=prod app:import:enterprise var/csv/enterprises.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:enterprise var/csv/enterprises.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute enterprise activity lines CSV import to local database
-      shell: "php bin/console --env=prod app:import:enterprise:activity:line var/csv/enterprise_activity_lines.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:enterprise:activity:line var/csv/enterprise_activity_lines.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute enterprise collection document types CSV import to local database
-      shell: "php bin/console --env=prod app:import:enterprise:collection:document:type var/csv/enterprise_collection_document_types.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:enterprise:collection:document:type var/csv/enterprise_collection_document_types.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute enterprise group bountys CSV import to local database
-      shell: "php bin/console --env=prod app:import:enterprise:group:bounty var/csv/enterprise_group_bountys.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:enterprise:group:bounty var/csv/enterprise_group_bountys.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute enterprise holidays CSV import to local database
-      shell: "php bin/console --env=prod app:import:enterprise:holiday var/csv/enterprise_holidays.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:enterprise:holiday var/csv/enterprise_holidays.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute enterprise transfer accounts CSV import to local database
-      shell: "php bin/console --env=prod app:import:enterprise:transfer:account var/csv/enterprise_transfer_accounts.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:enterprise:transfer:account var/csv/enterprise_transfer_accounts.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute operator CSV import to local database
-      shell: "php bin/console --env=prod app:import:operator var/csv/operators.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:operator var/csv/operators.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute operator checking type CSV import to local database
-      shell: "php bin/console --env=prod app:import:operator:checking:type var/csv/operator_checking_types.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:operator:checking:type var/csv/operator_checking_types.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute operator checking CSV import to local database
-      shell: "php bin/console --env=prod app:import:operator:checking var/csv/operator_checkings.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:operator:checking var/csv/operator_checkings.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute operator absence type CSV import to local database
-      shell: "php bin/console --env=prod app:import:operator:absence:type var/csv/operator_absence_types.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:operator:absence:type var/csv/operator_absence_types.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute operator absence CSV import to local database
-      shell: "php bin/console --env=prod app:import:operator:absence var/csv/operator_absences.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:operator:absence var/csv/operator_absences.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute operator digital tachographs CSV import to local database
-      shell: "php bin/console --env=prod app:import:operator:digital:tachograph var/csv/operator_digital_tachographs.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:operator:digital:tachograph var/csv/operator_digital_tachographs.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute operator various amount CSV import to local database
-      shell: "php bin/console --env=prod app:import:operator:various:amount var/csv/operator_various_amounts.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:operator:various:amount var/csv/operator_various_amounts.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute partner class CSV import to local database
-      shell: "php bin/console --env=prod app:import:partner:class var/csv/partner_classes.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:class var/csv/partner_classes.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute partner type CSV import to local database
-      shell: "php bin/console --env=prod app:import:partner:type var/csv/partner_types.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:type var/csv/partner_types.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute partner CSV import to local database
-      shell: "php bin/console --env=prod app:import:partner var/csv/partners.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner var/csv/partners.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute partner contact CSV import to local database
-      shell: "php bin/console --env=prod app:import:partner:contact var/csv/partner_contacts.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:contact var/csv/partner_contacts.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute partner unable days CSV import to local database
-      shell: "php bin/console --env=prod app:import:partner:unable:days var/csv/partner_unabled_days.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:unable:days var/csv/partner_unabled_days.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute partner building site CSV import to local database
-      shell: "php bin/console --env=prod app:import:partner:building:site var/csv/partner_building_sites.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:building:site var/csv/partner_building_sites.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute partner order CSV import to local database
-      shell: "php bin/console --env=prod app:import:partner:order var/csv/partner_orders.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:order var/csv/partner_orders.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute setting sale invoice series CSV import to local database
-      shell: "php bin/console --env=prod app:import:setting:sale:invoice:series var/csv/setting_sale_invoice_series.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:setting:sale:invoice:series var/csv/setting_sale_invoice_series.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute sale tariff CSV import to local database
-      shell: "php bin/console --env=prod app:import:sale:tariff var/csv/sale_tariff.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:sale:tariff var/csv/sale_tariff.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute sale invoice CSV import to local database
-      shell: "php bin/console --env=prod app:import:sale:invoice var/csv/sale_invoice.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:sale:invoice var/csv/sale_invoice.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle CSV import to local database
-      shell: "php bin/console  app:import:vehicle var/csv/vehicle.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle var/csv/vehicle.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle maintenance task CSV import to local database
-      shell: "php bin/console  app:import:vehicle_maintenance_task var/csv/vehicle_maintenance_task.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle_maintenance_task var/csv/vehicle_maintenance_task.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle maintenance CSV import to local database
-      shell: "php bin/console  app:import:vehicle_maintenance var/csv/vehicle_maintenance.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle_maintenance var/csv/vehicle_maintenance.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle special permits CSV import to local database
-      shell: "php bin/console  app:import:vehicle_special_permit var/csv/vehicle_special_permit.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle_special_permit var/csv/vehicle_special_permit.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle digital tachograph CSV import to local database
-      shell: "php bin/console  app:import:vehicle_digital_tachograph var/csv/vehicle_digital_tachograph.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle_digital_tachograph var/csv/vehicle_digital_tachograph.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle checking types CSV import to local database
-      shell: "php bin/console  app:import:vehicle_checking:type var/csv/vehicle_checking_types.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle_checking:type var/csv/vehicle_checking_types.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle checkings CSV import to local database
-      shell: "php bin/console  app:import:vehicle_checking var/csv/vehicle_checkings.csv"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle_checking var/csv/vehicle_checkings.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute sale item create to local database
-      shell: "php bin/console --env=prod app:create:sale:items"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:create:sale:items"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute time ranges create to local database
-      shell: "php bin/console --env=prod app:create:time:ranges"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:create:time:ranges"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute payslip line concepts create to local database
-      shell: "php bin/console --env=prod app:create:payslip:line:concepts"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:create:payslip:line:concepts"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle fuel create to local database
-      shell: "php bin/console --env=prod app:create:vehicle:fuels"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:create:vehicle:fuels"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute set activity line to sale service tariffs
-      shell: "php bin/console --env=prod app:set:sale:tariff:activity_line"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:set:sale:tariff:activity_line"
       args:
         chdir: "{{ vhost_path }}/current/"

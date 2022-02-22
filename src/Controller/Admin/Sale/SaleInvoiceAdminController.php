@@ -3,11 +3,13 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
-use App\Manager\Pdf\SaleInvoicePdfManager;
+use App\Entity\Setting\SaleInvoiceSeries;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +43,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
 
         return new Response($this->sipm->outputSingle($saleInvoices), 200, ['Content-type' => 'application/pdf']);
-
     }
 
     /**
@@ -155,6 +156,26 @@ class SaleInvoiceAdminController extends BaseAdminController
      */
     public function preDelete(Request $request, $object): ?Response
     {
+        return $this->generalPreDelete($object);
+    }
+
+    public function batchActionDelete(ProxyQueryInterface $query): Response
+    {
+        $saleInvoices = $query->execute();
+        /** @var SaleInvoice $saleInvoice */
+        foreach ($saleInvoices as $saleInvoice) {
+            $this->generalPreDelete($saleInvoice);
+        }
+
+        return parent::batchActionDelete($query);
+    }
+
+    /**
+     * @throws ModelManagerException
+     * @throws \Sonata\AdminBundle\Exception\ModelManagerThrowable
+     */
+    private function generalPreDelete(SaleInvoice $object): ?RedirectResponse
+    {
         if ($object->isHasBeenCounted()) {
             $this->addFlash('warning', 'No se puede borrar una factura contablilizada');
 
@@ -174,5 +195,24 @@ class SaleInvoiceAdminController extends BaseAdminController
         }
 
         return null;
+    }
+
+    /**
+     * @return JsonResponse
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getJsonNextInvoiceNumberForSeriesIdAndInvoiceAction(Request $request, int $id)
+    {
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+        /** @var SaleInvoiceSeries $series */
+        $series = $this->admin->getModelManager()->find(SaleInvoiceSeries::class, $id);
+        if (!$series) {
+            throw $this->createNotFoundException(sprintf('unable to find the sale invoice series with id: %s', $id));
+        }
+        $nextInvoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($series, $enterprise);
+
+        return new JsonResponse(['nextInvoiceNumber' => $nextInvoiceNumber]);
     }
 }

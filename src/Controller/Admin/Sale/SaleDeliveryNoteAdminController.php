@@ -158,9 +158,30 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         }
         $saleInvoiceIds = [];
         foreach ($partnerIds as $partnerId) {
+            /** @var SaleDeliveryNote[] $partnerDeliveryNotes */
             $partnerDeliveryNotes = array_filter($deliveryNotes, function (SaleDeliveryNote $deliveryNote) use ($partnerId) {
                 return $deliveryNote->getPartner()->getId() === $partnerId;
             });
+            // Check if all deliveryNotes from partner have same collectionDocument and terms
+            $collectionDocument = $partnerDeliveryNotes[0]->getCollectionDocument();
+            $collectionTerm1 = $partnerDeliveryNotes[0]->getCollectionTerm();
+            $collectionTerm2 = $partnerDeliveryNotes[0]->getCollectionTerm2();
+            $collectionTerm3 = $partnerDeliveryNotes[0]->getCollectionTerm3();
+            foreach ($partnerDeliveryNotes as $partnerDeliveryNote) {
+                if (
+                    ($partnerDeliveryNote->getCollectionDocument() !== $collectionDocument)
+                    ||
+                    ($partnerDeliveryNote->getCollectionTerm() !== $collectionTerm1)
+                    ||
+                    ($partnerDeliveryNote->getCollectionTerm2() !== $collectionTerm2)
+                    ||
+                    ($partnerDeliveryNote->getCollectionTerm3() !== $collectionTerm3)
+                ) {
+                    $this->addFlash('warning', 'Los albaranes del cliente '.$partnerDeliveryNote->getPartner().' tienen que tener la misma forma y plazos de pago');
+
+                    return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+                }
+            }
             $saleInvoice = $this->generateSaleInvoiceFromPartnerSaleDeliveryNotes($partnerDeliveryNotes);
             $saleInvoiceIds[] = $saleInvoice->getInvoiceNumber();
         }
@@ -214,25 +235,26 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     private function createDueDatesFromSaleInvoice(SaleInvoice $saleInvoice)
     {
         $partner = $saleInvoice->getPartner();
+        /** @var SaleDeliveryNote $deliveryNote */
+        $deliveryNote = $saleInvoice->getDeliveryNotes()->first();
         $numberOfCollectionTerms = 1;
-        if ($partner->getCollectionTerm3() > 0) {
+        if ($deliveryNote->getCollectionTerm3() > 0) {
             $numberOfCollectionTerms = 3;
-        } elseif ($partner->getCollectionTerm2() > 0) {
+        } elseif ($deliveryNote->getCollectionTerm2() > 0) {
             $numberOfCollectionTerms = 2;
         }
         $amountSplit = $saleInvoice->getTotal() / $numberOfCollectionTerms;
-        $today = new DateTime();
         $payDay1 = $partner->getPayDay1() ? $partner->getPayDay1() : 0;
         $payDay2 = $partner->getPayDay2() ? $partner->getPayDay2() : 1;
         $payDay3 = $partner->getPayDay3() ? $partner->getPayDay3() : 1;
-        $collectionTerm1 = $partner->getCollectionTerm1() ? $partner->getCollectionTerm1() : 0;
+        $collectionTerm1 = $deliveryNote->getCollectionTerm() ? $deliveryNote->getCollectionTerm() : 0;
         $saleInvoiceDueDate1 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm1, $partner);
         $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate1);
-        $collectionTerm2 = $partner->getCollectionTerm2();
+        $collectionTerm2 = $deliveryNote->getCollectionTerm2();
         if ($collectionTerm2) {
             $saleInvoiceDueDate2 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm2, $partner);
             $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate2);
-            $collectionTerm3 = $partner->getCollectionTerm3();
+            $collectionTerm3 = $deliveryNote->getCollectionTerm3();
             if ($collectionTerm3) {
                 $saleInvoiceDueDate3 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm3, $partner);
                 $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate3);

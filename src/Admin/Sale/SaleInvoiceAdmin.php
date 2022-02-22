@@ -62,6 +62,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
             ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
+            ->add('getJsonNextInvoiceNumberForSeriesIdAndInvoice', $this->getRouterIdParameter().'/get-json-next-invoice-number-for-series-id-and-invoice')
             ->remove('show')
             ->remove('create')
         ;
@@ -515,10 +516,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     {
         /** @var SaleInvoice $originalObject */
         $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
-        if ($object->getInvoiceNumber() != $originalObject['invoiceNumber']) {
+        if (
+            ($object->getInvoiceNumber() != $originalObject['invoiceNumber'])
+            ||
+            ($object->getSeries() != $originalObject['series'])) {
             if (!$this->im->checkIfNumberIsAllowedBySerieAndEnterprise($object->getSeries(), $object->getPartner()->getEnterprise(), $object->getInvoiceNumber())) {
-                $this->getRequest()->getSession()->getFlashBag()->add('warning', 'No se ha modificado el numero de factura porque el '.$object->getInvoiceNumber().' no está permitido');
+                $this->getRequest()->getSession()->getFlashBag()->add('warning', 'No se ha modificado el numero y/o serie de factura porque el '.$object->getInvoiceNumber().' no está permitido');
                 $object->setInvoiceNumber($originalObject['invoiceNumber']);
+                $object->setSeries($originalObject['series']);
             }
         }
     }

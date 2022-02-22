@@ -33,6 +33,7 @@ abstract class BaseAdminController extends Controller
     protected WorkRegisterHeaderPdfManager $wrhpm;
 
     protected PayslipPdfManager $ppm;
+
     protected PayslipXmlManager $pxm;
 
     public function __construct(InvoiceManager $invoiceManager, SaleDeliveryNotePdfManager $sdnpm,

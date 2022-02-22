@@ -75,7 +75,7 @@ class InvoiceManager
         if ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) == $invoiceNumber) {
             $return = true;
         } else {
-            if (count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber])) > 1) {
+            if (count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber])) > 0) {
                 $return = false;
             } elseif ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) > $invoiceNumber) {
                 $return = true;

@@ -76,13 +76,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             )
-            ->add(
-                'providerReference',
-                null,
-                [
-                    'label' => 'admin.label.provider_code',
-                ]
-            )
+//            ->add(
+//                'providerReference',
+//                null,
+//                [
+//                    'label' => 'admin.label.provider_code',
+//                ]
+//            )
             ->add(
                 'class',
                 EntityType::class,
@@ -322,14 +322,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 'iban',
                 null,
                 [
-                    'label' => 'IBAN',
+                    'label' => 'IBAN Domiciliación',
                 ]
             )
             ->add(
                 'swift',
                 null,
                 [
-                    'label' => 'SWIFT',
+                    'label' => 'SWIFT Domiciliación',
                 ]
             )
 //            ->add(
@@ -466,6 +466,21 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             ->with('Pedidos', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'orders',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
+            ->with('Contratos', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'projects',
                 CollectionType::class,
                 [
                     'required' => false,

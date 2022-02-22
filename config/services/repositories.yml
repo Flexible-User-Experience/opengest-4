@@ -154,6 +154,11 @@ services:
         factory: [ '@doctrine', getRepository ]
         arguments:
             - App:Partner\PartnerOrder
+    app.partner_project_repository:
+        class: App\Repository\Partner\PartnerProjectRepository
+        factory: [ '@doctrine', getRepository ]
+        arguments:
+            - App:Partner\PartnerProject
     app.partner_contact_repository:
         class: App\Repository\Partner\PartnerContactRepository
         factory: [ '@doctrine', getRepository ]
@@ -278,6 +283,7 @@ services:
             - '@app.sale_tariff_repository'
             - '@app.partner_building_site_repository'
             - '@app.partner_order_repository'
+            - '@app.partner_project_repository'
             - '@app.collection_document_type_repository'
             - '@app.activity_line_repository'
             - '@app.sale_invoice_series_repository'

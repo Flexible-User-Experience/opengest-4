@@ -5,10 +5,10 @@
     - "{{ playbook_dir }}/vars/config.yml"
   tasks:
     - name: execute default create sale items to local database
-      shell: "php bin/console --env=prod app:create:sale:items"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:create:sale:items"
       args:
         chdir: "{{ vhost_path }}/current/"
     - name: execute default create time ranges to local database
-      shell: "php bin/console --env=prod app:create:time:ranges"
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:create:time:ranges"
       args:
         chdir: "{{ vhost_path }}/current/"

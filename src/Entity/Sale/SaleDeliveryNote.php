@@ -11,6 +11,7 @@ use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Partner\PartnerProject;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -95,6 +96,13 @@ class SaleDeliveryNote extends AbstractBase
     private $order;
 
     /**
+     * @var PartnerProject
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerProject", inversedBy="saleDeliveryNotes")
+     */
+    private $project;
+
+    /**
      * @var ?string
      *
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -123,6 +131,20 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\Column(type="integer", nullable=true)
      */
     private $collectionTerm;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $collectionTerm2;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $collectionTerm3;
 
     /**
      * @var CollectionDocumentType
@@ -357,6 +379,21 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
+    /**
+     * @return PartnerProject
+     */
+    public function getProject(): ?PartnerProject
+    {
+        return $this->project;
+    }
+
+    public function setProject(?PartnerProject $project): SaleDeliveryNote
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
     public function getDeliveryNoteReference(): ?string
     {
         return $this->deliveryNoteReference;
@@ -411,17 +448,38 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return int
      */
-    public function getCollectionTerm()
+    public function getCollectionTerm(): ?int
     {
         return $this->collectionTerm;
     }
 
-    /**
-     * @param int $collectionTerm
-     */
-    public function setCollectionTerm($collectionTerm): SaleDeliveryNote
+    public function setCollectionTerm(?int $collectionTerm): SaleDeliveryNote
     {
         $this->collectionTerm = $collectionTerm;
+
+        return $this;
+    }
+
+    public function getCollectionTerm2(): ?int
+    {
+        return $this->collectionTerm2;
+    }
+
+    public function setCollectionTerm2(?int $collectionTerm2): SaleDeliveryNote
+    {
+        $this->collectionTerm2 = $collectionTerm2;
+
+        return $this;
+    }
+
+    public function getCollectionTerm3(): ?int
+    {
+        return $this->collectionTerm3;
+    }
+
+    public function setCollectionTerm3(?int $collectionTerm3): SaleDeliveryNote
+    {
+        $this->collectionTerm3 = $collectionTerm3;
 
         return $this;
     }
