@@ -830,6 +830,34 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'collectionDocument',
+                null,
+                [
+                    'label' => 'admin.label.collection_document_type',
+                ]
+            )
+            ->add(
+                'collectionTerm',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                ]
+            )
+            ->add(
+                'collectionTerm2',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_2',
+                ]
+            )
+            ->add(
+                'collectionTerm3',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_3',
+                ]
+            )
+            ->add(
                 'wontBeInvoiced',
                 null,
                 [
@@ -885,14 +913,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'Id',
                 ]
             )
-//            ->add(
-//                'saleRequest',
-//                null,
-//                [
-//                    'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
-//                    'label' => 'admin.label.sale_request',
-//                ]
-//            )
             ->add(
                 'saleInvoice',
                 null,
@@ -954,6 +974,34 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'collectionDocument',
+                null,
+                [
+                    'label' => 'admin.label.collection_document_type',
+                ]
+            )
+            ->add(
+                'collectionTerm',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                ]
+            )
+            ->add(
+                'collectionTerm2',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_2',
+                ]
+            )
+            ->add(
+                'collectionTerm3',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_3',
+                ]
+            )
+            ->add(
                 'isInvoiced',
                 'boolean',
                 [
@@ -966,7 +1014,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'actions',
                 [
                     'actions' => [
-//                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_sale_delivery_note_button.html.twig'],
@@ -1011,9 +1058,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         /** @var SaleDeliveryNoteLine $deliveryNoteLine */
         foreach ($object->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
             $base = $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() * (1 - $deliveryNoteLine->getDiscount() / 100);
-//            $iva = $base * ($deliveryNoteLine->getIva() / 100);
-//            $irpf = $base * ($deliveryNoteLine->getIrpf() / 100);
-//            $deliveryNoteLine->setTotal($base + $iva - $irpf);
             $deliveryNoteLine->setTotal($base);
             $subtotal = $deliveryNoteLine->getTotal();
             $totalPrice = $totalPrice + $subtotal;
