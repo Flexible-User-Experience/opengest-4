@@ -277,7 +277,7 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Project", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerProject", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $projects;
 
