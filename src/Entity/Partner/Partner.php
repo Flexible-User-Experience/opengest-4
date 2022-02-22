@@ -1091,7 +1091,7 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    public function getProjects(): ArrayCollection
+    public function getProjects(): Collection
     {
         return $this->projects;
     }

@@ -8,6 +8,7 @@ use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Partner\PartnerProject;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleServiceTariff;
@@ -261,6 +262,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             'label' => 'admin.label.order',
                             'required' => false,
                             'query_builder' => $this->rm->getPartnerOrderRepository()
+                                ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
+                        ]
+                    )
+                    ->add(
+                        'project',
+                        EntityType::class,
+                        [
+                            'class' => PartnerProject::class,
+                            'label' => 'admin.label.project',
+                            'required' => false,
+                            'query_builder' => $this->rm->getPartnerProjectRepository()
                                 ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
                         ]
                     );

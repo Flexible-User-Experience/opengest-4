@@ -25,12 +25,12 @@ class PartnerProjectAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Proyectos de cliente';
+    protected $classnameLabel = 'Contratos de cliente';
 
     /**
      * @var string
      */
-    protected $baseRoutePattern = 'terceros/proyectos';
+    protected $baseRoutePattern = 'terceros/contratos';
 
     /**
      * Methods.

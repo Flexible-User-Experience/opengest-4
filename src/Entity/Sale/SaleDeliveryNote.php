@@ -387,7 +387,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this->project;
     }
 
-    public function setProject(?PartnerOrder $project): SaleDeliveryNote
+    public function setProject(?PartnerProject $project): SaleDeliveryNote
     {
         $this->project = $project;
 

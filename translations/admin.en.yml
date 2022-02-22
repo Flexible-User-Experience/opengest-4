@@ -198,6 +198,7 @@ admin:
         iva_total: "Total_Iva"
         irpf_total: "Total_Irpf"
         discount_total: "Importe descuento"
+        project: "Contrato"
     with:
         general: "General"
         image: "Imatge"
