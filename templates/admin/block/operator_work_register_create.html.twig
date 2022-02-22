@@ -432,7 +432,7 @@
                 createCellFromInfoAndAppendToRow(element.units, row);
                 createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
-                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.deliveryNoteReference || '-', row);
+                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.id || '-', row);
                 createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.vehicle?.name || '-', row);
                 var deleteButton = `
                     <div class="btn-group">
