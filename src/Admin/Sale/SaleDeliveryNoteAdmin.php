@@ -13,7 +13,6 @@ use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
@@ -1027,13 +1026,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 
     /**
      * @param SaleDeliveryNote $object
-     *
-     * @throws NonUniqueResultException
      */
     public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setDeliveryNoteReference($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
         $partner = $object->getPartner();
         if (!$object->getCollectionDocument()) {
             $object->setCollectionDocument($partner->getCollectionDocumentType());
