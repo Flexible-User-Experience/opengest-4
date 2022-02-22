@@ -8,12 +8,12 @@ use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Partner\PartnerProject;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
@@ -262,6 +262,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             'label' => 'admin.label.order',
                             'required' => false,
                             'query_builder' => $this->rm->getPartnerOrderRepository()
+                                ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
+                        ]
+                    )
+                    ->add(
+                        'project',
+                        EntityType::class,
+                        [
+                            'class' => PartnerProject::class,
+                            'label' => 'admin.label.project',
+                            'required' => false,
+                            'query_builder' => $this->rm->getPartnerProjectRepository()
                                 ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
                         ]
                     );
@@ -1027,13 +1038,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 
     /**
      * @param SaleDeliveryNote $object
-     *
-     * @throws NonUniqueResultException
      */
     public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setDeliveryNoteReference($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
         $partner = $object->getPartner();
         if (!$object->getCollectionDocument()) {
             $object->setCollectionDocument($partner->getCollectionDocumentType());

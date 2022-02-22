@@ -478,6 +478,21 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
+            ->with('Contratos', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'projects',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
             ->end()
             ->tab('Dias inhábiles')
             ->with('Dias inhábiles', $this->getFormMdSuccessBoxArray(6))

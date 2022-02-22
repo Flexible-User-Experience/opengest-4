@@ -11,6 +11,7 @@ use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Partner\PartnerProject;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -93,6 +94,13 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerOrder", inversedBy="saleDeliveryNotes")
      */
     private $order;
+
+    /**
+     * @var PartnerProject
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerProject", inversedBy="saleDeliveryNotes")
+     */
+    private $project;
 
     /**
      * @var ?string
@@ -367,6 +375,21 @@ class SaleDeliveryNote extends AbstractBase
     public function setOrder($order): SaleDeliveryNote
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * @return PartnerProject
+     */
+    public function getProject(): ?PartnerProject
+    {
+        return $this->project;
+    }
+
+    public function setProject(?PartnerProject $project): SaleDeliveryNote
+    {
+        $this->project = $project;
 
         return $this;
     }

@@ -22,6 +22,7 @@ use App\Repository\Partner\PartnerClassRepository;
 use App\Repository\Partner\PartnerContactRepository;
 use App\Repository\Partner\PartnerDeliveryAddressRepository;
 use App\Repository\Partner\PartnerOrderRepository;
+use App\Repository\Partner\PartnerProjectRepository;
 use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
@@ -124,6 +125,8 @@ class RepositoriesManager
 
     private PartnerOrderRepository $partnerOrderRepository;
 
+    private PartnerProjectRepository $partnerProjectRepository;
+
     private CollectionDocumentTypeRepository $collectionDocumentTypeRepository;
 
     private ActivityLineRepository $activityLineRepository;
@@ -193,6 +196,7 @@ class RepositoriesManager
         SaleTariffRepository $saleTariffRepository,
         PartnerBuildingSiteRepository $partnerBuildingSiteRepository,
         PartnerOrderRepository $partnerOrderRepository,
+        PartnerProjectRepository $partnerProjectRepository,
         CollectionDocumentTypeRepository $collectionDocumentTypeRepository,
         ActivityLineRepository $activityLineRepository,
         SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository,
@@ -240,6 +244,7 @@ class RepositoriesManager
         $this->saleTariffRepository = $saleTariffRepository;
         $this->partnerBuildingSiteRepository = $partnerBuildingSiteRepository;
         $this->partnerOrderRepository = $partnerOrderRepository;
+        $this->partnerProjectRepository = $partnerProjectRepository;
         $this->collectionDocumentTypeRepository = $collectionDocumentTypeRepository;
         $this->activityLineRepository = $activityLineRepository;
         $this->saleInvoiceSeriesRepository = $saleInvoiceSeriesRepository;
@@ -506,6 +511,14 @@ class RepositoriesManager
     public function getPartnerOrderRepository()
     {
         return $this->partnerOrderRepository;
+    }
+
+    /**
+     * @return PartnerProjectRepository
+     */
+    public function getPartnerProjectRepository()
+    {
+        return $this->partnerProjectRepository;
     }
 
     /**

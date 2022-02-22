@@ -277,6 +277,13 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerProject", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $projects;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $buildingSites;
@@ -397,6 +404,7 @@ class Partner extends AbstractBase
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->projects = new ArrayCollection();
         $this->buildingSites = new ArrayCollection();
         $this->contacts = new ArrayCollection();
         $this->partnerDeliveryAddresses = new ArrayCollection();
@@ -1078,6 +1086,48 @@ class Partner extends AbstractBase
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);
+        }
+
+        return $this;
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    /**
+     * @param ArrayCollection $projects
+     *
+     * @return $this
+     */
+    public function setProjects($projects): Partner
+    {
+        $this->projects = $projects;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addProject(PartnerProject $project): Partner
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setPartner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeProject(PartnerProject $project): Partner
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
         }
 
         return $this;
