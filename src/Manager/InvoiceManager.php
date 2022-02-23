@@ -40,6 +40,13 @@ class InvoiceManager
         return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : 1;
     }
 
+    public function getFirstInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise): int
+    {
+        $firstSaleInvoice = $this->saleInvoiceRepository->getFirstInvoiceBySerieAndEnterprise($serie, $enterprise);
+
+        return $firstSaleInvoice ? $firstSaleInvoice->getInvoiceNumber() : 0;
+    }
+
     public function calculateInvoiceImportsFromDeliveryNotes(SaleInvoice $saleInvoice, Collection $deliveryNotes)
     {
         $baseAmount = 0;
@@ -72,13 +79,15 @@ class InvoiceManager
     public function checkIfNumberIsAllowedBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise, $invoiceNumber): bool
     {
         $return = false;
-        if ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) == $invoiceNumber) {
-            $return = true;
-        } else {
-            if (count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber])) > 0) {
-                $return = false;
-            } elseif ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) > $invoiceNumber) {
+        if ($this->getFirstInvoiceNumberBySerieAndEnterprise($serie, $enterprise) < $invoiceNumber) {
+            if ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) == $invoiceNumber) {
                 $return = true;
+            } else {
+                if (count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber])) > 0) {
+                    $return = false;
+                } elseif ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) > $invoiceNumber) {
+                    $return = true;
+                }
             }
         }
 
