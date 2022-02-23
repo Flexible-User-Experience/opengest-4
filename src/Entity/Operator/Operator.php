@@ -1630,23 +1630,9 @@ class Operator extends AbstractBase
     {
         $date = new DateTime();
         $date->setDate($date->format('Y') * 1 - 1, 1, 1);
-        $operatorAbsences = $this->operatorAbsences->filter(function (OperatorAbsence $operatorAbsence) use ($date) {
-            if (null === $operatorAbsence->getBegin()) {
-                return false;
-            }
+        $criteria = Criteria::create()->where(Criteria::expr()->gt('begin', $date));
 
-            return $operatorAbsence->getEnd()->getTimestamp() > $date->getTimestamp();
-        });
-        $iterator = $operatorAbsences->getIterator();
-        $iterator->uasort(function (OperatorAbsence $a, OperatorAbsence $b) {
-            return ($a->getEnd() > $b->getEnd()) ? -1 : 1;
-        });
-
-        return new ArrayCollection(iterator_to_array($iterator));
-
-//        $criteria = Criteria::create()->where(Criteria::expr()->gt('begin', $date));
-
-//        return $this->operatorAbsences;//->matching($criteria);
+        return $this->operatorAbsences->matching($criteria);
     }
 
     /**

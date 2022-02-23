@@ -64,6 +64,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                         'class' => Operator::class,
                         'choice_label' => 'fullName',
                         'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        'placeholder' => '--- seleccione una opción ---',
                     ]
                 )
             ;
@@ -133,7 +134,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'operator',
                 null,
                 [
-                    'label' => 'Operari',
+                    'label' => 'admin.label.operator',
                 ]
             )
             ->add(
@@ -216,9 +217,10 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'operator',
-                null,
+                EntityType::class,
                 [
-                    'label' => 'Operari',
+                    'class' => Operator::class,
+                    'label' => 'admin.label.operator',
                     'editable' => false,
                     'associated_property' => 'fullName',
                     'sortable' => true,

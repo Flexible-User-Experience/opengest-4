@@ -200,6 +200,10 @@ admin:
         discount_total: "Importe descuento"
         SITReference: "Referencia SIT"
         project: "Contrato"
+        country: "País"
+        postal_code: "Código postal"
+        prefix: "Prefijo"
+        default_serie: "Série por defecto"
     with:
         general: "General"
         image: "Imagen"
