@@ -72,6 +72,32 @@ class SaleInvoiceRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function getFirstInvoiceBySerieAndEnterpriseQB(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): QueryBuilder
+    {
+        return $this->getFilteredByEnterpriseSortedByDateQB($enterprise)
+            ->andWhere('s.series = :serie')
+            ->setParameter('serie', $saleInvoiceSeries)
+            ->orderBy('s.invoiceNumber', 'ASC')
+            ->setMaxResults(1)
+        ;
+    }
+
+    public function getFirstInvoiceBySerieAndEnterpriseQ(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): Query
+    {
+        return $this->getFirstInvoiceBySerieAndEnterpriseQB($saleInvoiceSeries, $enterprise)->getQuery();
+    }
+
+    public function getFirstInvoiceBySerieAndEnterprise(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): ?SaleInvoice
+    {
+        try {
+            $result = $this->getFirstInvoiceBySerieAndEnterpriseQ($saleInvoiceSeries, $enterprise)->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $result = null;
+        }
+
+        return $result;
+    }
+
     public function getRecentFilteredByEnterpriseSortedByDateQB(Enterprise $enterprise): QueryBuilder
     {
         $date = strtotime('-1 years');
