@@ -9,6 +9,12 @@
     <script type="text/javascript">
         jQuery(document).ready(function() {
             {% if  admin.id(admin.subject) %}
+              const operatorAbsenceNode = jQuery('#sonata-ba-field-container-{{ form.operatorAbsences.vars.id }}');
+              jQuery(`
+                      <a class="btn btn-default" href="{{ path('admin_app_operator_operatorabsence_create') }}">
+                          Crear ausencia
+                      </a>
+                    `).insertAfter(operatorAbsenceNode);
                 {% for key, id in form.payslips.vars.data.values %}
                     let payslipLine{{ key }} = jQuery('#{{ form.payslips.vars.id }}_' + {{ key }} + '_totalAmount');
                     jQuery(`
