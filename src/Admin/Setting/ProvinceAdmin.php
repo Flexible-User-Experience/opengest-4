@@ -61,21 +61,21 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'code',
                 null,
                 [
-                    'label' => 'Codi',
+                    'label' => 'admin.label.code',
                 ]
             )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'country',
                 CountryType::class,
                 [
-                    'label' => 'Pais',
+                    'label' => 'admin.label.country',
                     'preferred_choices' => ['ES'],
                 ]
             )
@@ -85,7 +85,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'enabled',
                 CheckboxType::class,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.active',
                     'required' => false,
                 ]
             )
@@ -100,21 +100,21 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'code',
                 null,
                 [
-                    'label' => 'Codi',
+                    'label' => 'admin.label.code',
                 ]
             )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                 ]
             )
         ;
@@ -127,7 +127,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'code',
                 null,
                 [
-                    'label' => 'Codi',
+                    'label' => 'admin.label.code',
                     'editable' => true,
                 ]
             )
@@ -135,7 +135,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
@@ -143,7 +143,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'country',
                 null,
                 [
-                    'label' => 'Pais',
+                    'label' => 'admin.label.country',
                     'editable' => false,
                 ]
             )
@@ -151,7 +151,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'admin.label.enabled',
                     'editable' => true,
                 ]
             )
@@ -163,7 +163,7 @@ class ProvinceAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

@@ -85,18 +85,18 @@ class ActivityLineAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add(
-                'enterprise',
-                null,
-                [
-                    'label' => 'Empresa',
-                ]
-            )
+//            ->add(
+//                'enterprise',
+//                null,
+//                [
+//                    'label' => 'Empresa',
+//                ]
+//            )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Línia d\'activitat',
+                    'label' => 'admin.label.activity_line',
                     'editable' => true,
                 ]
             )
@@ -109,7 +109,7 @@ class ActivityLineAdmin extends AbstractBaseAdmin
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

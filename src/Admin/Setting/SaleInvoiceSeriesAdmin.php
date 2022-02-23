@@ -45,7 +45,7 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'required' => true,
                 ]
             )
@@ -53,7 +53,7 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                 'prefix',
                 null,
                 [
-                    'label' => 'Prefix',
+                    'label' => 'admin.label.prefix',
                     'required' => false,
                 ]
             )
@@ -61,7 +61,7 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                 'isDefault',
                 null,
                 [
-                    'label' => 'Sèrie per defecte',
+                    'label' => 'admin.label.default_serie',
                     'required' => false,
                 ]
             )
@@ -76,21 +76,21 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'prefix',
                 null,
                 [
-                    'label' => 'Prefix',
+                    'label' => 'admin.label.prefix',
                 ]
             )
             ->add(
                 'isDefault',
                 null,
                 [
-                    'label' => 'Sèrie per defecte',
+                    'label' => 'admin.label.default_serie',
                 ]
             )
         ;
@@ -103,7 +103,7 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
@@ -111,7 +111,7 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                 'prefix',
                 null,
                 [
-                    'label' => 'Prefix',
+                    'label' => 'admin.label.prefix',
                     'editable' => true,
                 ]
             )
@@ -119,7 +119,7 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                 'isDefault',
                 null,
                 [
-                    'label' => 'Sèrie per defecte',
+                    'label' => 'admin.label.default_serie',
                     'editable' => true,
                 ]
             )
@@ -132,7 +132,7 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;
