@@ -652,11 +652,13 @@ class SaleDeliveryNotePdfManager
 
         //Matrícula tractor
         $pdf->setXY($xDim+8, $yStart + $yInterval*6);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()->getChassisNumber()), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
 
         //Matrícula remolque
-        $pdf->setXY($xDim+85, $yStart + $yInterval*6);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
+        if ($saleDeliveryNote->getSecondaryVehicle()){
+            $pdf->setXY($xDim+85, $yStart + $yInterval*6);
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getSecondaryVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
+        }
 
         //Fecha impresión
         $pdf->setXY($xDim+36, 174);
