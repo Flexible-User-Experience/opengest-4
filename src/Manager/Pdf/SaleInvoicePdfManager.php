@@ -549,7 +549,7 @@ class SaleInvoicePdfManager
             0, 0, 'L', false);
         $pdf->Ln(8);
         if ($saleInvoice->getDeliveryAddress()) {
-            if ($saleInvoice->getDeliveryAddress()->getAddress()) {
+            if ($saleInvoice->getDeliveryAddress()->getAddress() != '') {
                 $pdf->setX($xDim);
                 $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleInvoice->getDeliveryAddress()->getAddress(),
@@ -604,9 +604,11 @@ class SaleInvoicePdfManager
             $saleInvoice->getPartner()->getProviderReference(),
             0, 0, 'L', false);
         $pdf->setXY($xVar2, $yVarStart + $incrY * 2);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getDeliveryNotes()->first()->getOrder(),
-            0, 0, 'L', false);
+        if($saleInvoice->getDeliveryNotes()->first()){
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getDeliveryNotes()->first()->getOrder(),
+                0, 0, 'L', false);
+        }
     }
 
     /**
