@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class SaleInvoiceDueDate extends AbstractBase
 {
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="saleInvoiceDueDates")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="saleInvoiceDueDates", cascade={"persist"})
      */
     private SaleInvoice $saleInvoice;
 

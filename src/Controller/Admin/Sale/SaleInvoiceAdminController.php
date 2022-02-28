@@ -6,7 +6,11 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Setting\SaleInvoiceSeries;
+use App\Repository\Setting\SaleInvoiceSeriesRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -108,6 +112,51 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return RedirectResponse|Response
      *
+     * @throws NonUniqueResultException
+     */
+    public function cloneAction(Request $request, EntityManagerInterface $em)
+    {
+        $request = $this->resolveRequest($request);
+        $id = $request->get($this->admin->getIdParameter());
+
+        /** @var SaleInvoice $saleInvoice */
+        $saleInvoice = $this->admin->getObject($id);
+        if (!$saleInvoice) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        /** @var SaleInvoiceSeriesRepository $collectionTypeRepository */
+        $saleInvoiceSeriesRepository = $em->getRepository(SaleInvoiceSeries::class);
+        /** @var SaleInvoiceSeries $collectionType */
+        $saleInvoiceSeries = $saleInvoiceSeriesRepository->findOneBy(['isDefault' => true]);
+        $deliveryNotes = $saleInvoice->getDeliveryNotes();
+        $clonedSaleInvoice = clone $saleInvoice;
+        $clonedSaleInvoice->setSeries($saleInvoiceSeries);
+        $deliveryNotes = $saleInvoice->getDeliveryNotes();
+        /** @var SaleDeliveryNote $deliveryNote */
+        foreach ($deliveryNotes as $deliveryNote) {
+            $deliveryNote->setSaleInvoice($clonedSaleInvoice);
+            $em->persist($deliveryNote);
+        }
+        $dueDates = $saleInvoice->getSaleInvoiceDueDates();
+        /** @var SaleInvoiceDueDate $dueDate */
+        foreach ($dueDates as $dueDate) {
+            $dueDate->setSaleInvoice($clonedSaleInvoice);
+            $em->persist($dueDate);
+        }
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+        $nextInvoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($saleInvoiceSeries, $enterprise);
+        $clonedSaleInvoice->setInvoiceNumber($nextInvoiceNumber);
+//        $em->clear(SaleInvoice::class);
+        $em->persist($clonedSaleInvoice);
+        $em->flush();
+
+        return $this->redirectToRoute('admin_app_sale_saleinvoice_edit', ['id' => $clonedSaleInvoice->getId()]);
+    }
+
+    /**
+     * @return RedirectResponse|Response
+     *
      * @throws ModelManagerException
      */
     public function setHasNotBeenCountedAction(Request $request)
@@ -200,7 +249,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return JsonResponse
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function getJsonNextInvoiceNumberForSeriesIdAndInvoiceAction(Request $request, int $id)
     {

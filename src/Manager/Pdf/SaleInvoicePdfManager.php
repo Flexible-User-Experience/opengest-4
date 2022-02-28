@@ -50,8 +50,6 @@ class SaleInvoicePdfManager
 
     /**
      * @param $saleInvoices
-     * @param TCPDF $pdf
-     * @return TCPDF
      */
     public function buildInvoiceList($saleInvoices, TCPDF $pdf): TCPDF
     {
@@ -64,31 +62,31 @@ class SaleInvoicePdfManager
 
         // today date
         $this->pdfEngineService->setStyleSize('', 18);
-        $pdf->SetXY(50,20);
+        $pdf->SetXY(50, 20);
         $today = date('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $today,
             0, 0, 'L', false);
         // header
         $this->pdfEngineService->setStyleSize('', 12);
-        $pdf->SetXY(50,30);
+        $pdf->SetXY(50, 30);
         /** @var SaleInvoice $oneSaleInvoice */
-        $oneSaleInvoice =$saleInvoices[0];
+        $oneSaleInvoice = $saleInvoices[0];
         /** @var SaleInvoice $lastSaleInvoice */
-        $lastSaleInvoice =$saleInvoices[count($saleInvoices)-1];
+        $lastSaleInvoice = $saleInvoices[count($saleInvoices) - 1];
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             'Listado de facturas del cliente '.$oneSaleInvoice->getPartner(),
             0, 0, 'L', false);
-        $pdf->SetXY(50,35);
+        $pdf->SetXY(50, 35);
         $this->pdfEngineService->setStyleSize('', 11);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             'Desde '.$lastSaleInvoice->getDateFormatted().' hasta '.$oneSaleInvoice->getDateFormatted(),
             0, 0, 'L', false);
-        $pdf->SetXY(50,43);
-        $this->drawHoritzontalLineSeparator($pdf,$width);
+        $pdf->SetXY(50, 43);
+        $this->drawHoritzontalLineSeparator($pdf, $width);
         //table headers
         $this->pdfEngineService->setStyleSize('', 8);
-        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT,50);
+        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 50);
         $colWidth1 = 32;
         $colWidth2 = 82;
         $colWidth3 = 48;
@@ -114,7 +112,7 @@ class SaleInvoicePdfManager
         $totalBases = 0;
         $totalTotal = 0;
         /** @var SaleInvoice $saleInvoice */
-        foreach($saleInvoices as $saleInvoice){
+        foreach ($saleInvoices as $saleInvoice) {
             $totalBases = $saleInvoice->getBaseTotal() + $totalBases;
             $totalTotal = $saleInvoice->getTotal() + $totalTotal;
             $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
@@ -126,21 +124,21 @@ class SaleInvoicePdfManager
                 1, 0, 'C', false);
             //TODO add obra and pedido to the pdf
             /** @var DeliveryNote $deliveryNote */
-            foreach($saleInvoice->getDeliveryNotes() as $deliveryNote){
+            foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
                 $buildingSite = $deliveryNote->getBuildingSite();
                 $order = $deliveryNote->getOrder();
             }
             $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $buildingSite,
-                1, 0, 'L', false,'',1);
+                1, 0, 'L', false, '', 1);
             $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
                 $order,
-                1, 0, 'L', false,'',1);
+                1, 0, 'L', false, '', 1);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                number_format($saleInvoice->getBaseTotal(),2,',','.'),
+                number_format($saleInvoice->getBaseTotal(), 2, ',', '.'),
                 1, 0, 'C', false);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                number_format($saleInvoice->getTotal(),2,',','.').'€',
+                number_format($saleInvoice->getTotal(), 2, ',', '.').'€',
                 1, 0, 'C', false);
             $pdf->Ln();
         }
@@ -153,15 +151,15 @@ class SaleInvoicePdfManager
             0, 0, 'C', false);
         $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
             '',
-            0, 0, 'L', false,'',1);
+            0, 0, 'L', false, '', 1);
         $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
             '',
-            0, 0, 'L', false,'',1);
+            0, 0, 'L', false, '', 1);
         $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            number_format($totalBases,2,',','.'),
+            number_format($totalBases, 2, ',', '.'),
             1, 0, 'C', false);
         $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            number_format($totalTotal,2,',','.').'€',
+            number_format($totalTotal, 2, ',', '.').'€',
             1, 0, 'C', false);
 
         return $pdf;
@@ -233,10 +231,10 @@ class SaleInvoicePdfManager
             $pdf->Cell($col2 - $col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getId(),
             0, 0, 'L', false);
-            if($deliveryNote->getDeliveryNoteReference()){
+            if ($deliveryNote->getDeliveryNoteReference()) {
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getDateToString().' - Referencia: '.$deliveryNote->getDeliveryNoteReference(),
-                0,  'L', false);
+                0, 'L', false);
             } else {
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                     $deliveryNote->getDateToString(),
@@ -249,7 +247,7 @@ class SaleInvoicePdfManager
 
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-                if($pdf->GetY() > 210) {
+                if ($pdf->GetY() > 210) {
                     $this->setParcialFooter($pdf, $saleInvoice);
                     $this->setNewPage($pdf, $withBackground);
                     $this->setHeading($pdf, $saleInvoice);
@@ -259,27 +257,27 @@ class SaleInvoicePdfManager
                 $pdf->SetAbsX($col2 + 5);
                 $pdf->setCellPaddings(1, 1, 5, 1);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                    substr($deliveryNoteLine->getSaleItem(),strpos($deliveryNoteLine->getSaleItem(),'-')+1).($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : ''),
-                0, 'L', false,0);
+                    substr($deliveryNoteLine->getSaleItem(), strpos($deliveryNoteLine->getSaleItem(), '-') + 1).($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : ''),
+                0, 'L', false, 0);
                 $pdf->setCellPaddings(1, 1, 1, 1);
                 $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
                     $deliveryNoteLine->getUnits(),
-                    0,  'C', false,0);
+                    0, 'C', false, 0);
                 $pdf->MultiCell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
-                    number_format($deliveryNoteLine->getPriceUnit(),2,',','.').' €/u',
-                    0,  'C', false,0);
-                if($deliveryNote->getDiscount()){
+                    number_format($deliveryNoteLine->getPriceUnit(), 2, ',', '.').' €/u',
+                    0, 'C', false, 0);
+                if ($deliveryNote->getDiscount()) {
                     $pdf->MultiCell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
                         $deliveryNoteLine->getDiscount().' %',
-                        0,  'C', false,0);
+                        0, 'C', false, 0);
                 } else {
                     $pdf->MultiCell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
                         '',
-                        0,  'C', false,0);
+                        0, 'C', false, 0);
                 }
                 $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
-                    number_format($deliveryNoteLine->getTotal(),2,',','.').' €',
-                    0,  'C', false);
+                    number_format($deliveryNoteLine->getTotal(), 2, ',', '.').' €',
+                    0, 'C', false);
                 $pdf->Ln(3);
             }
             $YDim = $pdf->GetY() + 5;
@@ -290,7 +288,6 @@ class SaleInvoicePdfManager
 
         return $pdf;
     }
-
 
     /**
      * @param int $availableHoritzontalSpace
@@ -303,9 +300,7 @@ class SaleInvoicePdfManager
     }
 
     /**
-     * @param TCPDF $pdf
      * @param $withBackground
-     * @return void
      */
     private function setNewPage(TCPDF $pdf, $withBackground): void
     {
@@ -336,14 +331,9 @@ class SaleInvoicePdfManager
         $pdf->setCellPaddings(1, 1, 1, 1);
     }
 
-    /**
-     * @param TCPDF $pdf
-     * @param SaleInvoice $saleInvoice
-     * @return void
-     */
     private function setFooter(TCPDF $pdf, SaleInvoice $saleInvoice): void
     {
-//Footer
+        //Footer
         //Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
 
@@ -378,20 +368,19 @@ class SaleInvoicePdfManager
             $saleInvoice->getPartner()->getMainCity()->getProvince()->getCountryName(),
             0, 0, 'L', false);
 
-
         //Forma de pago
         $xVar2 = 91;
         $pdf->setXY($xVar2, $yVarStart);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            ($saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : '') .
-            ($saleInvoice->getPartner()->getCollectionTerm1() ? ' a ' . $saleInvoice->getPartner()->getCollectionTerm1() . (
-                $saleInvoice->getPartner()->getCollectionTerm2() ? '+' . $saleInvoice->getPartner()->getCollectionTerm2() . (
-                    $saleInvoice->getPartner()->getCollectionTerm3() ? '+' . $saleInvoice->getPartner()->getCollectionTerm3() : ''
+            ($saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : '').
+            ($saleInvoice->getPartner()->getCollectionTerm1() ? ' a '.$saleInvoice->getPartner()->getCollectionTerm1().(
+                $saleInvoice->getPartner()->getCollectionTerm2() ? '+'.$saleInvoice->getPartner()->getCollectionTerm2().(
+                    $saleInvoice->getPartner()->getCollectionTerm3() ? '+'.$saleInvoice->getPartner()->getCollectionTerm3() : ''
                     ) : ''
-                ) . ' días' : ''),
+                ).' días' : ''),
             0, 0, 'L', false);
-        if($saleInvoice->getCollectionDocumentType()){
-            if(str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()),'transferencia')){
+        if ($saleInvoice->getCollectionDocumentType()) {
+            if (str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()), 'transferencia')) {
                 $pdf->Ln(5);
                 $pdf->setX($xVar2);
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -406,7 +395,7 @@ class SaleInvoicePdfManager
                     $saleInvoice->getPartner()->getTransferAccount()->getControlDigit().' '.
                     $saleInvoice->getPartner()->getTransferAccount()->getAccountNumber(),
                     0, 0, 'L', false);
-            } elseif (str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()),'recibo')) {
+            } elseif (str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()), 'recibo')) {
                 $pdf->Ln(5);
                 $pdf->setX($xVar2);
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -424,7 +413,7 @@ class SaleInvoicePdfManager
         foreach ($saleInvoice->getSaleInvoiceDueDates() as $dueDate) {
             if ($dueDate) {
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $dueDate . ' €',
+                    $dueDate.' €',
                     0, 0, 'L', false);
                 $pdf->Ln(3);
                 $pdf->setX($xVar2);
@@ -435,43 +424,39 @@ class SaleInvoicePdfManager
         $xVar3 = 156;
         $pdf->setXY($xVar3, $yVarStart - 3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Base imponible: ' . number_format($saleInvoice->getBaseTotal(), 2, ',', '.') . ' €',
+            'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'IVA 21%: ' . number_format($saleInvoice->getIva(), 2, ',', '.') . ' €',
+            'IVA 21%: '.number_format($saleInvoice->getIva(), 2, ',', '.').' €',
             0, 0, 'L', false);
         $pdf->Ln();
         if ($saleInvoice->getIrpf()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IRPF 15%: ' . number_format($saleInvoice->getIrpf(), 2, ',', '.') . ' €',
+                'IRPF 15%: '.number_format($saleInvoice->getIrpf(), 2, ',', '.').' €',
                 0, 0, 'L', false);
             $pdf->Ln();
         }
         $this->pdfEngineService->setStyleSize('b', 10);
         $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'TOTAL: ' . number_format($saleInvoice->getTotal(), 2, ',', '.') . ' €',
+            'TOTAL: '.number_format($saleInvoice->getTotal(), 2, ',', '.').' €',
             0, 0, 'L', false);
 
         //page number
         $this->pdfEngineService->setStyleSize('', 9);
         $pdf->setXY(40, 275);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage() . ' de ' . $pdf->getAliasNbPages(),
+            $pdf->getAliasNumPage().' de '.$pdf->getAliasNbPages(),
             0, 0, 'C', false);
         $pdf->Ln();
     }
-    /**
-     * @param TCPDF $pdf
-     * @param SaleInvoice $saleInvoice
-     * @return void
-     */
+
     private function setParcialFooter(TCPDF $pdf, SaleInvoice $saleInvoice): void
     {
-//Footer
+        //Footer
         //Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
         $xVar = 26;
@@ -505,42 +490,31 @@ class SaleInvoicePdfManager
         //Final amount
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 10);
         $xVar3 = 156;
-        $pdf->setXY($xVar3, $yVarStart+10);
+        $pdf->setXY($xVar3, $yVarStart + 10);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Suma y sigue',
             0, 0, 'L', false);
-
 
         //page number
         $this->pdfEngineService->setStyleSize('', 9);
         $pdf->setXY(40, 275);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage() . ' de ' . $pdf->getAliasNbPages(),
+            $pdf->getAliasNumPage().' de '.$pdf->getAliasNbPages(),
             0, 0, 'C', false);
         $pdf->Ln();
     }
 
-    /**
-     * @param TCPDF $pdf
-     * @return void
-     */
     private function writeDataTreatmentText(TCPDF $pdf): void
     {
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 8);
         $pdf->SetAbsX(20);
         $pdf->MultiCell(180, ConstantsEnum::PDF_CELL_HEIGHT,
-            'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.'
-            , 0, 'C', false);
+            'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.', 0, 'C', false);
     }
 
-    /**
-     * @param TCPDF $pdf
-     * @param SaleInvoice $saleInvoice
-     * @return void
-     */
     private function setHeading(TCPDF $pdf, SaleInvoice $saleInvoice): void
     {
-//Heading with sending address
+        //Heading with sending address
         $xDim = 32;
         $pdf->setXY($xDim, 55);
         $this->pdfEngineService->setStyleSize('b', 10);
@@ -549,7 +523,7 @@ class SaleInvoicePdfManager
             0, 0, 'L', false);
         $pdf->Ln(8);
         if ($saleInvoice->getDeliveryAddress()) {
-            if ($saleInvoice->getDeliveryAddress()->getAddress()) {
+            if (' ' !== $saleInvoice->getDeliveryAddress()->getAddress()) {
                 $pdf->setX($xDim);
                 $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleInvoice->getDeliveryAddress()->getAddress(),
@@ -577,7 +551,6 @@ class SaleInvoicePdfManager
         }
         $this->pdfEngineService->setStyleSize('', 9);
 
-
         //Heading with date, invoice number, etc.
         $xVar = 130;
         $xVar2 = 170;
@@ -604,17 +577,13 @@ class SaleInvoicePdfManager
             $saleInvoice->getPartner()->getProviderReference(),
             0, 0, 'L', false);
         $pdf->setXY($xVar2, $yVarStart + $incrY * 2);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getDeliveryNotes()->first()->getOrder(),
-            0, 0, 'L', false);
+        if ($saleInvoice->getDeliveryNotes()->first()) {
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getDeliveryNotes()->first()->getOrder(),
+                0, 0, 'L', false);
+        }
     }
 
-    /**
-     * @param TCPDF $pdf
-     * @param int $xDim
-     * @param SaleInvoice $saleInvoice
-     * @return void
-     */
     private function printAddressFromPartner(TCPDF $pdf, int $xDim, SaleInvoice $saleInvoice): void
     {
         $pdf->setX($xDim);

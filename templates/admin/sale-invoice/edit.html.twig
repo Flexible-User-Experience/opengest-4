@@ -185,4 +185,12 @@
     {% else %}
         {{ parent() }}
     {% endif %}
+    {% if form.vars.data.series.name is same as('PROFORMA') %}
+        <br>
+        <br>
+        <a href="{{ admin.generateUrl('clone', { 'id': object.id }) }}" class="btn btn-success" name="btn_update">
+            <i class="fas fa-clone" aria-hidden="true"></i>
+            Generar factura desde proforma
+        </a>
+    {% endif %}
 {% endblock %}
