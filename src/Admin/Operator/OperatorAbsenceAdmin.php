@@ -92,7 +92,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'Tipus absència',
+                    'label' => 'admin.with.operator_absence_type',
                     'required' => true,
                     'query_builder' => $this->rm->getOperatorAbsenceTypeRepository()->getEnabledSortedByNameQB(),
                 ]
@@ -101,7 +101,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'begin',
                 DatePickerType::class,
                 [
-                    'label' => 'Data inici',
+                    'label' => 'admin.label.start',
                     'format' => 'd/M/y',
                     'required' => true,
                 ]
@@ -110,7 +110,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'end',
                 DatePickerType::class,
                 [
-                    'label' => 'Data fi',
+                    'label' => 'admin.label.finish',
                     'format' => 'd/M/y',
                     'required' => true,
                 ]
@@ -141,14 +141,14 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'Tipus absència',
+                    'label' => 'admin.label.operator_absence_type',
                 ]
             )
             ->add(
                 'begin',
                 DateFilter::class,
                 [
-                    'label' => 'Data inici',
+                    'label' => 'admin.label.start',
                     'field_type' => DatePickerType::class,
                 ]
             )
@@ -156,7 +156,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'end',
                 DateFilter::class,
                 [
-                    'label' => 'Data fi',
+                    'label' => 'admin.label.finish',
                     'field_type' => DatePickerType::class,
                 ]
             )
@@ -185,7 +185,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'status',
                 null,
                 [
-                    'label' => 'Estat',
+                    'label' => 'admin.label.status',
                     'template' => 'admin/cells/list__cell_operator_absence_status.html.twig',
                 ]
             )
@@ -193,7 +193,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'begin',
                 'date',
                 [
-                    'label' => 'Data inici',
+                    'label' => 'admin.label.start',
                     'format' => 'd/m/Y',
                     'editable' => true,
                 ]
@@ -202,7 +202,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'end',
                 'date',
                 [
-                    'label' => 'Data fi',
+                    'label' => 'admin.label.finish',
                     'format' => 'd/m/Y',
                     'editable' => true,
                 ]
@@ -211,7 +211,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'operator.profilePhotoImage',
                 null,
                 [
-                    'label' => 'Imatge',
+                    'label' => 'admin.label.image',
                     'template' => 'admin/cells/list__cell_operator_profile_image_field.html.twig',
                 ]
             )
@@ -232,7 +232,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'Tipus absència',
+                    'label' => 'admin.with.operator_absence_type',
                     'editable' => true,
                     'associated_property' => 'name',
                     'sortable' => true,
@@ -248,7 +248,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

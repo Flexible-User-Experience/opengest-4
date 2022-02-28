@@ -15,6 +15,12 @@
                           Crear ausencia
                       </a>
                     `).insertAfter(operatorAbsenceNode);
+              const operatorCheckingNode = jQuery('#sonata-ba-field-container-{{ form.operatorCheckings.vars.id }}');
+              jQuery(`
+                      <a class="btn btn-default" href="{{ path('admin_app_operator_operatorchecking_create') }}">
+                          Crear revisión
+                      </a>
+                    `).insertAfter(operatorCheckingNode);
                 {% for key, id in form.payslips.vars.data.values %}
                     let payslipLine{{ key }} = jQuery('#{{ form.payslips.vars.id }}_' + {{ key }} + '_totalAmount');
                     jQuery(`
