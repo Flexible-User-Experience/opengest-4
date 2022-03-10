@@ -25,7 +25,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Revisions';
+    protected $classnameLabel = 'Revisiones';
 
     /**
      * @var string
@@ -65,11 +65,12 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                     'operator',
                     EntityType::class,
                     [
-                        'label' => 'Operari',
+                        'label' => 'admin.label.operator',
                         'required' => true,
                         'class' => Operator::class,
                         'choice_label' => 'fullName',
                         'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        'placeholder' => '--- seleccione una opción ---',
                     ]
                 )
             ;
@@ -80,7 +81,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                     'operator',
                     EntityType::class,
                     [
-                        'label' => 'Operari',
+                        'label' => 'admin.label.operator',
                         'required' => true,
                         'class' => Operator::class,
                         'choice_label' => 'fullName',
@@ -97,7 +98,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'Tipus revisió',
+                    'label' => 'admin.with.operator_checking_type',
                     'required' => true,
                     'query_builder' => $this->rm->getOperatorCheckingTypeRepository()->getEnabledSortedByNameQB(),
                 ]
@@ -106,7 +107,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'begin',
                 DatePickerType::class,
                 [
-                    'label' => 'Data d\'expedició',
+                    'label' => 'admin.label.expedition_date',
                     'format' => 'd/M/y',
                     'required' => true,
                 ]
@@ -115,7 +116,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'end',
                 DatePickerType::class,
                 [
-                    'label' => 'Data de caducitat',
+                    'label' => 'admin.label.expiry_date',
                     'format' => 'd/M/y',
                     'required' => true,
                 ]
@@ -131,21 +132,21 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'operator',
                 null,
                 [
-                    'label' => 'Operari',
+                    'label' => 'admin.label.operator',
                 ]
             )
             ->add(
                 'type',
                 null,
                 [
-                    'label' => 'Tipus revisó',
+                    'label' => 'admin.with.operator_checking_type',
                 ]
             )
             ->add(
                 'begin',
                 DateFilter::class,
                 [
-                    'label' => 'Data d\'expedició',
+                    'label' => 'admin.label.expedition_date',
                     'field_type' => DatePickerType::class,
                     'format' => 'd/m/Y',
                     'field_options' => [
@@ -158,7 +159,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'end',
                 DateFilter::class,
                 [
-                    'label' => 'Data caducitat',
+                    'label' => 'admin.label.expiry_date',
                     'field_type' => DatePickerType::class,
                     'format' => 'd/m/Y',
                     'field_options' => [
@@ -191,7 +192,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'status',
                 null,
                 [
-                    'label' => 'Estat',
+                    'label' => 'admin.label.status',
                     'template' => 'admin/cells/list__cell_operator_checking_status.html.twig',
                     'mapped' => false,
                 ]
@@ -200,7 +201,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'begin',
                 'date',
                 [
-                    'label' => 'Data d\'expedició',
+                    'label' => 'admin.label.expedition_date',
                     'format' => 'd/m/Y',
                     'editable' => true,
                 ]
@@ -209,7 +210,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'end',
                 'date',
                 [
-                    'label' => 'Data caducitat',
+                    'label' => 'admin.label.expiry_date',
                     'format' => 'd/m/Y',
                     'editable' => true,
                 ]
@@ -218,7 +219,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'operator.profilePhotoImage',
                 null,
                 [
-                    'label' => 'Imatge',
+                    'label' => 'admin.label.image',
                     'template' => 'admin/cells/list__cell_operator_profile_image_field.html.twig',
                 ]
             )
@@ -226,7 +227,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'operator',
                 null,
                 [
-                    'label' => 'Operari',
+                    'label' => 'admin.label.operator',
                     'editable' => false,
                     'associated_property' => 'fullName',
                     'sortable' => true,
@@ -238,7 +239,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'Tipus revisió',
+                    'label' => 'admin.with.operator_checking_type',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,

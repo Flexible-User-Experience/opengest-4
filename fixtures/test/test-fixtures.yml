@@ -139,7 +139,7 @@ App\Entity\Setting\Province:
   province{1..2}:
     code: <postcode()>
     name: <city()>
-    country: <country()>
+    country: 'ES'
     createdAt: <dateTimeBetween('-2 months', '-1 months')>
     updatedAt: <dateTimeThisMonth()>
     enabled: true

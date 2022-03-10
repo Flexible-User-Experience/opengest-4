@@ -215,6 +215,7 @@ admin:
         work: "Tarea"
         complement: "Accesorios"
         operator_checking_type: "Tipo de revisión"
+        operator_absence_type: "Tipo de ausencia"
         sale_tariff: "Tarifa"
         delivery_notes: "Albaranes"
         sale_invoice: "Factura"
