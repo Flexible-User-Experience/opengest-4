@@ -67,7 +67,7 @@ class PayslipXmlManager
             $totalTransactions = $totalTransactions + 1 ;
         }
         $company = $payslip->getOperator()->getEnterprise()->getName();
-        $NIFSuf = $payslip->getOperator()->getEnterprise()->getTaxIdentificationNumber().'SSS';
+        $NIFSuf = 'A43030287000';
         /** @var EnterpriseTransferAccount $eta */
         $eta = $payslip->getOperator()->getEnterprise()->getEnterpriseTransferAccounts()->filter(function (EnterpriseTransferAccount $eta) {
             return 'La Caixa' === $eta->getName();
