@@ -9,6 +9,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Setting\SaleInvoiceSeries;
+use App\Form\Type\GenerateSaleInvoicesFormType;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Repository\Sale\SaleInvoiceRepository;
 use DateTime;
@@ -81,16 +82,41 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
+    public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery, Request $request)
+    {
+        $this->admin->checkAccess('edit');
+        $form = $this->createForm(GenerateSaleInvoicesFormType::class);
+        $form->handleRequest($request);
+        /** @var SaleDeliveryNote[] $operators */
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+
+        return $this->renderWithExtraParams(
+            'admin/sale-delivery-note/invoiceGeneration.html.twig',
+            [
+                'generateInvoicesForm' => $form->createView(),
+            ]
+        );
+    }
+
     /**
      * @return Response|RedirectResponse
      */
-    public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery)
+    public function generateInvoicesAction(Request $request)
     {
-        $this->admin->checkAccess('edit');
-        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
+//        $this->admin->checkAccess('edit');
+//        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
+        $formData = $request->request->get('app_generate_sale_invoices');
+        /** @var SaleDeliveryNote $operators */
+        $selectedModels = $formData['saleDeliveryNotes'];
+        $saleDeliveryNotes = [];
+        $em = $this->getDoctrine()->getManager();
+        foreach ($selectedModels as $saleDeliveryNote) {
+            $saleDeliveryNotes[] = $em->getRepository(SaleDeliveryNote::class)->find($saleDeliveryNote);
+        }
         $saleDeliveryNotesWithSaleInvoice = [];
         /** @var SaleDeliveryNote $saleDeliveryNote */
-        foreach ($selectedModels as $saleDeliveryNote) {
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             if ($saleDeliveryNote->getSaleInvoice()) {
                 $saleDeliveryNotesWithSaleInvoice[] = $saleDeliveryNote->getId();
             }
@@ -100,7 +126,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         } else {
-            $return = $this->generateSaleInvoiceFromSaleDeliveryNotes($selectedModels);
+            $return = $this->generateSaleInvoiceFromSaleDeliveryNotes($saleDeliveryNotes);
         }
 
         return $return;
