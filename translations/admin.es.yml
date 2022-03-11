@@ -204,6 +204,7 @@ admin:
         postal_code: "Código postal"
         prefix: "Prefijo"
         default_serie: "Série por defecto"
+        payslip_total: "Total nómina"
     with:
         general: "General"
         image: "Imagen"

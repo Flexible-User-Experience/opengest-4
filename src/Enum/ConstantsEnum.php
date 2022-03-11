@@ -39,6 +39,7 @@ class ConstantsEnum
     public const PDF_PAGE_A4_WIDTH_LANDSCAPE = 266;
     public const PDF_PAGE_A4_HEIGHT_LANDSCAPE = 175;
     public const PDF_CELL_HEIGHT = 6;
+    public const PDF_CELL_HEIGHT_SM = 5;
     public const PDF_PAGE_A4_WIDTH_PORTRAIT = 175;
 
     /**
