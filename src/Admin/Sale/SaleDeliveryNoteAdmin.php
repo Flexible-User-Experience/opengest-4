@@ -706,6 +706,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             null,
                 [
                     'label' => 'Id',
+                    'show_filter' => true,
                 ]
             )
 //            ->add(
@@ -883,7 +884,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoiced',
-                    'show_filter' => true,
                 ]
             )
         ;
