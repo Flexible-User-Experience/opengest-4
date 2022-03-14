@@ -52,7 +52,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     {
         $collection
             ->add('batch')
-        ;
+            ->add('getJsonOperatorWorkRegisterTotalsByHourType', 'getJsonOperatorWorkRegisters');
     }
 
     /**

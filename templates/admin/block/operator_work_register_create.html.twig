@@ -184,6 +184,38 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Total
+                    </h4>
+                    <table class="table table-bordered table-hover sonata-ba-list">
+                        <tr>
+                            <td>Horas laborales</td>
+                            <td id="workingHoursTotal">0</td>
+                        </tr>
+                        <tr>
+                            <td>Horas normales</td>
+                            <td id="normalHoursTotal">0</td>
+                        </tr>
+                        <tr>
+                            <td>Horas extras</td>
+                            <td id="extraHoursTotal">0</td>
+                        </tr>
+                    </table>
+{#                    <div class="box-body">#}
+{#                        <p>Horas laborales:#}
+{#                            <p>#}
+{#                                <b>0</b>#}
+{#                            </p>#}
+{#                        </p>#}
+{#                        <p>Horas normales: <b>0</b></p>#}
+{#                        <p>Horas extras: <b>0</b></p>#}
+{#                    </div>#}
+                </div>
+            </div>
+        </div>
         <div class="col-md-9">
             <div class="box box-success">
                 <div class="box-header">
@@ -296,6 +328,9 @@
         var amount = jQuery('#sonata-ba-field-container-amount');
         var item = jQuery('#sonata-ba-field-container-item');
         var labelCheckFinishIsBeforeStart = jQuery('#label_warning_finish_before_start');
+        var workingHoursTotal = jQuery('#workingHoursTotal');
+        var normalHoursTotal = jQuery('#normalHoursTotal');
+        var extraHoursTotal = jQuery('#extraHoursTotal');
 
         var submitButton = jQuery('#btn_custom_submit');
 
@@ -451,6 +486,20 @@
                   customTable2.append(row);
                 }
               });
+            });
+
+            jQuery.get(Routing.generate(
+              'admin_app_operator_operatorworkregisterheader_getJsonOperatorWorkRegisterTotalsByHourType',
+              {
+                operatorId: operatorId,
+                date: date
+              }
+            ), function () {
+            }).done(function (response) {
+              console.log('response from owr grouped', response);
+              workingHoursTotal.text(response.workingHour);
+              normalHoursTotal.text(response.normalHour);
+              extraHoursTotal.text(response.extraHour);
             });
           } else {
             customTable.empty();
