@@ -469,16 +469,17 @@
                 createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.id || '-', row);
                 createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.vehicle?.name || '-', row);
-                var deleteButton = `
+                var deleteEditButton = `
                     <div class="btn-group">
+                       <a href="{{ path('admin_app_operator_operatorworkregister_edit', {'id': 'idOfElement'}) }}" class="btn btn-sm btn-default edit_link" title="Editar"><i class="fa fa-pencil"></i></a>
                        <a href="{{ path('admin_app_operator_operatorworkregister_customDelete', {'id': 'idOfElement'}) }}" class="btn btn-sm btn-default edit_link" title="Borrar"><i class="fa fa-trash"></i></a>
                     </div>
                 `
                 ;
-                deleteButton = deleteButton.replace('idOfElement', element.id);
+                deleteEditButton = deleteEditButton.replace('idOfElement', element.id);
                 var cell = document.createElement('td');
                 cell.classList.add('sonata-ba-list-field');
-                cell.innerHTML = deleteButton;
+                cell.innerHTML = deleteEditButton;
                 row.appendChild(cell);
                 if (element.start) {
                   customTable.append(row);
