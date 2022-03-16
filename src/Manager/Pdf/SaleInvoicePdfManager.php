@@ -245,10 +245,10 @@ class SaleInvoicePdfManager
                 $deliveryNote->getDateToString(),
                 0, 'L', false);
             if ($deliveryNote->getDeliveryNoteReference()) {
-                $pdf->setXY($col2, $YDim+3);
+                $pdf->setXY($col2, $YDim+4);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                     'Referencia: '.$deliveryNote->getDeliveryNoteReference(),
-                    0, 'L', false);
+                    0, 'L', false,2);
             }
             $pdf->SetAbsX($col2);
             $pdf->MultiCell($col3 - $col2,ConstantsEnum::PDF_CELL_HEIGHT,
