@@ -9,6 +9,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleServiceTariff;
@@ -211,7 +212,11 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             $queryBuilder = $datagrid->getQuery();
                             $queryBuilder
                                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
                                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                                ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
+                                ->setParameter('enabled', true)
                             ;
                             $datagrid->setValue($property, null, $value);
                         },
