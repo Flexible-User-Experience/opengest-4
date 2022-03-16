@@ -100,6 +100,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         'type' => $partnerType,
                         'class' => $partnerClass,
                         'transferAccount' => $enterpriseTransferAccount,
+                        'name' => $name,
                     ]);
                     if (!$partner) {
                         // new record
