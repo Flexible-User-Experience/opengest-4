@@ -5,6 +5,7 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Partner\PartnerDeliveryAddress;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
@@ -157,7 +158,11 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         $queryBuilder = $datagrid->getQuery();
                         $queryBuilder
                             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
                             ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                            ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
+                            ->setParameter('enabled', true)
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
