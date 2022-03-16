@@ -168,6 +168,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         null,
                         [
                             'label' => 'email',
+                            'required' => false,
                         ]
                     )
                     ->add(
@@ -175,7 +176,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         null,
                         [
                             'label' => 'address',
-                            'required' => true,
+                            'required' => false,
                         ]
                     )
                     ->add(
@@ -183,7 +184,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         null,
                         [
                             'label' => 'city',
-                            'required' => true,
+                            'required' => false,
                         ]
                     )
                     ->add(
@@ -191,7 +192,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         null,
                         [
                             'label' => 'enterpriseMobile',
-                            'required' => true,
+                            'required' => false,
                         ]
                     )
                     ->add(
@@ -199,7 +200,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         null,
                         [
                             'label' => 'ownPhone',
-                            'required' => true,
+                            'required' => false,
                         ]
                     )
                     ->add(
@@ -207,7 +208,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         null,
                         [
                             'label' => 'ownMobile',
-                            'required' => true,
+                            'required' => false,
                         ]
                     )
                 ->end()
@@ -267,7 +268,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         CheckboxType::class,
                         [
                             'label' => 'hasCarDrivingLicense',
-                            'required' => true,
+                            'required' => false,
                         ]
                     )
                     ->add(
@@ -275,7 +276,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         CheckboxType::class,
                         [
                             'label' => 'hasLorryDrivingLicense',
-                            'required' => true,
+                            'required' => false,
                         ]
                     )
                     ->add(
@@ -303,7 +304,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                             'class' => EnterpriseGroupBounty::class,
                             'label' => 'enterpriseGroupBounty',
                             'placeholder' => '--- seleccione una opcion ---',
-                            'required' => true,
+                            'required' => false,
                             'query_builder' => $this->rm->getEnterpriseGroupBountyRepository()->getEnabledSortedByNameQB(),
                         ]
                     )

@@ -307,7 +307,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 [
                     'class' => EnterpriseTransferAccount::class,
                     'label' => 'admin.label.transfer_account',
-                    'required' => true,
+                    'required' => false,
                     'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
