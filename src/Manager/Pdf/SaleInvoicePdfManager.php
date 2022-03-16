@@ -225,19 +225,29 @@ class SaleInvoicePdfManager
         $col5 = 160;
         $col6 = 168;
         $col7 = 194;
+        if ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite()){
+            $pdf->setXY($col2, $YDim);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 9);
+            $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                'OBRA: '.$saleInvoice->getDeliveryNotes()->first()->getBuildingSite(),
+                0, 'L', false);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+            $YDim = $YDim + 3;
+        }
+
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
             $pdf->setXY($col1, $YDim);
             $pdf->Cell($col2 - $col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getId(),
             0, 0, 'L', false);
-            if ($deliveryNote->getDeliveryNoteReference()) {
-                $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                $deliveryNote->getDateToString().' - Referencia: '.$deliveryNote->getDeliveryNoteReference(),
+            $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                $deliveryNote->getDateToString(),
                 0, 'L', false);
-            } else {
+            if ($deliveryNote->getDeliveryNoteReference()) {
+                $pdf->setXY($col2, $YDim+3);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNote->getDateToString(),
+                    'Referencia: '.$deliveryNote->getDeliveryNoteReference(),
                     0, 'L', false);
             }
             $pdf->SetAbsX($col2);
@@ -278,9 +288,9 @@ class SaleInvoicePdfManager
                 $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
                     number_format($deliveryNoteLine->getTotal(), 2, ',', '.').' €',
                     0, 'C', false);
-                $pdf->Ln(3);
+                $pdf->Ln();
             }
-            $YDim = $pdf->GetY() + 5;
+            $YDim = $pdf->GetY() + 3;
         }
         $this->writeDataTreatmentText($pdf);
 
