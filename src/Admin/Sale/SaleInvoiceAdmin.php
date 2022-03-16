@@ -172,6 +172,15 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'partner.cifNif',
+                null,
+                [
+                    'label' => 'CIF/NIF',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            )
+            ->add(
                 'discount',
                 null,
                 [
@@ -241,7 +250,42 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.collection_document_type',
                     'required' => false,
                 ]
-            )
+            );
+        if (str_contains('transferencia', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+            $formMapper
+                ->add(
+                    'partner.transferAccount.name',
+                    null,
+                    [
+                        'label' => 'admin.label.transference_bank',
+                        'required' => false,
+                        'disabled' => true
+                    ]
+                )
+            ;
+        } else if (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+            $formMapper
+                ->add(
+                    'partner.iban',
+                    null,
+                    [
+                        'label' => 'IBAN',
+                        'required' => false,
+                        'disabled' => true
+                    ]
+                )
+                ->add(
+                    'partner.swift',
+                    null,
+                    [
+                        'label' => 'SWIFT',
+                        'required' => false,
+                        'disabled' => true
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode

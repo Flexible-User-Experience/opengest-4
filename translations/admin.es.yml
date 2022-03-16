@@ -205,6 +205,9 @@ admin:
         prefix: "Prefijo"
         default_serie: "Série por defecto"
         payslip_total: "Total nómina"
+        commercial_name: "Nombre comercial"
+        transference_bank: "Banco transferencia"
+
     with:
         general: "General"
         image: "Imagen"
