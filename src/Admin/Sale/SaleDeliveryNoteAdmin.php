@@ -61,14 +61,15 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
      */
     protected function configureDefaultSortValues(array &$sortValues): void
     {
-        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
-        $sortValues[DatagridInterface::SORT_BY] = 'date';
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'partner.id';
     }
 
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
+            ->add('generateInvoices', 'generate-invoices')
         ;
     }
 
@@ -705,6 +706,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             null,
                 [
                     'label' => 'Id',
+                    'show_filter' => true,
                 ]
             )
 //            ->add(
@@ -730,6 +732,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             'format' => 'dd/MM/yyyy',
                         ],
                     ],
+                    'show_filter' => true,
                 ]
             )
             ->add(
@@ -742,6 +745,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'field_options' => [
                             'property' => 'name',
                         ],
+                    'show_filter' => true,
                 ]
             )
             ->add(
@@ -889,9 +893,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     {
         $queryBuilder = parent::configureQuery($query);
         $queryBuilder
-//            ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
             ->leftJoin($queryBuilder->getRootAliases()[0].'.partner', 'pa')
-//            ->orderBy('e.name', 'ASC')
+            ->orderBy($queryBuilder->getRootAliases()[0].'.date', 'DESC')
         ;
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
@@ -946,6 +949,9 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
+                    'sortable' => true,
+                    'sort_field_mapping' => ['fieldName' => 'id'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'partner']],
                 ]
             )
             ->add(

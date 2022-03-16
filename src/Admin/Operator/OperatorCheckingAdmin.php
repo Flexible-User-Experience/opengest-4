@@ -10,7 +10,9 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
@@ -157,15 +159,21 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'end',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.expiry_date',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
+                    'field_type' => DateRangePickerType::class,
                     'field_options' => [
-                            'widget' => 'single_text',
+                        'field_options_start' => [
+                            'label' => 'Desde',
                             'format' => 'dd/MM/yyyy',
                         ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
+                    'show_filter' => true,
                 ]
             )
         ;

@@ -46,7 +46,7 @@
 
                 function updatePriceAndQuantityDeliveryNoteLine(lineId, saleItemId) {
                     if (saleItemId < 4) {
-                        var hourPrice = {{ admin.subject.hourPrice }};
+                        var hourPrice = {{ admin.subject.hourPrice }} + 0;
                         var minimumHours = {{ admin.subject.miniumHours }} + 0;
                         var displacement = {{ admin.subject.displacement }} + 0;
                         var minimumHolidayHours = {{ admin.subject.miniumHolidayHours }} + 0;
