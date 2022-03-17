@@ -225,16 +225,17 @@ class SaleInvoicePdfManager
         $col5 = 160;
         $col6 = 168;
         $col7 = 194;
-        if ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite()){
-            $pdf->setXY($col2, $YDim);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 9);
-            $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                'OBRA: '.$saleInvoice->getDeliveryNotes()->first()->getBuildingSite(),
-                0, 'L', false);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-            $YDim = $YDim + 3;
+        if($saleInvoice->getDeliveryNotes()->first()){
+            if ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite()){
+                $pdf->setXY($col2, $YDim);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 9);
+                $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                    'OBRA: '.$saleInvoice->getDeliveryNotes()->first()->getBuildingSite(),
+                    0, 'L', false);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+                $YDim = $YDim + 3;
+            }
         }
-
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
             $pdf->setXY($col1, $YDim);
@@ -250,7 +251,7 @@ class SaleInvoicePdfManager
                     'Referencia: '.$deliveryNote->getDeliveryNoteReference(),
                     0, 'L', false,2);
             }
-            $pdf->SetAbsX($col2);
+            $pdf->SetXY($col2,$pdf->getY() -1);
             $pdf->MultiCell($col3 - $col2,ConstantsEnum::PDF_CELL_HEIGHT,
             $deliveryNote->getServiceDescription(),
                 0, 'L', false);
@@ -264,12 +265,13 @@ class SaleInvoicePdfManager
                     $YDim = 110;
                     $pdf->setXY($col1, $YDim);
                 }
-                $pdf->SetAbsX($col2 + 5);
-                $pdf->setCellPaddings(1, 1, 5, 1);
+//                $pdf->SetAbsX($col2 + 5);
+                $pdf->SetXY($col2 + 5,$pdf->getY() -1);
+                $pdf->setCellPaddings(1, 0, 1, 0);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                    substr($deliveryNoteLine->getSaleItem(), strpos($deliveryNoteLine->getSaleItem(), '-') + 1).($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : ''),
+                    substr($deliveryNoteLine->getSaleItem(), strpos($deliveryNoteLine->getSaleItem(), '-') + 1)/*.($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : '')*/,
                 0, 'L', false, 0);
-                $pdf->setCellPaddings(1, 1, 1, 1);
+//                $pdf->setCellPaddings(1, 0, 1, 0);
                 $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
                     $deliveryNoteLine->getUnits(),
                     0, 'C', false, 0);
@@ -282,16 +284,19 @@ class SaleInvoicePdfManager
                         0, 'C', false, 0);
                 } else {
                     $pdf->MultiCell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
-                        '',
-                        0, 'C', false, 0);
+                        '',0, 'C', false, 0);
                 }
                 $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
                     number_format($deliveryNoteLine->getTotal(), 2, ',', '.').' €',
                     0, 'C', false);
-                $pdf->Ln();
+//                $pdf->Ln();
             }
             $YDim = $pdf->GetY() + 3;
         }
+        if( $YDim < 110){
+            $YDim = 120;
+        }
+        $pdf->setXY($col1, $YDim);
         $this->writeDataTreatmentText($pdf);
 
         $this->setFooter($pdf, $saleInvoice);
@@ -528,16 +533,16 @@ class SaleInvoicePdfManager
         $xDim = 32;
         $pdf->setXY($xDim, 55);
         $this->pdfEngineService->setStyleSize('b', 10);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartner()->getName(),
-            0, 0, 'L', false);
+            0, 0, 'L', false,'',1);
         $pdf->Ln(8);
         if ($saleInvoice->getDeliveryAddress()) {
             if (' ' !== $saleInvoice->getDeliveryAddress()->getAddress()) {
                 $pdf->setX($xDim);
-                $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleInvoice->getDeliveryAddress()->getAddress(),
-                    0, 0, 'L', false);
+                    0, 0, 'L', false,'',1);
                 $pdf->Ln(5);
                 $pdf->setX($xDim);
                 $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -570,10 +575,17 @@ class SaleInvoicePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getDateFormatted(),
             0, 0, 'L', false);
-        $pdf->setXY($xVar2, $yVarStart);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getInvoiceNumber(),
-            0, 0, 'L', false);
+        if ($saleInvoice->getSeries()->getId() === 1){
+            $pdf->setXY($xVar2, $yVarStart);
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getInvoiceNumber(),
+                0, 0, 'L', false);
+        } else {
+            $pdf->setXY($xVar2-5, $yVarStart);
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getSeries()->getPrefix().$saleInvoice->getInvoiceNumber(),
+                0, 0, 'L', false);
+        }
         $pdf->setXY($xVar, $yVarStart + $incrY);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartner()->getCode(),
@@ -597,9 +609,9 @@ class SaleInvoicePdfManager
     private function printAddressFromPartner(TCPDF $pdf, int $xDim, SaleInvoice $saleInvoice): void
     {
         $pdf->setX($xDim);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartner()->getMainAddress(),
-            0, 0, 'L', false);
+            0, 0, 'L', false,'',1);
         $pdf->Ln(5);
         $pdf->setX($xDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,

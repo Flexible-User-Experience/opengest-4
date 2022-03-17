@@ -251,39 +251,41 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             );
-        if (str_contains('transferencia', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
-            $formMapper
-                ->add(
-                    'partner.transferAccount.name',
-                    null,
-                    [
-                        'label' => 'admin.label.transference_bank',
-                        'required' => false,
-                        'disabled' => true
-                    ]
-                )
-            ;
-        } else if (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
-            $formMapper
-                ->add(
-                    'partner.iban',
-                    null,
-                    [
-                        'label' => 'IBAN',
-                        'required' => false,
-                        'disabled' => true
-                    ]
-                )
-                ->add(
-                    'partner.swift',
-                    null,
-                    [
-                        'label' => 'SWIFT',
-                        'required' => false,
-                        'disabled' => true
-                    ]
-                )
-            ;
+        if ($this->getSubject()->getCollectionDocumentType()){
+            if (str_contains('transferencia', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+                $formMapper
+                    ->add(
+                        'partner.transferAccount.name',
+                        null,
+                        [
+                            'label' => 'admin.label.transference_bank',
+                            'required' => false,
+                            'disabled' => true
+                        ]
+                    )
+                ;
+            } else if (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+                $formMapper
+                    ->add(
+                        'partner.iban',
+                        null,
+                        [
+                            'label' => 'IBAN',
+                            'required' => false,
+                            'disabled' => true
+                        ]
+                    )
+                    ->add(
+                        'partner.swift',
+                        null,
+                        [
+                            'label' => 'SWIFT',
+                            'required' => false,
+                            'disabled' => true
+                        ]
+                    )
+                ;
+            }
         }
         $formMapper
             ->end()
