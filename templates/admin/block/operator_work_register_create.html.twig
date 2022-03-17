@@ -476,7 +476,8 @@
                     </div>
                 `
                 ;
-                deleteEditButton = deleteEditButton.replace('idOfElement', element.id);
+                deleteEditButton = deleteEditButton.replace('idOfElement', element.id).replace('idOfElement', element.id);
+                console.log('deleteEditButton', deleteEditButton);
                 var cell = document.createElement('td');
                 cell.classList.add('sonata-ba-list-field');
                 cell.innerHTML = deleteEditButton;

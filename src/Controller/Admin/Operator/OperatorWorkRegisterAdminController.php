@@ -258,6 +258,8 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         } catch (ModelManagerException $e) {
             $this->addFlash('warning', 'No se ha podido crear la cabecera del parte de trabajo. Error: '.$e->getMessage());
         }
+        // Round to nearest fraction of 0.25
+        $units = floor($units) + round(($units - floor($units)) * 60 / 15) * 0.25;
         $operatorWorkRegister = new OperatorWorkRegister();
         $operatorWorkRegister->setOperatorWorkRegisterHeader($operatorWorkRegisterHeader);
         $operatorWorkRegister->setDescription($description);
