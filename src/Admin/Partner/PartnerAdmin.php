@@ -105,7 +105,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 [
                     'class' => EnterpriseTransferAccount::class,
                     'label' => 'Cuenta bancaria',
-                    'required' => true,
+                    'required' => false,
                     'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )

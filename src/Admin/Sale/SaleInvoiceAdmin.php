@@ -5,6 +5,7 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Partner\PartnerDeliveryAddress;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
@@ -157,13 +158,26 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         $queryBuilder = $datagrid->getQuery();
                         $queryBuilder
                             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
                             ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                            ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
+                            ->setParameter('enabled', true)
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
                 ],
                 [
                     'admin_code' => 'app.admin.partner',
+                ]
+            )
+            ->add(
+                'partner.cifNif',
+                null,
+                [
+                    'label' => 'CIF/NIF',
+                    'required' => false,
+                    'disabled' => true,
                 ]
             )
             ->add(
@@ -236,7 +250,44 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.collection_document_type',
                     'required' => false,
                 ]
-            )
+            );
+        if ($this->getSubject()->getCollectionDocumentType()){
+            if (str_contains('transferencia', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+                $formMapper
+                    ->add(
+                        'partner.transferAccount.name',
+                        null,
+                        [
+                            'label' => 'admin.label.transference_bank',
+                            'required' => false,
+                            'disabled' => true
+                        ]
+                    )
+                ;
+            } else if (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+                $formMapper
+                    ->add(
+                        'partner.iban',
+                        null,
+                        [
+                            'label' => 'IBAN',
+                            'required' => false,
+                            'disabled' => true
+                        ]
+                    )
+                    ->add(
+                        'partner.swift',
+                        null,
+                        [
+                            'label' => 'SWIFT',
+                            'required' => false,
+                            'disabled' => true
+                        ]
+                    )
+                ;
+            }
+        }
+        $formMapper
             ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode

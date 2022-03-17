@@ -152,7 +152,12 @@ class SaleRequestAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_salerequest_list'));
         } else {
-            foreach ($selectedModels as $saleRequest) {
+            /** @var SaleRequest[] $saleRequests */
+            $saleRequests = $selectedModels->getQuery()->getResult();
+            usort($saleRequests, function (SaleRequest $a, SaleRequest $b) {
+                return $a->getServiceDate()->getTimestamp() > $b->getServiceDate()->getTimestamp();
+            });
+            foreach ($saleRequests as $saleRequest) {
                 if (!$saleRequest->getOperator() || !$saleRequest->getVehicle()) {
                     $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' tiene que tener vehiculo y operario asignado para generar el albarán.');
                 } else {

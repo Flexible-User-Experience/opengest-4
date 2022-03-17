@@ -40,6 +40,7 @@ class PartnerOrderRepository extends ServiceEntityRepository
         return $this->getEnabledSortedByNumberQB()
             ->andWhere('p.partner = :partner')
             ->setParameter('partner', $partner)
+            ->orderBy('p.number')
             ;
     }
 }

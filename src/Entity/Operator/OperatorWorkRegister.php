@@ -206,6 +206,6 @@ class OperatorWorkRegister extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getOperatorWorkRegisterHeader()->getDate()->format('d/m/Y').' · '.$this->getDescription() : '---';
+        return $this->id ? $this->getOperatorWorkRegisterHeader()->getOperator().' · '.$this->getOperatorWorkRegisterHeader()->getDate()->format('d/m/Y').' · '.$this->getDescription() : '---';
     }
 }

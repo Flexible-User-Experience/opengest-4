@@ -199,6 +199,10 @@ admin:
         irpf_total: "Total_Irpf"
         discount_total: "Importe descuento"
         project: "Contrato"
+        payslip_total: "Total nómina"
+        commercial_name: "Nombre comercial"
+        transference_bank: "Banco transferencia"
+
     with:
         general: "General"
         image: "Imatge"

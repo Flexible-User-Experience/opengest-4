@@ -76,13 +76,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             )
-//            ->add(
-//                'providerReference',
-//                null,
-//                [
-//                    'label' => 'admin.label.provider_code',
-//                ]
-//            )
+            ->add(
+                'reference',
+                null,
+                [
+                    'label' => 'admin.label.commercial_name',
+                    'required' => false,
+                ]
+            )
             ->add(
                 'class',
                 EntityType::class,
@@ -208,7 +209,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             ->end()
             ->with('Otros datos', $this->getFormMdSuccessBoxArray(4))
             ->add(
-                'reference',
+                'providerReference',
                 null,
                 [
                     'label' => 'admin.label.reference',
@@ -307,7 +308,8 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 [
                     'class' => EnterpriseTransferAccount::class,
                     'label' => 'admin.label.transfer_account',
-                    'required' => true,
+                    'placeholder' => '---selecciona una opción---',
+                    'required' => false,
                     'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
@@ -553,6 +555,20 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.name',
+                ]
+            )
+            ->add(
+                'providerReference',
+                null,
+                [
+                    'label' => 'admin.label.reference',
+                ]
+            )
+            ->add(
+                'reference',
+                null,
+                [
+                    'label' => 'admin.label.commercial_name',
                 ]
             )
             ->add(

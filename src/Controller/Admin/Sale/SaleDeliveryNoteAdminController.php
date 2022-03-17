@@ -9,8 +9,10 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Setting\SaleInvoiceSeries;
+use App\Form\Type\GenerateSaleInvoicesFormType;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Repository\Sale\SaleInvoiceRepository;
+use App\Repository\Setting\SaleInvoiceSeriesRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -81,16 +83,45 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
+    public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery, Request $request)
+    {
+        $this->admin->checkAccess('edit');
+        $form = $this->createForm(GenerateSaleInvoicesFormType::class);
+        $form->handleRequest($request);
+        /** @var SaleDeliveryNote[] $operators */
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+
+        return $this->renderWithExtraParams(
+            'admin/sale-delivery-note/invoiceGeneration.html.twig',
+            [
+                'generateInvoicesForm' => $form->createView(),
+            ]
+        );
+    }
+
     /**
      * @return Response|RedirectResponse
      */
-    public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery)
+    public function generateInvoicesAction(Request $request)
     {
-        $this->admin->checkAccess('edit');
-        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
+//        $this->admin->checkAccess('edit');
+//        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
+        $formData = $request->request->get('app_generate_sale_invoices');
+        /** @var SaleDeliveryNote $operators */
+        $selectedModels = $formData['saleDeliveryNotes'];
+        $date = DateTime::createFromFormat('d/m/Y', $formData['date']);
+        /** @var SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository */
+        $saleInvoiceSeriesRepository = $this->container->get('doctrine')->getRepository(SaleInvoiceSeries::class);
+        $saleInvoiceSeries = $saleInvoiceSeriesRepository->find($formData['series']);
+        $saleDeliveryNotes = [];
+        $em = $this->getDoctrine()->getManager();
+        foreach ($selectedModels as $saleDeliveryNote) {
+            $saleDeliveryNotes[] = $em->getRepository(SaleDeliveryNote::class)->find($saleDeliveryNote);
+        }
         $saleDeliveryNotesWithSaleInvoice = [];
         /** @var SaleDeliveryNote $saleDeliveryNote */
-        foreach ($selectedModels as $saleDeliveryNote) {
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             if ($saleDeliveryNote->getSaleInvoice()) {
                 $saleDeliveryNotesWithSaleInvoice[] = $saleDeliveryNote->getId();
             }
@@ -100,7 +131,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         } else {
-            $return = $this->generateSaleInvoiceFromSaleDeliveryNotes($selectedModels);
+            $return = $this->generateSaleInvoiceFromSaleDeliveryNotes($saleDeliveryNotes, $date, $saleInvoiceSeries);
         }
 
         return $return;
@@ -142,7 +173,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($this->sdnpm->outputCollectionDriverMail($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
-    private function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes)
+    private function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes, $date, SaleInvoiceSeries $saleInvoiceSeries)
     {
         $partnerIds = [];
         /** @var SaleDeliveryNote $deliveryNote */
@@ -182,7 +213,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
                     return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
                 }
             }
-            $saleInvoice = $this->generateSaleInvoiceFromPartnerSaleDeliveryNotes($partnerDeliveryNotes);
+            $saleInvoice = $this->generateSaleInvoiceFromPartnerSaleDeliveryNotes($partnerDeliveryNotes, $date, $saleInvoiceSeries);
             $saleInvoiceIds[] = $saleInvoice->getInvoiceNumber();
         }
         $this->addFlash('success', 'Factura/s con numero '.implode(', ', $saleInvoiceIds).' creada/s.');
@@ -190,17 +221,14 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new RedirectResponse($this->generateUrl('admin_app_sale_saleinvoice_list'));
     }
 
-    private function generateSaleInvoiceFromPartnerSaleDeliveryNotes($deliveryNotes)
+    private function generateSaleInvoiceFromPartnerSaleDeliveryNotes($deliveryNotes, $date, SaleInvoiceSeries $saleInvoiceSeries)
     {
         $saleInvoice = new SaleInvoice();
         $deliveryNotes = new ArrayCollection($deliveryNotes);
         $saleInvoice->setPartner($deliveryNotes->first()->getPartner());
-        $date = new DateTime();
         $saleInvoice->setDate($date);
         $saleInvoice->setType(1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
-        /** @var SaleInvoiceSeries $saleInvoiceSeries */
-        $saleInvoiceSeries = $this->admin->getModelManager()->findOneBy(SaleInvoiceSeries::class, ['id' => 1]);
         $saleInvoice->setSeries($saleInvoiceSeries);
         $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
         /** @var SaleInvoiceRepository $saleInvoiceRepository */
@@ -237,6 +265,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $partner = $saleInvoice->getPartner();
         /** @var SaleDeliveryNote $deliveryNote */
         $deliveryNote = $saleInvoice->getDeliveryNotes()->first();
+        $invoiceDate = $saleInvoice->getDate();
         $numberOfCollectionTerms = 1;
         if ($deliveryNote->getCollectionTerm3() > 0) {
             $numberOfCollectionTerms = 3;
@@ -248,25 +277,25 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $payDay2 = $partner->getPayDay2() ? $partner->getPayDay2() : 1;
         $payDay3 = $partner->getPayDay3() ? $partner->getPayDay3() : 1;
         $collectionTerm1 = $deliveryNote->getCollectionTerm() ? $deliveryNote->getCollectionTerm() : 0;
-        $saleInvoiceDueDate1 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm1, $partner);
+        $saleInvoiceDueDate1 = $this->generateDueDateWithAmountPayDayCollectionTerm($invoiceDate, $amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm1, $partner);
         $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate1);
         $collectionTerm2 = $deliveryNote->getCollectionTerm2();
         if ($collectionTerm2) {
-            $saleInvoiceDueDate2 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm2, $partner);
+            $saleInvoiceDueDate2 = $this->generateDueDateWithAmountPayDayCollectionTerm($invoiceDate, $amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm2, $partner);
             $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate2);
             $collectionTerm3 = $deliveryNote->getCollectionTerm3();
             if ($collectionTerm3) {
-                $saleInvoiceDueDate3 = $this->generateDueDateWithAmountPayDayCollectionTerm($amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm3, $partner);
+                $saleInvoiceDueDate3 = $this->generateDueDateWithAmountPayDayCollectionTerm($invoiceDate, $amountSplit, $payDay1, $payDay2, $payDay3, $collectionTerm3, $partner);
                 $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate3);
             }
         }
     }
 
-    private function generateDueDateWithAmountPayDayCollectionTerm(float $amount, int $payDay1, int $payDay2, int $payDay3, int $collectionTerm, Partner $partner): SaleInvoiceDueDate
+    private function generateDueDateWithAmountPayDayCollectionTerm(DateTime $invoiceDate, float $amount, int $payDay1, int $payDay2, int $payDay3, int $collectionTerm, Partner $partner): SaleInvoiceDueDate
     {
         $initialDueDate = new DateTime();
-        $dueDate = new DateTime();
-        $initialDueDate = $initialDueDate->setTimestamp(strtotime('+ '.$collectionTerm.' days'));
+        $initialDueDate = $initialDueDate->setTimestamp(strtotime($invoiceDate->format('y-m-d').' + '.$collectionTerm.' days'));
+        $dueDate = $initialDueDate;
         $this->setDueDate($initialDueDate, $payDay1, $dueDate, $payDay2, $payDay3);
         while ($this->checkIfDateIsInPartnerUnableDates($dueDate, $partner)) {
             $this->setDueDate($dueDate, $payDay1, $dueDate, $payDay2, $payDay3);

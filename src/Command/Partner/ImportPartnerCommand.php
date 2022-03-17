@@ -100,6 +100,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         'type' => $partnerType,
                         'class' => $partnerClass,
                         'transferAccount' => $enterpriseTransferAccount,
+                        'name' => $name,
                     ]);
                     if (!$partner) {
                         // new record
@@ -129,7 +130,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         ->setDiscount($this->readColumn(31, $row))
                         ->setCode($this->readColumn(33, $row))
                         ->setProviderReference($this->readColumn(36, $row))
-                        ->setReference($this->readColumn(34, $row))
+                        ->setReference($this->readColumn(15, $row))
                         ->setIvaTaxFree('1' == $this->readColumn(32, $row) ? true : false)
                         ->setIban(
                             $this->readColumn(37, $row).

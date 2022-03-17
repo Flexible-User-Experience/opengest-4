@@ -106,80 +106,80 @@ class WorkRegisterHeaderPdfManager
 
         //Heading with date and page number
 //        $this->pdfEngineService->setStyleSize('', 9);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             $from,
             1, 0, 'L', true);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
             0, 0, 'R', true);
         $pdf->Ln();
 
         //Operator and period info
         $this->pdfEngineService->setStyleSize('B', 9);
-        $pdf->Cell($width / 2, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($width / 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'OPERARIO: '.$operator,
             0, 0, 'L', false);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'PERIODO: '.$from.' HASTA '.$to,
             0, 0, 'L', false);
         $pdf->Ln();
 
         //Start table
-        $cellWidth = $width / 12 + 1;
-        $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT,
+        $cellWidth = $width / 11;
+        $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             '',
             0, 0, 'L', false);
 
-        $pdf->Cell($cellWidth * 4, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'HORAS',
             1, 0, 'C', false);
-        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'DIETAS',
             1, 0, 'C', false);
-        $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'EXTRAS',
             1, 0, 'C', false);
         $pdf->Ln();
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'DÍA',
             0, 0, 'C', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'LAB.',
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+//            'LAB.',
+//            1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'NORM.',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'EXTRA',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'NEG.',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'COMIDA',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'CENA',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'COM.I',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'CEN.I',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'DIETA',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'DIE.I',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'PERN.',
             1, 0, 'L', false);
-//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //            'CARRET.',
 //            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'SALIDA',
             1, 0, 'L', false);
         $pdf->ln();
@@ -291,183 +291,186 @@ class WorkRegisterHeaderPdfManager
 //            $totalRoadExtra += $roadExtra;
             $totalExitExtra += $exitExtra;
             // Draw each line, as every workReagister header refers to a date
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+            $this->pdfEngineService->setStyleSize('', 9);
+            $pdf->setCellPaddings(1, 0, 1, 0);
+
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $workRegisterHeader->getDateFormatted(),
                 1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $workingHours,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $normalHours,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $extraHours,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $negativeHours,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $lunch,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $dinner,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $lunchInt,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $dinnerInt,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $diet,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $dietInt,
-                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $overNight,
-                1, 0, 'L', false);
-//            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+//                $workingHours,
+//                1, 0, 'L', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($normalHours,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($extraHours,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($negativeHours,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($lunch,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($dinner,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($lunchInt,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($dinnerInt,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($diet,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($dietInt,'0',',','.'),
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($overNight,'0',',','.'),
+                1, 0, 'C', false);
+//            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //                $roadExtra,
 //                1, 0, 'L', false);
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                $exitExtra,
-                1, 0, 'L', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                number_format($exitExtra,'0',',','.'),
+                1, 0, 'C', false);
             $pdf->Ln();
         }
         // Draw sum per concept
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Suma',
             'B', 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalWorkingHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalNormalHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalExtraHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalNegativeHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalLunch,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalDinner,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalLunchInt,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalDinnerInt,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalDiet,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalDietInt,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalOverNight,
-            1, 0, 'L', false);
-//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+//            $totalWorkingHours,
+//            1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalNormalHours,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalExtraHours,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalNegativeHours,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalLunch,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalDinner,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalLunchInt,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalDinnerInt,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalDiet,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalDietInt,'0',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalOverNight,'0',',','.'),
+            1, 0, 'C', false);
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //            $totalRoadExtra,
 //            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalExitExtra,
-            1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalExitExtra,'0',',','.'),
+            1, 0, 'C', false);
         $pdf->Ln();
 
         // Draw price per concept
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Precio unit.',
             'B', 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $workingHourPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $normalHourPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $extraHourPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $negativeHourPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $lunchPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dinnerPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $lunchIntPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dinnerIntPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dietPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dietIntPrice,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $overNightPrice,
-            1, 0, 'L', false);
-//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+//            $workingHourPrice,
+//            1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($normalHourPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($extraHourPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($negativeHourPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($lunchPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dinnerPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($lunchIntPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dinnerIntPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dietPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dietIntPrice,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($overNightPrice,'2',',','.'),
+            1, 0, 'C', false);
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //            $roadExtraPrice,
 //            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $exitExtraPrice,
-            1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($exitExtraPrice,'2',',','.'),
+            1, 0, 'C', false);
         $pdf->Ln();
 
         // Draw total per concept
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Total (€)',
             'B', 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $workingHourPrice * $totalWorkingHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $normalHourPrice * $totalNormalHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $extraHourPrice * $totalExtraHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $negativeHourPrice * $totalNegativeHours,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $lunchPrice * $totalLunch,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dinnerPrice * $totalDinner,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $lunchIntPrice * $totalLunchInt,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dinnerIntPrice * $totalDinnerInt,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dietPrice * $totalDiet,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $dietIntPrice * $totalDietInt,
-            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $overNightPrice * $totalOverNight,
-            1, 0, 'L', false);
-//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+//            $workingHourPrice * $totalWorkingHours,
+//            1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($normalHourPrice * $totalNormalHours,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($extraHourPrice * $totalExtraHours,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($negativeHourPrice * $totalNegativeHours,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($lunchPrice * $totalLunch,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dinnerPrice * $totalDinner,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($lunchIntPrice * $totalLunchInt,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dinnerIntPrice * $totalDinnerInt,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dietPrice * $totalDiet,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($dietIntPrice * $totalDietInt,'2',',','.'),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($overNightPrice * $totalOverNight,'2',',','.'),
+            1, 0, 'C', false);
+//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //            $roadExtraPrice * $totalRoadExtra,
 //            1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $exitExtraPrice * $totalExitExtra,
-            1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($exitExtraPrice * $totalExitExtra,'2',',','.'),
+            1, 0, 'C', false);
         $pdf->Ln(10);
         $finalSum = $workingHourPrice * $totalWorkingHours +
             $normalHourPrice * $totalNormalHours +
@@ -483,17 +486,18 @@ class WorkRegisterHeaderPdfManager
 //            $roadExtraPrice * $totalRoadExtra +
             $exitExtraPrice * $totalExitExtra;
         //Other imports and final totals
-        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT,
+        $this->pdfEngineService->setStyleSize('B', 9);
+        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Importes varios',
             1, 0, 'C', false);
         $pdf->Ln();
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Fecha',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth * 4, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth * 4, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Concepto',
             1, 0, 'L', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Total',
             1, 0, 'L', false);
         $pdf->Ln();
@@ -517,16 +521,18 @@ class WorkRegisterHeaderPdfManager
 //                    !str_contains($workRegister->getDescription(), 'Plus carretera') &&
                     !str_contains($workRegister->getDescription(), 'Salida')
                 ) {
+                    $this->pdfEngineService->setStyleSize('', 9);
+
                     $otherAmounts += $workRegister->getAmount();
-                    $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                         $workRegisterHeader->getDateFormatted(),
                          1, 0,'L', false);
-                    $pdf->Cell($cellWidth *4, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $pdf->Cell($cellWidth *4, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                         $workRegister->getDescription(),
                         1,  0,'L', false,'',1);
-                    $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                        $workRegister->getAmount(),
-                         1, 0,'L', false);
+                    $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                        number_format($workRegister->getAmount(),'2',',','.'),
+                         1, 0,'C', false);
                     $pdf->Ln();
                 }
             }
@@ -534,28 +540,28 @@ class WorkRegisterHeaderPdfManager
         }
         $pdf->Ln();
         $pdf->SetX(230);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Suma:',
             0, 0, 'R', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $finalSum.' €',
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($finalSum,'2',',','.').' €',
             0, 0, 'R', false);
         $pdf->Ln();
         $pdf->SetX(230);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Importes varios',
             0, 0, 'R', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalOtherAmounts.' €',
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalOtherAmounts,'2',',','.').' €',
             0, 0, 'R', false);
         $pdf->Ln();
         $pdf->SetX(230);
         $this->pdfEngineService->setStyleSize('B', 12);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Total (€)',
             'T', 0, 'R', false);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalOtherAmounts + $finalSum.' €',
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            number_format($totalOtherAmounts + $finalSum,'2',',','.').' €',
             'T', 0, 'R', false);
 
         return $pdf;
