@@ -119,7 +119,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
                 $newOperatorWorkRegisterHeaders[] = $em->getRepository(OperatorWorkRegisterHeader::class)->find($operatorWorkRegisterHeader);
             }
 
-            return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_list'));
+            return new Response($this->wrhpm->outputSingleTimeSum($operatorWorkRegisterHeaders, $fromDate, $toDate, $percentage), 200, ['Content-type' => 'application/pdf']);
         } catch (\Exception $exception) {
             $this->addFlash(
                 'warning',
