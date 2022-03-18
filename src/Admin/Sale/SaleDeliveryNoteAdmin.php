@@ -12,6 +12,7 @@ use App\Entity\Partner\PartnerProject;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
+use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
@@ -1082,6 +1083,16 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             $totalPrice = $totalPrice + $subtotal;
         }
         $object->setBaseAmount($totalPrice * (1 - $object->getDiscount() / 100));
+        $saleInvoice = $object->getSaleInvoice();
+        if ($saleInvoice) {
+            $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $saleInvoice->getDeliveryNotes());
+            $numberOfDueDates = $saleInvoice->getSaleInvoiceDueDates()->count();
+            $totalSplit = $saleInvoice->getTotal() / $numberOfDueDates;
+            /** @var SaleInvoiceDueDate $dueDate */
+            foreach ($saleInvoice->getSaleInvoiceDueDates() as $dueDate) {
+                $dueDate->setAmount($totalSplit);
+            }
+        }
 
         $this->em->flush();
     }
