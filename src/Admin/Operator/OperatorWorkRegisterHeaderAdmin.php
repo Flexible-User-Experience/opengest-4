@@ -52,7 +52,9 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     {
         $collection
             ->add('batch')
-            ->add('getJsonOperatorWorkRegisterTotalsByHourType', 'getJsonOperatorWorkRegisters');
+            ->add('getJsonOperatorWorkRegisterTotalsByHourType', 'getJsonOperatorWorkRegisters')
+            ->add('createTimeSummaryAction', 'create-time-summary')
+        ;
     }
 
     /**
@@ -63,6 +65,10 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generateWorkRegisterReportPdf'] = [
                 'label' => 'admin.action.generate_work_register_report',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateTimeSummary'] = [
+                'label' => 'admin.action.generate_time_summary',
                 'ask_confirmation' => false,
             ];
         }
