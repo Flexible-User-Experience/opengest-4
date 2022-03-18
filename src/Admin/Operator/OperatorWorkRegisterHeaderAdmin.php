@@ -53,7 +53,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
         $collection
             ->add('batch')
             ->add('getJsonOperatorWorkRegisterTotalsByHourType', 'getJsonOperatorWorkRegisters')
-            ->add('createTimeSummaryAction', 'create-time-summary')
+            ->add('createTimeSummary', 'create-time-summary')
         ;
     }
 

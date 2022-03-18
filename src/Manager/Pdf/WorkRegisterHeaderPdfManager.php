@@ -9,6 +9,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Enum\ConstantsEnum;
 use App\Manager\RepositoriesManager;
 use App\Service\PdfEngineService;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use TCPDF;
 
@@ -55,10 +56,10 @@ class WorkRegisterHeaderPdfManager
         $operatorsFromWorkRegisterHeaders = [];
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
-            $operatorsFromWorkRegisterHeaders[$workRegisterHeader->getOperator()->getId()][] = $workRegisterHeader;
+            $operatorsFromWorkRegisterHeaders[$workRegisterHeader->getOperator()->getId()] = $workRegisterHeader->getOperator();
         }
 
-        return $this->buildTimeSummary($operatorsFromWorkRegisterHeaders, $workRegisterHeaders, $from, $to, $amount);
+        return $this->buildTimeSummary($operatorsFromWorkRegisterHeaders, $workRegisterHeaders, $from, $to, $amount, $pdf);
     }
 
     public function outputSingleTimeSum($workRegisterHeaders, $from, $to, $amount): string
@@ -501,7 +502,7 @@ class WorkRegisterHeaderPdfManager
 
         return $pdf;
     }
-    private function buildTimeSummary($operators, $workRegisterHeaders, $from, $to, TCPDF $pdf, $amount): TCPDF
+    private function buildTimeSummary($operators, $workRegisterHeaders, $from, $to, $amount, TCPDF $pdf): TCPDF
     {
         // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
@@ -524,9 +525,10 @@ class WorkRegisterHeaderPdfManager
 
         //Heading with date and page number
 //        $this->pdfEngineService->setStyleSize('', 9);
-        $today = new Date();
+        $today = new DateTime();
+        $today = $today->format('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            'Plantilal horas - Grúas Romaní' - $today,
+            'Plantilal horas - Grúas Romaní - '.$today,
             1, 0, 'L', true);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
@@ -544,23 +546,23 @@ class WorkRegisterHeaderPdfManager
         $cellWidth = $width / 11;
         $this->pdfEngineService->setStyleSize('B', 9);
 
-        $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+        $pdf->Cell($cellWidth * 5, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Operario',
-            0, 0, 'L', false);
+            1, 0, 'C', false);
 
-        $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+        $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Total',
             1, 0, 'C', false);
-        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+        $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Otros',
             1, 0, 'C', false);
         $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Plus producción',
             1, 0, 'C', false);
-        $pdf->Ln();
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+        $pdf->Cell($cellWidth * 2 , ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Dietas',
-            0, 0, 'C', false);
+            1, 0, 'C', false);
+        $pdf->ln();
 
 
         $this->pdfEngineService->setStyleSize('', 9);
@@ -622,40 +624,23 @@ class WorkRegisterHeaderPdfManager
             $plusprod = $calc * (100-$amount)/100;
             $others = $calc * $amount/100;
 
-            $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                'Operario',
-                0, 0, 'L', false);
-
-            $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                'Total',
-                1, 0, 'C', false);
-            $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                'Otros',
-                1, 0, 'C', false);
-            $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                'Plus producción',
-                1, 0, 'C', false);
-            $pdf->Ln();
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                'Dietas',
-                0, 0, 'C', false);
-            $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            //Print values
+            $pdf->Cell($cellWidth * 5, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $operator,
-                0, 0, 'L', false);
-
-            $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                1, 0, 'L', false);
+            $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $total,
                 1, 0, 'C', false);
-            $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $others,
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $plusprod,
                 1, 0, 'C', false);
-            $pdf->Ln();
-            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $totaldiets,
-                0, 0, 'C', false);
+                1, 0, 'C', false);
+            $pdf->ln();
 
         }
 
