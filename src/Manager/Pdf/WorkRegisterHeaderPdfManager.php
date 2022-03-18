@@ -47,6 +47,21 @@ class WorkRegisterHeaderPdfManager
         return $pdf->Output('nómina_detallada'.'.pdf', 'I');
     }
 
+
+    public function buildSingleTimeSum($workRegisterHeaders, $from, $to, $amount): TCPDF
+    {
+        $this->pdfEngineService->initDefaultPageEngineWithTitle('Plantilla horas');
+        $pdf = $this->pdfEngineService->getEngine();
+
+        return $this->buildTimeSummary($workRegisterHeaders, $from, $to, $amount);
+    }
+
+    public function outputSingleTimeSum($workRegisterHeaders, $from, $to, $amount): string
+    {
+        $pdf = $this->buildSingleTimeSum($workRegisterHeaders, $from, $to, $amount);
+
+        return $pdf->Output('plantilla_horas'.'.pdf', 'I');
+    }
     /**
      * @param SaleDeliveryNote[]|ArrayCollection|array $saleDeliveryNotes
      *
@@ -563,6 +578,93 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             number_format($totalOtherAmounts + $finalSum,'2',',','.').' €',
             'T', 0, 'R', false);
+
+        return $pdf;
+    }
+    private function buildTimeSummary(array $workRegisterHeaders, $from, $to, TCPDF $pdf): TCPDF
+    {
+        // add start page
+        $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_PORTRAIT - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
+
+        // get the current page break margin
+        $bMargin = $pdf->getBreakMargin();
+        // get current auto-page-break mode
+        $auto_page_break = $pdf->getAutoPageBreak();
+        // disable auto-page-break
+        $pdf->SetAutoPageBreak(false, 0);
+        // restore auto-page-break status
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        // set the starting point for the page content
+        $pdf->setPageMark();
+        // set cell padding
+        $pdf->setCellPaddings(1, 1, 1, 1);
+
+        //Heading with date and page number
+//        $this->pdfEngineService->setStyleSize('', 9);
+        $today = new Date();
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'Plantilal horas - Grúas Romaní' - $today,
+            1, 0, 'L', true);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+            0, 0, 'R', true);
+        $pdf->Ln();
+
+        //Period info
+        $this->pdfEngineService->setStyleSize('B', 9);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'PERIODO: '.$from.' HASTA '.$to,
+            0, 0, 'L', false);
+        $pdf->Ln();
+
+        //Start table
+        $cellWidth = $width / 11;
+        $this->pdfEngineService->setStyleSize('B', 9);
+
+        $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'Operario',
+            0, 0, 'L', false);
+
+        $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'Total',
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'Otros',
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'Plus producción',
+            1, 0, 'C', false);
+        $pdf->Ln();
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'Dietas',
+            0, 0, 'C', false);
+
+        $this->pdfEngineService->setStyleSize('', 9);
+        foreach($operarios as $operario){
+            $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                'Operario',
+                0, 0, 'L', false);
+
+            $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                'Total',
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                'Otros',
+                1, 0, 'C', false);
+            $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                'Plus producción',
+                1, 0, 'C', false);
+            $pdf->Ln();
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                'Dietas',
+                0, 0, 'C', false);
+
+        }
+
+
 
         return $pdf;
     }
