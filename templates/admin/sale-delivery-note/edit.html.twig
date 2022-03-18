@@ -160,8 +160,8 @@
 {% endblock %}
 
 {% block sonata_form_actions %}
-    {% if form.saleInvoice.vars.data %}
-        <b>No se puede modificar un albaràn facturado.</b>
+    {% if form.saleInvoice.vars.data.hasBeenCounted %}
+        <b>No se puede modificar un albaràn facturado con factura contabilizada.</b>
     {% else %}
         {{ parent() }}
     {% endif %}

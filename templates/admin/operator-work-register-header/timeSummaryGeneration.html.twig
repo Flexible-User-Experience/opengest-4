@@ -1,0 +1,27 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block sonata_admin_content %}
+    {{ parent() }}
+    <div class="sonata-ba-form">
+        <form role="form" action="{{ path('admin_app_operator_operator_generatePayslips') }}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <h4 class="box-title">
+                                        Generar plantilla horas
+                                    </h4>
+                                </div>
+                                <div class="box-body">
+                                    {{ form(generateTimeSummaryForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock sonata_admin_content %}
