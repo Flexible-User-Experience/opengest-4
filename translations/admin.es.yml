@@ -207,7 +207,7 @@ admin:
         payslip_total: "Total nómina"
         commercial_name: "Nombre comercial"
         transference_bank: "Banco transferencia"
-
+        checking_type: "Tipo revisión"
     with:
         general: "General"
         image: "Imagen"

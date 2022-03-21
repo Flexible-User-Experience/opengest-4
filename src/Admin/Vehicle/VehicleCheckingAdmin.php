@@ -5,6 +5,7 @@ namespace App\Admin\Vehicle;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -28,20 +29,12 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Revisions';
+    protected $classnameLabel = 'Revisiones de vehículo';
 
     /**
      * @var string
      */
     protected $baseRoutePattern = 'vehicles/revisio';
-
-    /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'end',
-        '_sort_order' => 'asc',
-    ];
 
     /**
      * Methods.
@@ -54,31 +47,54 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
-            ->remove('delete')
+//            ->remove('delete')
             ->add('downloadPdfPendingCheckings', 'download-pdf-pending-checkings')
+            ->add('batch')
         ;
+    }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'end';
+    }
+
+    public function configureBatchActions(array $actions): array
+    {
+        unset($actions['delete']);
+        $actions['downloadPdfVehiclePendingCheckings'] = [
+            'ask_confirmation' => false,
+            'label' => 'Informe revisiones',
+        ];
+
+        return $actions;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(6))
-            ->add(
-                'vehicle',
-                EntityType::class,
-                [
-                    'label' => 'Vehicle',
-                    'required' => true,
-                    'class' => Vehicle::class,
-                    'choice_label' => 'name',
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
+            ;
+        if ($this->getCode() === $this->getRootCode()) {
+            $formMapper
+                ->add(
+                    'vehicle',
+                    EntityType::class,
+                    [
+                        'label' => 'Vehicle',
+                        'required' => true,
+                        'class' => Vehicle::class,
+                        'choice_label' => 'name',
+                        'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'type',
                 null,
                 [
-                    'label' => 'Tipus revisió',
+                    'label' => 'admin.label.checking_type',
                     'required' => true,
                     'query_builder' => $this->rm->getVehicleCheckingTypeRepository()->getEnabledSortedByNameQB(),
                 ]
@@ -87,7 +103,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'begin',
                 DatePickerType::class,
                 [
-                    'label' => 'Data d\'expedició',
+                    'label' => 'admin.label.expedition_date',
                     'format' => 'd/M/y',
                     'required' => true,
                 ]
@@ -96,7 +112,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'end',
                 DatePickerType::class,
                 [
-                    'label' => 'Data de caducitat',
+                    'label' => 'admin.label.expiry_date',
                     'format' => 'd/M/y',
                     'required' => true,
                 ]
@@ -112,21 +128,21 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'vehicle',
                 null,
                 [
-                    'label' => 'Vehicle',
+                    'label' => 'admin.label.vehicle',
                 ]
             )
             ->add(
                 'type',
                 null,
                 [
-                    'label' => 'Tipus revisó',
+                    'label' => 'admin.label.checking_type',
                 ]
             )
             ->add(
                 'begin',
                 DateRangeFilter::class,
                 [
-                    'label' => 'Data d\'expedició',
+                    'label' => 'admin.label.expedition_date',
                     'field_type' => DateRangePickerType::class,
                     'field_options' => [
                         'field_options_start' => [
@@ -144,7 +160,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'end',
                 DateRangeFilter::class,
                 [
-                    'label' => 'Data caducitat',
+                    'label' => 'admin.label.expiry_date',
 
                     'field_type' => DateRangePickerType::class,
                     'field_options' => [
@@ -187,7 +203,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'status',
                 null,
                 [
-                    'label' => 'Estat',
+                    'label' => 'admin.label.status',
                     'template' => 'admin/cells/list__cell_vehicle_checking_status.html.twig',
                 ]
             )
@@ -195,7 +211,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'begin',
                 'date',
                 [
-                    'label' => 'Data d\'expedició',
+                    'label' => 'admin.label.expedition_date',
                     'format' => 'd/m/Y',
                     'editable' => true,
                 ]
@@ -204,7 +220,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'end',
                 'date',
                 [
-                    'label' => 'Data caducitat',
+                    'label' => 'admin.label.expiry_date',
                     'format' => 'd/m/Y',
                     'editable' => true,
                 ]
@@ -213,7 +229,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'vehicle',
                 null,
                 [
-                    'label' => 'Vehicle',
+                    'label' => 'admin.label.vehicle',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,
@@ -225,7 +241,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'Tipus revisió',
+                    'label' => 'admin.label.checking_type',
                     'editable' => true,
                     'associated_property' => 'name',
                     'sortable' => true,
@@ -241,7 +257,7 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;

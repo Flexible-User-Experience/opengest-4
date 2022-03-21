@@ -54,6 +54,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
 
     public function configureBatchActions(array $actions): array
     {
+        unset($actions['delete']);
         $actions['downloadPdfOperatorPendingCheckings'] = [
             'ask_confirmation' => false,
             'label' => 'Informe revisiones',
