@@ -68,6 +68,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
             $result['workingHour'] = 0;
             $result['normalHour'] = 0;
             $result['extraHour'] = 0;
+            $result['negativeHour'] = 0;
             foreach ($resultFromRepository as $singleResult) {
                 if (str_contains($singleResult['description'], 'Hora laboral')) {
                     $result['workingHour'] += $singleResult['hours'];
@@ -77,6 +78,9 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
                 }
                 if (str_contains($singleResult['description'], 'Hora extra')) {
                     $result['extraHour'] += $singleResult['hours'];
+                }
+                if (str_contains($singleResult['description'], 'Hora negativa')) {
+                    $result['negativeHour'] += $singleResult['hours'];
                 }
             }
         }
