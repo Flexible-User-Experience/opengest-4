@@ -30,7 +30,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Partes de trabajo';
+    protected $classnameLabel = 'operator_work_register';
 
     /**
      * @var string

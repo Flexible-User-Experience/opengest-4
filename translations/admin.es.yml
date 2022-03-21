@@ -398,4 +398,6 @@ tonnage: "Tonelaje"
 mainImage: Foto
 category: Categoría
 enabled: "Activo"
+operator_work_register_list: "Partes de trabajo"
+sale_request_list: "Peticiones de venta"
 
