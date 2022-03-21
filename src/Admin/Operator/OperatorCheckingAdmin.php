@@ -4,6 +4,7 @@ namespace App\Admin\Operator;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -35,14 +36,6 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'operaris/revisio';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'end',
-        '_sort_order' => 'asc',
-    ];
-
-    /**
      * Methods.
      */
 
@@ -53,9 +46,16 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
-            ->remove('delete')
+//            ->remove('delete')
+//            ->add('batch')
             ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
         ;
+    }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'end';
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
