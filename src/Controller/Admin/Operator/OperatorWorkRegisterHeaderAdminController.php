@@ -119,11 +119,11 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
                 $newOperatorWorkRegisterHeaders[] = $em->getRepository(OperatorWorkRegisterHeader::class)->find($operatorWorkRegisterHeader);
             }
 
-            return new Response($this->wrhpm->outputSingleTimeSum($operatorWorkRegisterHeaders, $fromDate, $toDate, $percentage), 200, ['Content-type' => 'application/pdf']);
+            return new Response($this->wrhpm->outputSingleTimeSum($newOperatorWorkRegisterHeaders, $fromDate, $toDate, $percentage), 200, ['Content-type' => 'application/pdf']);
         } catch (\Exception $exception) {
             $this->addFlash(
                 'warning',
-                'No se han podido generar las la plantilla de horas. Error en el formulario.'
+                'No se han podido generar las la plantilla de horas.'.$exception->getMessage().$exception->getTraceAsString()
             );
 
             return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_list'));
