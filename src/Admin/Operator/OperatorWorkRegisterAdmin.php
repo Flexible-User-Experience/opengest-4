@@ -6,7 +6,6 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Sale\SaleDeliveryNote;
-use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -73,8 +72,9 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
         $collection
             ->add('createCustomWorkRegister', 'createCustomWorkRegister')
             ->add('customDelete', 'customDelete')
-            ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters');
-//            ->remove('delete')
+            ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters')
+            ->remove('create')
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
@@ -352,13 +352,17 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
 
     /**
      * @param OperatorWorkRegister $object
-     *
-     * @throws NonUniqueResultException
      */
     public function prePersist($object): void
     {
         $object->setAmount($object->getUnits() * $object->getPriceUnit());
+    }
 
-        $this->em->flush();
+    /**
+     * @param OperatorWorkRegister $object
+     */
+    public function preUpdate($object): void
+    {
+        $object->setAmount($object->getUnits() * $object->getPriceUnit());
     }
 }
