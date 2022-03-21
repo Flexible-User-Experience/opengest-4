@@ -64,3 +64,4 @@ services:
             - { name: sonata.admin, manager_type: orm, label: "Partes de trabajo líneas", group: "Operarios", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
             - [ setTranslationDomain, [ "admin" ] ]
+            - [ setTemplate, [ edit, "admin/operator-work-register/edit.html.twig" ] ]

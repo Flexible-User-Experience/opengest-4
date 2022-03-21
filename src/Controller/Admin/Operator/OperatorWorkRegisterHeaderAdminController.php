@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Operator;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
+use App\Form\Type\GenerateTimeSummaryFormType;
 use App\Repository\Operator\OperatorWorkRegisterHeaderRepository;
 use DateTime;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -67,6 +68,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
             $result['workingHour'] = 0;
             $result['normalHour'] = 0;
             $result['extraHour'] = 0;
+            $result['negativeHour'] = 0;
             foreach ($resultFromRepository as $singleResult) {
                 if (str_contains($singleResult['description'], 'Hora laboral')) {
                     $result['workingHour'] += $singleResult['hours'];
@@ -77,9 +79,58 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
                 if (str_contains($singleResult['description'], 'Hora extra')) {
                     $result['extraHour'] += $singleResult['hours'];
                 }
+                if (str_contains($singleResult['description'], 'Hora negativa')) {
+                    $result['negativeHour'] += $singleResult['hours'];
+                }
             }
         }
 
         return new JsonResponse($result);
+    }
+
+    public function batchActionGenerateTimeSummary(ProxyQueryInterface $selectedModelQuery, Request $request)
+    {
+        $this->admin->checkAccess('edit');
+        $form = $this->createForm(GenerateTimeSummaryFormType::class);
+        $form->handleRequest($request);
+        /** @var Operator[] $operators */
+        $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
+        $form->get('operatorWorkRegisterHeaders')->setData($operatorWorkRegisterHeaders);
+
+        return $this->renderWithExtraParams(
+            'admin/operator-work-register-header/timeSummaryGeneration.html.twig',
+            [
+                'generateTimeSummaryForm' => $form->createView(),
+//                'operators' => $operators
+            ]
+        );
+    }
+
+    public function createTimeSummaryAction(Request $request)
+    {
+        $formData = $request->request->get('app_generate_time_summary');
+        try {
+            $em = $this->getDoctrine()->getManager();
+
+            /** @var Operator $operators */
+            $operatorWorkRegisterHeaders = $formData['operatorWorkRegisterHeaders'];
+            $fromDate = $formData['fromDate'];
+            $toDate = $formData['toDate'];
+            $percentage = $formData['percentage'];
+            $newOperatorWorkRegisterHeaders = [];
+            /* @var Operator $operator */
+            foreach ($operatorWorkRegisterHeaders as $operatorWorkRegisterHeader) {
+                $newOperatorWorkRegisterHeaders[] = $em->getRepository(OperatorWorkRegisterHeader::class)->find($operatorWorkRegisterHeader);
+            }
+
+            return new Response($this->wrhpm->outputSingleTimeSum($newOperatorWorkRegisterHeaders, $fromDate, $toDate, $percentage), 200, ['Content-type' => 'application/pdf']);
+        } catch (\Exception $exception) {
+            $this->addFlash(
+                'warning',
+                'No se han podido generar las la plantilla de horas.'.$exception->getMessage().$exception->getTraceAsString()
+            );
+
+            return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_list'));
+        }
     }
 }

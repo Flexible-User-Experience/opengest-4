@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Vehicle;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Vehicle\VehicleChecking;
-use App\Manager\Pdf\VehicleCheckingPdfManager;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ class VehicleCheckingAdminController extends BaseAdminController
         return parent::editAction($request);
     }
 
-    public function downloadPdfPendingCheckingsAction(VehicleCheckingPdfManager $vehicleCheckingPdfManager): Response
+    public function downloadPdfPendingCheckingsAction(): Response
     {
         $vehicleCheckings = $this->admin->getModelManager()->findBy(VehicleChecking::class, [
                 'enabled' => true,
@@ -41,6 +41,16 @@ class VehicleCheckingAdminController extends BaseAdminController
             $this->addFlash('warning', 'No existen mantenimientos pendientes.');
         }
 
-        return new Response($vehicleCheckingPdfManager->outputSingle($vehicleCheckings), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->vehicleCheckingPdfManager->outputSingle($vehicleCheckings), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function batchActionDownloadPdfVehiclePendingCheckings(ProxyQueryInterface $selectedModelQuery, Request $request): Response
+    {
+        $vehicleCheckings = $selectedModelQuery->execute()->getQuery()->getResult();
+        if (!$vehicleCheckings) {
+            $this->addFlash('warning', 'No hay revisiones seleccionadas.');
+        }
+
+        return new Response($this->vehicleCheckingPdfManager->outputSingle($vehicleCheckings), 200, ['Content-type' => 'application/pdf']);
     }
 }

@@ -202,6 +202,7 @@ admin:
         payslip_total: "Total nómina"
         commercial_name: "Nombre comercial"
         transference_bank: "Banco transferencia"
+        checking_type: "Tipo revisión"
     with:
         general: "General"
         image: "Imatge"
@@ -238,6 +239,7 @@ admin:
         generate_delivery_notes_list: "Generar listado de albaranes"
         generate_payslip_xml_payment_for_diets: "Generar XML para el pago de dietas"
         generate_payslip_xml_payment: "Generar XML para el pago de nóminas"
+        generate_time_summary: "Generar listado plantilla de horas"
 
     actions: "Accions"
 enum:

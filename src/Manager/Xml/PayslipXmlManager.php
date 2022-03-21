@@ -76,7 +76,8 @@ class PayslipXmlManager
         $swift = $eta->getSwift();
         $fileId = $date->getTimestamp();
         $xmlDocStart =
-            '<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
+            '<?xml version="1.0" encoding="utf-8" ?>
+            <Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
             <CstmrCdtTrfInitn>
                 <GrpHdr>
                     <MsgId>GR-'.$fileId.'</MsgId>

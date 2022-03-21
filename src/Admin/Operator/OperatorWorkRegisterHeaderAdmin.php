@@ -30,7 +30,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $classnameLabel = 'Partes de trabajo';
+    protected $classnameLabel = 'operator_work_register';
 
     /**
      * @var string
@@ -52,7 +52,9 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     {
         $collection
             ->add('batch')
-            ->add('getJsonOperatorWorkRegisterTotalsByHourType', 'getJsonOperatorWorkRegisters');
+            ->add('getJsonOperatorWorkRegisterTotalsByHourType', 'getJsonOperatorWorkRegisters')
+            ->add('createTimeSummary', 'create-time-summary')
+        ;
     }
 
     /**
@@ -63,6 +65,10 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generateWorkRegisterReportPdf'] = [
                 'label' => 'admin.action.generate_work_register_report',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateTimeSummary'] = [
+                'label' => 'admin.action.generate_time_summary',
                 'ask_confirmation' => false,
             ];
         }
@@ -101,7 +107,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'totalAmount',
                     MoneyType::class,
                     [
-                        'label' => 'admin.label.total',
+                        'label' => 'Total (€)',
                         'disabled' => true,
                     ]
                 )
@@ -170,6 +176,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'field_options' => [
                             'property' => 'surname1',
                         ],
+                    'show_filter' => true,
                 ]
             )
             ->add(
@@ -188,6 +195,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                             'format' => 'dd/MM/yyyy',
                         ],
                     ],
+                    'show_filter' => true,
                 ]
             )
         ;
@@ -215,7 +223,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 null,
                 [
-                    'label' => 'admin.label.total',
+                    'label' => 'Total (€)',
                 ]
             )
             ->add(

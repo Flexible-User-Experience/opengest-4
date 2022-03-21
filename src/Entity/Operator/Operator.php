@@ -1581,9 +1581,7 @@ class Operator extends AbstractBase
      */
     public function getOperatorCheckings()
     {
-        return $this->operatorCheckings->filter(function (OperatorChecking $operatorChecking) {
-            return $operatorChecking->getEnd() > new Datetime();
-        });
+        return $this->operatorCheckings;
     }
 
     /**

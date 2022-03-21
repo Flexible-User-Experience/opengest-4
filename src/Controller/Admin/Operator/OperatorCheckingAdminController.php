@@ -4,7 +4,7 @@ namespace App\Controller\Admin\Operator;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\OperatorChecking;
-use App\Manager\Pdf\OperatorCheckingPdfManager;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ class OperatorCheckingAdminController extends BaseAdminController
         return parent::editAction($request);
     }
 
-    public function downloadPdfOperatorPendingCheckingsAction(OperatorCheckingPdfManager $operatorCheckingPdfManager): Response
+    public function downloadPdfOperatorPendingCheckingsAction(): Response
     {
         $operatorCheckings = $this->admin->getModelManager()->findBy(OperatorChecking::class, [
             'enabled' => true,
@@ -42,6 +42,16 @@ class OperatorCheckingAdminController extends BaseAdminController
             $this->addFlash('warning', 'No existen revisiones pendientes.');
         }
 
-        return new Response($operatorCheckingPdfManager->outputSingle($operatorCheckings), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->operatorCheckingPdfManager->outputSingle($operatorCheckings), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function batchActionDownloadPdfOperatorPendingCheckings(ProxyQueryInterface $selectedModelQuery, Request $request): Response
+    {
+        $operatorCheckings = $selectedModelQuery->execute()->getQuery()->getResult();
+        if (!$operatorCheckings) {
+            $this->addFlash('warning', 'No hay revisiones seleccionadas.');
+        }
+
+        return new Response($this->operatorCheckingPdfManager->outputSingle($operatorCheckings), 200, ['Content-type' => 'application/pdf']);
     }
 }

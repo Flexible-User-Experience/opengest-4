@@ -532,7 +532,7 @@ class SaleDeliveryNotePdfManager
         //Servicio a realizar
         $pdf->setXY($xDim+15, $yStart + $yInterval*8);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            substr($saleDeliveryNote->getServiceDescription(),0,85), 0, 0, 'L', false,'', 1);
+            substr($saleDeliveryNote->getServiceDescription(),0,79), 0, 0, 'L', false,'', 1);
 
         //Lugar de trabajo
         $pdf->setXY($xDim+15, $yStart + $yInterval*9);
@@ -541,8 +541,8 @@ class SaleDeliveryNotePdfManager
 
         //Observaciones
         $pdf->setXY($xDim+15, $yStart + $yInterval*10);
-        $pdf->MultiCell($availableHoritzontalSpace, ConstantsEnum::PDF_CELL_HEIGHT,
-            substr($saleDeliveryNote->getObservations(),0,240), 0, 'L', false);
+        $pdf->MultiCell($availableHoritzontalSpace-10, ConstantsEnum::PDF_CELL_HEIGHT,
+            substr($saleDeliveryNote->getObservations(),0,140), 0, 'L', false);
 
         //Fecha impresión
         $pdf->setXY($xDim+40, 176);
@@ -620,7 +620,7 @@ class SaleDeliveryNotePdfManager
         //Servicio a realizar
         $pdf->setXY($xDim+15, $yStart + $yInterval*8);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            substr($saleDeliveryNote->getServiceDescription(),0,85), 0, 0, 'L', false,'', 1);
+            substr($saleDeliveryNote->getServiceDescription(),0,79), 0, 0, 'L', false,'', 1);
 
         //Lugar de trabajo
         $pdf->setXY($xDim+15, $yStart + $yInterval*9);
@@ -629,8 +629,8 @@ class SaleDeliveryNotePdfManager
 
         //Observaciones
         $pdf->setXY($xDim+15, $yStart + $yInterval*10);
-        $pdf->MultiCell($availableHoritzontalSpace, ConstantsEnum::PDF_CELL_HEIGHT,
-            substr($saleDeliveryNote->getObservations(),0,240), 0, 'L', false);
+        $pdf->MultiCell($availableHoritzontalSpace-10, ConstantsEnum::PDF_CELL_HEIGHT,
+            substr($saleDeliveryNote->getObservations(),0,140), 0, 'L', false);
 
         //Fecha impresión
         $yDim = 180;
