@@ -484,7 +484,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-                        'btn_add' => false,
+//                        'btn_add' => false,
                     ],
                     [
                         'edit' => 'inline',
