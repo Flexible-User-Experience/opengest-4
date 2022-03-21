@@ -380,9 +380,9 @@ class VehicleAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-                        'type_options' => [
-                            'delete' => false,
-                        ],
+//                        'type_options' => [
+//                            'delete' => false,
+//                        ],
                     ],
                     [
                         'edit' => 'inline',

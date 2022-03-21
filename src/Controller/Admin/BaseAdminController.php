@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Manager\InvoiceManager;
+use App\Manager\Pdf\OperatorCheckingPdfManager;
 use App\Manager\Pdf\PayslipPdfManager;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Manager\Pdf\SaleInvoicePdfManager;
+use App\Manager\Pdf\VehicleCheckingPdfManager;
 use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
 use App\Manager\Xml\PayslipXmlManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
@@ -36,9 +38,14 @@ abstract class BaseAdminController extends Controller
 
     protected PayslipXmlManager $pxm;
 
+    protected OperatorCheckingPdfManager $operatorCheckingPdfManager;
+
+    protected VehicleCheckingPdfManager $vehicleCheckingPdfManager;
+
     public function __construct(InvoiceManager $invoiceManager, SaleDeliveryNotePdfManager $sdnpm,
                                 SaleInvoicePdfManager $sipm, WorkRegisterHeaderPdfManager $wrhpm,
-                                PayslipPdfManager $ppm, PayslipXmlManager $pxm)
+                                PayslipPdfManager $ppm, PayslipXmlManager $pxm, OperatorCheckingPdfManager $operatorCheckingPdfManager,
+                                VehicleCheckingPdfManager $vehicleCheckingPdfManager)
     {
         $this->im = $invoiceManager;
         $this->sdnpm = $sdnpm;
@@ -46,6 +53,8 @@ abstract class BaseAdminController extends Controller
         $this->wrhpm = $wrhpm;
         $this->ppm = $ppm;
         $this->pxm = $pxm;
+        $this->operatorCheckingPdfManager = $operatorCheckingPdfManager;
+        $this->vehicleCheckingPdfManager = $vehicleCheckingPdfManager;
     }
 
     /**

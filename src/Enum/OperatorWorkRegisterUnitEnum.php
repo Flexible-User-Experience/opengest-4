@@ -42,7 +42,7 @@ class OperatorWorkRegisterUnitEnum
             self::DIET => 'Dieta',
             self::INTERNATIONAL_LUNCH => 'Comida internacional',
             self::INTERNATIONAL_DINNER => 'Cena internacional',
-            self::ROAD_NORMAL_HOUR => 'Plus carretera',
+//            self::ROAD_NORMAL_HOUR => 'Plus carretera',
             self::CAR_OUTPUT => 'Salida',
         ];
     }
