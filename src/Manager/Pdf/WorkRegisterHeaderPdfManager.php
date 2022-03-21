@@ -211,12 +211,11 @@ class WorkRegisterHeaderPdfManager
 //        $workRegisterHeaders = $payslip->getOperator()->getWorkRegisterHeaders()->filter(function (OperatorWorkRegisterHeader $owrh) use ($fromDate, $toDate) {
 //            return ($owrh->getDate() >= $fromDate) && ($owrh->getDate() <= $toDate);
 //        });
-        list($workingHourPrice, $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
+        list($normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
             $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice)
             = $this->getPricesForOperator($operator);
 
         // totals
-        $totalWorkingHours = 0;
         $totalNormalHours = 0;
         $totalExtraHours = 0;
         $totalNegativeHours = 0;
@@ -232,10 +231,10 @@ class WorkRegisterHeaderPdfManager
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
             list($normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet,
-                $dietInt, $overNight, $exitExtra, $workRegister, $totalWorkingHours, $totalNormalHours,
+                $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours,
                 $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
                 $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra) =
-                $this->getTotalsWorkRegisterHeader($workRegisterHeader, $totalWorkingHours, $totalNormalHours,
+                $this->getTotalsWorkRegisterHeader($workRegisterHeader, $totalNormalHours,
                     $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
                     $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
             // Draw each line, as every workReagister header refers to a date
@@ -245,9 +244,6 @@ class WorkRegisterHeaderPdfManager
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $workRegisterHeader->getDateFormatted(),
                 1, 0, 'L', false);
-//            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-//                $workingHours,
-//                1, 0, 'L', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 number_format($normalHours,'0',',','.'),
                 1, 0, 'C', false);
@@ -290,9 +286,6 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Suma',
             'B', 0, 'L', false);
-//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-//            $totalWorkingHours,
-//            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             number_format($totalNormalHours,'0',',','.'),
             1, 0, 'C', false);
@@ -335,9 +328,6 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Precio unit.',
             'B', 0, 'L', false);
-//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-//            $workingHourPrice,
-//            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             number_format($normalHourPrice,'2',',','.'),
             1, 0, 'C', false);
@@ -380,9 +370,6 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'Total (€)',
             'B', 0, 'L', false);
-//        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-//            $workingHourPrice * $totalWorkingHours,
-//            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             number_format($normalHourPrice * $totalNormalHours,'2',',','.'),
             1, 0, 'C', false);
@@ -420,7 +407,7 @@ class WorkRegisterHeaderPdfManager
             number_format($exitExtraPrice * $totalExitExtra,'2',',','.'),
             1, 0, 'C', false);
         $pdf->Ln(10);
-        $finalSum = $this->getFinalSum($workingHourPrice, $totalWorkingHours, $normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
+        $finalSum = $this->getFinalSum( $normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
         //Other imports and final totals
         $this->pdfEngineService->setStyleSize('B', 9);
         $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
@@ -454,7 +441,7 @@ class WorkRegisterHeaderPdfManager
                     !str_contains($workRegister->getDescription(), 'Dieta') &&
                     !str_contains($workRegister->getDescription(), 'Dieta internacional') &&
                     !str_contains($workRegister->getDescription(), 'Pernoctación') &&
-//                    !str_contains($workRegister->getDescription(), 'Plus carretera') &&
+                    !str_contains($workRegister->getDescription(), 'Plus carretera') &&
                     !str_contains($workRegister->getDescription(), 'Salida')
                 ) {
                     $this->pdfEngineService->setStyleSize('', 9);
@@ -568,11 +555,10 @@ class WorkRegisterHeaderPdfManager
         $this->pdfEngineService->setStyleSize('', 9);
         foreach($operators as $operator){
             //get prices
-            list($workingHourPrice, $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
+            list( $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
                 $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice)
                 = $this->getPricesForOperator($operator);
             //get totals by workregisterheader
-            $totalWorkingHours = 0;
             $totalNormalHours = 0;
             $totalExtraHours = 0;
             $totalNegativeHours = 0;
@@ -590,13 +576,13 @@ class WorkRegisterHeaderPdfManager
             foreach ($workRegisterHeaders as $workRegisterHeader) {
                 $otherAmounts = 0;
                 list($normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet,
-                    $dietInt, $overNight, $exitExtra, $workRegister, $totalWorkingHours, $totalNormalHours,
+                    $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours,
                     $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
                     $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra) =
-                    $this->getTotalsWorkRegisterHeader($workRegisterHeader, $totalWorkingHours, $totalNormalHours,
+                    $this->getTotalsWorkRegisterHeader($workRegisterHeader, $totalNormalHours,
                         $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
                         $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
-                $finalSum = $this->getFinalSum($workingHourPrice, $totalWorkingHours, $normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
+                $finalSum = $this->getFinalSum($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
                 foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
                     if (
                         !str_contains($workRegister->getDescription(), 'Hora laboral') &&
@@ -610,7 +596,7 @@ class WorkRegisterHeaderPdfManager
                         !str_contains($workRegister->getDescription(), 'Dieta') &&
                         !str_contains($workRegister->getDescription(), 'Dieta internacional') &&
                         !str_contains($workRegister->getDescription(), 'Pernoctación') &&
-//                    !str_contains($workRegister->getDescription(), 'Plus carretera') &&
+                        !str_contains($workRegister->getDescription(), 'Plus carretera') &&
                         !str_contains($workRegister->getDescription(), 'Salida')
                     ) {
                         $otherAmounts += $workRegister->getAmount();
@@ -619,7 +605,12 @@ class WorkRegisterHeaderPdfManager
                 $totalOtherAmounts += $otherAmounts;
             }
             $total = $finalSum + $otherAmounts;
-            $totaldiets = $totalLunch + $totalLunchInt + $totalDinner + $totalDinnerInt + $totalDiet + $totalDietInt;
+            $totaldiets = $totalLunch*$lunchPrice +
+                $totalLunchInt*$lunchIntPrice +
+                $totalDinner*$dinnerPrice +
+                $totalDinnerInt*$dinnerIntPrice +
+                $totalDiet*$dietPrice +
+                $totalDietInt*$dietIntPrice;
             $calc = $total - $totaldiets;
             $plusprod = $calc * (100-$amount)/100;
             $others = $calc * $amount/100;
@@ -629,16 +620,16 @@ class WorkRegisterHeaderPdfManager
                 $operator,
                 1, 0, 'L', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                $total,
+                number_format($total,'2',',','.'),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                $others,
+                number_format($others,'2',',','.'),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                $plusprod,
+                number_format($plusprod,'2',',','.'),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                $totaldiets,
+                number_format($totaldiets,'2',',','.'),
                 1, 0, 'C', false);
             $pdf->ln();
 
@@ -661,7 +652,6 @@ class WorkRegisterHeaderPdfManager
 
     /**
      * @param OperatorWorkRegister $workRegister
-     * @param float $workingHours
      * @param float $normalHours
      * @param float $extraHours
      * @param float $negativeHours
@@ -675,11 +665,8 @@ class WorkRegisterHeaderPdfManager
      * @param float $exitExtra
      * @return float[]
      */
-    private function getDetailedUnits(OperatorWorkRegister $workRegister, float $workingHours, float $normalHours, float $extraHours, float $negativeHours, float $lunch, float $dinner, float $lunchInt, float $dinnerInt, float $diet, float $dietInt, float $overNight, float $exitExtra): array
+    private function getDetailedUnits(OperatorWorkRegister $workRegister, float $normalHours, float $extraHours, float $negativeHours, float $lunch, float $dinner, float $lunchInt, float $dinnerInt, float $diet, float $dietInt, float $overNight, float $exitExtra): array
     {
-        if (str_contains($workRegister->getDescription(), 'Hora laboral')) {
-            $workingHours += $workRegister->getUnits();
-        }
         if (str_contains($workRegister->getDescription(), 'Hora normal')) {
             $normalHours += $workRegister->getUnits();
         }
@@ -689,10 +676,10 @@ class WorkRegisterHeaderPdfManager
         if (str_contains($workRegister->getDescription(), 'Hora negativa')) {
             $negativeHours += $workRegister->getUnits();
         }
-        if (str_contains($workRegister->getDescription(), 'Comida')) {
+        if (str_contains($workRegister->getDescription(), 'Comida') && !str_contains($workRegister->getDescription(), 'Comida internacional')) {
             $lunch += $workRegister->getUnits();
         }
-        if (str_contains($workRegister->getDescription(), 'Cena')) {
+        if (str_contains($workRegister->getDescription(), 'Cena') && !str_contains($workRegister->getDescription(), 'Cena internacional')) {
             $dinner += $workRegister->getUnits();
         }
         if (str_contains($workRegister->getDescription(), 'Comida internacional')) {
@@ -701,7 +688,7 @@ class WorkRegisterHeaderPdfManager
         if (str_contains($workRegister->getDescription(), 'Cena internacional')) {
             $dinnerInt += $workRegister->getUnits();
         }
-        if (str_contains($workRegister->getDescription(), 'Dieta')) {
+        if (str_contains($workRegister->getDescription(), 'Dieta') && !str_contains($workRegister->getDescription(), 'Dieta internacional')) {
             $diet += $workRegister->getUnits();
         }
         if (str_contains($workRegister->getDescription(), 'Dieta internacional')) {
@@ -716,7 +703,7 @@ class WorkRegisterHeaderPdfManager
         if (str_contains($workRegister->getDescription(), 'Salida')) {
             $exitExtra += $workRegister->getUnits();
         }
-        return array($workingHours, $normalHours, $extraHours, $negativeHours, $lunch, $dinner, $lunchInt, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra);
+        return array($normalHours, $extraHours, $negativeHours, $lunch, $dinner, $lunchInt, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra);
     }
 
     /**
@@ -726,7 +713,6 @@ class WorkRegisterHeaderPdfManager
     private function getPricesForOperator($operator): array
     {
         $bountyGroup = $operator->getEnterpriseGroupBounty();
-        $workingHourPrice = $bountyGroup ? $bountyGroup->getNormalHour() : 0;
         $normalHourPrice = $bountyGroup ? $bountyGroup->getExtraNormalHour() : 0;
         $extraHourPrice = $bountyGroup ? $bountyGroup->getExtraExtraHour() : 0;
         $negativeHourPrice = $bountyGroup ? $bountyGroup->getNegativeHour() : 0;
@@ -739,12 +725,11 @@ class WorkRegisterHeaderPdfManager
         $overNightPrice = $bountyGroup ? $bountyGroup->getOverNight() : 0;
 //        $roadExtraPrice = $bountyGroup ? $bountyGroup->getRoadExtraHour() : 0;
         $exitExtraPrice = $bountyGroup ? $bountyGroup->getCarOutput() : 0;
-        return array($workingHourPrice, $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice, $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice);
+        return array( $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice, $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice);
     }
 
     /**
      * @param OperatorWorkRegisterHeader $workRegisterHeader
-     * @param $totalWorkingHours
      * @param $totalNormalHours
      * @param $totalExtraHours
      * @param $totalNegativeHours
@@ -758,10 +743,9 @@ class WorkRegisterHeaderPdfManager
      * @param $totalExitExtra
      * @return array
      */
-    private function getTotalsWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader, $totalWorkingHours, $totalNormalHours, $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra): array
+    private function getTotalsWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader, $totalNormalHours, $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra): array
     {
         $workRegisters = $workRegisterHeader->getOperatorWorkRegisters();
-        $workingHours = 0;
         $normalHours = 0;
         $extraHours = 0;
         $negativeHours = 0;
@@ -776,13 +760,12 @@ class WorkRegisterHeaderPdfManager
         $exitExtra = 0;
         /** @var OperatorWorkRegister $workRegister */
         foreach ($workRegisters as $workRegister) {
-            list($workingHours, $normalHours, $extraHours, $negativeHours, $lunch, $dinner,
+            list($normalHours, $extraHours, $negativeHours, $lunch, $dinner,
                 $lunchInt, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra) =
-                $this->getDetailedUnits($workRegister, $workingHours, $normalHours,
+                $this->getDetailedUnits($workRegister, $normalHours,
                     $extraHours, $negativeHours, $lunch, $dinner, $lunchInt, $dinnerInt,
                     $diet, $dietInt, $overNight, $exitExtra);
         }
-        $totalWorkingHours += $workingHours;
         $totalNormalHours += $normalHours;
         $totalExtraHours += $extraHours;
         $totalNegativeHours += $negativeHours;
@@ -795,12 +778,10 @@ class WorkRegisterHeaderPdfManager
         $totalOverNight += $overNight;
 //            $totalRoadExtra += $roadExtra;
         $totalExitExtra += $exitExtra;
-        return array($normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra, $workRegister, $totalWorkingHours, $totalNormalHours, $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
+        return array($normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours, $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
     }
 
     /**
-     * @param int $workingHourPrice
-     * @param $totalWorkingHours
      * @param int $normalHourPrice
      * @param $totalNormalHours
      * @param int $extraHourPrice
@@ -825,9 +806,9 @@ class WorkRegisterHeaderPdfManager
      * @param $totalExitExtra
      * @return float|int
      */
-    private function getFinalSum(int $workingHourPrice, $totalWorkingHours, int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $negativeHourPrice, $totalNegativeHours, int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
+    private function getFinalSum(int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $negativeHourPrice, $totalNegativeHours, int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
     {
-        $finalSum = $workingHourPrice * $totalWorkingHours +
+        $finalSum =
             $normalHourPrice * $totalNormalHours +
             $extraHourPrice * $totalExtraHours +
             $negativeHourPrice * $totalNegativeHours +

@@ -107,7 +107,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'totalAmount',
                     MoneyType::class,
                     [
-                        'label' => 'admin.label.total',
+                        'label' => 'Total (€)',
                         'disabled' => true,
                     ]
                 )
@@ -176,6 +176,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'field_options' => [
                             'property' => 'surname1',
                         ],
+                    'show_filter' => true,
                 ]
             )
             ->add(
@@ -194,6 +195,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                             'format' => 'dd/MM/yyyy',
                         ],
                     ],
+                    'show_filter' => true,
                 ]
             )
         ;
@@ -221,7 +223,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 null,
                 [
-                    'label' => 'admin.label.total',
+                    'label' => 'Total (€)',
                 ]
             )
             ->add(
