@@ -47,9 +47,19 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
 //            ->remove('delete')
-//            ->add('batch')
             ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
+            ->add('batch')
         ;
+    }
+
+    public function configureBatchActions(array $actions): array
+    {
+        $actions['downloadPdfOperatorPendingCheckings'] = [
+            'ask_confirmation' => false,
+            'label' => 'Informe revisiones',
+        ];
+
+        return $actions;
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -263,7 +273,7 @@ class OperatorCheckingAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'Acciones',
                 ]
             )
         ;
