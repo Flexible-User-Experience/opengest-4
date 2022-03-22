@@ -491,24 +491,7 @@ class WorkRegisterHeaderPdfManager
     }
     private function buildTimeSummary($operators, $workRegisterHeaders, $from, $to, $amount, TCPDF $pdf): TCPDF
     {
-        // add start page
-        $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
-        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
-        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_PORTRAIT - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
-
-        // get the current page break margin
-        $bMargin = $pdf->getBreakMargin();
-        // get current auto-page-break mode
-        $auto_page_break = $pdf->getAutoPageBreak();
-        // disable auto-page-break
-        $pdf->SetAutoPageBreak(false, 0);
-        // restore auto-page-break status
-        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
-        // set the starting point for the page content
-        $pdf->setPageMark();
-        // set cell padding
-        $pdf->setCellPaddings(1, 1, 1, 1);
+        $width = $this->startPage($pdf);
 
         //Heading with date and page number
 //        $this->pdfEngineService->setStyleSize('', 9);
@@ -553,6 +536,7 @@ class WorkRegisterHeaderPdfManager
 
 
         $this->pdfEngineService->setStyleSize('', 9);
+        /** @var Operator $operator */
         foreach($operators as $operator){
             //get prices
             list( $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
@@ -572,8 +556,11 @@ class WorkRegisterHeaderPdfManager
 //        $totalRoadExtra = 0;
             $totalExitExtra = 0;
             $totalOtherAmounts = 0;
+            $filteredWorkRegisterHedadersByOperator = array_filter($workRegisterHeaders,function($x) use($operator){
+                return $x->getOperator() == $operator;
+            }, ARRAY_FILTER_USE_BOTH);
             /** @var OperatorWorkRegisterHeader $workRegisterHeader */
-            foreach ($workRegisterHeaders as $workRegisterHeader) {
+            foreach ($filteredWorkRegisterHedadersByOperator as $workRegisterHeader) {
                 $otherAmounts = 0;
                 list($normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet,
                     $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours,
@@ -604,7 +591,7 @@ class WorkRegisterHeaderPdfManager
                 }
                 $totalOtherAmounts += $otherAmounts;
             }
-            $total = $finalSum + $otherAmounts;
+            $total = $finalSum + $totalOtherAmounts;
             $totaldiets = $totalLunch*$lunchPrice +
                 $totalLunchInt*$lunchIntPrice +
                 $totalDinner*$dinnerPrice +
@@ -822,5 +809,32 @@ class WorkRegisterHeaderPdfManager
 //            $roadExtraPrice * $totalRoadExtra +
             $exitExtraPrice * $totalExitExtra;
         return $finalSum;
+    }
+
+    /**
+     * @param TCPDF $pdf
+     * @return int
+     */
+    private function startPage(TCPDF $pdf): int
+    {
+// add start page
+        $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_PORTRAIT - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
+
+        // get the current page break margin
+        $bMargin = $pdf->getBreakMargin();
+        // get current auto-page-break mode
+        $auto_page_break = $pdf->getAutoPageBreak();
+        // disable auto-page-break
+        $pdf->SetAutoPageBreak(false, 0);
+        // restore auto-page-break status
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        // set the starting point for the page content
+        $pdf->setPageMark();
+        // set cell padding
+        $pdf->setCellPaddings(1, 1, 1, 1);
+        return $width;
     }
 }
