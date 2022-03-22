@@ -541,6 +541,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.code',
+                    'show_filter' => true
                 ]
             )
             ->add(
