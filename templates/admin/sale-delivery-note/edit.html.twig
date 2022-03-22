@@ -163,6 +163,8 @@
     {% if form.saleInvoice.vars.data %}
         {% if form.saleInvoice.vars.data.hasBeenCounted %}
             <b>No se puede modificar un albarán facturado con factura contabilizada.</b>
+        {% else %}
+            {{ parent() }}
         {% endif %}
     {% else %}
         {{ parent() }}
