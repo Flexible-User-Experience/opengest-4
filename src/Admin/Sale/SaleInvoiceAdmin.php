@@ -251,7 +251,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             );
-        if($this->getSubject()->getPartner()->getCollectionTerm2()){
+        if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
             $formMapper
                 ->add(
                     'partner.collectionTerm2',
@@ -263,7 +263,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     ]
                 );
         }
-        if($this->getSubject()->getPartner()->getCollectionTerm3()){
+        if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
             $formMapper
                 ->add(
                     'partner.collectionTerm3',
@@ -275,7 +275,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     ]
                 );
         }
-            $formMapper
+        $formMapper
             ->add(
                 'partner.payDay1',
                 null,
@@ -285,7 +285,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             );
-        if($this->getSubject()->getPartner()->getPayDay2()){
+        if ($this->getSubject()->getPartner()->getPayDay2()) {
             $formMapper
                 ->add(
                     'partner.payDay2',
@@ -297,7 +297,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     ]
                 );
         }
-        if($this->getSubject()->getPartner()->getPayDay3()){
+        if ($this->getSubject()->getPartner()->getPayDay3()) {
             $formMapper
                 ->add(
                     'partner.payDay3',
@@ -309,7 +309,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     ]
                 );
         }
-            $formMapper
+        $formMapper
             ->add(
                 'collectionDocumentType',
                 EntityType::class,
@@ -659,6 +659,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 $object->setInvoiceNumber($originalObject['invoiceNumber']);
                 $object->setSeries($originalObject['series']);
             }
+        }
+        if (($originalObject['date'] !== $object->getDate()) || ($originalObject['collectionDocumentType'] !== $object->getCollectionDocumentType())) {
+            foreach ($object->getSaleInvoiceDueDates() as $dueDate) {
+                $this->em->remove($dueDate);
+                $this->em->flush();
+            }
+            $this->im->createDueDatesFromSaleInvoice($object);
         }
     }
 
