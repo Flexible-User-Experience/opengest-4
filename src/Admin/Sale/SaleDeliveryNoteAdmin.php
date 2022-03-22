@@ -25,6 +25,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
@@ -890,9 +891,18 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoiced',
+                    'show_filter' => true,
                 ]
             )
         ;
+    }
+
+    protected function configureDefaultFilterValues(array &$filterValues): void
+    {
+        $filterValues['isInvoiced'] = [
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => BooleanType::TYPE_NO,
+        ];
     }
 
     public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
