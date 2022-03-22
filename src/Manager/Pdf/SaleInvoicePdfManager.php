@@ -225,6 +225,13 @@ class SaleInvoicePdfManager
         $col5 = 160;
         $col6 = 168;
         $col7 = 194;
+        if($saleInvoice->getObservations()){
+            $pdf->setXY($col2, $YDim);
+            $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getObservations(),
+                0, 'L', false);
+            $YDim = $YDim + 5;
+        }
         if($saleInvoice->getDeliveryNotes()->first()){
             if ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite()){
                 $pdf->setXY($col2, $YDim);
@@ -399,17 +406,18 @@ class SaleInvoicePdfManager
                 $pdf->Ln(5);
                 $pdf->setX($xVar2);
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $saleInvoice->getPartner()->getTransferAccount()->getName(),
-                    0, 0, 'L', false);
-                $pdf->Ln(3);
-                $pdf->setX($xVar2);
-                $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleInvoice->getPartner()->getTransferAccount()->getIban().' '.
                     $saleInvoice->getPartner()->getTransferAccount()->getBankCode().' '.
                     $saleInvoice->getPartner()->getTransferAccount()->getOfficeNumber().' '.
                     $saleInvoice->getPartner()->getTransferAccount()->getControlDigit().' '.
                     $saleInvoice->getPartner()->getTransferAccount()->getAccountNumber(),
                     0, 0, 'L', false);
+                $pdf->Ln(3);
+                $pdf->setX($xVar2);
+                $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getPartner()->getTransferAccount()->getSwift(),
+                    0, 0, 'L', false);
+
             } elseif (str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()), 'recibo')) {
                 $pdf->Ln(5);
                 $pdf->setX($xVar2);
@@ -444,13 +452,13 @@ class SaleInvoicePdfManager
         $pdf->Ln();
         $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'IVA 21%: '.number_format($saleInvoice->getIva(), 2, ',', '.').' €',
+            'IVA: '.number_format($saleInvoice->getIva(), 2, ',', '.').' €',
             0, 0, 'L', false);
         $pdf->Ln();
         if ($saleInvoice->getIrpf()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IRPF 15%: '.number_format($saleInvoice->getIrpf(), 2, ',', '.').' €',
+                'IRPF: '.number_format($saleInvoice->getIrpf(), 2, ',', '.').' €',
                 0, 0, 'L', false);
             $pdf->Ln();
         }

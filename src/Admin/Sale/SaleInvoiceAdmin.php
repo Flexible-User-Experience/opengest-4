@@ -53,7 +53,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     {
         $sortValues[DatagridInterface::PAGE] = 1;
         $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
-        $sortValues[DatagridInterface::SORT_BY] = 'date';
+        $sortValues[DatagridInterface::SORT_BY] = 'invoiceNumber';
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -243,6 +243,74 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'partner.collectionTerm1',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            );
+        if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
+            $formMapper
+                ->add(
+                    'partner.collectionTerm2',
+                    null,
+                    [
+                        'label' => 'admin.label.collection_term_2',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+        if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
+            $formMapper
+                ->add(
+                    'partner.collectionTerm3',
+                    null,
+                    [
+                        'label' => 'admin.label.collection_term_3',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+        $formMapper
+            ->add(
+                'partner.payDay1',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            );
+        if ($this->getSubject()->getPartner()->getPayDay2()) {
+            $formMapper
+                ->add(
+                    'partner.payDay2',
+                    null,
+                    [
+                        'label' => 'admin.label.pay_day_2',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+        if ($this->getSubject()->getPartner()->getPayDay3()) {
+            $formMapper
+                ->add(
+                    'partner.payDay3',
+                    null,
+                    [
+                        'label' => 'admin.label.pay_day_3',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+        $formMapper
+            ->add(
                 'collectionDocumentType',
                 EntityType::class,
                 [
@@ -251,7 +319,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             );
-        if ($this->getSubject()->getCollectionDocumentType()){
+        if ($this->getSubject()->getCollectionDocumentType()) {
             if (str_contains('transferencia', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
                 $formMapper
                     ->add(
@@ -260,11 +328,11 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         [
                             'label' => 'admin.label.transference_bank',
                             'required' => false,
-                            'disabled' => true
+                            'disabled' => true,
                         ]
                     )
                 ;
-            } else if (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+            } elseif (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
                 $formMapper
                     ->add(
                         'partner.iban',
@@ -272,7 +340,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         [
                             'label' => 'IBAN',
                             'required' => false,
-                            'disabled' => true
+                            'disabled' => true,
                         ]
                     )
                     ->add(
@@ -281,7 +349,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         [
                             'label' => 'SWIFT',
                             'required' => false,
-                            'disabled' => true
+                            'disabled' => true,
                         ]
                     )
                 ;
@@ -338,6 +406,20 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'expanded' => true,
                         'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getEmptyQueryBuilder(),
                         'by_reference' => false,
+                    ]
+                )
+                ->end()
+            ;
+        }
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->with('observations', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'observations',
+                    null,
+                    [
+                        'required' => false,
+                        'label' => false,
                     ]
                 )
                 ->end()
@@ -577,6 +659,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 $object->setInvoiceNumber($originalObject['invoiceNumber']);
                 $object->setSeries($originalObject['series']);
             }
+        }
+        if (($originalObject['date'] !== $object->getDate()) || ($originalObject['collectionDocumentType'] !== $object->getCollectionDocumentType())) {
+            foreach ($object->getSaleInvoiceDueDates() as $dueDate) {
+                $this->em->remove($dueDate);
+                $this->em->flush();
+            }
+            $this->im->createDueDatesFromSaleInvoice($object);
         }
     }
 

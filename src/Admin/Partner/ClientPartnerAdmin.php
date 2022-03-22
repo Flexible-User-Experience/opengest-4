@@ -84,16 +84,36 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->add(
-                'class',
-                EntityType::class,
-                [
-                    'class' => PartnerClass::class,
-                    'label' => 'admin.label.class',
-                    'required' => true,
-                    'query_builder' => $this->rm->getPartnerClassRepository()->getEnabledSortedByNameQB(),
-                ]
-            )
+        ;
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->add(
+                    'class',
+                    EntityType::class,
+                    [
+                        'class' => PartnerClass::class,
+                        'label' => 'admin.label.class',
+                        'required' => true,
+                        'query_builder' => $this->rm->getPartnerClassRepository()->getEnabledSortedByNameQB(),
+                    ]
+                )
+            ;
+        } else {
+            $formMapper
+                ->add(
+                    'class',
+                    EntityType::class,
+                    [
+                        'class' => PartnerClass::class,
+                        'label' => 'admin.label.class',
+                        'required' => true,
+                        'query_builder' => $this->rm->getPartnerClassRepository()->getEnabledSortedByNameQB(),
+                        'data' => $this->rm->getPartnerClassRepository()->findOneBy(['id' => 1]),
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->add(
                 'notes',
                 null,
@@ -541,6 +561,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.code',
+                    'show_filter' => true,
                 ]
             )
             ->add(

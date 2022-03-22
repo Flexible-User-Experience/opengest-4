@@ -95,7 +95,16 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
         $form->handleRequest($request);
         /** @var Operator[] $operators */
         $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
+        $owrhForDates = $operatorWorkRegisterHeaders;
+        $from = array_shift($owrhForDates)->getDate();
+        if (!$owrhForDates) {
+            $to = $from;
+        } else {
+            $to = array_pop($owrhForDates)->getDate();
+        }
         $form->get('operatorWorkRegisterHeaders')->setData($operatorWorkRegisterHeaders);
+        $form->get('fromDate')->setData($from);
+        $form->get('toDate')->setData($to);
 
         return $this->renderWithExtraParams(
             'admin/operator-work-register-header/timeSummaryGeneration.html.twig',
