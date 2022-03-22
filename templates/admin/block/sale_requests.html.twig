@@ -18,7 +18,9 @@
                             <div class="box-tools pull-right" style="right:7px;top:10px;">
                                 {% if show_date %}
                                     <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceDate | date('d/m/Y') }}</span>
-                                    <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceTime | date('h:i') }}</span>
+                                    {% if item.serviceTime %}
+                                        <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceTime | date('h:i') }}</span>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>

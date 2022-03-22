@@ -7,9 +7,9 @@ use App\Entity\Sale\SaleRequest;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SaleRequestRepository extends ServiceEntityRepository
 {
@@ -125,6 +125,7 @@ class SaleRequestRepository extends ServiceEntityRepository
         return $this->getFilteredByEnterpriseEnabledSortedByRequestDateQB($enterprise)
             ->andWhere('s.status = :status')
             ->setParameter('status', $status)
+            ->addOrderBy('s.serviceDate', 'DESC')
         ;
     }
 
