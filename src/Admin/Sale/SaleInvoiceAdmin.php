@@ -243,6 +243,74 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'partner.collectionTerm1',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            );
+        if($this->getSubject()->getPartner()->getCollectionTerm2()){
+            $formMapper
+                ->add(
+                    'partner.collectionTerm2',
+                    null,
+                    [
+                        'label' => 'admin.label.collection_term_2',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+        if($this->getSubject()->getPartner()->getCollectionTerm3()){
+            $formMapper
+                ->add(
+                    'partner.collectionTerm3',
+                    null,
+                    [
+                        'label' => 'admin.label.collection_term_3',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+            $formMapper
+            ->add(
+                'partner.payDay1',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            );
+        if($this->getSubject()->getPartner()->getPayDay2()){
+            $formMapper
+                ->add(
+                    'partner.payDay2',
+                    null,
+                    [
+                        'label' => 'admin.label.pay_day_2',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+        if($this->getSubject()->getPartner()->getPayDay3()){
+            $formMapper
+                ->add(
+                    'partner.payDay3',
+                    null,
+                    [
+                        'label' => 'admin.label.pay_day_3',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                );
+        }
+            $formMapper
+            ->add(
                 'collectionDocumentType',
                 EntityType::class,
                 [
@@ -338,6 +406,20 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'expanded' => true,
                         'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getEmptyQueryBuilder(),
                         'by_reference' => false,
+                    ]
+                )
+                ->end()
+            ;
+        }
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->with('observations', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'observations',
+                    null,
+                    [
+                        'required' => false,
+                        'label' => false,
                     ]
                 )
                 ->end()
