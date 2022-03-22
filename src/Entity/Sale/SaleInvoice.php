@@ -128,6 +128,13 @@ class SaleInvoice extends AbstractBase
     private $collectionDocumentType;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $observations;
+
+    /**
      * Methods.
      */
 
@@ -458,6 +465,18 @@ class SaleInvoice extends AbstractBase
     public function setDeliveryAddress(?PartnerDeliveryAddress $deliveryAddress): SaleInvoice
     {
         $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
+    }
+
+    public function getObservations(): string
+    {
+        return $this->observations;
+    }
+
+    public function setObservations(string $observations): SaleInvoice
+    {
+        $this->observations = $observations;
 
         return $this;
     }
