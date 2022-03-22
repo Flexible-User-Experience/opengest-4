@@ -230,7 +230,7 @@ class SaleInvoicePdfManager
             $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $saleInvoice->getObservations(),
                 0, 'L', false);
-            $YDim = $YDim + 3;
+            $YDim = $YDim + 5;
         }
         if($saleInvoice->getDeliveryNotes()->first()){
             if ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite()){
