@@ -81,7 +81,7 @@ class ImportSaleInvoiceCommand extends AbstractBaseCommand
             if ($date && $invoiceNumber && $type && $series && $partner) {
                 /** @var SaleInvoice $saleInvoice */
                 $saleInvoice = $this->rm->getSaleInvoiceRepository()->findOneBy([
-                    'date' => $date,
+                    'series' => $series,
                     'invoiceNumber' => $invoiceNumber,
                     'type' => $type,
                 ]);
