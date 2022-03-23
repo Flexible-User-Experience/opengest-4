@@ -225,13 +225,6 @@ class SaleInvoicePdfManager
         $col5 = 160;
         $col6 = 168;
         $col7 = 194;
-        if($saleInvoice->getObservations()){
-            $pdf->setXY($col2, $YDim);
-            $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getObservations(),
-                0, 'L', false);
-            $YDim = $YDim + 5;
-        }
         if($saleInvoice->getDeliveryNotes()->first()){
             if ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite()){
                 $pdf->setXY($col2, $YDim);
@@ -240,7 +233,7 @@ class SaleInvoicePdfManager
                     'OBRA: '.$saleInvoice->getDeliveryNotes()->first()->getBuildingSite(),
                     0, 'L', false);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-                $YDim = $YDim + 3;
+                $YDim = $YDim + 10;
             }
         }
         /** @var SaleDeliveryNote $deliveryNote */
@@ -303,6 +296,15 @@ class SaleInvoicePdfManager
         if( $YDim < 110){
             $YDim = 120;
         }
+
+        if($saleInvoice->getObservations()){
+            $pdf->setXY($col2, $YDim);
+            $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getObservations(),
+                0, 'L', false);
+            $YDim = $YDim + 5;
+        }
+
         $pdf->setXY($col1, $YDim);
         $this->writeDataTreatmentText($pdf);
 
