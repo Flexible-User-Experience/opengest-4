@@ -264,4 +264,23 @@ class SaleInvoiceAdminController extends BaseAdminController
 
         return new JsonResponse(['nextInvoiceNumber' => $nextInvoiceNumber]);
     }
+
+    /**
+     * @return JsonResponse
+     *
+     * @throws NonUniqueResultException
+     */
+    public function getJsonAvailableInvoiceNumbersForSeriesAction(Request $request, int $id)
+    {
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+        /** @var SaleInvoiceSeries $series */
+        $series = $this->admin->getModelManager()->find(SaleInvoiceSeries::class, $id);
+        if (!$series) {
+            throw $this->createNotFoundException(sprintf('unable to find the sale invoice series with id: %s', $id));
+        }
+        $availableInvociceNumbers = $this->im->getAvailableNumbersBySerieAndEnterprise($series, $enterprise);
+
+        return new JsonResponse($availableInvociceNumbers);
+    }
 }

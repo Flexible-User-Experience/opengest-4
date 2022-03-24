@@ -9,3 +9,4 @@ fos_js_routing:
         - 'admin_app_operator_operatorworkregister_getJsonOperatorWorkRegistersByDataAndOperatorId'
         - 'admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice'
         - 'admin_app_operator_operatorworkregisterheader_getJsonOperatorWorkRegisterTotalsByHourType'
+        - 'admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries'

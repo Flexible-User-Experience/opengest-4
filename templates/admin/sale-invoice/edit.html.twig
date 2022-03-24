@@ -12,6 +12,18 @@
             var invoiceNumberInput = jQuery('#{{ form.invoiceNumber.vars.id }}');
             var ulDeliveryNotesNode = jQuery('#{{ form.deliveryNotes.vars.id }}');
             let hasInvoiceNumberWaring = false;
+            let seriesId = jQuery('#{{ form.series.vars.id }}').val();
+
+            jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+            }).done(function (response) {
+            if (Object.keys(response).length > 0) {
+              invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+            } else {
+              invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+            }
+            });
 
             //on change Partner
             partnerNode.change(function(event) {
@@ -25,20 +37,30 @@
 
             seriesNode.change(function (event) {
               var seriesId = jQuery(event.target).val();
-              jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
-              }).done(function (response) {
-                const nextInvoiceNumber = response.nextInvoiceNumber;
-                invoiceNumberInput.val(nextInvoiceNumber);
-                if (!hasInvoiceNumberWaring) {
-                  hasInvoiceNumberWaring = true;
-                  jQuery(`
-                          <p style="color:red" id="newinvoicenumberwarning">
-                              Nuevo número de factura propuesto
-                          </p>
-                      `).insertAfter(invoiceNumberInput);
-                }
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    const nextInvoiceNumber = response.nextInvoiceNumber;
+                    invoiceNumberInput.val(nextInvoiceNumber);
+                    if (!hasInvoiceNumberWaring) {
+                      hasInvoiceNumberWaring = true;
+                      jQuery(`
+                              <p style="color:red" id="newinvoicenumberwarning">
+                                  Nuevo número de factura propuesto
+                              </p>
+                          `).insertAfter(invoiceNumberInput);
+                    }
+                  });
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    if (Object.keys(response).length > 0) {
+                      invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+                    } else {
+                      invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+                    }
+                  });
               });
-            });
 
             function updateNodesInfo(response) {
                 var deliveryNotes = jQuery.parseJSON(response);

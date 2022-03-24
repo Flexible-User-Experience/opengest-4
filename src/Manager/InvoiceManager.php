@@ -98,6 +98,17 @@ class InvoiceManager
         return $return;
     }
 
+    public function getAvailableNumbersBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise)
+    {
+        $invoiceNumbers = $this->saleInvoiceRepository->getAllInvoiceNumbersByEnterpriseAndSeries($enterprise, $serie);
+        $invoiceNumbers = array_map(function ($number) {
+            return $number['invoiceNumber'];
+        }, $invoiceNumbers);
+        $new_arr = range($invoiceNumbers[0], max($invoiceNumbers));
+
+        return array_diff($new_arr, $invoiceNumbers);
+    }
+
     public function createDueDatesFromSaleInvoice(SaleInvoice $saleInvoice)
     {
         $partner = $saleInvoice->getPartner();
