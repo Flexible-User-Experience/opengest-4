@@ -25,20 +25,24 @@
 
             seriesNode.change(function (event) {
               var seriesId = jQuery(event.target).val();
-              jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
-              }).done(function (response) {
-                const nextInvoiceNumber = response.nextInvoiceNumber;
-                invoiceNumberInput.val(nextInvoiceNumber);
-                if (!hasInvoiceNumberWaring) {
-                  hasInvoiceNumberWaring = true;
-                  jQuery(`
-                          <p style="color:red" id="newinvoicenumberwarning">
-                              Nuevo número de factura propuesto
-                          </p>
-                      `).insertAfter(invoiceNumberInput);
-                }
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    const nextInvoiceNumber = response.nextInvoiceNumber;
+                    invoiceNumberInput.val(nextInvoiceNumber);
+                    if (!hasInvoiceNumberWaring) {
+                      hasInvoiceNumberWaring = true;
+                      jQuery(`
+                              <p style="color:red" id="newinvoicenumberwarning">
+                                  Nuevo número de factura propuesto
+                              </p>
+                          `).insertAfter(invoiceNumberInput);
+                    }
+                  });
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    console.log('available invoice numbers',response);
+                  });
               });
-            });
 
             function updateNodesInfo(response) {
                 var deliveryNotes = jQuery.parseJSON(response);

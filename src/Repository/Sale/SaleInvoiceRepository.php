@@ -110,4 +110,20 @@ class SaleInvoiceRepository extends ServiceEntityRepository
             ->setParameter('date', $date)
             ;
     }
+
+    public function getAllInvoiceNumbersByEnterpriseAndSeries(Enterprise $enterprise, SaleInvoiceSeries $saleInvoiceSeries): array
+    {
+        return $this->getEnabledSortedByDateQB()
+            ->join('s.partner', 'p')
+            ->andWhere('p.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->andWhere('s.series = :serie')
+            ->setParameter('serie', $saleInvoiceSeries)
+            ->select('s.invoiceNumber')
+            ->distinct()
+            ->orderBy('s.invoiceNumber', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

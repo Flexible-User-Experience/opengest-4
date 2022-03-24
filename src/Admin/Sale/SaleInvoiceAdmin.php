@@ -65,6 +65,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('clone', $this->getRouterIdParameter().'/clone')
             ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
             ->add('getJsonNextInvoiceNumberForSeriesIdAndInvoice', $this->getRouterIdParameter().'/get-json-next-invoice-number-for-series-id-and-invoice')
+            ->add('getJsonAvailableInvoiceNumbersForSeries', $this->getRouterIdParameter().'/get-json-available-invoice-numbers-for-serie')
             ->remove('show')
             ->remove('create')
         ;
