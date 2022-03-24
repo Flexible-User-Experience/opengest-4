@@ -128,7 +128,7 @@ class SaleInvoice extends AbstractBase
     private $collectionDocumentType;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="text", nullable=true)
      */
@@ -469,7 +469,7 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
-    public function getObservations(): string
+    public function getObservations(): ?string
     {
         return $this->observations;
     }
