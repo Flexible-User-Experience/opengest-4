@@ -30,6 +30,7 @@ class PartnerContact extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      * @Groups({"api"})
      */
     private $name;
