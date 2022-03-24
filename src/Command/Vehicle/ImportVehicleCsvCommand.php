@@ -71,6 +71,7 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
                 ->setVehicleBrand($this->readColumn(6, $row))
                 ->setVehicleModel($this->readColumn(8, $row))
                 ->setSerialNumber($this->readColumn(10, $row))
+                ->setEnabled($this->readColumn(2, $row))
             ;
             /** @var Enterprise $enterprise */
             $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['id' => $this->readColumn(1, $row)]);
