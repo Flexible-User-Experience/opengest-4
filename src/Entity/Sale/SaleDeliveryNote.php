@@ -700,7 +700,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this->serviceDescription;
     }
 
-    public function setServiceDescription(string $serviceDescription): SaleDeliveryNote
+    public function setServiceDescription(?string $serviceDescription): SaleDeliveryNote
     {
         $this->serviceDescription = $serviceDescription;
 
