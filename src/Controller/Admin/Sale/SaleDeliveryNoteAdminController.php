@@ -15,6 +15,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Sonata\AdminBundle\Exception\ModelManagerThrowable;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -135,11 +136,18 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return $return;
     }
 
+    /**
+     * @throws ModelManagerThrowable
+     */
     public function batchActionGenerateStandardPrint(ProxyQueryInterface $selectedModelQuery): Response
     {
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute();
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            $saleDeliveryNote->setPrinted(true);
+            $this->admin->getModelManager()->update($saleDeliveryNote);
+        }
 
         return new Response($this->sdnpm->outputCollection($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
