@@ -453,6 +453,7 @@ class SaleInvoicePdfManager
 
         //Final amount
         $xVar3 = 156;
+        $cellWidth = 38;
         $pdf->setXY($xVar3, $yVarStart - 3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
