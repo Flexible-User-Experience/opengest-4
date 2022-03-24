@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Setting\City;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class PartnerDeliveryAddress.
@@ -31,6 +32,7 @@ class PartnerDeliveryAddress extends AbstractBase
      *
      * @ORM\Column(type="string")
      * @Groups({"api"})
+     * @Assert\NotBlank()
      */
     private $address;
 

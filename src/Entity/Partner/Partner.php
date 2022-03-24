@@ -271,6 +271,7 @@ class Partner extends AbstractBase
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerOrder", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $orders;
 
@@ -278,6 +279,7 @@ class Partner extends AbstractBase
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerProject", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $projects;
 
@@ -285,6 +287,7 @@ class Partner extends AbstractBase
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $buildingSites;
 
@@ -292,6 +295,7 @@ class Partner extends AbstractBase
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerContact", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $contacts;
 
@@ -299,6 +303,7 @@ class Partner extends AbstractBase
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $partnerDeliveryAddresses;
 
