@@ -103,6 +103,7 @@ admin:
         delivery_note_reference: "Referencia de albarán"
         no_invoice: "No facturable"
         invoiced: "Facturado"
+        printed: "Impreso"
         base_amount: "Importe base"
         total_lines: "Total líneas"
         final_total_with_taxes: "Total final con impuestos y retenciones"

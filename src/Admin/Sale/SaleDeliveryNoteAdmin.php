@@ -538,6 +538,15 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->add(
+                    'printed',
+                    CheckboxType::class,
+                    [
+                        'label' => 'admin.label.printed',
+                        'required' => false,
+                        'disabled' => true
+                    ]
+                )
+                ->add(
                     'observations',
                     TextareaType::class,
                     [
@@ -1043,6 +1052,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'boolean',
                 [
                     'label' => 'admin.label.invoiced',
+                    'transform' => true,
+                ]
+            )
+            ->add(
+                'printed',
+                'boolean',
+                [
+                    'label' => 'admin.label.printed',
                     'transform' => true,
                 ]
             )
