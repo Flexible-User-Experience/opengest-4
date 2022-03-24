@@ -365,7 +365,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     TextareaType::class,
                     [
                         'label' => 'admin.label.service_description',
-                        'required' => true,
+                        'required' => false,
                         'attr' => [
                             'style' => 'resize: vertical',
                             'rows' => 7,
