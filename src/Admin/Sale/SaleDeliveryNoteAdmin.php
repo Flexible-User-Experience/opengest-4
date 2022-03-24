@@ -849,7 +849,11 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.operator',
-                ]
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'class' => Operator::class,
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ],                ]
             )
             ->add(
                 'collectionDocument',
