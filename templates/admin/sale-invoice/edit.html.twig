@@ -12,6 +12,18 @@
             var invoiceNumberInput = jQuery('#{{ form.invoiceNumber.vars.id }}');
             var ulDeliveryNotesNode = jQuery('#{{ form.deliveryNotes.vars.id }}');
             let hasInvoiceNumberWaring = false;
+            let seriesId = jQuery('#{{ form.series.vars.id }}').val();
+
+            jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+            }).done(function (response) {
+            if (Object.keys(response).length > 0) {
+              invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+            } else {
+              invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+            }
+            });
 
             //on change Partner
             partnerNode.change(function(event) {
@@ -40,7 +52,13 @@
                   });
                   jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
                   }).done(function (response) {
-                    console.log('available invoice numbers',response);
+                    if (Object.keys(response).length > 0) {
+                      invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+                    } else {
+                      invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+                    }
                   });
               });
 
