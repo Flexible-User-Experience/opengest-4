@@ -152,7 +152,7 @@ class SaleInvoice extends AbstractBase
 
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      */
@@ -563,7 +563,7 @@ class SaleInvoice extends AbstractBase
     /**
      * @return string
      */
-    public function getPartnerMainAddress(): string
+    public function getPartnerMainAddress(): ?string
     {
         return $this->partnerMainAddress;
     }

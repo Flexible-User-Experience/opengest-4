@@ -5,6 +5,7 @@ namespace App\Manager\Pdf;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Enum\ConstantsEnum;
 use App\Service\PdfEngineService;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -75,7 +76,7 @@ class SaleInvoicePdfManager
         /** @var SaleInvoice $lastSaleInvoice */
         $lastSaleInvoice = $saleInvoices[count($saleInvoices) - 1];
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Listado de facturas del cliente '.$oneSaleInvoice->getPartner(),
+            'Listado de facturas del cliente '.$oneSaleInvoice->getPartnerName(),
             0, 0, 'L', false);
         $pdf->SetXY(50, 35);
         $this->pdfEngineService->setStyleSize('', 11);
@@ -225,9 +226,9 @@ class SaleInvoicePdfManager
         $col5 = 160;
         $col6 = 168;
         $col7 = 194;
+        $pdf->setXY($col2, $YDim);
         if($saleInvoice->getDeliveryNotes()->first()){
             if ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite()){
-                $pdf->setXY($col2, $YDim);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 9);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                     'OBRA: '.$saleInvoice->getDeliveryNotes()->first()->getBuildingSite(),
@@ -309,10 +310,10 @@ class SaleInvoicePdfManager
             $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $saleInvoice->getObservations(),
                 0, 'L', false);
-            $YDim = $YDim + 5;
+            $YDim = $YDim + 4;
         }
 
-        $YDim = $pdf->GetY() + 5;
+        $YDim = $pdf->GetY() + 4;
 
         $pdf->setXY($col1, $YDim);
         $this->writeDataTreatmentText($pdf);
@@ -375,40 +376,46 @@ class SaleInvoicePdfManager
         $pdf->setXY($xVar, $yVarStart);
         $pdf->setXY($xVar, $yVarStart);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getName(),
+            $saleInvoice->getPartnerName(),
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainAddress(),
+            $saleInvoice->getPartnerMainAddress(),
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity(),
+            $saleInvoice->getPartnerMainCity(),
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity()->getProvince(),
+            $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince() : '',
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity()->getProvince()->getCountryName(),
+            $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince()->getCountryName() : '',
             0, 0, 'L', false);
 
         //Forma de pago
         $xVar2 = 91;
         $pdf->setXY($xVar2, $yVarStart);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            ($saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : '').
-            ($saleInvoice->getPartner()->getCollectionTerm1() ? ' a '.$saleInvoice->getPartner()->getCollectionTerm1().(
-                $saleInvoice->getPartner()->getCollectionTerm2() ? '+'.$saleInvoice->getPartner()->getCollectionTerm2().(
-                    $saleInvoice->getPartner()->getCollectionTerm3() ? '+'.$saleInvoice->getPartner()->getCollectionTerm3() : ''
-                    ) : ''
-                ).' días' : ''),
-            0, 0, 'L', false);
+        if($saleInvoice->getDeliveryNotes()->first()){
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                ($saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : '').
+                ($saleInvoice->getDeliveryNotes()->first()->getCollectionTerm() ? ' a '.$saleInvoice->getDeliveryNotes()->first()->getCollectionTerm().(
+                    $saleInvoice->getDeliveryNotes()->first()->getCollectionTerm2() ? '+'.$saleInvoice->getDeliveryNotes()->first()->getCollectionTerm2().(
+                        $saleInvoice->getDeliveryNotes()->first()->getCollectionTerm3() ? '+'.$saleInvoice->getDeliveryNotes()->first()->getCollectionTerm3() : ''
+                        ) : ''
+                    ).' días' : ''),
+                0, 0, 'L', false);
+        } else {
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                ($saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : ''),
+                0, 0, 'L', false);
+        }
         if ($saleInvoice->getCollectionDocumentType()) {
             if (str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()), 'transferencia')) {
                 $pdf->Ln(5);
@@ -430,21 +437,22 @@ class SaleInvoicePdfManager
                 $pdf->Ln(5);
                 $pdf->setX($xVar2);
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                    'IBAN: '.$saleInvoice->getPartner()->getIban(),
+                    'IBAN: '.$saleInvoice->getPartnerIban(),
                     0, 0, 'L', false);
                 $pdf->Ln(3);
                 $pdf->setX($xVar2);
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                    'SWIFT: '.$saleInvoice->getPartner()->getSwift(),
+                    'SWIFT: '.$saleInvoice->getPartnerSwift(),
                     0, 0, 'L', false);
             }
         }
         $pdf->Ln(3);
         $pdf->setX($xVar2);
+        /** @var SaleInvoiceDueDate $dueDate */
         foreach ($saleInvoice->getSaleInvoiceDueDates() as $dueDate) {
             if ($dueDate) {
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                    'Vencimiento '.$dueDate.' €',
+                    'Vencimiento '.$dueDate->getDate()->format('d/m/Y').' IMPORTE: '.number_format($dueDate->getAmount(),2,',','.').'€',
                     0, 0, 'L', false);
                 $pdf->Ln(3);
                 $pdf->setX($xVar2);
@@ -497,27 +505,27 @@ class SaleInvoicePdfManager
         $this->pdfEngineService->setStyleSize('', 8);
         $pdf->setXY($xVar, $yVarStart);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getName(),
+            $saleInvoice->getPartnerName(),
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainAddress(),
+            $saleInvoice->getPartnerMainAddress(),
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity(),
+            $saleInvoice->getPartnerMainCity(),
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity()->getProvince(),
+            $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince() : '',
             0, 0, 'L', false, '', 1);
         $pdf->Ln(4);
         $pdf->setX($xVar);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity()->getProvince()->getCountryName(),
+            $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince()->getCountryName() : '',
             0, 0, 'L', false);
         //Final amount
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 10);
@@ -551,7 +559,7 @@ class SaleInvoicePdfManager
         $pdf->setXY($xDim, 55);
         $this->pdfEngineService->setStyleSize('b', 10);
         $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getName(),
+            $saleInvoice->getPartnerName(),
             0, 0, 'L', false,'',1);
         $pdf->Ln(8);
         if ($saleInvoice->getDeliveryAddress()) {
@@ -610,7 +618,7 @@ class SaleInvoicePdfManager
             0, 0, 'C', false);
         $pdf->setXY($xVar2, $yVarStart + $incrY);
         $pdf->Cell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getCifNif(),
+            $saleInvoice->getPartnerCifNif(),
             0, 0, 'C', false);
         $pdf->setXY($xVar, $yVarStart + $incrY * 2);
         $pdf->Cell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -628,22 +636,22 @@ class SaleInvoicePdfManager
     {
         $pdf->setX($xDim);
         $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainAddress(),
+            $saleInvoice->getPartnerMainAddress(),
             0, 0, 'L', false,'',1);
         $pdf->Ln(5);
         $pdf->setX($xDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity(),
+            $saleInvoice->getPartnerMainCity(),
             0, 0, 'L', false);
         $pdf->Ln(5);
         $pdf->setX($xDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity()->getProvince(),
+            $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince() : '',
             0, 0, 'L', false);
         $pdf->Ln(5);
         $pdf->setX($xDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleInvoice->getPartner()->getMainCity()->getProvince()->getCountryName(),
+            $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince()->getCountryName() : '',
             0, 0, 'L', false);
     }
 }
