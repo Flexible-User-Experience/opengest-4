@@ -8,6 +8,8 @@ use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Setting\City;
+use App\Entity\Setting\Province;
 use App\Entity\Setting\SaleInvoiceSeries;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -173,12 +175,82 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'partner.cifNif',
+                'partnerName',
+                null,
+                [
+                    'label' => 'admin.label.partner',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerCifNif',
                 null,
                 [
                     'label' => 'CIF/NIF',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerMainAddress',
+                null,
+                [
+                    'label' => 'admin.label.main_address',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerMainCity',
+                EntityType::class,
+                [
+                    'class' => City::class,
+                    'label' => 'admin.label.main_city',
+                    'required' => true,
+                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
+                ]
+            )
+            ;
+        if ($this->id($this->getSubject())) { // is edit mode
+            $formMapper
+                ->add(
+                    'partnerMainCity.province.countryName',
+                    null,
+                    [
+                        'label' => 'admin.label.country_name',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
+                    'partnerMainCity.province',
+                    null,
+                    [
+                        'label' => 'admin.label.province',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
+            ;
+        }
+        $formMapper
+            ->add(
+                'partnerIban',
+                null,
+                [
+                    'label' => 'IBAN',
                     'required' => false,
-                    'disabled' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerSwift',
+                null,
+                [
+                    'label' => 'SWIFT',
+                    'required' => false,
+                    'disabled' => false,
                 ]
             )
             ->add(
