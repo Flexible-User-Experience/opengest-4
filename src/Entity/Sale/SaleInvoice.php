@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerDeliveryAddress;
+use App\Entity\Setting\City;
 use App\Entity\Setting\SaleInvoiceSeries;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -133,6 +134,51 @@ class SaleInvoice extends AbstractBase
      * @ORM\Column(type="text", nullable=true)
      */
     private $observations;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $partnerName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $partnerCifNif;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $partnerMainAddress;
+
+    /**
+     * @var City
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
+     */
+    private $partnerMainCity;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Iban()
+     */
+    private $partnerIban;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Bic()
+     */
+    private $partnerSwift;
 
     /**
      * Methods.
@@ -479,6 +525,102 @@ class SaleInvoice extends AbstractBase
         $this->observations = $observations;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPartnerName(): ?string
+    {
+        return $this->partnerName;
+    }
+
+    /**
+     * @param string|null $partnerName
+     */
+    public function setPartnerName(?string $partnerName): void
+    {
+        $this->partnerName = $partnerName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPartnerCifNif(): string
+    {
+        return $this->partnerCifNif;
+    }
+
+    /**
+     * @param string $partnerCifNif
+     */
+    public function setPartnerCifNif(string $partnerCifNif): void
+    {
+        $this->partnerCifNif = $partnerCifNif;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPartnerMainAddress(): string
+    {
+        return $this->partnerMainAddress;
+    }
+
+    /**
+     * @param string $partnerMainAddress
+     */
+    public function setPartnerMainAddress(string $partnerMainAddress): void
+    {
+        $this->partnerMainAddress = $partnerMainAddress;
+    }
+
+    /**
+     * @return City
+     */
+    public function getPartnerMainCity(): City
+    {
+        return $this->partnerMainCity;
+    }
+
+    /**
+     * @param City $partnerMainCity
+     */
+    public function setPartnerMainCity(City $partnerMainCity): void
+    {
+        $this->partnerMainCity = $partnerMainCity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPartnerIban(): string
+    {
+        return $this->partnerIban;
+    }
+
+    /**
+     * @param string $partnerIban
+     */
+    public function setPartnerIban(string $partnerIban): void
+    {
+        $this->partnerIban = $partnerIban;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPartnerSwift(): string
+    {
+        return $this->partnerSwift;
+    }
+
+    /**
+     * @param string $partnerSwift
+     */
+    public function setPartnerSwift(string $partnerSwift): void
+    {
+        $this->partnerSwift = $partnerSwift;
     }
 
     public function getDateFormatted(): string
