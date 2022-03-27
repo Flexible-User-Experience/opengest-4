@@ -11,6 +11,12 @@
             var seriesNode = jQuery('#sonata-ba-field-container-{{ form.series.vars.id }}');
             var invoiceNumberInput = jQuery('#{{ form.invoiceNumber.vars.id }}');
             var ulDeliveryNotesNode = jQuery('#{{ form.deliveryNotes.vars.id }}');
+            var partnerName = jQuery('#{{ form.partnerName.vars.id }}');
+            var partnerCifNif = jQuery('#{{ form.partnerCifNif.vars.id }}');
+            var partnerMainAddress = jQuery('#{{ form.partnerMainAddress.vars.id }}');
+            var partnerMainCityNode = jQuery('#{{ form.partnerMainCity.vars.id }}');
+            var partnerIban = jQuery('#{{ form.partnerIban.vars.id }}');
+            var partnerSwift = jQuery('#{{ form.partnerSwift.vars.id }}');
             let hasInvoiceNumberWaring = false;
             let seriesId = jQuery('#{{ form.series.vars.id }}').val();
 
@@ -32,6 +38,20 @@
                 }).done(function (response) {
                     console.log(response);
                     updateNodesInfo(response);
+                });
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
+                }).done(function (response) {
+                    var partner = jQuery.parseJSON(response);
+                    console.log(partner);
+                    partnerCifNif.val(partner.cifNif);
+                    partnerName.val(partner.name);
+                    partnerMainAddress.val(partner.mainAddress);
+                    partnerIban.val(partner.iban);
+                    partnerSwift.val(partner.swift);
+                    console.log('partner.mainCity.id',partner.mainCity.id, partnerMainCityNode.select2())
+                    partnerMainCityNode.select2().val(partner.mainCity.id)
+                    partnerMainCityNode.select2().trigger('change');
+                    // TODO change province and country accordingly to new selected main city
                 });
             });
 

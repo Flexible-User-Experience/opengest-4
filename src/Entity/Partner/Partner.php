@@ -40,6 +40,7 @@ class Partner extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Groups({"api"})
      */
     private $name;
 
@@ -228,6 +229,7 @@ class Partner extends AbstractBase
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Iban()
+     * @Groups({"api"})
      */
     private $iban;
 
@@ -236,6 +238,7 @@ class Partner extends AbstractBase
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Bic()
+     * @Groups({"api"})
      */
     private $swift;
 

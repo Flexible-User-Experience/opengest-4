@@ -577,9 +577,9 @@ class SaleInvoice extends AbstractBase
     }
 
     /**
-     * @return City
+     * @return ?City
      */
-    public function getPartnerMainCity(): City
+    public function getPartnerMainCity(): ?City
     {
         return $this->partnerMainCity;
     }

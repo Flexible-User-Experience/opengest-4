@@ -153,6 +153,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ModelAutocompleteType::class,
                 [
                     'property' => 'name',
+                    'disabled' => true,
                     'label' => 'admin.label.partner',
                     'callback' => function ($admin, $property, $value) {
                         /** @var Admin $admin */
@@ -213,26 +214,29 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             )
             ;
         if ($this->id($this->getSubject())) { // is edit mode
-            $formMapper
-                ->add(
-                    'partnerMainCity.province.countryName',
-                    null,
-                    [
-                        'label' => 'admin.label.country_name',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                )
-                ->add(
-                    'partnerMainCity.province',
-                    null,
-                    [
-                        'label' => 'admin.label.province',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                )
-            ;
+            if ($this->getSubject()->getPartnerMainCity()) {
+                $formMapper
+                    ->add(
+                        'partnerMainCity.province.countryName',
+                        null,
+                        [
+                            'label' => 'admin.label.country_name',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'partnerMainCity.province',
+                        null,
+                        [
+                            'label' => 'admin.label.province',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                ;
+            }
+
         }
         $formMapper
             ->add(
@@ -324,30 +328,33 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             );
-        if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
-            $formMapper
-                ->add(
-                    'partner.collectionTerm2',
-                    null,
-                    [
-                        'label' => 'admin.label.collection_term_2',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
+        if ($this->getSubject()->getPartner()) {
+            if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm2',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_2',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm3',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_3',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
         }
-        if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
-            $formMapper
-                ->add(
-                    'partner.collectionTerm3',
-                    null,
-                    [
-                        'label' => 'admin.label.collection_term_3',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
-        }
+
         $formMapper
             ->add(
                 'partner.payDay1',
@@ -358,29 +365,31 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             );
-        if ($this->getSubject()->getPartner()->getPayDay2()) {
-            $formMapper
-                ->add(
-                    'partner.payDay2',
-                    null,
-                    [
-                        'label' => 'admin.label.pay_day_2',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
-        }
-        if ($this->getSubject()->getPartner()->getPayDay3()) {
-            $formMapper
-                ->add(
-                    'partner.payDay3',
-                    null,
-                    [
-                        'label' => 'admin.label.pay_day_3',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
+        if ($this->getSubject()->getPartner()) {
+            if ($this->getSubject()->getPartner()->getPayDay2()) {
+                $formMapper
+                    ->add(
+                        'partner.payDay2',
+                        null,
+                        [
+                            'label' => 'admin.label.pay_day_2',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getPartner()->getPayDay3()) {
+                $formMapper
+                    ->add(
+                        'partner.payDay3',
+                        null,
+                        [
+                            'label' => 'admin.label.pay_day_3',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
         }
         $formMapper
             ->add(
