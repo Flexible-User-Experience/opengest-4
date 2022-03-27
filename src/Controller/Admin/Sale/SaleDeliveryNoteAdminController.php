@@ -231,7 +231,19 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     {
         $saleInvoice = new SaleInvoice();
         $deliveryNotes = new ArrayCollection($deliveryNotes);
-        $saleInvoice->setPartner($deliveryNotes->first()->getPartner());
+        /** @var Partner $partner */
+        $partner = $deliveryNotes->first()->getPartner();
+        $saleInvoice->setPartner($partner);
+        $saleInvoice->setPartnerName($partner->getName());
+        $saleInvoice->setPartnerCifNif($partner->getCifNif());
+        $saleInvoice->setPartnerMainAddress($partner->getMainAddress());
+        $saleInvoice->setPartnerMainCity($partner->getMainCity());
+        if ($partner->getIban()) {
+            $saleInvoice->setPartnerIban($partner->getIban());
+        }
+        if ($partner->getSwift()) {
+            $saleInvoice->setPartnerSwift($partner->getSwift());
+        }
         $saleInvoice->setDate($date);
         $saleInvoice->setType(1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);

@@ -166,7 +166,7 @@ class SaleInvoice extends AbstractBase
     private $partnerMainCity;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Iban()
@@ -174,7 +174,7 @@ class SaleInvoice extends AbstractBase
     private $partnerIban;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Bic()
@@ -593,33 +593,33 @@ class SaleInvoice extends AbstractBase
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getPartnerIban(): string
+    public function getPartnerIban(): ?string
     {
         return $this->partnerIban;
     }
 
     /**
-     * @param string $partnerIban
+     * @param ?string $partnerIban
      */
-    public function setPartnerIban(string $partnerIban): void
+    public function setPartnerIban(?string $partnerIban): void
     {
         $this->partnerIban = $partnerIban;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getPartnerSwift(): string
+    public function getPartnerSwift(): ?string
     {
         return $this->partnerSwift;
     }
 
     /**
-     * @param string $partnerSwift
+     * @param ?string $partnerSwift
      */
-    public function setPartnerSwift(string $partnerSwift): void
+    public function setPartnerSwift(?string $partnerSwift): void
     {
         $this->partnerSwift = $partnerSwift;
     }
