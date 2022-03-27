@@ -374,7 +374,6 @@ class SaleInvoicePdfManager
         $yVarStart = 249;
         $cellWidth = 60;
         $pdf->setXY($xVar, $yVarStart);
-        $pdf->setXY($xVar, $yVarStart);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerName(),
             0, 0, 'L', false, '', 1);
