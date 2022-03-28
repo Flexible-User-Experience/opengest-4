@@ -540,7 +540,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 CollectionType::class,
                 [
                     'required' => false,
-                    'error_bubbling' => true,
+//                    'error_bubbling' => true,
                     'label' => false,
                 ],
                 [

@@ -11,7 +11,25 @@
             var seriesNode = jQuery('#sonata-ba-field-container-{{ form.series.vars.id }}');
             var invoiceNumberInput = jQuery('#{{ form.invoiceNumber.vars.id }}');
             var ulDeliveryNotesNode = jQuery('#{{ form.deliveryNotes.vars.id }}');
+            var partnerName = jQuery('#{{ form.partnerName.vars.id }}');
+            var partnerCifNif = jQuery('#{{ form.partnerCifNif.vars.id }}');
+            var partnerMainAddress = jQuery('#{{ form.partnerMainAddress.vars.id }}');
+            var partnerMainCityNode = jQuery('#{{ form.partnerMainCity.vars.id }}');
+            var partnerIban = jQuery('#{{ form.partnerIban.vars.id }}');
+            var partnerSwift = jQuery('#{{ form.partnerSwift.vars.id }}');
             let hasInvoiceNumberWaring = false;
+            let seriesId = jQuery('#{{ form.series.vars.id }}').val();
+
+            jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+            }).done(function (response) {
+            if (Object.keys(response).length > 0) {
+              invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+            } else {
+              invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+            }
+            });
 
             //on change Partner
             partnerNode.change(function(event) {
@@ -21,24 +39,48 @@
                     console.log(response);
                     updateNodesInfo(response);
                 });
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
+                }).done(function (response) {
+                    var partner = jQuery.parseJSON(response);
+                    console.log(partner);
+                    partnerCifNif.val(partner.cifNif);
+                    partnerName.val(partner.name);
+                    partnerMainAddress.val(partner.mainAddress);
+                    partnerIban.val(partner.iban);
+                    partnerSwift.val(partner.swift);
+                    console.log('partner.mainCity.id',partner.mainCity.id, partnerMainCityNode.select2())
+                    partnerMainCityNode.select2().val(partner.mainCity.id)
+                    partnerMainCityNode.select2().trigger('change');
+                    // TODO change province and country accordingly to new selected main city
+                });
             });
 
             seriesNode.change(function (event) {
               var seriesId = jQuery(event.target).val();
-              jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
-              }).done(function (response) {
-                const nextInvoiceNumber = response.nextInvoiceNumber;
-                invoiceNumberInput.val(nextInvoiceNumber);
-                if (!hasInvoiceNumberWaring) {
-                  hasInvoiceNumberWaring = true;
-                  jQuery(`
-                          <p style="color:red" id="newinvoicenumberwarning">
-                              Nuevo número de factura propuesto
-                          </p>
-                      `).insertAfter(invoiceNumberInput);
-                }
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    const nextInvoiceNumber = response.nextInvoiceNumber;
+                    invoiceNumberInput.val(nextInvoiceNumber);
+                    if (!hasInvoiceNumberWaring) {
+                      hasInvoiceNumberWaring = true;
+                      jQuery(`
+                              <p style="color:red" id="newinvoicenumberwarning">
+                                  Nuevo número de factura propuesto
+                              </p>
+                          `).insertAfter(invoiceNumberInput);
+                    }
+                  });
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    if (Object.keys(response).length > 0) {
+                      invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+                    } else {
+                      invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+                    }
+                  });
               });
-            });
 
             function updateNodesInfo(response) {
                 var deliveryNotes = jQuery.parseJSON(response);

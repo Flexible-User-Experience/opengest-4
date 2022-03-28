@@ -218,6 +218,11 @@ class SaleDeliveryNote extends AbstractBase
     private ?string $observations;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $printed = false;
+
+    /**
      * Methods.
      */
 
@@ -695,7 +700,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this->serviceDescription;
     }
 
-    public function setServiceDescription(string $serviceDescription): SaleDeliveryNote
+    public function setServiceDescription(?string $serviceDescription): SaleDeliveryNote
     {
         $this->serviceDescription = $serviceDescription;
 
@@ -910,6 +915,22 @@ class SaleDeliveryNote extends AbstractBase
         $this->isInvoiced = $isInvoiced;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrinted(): bool
+    {
+        return $this->printed;
+    }
+
+    /**
+     * @param bool $printed
+     */
+    public function setPrinted(bool $printed): void
+    {
+        $this->printed = $printed;
     }
 
 //    public function isInvoiced(): bool

@@ -54,7 +54,9 @@ class PayslipXmlManager
     {
         $date = new DateTime();
 //        $today = date('Y/m/d');
-        $today = $date->format('Y/m/d');
+        $isotoday = $date->format('c');
+        $todayCreDtTm = substr($isotoday,0,19);
+        $todayReqdExctnDt = $date->format('Y-m-d');
         $totalPayment = 0;
         $totalTransactions = 0;
         /** @var Payslip $payslip * */
@@ -81,7 +83,7 @@ class PayslipXmlManager
             <CstmrCdtTrfInitn>
                 <GrpHdr>
                     <MsgId>GR-'.$fileId.'</MsgId>
-                    <CreDtTm>'.$today.'</CreDtTm>
+                    <CreDtTm>'.$todayCreDtTm.'</CreDtTm>
                     <NbOfTxs>'.$totalTransactions.'</NbOfTxs>
                     <CtrlSum>'.$totalPayment.'</CtrlSum>
                     <InitgPty>
@@ -109,7 +111,7 @@ class PayslipXmlManager
                             <Cd>SALA</Cd>
                         </CtgyPurp>
                     </PmtTpInf>
-                    <ReqdExctnDt>'.$today.'</ReqdExctnDt>
+                    <ReqdExctnDt>'.$todayReqdExctnDt.'</ReqdExctnDt>
                     <Dbtr>
                         <Nm>'.$company.'</Nm>
                         <Id>

@@ -155,6 +155,9 @@ class SaleRequestAdminController extends BaseAdminController
             /** @var SaleRequest[] $saleRequests */
             $saleRequests = $selectedModels->getQuery()->getResult();
             usort($saleRequests, function (SaleRequest $a, SaleRequest $b) {
+                if ($a->getServiceDate()->getTimestamp() === $b->getServiceDate()->getTimestamp()) {
+                    return $a->getId() > $b->getId();
+                }
                 return $a->getServiceDate()->getTimestamp() > $b->getServiceDate()->getTimestamp();
             });
             foreach ($saleRequests as $saleRequest) {

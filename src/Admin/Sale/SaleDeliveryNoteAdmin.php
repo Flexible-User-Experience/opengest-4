@@ -160,7 +160,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'id',
                         null,
                         [
-                            'label' => 'admin.label.delivery_note_id',
+                            'label' => 'admin.label.delivery_note_number',
                             'required' => true,
                             'disabled' => true,
                         ]
@@ -365,7 +365,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     TextareaType::class,
                     [
                         'label' => 'admin.label.service_description',
-                        'required' => true,
+                        'required' => false,
                         'attr' => [
                             'style' => 'resize: vertical',
                             'rows' => 7,
@@ -535,6 +535,15 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'admin.label.no_invoice',
                         'required' => false,
+                    ]
+                )
+                ->add(
+                    'printed',
+                    CheckboxType::class,
+                    [
+                        'label' => 'admin.label.printed',
+                        'required' => false,
+                        'disabled' => true
                     ]
                 )
                 ->add(
@@ -712,7 +721,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'id',
             null,
                 [
-                    'label' => 'Id',
+                    'label' => 'admin.label.delivery_note_number',
                     'show_filter' => true,
                 ]
             )
@@ -849,7 +858,11 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.operator',
-                ]
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'class' => Operator::class,
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ],                ]
             )
             ->add(
                 'collectionDocument',
@@ -940,7 +953,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'id',
                 null,
                 [
-                    'label' => 'Id',
+                    'label' => 'admin.label.delivery_note_number',
                 ]
             )
             ->add(
@@ -1039,6 +1052,14 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'boolean',
                 [
                     'label' => 'admin.label.invoiced',
+                    'transform' => true,
+                ]
+            )
+            ->add(
+                'printed',
+                'boolean',
+                [
+                    'label' => 'admin.label.printed',
                     'transform' => true,
                 ]
             )

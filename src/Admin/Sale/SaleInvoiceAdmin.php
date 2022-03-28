@@ -8,6 +8,7 @@ use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Setting\City;
 use App\Entity\Setting\SaleInvoiceSeries;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -65,6 +66,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('clone', $this->getRouterIdParameter().'/clone')
             ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
             ->add('getJsonNextInvoiceNumberForSeriesIdAndInvoice', $this->getRouterIdParameter().'/get-json-next-invoice-number-for-series-id-and-invoice')
+            ->add('getJsonAvailableInvoiceNumbersForSeries', $this->getRouterIdParameter().'/get-json-available-invoice-numbers-for-serie')
             ->remove('show')
             ->remove('create')
         ;
@@ -150,6 +152,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ModelAutocompleteType::class,
                 [
                     'property' => 'name',
+                    'disabled' => true,
                     'label' => 'admin.label.partner',
                     'callback' => function ($admin, $property, $value) {
                         /** @var Admin $admin */
@@ -172,12 +175,84 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'partner.cifNif',
+                'partnerName',
+                null,
+                [
+                    'label' => 'admin.label.partner',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerCifNif',
                 null,
                 [
                     'label' => 'CIF/NIF',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerMainAddress',
+                null,
+                [
+                    'label' => 'admin.label.main_address',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerMainCity',
+                EntityType::class,
+                [
+                    'class' => City::class,
+                    'label' => 'admin.label.main_city',
+                    'required' => true,
+                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
+                ]
+            )
+            ;
+        if ($this->id($this->getSubject())) { // is edit mode
+            if ($this->getSubject()->getPartnerMainCity()) {
+                $formMapper
+                    ->add(
+                        'partnerMainCity.province.countryName',
+                        null,
+                        [
+                            'label' => 'admin.label.country_name',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'partnerMainCity.province',
+                        null,
+                        [
+                            'label' => 'admin.label.province',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                ;
+            }
+        }
+        $formMapper
+            ->add(
+                'partnerIban',
+                null,
+                [
+                    'label' => 'IBAN',
                     'required' => false,
-                    'disabled' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerSwift',
+                null,
+                [
+                    'label' => 'SWIFT',
+                    'required' => false,
+                    'disabled' => false,
                 ]
             )
             ->add(
@@ -209,6 +284,68 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
+            ;
+        if ($this->getSubject()->getIva21() > 0) {
+            $formMapper
+                ->add(
+                    'iva21',
+                    null,
+                    [
+                        'label' => 'admin.label.iva21_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva10() > 0) {
+            $formMapper
+                ->add(
+                    'iva10',
+                    null,
+                    [
+                        'label' => 'admin.label.iva10_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva4() > 0) {
+            $formMapper
+                ->add(
+                    'iva4',
+                    null,
+                    [
+                        'label' => 'admin.label.iva4_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva0() > 0) {
+            $formMapper
+                ->add(
+                    'iva0',
+                    null,
+                    [
+                        'label' => 'admin.label.iva0_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->add(
                 'iva',
                 null,
@@ -251,30 +388,33 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             );
-        if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
-            $formMapper
-                ->add(
-                    'partner.collectionTerm2',
-                    null,
-                    [
-                        'label' => 'admin.label.collection_term_2',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
+        if ($this->getSubject()->getPartner()) {
+            if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm2',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_2',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm3',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_3',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
         }
-        if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
-            $formMapper
-                ->add(
-                    'partner.collectionTerm3',
-                    null,
-                    [
-                        'label' => 'admin.label.collection_term_3',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
-        }
+
         $formMapper
             ->add(
                 'partner.payDay1',
@@ -285,29 +425,31 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             );
-        if ($this->getSubject()->getPartner()->getPayDay2()) {
-            $formMapper
-                ->add(
-                    'partner.payDay2',
-                    null,
-                    [
-                        'label' => 'admin.label.pay_day_2',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
-        }
-        if ($this->getSubject()->getPartner()->getPayDay3()) {
-            $formMapper
-                ->add(
-                    'partner.payDay3',
-                    null,
-                    [
-                        'label' => 'admin.label.pay_day_3',
-                        'required' => false,
-                        'disabled' => true,
-                    ]
-                );
+        if ($this->getSubject()->getPartner()) {
+            if ($this->getSubject()->getPartner()->getPayDay2()) {
+                $formMapper
+                    ->add(
+                        'partner.payDay2',
+                        null,
+                        [
+                            'label' => 'admin.label.pay_day_2',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getPartner()->getPayDay3()) {
+                $formMapper
+                    ->add(
+                        'partner.payDay3',
+                        null,
+                        [
+                            'label' => 'admin.label.pay_day_3',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
         }
         $formMapper
             ->add(

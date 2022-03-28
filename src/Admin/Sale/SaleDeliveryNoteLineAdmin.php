@@ -6,12 +6,14 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleItem;
 use App\Enum\ConstantsEnum;
+use App\Enum\IvaEnum;
 use App\Enum\UserRolesEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Class SaleDeliveryNoteLineAdmin.
@@ -100,14 +102,11 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'iva',
-                null,
+                ChoiceType::class,
                 [
                     'label' => 'admin.label.iva',
                     'required' => true,
-                    'empty_data' => (string) ConstantsEnum::IVA,
-                    'attr' => [
-                        'placeholder' => ConstantsEnum::IVA,
-                    ],
+                    'choices' => IvaEnum::getReversedEnumArray(),
                 ]
             )
             ->add(
