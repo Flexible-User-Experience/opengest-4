@@ -767,13 +767,12 @@ class SaleDeliveryNotePdfManager
             $pdf->setXY($xDim+85, $yStart + $yInterval*6);
             $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getSecondaryVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
         }
-        // TODO fer que es parteixin origen destino en dos camps diferents
-        //Origen/Destino
+        //Origen
         $pdf->setXY($xDim+70, $yStart + $yInterval*7);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(),strpos($saleDeliveryNote->getPlace(),'\n'))), 0, 0, 'L', false);
-        //Origen/Destino
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(),0,strpos($saleDeliveryNote->getPlace(),"\r\n"))), 0, 0, 'L', false);
+        //Destino
         $pdf->setXY($xDim+70, $yStart + $yInterval*8);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr(strtoupper($saleDeliveryNote->getPlace()),strpos(strtoupper($saleDeliveryNote->getPlace()),'\n')), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(),strpos($saleDeliveryNote->getPlace(),"\r\n")+2)), 0, 0, 'L', false);
 
 
         //Fecha impresión
@@ -841,12 +840,12 @@ class SaleDeliveryNotePdfManager
             $pdf->setXY($xDim+85, $yStart + $yInterval*6);
             $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getSecondaryVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
         }
-        //Origen/Destino
+        //Origen
+        $pdf->setXY($xDim+70, $yStart + $yInterval*7);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(),0,strpos($saleDeliveryNote->getPlace(),"\r\n"))), 0, 0, 'L', false);
+        //Destino
         $pdf->setXY($xDim+70, $yStart + $yInterval*8);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr(strtoupper($saleDeliveryNote->getPlace()),0,strpos(strtoupper($saleDeliveryNote->getPlace()),'\n')), 0, 0, 'L', false);
-        //Origen/Destino
-        $pdf->setXY($xDim+70, $yStart + $yInterval*9);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr(strtoupper($saleDeliveryNote->getPlace()),strpos(strtoupper($saleDeliveryNote->getPlace()),'\n')), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(),strpos($saleDeliveryNote->getPlace(),"\r\n")+2)), 0, 0, 'L', false);
 
         //Fecha impresión
         $yDim = 180;
