@@ -488,7 +488,7 @@ class SaleDeliveryNotePdfManager
         $pdf->setXY($xDim + 10, $yStart + $yInterval);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getCifNif(), 0, 0, 'L', false);
         //Telf
-        $pdf->setXY($xDim + 80, $yStart + $yInterval);
+        $pdf->setXY($xDim + 75, $yStart + $yInterval);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getPhoneNumber1(), 0, 0, 'L', false);
         //Dirección
         $pdf->setXY($xDim+5, $yStart + $yInterval*2);
@@ -512,7 +512,7 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()), 0, 0, 'L', false);
 
         //Operario
-        $pdf->setXY($xDim+80, $yStart + $yInterval*5);
+        $pdf->setXY($xDim+75, $yStart + $yInterval*5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getOperator() ? $saleDeliveryNote->getOperator()->getShortFullName() : '', 0, 0, 'L', false);
 
         //Fecha de servicio
@@ -520,7 +520,7 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getDateToString(), 0, 0, 'L', false);
 
         //Hora
-        $pdf->setXY($xDim+80, $yStart + $yInterval*6);
+        $pdf->setXY($xDim+75, $yStart + $yInterval*6);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Persona de contacto
@@ -528,13 +528,13 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getContactPersonName(), 0, 0, 'L', false);
 
         //Móvil
-        $pdf->setXY($xDim+80, $yStart + $yInterval*7);
+        $pdf->setXY($xDim+75, $yStart + $yInterval*7);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getContactPersonPhone(), 0, 0, 'L', false);
 
         //Servicio a realizar
         $pdf->setXY($xDim+15, $yStart + $yInterval*8);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            substr($saleDeliveryNote->getServiceDescription(),0,79), 0, 0, 'L', false,'', 1);
+            substr($saleDeliveryNote->getServiceDescription(),0,72), 0, 0, 'L', false,'', 1);
 
         //Lugar de trabajo
         $pdf->setXY($xDim+15, $yStart + $yInterval*9);
@@ -542,7 +542,7 @@ class SaleDeliveryNotePdfManager
             substr($saleDeliveryNote->getPlace(),0,85), 0, 0, 'L', false);
 
         //Observaciones
-        $pdf->setXY($xDim+15, $yStart + $yInterval*10);
+        $pdf->setXY($xDim+10, $yStart + $yInterval*10);
         $pdf->MultiCell($availableHoritzontalSpace-10, ConstantsEnum::PDF_CELL_HEIGHT,
             substr($saleDeliveryNote->getObservations(),0,140), 0, 'L', false);
 
@@ -575,7 +575,7 @@ class SaleDeliveryNotePdfManager
         $pdf->setXY($xDim + 10, $yStart + $yInterval);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getCifNif(), 0, 0, 'L', false);
         //Telf
-        $pdf->setXY($xDim + 80, $yStart + $yInterval);
+        $pdf->setXY($xDim + 75, $yStart + $yInterval);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getPhoneNumber1(), 0, 0, 'L', false);
         //Dirección
         $pdf->setXY($xDim+5, $yStart + $yInterval*2);
@@ -599,7 +599,7 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()), 0, 0, 'L', false);
 
         //Operario
-        $pdf->setXY($xDim+80, $yStart + $yInterval*5);
+        $pdf->setXY($xDim+75, $yStart + $yInterval*5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getOperator() ? $saleDeliveryNote->getOperator()->getShortFullName() : '', 0, 0, 'L', false);
 
         //Fecha de servicio
@@ -607,7 +607,7 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getDateToString(), 0, 0, 'L', false);
 
         //Hora
-        $pdf->setXY($xDim+80, $yStart + $yInterval*6 +1);
+        $pdf->setXY($xDim+75, $yStart + $yInterval*6 +1);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Persona de contacto
@@ -615,16 +615,16 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getContactPersonName(), 0, 0, 'L', false);
 
         //Móvil
-        $pdf->setXY($xDim+80, $yStart + $yInterval*7 +1);
+        $pdf->setXY($xDim+75, $yStart + $yInterval*7 +1);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getContactPersonPhone(), 0, 0, 'L', false);
 
         //Servicio a realizar
         $pdf->setXY($xDim+15, $yStart + $yInterval*8 +2);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            substr($saleDeliveryNote->getServiceDescription(),0,79), 0, 0, 'L', false,'', 1);
+            substr($saleDeliveryNote->getServiceDescription(),0,72), 0, 0, 'L', false,'', 1);
 
         //Lugar de trabajo
-        $pdf->setXY($xDim+15, $yStart + $yInterval*9+2);
+        $pdf->setXY($xDim+10, $yStart + $yInterval*9+2);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             substr($saleDeliveryNote->getPlace(),0,85), 0, 0, 'L', false);
 
