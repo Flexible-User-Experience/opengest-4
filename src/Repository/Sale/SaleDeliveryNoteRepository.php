@@ -3,6 +3,7 @@
 namespace App\Repository\Sale;
 
 use App\Entity\Enterprise\Enterprise;
+use App\Entity\Partner\Partner;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -107,5 +108,25 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->where('s.id = :novalue')
             ->setParameter('novalue', 0)
         ;
+    }
+
+    public function getFilteredByEnterpriseAndPartnerSortedByNameQB(Enterprise $enterprise, Partner $partner): QueryBuilder
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->andWhere('s.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->andWhere('s.partner = :partner')
+            ->setParameter('partner', $partner)
+            ;
+    }
+
+    public function getFilteredByEnterpriseAndPartnerSortedByNameQ(Enterprise $enterprise, Partner $partner): Query
+    {
+        return $this->getFilteredByEnterpriseAndPartnerSortedByNameQB($enterprise, $partner)->getQuery();
+    }
+
+    public function getFilteredByEnterpriseAndPartnerSortedByName(Enterprise $enterprise, Partner $partner): array
+    {
+        return $this->getFilteredByEnterpriseAndPartnerSortedByNameQ($enterprise, $partner)->getResult();
     }
 }

@@ -34,9 +34,6 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
      * @return int|void|null
      *
      * @throws InvalidArgumentException
@@ -49,18 +46,18 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
         $rowsRead = 0;
         $newRecords = 0;
         $errors = 0;
-        $newTimeRanges = array(
-          array('Madrugada', 2, DateTime::createFromFormat('H:i:s', '00:00:00'), DateTime::createFromFormat('H:i:s', '06:00:00')),
-          array('Mañana normal', 1, DateTime::createFromFormat('H:i:s', '06:00:00'), DateTime::createFromFormat('H:i:s', '08:00:00')),
-          array('Mañana', 0, DateTime::createFromFormat('H:i:s', '08:00:00'), DateTime::createFromFormat('H:i:s', '13:00:00')),
-          array('Mediodia', 1, DateTime::createFromFormat('H:i:s', '13:00:00'), DateTime::createFromFormat('H:i:s', '15:00:00')),
-          array('Tarde', 0, DateTime::createFromFormat('H:i:s', '15:00:00'), DateTime::createFromFormat('H:i:s', '18:00:00')),
-          array('Tarde normal', 1, DateTime::createFromFormat('H:i:s', '18:00:00'), DateTime::createFromFormat('H:i:s', '22:00:00')),
-          array('Noche', 2, DateTime::createFromFormat('H:i:s', '22:00:00'), DateTime::createFromFormat('H:i:s', '23:59:59')),
-        );
+        $newTimeRanges = [
+          ['Madrugada', 2, DateTime::createFromFormat('H:i:s', '00:00:00'), DateTime::createFromFormat('H:i:s', '06:00:00')],
+          ['Mañana normal', 1, DateTime::createFromFormat('H:i:s', '06:00:00'), DateTime::createFromFormat('H:i:s', '08:00:00')],
+          ['Mañana', 0, DateTime::createFromFormat('H:i:s', '08:00:00'), DateTime::createFromFormat('H:i:s', '13:00:00')],
+          ['Mediodia', 1, DateTime::createFromFormat('H:i:s', '13:00:00'), DateTime::createFromFormat('H:i:s', '15:00:00')],
+          ['Tarde', 0, DateTime::createFromFormat('H:i:s', '15:00:00'), DateTime::createFromFormat('H:i:s', '18:00:00')],
+          ['Tarde normal', 1, DateTime::createFromFormat('H:i:s', '18:00:00'), DateTime::createFromFormat('H:i:s', '22:00:00')],
+          ['Noche', 2, DateTime::createFromFormat('H:i:s', '22:00:00'), DateTime::createFromFormat('H:i:s', '23:59:59')],
+        ];
         foreach ($newTimeRanges as $newTimeRange) {
             $timeRange = $this->rm->getTimeRangeRepository()->findOneBy([
-               'description' => $newTimeRange[0]
+               'description' => $newTimeRange[0],
             ]);
             if (!$timeRange) {
                 //new Record
@@ -81,6 +78,7 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

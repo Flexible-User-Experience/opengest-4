@@ -36,10 +36,7 @@ class ImportEnterpriseCsvCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -66,52 +63,56 @@ class ImportEnterpriseCsvCommand extends AbstractBaseCommand
                 'name' => $cityName,
             ]);
             if ($city) {
-                /** @var Enterprise $enterprise */
-                $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $this->readColumn(8, $row)]);
-                if (!$enterprise) {
-                    // new record
-                    $enterprise = new Enterprise();
-                    ++$newRecords;
+                $taxIdentificationNumberToImport = 'A43030287';
+                $taxIdentificationNumber = $this->readColumn(8, $row);
+                if ($taxIdentificationNumberToImport == $taxIdentificationNumber) {
+                    /** @var Enterprise $enterprise */
+                    $enterprise = $this->rm->getEnterpriseRepository()->findOneBy(['taxIdentificationNumber' => $taxIdentificationNumber]);
+                    if (!$enterprise) {
+                        // new record
+                        $enterprise = new Enterprise();
+                        $enterprise->setTaxIdentificationNumber($this->readColumn(8, $row));
+                        ++$newRecords;
+                    }
+                    $enterprise
+                        ->setBusinessName($this->readColumn(2, $row))
+                        ->setName($this->readColumn(1, $row))
+                        ->setAddress($this->readColumn(3, $row))
+                        ->setCity($city)
+                        ->setPhone1($this->readColumn(9, $row))
+                        ->setPhone2($this->readColumn(10, $row))
+                        ->setPhone3($this->readColumn(11, $row))
+                        ->setFax($this->readColumn(12, $row))
+                        ->setEmail($this->readColumn(13, $row))
+                        ->setWww($this->readColumn(14, $row))
+                        ->setEnabled($this->readColumn(15, $row))
+                        ->setLogo($this->readColumn(16, $row))
+                        ->setDeedOfIncorporation($this->readColumn(17, $row))
+                        ->setTaxIdentificationNumberCard($this->readColumn(18, $row))
+                        ->setTc1Receipt($this->readColumn(19, $row))
+                        ->setTc2Receipt($this->readColumn(20, $row))
+                        ->setSsPaymentCertificate($this->readColumn(21, $row))
+                        ->setRc1Insurance($this->readColumn(22, $row))
+                        ->setRc2Insurance($this->readColumn(23, $row))
+                        ->setRcReceipt($this->readColumn(24, $row))
+                        ->setPreventionServiceContract($this->readColumn(25, $row))
+                        ->setPreventionServiceInvoice($this->readColumn(26, $row))
+                        ->setPreventionServiceReceipt($this->readColumn(27, $row))
+                        ->setOccupationalAccidentsInsurance($this->readColumn(28, $row))
+                        ->setOccupationalReceipt($this->readColumn(29, $row))
+                        ->setLaborRiskAssessment($this->readColumn(30, $row))
+                        ->setSecurityPlan($this->readColumn(31, $row))
+                        ->setReaCertificate($this->readColumn(32, $row))
+                        ->setOilCertificate($this->readColumn(33, $row))
+                        ->setGencatPaymentCertificate($this->readColumn(34, $row))
+                        ->setDeedsOfPowers($this->readColumn(35, $row))
+                        ->setSsRegistration($this->readColumn(36, $row))
+                        ->setIaeRegistration($this->readColumn(37, $row))
+                        ->setIaeReceipt($this->readColumn(38, $row))
+                        ->setMutualPartnership($this->readColumn(39, $row))
+                    ;
+                    $this->em->persist($enterprise);
                 }
-                $enterprise
-                    ->setTaxIdentificationNumber($this->readColumn(8, $row))
-                    ->setBusinessName($this->readColumn(2, $row))
-                    ->setName($this->readColumn(1, $row))
-                    ->setAddress($this->readColumn(3, $row))
-                    ->setCity($city)
-                    ->setPhone1($this->readColumn(9, $row))
-                    ->setPhone2($this->readColumn(10, $row))
-                    ->setPhone3($this->readColumn(11, $row))
-                    ->setFax($this->readColumn(12, $row))
-                    ->setEmail($this->readColumn(13, $row))
-                    ->setWww($this->readColumn(14, $row))
-                    ->setEnabled($this->readColumn(15, $row))
-                    ->setLogo($this->readColumn(16, $row))
-                    ->setDeedOfIncorporation($this->readColumn(17, $row))
-                    ->setTaxIdentificationNumberCard($this->readColumn(18, $row))
-                    ->setTc1Receipt($this->readColumn(19, $row))
-                    ->setTc2Receipt($this->readColumn(20, $row))
-                    ->setSsPaymentCertificate($this->readColumn(21, $row))
-                    ->setRc1Insurance($this->readColumn(22, $row))
-                    ->setRc2Insurance($this->readColumn(23, $row))
-                    ->setRcReceipt($this->readColumn(24, $row))
-                    ->setPreventionServiceContract($this->readColumn(25, $row))
-                    ->setPreventionServiceInvoice($this->readColumn(26, $row))
-                    ->setPreventionServiceReceipt($this->readColumn(27, $row))
-                    ->setOccupationalAccidentsInsurance($this->readColumn(28, $row))
-                    ->setOccupationalReceipt($this->readColumn(29, $row))
-                    ->setLaborRiskAssessment($this->readColumn(30, $row))
-                    ->setSecurityPlan($this->readColumn(31, $row))
-                    ->setReaCertificate($this->readColumn(32, $row))
-                    ->setOilCertificate($this->readColumn(33, $row))
-                    ->setGencatPaymentCertificate($this->readColumn(34, $row))
-                    ->setDeedsOfPowers($this->readColumn(35, $row))
-                    ->setSsRegistration($this->readColumn(36, $row))
-                    ->setIaeRegistration($this->readColumn(37, $row))
-                    ->setIaeReceipt($this->readColumn(38, $row))
-                    ->setMutualPartnership($this->readColumn(39, $row))
-                ;
-                $this->em->persist($enterprise);
                 if (0 == $rowsRead % self::CSV_BATCH_WINDOW && !$input->getOption('dry-run')) {
                     $this->em->flush();
                 }
@@ -127,6 +128,7 @@ class ImportEnterpriseCsvCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

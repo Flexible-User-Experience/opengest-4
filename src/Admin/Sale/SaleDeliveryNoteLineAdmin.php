@@ -6,12 +6,14 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleItem;
 use App\Enum\ConstantsEnum;
+use App\Enum\IvaEnum;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Class SaleDeliveryNoteLineAdmin.
@@ -33,11 +35,6 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/albara-linia';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -48,7 +45,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Albarà línia', $this->getFormMdSuccessBoxArray(12))
@@ -105,14 +102,11 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'iva',
-                null,
+                ChoiceType::class,
                 [
                     'label' => 'admin.label.iva',
                     'required' => true,
-                    'empty_data' => (string) ConstantsEnum::IVA,
-                    'attr' => [
-                        'placeholder' => ConstantsEnum::IVA,
-                    ],
+                    'choices' => IvaEnum::getReversedEnumArray(),
                 ]
             )
             ->add(
@@ -143,7 +137,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -205,15 +199,9 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->join($queryBuilder->getRootAliases()[0].'.deliveryNote', 's')
@@ -225,7 +213,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(

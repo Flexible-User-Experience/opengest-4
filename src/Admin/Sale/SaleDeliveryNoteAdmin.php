@@ -8,22 +8,27 @@ use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Partner\PartnerProject;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
+use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
@@ -55,29 +60,23 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/albara';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'date',
-        '_sort_order' => 'DESC',
-    ];
-
-    /**
      * Methods.
      */
-    public function configureRoutes(RouteCollection $collection)
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'partner.id';
+    }
+
+    public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
+            ->add('generateInvoices', 'generate-invoices')
         ;
     }
 
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -105,20 +104,42 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'discount',
             'baseAmount',
             'finalTotal',
-            'observations'
+            'observations',
         ];
     }
 
     /**
      * @param array $actions
-     *
-     * @return array
      */
-    public function configureBatchActions($actions)
+    public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $actions['generateSaleInvoiceFromDeliveryNotes'] = [
                 'label' => 'admin.action.generate_invoice_from_selected',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateStandardPrint'] = [
+                'label' => 'admin.action.generate_standard_print_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateDriverPrint'] = [
+                'label' => 'admin.action.generate_driver_print_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateStandardMail'] = [
+                'label' => 'admin.action.generate_standard_mail_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateDriverMail'] = [
+                'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $actions['deliveryNotesByClient'] = [
+                'label' => 'admin.action.generate_delivery_notes_by_client',
+                'ask_confirmation' => false,
+            ];
+            $actions['deliveryNotesList'] = [
+                'label' => 'admin.action.generate_delivery_notes_list',
                 'ask_confirmation' => false,
             ];
         }
@@ -129,7 +150,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     /**
      * @throws Exception
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
@@ -139,7 +160,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'id',
                         null,
                         [
-                            'label' => 'admin.label.delivery_note_id',
+                            'label' => 'admin.label.delivery_note_number',
                             'required' => true,
                             'disabled' => true,
                         ]
@@ -148,23 +169,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ->end()
             ;
         }
-        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
-            $formMapper
-                ->tab('Cabecera')
-                    ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(4))
-                    ->add(
-                        'saleRequestNumber',
-                        TextType::class,
-                        [
-                            'label' => 'admin.label.sale_request_id',
-                            'required' => false,
-                            'disabled' => true,
-                        ]
-                    )
-                    ->end()
-                ->end()
-            ;
-        }
+        //estava aqui
         $formMapper
             ->tab('Cabecera')
                 ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(3))
@@ -209,7 +214,11 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                             $queryBuilder = $datagrid->getQuery();
                             $queryBuilder
                                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
                                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                                ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
+                                ->setParameter('enabled', true)
                             ;
                             $datagrid->setValue($property, null, $value);
                         },
@@ -227,6 +236,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'mapped' => false,
                         'disabled' => true,
                         'help' => '<i id="cif-nif-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
+                        'help_html' => true,
                     ]
                 )
                 ->add(
@@ -238,26 +248,44 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'disabled' => false,
                     ]
                 )
-                ->add(
-                    'buildingSite',
-                    EntityType::class,
-                    [
-                        'class' => PartnerBuildingSite::class,
-                        'label' => 'admin.label.partner_building_site',
-                        'required' => false,
-                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
-                    ]
-                )
-                ->add(
-                    'order',
-                    EntityType::class,
-                    [
-                        'class' => PartnerOrder::class,
-                        'label' => 'admin.label.order',
-                        'required' => false,
-                        'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
-                    ]
-                )
+            ;
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                    ->add(
+                        'buildingSite',
+                        EntityType::class,
+                        [
+                            'class' => PartnerBuildingSite::class,
+                            'label' => 'admin.label.partner_building_site',
+                            'required' => false,
+                            'query_builder' => $this->rm->getPartnerBuildingSiteRepository()
+                                ->getEnabledFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()),
+                        ]
+                    )
+                    ->add(
+                        'order',
+                        EntityType::class,
+                        [
+                            'class' => PartnerOrder::class,
+                            'label' => 'admin.label.order',
+                            'required' => false,
+                            'query_builder' => $this->rm->getPartnerOrderRepository()
+                                ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
+                        ]
+                    )
+                    ->add(
+                        'project',
+                        EntityType::class,
+                        [
+                            'class' => PartnerProject::class,
+                            'label' => 'admin.label.project',
+                            'required' => false,
+                            'query_builder' => $this->rm->getPartnerProjectRepository()
+                                ->getEnabledFilteredByPartnerSortedByNumberQB($this->getSubject()->getPartner()),
+                        ]
+                    );
+        }
+        $formMapper
                 ->end()
             ->end();
         if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
@@ -337,7 +365,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     TextareaType::class,
                     [
                         'label' => 'admin.label.service_description',
-                        'required' => true,
+                        'required' => false,
                         'attr' => [
                             'style' => 'resize: vertical',
                             'rows' => 7,
@@ -478,12 +506,44 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'query_builder' => $this->rm->getActivityLineRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                     ]
                 )
+                ->end()
+            ->end()
+        ;
+        if (false == $this->getSubject()->getSaleRequestHasDeliveryNotes()->isEmpty()) {
+            $formMapper
+                ->tab('Cabecera')
+                ->with('Otros', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'saleRequestNumber',
+                    TextType::class,
+                    [
+                        'label' => 'admin.label.sale_request_id',
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
+                ->end()
+                ->end()
+            ;
+        }
+        $formMapper
+            ->tab('Cabecera')
+            ->with('Otros', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'wontBeInvoiced',
                     CheckboxType::class,
                     [
                         'label' => 'admin.label.no_invoice',
                         'required' => false,
+                    ]
+                )
+                ->add(
+                    'printed',
+                    CheckboxType::class,
+                    [
+                        'label' => 'admin.label.printed',
+                        'required' => false,
+                        'disabled' => true
                     ]
                 )
                 ->add(
@@ -505,7 +565,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
                 ->tab('Líneas')
-                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(9))
+                    ->with('admin.label.lines', $this->getFormMdSuccessBoxArray(10))
                     ->add(
                         'saleDeliveryNoteLines',
                         CollectionType::class,
@@ -525,7 +585,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         $formMapper
             ->tab('Líneas')
-                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(2))
                 ->add(
                     'totalLines',
                     NumberType::class,
@@ -535,11 +595,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->add(
-                    'discount',
-                    null,
+                    'discountTotal',
+                    NumberType::class,
                     [
-                        'label' => 'admin.label.discount',
-                        'required' => false,
+                        'label' => 'admin.label.discount_total',
+                        'required' => true,
+                        'disabled' => true,
+                        'scale' => 2,
                     ]
                 )
                 ->add(
@@ -547,6 +609,26 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     null,
                     [
                         'label' => 'admin.label.base_amount',
+                        'required' => true,
+                        'disabled' => true,
+                        'scale' => 2,
+                    ]
+                )
+                ->add(
+                    'ivaTotal',
+                    NumberType::class,
+                    [
+                        'label' => 'admin.label.iva_total',
+                        'required' => true,
+                        'disabled' => true,
+                        'scale' => 2,
+                    ]
+                )
+                ->add(
+                    'irpfTotal',
+                    NumberType::class,
+                    [
+                        'label' => 'admin.label.irpf_total',
                         'required' => true,
                         'disabled' => true,
                         'scale' => 2,
@@ -575,7 +657,23 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'collectionTerm',
                     null,
                     [
-                        'label' => 'admin.label.expiry_days',
+                        'label' => 'admin.label.collection_term_1',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'collectionTerm2',
+                    null,
+                    [
+                        'label' => 'admin.label.collection_term_2',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'collectionTerm3',
+                    null,
+                    [
+                        'label' => 'admin.label.collection_term_3',
                         'required' => false,
                     ]
                 )
@@ -605,7 +703,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
 //        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
 //            $datagridMapper
@@ -623,39 +721,57 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'id',
             null,
                 [
-                    'label' => 'Id',
+                    'label' => 'admin.label.delivery_note_number',
+                    'show_filter' => true,
                 ]
             )
+//            ->add(
+//                'saleRequest.id',
+//                null,
+//                [
+//                    'label' => 'admin.label.sale_request',
+//                ]
+//            )
             ->add(
                 'date',
                 DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.delivery_note_date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
+                    'label' => 'admin.label.date',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
-                    ],
+                    'show_filter' => true,
                 ]
             )
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
+                    'show_filter' => true,
                 ]
             )
+            ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
+                ]
+            )
+
             ->add(
                 'buildingSite',
                 null,
@@ -705,24 +821,24 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.discount',
                 ]
             )
-            ->add(
-                'collectionTerm',
-                null,
-                [
-                    'label' => 'admin.label.expiry_date',
-                ]
-            )
-            ->add(
-                'collectionDocument',
-                null,
-                [
-                    'label' => 'admin.label.payment_document_type',
-                ],
-                null,
-                [
-                    'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
+//            ->add(
+//                'collectionTerm',
+//                null,
+//                [
+//                    'label' => 'admin.label.expiry_date',
+//                ]
+//            )
+//            ->add(
+//                'collectionDocument',
+//                null,
+//                [
+//                    'label' => 'admin.label.payment_document_type',
+//                    'field_type' => null,
+//                    'field_options' => [
+//                            'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+//                        ],
+//                ]
+//            )
             ->add(
                 'activityLine',
                 null,
@@ -742,6 +858,38 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.operator',
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'class' => Operator::class,
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ],                ]
+            )
+            ->add(
+                'collectionDocument',
+                null,
+                [
+                    'label' => 'admin.label.collection_document_type',
+                ]
+            )
+            ->add(
+                'collectionTerm',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                ]
+            )
+            ->add(
+                'collectionTerm2',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_2',
+                ]
+            )
+            ->add(
+                'collectionTerm3',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_3',
                 ]
             )
             ->add(
@@ -756,24 +904,26 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoiced',
+                    'show_filter' => true,
                 ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $filterValues['isInvoiced'] = [
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => BooleanType::TYPE_NO,
+        ];
+    }
+
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
-//            ->join($queryBuilder->getRootAliases()[0].'.enterprise', 'e')
             ->leftJoin($queryBuilder->getRootAliases()[0].'.partner', 'pa')
-//            ->orderBy('e.name', 'ASC')
+            ->orderBy($queryBuilder->getRootAliases()[0].'.date', 'DESC')
         ;
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
@@ -785,7 +935,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
 //        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
 //            $listMapper
@@ -803,15 +953,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'id',
                 null,
                 [
-                    'label' => 'Id',
-                ]
-            )
-            ->add(
-                'saleRequest',
-                null,
-                [
-                    'template' => 'admin/cells/list__cell_sale_delivery_note_sale_request.html.twig',
-                    'label' => 'admin.label.sale_request',
+                    'label' => 'admin.label.delivery_note_number',
                 ]
             )
             ->add(
@@ -835,7 +977,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.partner',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
+                    'sortable' => true,
+                    'sort_field_mapping' => ['fieldName' => 'id'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'partner']],
                 ]
             )
             ->add(
@@ -875,6 +1020,34 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'collectionDocument',
+                null,
+                [
+                    'label' => 'admin.label.collection_document_type',
+                ]
+            )
+            ->add(
+                'collectionTerm',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                ]
+            )
+            ->add(
+                'collectionTerm2',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_2',
+                ]
+            )
+            ->add(
+                'collectionTerm3',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_3',
+                ]
+            )
+            ->add(
                 'isInvoiced',
                 'boolean',
                 [
@@ -883,13 +1056,20 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'printed',
+                'boolean',
+                [
+                    'label' => 'admin.label.printed',
+                    'transform' => true,
+                ]
+            )
+            ->add(
                 '_action',
                 'actions',
                 [
                     'actions' => [
-//                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
+//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_sale_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
@@ -901,32 +1081,49 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 
     /**
      * @param SaleDeliveryNote $object
-     *
-     * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $object->setDeliveryNoteReference($this->dnm->getLastDeliveryNoteByenterprise($this->getUserLogedEnterprise()));
+        $partner = $object->getPartner();
+        if (!$object->getCollectionDocument()) {
+            $object->setCollectionDocument($partner->getCollectionDocumentType());
+        }
+        if (!$object->getCollectionTerm()) {
+            $object->setCollectionTerm($partner->getCollectionTerm1());
+        }
+        if (!$object->getCollectionTerm2()) {
+            $object->setCollectionTerm2($partner->getCollectionTerm2());
+        }
+        if (!$object->getCollectionTerm3()) {
+            $object->setCollectionTerm3($partner->getCollectionTerm3());
+        }
     }
 
     /**
      * @param SaleDeliveryNote $object
      */
-    public function postUpdate($object)
+    public function postUpdate($object): void
     {
         $totalPrice = 0;
         /** @var SaleDeliveryNoteLine $deliveryNoteLine */
         foreach ($object->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
             $base = $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() * (1 - $deliveryNoteLine->getDiscount() / 100);
-//            $iva = $base * ($deliveryNoteLine->getIva() / 100);
-//            $irpf = $base * ($deliveryNoteLine->getIrpf() / 100);
-//            $deliveryNoteLine->setTotal($base + $iva - $irpf);
             $deliveryNoteLine->setTotal($base);
             $subtotal = $deliveryNoteLine->getTotal();
             $totalPrice = $totalPrice + $subtotal;
         }
         $object->setBaseAmount($totalPrice * (1 - $object->getDiscount() / 100));
+        $saleInvoice = $object->getSaleInvoice();
+        if ($saleInvoice) {
+            $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $saleInvoice->getDeliveryNotes());
+            $numberOfDueDates = $saleInvoice->getSaleInvoiceDueDates()->count();
+            $totalSplit = $saleInvoice->getTotal() / $numberOfDueDates;
+            /** @var SaleInvoiceDueDate $dueDate */
+            foreach ($saleInvoice->getSaleInvoiceDueDates() as $dueDate) {
+                $dueDate->setAmount($totalSplit);
+            }
+        }
 
         $this->em->flush();
     }

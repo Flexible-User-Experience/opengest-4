@@ -3,7 +3,10 @@
 namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerDeliveryAddress;
+use App\Entity\Setting\City;
 use App\Entity\Setting\SaleInvoiceSeries;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,7 +40,7 @@ class SaleInvoice extends AbstractBase
     /**
      * @var Partner
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner",inversedBy="saleInvoices")
      */
     private $partner;
 
@@ -88,6 +91,31 @@ class SaleInvoice extends AbstractBase
      *
      * @ORM\Column(type="float", nullable=true)
      */
+    private $iva21 = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva10 = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva4 = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva0 = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
     private $irpf = 0;
 
     /**
@@ -105,6 +133,76 @@ class SaleInvoice extends AbstractBase
     private $discount = 0;
 
     /**
+     * @var ?PartnerDeliveryAddress
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
+     */
+    private $deliveryAddress;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="saleInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $saleInvoiceDueDates;
+
+    /**
+     * @var ?CollectionDocumentType
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
+     */
+    private $collectionDocumentType;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $observations;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $partnerName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $partnerCifNif;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $partnerMainAddress;
+
+    /**
+     * @var City
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
+     */
+    private $partnerMainCity;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $partnerIban;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $partnerSwift;
+
+    /**
      * Methods.
      */
 
@@ -114,6 +212,7 @@ class SaleInvoice extends AbstractBase
     public function __construct()
     {
         $this->deliveryNotes = new ArrayCollection();
+        $this->saleInvoiceDueDates = new ArrayCollection();
     }
 
     public function getDeliveryNotes(): Collection
@@ -152,6 +251,47 @@ class SaleInvoice extends AbstractBase
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
             $deliveryNote->setSaleInvoice(null);
+        }
+
+        return $this;
+    }
+
+    public function getSaleInvoiceDueDates(): Collection
+    {
+        return $this->saleInvoiceDueDates;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setSaleInvoiceDueDates(Collection $saleInvoiceDueDates): SaleInvoice
+    {
+        $this->saleInvoiceDueDates = $saleInvoiceDueDates;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    {
+        if (!$this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
+            $this->saleInvoiceDueDates->add($saleInvoiceDueDate);
+            $saleInvoiceDueDate->setSaleInvoice($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    {
+        if ($this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
+            $this->saleInvoiceDueDates->removeElement($saleInvoiceDueDate);
+            $saleInvoiceDueDate->setSaleInvoice(null);
         }
 
         return $this;
@@ -309,6 +449,71 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
+    /**
+     * @return float
+     */
+    public function getIva21()
+    {
+        return $this->iva21;
+    }
+
+    /**
+     * @param float $iva21
+     *
+     * @return SaleInvoice
+     */
+    public function setIva21($iva21)
+    {
+        $this->iva21 = $iva21;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIva10()
+    {
+        return $this->iva10;
+    }
+
+    public function setIva10(float $iva10): SaleInvoice
+    {
+        $this->iva10 = $iva10;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIva4()
+    {
+        return $this->iva4;
+    }
+
+    public function setIva4(float $iva4): SaleInvoice
+    {
+        $this->iva4 = $iva4;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIva0()
+    {
+        return $this->iva0;
+    }
+
+    public function setIva0(float $iva0): SaleInvoice
+    {
+        $this->iva0 = $iva0;
+
+        return $this;
+    }
+
     public function getIrpf(): ?float
     {
         return $this->irpf;
@@ -373,9 +578,120 @@ class SaleInvoice extends AbstractBase
         $this->discount = $discount;
     }
 
+    public function getCollectionDocumentType(): ?CollectionDocumentType
+    {
+        return $this->collectionDocumentType;
+    }
+
+    public function setCollectionDocumentType(?CollectionDocumentType $collectionDocumentType): SaleInvoice
+    {
+        $this->collectionDocumentType = $collectionDocumentType;
+
+        return $this;
+    }
+
+    public function getDeliveryAddress(): ?PartnerDeliveryAddress
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(?PartnerDeliveryAddress $deliveryAddress): SaleInvoice
+    {
+        $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
+    }
+
+    public function getObservations(): ?string
+    {
+        return $this->observations;
+    }
+
+    public function setObservations(string $observations): SaleInvoice
+    {
+        $this->observations = $observations;
+
+        return $this;
+    }
+
+    public function getPartnerName(): ?string
+    {
+        return $this->partnerName;
+    }
+
+    public function setPartnerName(?string $partnerName): void
+    {
+        $this->partnerName = $partnerName;
+    }
+
+    public function getPartnerCifNif(): string
+    {
+        return $this->partnerCifNif;
+    }
+
+    public function setPartnerCifNif(string $partnerCifNif): void
+    {
+        $this->partnerCifNif = $partnerCifNif;
+    }
+
     /**
      * @return string
      */
+    public function getPartnerMainAddress(): ?string
+    {
+        return $this->partnerMainAddress;
+    }
+
+    public function setPartnerMainAddress(string $partnerMainAddress): void
+    {
+        $this->partnerMainAddress = $partnerMainAddress;
+    }
+
+    /**
+     * @return ?City
+     */
+    public function getPartnerMainCity(): ?City
+    {
+        return $this->partnerMainCity;
+    }
+
+    public function setPartnerMainCity(City $partnerMainCity): void
+    {
+        $this->partnerMainCity = $partnerMainCity;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPartnerIban(): ?string
+    {
+        return $this->partnerIban;
+    }
+
+    /**
+     * @param ?string $partnerIban
+     */
+    public function setPartnerIban(?string $partnerIban): void
+    {
+        $this->partnerIban = $partnerIban;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getPartnerSwift(): ?string
+    {
+        return $this->partnerSwift;
+    }
+
+    /**
+     * @param ?string $partnerSwift
+     */
+    public function setPartnerSwift(?string $partnerSwift): void
+    {
+        $this->partnerSwift = $partnerSwift;
+    }
+
     public function getDateFormatted(): string
     {
         return $this->getDate()->format('d/m/y');
@@ -386,6 +702,6 @@ class SaleInvoice extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getInvoiceNumber().' · '.$this->getPartner() : '---';
+        return $this->id ? $this->getInvoiceNumber().'' : '---';
     }
 }

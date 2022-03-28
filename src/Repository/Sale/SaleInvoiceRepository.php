@@ -6,10 +6,10 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SaleInvoiceRepository extends ServiceEntityRepository
 {
@@ -70,5 +70,60 @@ class SaleInvoiceRepository extends ServiceEntityRepository
         }
 
         return $result;
+    }
+
+    public function getFirstInvoiceBySerieAndEnterpriseQB(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): QueryBuilder
+    {
+        return $this->getFilteredByEnterpriseSortedByDateQB($enterprise)
+            ->andWhere('s.series = :serie')
+            ->setParameter('serie', $saleInvoiceSeries)
+            ->orderBy('s.invoiceNumber', 'ASC')
+            ->setMaxResults(1)
+        ;
+    }
+
+    public function getFirstInvoiceBySerieAndEnterpriseQ(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): Query
+    {
+        return $this->getFirstInvoiceBySerieAndEnterpriseQB($saleInvoiceSeries, $enterprise)->getQuery();
+    }
+
+    public function getFirstInvoiceBySerieAndEnterprise(SaleInvoiceSeries $saleInvoiceSeries, Enterprise $enterprise): ?SaleInvoice
+    {
+        try {
+            $result = $this->getFirstInvoiceBySerieAndEnterpriseQ($saleInvoiceSeries, $enterprise)->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $result = null;
+        }
+
+        return $result;
+    }
+
+    public function getRecentFilteredByEnterpriseSortedByDateQB(Enterprise $enterprise): QueryBuilder
+    {
+        $date = strtotime('-1 years');
+
+        return $this->getEnabledSortedByDateQB()
+            ->join('s.partner', 'p')
+            ->andWhere('p.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->andWhere('s.date >= :date')
+            ->setParameter('date', $date)
+            ;
+    }
+
+    public function getAllInvoiceNumbersByEnterpriseAndSeries(Enterprise $enterprise, SaleInvoiceSeries $saleInvoiceSeries): array
+    {
+        return $this->getEnabledSortedByDateQB()
+            ->join('s.partner', 'p')
+            ->andWhere('p.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->andWhere('s.series = :serie')
+            ->setParameter('serie', $saleInvoiceSeries)
+            ->select('s.invoiceNumber')
+            ->distinct()
+            ->orderBy('s.invoiceNumber', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

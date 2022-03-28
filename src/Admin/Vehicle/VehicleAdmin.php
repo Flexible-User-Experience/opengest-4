@@ -3,16 +3,17 @@
 namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -41,11 +42,6 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehicles/vehicle';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -60,7 +56,7 @@ class VehicleAdmin extends AbstractBaseAdmin
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
@@ -80,10 +76,59 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->remove('delete');
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    public function configureExportFields(): array
+    {
+        return [
+            'name',
+            'vehicleRegistrationNumber',
+            'chassisBrand',
+            'chassisNumber',
+            'vehicleBrand',
+            'vehicleModel',
+            'serialNumber',
+            'link',
+            'mileage',
+            'tonnage',
+            'enabled',
+        ];
+    }
+
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('General')
+            ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'mainImageFile',
+                FileType::class,
+                [
+                    'label' => 'mainImage',
+                    'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
+                    'help_html' => true,
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'attatchmentPDFFile',
+                FileType::class,
+                [
+                    'label' => 'Document',
+                    'help' => $this->getDownloadPdfButton(),
+                    'help_html' => true,
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'category',
+                EntityType::class,
+                [
+                    'label' => 'category',
+                    'class' => VehicleCategory::class,
+                    'required' => true,
+                    'query_builder' => $this->rm->getVehicleCategoryRepository()->getEnabledSortedByNameQBForAdmin(),
+                ]
+            )
+            ->end()
             ->with('General', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'name',
@@ -141,37 +186,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'mainImageFile',
-                FileType::class,
-                [
-                    'label' => 'Imatge',
-                    'help' => $this->getMainImageHelperFormMapperWithThumbnail(),
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'attatchmentPDFFile',
-                FileType::class,
-                [
-                    'label' => 'Document',
-                    'help' => $this->getDownloadPdfButton(),
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'category',
-                EntityType::class,
-                [
-                    'label' => 'Categoria vehicle',
-                    'class' => VehicleCategory::class,
-                    'required' => true,
-                    'query_builder' => $this->rm->getVehicleCategoryRepository()->getEnabledSortedByNameQBForAdmin(),
-                ]
-            )
-            ->end()
-            ->with('Controls', $this->getFormMdSuccessBoxArray(3))
+            ->with('Controles', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'link',
                 UrlType::class,
@@ -185,6 +200,15 @@ class VehicleAdmin extends AbstractBaseAdmin
                 NumberType::class,
                 [
                     'label' => 'admin.label.mileage',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'tonnage',
+                EntityType::class,
+                [
+                    'label' => 'admin.label.tonnage',
+                    'class' => SaleServiceTariff::class,
                     'required' => false,
                 ]
             )
@@ -209,6 +233,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -220,6 +245,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet1', 'technicalDatasheet1'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -231,6 +257,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet2', 'technicalDatasheet2'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -242,6 +269,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -253,6 +281,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadReachDiagram', 'reachDiagram'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -264,6 +293,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficCertificate', 'trafficCertificate'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -275,6 +305,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadDimensions', 'dimensions'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -286,6 +317,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTransportCard', 'transportCard'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -297,6 +329,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficInsurance', 'trafficInsurance'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -308,6 +341,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItv', 'itv'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -319,6 +353,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itv'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
@@ -330,13 +365,14 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => '-',
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadCEDeclaration', 'CEDeclaration'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
                 ->end()
                 ->tab('Revisiones')
-                ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(7))
                 ->add(
                     'vehicleCheckings',
                     CollectionType::class,
@@ -344,9 +380,9 @@ class VehicleAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-                        'type_options' => [
-                            'delete' => false,
-                        ],
+//                        'type_options' => [
+//                            'delete' => false,
+//                        ],
                     ],
                     [
                         'edit' => 'inline',
@@ -356,7 +392,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Permisos especiales')
-                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(12))
+                ->with('Permisos especiales', $this->getFormMdSuccessBoxArray(7))
                 ->add(
                     'vehicleSpecialPermits',
                     CollectionType::class,
@@ -380,7 +416,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Matenimientos')
-                ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(12))
+                ->with('Líneas de mantenimiento', $this->getFormMdSuccessBoxArray(10))
                 ->add(
                     'vehicleMaintenances',
                     CollectionType::class,
@@ -397,7 +433,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Consumos')
-                ->with('Consumos', $this->getFormMdSuccessBoxArray(12))
+                ->with('Consumos', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'vehicleConsumptions',
                     CollectionType::class,
@@ -419,7 +455,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Tacógrafo')
-                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
+                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'vehicleDigitalTachographs',
                     CollectionType::class,
@@ -439,7 +475,7 @@ class VehicleAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -495,27 +531,21 @@ class VehicleAdmin extends AbstractBaseAdmin
                 'link',
                 null,
                 [
-                    'label' => 'Pàgina web fabricant',
+                    'label' => 'link',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                 ]
             );
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -526,7 +556,7 @@ class VehicleAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -564,7 +594,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                     'editable' => true,
                 ]
             )
@@ -576,7 +606,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'admin.actions',
                 ]
             );
     }
@@ -586,7 +616,7 @@ class VehicleAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         $vehicleMaintenances = $object->getVehicleMaintenances();
@@ -604,7 +634,7 @@ class VehicleAdmin extends AbstractBaseAdmin
     /**
      * @param Vehicle $object
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $vehicleMaintenances = $object->getVehicleMaintenances();
         /** @var VehicleMaintenance $vehicleMaintenance */

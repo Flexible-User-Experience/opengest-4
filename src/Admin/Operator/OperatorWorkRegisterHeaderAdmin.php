@@ -7,10 +7,12 @@ use App\Entity\Operator\Operator;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
-use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -28,12 +30,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
-    protected $classnameLabel = 'Partes de trabajo';
+    protected $classnameLabel = 'operator_work_register';
 
     /**
      * @var string
@@ -51,11 +48,39 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    public function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection
+            ->add('batch')
+            ->add('getJsonOperatorWorkRegisterTotalsByHourType', 'getJsonOperatorWorkRegisters')
+            ->add('createTimeSummary', 'create-time-summary')
+        ;
+    }
+
+    /**
+     * @param array $actions
+     */
+    public function configureBatchActions($actions): array
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generateWorkRegisterReportPdf'] = [
+                'label' => 'admin.action.generate_work_register_report',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateTimeSummary'] = [
+                'label' => 'admin.action.generate_time_summary',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
+    }
+
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjects
             $formMapper
-                ->with('Parte de trabajo', $this->getFormMdSuccessBoxArray(6))
+                ->with('Parte de trabajo', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'operator',
                     EntityType::class,
@@ -82,7 +107,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'totalAmount',
                     MoneyType::class,
                     [
-                        'label' => 'admin.label.total',
+                        'label' => 'Total (€)',
                         'disabled' => true,
                     ]
                 )
@@ -94,6 +119,8 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                         'disabled' => true,
                     ]
                 )
+                ->end()
+                ->with('Líneas', $this->getFormMdSuccessBoxArray(12))
                 ->add(
                     'operatorWorkRegisters',
                     CollectionType::class,
@@ -137,32 +164,44 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'operator',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.operator',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'surname1',
+                        ],
+                    'show_filter' => true,
                 ]
             )
             ->add(
                 'date',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.delivery_note_date',
-                    'field_type' => DatePickerType::class,
+                    'label' => 'admin.label.date',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
+                    'show_filter' => true,
                 ]
             )
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -184,7 +223,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 null,
                 [
-                    'label' => 'admin.label.total',
+                    'label' => 'Total (€)',
                 ]
             )
             ->add(

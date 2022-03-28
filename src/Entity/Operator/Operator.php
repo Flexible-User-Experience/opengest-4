@@ -12,7 +12,9 @@ use App\Entity\Setting\City;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use DoctrineExtensions\Query\Mysql\Date;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -102,7 +104,9 @@ class Operator extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Email(strict=true, checkMX=true, checkHost=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
      */
     private $email;
 
@@ -424,7 +428,7 @@ class Operator extends AbstractBase
     private $operatorCheckings;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
@@ -481,6 +485,7 @@ class Operator extends AbstractBase
     {
         $this->operatorDigitalTachographs = new ArrayCollection();
         $this->operatorCheckings = new ArrayCollection();
+        $this->operatorAbsences = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->operatorVariousAmount = new ArrayCollection();
         $this->payslipOperatorDefaultLines = new ArrayCollection();
@@ -1527,7 +1532,11 @@ class Operator extends AbstractBase
      */
     public function getOperatorDigitalTachographs()
     {
-        return $this->operatorDigitalTachographs;
+        $lastId = $this->operatorDigitalTachographs->last() ? $this->operatorDigitalTachographs->last()->getId() : null;
+
+        return $this->operatorDigitalTachographs->filter(function (OperatorDigitalTachograph $operatorDigitalTachograph) use ($lastId) {
+            return $operatorDigitalTachograph->getId() === $lastId;
+        });
     }
 
     /**
@@ -1617,7 +1626,11 @@ class Operator extends AbstractBase
      */
     public function getOperatorAbsences()
     {
-        return $this->operatorAbsences;
+        $date = new DateTime();
+        $date->setDate($date->format('Y') * 1 - 1, 1, 1);
+        $criteria = Criteria::create()->where(Criteria::expr()->gt('begin', $date));
+
+        return $this->operatorAbsences->matching($criteria);
     }
 
     /**
@@ -1726,7 +1739,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function getWorkRegisterHeaders(): ArrayCollection
+    public function getWorkRegisterHeaders(): Collection
     {
         return $this->workRegisterHeaders;
     }

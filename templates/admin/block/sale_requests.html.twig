@@ -18,13 +18,15 @@
                             <div class="box-tools pull-right" style="right:7px;top:10px;">
                                 {% if show_date %}
                                     <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceDate | date('d/m/Y') }}</span>
-                                    <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceTime | date('h:i') }}</span>
+                                    {% if item.serviceTime %}
+                                        <span class="label label-default" style="font-size:100%;font-weight:600;">{{ item.serviceTime | date('h:i') }}</span>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
                         <div class="box-body">
                             <div class="container">
-                                <p class="box-default" style="color:black">{{ item.partner.name }}</p>
+                                <p class="box-default" style="color:black"><b>{{ item.partner.code }}-{{ item.partner.name }}</b></p>
                                 <p class="box-comment" style="color:black">{{ item.serviceDescription }}</p>
                                 <p class="box-info" style="color:black">{% if item.operator %}{{ item.operator.shortFullName }} {% endif %}, {% if item.vehicle %}{{ item.vehicle.name }} {% endif %}, {% if item.secondaryVehicle %} {{ item.secondaryVehicle.name }} {% else %}  {% endif %}</p>
                                 {% if item.observations %}
@@ -62,7 +64,7 @@
                             <div class="box-tools pull-right">
                                 <a href="{{ path('admin_app_sale_salerequest_edit', {id: item.id}) }}" class="btn btn-box-tool"><i class="fa fa-pencil"></i></a>
                                 <a href="{# TODO #}#" class="btn btn-box-tool"><i class="fa fa-search-plus"></i></a>
-                                <a href="{{ path('admin_app_sale_salerequest_pdf', {id: item.id}) }}" class="btn btn-box-tool"><i class="fa fa-file-pdf-o"></i></a>
+                                <a href="{{ path('admin_app_sale_salerequest_generateDeliveryNoteFromSaleRequest', {id: item.id}) }}" class="btn btn-box-tool"><i class="fa fa-file-pdf-o"></i></a>
                             </div>
                         </div>
                     </div>

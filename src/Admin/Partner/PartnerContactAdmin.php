@@ -8,9 +8,10 @@ use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 
 /**
  * Class PartnerContactAdmin.
@@ -42,76 +43,58 @@ class PartnerContactAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'partner',
-                ModelAutocompleteType::class,
-                [
-                    'property' => 'name',
-                    'label' => 'Tercer',
-                    'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                ],
-                [
-                    'admin_code' => 'app.admin.partner',
-                ]
-            )
+            ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->add(
+                    'partner',
+                    ModelAutocompleteType::class,
+                    [
+                        'property' => 'name',
+                        'label' => 'Tercer',
+                        'required' => true,
+                        'callback' => function ($admin, $property, $value) {
+                            /** @var Admin $admin */
+                            $datagrid = $admin->getDatagrid();
+                            /** @var QueryBuilder $queryBuilder */
+                            $queryBuilder = $datagrid->getQuery();
+                            $queryBuilder
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->setParameter('enterprise', $this->getUserLogedEnterprise());
+                            $datagrid->setValue($property, null, $value);
+                        },
+                    ],
+                    [
+                        'admin_code' => 'app.admin.partner',
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'required' => true,
+                ]
+            )
+            ->add(
+                'care',
+                null,
+                [
+                    'label' => 'admin.label.care',
+                    'required' => false,
                 ]
             )
             ->add(
                 'phone',
                 null,
                 [
-                    'label' => 'Telèfon',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'fax',
-                null,
-                [
-                    'label' => 'Fax',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'notes',
-                null,
-                [
-                    'label' => 'Notes',
-                    'required' => false,
-                    'attr' => [
-                        'style' => 'resize: vertical',
-                        'rows' => 7,
-                    ],
-                ]
-            )
-            ->end()
-            ->with('Càrrec', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'care',
-                null,
-                [
-                    'label' => 'Càrrec',
+                    'label' => 'admin.label.phone',
                     'required' => false,
                 ]
             )
@@ -119,7 +102,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'mobile',
                 null,
                 [
-                    'label' => 'Mòbil',
+                    'label' => 'admin.label.mobile',
                     'required' => false,
                 ]
             )
@@ -127,27 +110,47 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'admin.label.email',
                     'required' => false,
+                ]
+            )
+            ->add(
+                'fax',
+                null,
+                [
+                    'label' => 'admin.label.fax',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'notes',
+                null,
+                [
+                    'label' => 'admin.label.notes',
+                    'required' => false,
+                    'attr' => [
+                        'style' => 'resize: vertical',
+                        'rows' => 4,
+                    ],
                 ]
             )
             ->end()
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'admin_code' => 'app.admin.partner',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
@@ -195,15 +198,9 @@ class PartnerContactAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.partner', 'p')
             ->orderBy('p.name', 'ASC')
@@ -219,7 +216,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -227,7 +224,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,

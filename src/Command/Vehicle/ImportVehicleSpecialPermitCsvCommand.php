@@ -92,6 +92,6 @@ class ImportVehicleSpecialPermitCsvCommand extends AbstractBaseCommand
         }
         $endTimestamp = new DateTimeImmutable();
         // Print totals
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);
+        return $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);
     }
 }

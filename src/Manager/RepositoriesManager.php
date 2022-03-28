@@ -20,7 +20,9 @@ use App\Repository\Operator\OperatorWorkRegisterRepository;
 use App\Repository\Partner\PartnerBuildingSiteRepository;
 use App\Repository\Partner\PartnerClassRepository;
 use App\Repository\Partner\PartnerContactRepository;
+use App\Repository\Partner\PartnerDeliveryAddressRepository;
 use App\Repository\Partner\PartnerOrderRepository;
+use App\Repository\Partner\PartnerProjectRepository;
 use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
@@ -109,6 +111,8 @@ class RepositoriesManager
 
     private PartnerContactRepository $partnerContactRepository;
 
+    private PartnerDeliveryAddressRepository $partnerDeliveryAddress;
+
     private PartnerUnableDaysRepository $partnerUnableDaysRepository;
 
     private CityRepository $cityRepository;
@@ -120,6 +124,8 @@ class RepositoriesManager
     private PartnerBuildingSiteRepository $partnerBuildingSiteRepository;
 
     private PartnerOrderRepository $partnerOrderRepository;
+
+    private PartnerProjectRepository $partnerProjectRepository;
 
     private CollectionDocumentTypeRepository $collectionDocumentTypeRepository;
 
@@ -183,12 +189,14 @@ class RepositoriesManager
         PartnerClassRepository $partnerClassRepository,
         PartnerTypeRepository $partnerTypeRepository,
         PartnerContactRepository $partnerContactRepository,
+        PartnerDeliveryAddressRepository $partnerDeliveryAddress,
         PartnerUnableDaysRepository $partnerUnableDaysRepository,
         CityRepository $cityRepository,
         ProvinceRepository $provinceRepository,
         SaleTariffRepository $saleTariffRepository,
         PartnerBuildingSiteRepository $partnerBuildingSiteRepository,
         PartnerOrderRepository $partnerOrderRepository,
+        PartnerProjectRepository $partnerProjectRepository,
         CollectionDocumentTypeRepository $collectionDocumentTypeRepository,
         ActivityLineRepository $activityLineRepository,
         SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository,
@@ -229,12 +237,14 @@ class RepositoriesManager
         $this->partnerClassRepository = $partnerClassRepository;
         $this->partnerTypeRepository = $partnerTypeRepository;
         $this->partnerContactRepository = $partnerContactRepository;
+        $this->partnerDeliveryAddress = $partnerDeliveryAddress;
         $this->partnerUnableDaysRepository = $partnerUnableDaysRepository;
         $this->cityRepository = $cityRepository;
         $this->provinceRepository = $provinceRepository;
         $this->saleTariffRepository = $saleTariffRepository;
         $this->partnerBuildingSiteRepository = $partnerBuildingSiteRepository;
         $this->partnerOrderRepository = $partnerOrderRepository;
+        $this->partnerProjectRepository = $partnerProjectRepository;
         $this->collectionDocumentTypeRepository = $collectionDocumentTypeRepository;
         $this->activityLineRepository = $activityLineRepository;
         $this->saleInvoiceSeriesRepository = $saleInvoiceSeriesRepository;
@@ -443,6 +453,14 @@ class RepositoriesManager
     }
 
     /**
+     * @return PartnerDeliveryAddressRepository
+     */
+    public function getPartnerDeliveryAddressRepository()
+    {
+        return $this->partnerDeliveryAddress;
+    }
+
+    /**
      * @return CityRepository
      */
     public function getCityRepository()
@@ -493,6 +511,14 @@ class RepositoriesManager
     public function getPartnerOrderRepository()
     {
         return $this->partnerOrderRepository;
+    }
+
+    /**
+     * @return PartnerProjectRepository
+     */
+    public function getPartnerProjectRepository()
+    {
+        return $this->partnerProjectRepository;
     }
 
     /**

@@ -7,8 +7,9 @@ use App\Enum\TimeRangeTypeEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -24,11 +25,6 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     /**
      * @var string
      */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Franjas horarias';
 
     /**
@@ -39,10 +35,10 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'start',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
@@ -53,7 +49,7 @@ class TimeRangeAdmin extends AbstractBaseAdmin
      *
      * @param RouteCollection $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection->remove('delete');
@@ -61,155 +57,146 @@ class TimeRangeAdmin extends AbstractBaseAdmin
         $collection->remove('create');
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'type',
                 ChoiceType::class,
-                array(
+                [
                     'choices' => TimeRangeTypeEnum::getEnumArray(),
                     'label' => 'admin.label.type',
-                )
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'Descripción',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'start',
                 TimeType::class,
-                array(
+                [
                     'label' => 'admin.label.start',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'finish',
                 TimeType::class,
-                array(
+                [
                     'label' => 'admin.label.finish',
                     'required' => true,
-                )
+                ]
             )
             ->end()
             ->with('Controls', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'enabled',
                 CheckboxType::class,
-                array(
+                [
                     'label' => 'Activo',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'admin.label.type',
-                ),
-                ChoiceType::class,
-                array(
-                    'choices' => TimeRangeTypeEnum::getEnumArray(),
-                )
+                    'field_type' => ChoiceType::class,
+                    'field_options' => [
+                            'choices' => TimeRangeTypeEnum::getEnumArray(),
+                        ],
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'Descripción',
-                )
+                ]
             )
             ->add(
                 'start',
                 null,
-                array(
+                [
                     'label' => 'Empieza',
-                )
+                ]
             )
             ->add(
                 'finish',
                 null,
-                array(
+                [
                     'label' => 'Termina',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'Activo',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'type',
                 null,
-                array(
+                [
                     'label' => 'admin.label.type',
                     'header_class' => 'text-center',
                     'row_align' => 'center',
                     'template' => 'admin/cells/list__cell_time_range_type.html.twig',
                     'editable' => false,
-                )
+                ]
             )
             ->add(
                 'description',
                 null,
-                array(
+                [
                     'label' => 'Descripción',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'start',
                 null,
-                array(
+                [
                     'label' => 'Empieza',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'finish',
                 null,
-                array(
+                [
                     'label' => 'Termina',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'Activo',
                     'editable' => true,
-                )
+                ]
             )
 //            ->add(
 //                '_action',

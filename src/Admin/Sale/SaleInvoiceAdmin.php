@@ -3,39 +3,40 @@
 namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Enterprise\CollectionDocumentType;
+use App\Entity\Partner\PartnerDeliveryAddress;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
+use App\Entity\Setting\City;
 use App\Entity\Setting\SaleInvoiceSeries;
-use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
+use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Class SaleInvoicedmin.
+ * Class SaleInvoiceAmin.
  *
  * @category    Admin
  */
 class SaleInvoiceAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
     /**
      * @var string
      */
@@ -47,29 +48,54 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vendes/factura';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'date',
-        '_sort_order' => 'DESC',
-    ];
-
-    /**
      * Methods.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureDefaultSortValues(array &$sortValues): void
     {
-        parent::configureRoutes($collection);
+        $sortValues[DatagridInterface::PAGE] = 1;
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'invoiceNumber';
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('pdfWithBackground', $this->getRouterIdParameter().'/pdf-with-background')
             ->add('count', $this->getRouterIdParameter().'/to-count')
-//            ->remove('delete')
+            ->add('clone', $this->getRouterIdParameter().'/clone')
+            ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
+            ->add('getJsonNextInvoiceNumberForSeriesIdAndInvoice', $this->getRouterIdParameter().'/get-json-next-invoice-number-for-series-id-and-invoice')
+            ->add('getJsonAvailableInvoiceNumbersForSeries', $this->getRouterIdParameter().'/get-json-available-invoice-numbers-for-serie')
+            ->remove('show')
             ->remove('create')
         ;
     }
 
-    public function getExportFields(): array
+    /**
+     * @param array $actions
+     */
+    public function configureBatchActions($actions): array
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generatePdfsForEmail'] = [
+                'label' => 'admin.action.generate_pdfs_for_email',
+                'ask_confirmation' => false,
+            ];
+            $actions['generatePdfsToPrint'] = [
+                'label' => 'admin.action.generate_pdfs_to_print',
+                'ask_confirmation' => false,
+            ];
+            $actions['invoiceList'] = [
+                'label' => 'admin.action.generate_invoice_list',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
+    }
+
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -77,29 +103,29 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             'invoiceNumber',
             'dateFormatted',
             'hasBeenCounted',
+            'partner.code',
             'partner.name',
             'partner.cifNif',
             'discount',
             'baseTotal',
             'iva',
             'irpf',
-            'total'
+            'total',
         ];
     }
 
     /**
      * @throws Exception
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'invoiceNumber',
                 null,
                 [
                     'label' => 'admin.label.invoice_number_long',
-                    'disabled' => true,
                 ]
             )
             ->add(
@@ -110,7 +136,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'class' => SaleInvoiceSeries::class,
                     'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
                     'choice_label' => 'name',
-                    'disabled' => $this->id($this->getSubject()),
                 ]
             )
             ->add(
@@ -118,10 +143,8 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 DatePickerType::class,
                 [
                     'label' => 'admin.label.date',
-                    'format' => 'd/m/Y',
+                    'format' => 'd/M/y',
                     'required' => true,
-                    'dp_default_date' => (new DateTime())->format('d/m/Y'),
-                    'disabled' => true,
                 ]
             )
             ->add(
@@ -129,6 +152,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ModelAutocompleteType::class,
                 [
                     'property' => 'name',
+                    'disabled' => true,
                     'label' => 'admin.label.partner',
                     'callback' => function ($admin, $property, $value) {
                         /** @var Admin $admin */
@@ -137,7 +161,11 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         $queryBuilder = $datagrid->getQuery();
                         $queryBuilder
                             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
+                            ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
                             ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                            ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
+                            ->setParameter('enabled', true)
                         ;
                         $datagrid->setValue($property, null, $value);
                     },
@@ -146,6 +174,87 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
+            ->add(
+                'partnerName',
+                null,
+                [
+                    'label' => 'admin.label.partner',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerCifNif',
+                null,
+                [
+                    'label' => 'CIF/NIF',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerMainAddress',
+                null,
+                [
+                    'label' => 'admin.label.main_address',
+                    'required' => true,
+                    'disabled' => false,
+                ]
+            )
+            ->add(
+                'partnerMainCity',
+                EntityType::class,
+                [
+                    'class' => City::class,
+                    'label' => 'admin.label.main_city',
+                    'required' => true,
+                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
+                ]
+            )
+            ;
+        if ($this->id($this->getSubject())) { // is edit mode
+            if ($this->getSubject()->getPartnerMainCity()) {
+                $formMapper
+                    ->add(
+                        'partnerMainCity.province.countryName',
+                        null,
+                        [
+                            'label' => 'admin.label.country_name',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                    ->add(
+                        'partnerMainCity.province',
+                        null,
+                        [
+                            'label' => 'admin.label.province',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                ;
+            }
+        }
+        $formMapper
+//            ->add(
+//                'partnerIban',
+//                null,
+//                [
+//                    'label' => 'IBAN',
+//                    'required' => false,
+//                    'disabled' => false,
+//                ]
+//            )
+//            ->add(
+//                'partnerSwift',
+//                null,
+//                [
+//                    'label' => 'SWIFT',
+//                    'required' => false,
+//                    'disabled' => false,
+//                ]
+//            )
             ->add(
                 'discount',
                 null,
@@ -163,7 +272,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(4))
+            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'baseTotal',
                 null,
@@ -175,6 +284,68 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
+            ;
+        if ($this->getSubject()->getIva21() > 0) {
+            $formMapper
+                ->add(
+                    'iva21',
+                    null,
+                    [
+                        'label' => 'admin.label.iva21_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva10() > 0) {
+            $formMapper
+                ->add(
+                    'iva10',
+                    null,
+                    [
+                        'label' => 'admin.label.iva10_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva4() > 0) {
+            $formMapper
+                ->add(
+                    'iva4',
+                    null,
+                    [
+                        'label' => 'admin.label.iva4_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva0() > 0) {
+            $formMapper
+                ->add(
+                    'iva0',
+                    null,
+                    [
+                        'label' => 'admin.label.iva0_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->add(
                 'iva',
                 null,
@@ -208,25 +379,161 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
+            ->add(
+                'partner.collectionTerm1',
+                null,
+                [
+                    'label' => 'admin.label.collection_term_1',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            );
+        if ($this->getSubject()->getPartner()) {
+            if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm2',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_2',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
+                $formMapper
+                    ->add(
+                        'partner.collectionTerm3',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_3',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+        }
+
+        $formMapper
+            ->add(
+                'partner.payDay1',
+                null,
+                [
+                    'label' => 'admin.label.pay_day_1',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            );
+        if ($this->getSubject()->getPartner()) {
+            if ($this->getSubject()->getPartner()->getPayDay2()) {
+                $formMapper
+                    ->add(
+                        'partner.payDay2',
+                        null,
+                        [
+                            'label' => 'admin.label.pay_day_2',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getPartner()->getPayDay3()) {
+                $formMapper
+                    ->add(
+                        'partner.payDay3',
+                        null,
+                        [
+                            'label' => 'admin.label.pay_day_3',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+        }
+        $formMapper
+            ->add(
+                'collectionDocumentType',
+                EntityType::class,
+                [
+                    'class' => CollectionDocumentType::class,
+                    'label' => 'admin.label.collection_document_type',
+                    'required' => false,
+                ]
+            );
+        if ($this->getSubject()->getCollectionDocumentType()) {
+            if (str_contains('transferencia', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+                $formMapper
+                    ->add(
+                        'partner.transferAccount.name',
+                        null,
+                        [
+                            'label' => 'admin.label.transference_bank',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    )
+                ;
+            } elseif (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
+                $formMapper
+                    ->add(
+                        'partnerIban',
+                        null,
+                        [
+                            'label' => 'IBAN',
+                            'required' => false,
+                            'disabled' => false,
+                        ]
+                    )
+                    ->add(
+                        'partnerSwift',
+                        null,
+                        [
+                            'label' => 'SWIFT',
+                            'required' => false,
+                            'disabled' => false,
+                        ]
+                    )
+                ;
+            }
+        }
+        $formMapper
             ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
+                ->with('admin.label.delivery_address', $this->getFormMdSuccessBoxArray(3))
                 ->add(
-                    'deliveryNotes',
+                    'deliveryAddress',
                     EntityType::class,
                     [
-                        'label' => 'admin.label.delivery_notes',
+                        'label' => 'admin.label.delivery_address',
                         'required' => false,
-                        'class' => SaleDeliveryNote::class,
-                        'multiple' => true,
-                        'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByNameQB($this->getUserLogedEnterprise()),
-                        'by_reference' => false,
+                        'class' => PartnerDeliveryAddress::class,
+                        'query_builder' => $this->rm->getPartnerDeliveryAddressRepository()->getFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()->getId()),
+                        'placeholder' => '--- Seleccione una dirección de envio alternativa ---',
+    //                    'choice_label' => 'name',
                     ]
                 )
                 ->end()
-            ;
+                    ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(3))
+                    ->add(
+                        'deliveryNotes',
+                        EntityType::class,
+                        [
+                            'label' => 'admin.label.delivery_notes',
+                            'required' => false,
+                            'class' => SaleDeliveryNote::class,
+                            'multiple' => true,
+                            'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
+                                $this->getUserLogedEnterprise(),
+                                $this->getSubject()->getPartner()
+                            ),
+                            'by_reference' => false,
+                        ]
+                    )
+                    ->end()
+                ;
         } else { // is create mode
             $formMapper
                 ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
@@ -246,9 +553,42 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ->end()
             ;
         }
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->with('observations', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'observations',
+                    null,
+                    [
+                        'required' => false,
+                        'label' => false,
+                    ]
+                )
+                ->end()
+            ;
+        }
+        if ($this->id($this->getSubject())) {
+            $formMapper
+            ->with('admin.label.due_dates', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'saleInvoiceDueDates',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ;
+        }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -256,12 +596,12 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.series',
-                ],
-                EntityType::class,
-                [
-                    'class' => SaleInvoiceSeries::class,
-                    'choice_label' => 'name',
-                    'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                            'class' => SaleInvoiceSeries::class,
+                            'choice_label' => 'name',
+                            'query_builder' => $this->rm->getSaleInvoiceSeriesRepository()->getEnabledSortedByNameQB(),
+                    ],
                 ]
             )
             ->add(
@@ -276,29 +616,36 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
             ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
+                ]
+            )
+            ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'property' => 'name',
+                    ],
                 ]
             )
             ->add(
@@ -318,7 +665,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['hasBeenCounted'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -326,15 +673,9 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.partner', 'p')
             ->andWhere('p.enterprise = :enterprise')
@@ -344,7 +685,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -375,6 +716,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
+                ]
+            )
+            ->add(
                 'partner',
                 null,
                 [
@@ -384,7 +732,14 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'partner']],
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
+                ]
+            )
+            ->add(
+                'deliveryAddress',
+                null,
+                [
+                    'label' => 'admin.label.delivery_address',
                 ]
             )
             ->add(
@@ -409,9 +764,9 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_invoice_button.html.twig'],
-                        'pdfWithBackground' => ['template' => 'admin/buttons/list__action_pdf_invoice_with_background_button.html.twig'],
-                        'count' => ['template' => 'admin/buttons/list__action_pdf_invoice_to_count_button.html.twig'],
+//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_invoice_button.html.twig'],
+//                        'pdfWithBackground' => ['template' => 'admin/buttons/list__action_pdf_invoice_with_background_button.html.twig'],
+//                        'count' => ['template' => 'admin/buttons/list__action_pdf_invoice_to_count_button.html.twig'],
 //                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
@@ -425,7 +780,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setInvoiceNumber($this->im->getLastInvoiceNumberBySerieAndEnterprise($object->getSeries(), $this->getUserLogedEnterprise()));
     }
@@ -433,7 +788,33 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     /**
      * @param SaleInvoice $object
      */
-    public function postUpdate($object)
+    public function preUpdate($object): void
+    {
+        /** @var SaleInvoice $originalObject */
+        $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
+        if (
+            ($object->getInvoiceNumber() != $originalObject['invoiceNumber'])
+            ||
+            ($object->getSeries() != $originalObject['series'])) {
+            if (!$this->im->checkIfNumberIsAllowedBySerieAndEnterprise($object->getSeries(), $object->getPartner()->getEnterprise(), $object->getInvoiceNumber())) {
+                $this->getRequest()->getSession()->getFlashBag()->add('warning', 'No se ha modificado el numero y/o serie de factura porque el '.$object->getInvoiceNumber().' no está permitido');
+                $object->setInvoiceNumber($originalObject['invoiceNumber']);
+                $object->setSeries($originalObject['series']);
+            }
+        }
+        if (($originalObject['date'] !== $object->getDate()) || ($originalObject['collectionDocumentType'] !== $object->getCollectionDocumentType())) {
+            foreach ($object->getSaleInvoiceDueDates() as $dueDate) {
+                $this->em->remove($dueDate);
+                $this->em->flush();
+            }
+            $this->im->createDueDatesFromSaleInvoice($object);
+        }
+    }
+
+    /**
+     * @param SaleInvoice $object
+     */
+    public function postUpdate($object): void
     {
         $this->im->calculateInvoiceImportsFromDeliveryNotes($object, $object->getDeliveryNotes());
 

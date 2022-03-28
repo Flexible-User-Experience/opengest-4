@@ -15,7 +15,7 @@
              //on change
             partnerNode.change(function(event) {
               console.log(event);
-              if (event.val === '') {
+              if (jQuery(event.target).val() === '') {
                 buildingSitesNode.empty();
                 buildingSitesNode.select2('val', '');
                 buildingSitesNode.select2({
@@ -23,7 +23,7 @@
                   allowClear: true
                 });
               }
-                var partnerId = event.val;
+                var partnerId = jQuery(event.target).val();
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
                 }).done(function(response) {
                   console.log(response);

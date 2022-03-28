@@ -10,6 +10,8 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\TimeRange;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
+use App\Enum\SaleRequestStatusEnum;
+use App\Repository\Operator\OperatorWorkRegisterRepository;
 use DateTime;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -85,20 +87,37 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                     } else {
                         $description = '';
                     }
-                    $type = $splitTimeRange['type'];
-                    $price = 0;
-                    if (0 === $type) {
-                        $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
-                    } elseif (1 === $type) {
-                        $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
-                    } elseif (2 === $type) {
-                        $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
-                    }
                     $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
+                    // Check if hour is negative (itemId ==3)
+                    if ($itemId < 3) {
+                        $type = $splitTimeRange['type'];
+                        $price = 0;
+                        if (0 === $type) {
+                            $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
+                            $description = 'Hora laboral - '.$description;
+                        } elseif (1 === $type) {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
+                            $description = 'Hora normal - '.$description;
+                        } elseif (2 === $type) {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                            $description = 'Hora extra - '.$description;
+                        }
+                    } else {
+                        $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
+                        $units = $units * (-1);
+                    }
                     $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
                     /** @var SaleDeliveryNote $saleDeliveryNote */
                     $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
                     $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $splitTimeRange['start'], $splitTimeRange['finish']);
+                    // Change status of linked saleRequest to finalized
+                    if ($saleDeliveryNote) {
+                        $saleRequest = $saleDeliveryNote->getSaleRequest();
+                        if ($saleRequest) {
+                            $saleRequest->setStatus(SaleRequestStatusEnum::FINISHED);
+                            $this->admin->getModelManager()->update($saleRequest);
+                        }
+                    }
                     $this->admin->getModelManager()->create($operatorWorkRegister);
                     $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
                 }
@@ -134,7 +153,9 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         if (!$operatorWorkRegisterHeader) {
             $operatorWorkRegisters = [];
         } else {
-            $operatorWorkRegisters = $operatorWorkRegisterHeader->getOperatorWorkRegisters();
+            /** @var OperatorWorkRegisterRepository $operatorWorkRegisterRepository */
+            $operatorWorkRegisterRepository = $this->container->get('doctrine')->getRepository(OperatorWorkRegister::class);
+            $operatorWorkRegisters = $operatorWorkRegisterRepository->getFilteredByOperatorWorkRegisterHeaderOrderedByStart($operatorWorkRegisterHeader);
         }
 
         $serializer = $this->container->get('serializer');
@@ -237,6 +258,8 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         } catch (ModelManagerException $e) {
             $this->addFlash('warning', 'No se ha podido crear la cabecera del parte de trabajo. Error: '.$e->getMessage());
         }
+        // Round to nearest fraction of 0.25
+        $units = floor($units) + round(($units - floor($units)) * 60 / 15) * 0.25;
         $operatorWorkRegister = new OperatorWorkRegister();
         $operatorWorkRegister->setOperatorWorkRegisterHeader($operatorWorkRegisterHeader);
         $operatorWorkRegister->setDescription($description);

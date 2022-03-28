@@ -7,12 +7,13 @@ use App\Entity\Enterprise\EnterpriseGroupBounty;
 use App\Entity\Operator\Operator;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\QueryBuilder;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
@@ -38,39 +39,71 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'operaris/operari';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'surname1',
-        '_sort_order' => 'asc',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'surname1';
+    }
 
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
             ->add('downloadProfilePhotoImage', $this->getRouterIdParameter().'/profilePhoto')
+            ->add('downloadTaxIdentificationNumberImage', $this->getRouterIdParameter().'/dni')
+            ->add('downloadDrivingLicenseImage', $this->getRouterIdParameter().'/permiso-conducir')
+            ->add('downloadCranesOperatorLicenseImage', $this->getRouterIdParameter().'/licencia-operador-gruas')
+            ->add('downloadMedicalCheckImage', $this->getRouterIdParameter().'/revision-medica')
+            ->add('downloadEpisImage', $this->getRouterIdParameter().'/epis')
+            ->add('downloadTrainingDocumentImage', $this->getRouterIdParameter().'/formacion')
+            ->add('downloadInformationImage', $this->getRouterIdParameter().'/informacion')
+            ->add('downloadUseOfMachineryAuthorizationImage', $this->getRouterIdParameter().'/autorizacion-maquinaria')
+            ->add('downloadDischargeSocialSecurityImage', $this->getRouterIdParameter().'/baja-seguridad-social')
+            ->add('downloadEmploymentContractImage', $this->getRouterIdParameter().'/contrato-de-trabajo')
             ->add('generatePayslips', 'generate-payslips')
             ->add('batch')
             ->remove('delete');
     }
 
-    /**
-     * @param array $actions
-     */
-    protected function configureBatchActions($actions): array
+    public function configureExportFields(): array
+    {
+        return [
+            'profilePhotoImage',
+            'taxIdentificationNumber',
+            'name',
+            'surname1',
+            'surname2',
+            'email',
+            'address',
+            'city',
+            'enterpriseMobile',
+            'ownPhone',
+            'ownMobile',
+            'hasCarDrivingLicense',
+            'hasLorryDrivingLicense',
+            'hasTowingDrivingLicense',
+            'hasCraneDrivingLicense',
+            'enterpriseGroupBounty',
+            'brithDate',
+            'registrationDate',
+            'bancAccountNumber',
+            'socialSecurityNumber',
+            'shoeSize',
+            'jerseytSize',
+            'jacketSize',
+            'tShirtSize',
+            'pantSize',
+            'workingDressSize',
+            'enabled',
+        ];
+    }
+
+    public function configureBatchActions(array $actions): array
     {
         if (
             $this->hasRoute('edit')
@@ -84,7 +117,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         return $actions;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->tab('General')
@@ -93,8 +126,9 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'profilePhotoImageFile',
                         FileType::class,
                         [
-                            'label' => 'Imatge',
+                            'label' => 'profilePhotoImage',
                             'help' => $this->getProfileHelperFormMapperWithThumbnail(),
+                            'help_html' => true,
                             'required' => false,
                         ]
                     )
@@ -102,7 +136,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'taxIdentificationNumber',
                         null,
                         [
-                            'label' => 'DNI/NIE',
+                            'label' => 'taxIdentificationNumber',
                             'required' => true,
                         ]
                     )
@@ -110,95 +144,146 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'name',
                         null,
                         [
-                            'label' => 'Nom',
+                            'label' => 'name',
                         ]
                     )
                     ->add(
                         'surname1',
                         null,
                         [
-                            'label' => 'Primer cognom',
+                            'label' => 'surname1',
                         ]
                     )
                     ->add(
                         'surname2',
                         null,
                         [
-                            'label' => 'Segon cognom',
+                            'label' => 'surname2',
                         ]
                     )
                 ->end()
-                ->with('Contacte', $this->getFormMdSuccessBoxArray(3))
+                ->with('Contacto', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'email',
                         null,
                         [
-                            'label' => 'Email',
+                            'label' => 'email',
+                            'required' => false,
                         ]
                     )
                     ->add(
                         'address',
                         null,
                         [
-                            'label' => 'Adreça',
-                            'required' => true,
+                            'label' => 'address',
+                            'required' => false,
                         ]
                     )
                     ->add(
                         'city',
                         null,
                         [
-                            'label' => 'Ciutat',
-                            'required' => true,
+                            'label' => 'city',
+                            'required' => false,
                         ]
                     )
                     ->add(
                         'enterpriseMobile',
                         null,
                         [
-                            'label' => 'Mòbil d\'empresa',
-                            'required' => true,
+                            'label' => 'enterpriseMobile',
+                            'required' => false,
                         ]
                     )
                     ->add(
                         'ownPhone',
                         null,
                         [
-                            'label' => 'Telèfon personal',
-                            'required' => true,
+                            'label' => 'ownPhone',
+                            'required' => false,
                         ]
                     )
                     ->add(
                         'ownMobile',
                         null,
                         [
-                            'label' => 'Mòbil personal',
-                            'required' => true,
+                            'label' => 'ownMobile',
+                            'required' => false,
                         ]
                     )
                 ->end()
-                ->with('Llicència', $this->getFormMdSuccessBoxArray(3))
+            ->with('EPI\'s', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'shoeSize',
+                null,
+                [
+                    'label' => 'shoeSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'jerseytSize',
+                null,
+                [
+                    'label' => 'jerseytSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'jacketSize',
+                null,
+                [
+                    'label' => 'jacketSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'tShirtSize',
+                null,
+                [
+                    'label' => 'tShirtSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'pantSize',
+                null,
+                [
+                    'label' => 'pantSize',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'workingDressSize',
+                null,
+                [
+                    'label' => 'workingDressSize',
+                    'required' => false,
+                ]
+            )
+            ->end()
+            ->with('Licencias', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'hasCarDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de cotxe',
-                            'required' => true,
+                            'label' => 'hasCarDrivingLicense',
+                            'required' => false,
                         ]
                     )
                     ->add(
                         'hasLorryDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de camions',
-                            'required' => true,
+                            'label' => 'hasLorryDrivingLicense',
+                            'required' => false,
                         ]
                     )
                     ->add(
                         'hasTowingDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de remolc',
+                            'label' => 'hasTowingDrivingLicense',
                             'required' => false,
                         ]
                     )
@@ -206,19 +291,20 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'hasCraneDrivingLicense',
                         CheckboxType::class,
                         [
-                            'label' => 'Llicència conducció de grua',
+                            'label' => 'hasCraneDrivingLicense',
                             'required' => false,
                         ]
                     )
                 ->end()
-                ->with('Controls', $this->getFormMdSuccessBoxArray(3))
+                ->with('Controles', $this->getFormMdSuccessBoxArray(3))
                     ->add(
                         'enterpriseGroupBounty',
                         EntityType::class,
                         [
                             'class' => EnterpriseGroupBounty::class,
-                            'label' => 'Grup prima',
-                            'required' => true,
+                            'label' => 'enterpriseGroupBounty',
+                            'placeholder' => '--- seleccione una opcion ---',
+                            'required' => false,
                             'query_builder' => $this->rm->getEnterpriseGroupBountyRepository()->getEnabledSortedByNameQB(),
                         ]
                     )
@@ -226,7 +312,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'brithDate',
                         DatePickerType::class,
                         [
-                            'label' => 'Data de naixement',
+                            'label' => 'brithDate',
                             'format' => 'd/M/y',
                             'required' => true,
                         ]
@@ -235,7 +321,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'registrationDate',
                         DatePickerType::class,
                         [
-                            'label' => 'Data de registre',
+                            'label' => 'registrationDate',
                             'format' => 'd/M/y',
                             'required' => true,
                         ]
@@ -244,7 +330,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'bancAccountNumber',
                         null,
                         [
-                            'label' => 'No. de compte bancari',
+                            'label' => 'bancAccountNumber',
                             'required' => true,
                         ]
                     )
@@ -252,7 +338,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'socialSecurityNumber',
                         null,
                         [
-                            'label' => 'No. de Seguretat Social',
+                            'label' => 'socialSecurityNumber',
                             'required' => true,
                         ]
                     )
@@ -260,310 +346,277 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'enabled',
                         CheckboxType::class,
                         [
-                            'label' => 'Actiu',
-                            'required' => false,
-                        ]
-                    )
-                ->end()
-                ->with('EPI\'s', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'shoeSize',
-                        null,
-                        [
-                            'label' => 'Mida de sabata',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'jerseytSize',
-                        null,
-                        [
-                            'label' => 'Mida de jersei',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'jacketSize',
-                        null,
-                        [
-                            'label' => 'Mida de jaqueta',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'tShirtSize',
-                        null,
-                        [
-                            'label' => 'Mida de camisa',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'pantSize',
-                        null,
-                        [
-                            'label' => 'Mida de pantaló',
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'workingDressSize',
-                        null,
-                        [
-                            'label' => 'Mida de roba de treball',
+                            'label' => 'admin.label.enabled',
                             'required' => false,
                         ]
                     )
                 ->end()
             ->end()
-            ->tab('Documentación')
+            ;
+        if ($this->id($this->getSubject())) {
+            $this->operatorAbsences = $this->rm->getOperatorAbsenceRepository()->getAbsencesFilteredByOperator($this->getSubject());
+
+            $formMapper
+                ->tab('Documentación')
                 ->with('No. d\'identificació fiscal', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'taxIdentificationNumberImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'DNI/NIE',
-                            'help' => $this->getSmartHelper('getTaxIdentificationNumberImage', 'taxIdentificationNumberImageFile'),
-                            'required' => false,
-                        ]
-                    )
-                    ->end()
+                ->add(
+                    'taxIdentificationNumberImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'DNI/NIE',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+                ->end()
                 ->with('Seguretat Social', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'dischargeSocialSecurityImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'Baixa Seguretat Social',
-                            'help' => $this->getSmartHelper('getDischargeSocialSecurityImage', 'dischargeSocialSecurityImageFile'),
-                            'required' => false,
-                        ]
-                    )
+                ->add(
+                    'dischargeSocialSecurityImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Baixa Seguretat Social',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDischargeSocialSecurityImage', 'dischargeSocialSecurityImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
                 ->end()
                 ->with('Contracte de treball', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'employmentContractImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'Contracte',
-                            'help' => $this->getSmartHelper('getEmploymentContractImage', 'employmentContractImageFile'),
-                            'required' => false,
-                        ]
-                    )
-                    ->end()
+                ->add(
+                    'employmentContractImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Contracte',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEmploymentContractImage', 'employmentContractImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+                ->end()
                 ->with('Informe mèdic', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'medicalCheckImageFile',
                     FileType::class,
                     [
                         'label' => 'Revisió mèdica',
-                        'help' => $this->getSmartHelper('getMedicalCheckImage', 'medicalCheckImageFile'),
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadMedicalCheckImage', 'medicalCheckImage'),
+                        'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
                 ->with('EPI\'s', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'episImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'EPI',
-                            'help' => $this->getSmartHelper('getEpisImage', 'episImageFile'),
-                            'required' => false,
-                        ]
-                    )
+                ->add(
+                    'episImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'EPI',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEpisImage', 'episImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
                 ->end()
                 ->with('Formació', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'trainingDocumentImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'Títol de formació',
-                            'help' => $this->getSmartHelper('getTrainingDocumentImage', 'trainingDocumentImageFile'),
-                            'required' => false,
-                        ]
-                    )
+                ->add(
+                    'trainingDocumentImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Títol de formació',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTrainingDocumentImage', 'trainingDocumentImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
                 ->end()
                 ->with('Altres Documents', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'informationImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'Altra informació',
-                            'help' => $this->getSmartHelper('getInformationImage', 'informationImageFile'),
-                            'required' => false,
-                        ]
-                    )
+                ->add(
+                    'informationImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Altra informació',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadInformationImage', 'informationImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
                 ->end()
                 ->with('Llicències', $this->getFormMdSuccessBoxArray(3))
-                    ->add(
-                        'drivingLicenseImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'Carnet de conduir',
-                            'help' => $this->getSmartHelper('getDrivingLicenseImage', 'drivingLicenseImageFile'),
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'useOfMachineryAuthorizationImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'Autorització de maquinària',
-                            'help' => $this->getSmartHelper('getUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImageFile'),
-                            'required' => false,
-                        ]
-                    )
-                    ->add(
-                        'cranesOperatorLicenseImageFile',
-                        FileType::class,
-                        [
-                            'label' => 'Llicència d\'operari',
-                            'help' => $this->getSmartHelper('getCranesOperatorLicenseImage', 'cranesOperatorLicenseImageFile'),
-                            'required' => false,
-                        ]
-                    )
+                ->add(
+                    'drivingLicenseImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Carnet de conduir',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDrivingLicenseImage', 'drivingLicenseImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'useOfMachineryAuthorizationImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Autorització de maquinària',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'cranesOperatorLicenseImageFile',
+                    FileType::class,
+                    [
+                        'label' => 'Llicència d\'operari',
+                        'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadCranesOperatorLicenseImage', 'cranesOperatorLicenseImage'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
                 ->end()
-            ->end()
-            ->tab('Revisiones')
-            ->with('Revisiones', $this->getFormMdSuccessBoxArray(12))
-            ->add(
-                'operatorCheckings',
-                CollectionType::class,
-                [
-                    'required' => false,
-                    'error_bubbling' => true,
-                    'label' => false,
-                ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                ]
-            )
-            ->end()
-            ->end()
-            ->tab('Ausencias')
-            ->with('Ausencias', $this->getFormMdSuccessBoxArray(12))
-            ->add(
-                'operatorAbsences',
-                CollectionType::class,
-                [
-                    'required' => false,
-                    'error_bubbling' => true,
-                    'label' => false,
-                ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                ]
-            )
-            ->end()
-            ->end()
-            ->tab('Tacógrafo')
-            ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(12))
-            ->add(
-                'operatorDigitalTachographs',
-                CollectionType::class,
-                [
-                    'required' => false,
-                    'error_bubbling' => true,
-                    'label' => false,
-                ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                ]
-            )
-            ->end()
-            ->end()
-            ->tab('Nóminas')
-                ->with('Conceptos por defecto', $this->getFormMdSuccessBoxArray(12))
-                    ->add(
-                        'payslipOperatorDefaultLines',
-                        CollectionType::class,
-                        [
-                            'required' => false,
-                            'error_bubbling' => true,
-                            'label' => false,
-                        ],
-                        [
-                            'edit' => 'inline',
-                            'inline' => 'table',
-                        ]
-                    )
+                ->end()
+                ->tab('Revisiones')
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'operatorCheckings',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+//                        'btn_add' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Ausencias')
+                ->with('Ausencias', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'operatorAbsences',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'btn_add' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Tacógrafo')
+                ->with('Tacógrafo', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'operatorDigitalTachographs',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Nóminas')
+                ->with('Conceptos por defecto', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'payslipOperatorDefaultLines',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
                 ->end()
                 ->with('Nóminas', $this->getFormMdSuccessBoxArray(12))
-                    ->add(
-                        'payslips',
-                        CollectionType::class,
-                        [
-                            'required' => false,
-                            'error_bubbling' => true,
-                            'label' => false,
-                            'btn_add' => false,
-                            'disabled' => true,
-                            'type_options' => [
-                                'delete' => false,
-                            ],
+                ->add(
+                    'payslips',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'btn_add' => false,
+                        'disabled' => true,
+                        'type_options' => [
+                            'delete' => false,
                         ],
-                        [
-                            'edit' => 'inline',
-                            'inline' => 'table',
-                        ]
-                    )
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
                 ->end()
-            ->end()
-        ;
+                ->end();
+        }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'taxIdentificationNumber',
                 null,
                 [
-                    'label' => 'DNI/NIE',
+                    'label' => 'taxIdentificationNumber',
                 ]
             )
             ->add(
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'name',
                 ]
             )
             ->add(
                 'surname1',
                 null,
                 [
-                    'label' => 'Primer cognom',
+                    'label' => 'surname1',
                 ]
             )
             ->add(
                 'enterpriseGroupBounty',
                 null,
                 [
-                    'label' => 'Grup prima',
+                    'label' => 'enterpriseGroupBounty',
                 ]
             )
             ->add(
                 'email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'email',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                 ]
             )
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['enabled'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -571,15 +624,9 @@ class OperatorAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
@@ -590,14 +637,14 @@ class OperatorAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'profilePhotoImage',
                 null,
                 [
-                    'label' => 'Imatge',
+                    'label' => 'profilePhotoImage',
                     'template' => 'admin/cells/list__cell_profile_image_field.html.twig',
                 ]
             )
@@ -605,7 +652,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'taxIdentificationNumber',
                 null,
                 [
-                    'label' => 'DNI/NIE',
+                    'label' => 'taxIdentificationNumber',
                     'editable' => true,
                 ]
             )
@@ -613,7 +660,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'name',
                     'editable' => true,
                 ]
             )
@@ -621,7 +668,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'surname1',
                 null,
                 [
-                    'label' => 'Primer cognom',
+                    'label' => 'surname1',
                     'editable' => true,
                 ]
             )
@@ -629,15 +676,15 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'surname2',
                 null,
                 [
-                    'label' => 'Segon cognom',
+                    'label' => 'surname2',
                     'editable' => true,
                 ]
             )
             ->add(
-                'enterprise_mobile',
+                'enterpriseMobile',
                 null,
                 [
-                    'label' => 'Mòbil empresa',
+                    'label' => 'enterpriseMobile',
                     'editable' => true,
                 ]
             )
@@ -645,7 +692,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                     'editable' => true,
                 ]
             )
@@ -668,7 +715,7 @@ class OperatorAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         $payslipOperatorDefaultLines = $object->getPayslipOperatorDefaultLines();

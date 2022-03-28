@@ -10,13 +10,17 @@ use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
@@ -26,11 +30,6 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
  */
 class PayslipAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
     /**
      * @var string
      */
@@ -52,15 +51,40 @@ class PayslipAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
+//            ->add('pdf', $this->getRouterIdParameter().'/pdf')
+            ->add('batch')
             ->remove('create')
         ;
     }
 
-    public function getExportFields(): array
+    /**
+     * @param array $actions
+     */
+    public function configureBatchActions($actions): array
+    {
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $actions['generatePayslip'] = [
+                'label' => 'admin.action.generate_payslip',
+                'ask_confirmation' => false,
+            ];
+            $actions['generatePayslipXMLPayment'] = [
+                'label' => 'admin.action.generate_payslip_xml_payment',
+                'ask_confirmation' => false,
+            ];
+            $actions['generatePayslipDietsXMLPayment'] = [
+                'label' => 'admin.action.generate_payslip_xml_payment_for_diets',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
+    }
+
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -78,7 +102,7 @@ class PayslipAdmin extends AbstractBaseAdmin
     /**
      * @throws Exception
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
@@ -147,6 +171,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.extra_pay',
                     'required' => false,
+                    'disabled' => true,
                 ]
             )
             ->add(
@@ -161,7 +186,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 NumberType::class,
                 [
-                    'label' => 'admin.label.total',
+                    'label' => 'admin.label.payslip_total',
                     'required' => false,
                 ]
             )
@@ -191,7 +216,7 @@ class PayslipAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -203,41 +228,49 @@ class PayslipAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'operator',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'admin.label.operator',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'property' => 'name',
+                    ],
                 ]
             )
             ->add(
                 'fromDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.from',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'label' => '1r día nómina',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(
                 'toDate',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.to',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
-                ],
-                null,
-                [
-                    'widget' => 'single_text',
-                    'format' => 'dd/MM/yyyy',
+                    'label' => 'Último día nómina',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(
@@ -279,13 +312,13 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 null,
                 [
-                    'label' => 'admin.label.total',
+                    'label' => 'admin.label.payslip_total',
                 ]
             )
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -357,7 +390,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'totalAmount',
                 null,
                 [
-                    'label' => 'admin.label.total',
+                    'label' => 'admin.label.payslip_total',
                 ]
             )
             ->add(
@@ -367,6 +400,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
@@ -379,7 +413,7 @@ class PayslipAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $payslipLines = $object->getPayslipLines();
         $totalAmount = 0;

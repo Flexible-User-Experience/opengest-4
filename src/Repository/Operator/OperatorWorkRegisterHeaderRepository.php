@@ -12,4 +12,16 @@ class OperatorWorkRegisterHeaderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OperatorWorkRegisterHeader::class);
     }
+
+    public function getHoursFromOperatorWorkRegistersWithHoursFromDeliveryNotesAndDateQB(OperatorWorkRegisterHeader $operatorWorkRegisterHeader): array
+    {
+        return $this->createQueryBuilder('owrh')
+            ->join('owrh.operatorWorkRegisters', 'owr')
+            ->andWhere('owrh.id = :id')
+            ->setParameter('id', $operatorWorkRegisterHeader->getId())
+            ->select('SUM(owr.units) as hours, owr.description as description')
+            ->groupBy('owr.description')
+            ->getQuery()
+            ->getResult();
+    }
 }

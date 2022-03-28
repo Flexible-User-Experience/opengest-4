@@ -4,7 +4,9 @@ namespace App\Controller\Admin\Vehicle;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Vehicle\VehicleChecking;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,9 +19,8 @@ class VehicleCheckingAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var VehicleChecking $vehicleChecking */
@@ -28,11 +29,28 @@ class VehicleCheckingAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnVehicleChecking($vehicleChecking)) {
-            throw $this->createAccessDeniedException(sprintf('forbidden object with id: %s', $id));
+        return parent::editAction($request);
+    }
+
+    public function downloadPdfPendingCheckingsAction(): Response
+    {
+        $vehicleCheckings = $this->admin->getModelManager()->findBy(VehicleChecking::class, [
+                'enabled' => true,
+            ]);
+        if (!$vehicleCheckings) {
+            $this->addFlash('warning', 'No existen mantenimientos pendientes.');
         }
 
-        return parent::editAction($id);
+        return new Response($this->vehicleCheckingPdfManager->outputSingle($vehicleCheckings), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function batchActionDownloadPdfVehiclePendingCheckings(ProxyQueryInterface $selectedModelQuery, Request $request): Response
+    {
+        $vehicleCheckings = $selectedModelQuery->execute()->getQuery()->getResult();
+        if (!$vehicleCheckings) {
+            $this->addFlash('warning', 'No hay revisiones seleccionadas.');
+        }
+
+        return new Response($this->vehicleCheckingPdfManager->outputSingle($vehicleCheckings), 200, ['Content-type' => 'application/pdf']);
     }
 }

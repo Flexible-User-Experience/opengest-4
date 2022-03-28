@@ -38,10 +38,7 @@ class ImportOperatorCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -165,11 +162,11 @@ class ImportOperatorCommand extends AbstractBaseCommand
                     ->setTShirtSize($this->readColumn(29, $row))
                     ->setPantSize($this->readColumn(30, $row))
                     ->setWorkingDressSize($this->readColumn(31, $row))
-                    ->setBancAccountNumber(!is_null(($this->readColumn(52, $row)) ? $this->readColumn(52, $row).'-' : '').$this->readColumn(33, $row).'-'.$this->readColumn(34, $row).'-'.$this->readColumn(35, $row).'-'.$this->readColumn(36, $row))
+                    ->setBancAccountNumber(($this->readColumn(52, $row) ? $this->readColumn(52, $row) : '').$this->readColumn(33, $row).$this->readColumn(34, $row).$this->readColumn(35, $row).$this->readColumn(36, $row))
                     ->setSocialSecurityNumber($this->readColumn(37, $row))
                     ->setEpisImage(is_array($episImg) ? $episImg[1] : null)
                     ->setTrainingDocumentImage(is_array($trainingDocImg) ? $trainingDocImg[1] : null)
-                    ->setInformationImage(is_array($informationImg) ? $trainingDocImg[1] : null)
+                    ->setInformationImage(is_array($informationImg) ? $informationImg[1] : null)
                     ->setUseOfMachineryAuthorizationImage(is_array($useOfMachineryAuthorizationImg) ? $useOfMachineryAuthorizationImg[1] : null)
                     ->setDischargeSocialSecurityImage(is_array($dischargeSocialSecurityImg) ? $dischargeSocialSecurityImg[1] : null)
                     ->setEmploymentContractImage(is_array($employmentContractImg) ? $employmentContractImg[1] : null)
@@ -206,6 +203,7 @@ class ImportOperatorCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead - 1, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return $this->printTotals($output, $rowsRead - 1, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

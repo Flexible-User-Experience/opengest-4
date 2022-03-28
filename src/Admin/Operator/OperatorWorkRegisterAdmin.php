@@ -6,11 +6,11 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Sale\SaleDeliveryNote;
-use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -25,11 +25,6 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
  */
 class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
     /**
      * @var string
      */
@@ -51,8 +46,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-
-    public function getExportFields(): array
+    public function configureExportFields(): array
     {
         return [
             'id',
@@ -65,24 +59,25 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
             'units',
             'priceUnit',
             'amount',
-            'description'
+            'description',
         ];
     }
 
     /**
      * Configure route collection.
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
             ->add('createCustomWorkRegister', 'createCustomWorkRegister')
             ->add('customDelete', 'customDelete')
-            ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters');
-//            ->remove('delete')
+            ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters')
+            ->remove('create')
+        ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getRootCode() == $this->getCode()) {
             $formMapper
@@ -186,13 +181,12 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                 )
                 ->add(
                     'operatorWorkRegisterHeader.date',
-                    DateTimeType::class,
+                    DatePickerType::class,
                     [
                         'label' => 'admin.label.date',
+                        'format' => 'dd/MM/yyyy',
                         'required' => true,
-                        'disabled' => true,
-                        'widget' => 'single_text',
-                        'format' => 'd/M/Y',
+                        'dp_default_date' => (new \DateTime())->format('d/m/Y'),
                     ]
                 )
                 ->add(
@@ -213,6 +207,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'disabled' => true,
                         'widget' => 'single_text',
                         'format' => 'HH:mm',
+                        'html5' => false,
                     ]
                 )
                 ->add(
@@ -224,6 +219,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'disabled' => true,
                         'widget' => 'single_text',
                         'format' => 'HH:mm',
+                        'html5' => false,
                     ]
                 )
                 ->add(
@@ -258,7 +254,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -271,7 +267,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -356,13 +352,17 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
 
     /**
      * @param OperatorWorkRegister $object
-     *
-     * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setAmount($object->getUnits() * $object->getPriceUnit());
+    }
 
-        $this->em->flush();
+    /**
+     * @param OperatorWorkRegister $object
+     */
+    public function preUpdate($object): void
+    {
+        $object->setAmount($object->getUnits() * $object->getPriceUnit());
     }
 }

@@ -4,9 +4,6 @@
 - name: warm-up cache again
   shell: "chdir={{ ansistrano_release_path.stdout }}
     SYMFONY_ENV={{ symfony_env }} {{ symfony_php_path }} {{ symfony_console_path }} cache:warmup {{ symfony_cache_options }}"
-- name: redis cache flush
-  shell: "chdir={{ ansistrano_release_path.stdout }}
-    SYMFONY_ENV={{ symfony_env }} {{ symfony_php_path }} {{ symfony_console_path }} redis:flushall --no-interaction --env=prod"
 - name: fix symfony cache directory apache ownership
   file:
     path: "{{ ansistrano_release_path.stdout }}/var/cache"

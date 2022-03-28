@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     role_hierarchy:
         ROLE_SONATA_CMS:
             - ROLE_APP_ADMIN_SERVICE_ALL
@@ -7,14 +8,8 @@ security:
             - ROLE_APP_ADMIN_COMPLEMENT_ALL
             - ROLE_APP_ADMIN_CONTACT_MESSAGE_ALL
         ROLE_SONATA_MANAGER:
-            - ROLE_APP_ADMIN_PROVINCE_LIST
-            - ROLE_APP_ADMIN_PROVINCE_VIEW
-            - ROLE_APP_ADMIN_PROVINCE_EDIT
-            - ROLE_APP_ADMIN_PROVINCE_EXPORT
-            - ROLE_APP_ADMIN_CITY_LIST
-            - ROLE_APP_ADMIN_CITY_VIEW
-            - ROLE_APP_ADMIN_CITY_EDIT
-            - ROLE_APP_ADMIN_CITY_EXPORT
+            - ROLE_APP_ADMIN_PROVINCE_ALL
+            - ROLE_APP_ADMIN_CITY_ALL
             - ROLE_APP_ADMIN_ENTERPRISE_LIST
             - ROLE_APP_ADMIN_ENTERPRISE_VIEW
             - ROLE_APP_ADMIN_ENTERPRISE_EDIT
@@ -26,17 +21,25 @@ security:
             - ROLE_APP_ADMIN_OPERATOR_VARIOUS_AMOUNT_ALL
             - ROLE_APP_ADMIN_OPERATOR_WORK_REGISTER_HEADER_ALL
 #            - ROLE_APP_ADMIN_OPERATOR_WORK_REGISTER_ALL
+            - ROLE_APP_ADMIN_OPERATOR_WORK_REGISTER_EDIT
+            - ROLE_APP_ADMIN_OPERATOR_WORK_REGISTER_DELETE
             - ROLE_APP_ADMIN_VEHICLE_ALL
             - ROLE_APP_ADMIN_VEHICLE_CATEGORY_ALL
             - ROLE_APP_ADMIN_VEHICLE_CHECKING_ALL
             - ROLE_APP_ADMIN_VEHICLE_DIGITAL_TACHOGRAPH_ALL
             - ROLE_APP_ADMIN_VEHICLE_CONSUMPTION_ALL
+            - ROLE_APP_ADMIN_VEHICLE_SPECIAL_PERMIT_ALL
+            - ROLE_APP_ADMIN_VEHICLE_MAINTENANCE_ALL
+            - ROLE_APP_ADMIN_VEHICLE_MAINTENANCE_TASK_ALL
+            - ROLE_APP_ADMIN_VEHICLE_FUEL_ALL
             - ROLE_APP_ADMIN_PARTNER_ALL
             - ROLE_APP_ADMIN_CLIENT_PARTNER_ALL
             - ROLE_APP_ADMIN_PARTNER_ORDER_ALL
+            - ROLE_APP_ADMIN_PARTNER_PROJECT_ALL
             - ROLE_APP_ADMIN_PARTNER_BUILDING_SITE_ALL
             - ROLE_APP_ADMIN_PARTNER_CONTACT_ALL
             - ROLE_APP_ADMIN_PARTNER_UNABLE_DAYS_ALL
+            - ROLE_APP_ADMIN_PARTNER_DELIVERY_ADDRESS_ALL
             - ROLE_APP_ADMIN_SALE_TARIFF_ALL
             - ROLE_APP_ADMIN_SALE_REQUEST_ALL
             - ROLE_APP_ADMIN_SALE_DELIVERY_NOTE_ALL
@@ -44,12 +47,8 @@ security:
             - ROLE_APP_ADMIN_SALE_INVOICE_ALL
 #            - ROLE_APP_ADMIN_SALE_REQUEST_HAS_DELIVERY_NOTE_ALL
             - ROLE_APP_ADMIN_SALE_SERVICE_TARIFF_ALL
-            - ROLE_APP_ADMIN_SALE_ITEM_ALL
-            - ROLE_APP_ADMIN_PAYSLIP_ALL
-            - ROLE_APP_ADMIN_PAYSLIP_LINE_CREATE
-            - ROLE_APP_ADMIN_PAYSLIP_LINE_EDIT
-            - ROLE_APP_ADMIN_PAYSLIP_LINE_DELETE
-            - ROLE_APP_ADMIN_PAYSLIP_LINE_CONCEPT_ALL
+            - ROLE_APP_ADMIN_ACTIVITY_LINE_ALL
+            - ROLE_APP_ADMIN_SALE_INVOICE_SERIES_ALL
         ROLE_SONATA_MANAGER_ADMIN:
             - ROLE_APP_ADMIN_VEHICLE_CHECKING_TYPE_ALL
             - ROLE_APP_ADMIN_OPERATOR_CHECKING_TYPE_ALL
@@ -61,18 +60,28 @@ security:
             - ROLE_APP_ADMIN_ENTERPRISE_HOLLIDAYS_ALL
             - ROLE_APP_ADMIN_ACTIVITY_LINE_ALL
             - ROLE_APP_ADMIN_COLLECTION_DOCUMENT_TYPE_ALL
-            - ROLE_APP_ADMIN_PROVINCE_CREATE
-            - ROLE_APP_ADMIN_PROVINCE_DELETE
-            - ROLE_APP_ADMIN_CITY_CREATE
-            - ROLE_APP_ADMIN_CITY_DELETE
             - ROLE_APP_ADMIN_TIME_RANGE_LIST
             - ROLE_APP_ADMIN_USER_ALL
             - ROLE_APP_ADMIN_PARTNER_CLASS_ALL
             - ROLE_APP_ADMIN_PARTNER_TYPE_ALL
+            - ROLE_APP_ADMIN_PARTNER_ORDER_ALL
+            - ROLE_APP_ADMIN_PARTNER_BUILDING_SITE_ALL
             - ROLE_APP_ADMIN_SALE_INVOICE_SERIES_ALL
             - ROLE_APP_ADMIN_PAYSLIP_ALL
+#            - ROLE_APP_ADMIN_PAYSLIP_LINE_ALL
+            - ROLE_APP_ADMIN_PAYSLIP_LINE_CREATE
+            - ROLE_APP_ADMIN_PAYSLIP_LINE_EDIT
+            - ROLE_APP_ADMIN_PAYSLIP_LINE_DELETE
             - ROLE_APP_ADMIN_PAYSLIP_LINE_CONCEPT_ALL
-            - ROLE_APP_ADMIN_PAYSLIP_OPERATOR_DEFAULT_LINE_ALL
+#            - ROLE_APP_ADMIN_PAYSLIP_OPERATOR_DEFAULT_LINE_ALL
+            - ROLE_APP_ADMIN_PAYSLIP_OPERATOR_DEFAULT_LINE_CREATE
+            - ROLE_APP_ADMIN_PAYSLIP_OPERATOR_DEFAULT_LINE_EDIT
+            - ROLE_APP_ADMIN_PAYSLIP_OPERATOR_DEFAULT_LINE_DELETE
+            - ROLE_APP_ADMIN_VEHICLE_MAINTENANCE_ALL
+            - ROLE_APP_ADMIN_VEHICLE_MAINTENANCE_TASK_ALL
+            - ROLE_APP_ADMIN_VEHICLE_SPECIAL_PERMIT_ALL
+            - ROLE_APP_ADMIN_VEHICLE_FUEL_ALL
+            - ROLE_APP_ADMIN_PARTNER_DELIVERY_ADDRESS_ALL
         ROLE_CMS:
             - ROLE_USER
             - ROLE_SONATA_CMS
@@ -88,35 +97,45 @@ security:
             - ROLE_ALLOWED_TO_SWITCH
     access_decision_manager:
         strategy: unanimous
-    encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
+    password_hashers:
+#        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\Setting\User: bcrypt
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username_email
+        app_user_provider:
+            entity:
+                class: 'App\Entity\Setting\User'
+                property: 'username'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         admin:
             pattern: /admin(.*)
-            context: user
+#            context: user
+            lazy: true
+            entry_point: form_login
             form_login:
-                provider:                       fos_userbundle
-                login_path:                     /admin/login
+                provider:                       app_user_provider
+                login_path:                     admin_login
                 use_forward:                    false
-                check_path:                     /admin/login_check
-                failure_path:                   /admin/login
+                check_path:                     admin_login
+                username_parameter:             'login_form[username]'
+                password_parameter:             'login_form[password]'
+                csrf_parameter:                 'login_form[_token]'
+                failure_path:                   admin_login
                 default_target_path:            /admin/dashboard
                 always_use_default_target_path: true
                 use_referer:                    true
             logout:
-                path:   /admin/logout
-                target: /admin/login
-            anonymous: true
+                path:   admin_logout
+                target: admin_login
+#            guard:
+#                authenticators:
+#                    - App\Security\LoginAuthenticator
         frontend:
             pattern:   ^/(.*)
-            context:   user
-            anonymous: true
+#            context:   user
+            lazy: true
     access_control:
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

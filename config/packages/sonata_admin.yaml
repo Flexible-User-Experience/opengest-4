@@ -1,6 +1,6 @@
 sonata_admin:
     title:              '%project_admin_title%'
-    title_logo:         'build/fibervent_logo_black_landscape.jpg'
+    title_logo:         'build/img/logo_email_gruasromani.png'
     persist_filters:    true
     show_mosaic_button: false
     options:
@@ -35,40 +35,14 @@ sonata_admin:
                 label: 'Configuración'
                 icon:  '<i class="fa fa-briefcase"></i>'
         blocks:
+
             -
                 position: top
                 type: sonata.block.service.text
                 class: 'col-md-12'
                 settings:
                     content: >
-                        <h4 style="margin-top:0" class="c-grey"><strong>Revisions</strong></h4>
-            -
-                position: top
-                type: app.block.operator_checking
-                class: 'col-md-3'
-            -
-                position: top
-                type: app.block.operator_absence
-                class: 'col-md-3'
-            -
-                position: top
-                type: app.block.vehicle_checking
-                class: 'col-md-3'
-            -
-                position: top
-                type: app.block.vehicle_maintenance
-                class: 'col-md-3'
-            -
-                position: top
-                type: app.block.contact_message
-                class: 'col-md-3'
-            -
-                position: top
-                type: sonata.block.service.text
-                class: 'col-md-12'
-                settings:
-                    content: >
-                        <h4 class="c-grey"><strong>Peticions</strong></h4>
+                        <h4 class="c-grey"><strong>Peticiones</strong></h4>
 #            -
 #                position: top
 #                type: app.block.sale_request_today
@@ -93,3 +67,30 @@ sonata_admin:
                 position: top
                 type: app.block.sale_request_status_to_be_approved_or_to_settle_on
                 class: 'col-md-4'
+            -
+                position: top
+                type: sonata.block.service.text
+                class: 'col-md-12'
+                settings:
+                    content: >
+                        <h4 style="margin-top:0" class="c-grey"><strong>Revisiones</strong></h4>
+            -
+                position: top
+                type: app.block.operator_checking
+                class: 'col-md-3'
+            -
+                position: top
+                type: app.block.operator_absence
+                class: 'col-md-3'
+            -
+                position: top
+                type: app.block.vehicle_checking
+                class: 'col-md-3'
+            -
+                position: top
+                type: app.block.vehicle_maintenance
+                class: 'col-md-3'
+            -
+                position: top
+                type: app.block.contact_message
+                class: 'col-md-3'

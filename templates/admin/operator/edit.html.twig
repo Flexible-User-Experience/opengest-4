@@ -8,6 +8,19 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function() {
+            {% if  admin.id(admin.subject) %}
+              const operatorAbsenceNode = jQuery('#sonata-ba-field-container-{{ form.operatorAbsences.vars.id }}');
+              jQuery(`
+                      <a class="btn btn-default" href="{{ path('admin_app_operator_operatorabsence_create') }}">
+                          Crear ausencia
+                      </a>
+                    `).insertAfter(operatorAbsenceNode);
+              {#const operatorCheckingNode = jQuery('#sonata-ba-field-container-{{ form.operatorCheckings.vars.id }}');#}
+              {#jQuery(`#}
+              {#        <a class="btn btn-default" href="{{ path('admin_app_operator_operatorchecking_create') }}">#}
+              {#            Crear revisión#}
+              {#        </a>#}
+              {#      `).insertAfter(operatorCheckingNode);#}
                 {% for key, id in form.payslips.vars.data.values %}
                     let payslipLine{{ key }} = jQuery('#{{ form.payslips.vars.id }}_' + {{ key }} + '_totalAmount');
                     jQuery(`
@@ -18,6 +31,41 @@
                     </td>
                     `).insertAfter(payslipLine{{ key }}.parent());
                 {% endfor %}
+          let operatorAbsencesBox = jQuery('#sonata-ba-field-container-{{ form.operatorAbsences.vars.id }}').parent().parent().parent().parent().parent();
+          operatorAbsencesBox.append(jQuery(`
+            <div class='col-md-6'>
+                <div class='box box-success'>
+                    <div class="box-header">
+                        <h4 class="box-title">
+                            Tabla ausencias
+                        </h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="sonata-ba-collapsed-fields">
+                             <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo ausencia</th>
+                                        <th>Año anterior</th>
+                                        <th>Año actual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for operatorAbsenceType,countGrouped in admin.operatorAbsences  %}
+                                        <tr>
+                                          <td>{{ operatorAbsenceType }}</td>
+                                          <td>{{ countGrouped.lastYear is defined ? countGrouped.lastYear : 0 }}</td>
+                                          <td>{{ countGrouped.currentYear is defined ? countGrouped.currentYear : 0 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+`));
+          {% endif %}
         });
     </script>
 {% endblock %}

@@ -7,6 +7,7 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerClass;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
 use DateTimeImmutable;
@@ -40,10 +41,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -66,6 +64,14 @@ class ImportPartnerCommand extends AbstractBaseCommand
             $partnerClass = $this->readColumn(42, $row);
             $partnerTaxIdentificationNumber = $this->lts->taxIdentificationNumberCleaner($this->readColumn(11, $row));
             $enterpriseTransferAccount = $this->readColumn(43, $row);
+            $collectionDocument = $this->readColumn(44, $row);
+            $accountingAccount = $this->readColumn(45, $row);
+            $collectionTerm1 = $this->readColumn(46, $row);
+            $collectionTerm2 = $this->readColumn(47, $row);
+            $collectionTerm3 = $this->readColumn(48, $row);
+            $payDay1 = $this->readColumn(49, $row);
+            $payDay2 = $this->readColumn(50, $row);
+            $invoiceCopiesNumber = $this->readColumn(51, $row);
             $name = $this->lts->nameCleaner($this->readColumn(5, $row));
             $cityName = $this->lts->cityNameCleaner($this->readColumn(8, $row));
             $postalCode = $this->lts->postalCodeCleaner($this->readColumn(6, $row));
@@ -94,6 +100,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         'type' => $partnerType,
                         'class' => $partnerClass,
                         'transferAccount' => $enterpriseTransferAccount,
+                        'name' => $name,
                     ]);
                     if (!$partner) {
                         // new record
@@ -123,17 +130,36 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         ->setDiscount($this->readColumn(31, $row))
                         ->setCode($this->readColumn(33, $row))
                         ->setProviderReference($this->readColumn(36, $row))
-                        ->setReference($this->readColumn(34, $row))
+                        ->setReference($this->readColumn(15, $row))
                         ->setIvaTaxFree('1' == $this->readColumn(32, $row) ? true : false)
-                        ->setIban($this->readColumn(37, $row))
+                        ->setIban(
+                            $this->readColumn(37, $row).
+                            $this->readColumn(27, $row).
+                            $this->readColumn(28, $row).
+                            $this->readColumn(29, $row).
+                            $this->readColumn(30, $row)
+                        )
                         ->setSwift($this->readColumn(38, $row))
                         ->setBankCode($this->readColumn(27, $row))
                         ->setOfficeNumber($this->readColumn(28, $row))
                         ->setControlDigit($this->readColumn(29, $row))
                         ->setAccountNumber($this->readColumn(30, $row))
+                        ->setAccountingAccount($accountingAccount)
+                        ->setCollectionTerm1($collectionTerm1)
+                        ->setCollectionTerm2($collectionTerm2)
+                        ->setCollectionTerm3($collectionTerm3)
+                        ->setPayDay1($payDay1)
+                        ->setPayDay2($payDay2)
+                        ->setInvoiceCopiesNumber($invoiceCopiesNumber)
                     ;
                     if ($enterpriseTransferAccount) {
                         $partner->setTransferAccount($enterpriseTransferAccount);
+                    }
+                    if ($collectionDocument) {
+                        $collectionDocumentType = $this->rm->getCollectionDocumentTypeRepository()->findOneBy(['name' => $collectionDocument]);
+                        if ($collectionDocumentType) {
+                            $partner->setCollectionDocumentType($collectionDocumentType);
+                        }
                     }
                     $secondaryCityName = $this->lts->cityNameCleaner($this->readColumn(18, $row));
                     $secondaryPostalCode = $this->lts->postalCodeCleaner($this->readColumn(17, $row));
@@ -142,10 +168,22 @@ class ImportPartnerCommand extends AbstractBaseCommand
                         'postalCode' => $secondaryPostalCode,
                         'name' => $secondaryCityName,
                     ]);
+                    $partnerDeliveryAddress = null;
                     if ($secondaryCity) {
                         $partner->setSecondaryCity($secondaryCity);
+                        $partnerDeliveryAddress = $partner->getPartnerDeliveryAddresses()->first();
+                        if (!$partnerDeliveryAddress) {
+                            $partnerDeliveryAddress = new PartnerDeliveryAddress();
+                            $partnerDeliveryAddress->setPartner($partner);
+                        }
+                        $partnerDeliveryAddress->setCity($secondaryCity);
+                        $secondaryAddress = $this->readColumn(16, $row);
+                        $partnerDeliveryAddress->setAddress($secondaryAddress ? $secondaryAddress : ' ');
                     }
                     $this->em->persist($partner);
+                    if ($partnerDeliveryAddress) {
+                        $this->em->persist($partnerDeliveryAddress);
+                    }
                     if (0 == $rowsRead % self::CSV_BATCH_WINDOW && !$input->getOption('dry-run')) {
                         $this->em->flush();
                     }
@@ -178,6 +216,7 @@ class ImportPartnerCommand extends AbstractBaseCommand
 
         // Print totals
         $endTimestamp = new DateTimeImmutable();
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
+
+        return $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp, $errors, $input->getOption('dry-run'));
     }
 }

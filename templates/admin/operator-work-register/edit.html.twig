@@ -1,0 +1,9 @@
+{% extends 'admin/edit.html.twig' %}
+
+{% block sonata_form_actions %}
+    {{ parent() }}
+    <a class="btn btn-success" href="{{ path('admin_app_operator_operatorworkregisterheader_create', {operator: object.operatorWorkRegisterHeader.operator.id, date: object.operatorWorkRegisterHeader.date|date("d-m-Y")}) }}">
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        Volver al parte de trabajo
+    </a>
+{% endblock %}

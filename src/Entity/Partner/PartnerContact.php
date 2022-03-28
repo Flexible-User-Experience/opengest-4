@@ -22,7 +22,7 @@ class PartnerContact extends AbstractBase
     /**
      * @var Partner
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="contacts", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="contacts")
      */
     private $partner;
 
@@ -30,6 +30,7 @@ class PartnerContact extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      * @Groups({"api"})
      */
     private $name;
@@ -68,7 +69,9 @@ class PartnerContact extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Email(strict=true, checkMX=true, checkHost=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
      * @Groups({"api"})
      */
     private $email;

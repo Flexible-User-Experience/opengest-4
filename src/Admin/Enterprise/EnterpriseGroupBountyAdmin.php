@@ -4,9 +4,9 @@ namespace App\Admin\Enterprise;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 
 /**
@@ -31,199 +31,186 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'group',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
      */
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('Grup', $this->getFormMdSuccessBoxArray(4))
+            ->with('Grupo', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'group',
                     null,
-                    array(
-                        'label' => 'Grup',
+                    [
+                        'label' => 'admin.label.group',
                         'required' => true,
-                    )
+                    ]
                 )
             ->end()
-            ->with('Hores', $this->getFormMdSuccessBoxArray(4))
+            ->with('Horas', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'normalHour',
                 null,
-                array(
-                    'label' => 'Normal',
+                [
+                    'label' => 'admin.label.normal_hour',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'extraNormalHour',
                 null,
-                array(
-                    'label' => 'Extra normal',
+                [
+                    'label' => 'admin.label.extra_normal_hour',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'extraExtraHour',
                 null,
-                array(
-                    'label' => 'Extra extra',
+                [
+                    'label' => 'admin.label.extra_extra_hour',
                     'required' => false,
-                )
-            )
-            ->add(
-                'roadNormalHour',
-                null,
-                array(
-                    'label' => 'Ctra. normal',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'roadExtraHour',
-                null,
-                array(
-                    'label' => 'Ctra. extra',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'awaitingHour',
-                null,
-                array(
-                    'label' => 'Espera',
-                    'required' => false,
-                )
+                ]
             )
             ->add(
                 'negativeHour',
                 null,
-                array(
-                    'label' => 'Negativa',
+                [
+                    'label' => 'admin.label.negative_hour',
                     'required' => false,
-                )
+                ]
             )
-            ->add(
-                'transferHour',
-                null,
-                array(
-                    'label' => 'Transbordament',
-                    'required' => false,
-                )
-            )
+//            ->add(
+//                'transferHour',
+//                null,
+//                array(
+//                    'label' => 'Hora de transfer',
+//                    'required' => false,
+//                )
+//            )
+//            ->add(
+//                'roadExtraHour',
+//                null,
+//                array(
+//                    'label' => 'Ctra. extra',
+//                    'required' => false,
+//                )
+//            )
+//            ->add(
+//                'awaitingHour',
+//                null,
+//                array(
+//                    'label' => 'Espera',
+//                    'required' => false,
+//                )
+//            )
             ->end()
-            ->with('Dietes i trucades', $this->getFormMdSuccessBoxArray(4))
+            ->with('Otros', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'lunch',
                 null,
-                array(
-                    'label' => 'Dinar',
+                [
+                    'label' => 'admin.label.lunch',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'dinner',
                 null,
-                array(
-                    'label' => 'Sopar',
+                [
+                    'label' => 'admin.label.dinner',
                     'required' => false,
-                )
-            )
-            ->add(
-                'overNight',
-                null,
-                array(
-                    'label' => 'Pernocta',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'extraNight',
-                null,
-                array(
-                    'label' => 'Nit extra',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'diet',
-                null,
-                array(
-                    'label' => 'Dieta',
-                    'required' => false,
-                )
+                ]
             )
             ->add(
                 'internationalLunch',
                 null,
-                array(
-                    'label' => 'Dinar int.',
+                [
+                    'label' => 'admin.label.international_lunch',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'internationalDinner',
                 null,
-                array(
-                    'label' => 'Sopar int.',
+                [
+                    'label' => 'admin.label.international_dinner',
                     'required' => false,
-                )
+                ]
             )
             ->add(
-                'truckOutput',
+                'diet',
                 null,
-                array(
-                    'label' => 'Sortida camió',
+                [
+                    'label' => 'admin.label.diet',
                     'required' => false,
-                )
+                ]
             )
+            ->add(
+                'extraNight',
+                null,
+                [
+                    'label' => 'admin.label.extra_night',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'overNight',
+                null,
+                [
+                    'label' => 'admin.label.over_night',
+                    'required' => false,
+                ]
+            )
+//            ->add(
+//                'roadNormalHour',
+//                null,
+//                [
+//                    'label' => 'admin.label.road_normal_hour',
+//                    'required' => false,
+//                ]
+//            )
             ->add(
                 'carOutput',
                 null,
-                array(
-                    'label' => 'Sortida cotxe',
+                [
+                    'label' => 'admin.label.car_output',
                     'required' => false,
-                )
+                ]
             )
+//            ->add(
+//                'truckOutput',
+//                null,
+//                array(
+//                    'label' => 'Sortida camió',
+//                    'required' => false,
+//                )
+//            )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'group',
                 null,
-                array(
+                [
                     'label' => 'Grup prima',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
             ->setParameter('enterprise', $this->getUserLogedEnterprise())
@@ -232,38 +219,35 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add(
-                'enterprise',
-                null,
-                array(
-                    'label' => 'Empresa',
-                )
-            )
+//            ->add(
+//                'enterprise',
+//                null,
+//                array(
+//                    'label' => 'Empresa',
+//                )
+//            )
             ->add(
                 'group',
                 null,
-                array(
-                    'label' => 'Grup prima',
+                [
+                    'label' => 'admin.label.group',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
-                    ),
-                    'label' => 'Accions',
-                )
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+//                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
+                    ],
+                    'label' => 'admin.actions',
+                ]
             )
         ;
     }
@@ -271,7 +255,7 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
     /**
      * @param EnterpriseGroupBounty $object
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
     }

@@ -29,121 +29,111 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'name',
         '_sort_order' => 'ASC',
-    );
+    ];
 
     /**
      * Methods.
      */
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'name',
                 null,
-                array(
-                    'label' => 'Nom',
+                [
+                    'label' => 'admin.label.name',
                     'required' => true,
-                )
+                ]
             )
             ->add(
                 'prefix',
                 null,
-                array(
-                    'label' => 'Prefix',
+                [
+                    'label' => 'admin.label.prefix',
                     'required' => false,
-                )
+                ]
             )
             ->add(
                 'isDefault',
                 null,
-                array(
-                    'label' => 'Sèrie per defecte',
+                [
+                    'label' => 'admin.label.default_serie',
                     'required' => false,
-                )
+                ]
             )
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'name',
                 null,
-                array(
-                    'label' => 'Nom',
-                )
+                [
+                    'label' => 'admin.label.name',
+                ]
             )
             ->add(
                 'prefix',
                 null,
-                array(
-                    'label' => 'Prefix',
-                )
+                [
+                    'label' => 'admin.label.prefix',
+                ]
             )
             ->add(
                 'isDefault',
                 null,
-                array(
-                    'label' => 'Sèrie per defecte',
-                )
+                [
+                    'label' => 'admin.label.default_serie',
+                ]
             )
         ;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'name',
                 null,
-                array(
-                    'label' => 'Nom',
+                [
+                    'label' => 'admin.label.name',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'prefix',
                 null,
-                array(
-                    'label' => 'Prefix',
+                [
+                    'label' => 'admin.label.prefix',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'isDefault',
                 null,
-                array(
-                    'label' => 'Sèrie per defecte',
+                [
+                    'label' => 'admin.label.default_serie',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                        'delete' => array('template' => 'admin/buttons/list__action_delete_button.html.twig'),
-                    ),
-                    'label' => 'Accions',
-                )
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+                    ],
+                    'label' => 'admin.actions',
+                ]
             )
         ;
     }

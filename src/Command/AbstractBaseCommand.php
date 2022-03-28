@@ -135,7 +135,7 @@ abstract class AbstractBaseCommand extends Command
      * @param int  $errors
      * @param bool $isDryRunModeEnabled
      */
-    protected function printTotals(OutputInterface $output, $rowsRead, $newRecords, DateTimeInterface $beginTimestamp, DateTimeInterface $endTimestamp, $errors = 0, $isDryRunModeEnabled = false)
+    protected function printTotals(OutputInterface $output, $rowsRead, $newRecords, DateTimeInterface $beginTimestamp, DateTimeInterface $endTimestamp, $errors = 0, $isDryRunModeEnabled = false): int
     {
         // Print totals
         if ($isDryRunModeEnabled) {
@@ -150,5 +150,7 @@ abstract class AbstractBaseCommand extends Command
             $output->writeln('<comment>'.$errors.' errors found</comment>');
         }
         $output->writeln('<info>Total ellapsed time: '.$beginTimestamp->diff($endTimestamp)->format('%H:%I:%S').'</info>');
+
+        return Command::SUCCESS;
     }
 }

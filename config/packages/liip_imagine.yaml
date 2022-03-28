@@ -1,5 +1,7 @@
 liip_imagine:
     driver: 'gd'
+    twig:
+        mode: 'lazy'
     loaders:
         default:
             filesystem:

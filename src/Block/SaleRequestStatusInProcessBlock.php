@@ -24,11 +24,6 @@ class SaleRequestStatusInProcessBlock extends AbstractBlockService
     }
 
     /**
-     * @param BlockContextInterface $blockContext
-     * @param Response|null         $response
-     *
-     * @return Response
-     *
      * @throws Exception
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null): Response

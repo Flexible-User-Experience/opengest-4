@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Web\ContactMessage;
 use App\Entity\Operator\OperatorChecking;
 use App\Entity\Vehicle\VehicleChecking;
-use Symfony\Component\Templating\EngineInterface;
+use App\Entity\Web\ContactMessage;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Twig\Environment;
 
 /**
  * Class NotificationService.
@@ -17,15 +17,9 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
  */
 class NotificationService
 {
-    /**
-     * @var CourierService
-     */
     private CourierService $messenger;
 
-    /**
-     * @var EngineInterface
-     */
-    private EngineInterface $twig;
+    private Environment $twig;
 
     /**
      * @var string Mailer Destination
@@ -40,14 +34,7 @@ class NotificationService
     /**
      * Methods.
      */
-
-    /**
-     * @param CourierService  $messenger
-     * @param EngineInterface $twig
-     * @param string          $amd
-     * @param string          $urlBase
-     */
-    public function __construct(CourierService $messenger, EngineInterface $twig, string $amd, string $urlBase)
+    public function __construct(CourierService $messenger, Environment $twig, string $amd, string $urlBase)
     {
         $this->messenger = $messenger;
         $this->twig = $twig;
@@ -57,8 +44,6 @@ class NotificationService
 
     /**
      * Send a common notification mail to frontend user.
-     *
-     * @param ContactMessage $contactMessage
      *
      * @throws TransportExceptionInterface
      */
@@ -96,8 +81,6 @@ class NotificationService
     /**
      * Send a contact form notification to admin user.
      *
-     * @param ContactMessage $contactMessage
-     *
      * @throws TransportExceptionInterface
      */
     public function sendContactAdminNotification(ContactMessage $contactMessage)
@@ -114,8 +97,6 @@ class NotificationService
 
     /**
      * Send a contact form notification to admin user.
-     *
-     * @param ContactMessage $contactMessage
      *
      * @throws TransportExceptionInterface
      */
@@ -166,8 +147,6 @@ class NotificationService
     }
 
     /**
-     * @param OperatorChecking $entity
-     *
      * @throws TransportExceptionInterface
      */
     public function sendToOperatorInvalidCheckingNotification(OperatorChecking $entity)
@@ -183,8 +162,6 @@ class NotificationService
     }
 
     /**
-     * @param OperatorChecking $entity
-     *
      * @throws TransportExceptionInterface
      */
     public function sendToOperatorBeforeToBeInvalidCheckingNotification(OperatorChecking $entity)

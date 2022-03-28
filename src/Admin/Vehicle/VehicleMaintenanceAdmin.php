@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\DatePickerType;
@@ -38,11 +39,6 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehiculos/mantenimientos';
 
     /**
-     * @var string
-     */
-    protected $translationDomain = 'admin';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -50,7 +46,18 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         '_sort_order' => 'DESC',
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    /**
+     * Configure route collection.
+     */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection
+            ->add('downloadPdfPendingMaintenance', 'download_pdf_pending_maintenance')
+            ;
+    }
+
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getRootCode() == $this->getCode()) {
             $formMapper
@@ -123,7 +130,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
@@ -145,16 +152,16 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 DateRangeFilter::class,
                 [
                     'label' => 'admin.label.date',
-                ],
-                DateRangePickerType::class,
-                [
-                    'field_options_start' => [
-                        'label' => 'Desde',
-                        'format' => 'dd/MM/yyyy',
-                    ],
-                    'field_options_end' => [
-                        'label' => 'Hasta',
-                        'format' => 'dd/MM/yyyy',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
                     ],
                 ]
             )
@@ -189,7 +196,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDefaultFilterValues(array &$filterValues)
+    protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['enabled'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
@@ -197,7 +204,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         ];
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -270,7 +277,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->disablePreviousAndCheckIfNeedMaintenance($object);
     }
@@ -280,7 +287,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
      *
      * @throws NonUniqueResultException
      */
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->disablePreviousAndCheckIfNeedMaintenance($object);
     }

@@ -9,10 +9,11 @@ use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\DatePickerType;
 
 /**
@@ -49,58 +50,62 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     /**
      * @throws Exception
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'partner',
-                ModelAutocompleteType::class,
-                [
-                    'property' => 'name',
-                    'label' => 'Tercer',
-                    'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
-                ],
-                [
-                    'admin_code' => 'app.admin.partner',
-                ]
-            )
+        ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
+                ->add(
+                    'partner',
+                    ModelAutocompleteType::class,
+                    [
+                        'property' => 'name',
+                        'label' => 'Tercer',
+                        'required' => true,
+                        'callback' => function ($admin, $property, $value) {
+                            /** @var Admin $admin */
+                            $datagrid = $admin->getDatagrid();
+                            /** @var QueryBuilder $queryBuilder */
+                            $queryBuilder = $datagrid->getQuery();
+                            $queryBuilder
+                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                                ->setParameter('enterprise', $this->getUserLogedEnterprise());
+                            $datagrid->setValue($property, null, $value);
+                        },
+                    ],
+                    [
+                        'admin_code' => 'app.admin.partner',
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'begin',
                 DatePickerType::class,
                 [
-                    'label' => 'Data inici',
+                    'label' => 'admin.label.begin',
                     'required' => true,
-                    'format' => 'd/M/y',
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'format' => 'd/M',
+                    'dp_default_date' => (new \DateTime())->format('d/m'),
                 ]
             )
             ->add(
                 'end',
                 DatePickerType::class,
                 [
-                    'label' => 'Data fi',
-                    'format' => 'd/M/y',
+                    'label' => 'admin.label.end',
+                    'format' => 'd/M',
                     'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'dp_default_date' => (new \DateTime())->format('d/m'),
                 ]
             )
             ->end()
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $datagridMapper
@@ -116,14 +121,14 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
         $datagridMapper
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'Partner',
-                    'admin_code' => 'partner_admin',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'admin_code' => 'app.admin.partner',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
@@ -145,15 +150,9 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.partner', 'p')
             ->orderBy($queryBuilder->getRootAliases()[0].'.begin', 'DESC')
@@ -170,7 +169,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $listMapper
@@ -189,7 +188,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercer',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                 ]
             )

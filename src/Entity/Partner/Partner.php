@@ -3,6 +3,7 @@
 namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Sale\SaleDeliveryNote;
@@ -10,6 +11,7 @@ use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\City;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,6 +40,7 @@ class Partner extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Groups({"api"})
      */
     private $name;
 
@@ -68,6 +71,13 @@ class Partner extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="partners")
      */
     private $transferAccount;
+
+    /**
+     * @var CollectionDocumentType
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType", inversedBy="partners")
+     */
+    private $collectionDocumentType;
 
     /**
      * @var ArrayCollection
@@ -166,7 +176,9 @@ class Partner extends AbstractBase
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Email(strict=true, checkMX=true, checkHost=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
      */
     private $email;
 
@@ -217,6 +229,7 @@ class Partner extends AbstractBase
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Iban()
+     * @Groups({"api"})
      */
     private $iban;
 
@@ -225,6 +238,7 @@ class Partner extends AbstractBase
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Bic()
+     * @Groups({"api"})
      */
     private $swift;
 
@@ -259,23 +273,42 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerOrder", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerOrder", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $orders;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerProject", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    private $projects;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $buildingSites;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerContact", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerContact", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $contacts;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
+     * @Assert\Valid()
+     */
+    private $partnerDeliveryAddresses;
 
     /**
      * @var ArrayCollection
@@ -287,7 +320,7 @@ class Partner extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner")
+     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner", cascade={"persist"}, orphanRemoval=true)
      */
     private $partnerUnableDays;
 
@@ -299,6 +332,77 @@ class Partner extends AbstractBase
     private $saleDeliveryNotes;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoice", mappedBy="partner")
+     */
+    private $saleInvoices;
+
+    /**
+     * @var ?string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Email(
+     *     message = "El email '{{ value }}' no es un email válido."
+     * )
+     */
+    private ?string $invoiceEmail = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $accountingAccount = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm1 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm2 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $collectionTerm3 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay1 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay2 = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $payDay3 = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $invoiceCopiesNumber = null;
+
+    /**
      * Methods.
      */
 
@@ -308,11 +412,14 @@ class Partner extends AbstractBase
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->projects = new ArrayCollection();
         $this->buildingSites = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->partnerDeliveryAddresses = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->partnerUnableDays = new ArrayCollection();
         $this->saleDeliveryNotes = new ArrayCollection();
+        $this->saleInvoices = new ArrayCollection();
     }
 
     /**
@@ -968,8 +1075,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerOrder $order
-     *
      * @return $this
      */
     public function addOrder(PartnerOrder $order)
@@ -983,14 +1088,54 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerOrder $order
-     *
      * @return $this
      */
-    public function remmoveOrder(PartnerOrder $order)
+    public function removeOrder(PartnerOrder $order)
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);
+        }
+
+        return $this;
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    /**
+     * @param ArrayCollection $projects
+     *
+     * @return $this
+     */
+    public function setProjects($projects): Partner
+    {
+        $this->projects = $projects;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addProject(PartnerProject $project): Partner
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setPartner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeProject(PartnerProject $project): Partner
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
         }
 
         return $this;
@@ -1017,8 +1162,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerBuildingSite $buildingSite
-     *
      * @return $this
      */
     public function addBuildingSite(PartnerBuildingSite $buildingSite)
@@ -1032,8 +1175,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param PartnerBuildingSite $buildingSite
-     *
      * @return $this
      */
     public function removeBuildingSite(PartnerBuildingSite $buildingSite)
@@ -1102,6 +1243,46 @@ class Partner extends AbstractBase
     {
         if ($this->contacts->contains($contact)) {
             $this->contacts->removeElement($contact);
+        }
+
+        return $this;
+    }
+
+    public function getPartnerDeliveryAddresses(): Collection
+    {
+        return $this->partnerDeliveryAddresses;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPartnerDeliveryAddresses(ArrayCollection $partnerDeliveryAddresses): Partner
+    {
+        $this->partnerDeliveryAddresses = $partnerDeliveryAddresses;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    {
+        if (!$this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
+            $this->partnerDeliveryAddresses->add($partnerDeliveryAddress);
+            $partnerDeliveryAddress->setPartner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    {
+        if ($this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
+            $this->partnerDeliveryAddresses->removeElement($partnerDeliveryAddress);
         }
 
         return $this;
@@ -1245,19 +1426,11 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getSaleTariffs(): ArrayCollection
     {
         return $this->saleTariffs;
     }
 
-    /**
-     * @param ArrayCollection $saleTariffs
-     *
-     * @return Partner
-     */
     public function setSaleTariffs(ArrayCollection $saleTariffs): Partner
     {
         $this->saleTariffs = $saleTariffs;
@@ -1265,11 +1438,6 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param SaleTariff $saleTariff
-     *
-     * @return Partner
-     */
     public function addSaleTariff(SaleTariff $saleTariff): Partner
     {
         if (!$this->saleTariffs->contains($saleTariff)) {
@@ -1281,8 +1449,6 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param SaleTariff $saleTariff
-     *
      * @return $this
      */
     public function removeSaleTariff(SaleTariff $saleTariff)
@@ -1296,10 +1462,145 @@ class Partner extends AbstractBase
     }
 
     /**
+     * @return ?Collection
+     */
+    public function getSaleInvoices(): ?Collection
+    {
+        return $this->saleInvoices;
+    }
+
+    public function setSaleInvoices(ArrayCollection $saleInvoices): Partner
+    {
+        $this->saleInvoices = $saleInvoices;
+
+        return $this;
+    }
+
+    public function getCollectionDocumentType(): ?CollectionDocumentType
+    {
+        return $this->collectionDocumentType;
+    }
+
+    public function setCollectionDocumentType(CollectionDocumentType $collectionDocumentType): Partner
+    {
+        $this->collectionDocumentType = $collectionDocumentType;
+
+        return $this;
+    }
+
+    public function getInvoiceEmail(): ?string
+    {
+        return $this->invoiceEmail;
+    }
+
+    public function setInvoiceEmail(?string $invoiceEmail): Partner
+    {
+        $this->invoiceEmail = $invoiceEmail;
+
+        return $this;
+    }
+
+    public function getAccountingAccount(): ?int
+    {
+        return $this->accountingAccount;
+    }
+
+    public function setAccountingAccount(?int $accountingAccount): Partner
+    {
+        $this->accountingAccount = $accountingAccount;
+
+        return $this;
+    }
+
+    public function getCollectionTerm1(): ?int
+    {
+        return $this->collectionTerm1;
+    }
+
+    public function setCollectionTerm1(?int $collectionTerm1): Partner
+    {
+        $this->collectionTerm1 = $collectionTerm1;
+
+        return $this;
+    }
+
+    public function getCollectionTerm2(): ?int
+    {
+        return $this->collectionTerm2;
+    }
+
+    public function setCollectionTerm2(?int $collectionTerm2): Partner
+    {
+        $this->collectionTerm2 = $collectionTerm2;
+
+        return $this;
+    }
+
+    public function getCollectionTerm3(): ?int
+    {
+        return $this->collectionTerm3;
+    }
+
+    public function setCollectionTerm3(?int $collectionTerm3): Partner
+    {
+        $this->collectionTerm3 = $collectionTerm3;
+
+        return $this;
+    }
+
+    public function getPayDay1(): ?int
+    {
+        return $this->payDay1;
+    }
+
+    public function setPayDay1(?int $payDay1): Partner
+    {
+        $this->payDay1 = $payDay1;
+
+        return $this;
+    }
+
+    public function getPayDay2(): ?int
+    {
+        return $this->payDay2;
+    }
+
+    public function setPayDay2(?int $payDay2): Partner
+    {
+        $this->payDay2 = $payDay2;
+
+        return $this;
+    }
+
+    public function getPayDay3(): ?int
+    {
+        return $this->payDay3;
+    }
+
+    public function setPayDay3(?int $payDay3): Partner
+    {
+        $this->payDay3 = $payDay3;
+
+        return $this;
+    }
+
+    public function getInvoiceCopiesNumber(): ?int
+    {
+        return $this->invoiceCopiesNumber;
+    }
+
+    public function setInvoiceCopiesNumber(?int $invoiceCopiesNumber = null): Partner
+    {
+        $this->invoiceCopiesNumber = $invoiceCopiesNumber;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->id ? $this->getName() : '---';
+        return $this->id ? $this->getCode().' - '.$this->getName() : '---';
     }
 }

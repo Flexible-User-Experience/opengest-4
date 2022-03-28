@@ -11,12 +11,12 @@ use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Partner\PartnerProject;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -26,7 +26,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteRepository")
  * @ORM\Table(name="sale_delivery_note")
- * @UniqueEntity({"enterprise", "deliveryNoteReference"})
  */
 class SaleDeliveryNote extends AbstractBase
 {
@@ -69,6 +68,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var Vehicle
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleDeliveryNotes")
+     * @Groups({"api"})
      */
     private $vehicle;
 
@@ -92,6 +92,13 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerOrder", inversedBy="saleDeliveryNotes")
      */
     private $order;
+
+    /**
+     * @var PartnerProject
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerProject", inversedBy="saleDeliveryNotes")
+     */
+    private $project;
 
     /**
      * @var ?string
@@ -122,6 +129,20 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\Column(type="integer", nullable=true)
      */
     private $collectionTerm;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $collectionTerm2;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $collectionTerm3;
 
     /**
      * @var CollectionDocumentType
@@ -195,6 +216,11 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $observations;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $printed = false;
 
     /**
      * Methods.
@@ -356,6 +382,21 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
+    /**
+     * @return PartnerProject
+     */
+    public function getProject(): ?PartnerProject
+    {
+        return $this->project;
+    }
+
+    public function setProject(?PartnerProject $project): SaleDeliveryNote
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
     public function getDeliveryNoteReference(): ?string
     {
         return $this->deliveryNoteReference;
@@ -410,17 +451,38 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return int
      */
-    public function getCollectionTerm()
+    public function getCollectionTerm(): ?int
     {
         return $this->collectionTerm;
     }
 
-    /**
-     * @param int $collectionTerm
-     */
-    public function setCollectionTerm($collectionTerm): SaleDeliveryNote
+    public function setCollectionTerm(?int $collectionTerm): SaleDeliveryNote
     {
         $this->collectionTerm = $collectionTerm;
+
+        return $this;
+    }
+
+    public function getCollectionTerm2(): ?int
+    {
+        return $this->collectionTerm2;
+    }
+
+    public function setCollectionTerm2(?int $collectionTerm2): SaleDeliveryNote
+    {
+        $this->collectionTerm2 = $collectionTerm2;
+
+        return $this;
+    }
+
+    public function getCollectionTerm3(): ?int
+    {
+        return $this->collectionTerm3;
+    }
+
+    public function setCollectionTerm3(?int $collectionTerm3): SaleDeliveryNote
+    {
+        $this->collectionTerm3 = $collectionTerm3;
 
         return $this;
     }
@@ -638,7 +700,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this->serviceDescription;
     }
 
-    public function setServiceDescription(string $serviceDescription): SaleDeliveryNote
+    public function setServiceDescription(?string $serviceDescription): SaleDeliveryNote
     {
         $this->serviceDescription = $serviceDescription;
 
@@ -785,12 +847,48 @@ class SaleDeliveryNote extends AbstractBase
         return $baseTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
+    public function getDiscountTotal(): float
+    {
+        $discountTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * ($this->getDiscount() / 100) + $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() * ($deliveryNoteLine->getDiscount() / 100);
+            $discountTotal += $subtotal;
+        }
+
+        return $discountTotal;
+    }
+
+    public function getIvaTotal(): float
+    {
+        $ivaTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * (1 - $this->getDiscount() / 100) * ($deliveryNoteLine->getIva() / 100);
+            $ivaTotal += $subtotal;
+        }
+
+        return $ivaTotal;
+    }
+
+    public function getIrpfTotal(): float
+    {
+        $irpfTotal = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $subtotal = $deliveryNoteLine->getTotal() * (1 - $this->getDiscount() / 100) * ($deliveryNoteLine->getIrpf() / 100);
+            $irpfTotal += $subtotal;
+        }
+
+        return $irpfTotal;
+    }
+
     /**
      * @return string
      */
     public function __toString()
     {
-        return $this->id ? $this->getId().' - '.$this->getPartner() : '---';
+        return (string) $this->getId() ?: '---';
     }
 
     public function getSaleRequest(): ?SaleRequest
@@ -817,6 +915,22 @@ class SaleDeliveryNote extends AbstractBase
         $this->isInvoiced = $isInvoiced;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrinted(): bool
+    {
+        return $this->printed;
+    }
+
+    /**
+     * @param bool $printed
+     */
+    public function setPrinted(bool $printed): void
+    {
+        $this->printed = $printed;
     }
 
 //    public function isInvoiced(): bool

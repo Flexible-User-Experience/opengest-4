@@ -8,27 +8,79 @@
     <script type="text/javascript">
         jQuery(document).ready(function() {
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            var seriesNode = jQuery('#sonata-ba-field-container-{{ form.series.vars.id }}');
+            var invoiceNumberInput = jQuery('#{{ form.invoiceNumber.vars.id }}');
             var ulDeliveryNotesNode = jQuery('#{{ form.deliveryNotes.vars.id }}');
-            // var selectDeliveryNotesIcon = jQuery('#delivery-notes-icon');
+            var partnerName = jQuery('#{{ form.partnerName.vars.id }}');
+            var partnerCifNif = jQuery('#{{ form.partnerCifNif.vars.id }}');
+            var partnerMainAddress = jQuery('#{{ form.partnerMainAddress.vars.id }}');
+            var partnerMainCityNode = jQuery('#{{ form.partnerMainCity.vars.id }}');
+            var partnerIban = jQuery('#{{ form.partnerIban.vars.id }}');
+            var partnerSwift = jQuery('#{{ form.partnerSwift.vars.id }}');
+            let hasInvoiceNumberWaring = false;
+            let seriesId = jQuery('#{{ form.series.vars.id }}').val();
+
+            jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+            }).done(function (response) {
+            if (Object.keys(response).length > 0) {
+              invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+            } else {
+              invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+            }
+            });
 
             //on change Partner
             partnerNode.change(function(event) {
-                // selectDeliveryNotesIcon.removeClass('hidden');
-                var partnerId = event.val;
+                var partnerId = jQuery(event.target).val();
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonDeliveryNotesById', {id: partnerId}), function() {
                 }).done(function (response) {
                     console.log(response);
                     updateNodesInfo(response);
                 });
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
+                }).done(function (response) {
+                    var partner = jQuery.parseJSON(response);
+                    console.log(partner);
+                    partnerCifNif.val(partner.cifNif);
+                    partnerName.val(partner.name);
+                    partnerMainAddress.val(partner.mainAddress);
+                    partnerIban.val(partner.iban);
+                    partnerSwift.val(partner.swift);
+                    console.log('partner.mainCity.id',partner.mainCity.id, partnerMainCityNode.select2())
+                    partnerMainCityNode.select2().val(partner.mainCity.id)
+                    partnerMainCityNode.select2().trigger('change');
+                    // TODO change province and country accordingly to new selected main city
+                });
             });
 
-            {#//on load#}
-            {#{% if form.partner.vars.data is not null %}#}
-                {#jQuery.get(Routing.generate('admin_app_partner_partner_getJsonDeliveryNotesById', { id: {{ form.partner.vars.data.id }} }), function() {#}
-                {#}).done(function(response) {#}
-                    {#updateNodesInfo(response);#}
-                {#});#}
-            {#{% endif %}#}
+            seriesNode.change(function (event) {
+              var seriesId = jQuery(event.target).val();
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    const nextInvoiceNumber = response.nextInvoiceNumber;
+                    invoiceNumberInput.val(nextInvoiceNumber);
+                    if (!hasInvoiceNumberWaring) {
+                      hasInvoiceNumberWaring = true;
+                      jQuery(`
+                              <p style="color:red" id="newinvoicenumberwarning">
+                                  Nuevo número de factura propuesto
+                              </p>
+                          `).insertAfter(invoiceNumberInput);
+                    }
+                  });
+                  jQuery.get(Routing.generate('admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries', { id: seriesId }), function() {
+                  }).done(function (response) {
+                    if (Object.keys(response).length > 0) {
+                      invoiceNumberInput.attr('title', `Numeros disponibles:
+                        ` + JSON.stringify(Object.values(response)).replace('[','').replace(']','') + `
+                        `);
+                    } else {
+                      invoiceNumberInput.attr('title', 'No hay numeros disponibles');
+                    }
+                  });
+              });
 
             function updateNodesInfo(response) {
                 var deliveryNotes = jQuery.parseJSON(response);
@@ -36,10 +88,6 @@
                 console.log('{{ form.deliveryNotes.vars.id }}');
                 console.log('{{ form.vars.id }}[deliveryNotes][]');
                 ulDeliveryNotesNode.html(buildLiCheckboxNodes(deliveryNotes));
-
-                // selectDeliveryNotesNodeIcon.addClass('hidden');
-
-                // selectDeliveryNotesNode.val(deliveryNotes.XXXXXX);
             }
 
             function buildLiCheckboxNodes(deliveryNotes) {
@@ -87,7 +135,7 @@
                                 <tr>
                                     <td>
                                         <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': deliveryNote.id }) }}">
-                                            {{ deliveryNote.deliveryNoteReference }}
+                                            {{ deliveryNote.id }}
                                         </a>
                                     </td>
                                     <td>{{ deliveryNote.date|date('d/m/Y') }}</td>
@@ -139,14 +187,21 @@
                                    </td>
                                 </tr>
                                 <tr>
-                                    <th colspan="4"></th>
+                                    <td colspan="3"></td>
                                     <th>
-                                        Importe Base: <br>
+                                        Importe Base:
+                                    </th>
+                                    <th style="font-size:15px">
+                                        {{ deliveryNote.baseTotalWithDiscounts|number_format(2, ',', '.') }} €
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <th>
                                         Total con impuestos y retenciones:
                                     </th>
-                                    <th>
-                                        {{ deliveryNote.baseTotalWithDiscounts|number_format(2, ',', '.') }} <br>
-                                        {{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }}
+                                    <th style="font-size:15px">
+                                        {{ deliveryNote.finalTotalWithDiscounts|number_format(2, ',', '.') }} €
                                     </th>
                                 </tr>
                             {% endfor %}
@@ -163,7 +218,21 @@
 {% block sonata_form_actions %}
     {% if form.vars.data.hasBeenCounted %}
         <b>No se puede modificar una factura contabilizada.</b>
+        <p>
+            <a href="{{ path('admin_app_sale_saleinvoice_setHasNotBeenCounted', { 'id': object.id }) }}">
+                Descontabilizar
+            </a>
+            (los cambios <strong>no</strong> se verán reflejados en la contabilidad)
+        </p>
     {% else %}
         {{ parent() }}
+    {% endif %}
+    {% if form.vars.data.series.name is same as('PROFORMA') %}
+        <br>
+        <br>
+        <a href="{{ admin.generateUrl('clone', { 'id': object.id }) }}" class="btn btn-success" name="btn_update">
+            <i class="fas fa-clone" aria-hidden="true"></i>
+            Generar factura desde proforma
+        </a>
     {% endif %}
 {% endblock %}

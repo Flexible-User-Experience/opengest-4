@@ -5,11 +5,11 @@ namespace App\Admin\Enterprise;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Setting\User;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -36,10 +36,10 @@ class EnterpriseAdmin extends AbstractBaseAdmin
     /**
      * @var array
      */
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_by' => 'name',
         '_sort_order' => 'asc',
-    );
+    ];
 
     /**
      * Methods.
@@ -47,114 +47,134 @@ class EnterpriseAdmin extends AbstractBaseAdmin
 
     /**
      * Configure route collection.
-     *
-     * @param RouteCollection $collection
      */
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
             ->remove('delete')
+            ->remove('create')
             ->add('change', $this->getRouterIdParameter().'/change-user-default-enterprise')
+            ->add('downloadTc1receipt', $this->getRouterIdParameter().'/tc1')
+            ->add('downloadTc2receipt', $this->getRouterIdParameter().'/tc2')
+            ->add('downloadSsRegistration', $this->getRouterIdParameter().'/registro-ss')
+            ->add('downloadSsPaymentCertificate', $this->getRouterIdParameter().'/certificado-pago-ss')
+            ->add('downloadRc1Insurance', $this->getRouterIdParameter().'/seguro-rc1')
+            ->add('downloadRc2Insurance', $this->getRouterIdParameter().'/seguro-rc2')
+            ->add('downloadRcReceipt', $this->getRouterIdParameter().'/recibo-rc')
+            ->add('downloadPreventionServiceContract', $this->getRouterIdParameter().'/contracto-servicio-prevencion')
+            ->add('downloadPreventionServiceInvoice', $this->getRouterIdParameter().'/factura-servicio-prevencion')
+            ->add('downloadPreventionServiceReceipt', $this->getRouterIdParameter().'/recibo-servicio-prevencion')
+            ->add('downloadOccupationalAccidentsInsurance', $this->getRouterIdParameter().'/seguro-accidentes-laborales')
+            ->add('downloadOccupationalReceipt', $this->getRouterIdParameter().'/recibo-seguro-accidentes-laborales')
+            ->add('downloadLaborRiskAssessment', $this->getRouterIdParameter().'/evaluacion-riesgos')
+            ->add('downloadSecurityPlan', $this->getRouterIdParameter().'/plan-seguridad')
+            ->add('downloadReaCertificate', $this->getRouterIdParameter().'/certificado-rea')
+            ->add('downloadOilCertificate', $this->getRouterIdParameter().'/certificado-recogida-aceite')
+            ->add('downloadGencatPaymentCertificate', $this->getRouterIdParameter().'/certificado-pago-gencat')
+            ->add('downloadDeedsOfPowers', $this->getRouterIdParameter().'/escritura-poderes')
+            ->add('downloadIaeRegistration', $this->getRouterIdParameter().'/registro-iae')
+            ->add('downloadIaeReceipt', $this->getRouterIdParameter().'/recibo-iae')
+            ->add('downloadMutualPartnership', $this->getRouterIdParameter().'/asociacion-mutua')
+            ->add('downloadDeedOfIncorporation', $this->getRouterIdParameter().'/escritura-constitucion')
+            ->add('downloadTaxIdentificationNumberCard', $this->getRouterIdParameter().'/tarjeta-nif')
         ;
     }
 
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->tab('Informació')
+            ->tab('Información')
                 ->with('General', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'logoFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Logo',
                         'help' => $this->getLogoHelperFormMapperWithThumbnail(),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'taxIdentificationNumber',
                     null,
-                    array(
+                    [
                         'label' => 'CIF',
-                    )
+                    ]
                 )
                 ->add(
                     'name',
                     null,
-                    array(
+                    [
                         'label' => 'Nom',
-                    )
+                    ]
                 )
                 ->add(
                     'businessName',
                     null,
-                    array(
+                    [
                         'label' => 'Nom fiscal',
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Contacte', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'address',
                     null,
-                    array(
+                    [
                         'label' => 'Adreça',
-                    )
+                    ]
                 )
                 ->add(
                     'city',
                     null,
-                    array(
+                    [
                         'label' => 'Ciutat',
                         'required' => true,
-                    )
+                    ]
                 )
                 ->add(
                     'email',
                     null,
-                    array(
+                    [
                         'label' => 'Email',
-                    )
+                    ]
                 )
                 ->add(
                     'www',
                     null,
-                    array(
+                    [
                         'label' => 'Web corporativa',
-                    )
+                    ]
                 )
                 ->add(
                     'phone1',
                     null,
-                    array(
+                    [
                         'label' => 'Telèfon 1',
-                    )
+                    ]
                 )
                 ->add(
                     'phone2',
                     null,
-                    array(
+                    [
                         'label' => 'Telèfon 2',
-                    )
+                    ]
                 )
                 ->add(
                     'phone3',
                     null,
-                    array(
+                    [
                         'label' => 'Telèfon 3',
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Controls', $this->getFormMdSuccessBoxArray(4))
                 ->add(
                     'users',
                     EntityType::class,
-                    array(
+                    [
                         'label' => 'Usuaris',
                         'required' => false,
                         'class' => User::class,
@@ -162,15 +182,15 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                         'multiple' => true,
                         'query_builder' => $this->rm->getUserRepository()->getEnabledSortedByNameQB(),
                         'by_reference' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'enabled',
                     CheckboxType::class,
-                    array(
+                    [
                         'label' => 'Actiu',
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
             ->end()
@@ -179,280 +199,294 @@ class EnterpriseAdmin extends AbstractBaseAdmin
                 ->add(
                     'tc1ReceiptFile',
                     FileType::class,
-                    array(
-                        'label' => 'Rebut TC1',
-                        'help' => $this->getSmartHelper('getTc1Receipt', 'tc1ReceiptFile'),
+                    [
+                        'label' => 'Recibo TC1',
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadTc1receipt', 'tc1Receipt'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'tc2ReceiptFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Rebut TC2',
-                        'help' => $this->getSmartHelper('getTc2Receipt', 'tc2ReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadTc2receipt', 'tc2Receipt'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Seguretat Social', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'ssRegistrationFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Rebut SS registre',
-                        'help' => $this->getSmartHelper('getSsRegistration', 'ssRegistrationFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadSsRegistration', 'ssRegistration'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'ssPaymentCertificateFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Rebut pagament certificat',
-                        'help' => $this->getSmartHelper('getSsPaymentCertificate', 'ssPaymentCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadSsPaymentCertificate', 'ssPaymentCertificate'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Responsabilitat Civil', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'rc1InsuranceFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'RC 1',
-                        'help' => $this->getSmartHelper('getRc1Insurance', 'rc1InsuranceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadRc1Insurance', 'rc1Insurance'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'rc2InsuranceFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'RC 2',
-                        'help' => $this->getSmartHelper('getRc2Insurance', 'rc2InsuranceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadRc2Insurance', 'rc2Insurance'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'rcReceiptFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Rebut RC',
-                        'help' => $this->getSmartHelper('getRcReceipt', 'rcReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadRcReceipt', 'rcReceipt'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Riscos Laborals', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'preventionServiceContractFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Contracte',
-                        'help' => $this->getSmartHelper('getPreventionServiceContract', 'preventionServiceContractFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadPreventionServiceContract', 'preventionServiceContract'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'preventionServiceInvoiceFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Factura',
-                        'help' => $this->getSmartHelper('getPreventionServiceInvoice', 'preventionServiceInvoiceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadPreventionServiceInvoice', 'preventionServiceInvoice'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'preventionServiceReceiptFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Rebut',
-                        'help' => $this->getSmartHelper('getPreventionServiceReceipt', 'preventionServiceReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadPreventionServiceReceipt', 'preventionServiceReceipt'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Assegurances', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'occupationalAccidentsInsuranceFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Assegurança d\'accident de treball',
-                        'help' => $this->getSmartHelper('getOccupationalAccidentsInsurance', 'occupationalAccidentsInsuranceFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadOccupationalAccidentsInsurance', 'occupationalAccidentsInsurance'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'occupationalReceiptFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Rebut',
-                        'help' => $this->getSmartHelper('getOccupationalReceipt', 'occupationalReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadOccupationalReceipt', 'occupationalReceipt'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'laborRiskAssessmentFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Avaluació riscos',
-                        'help' => $this->getSmartHelper('getLaborRiskAssessment', 'laborRiskAssessmentFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadLaborRiskAssessment', 'laborRiskAssessment'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'securityPlanFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Pla seguretat',
-                        'help' => $this->getSmartHelper('getSecurityPlan', 'securityPlanFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadSecurityPlan', 'securityPlan'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Impost d\'Activitats Econòmiques', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'iaeRegistrationFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Alta IAE',
-                        'help' => $this->getSmartHelper('getIaeRegistration', 'iaeRegistrationFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadIaeRegistration', 'iaeRegistration'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'iaeReceiptFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Rebut IAE',
-                        'help' => $this->getSmartHelper('getIaeReceipt', 'iaeReceiptFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadIaeReceipt', 'iaeReceipt'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
                 ->with('Altres Documents', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'deedOfIncorporationFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Escritura constitució',
-                        'help' => $this->getSmartHelper('getDeedOfIncorporation', 'deedOfIncorporationFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadDeedOfIncorporation', 'deedOfIncorporation'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'taxIdentificationNumberCardFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Carta CIF',
-                        'help' => $this->getSmartHelper('getTaxIdentificationNumberCard', 'taxIdentificationNumberCardFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadTaxIdentificationNumberCard', 'taxIdentificationNumberCard'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'reaCertificateFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Certificat REA',
-                        'help' => $this->getSmartHelper('getReaCertificate', 'reaCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadReaCertificate', 'reaCertificate'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'oilCertificateFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Certificat recullida d\'oli',
-                        'help' => $this->getSmartHelper('getOilCertificate', 'oilCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadOilCertificate', 'oilCertificate'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'gencatPaymentCertificateFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Certificat pagament Generalitat',
-                        'help' => $this->getSmartHelper('getGencatPaymentCertificate', 'gencatPaymentCertificateFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadGencatPaymentCertificate', 'gencatPaymentCertificate'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'deedsOfPowersFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Escriptura de poder',
-                        'help' => $this->getSmartHelper('getDeedsOfPowers', 'deedsOfPowersFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadDeedsOfPowers', 'deedsOfPowers'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->add(
                     'mutualPartnershipFile',
                     FileType::class,
-                    array(
+                    [
                         'label' => 'Document associació a mutua',
-                        'help' => $this->getSmartHelper('getMutualPartnership', 'mutualPartnershipFile'),
+                        'help' => $this->getDocumentHelper('admin_app_enterprise_enterprise_downloadMutualPartnership', 'mutualPartnership'),
+                        'help_html' => true,
                         'required' => false,
-                    )
+                    ]
                 )
                 ->end()
             ->end()
         ;
     }
 
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'taxIdentificationNumber',
                 null,
-                array(
+                [
                     'label' => 'CIF',
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'Email',
-                )
+                ]
             )
             ->add(
                 'city',
                 null,
-                array(
+                [
                     'label' => 'Ciutat',
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'Actiu',
-                )
+                ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             $queryBuilder
                 ->join($queryBuilder->getRootAliases()[0].'.users', 'u')
@@ -464,70 +498,67 @@ class EnterpriseAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
                 'logo',
                 null,
-                array(
+                [
                     'label' => 'Logo',
                     'template' => 'admin/cells/list__cell_logo_image_field.html.twig',
-                )
+                ]
             )
             ->add(
                 'taxIdentificationNumber',
                 null,
-                array(
+                [
                     'label' => 'CIF',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'name',
                 null,
-                array(
+                [
                     'label' => 'Nom',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'email',
                 null,
-                array(
+                [
                     'label' => 'Email',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'city',
                 null,
-                array(
+                [
                     'label' => 'Ciutat',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
                 null,
-                array(
+                [
                     'label' => 'Actiu',
                     'editable' => true,
-                )
+                ]
             )
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-                    ),
+                [
+                    'actions' => [
+                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                    ],
                     'label' => 'admin.actions',
-                )
+                ]
             )
         ;
     }

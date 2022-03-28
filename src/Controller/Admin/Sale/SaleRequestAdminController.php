@@ -7,7 +7,6 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Manager\Pdf\SaleRequestPdfManager;
-use App\Service\GuardService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -26,9 +25,8 @@ class SaleRequestAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var SaleRequest $saleRequest */
@@ -36,13 +34,8 @@ class SaleRequestAdminController extends BaseAdminController
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 
     /**
@@ -63,14 +56,6 @@ class SaleRequestAdminController extends BaseAdminController
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
-
-//        /** @var SaleRequestPdfManager $rps */
-//        $rps = $this->container->get('app.sale_request_pdf_manager');
 
         return new Response($rps->outputSingle($saleRequest), 200, ['Content-type' => 'application/pdf']);
     }
@@ -91,11 +76,6 @@ class SaleRequestAdminController extends BaseAdminController
         $saleRequest = $this->admin->getObject($id);
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
-        }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
         }
         $newSaleRequest = clone $saleRequest;
         $newSaleRequest->getServiceDate()->add(\DateInterval::createFromDateString('1 day'));
@@ -125,21 +105,19 @@ class SaleRequestAdminController extends BaseAdminController
         if (!$saleRequest) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleRequest->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
         if ($saleRequest->getSaleRequestHasDeliveryNotes()->count() > 0) {
             $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' ya tiene un albarán asociado');
 
             return new RedirectResponse($request->headers->get('referer'));
         }
+        if (!$saleRequest->getOperator() || !$saleRequest->getVehicle()) {
+            $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' tiene que tener vehiculo y operario asignado para generar el albarán.');
+
+            return new RedirectResponse($request->headers->get('referer'));
+        }
         $deliveryNote = $this->generateDeliveryNoteFromSaleRequest($saleRequest);
 
-        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_edit', [
-            'id' => $deliveryNote->getId(),
-        ]));
+        return new RedirectResponse($request->headers->get('referer'));
     }
 
     /**
@@ -174,12 +152,24 @@ class SaleRequestAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_salerequest_list'));
         } else {
-            foreach ($selectedModels as $saleRequest) {
-                $this->generateDeliveryNoteFromSaleRequest($saleRequest);
+            /** @var SaleRequest[] $saleRequests */
+            $saleRequests = $selectedModels->getQuery()->getResult();
+            usort($saleRequests, function (SaleRequest $a, SaleRequest $b) {
+                if ($a->getServiceDate()->getTimestamp() === $b->getServiceDate()->getTimestamp()) {
+                    return $a->getId() > $b->getId();
+                }
+                return $a->getServiceDate()->getTimestamp() > $b->getServiceDate()->getTimestamp();
+            });
+            foreach ($saleRequests as $saleRequest) {
+                if (!$saleRequest->getOperator() || !$saleRequest->getVehicle()) {
+                    $this->addFlash('warning', 'La petición con id '.$saleRequest->getId().' tiene que tener vehiculo y operario asignado para generar el albarán.');
+                } else {
+                    $this->generateDeliveryNoteFromSaleRequest($saleRequest);
+                }
             }
         }
 
-        return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        return new RedirectResponse($this->generateUrl('admin_app_sale_salerequest_list'));
     }
 
     /**
@@ -193,7 +183,12 @@ class SaleRequestAdminController extends BaseAdminController
         $deliveryNote->setDate($saleRequest->getServiceDate());
         $deliveryNote->setPartner($saleRequest->getInvoiceTo());
         $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
-        $deliveryNote->setDeliveryNoteReference('P-'.$saleRequest->getId());
+//        $deliveryNote->setDeliveryNoteReference('P-'.$saleRequest->getId());
+        $partner = $saleRequest->getInvoiceTo();
+        if ($partner) {
+            $deliveryNote->setCollectionTerm($partner->getCollectionTerm1());
+            $deliveryNote->setCollectionDocument($partner->getCollectionDocumentType());
+        }
         $deliveryNote->setEnterprise($saleRequest->getEnterprise());
         $deliveryNote->setActivityLine($saleRequest->getService()->getActivityLine());
         $deliveryNote->setSaleServiceTariff($saleRequest->getService());
@@ -209,6 +204,10 @@ class SaleRequestAdminController extends BaseAdminController
         if ($saleRequest->getOperator()) {
             $deliveryNote->setOperator($saleRequest->getOperator());
         }
+        $deliveryNote->setCollectionDocument($partner->getCollectionDocumentType());
+        $deliveryNote->setCollectionTerm($partner->getCollectionTerm1());
+        $deliveryNote->setCollectionTerm2($partner->getCollectionTerm2());
+        $deliveryNote->setCollectionTerm3($partner->getCollectionTerm3());
         $this->admin->getModelManager()->create($deliveryNote);
         $saleRequestHasDeliveryNote = new SaleRequestHasDeliveryNote();
         $saleRequestHasDeliveryNote->setSaleRequest($saleRequest);

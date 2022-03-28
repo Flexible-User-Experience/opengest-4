@@ -3,9 +3,18 @@
 namespace App\Controller\Admin;
 
 use App\Manager\InvoiceManager;
+use App\Manager\Pdf\OperatorCheckingPdfManager;
+use App\Manager\Pdf\PayslipPdfManager;
+use App\Manager\Pdf\SaleDeliveryNotePdfManager;
+use App\Manager\Pdf\SaleInvoicePdfManager;
+use App\Manager\Pdf\VehicleCheckingPdfManager;
+use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
+use App\Manager\Xml\PayslipXmlManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Vich\UploaderBundle\Exception\NoFileFoundException;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -19,9 +28,33 @@ abstract class BaseAdminController extends Controller
 {
     protected InvoiceManager $im;
 
-    public function __construct(InvoiceManager $invoiceManager)
+    protected SaleDeliveryNotePdfManager $sdnpm;
+
+    protected SaleInvoicePdfManager $sipm;
+
+    protected WorkRegisterHeaderPdfManager $wrhpm;
+
+    protected PayslipPdfManager $ppm;
+
+    protected PayslipXmlManager $pxm;
+
+    protected OperatorCheckingPdfManager $operatorCheckingPdfManager;
+
+    protected VehicleCheckingPdfManager $vehicleCheckingPdfManager;
+
+    public function __construct(InvoiceManager $invoiceManager, SaleDeliveryNotePdfManager $sdnpm,
+                                SaleInvoicePdfManager $sipm, WorkRegisterHeaderPdfManager $wrhpm,
+                                PayslipPdfManager $ppm, PayslipXmlManager $pxm, OperatorCheckingPdfManager $operatorCheckingPdfManager,
+                                VehicleCheckingPdfManager $vehicleCheckingPdfManager)
     {
         $this->im = $invoiceManager;
+        $this->sdnpm = $sdnpm;
+        $this->sipm = $sipm;
+        $this->wrhpm = $wrhpm;
+        $this->ppm = $ppm;
+        $this->pxm = $pxm;
+        $this->operatorCheckingPdfManager = $operatorCheckingPdfManager;
+        $this->vehicleCheckingPdfManager = $vehicleCheckingPdfManager;
     }
 
     /**
@@ -29,25 +62,34 @@ abstract class BaseAdminController extends Controller
      */
     protected function resolveRequest(Request $request = null)
     {
-        if (null === $request) {
-            return $this->getRequest();
-        }
-
         return $request;
     }
 
-    protected function downloadDocument($id, DownloadHandler $downloadHandler, $object, $documentFile, $documentName): Response
+    protected function downloadDocument(Request $request, $id, DownloadHandler $downloadHandler, $object, $documentFile, $documentName, $fillErrorBag = true): Response
     {
         if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
-        return $downloadHandler->downloadObject(
-            $object,
-            $fileField = $documentFile,
-            $objectClass = get_class($object),
-            $fileName = $documentName,
-            $forceDownload = false
-        );
+        try {
+            $return = $downloadHandler->downloadObject(
+                $object,
+                $fileField = $documentFile,
+                $objectClass = get_class($object),
+                $fileName = $documentName,
+                $forceDownload = false
+            );
+        } catch (\ErrorException | NoFileFoundException $e) {
+            if ($fillErrorBag) {
+                $this->addFlash(
+                    'warning',
+                    'No se pudo recuperar el documento  '.$documentName.'.'
+                );
+            }
+            $referer = $request->headers->get('referer');
+            $return = new RedirectResponse($referer);
+        }
+
+        return $return;
     }
 }

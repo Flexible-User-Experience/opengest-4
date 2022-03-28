@@ -3,6 +3,7 @@
 namespace App\Repository\Operator;
 
 use App\Entity\Operator\OperatorWorkRegister;
+use App\Entity\Operator\OperatorWorkRegisterHeader;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
@@ -45,5 +46,16 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
     public function getHoursFromperatorWorkRegistersWithHoursFromDeliveryNotesAndDate(Collection $saleDeliveryNotes, DateTime $date)
     {
         return $this->getHoursFromOperatorWorkRegistersWithHoursFromDeliveryNotesAndDateQ($saleDeliveryNotes, $date)->getOneOrNullResult();
+    }
+
+    public function getFilteredByOperatorWorkRegisterHeaderOrderedByStart(OperatorWorkRegisterHeader $operatorWorkRegisterHeader)
+    {
+        return $this->createQueryBuilder('owr')
+            ->where('owr.operatorWorkRegisterHeader = :operatorWorkRegisterHeader')
+            ->orderBy('owr.start')
+            ->setParameter('operatorWorkRegisterHeader', $operatorWorkRegisterHeader)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }

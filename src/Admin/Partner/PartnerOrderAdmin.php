@@ -7,9 +7,10 @@ use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 
 /**
  * Class PartnerOrderAdmin.
@@ -41,10 +42,13 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(4))
+        ;
+        if ($this->getRootCode() == $this->getCode()) {
+            $formMapper
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
@@ -68,11 +72,14 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
+                ;
+        }
+        $formMapper
             ->add(
                 'number',
                 null,
                 [
-                    'label' => 'Número orden',
+                    'label' => 'admin.label.number',
                     'required' => true,
                 ]
             )
@@ -80,7 +87,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referencia proveedor',
+                    'label' => 'admin.label.providerReference',
                     'required' => false,
                 ]
             )
@@ -88,47 +95,41 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add(
                 'partner',
-                ModelAutocompleteFilter::class,
+                ModelFilter::class,
                 [
                     'label' => 'Tercero',
-                    'admin_code' => 'partner_admin',
-                ],
-                null,
-                [
-                    'property' => 'name',
+                    'admin_code' => 'app.admin.partner',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                            'property' => 'name',
+                        ],
                 ]
             )
             ->add(
                 'number',
                 null,
                 [
-                    'label' => 'Número orden',
+                    'label' => 'admin.label.number',
                 ]
             )
             ->add(
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referencia proveedor',
+                    'label' => 'admin.label.providerReference',
                 ]
             )
         ;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return QueryBuilder
-     */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = parent::createQuery($context);
+        $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->join($queryBuilder->getRootAliases()[0].'.partner', 'p')
             ->andWhere('p.enterprise = :enterprise')
@@ -140,7 +141,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
         return $queryBuilder;
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add(
@@ -148,7 +149,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Tercero',
-                    'admin_code' => 'partner_admin',
+                    'admin_code' => 'app.admin.partner',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,
@@ -160,7 +161,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'number',
                 null,
                 [
-                    'label' => 'Número Orden',
+                    'label' => 'admin.label.number',
                     'editable' => true,
                 ]
             )
@@ -168,7 +169,7 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
                 'providerReference',
                 null,
                 [
-                    'label' => 'Referencia proveedor',
+                    'label' => 'admin.label.providerReference',
                     'editable' => true,
                 ]
             )

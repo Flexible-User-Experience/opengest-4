@@ -4,9 +4,9 @@ namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Enterprise\EnterpriseHolidays;
-use App\Service\GuardService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -19,9 +19,8 @@ class SaleTariffAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction($id = null)
+    public function editAction(Request $request, $id = null): Response
     {
-        $request = $this->getRequest();
         $id = $request->get($this->admin->getIdParameter());
 
         /** @var EnterpriseHolidays $enterpriseHoliday */
@@ -29,13 +28,8 @@ class SaleTariffAdminController extends BaseAdminController
         if (!$saleTariff) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleTariff->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
 
-        return parent::editAction($id);
+        return parent::editAction($request);
     }
 
     /**
@@ -50,14 +44,9 @@ class SaleTariffAdminController extends BaseAdminController
         if (!$saleTariff) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /** @var GuardService $guardService */
-        $guardService = $this->container->get('app.guard_service');
-        if (!$guardService->isOwnEnterprise($saleTariff->getEnterprise())) {
-            throw $this->createNotFoundException(sprintf('forbidden object with id: %s', $id));
-        }
 
         $serializer = $this->container->get('serializer');
-        $serializedSaleTariff = $serializer->serialize($saleTariff, 'json', array('groups' => array('apiSaleTariff')));
+        $serializedSaleTariff = $serializer->serialize($saleTariff, 'json', ['groups' => ['apiSaleTariff']]);
 
         return new JsonResponse($serializedSaleTariff);
     }

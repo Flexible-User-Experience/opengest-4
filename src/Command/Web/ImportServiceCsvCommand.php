@@ -29,10 +29,7 @@ class ImportServiceCsvCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
+     * @return int|void|null
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -66,6 +63,6 @@ class ImportServiceCsvCommand extends AbstractBaseCommand
         $this->em->flush();
         $endTimestamp = new DateTimeImmutable();
         // Print totals
-        $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);
+        return $this->printTotals($output, $rowsRead, $newRecords, $beginTimestamp, $endTimestamp);
     }
 }

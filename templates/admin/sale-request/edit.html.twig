@@ -7,9 +7,11 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
     <script type="text/javascript">
+      partnerId = '';
         jQuery(document).ready(function() {
              // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
+            partnerId = jQuery("input[name='{{ form.vars.id }}[partner]']").val();
             var buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
@@ -43,20 +45,22 @@
             var selectTariffName = jQuery('#{{ form.selectTariff.vars.id }}');
 
             var previousSelectedServiceId = jQuery('#{{ form.service.vars.id }}').val();
-            jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: previousSelectedServiceId}), function () {
-            }).done(function (response) {
-                console.log(response);
-                updateNodeTariff(response);
-            });
+
+            {% if  admin.id(admin.subject) %}
+                jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: previousSelectedServiceId, partnerId: partnerId}), function () {
+                }).done(function (response) {
+                    updateNodeTariff(response);
+                });
+            {% endif %}
 
              //on change
             partnerNode.change(function(event) {
+              console.log('event de prtner change', jQuery(event.target).val());
                 cifNifIcon.removeClass('hidden');
                 // mainAddressIcon.removeClass('hidden');
                 // mainCityIcon.removeClass('hidden');
                 // provinceIcon.removeClass('hidden');
-                var partnerId = event.val;
-                console.log('PartnerID', partnerId);
+                partnerId = jQuery(event.target).val();
                 if (partnerId === '') {
                     buildingSitesNode.empty();
                     buildingSitesNode.select2('val', '');
@@ -75,14 +79,12 @@
                     //update building sites
                     jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
                     }).done(function(response) {
-                    console.log(response);
                         updateBuildingSites(response);
                     });
 
                     //on change PartnerContact
                     jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', {id: partnerId}), function () {
                     }).done(function (response) {
-                      console.log(response);
                       updateNodesInfoContacts(response);
                     });
                 }
@@ -91,27 +93,25 @@
             //on change service node
             serviceNode.change(function (event) {
               // Update tarifs node that the service and the partner can have. First service partner date, then service date, then date
-              const serviceId = event.val;
-              jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: serviceId}), function () {
+              const serviceId = jQuery(event.target).val();
+              jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: serviceId, partnerId: partnerId}), function () {
               }).done(function (response) {
-                console.log(response);
                 updateNodeTariff(response);
               });
             });
 
           function updateNodeTariff(response) {
             var tariffs = jQuery.parseJSON(response);
-            console.log(tariffs);
             selectTariffName.removeAttr('disabled');
             selectTariffName.select2({data: tariffs});
           }
 
             //on change PartnerContact
             selectContactPersonName.on("change", function(event) {
-                console.log(event)
-                contactPersonName.val(event.added.name);
-                contactPersonPhone.val(event.added.publicPhone);
-                contactPersonEmail.val(event.added.email);
+              let selectedContactPerson = jQuery(event.target).select2('data')[0];
+                contactPersonName.val(selectedContactPerson.name);
+                contactPersonPhone.val(selectedContactPerson.publicPhone);
+                contactPersonEmail.val(selectedContactPerson.email);
 
             });
 
@@ -123,11 +123,10 @@
                miniumHolidayHoursIcon.removeClass('hidden');
                increaseForHolidaysIcon.removeClass('hidden');
                increaseForHolidaysPercentageIcon.removeClass('hidden');
-               var saleTariffId = event.val;
+               var saleTariffId = jQuery(event.target).val();
                jQuery.get(Routing.generate('admin_app_sale_saletariff_getJsonSaleTariffById', { id: saleTariffId }), function () {
 
                }).done(function (response) {
-                   console.log(response);
                    updateNodesInfoTariff(response);
                });
             });
@@ -158,7 +157,6 @@
             const selectContactPersonNameInit = {{ form.selectContactPersonName.vars.id }};
 {#            {% if form.selectContactPersonName.vars.id is not null %}#}
           if (selectContactPersonNameInit.value) {
-            console.error("Allo llarg", aaa.value);
             jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', { id: {{ form.selectContactPersonName.vars.id }} }), function() {
             }).done(function(response) {
               updateNodesInfoContacts(response);
@@ -202,13 +200,11 @@
 
           function updateBuildingSites(response) {
             var partnerBuildingSitesData = jQuery.parseJSON(response);
-            console.log(buildingSitesNode);
             buildingSitesNode.empty();
             let newOption = new Option('-- elige una obra --', '', true, false);
             buildingSitesNode.append(newOption);
             partnerBuildingSitesData.forEach(
               function (value, index) {
-                console.log(value, index);
                 var newOption = new Option(value.text, value.id, false, false);
                 buildingSitesNode.append(newOption);
               });
@@ -217,8 +213,6 @@
               enable: true,
               allowClear: true
             });
-            // console.log(partnerBuildingSitesData);
-            // console.log(buildingSitesNode.select2({ data: partnerBuildingSitesData }));
           }
 
         });

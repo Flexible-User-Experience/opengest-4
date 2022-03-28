@@ -81,7 +81,9 @@ class Vehicle extends AbstractBase
      * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Url(checkDNS=true)
+     * @Assert\Url(
+     *     message = "'{{ value }}' no es una url válida",
+     * )
      */
     private ?string $link;
 
