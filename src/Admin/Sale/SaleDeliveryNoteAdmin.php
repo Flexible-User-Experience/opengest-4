@@ -160,7 +160,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'id',
                         null,
                         [
-                            'label' => 'admin.label.delivery_note_id',
+                            'label' => 'admin.label.delivery_note_number',
                             'required' => true,
                             'disabled' => true,
                         ]
@@ -721,7 +721,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'id',
             null,
                 [
-                    'label' => 'Id',
+                    'label' => 'admin.label.delivery_note_number',
                     'show_filter' => true,
                 ]
             )
@@ -953,7 +953,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'id',
                 null,
                 [
-                    'label' => 'Id',
+                    'label' => 'admin.label.delivery_note_number',
                 ]
             )
             ->add(

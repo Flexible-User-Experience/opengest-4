@@ -262,19 +262,23 @@ class SaleInvoicePdfManager
             }
             if($deliveryNote->getServiceDescription()){
                 $pdf->SetX($col2);
-                $pdf->MultiCell($col3 - $col2,ConstantsEnum::PDF_CELL_HEIGHT,
+                $pdf->MultiCell($col3 - $col2 +5,ConstantsEnum::PDF_CELL_HEIGHT,
                     $deliveryNote->getServiceDescription(),
-                    0, 'L', false);
+                    0, 'L', false,1);
+                $pdf->Ln(-2);
             }
 
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
                 if($deliveryNoteLine->getDescription()){
                     $pdf->SetX($col2);
-                    $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $pdf->MultiCell($col3 - $col2 +5, ConstantsEnum::PDF_CELL_HEIGHT,
                         $deliveryNoteLine->getDescription(),
                         0, 'L', false,0);
-                    $pdf->Ln(4);
+                    $pdf->MultiCell($col7 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        0, 'L', false);
+                    $pdf->Ln(2);
                 }
                 $pdf->SetX($col2+5);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -299,7 +303,7 @@ class SaleInvoicePdfManager
                     0, 'C', false,0);
                 $pdf->Ln(4);
             }
-            $YDim = $pdf->GetY() + 3;
+            $pdf->Ln(2);
         }
 //        if( $YDim < 110){
 //            $YDim = 120;
@@ -369,7 +373,7 @@ class SaleInvoicePdfManager
     {
         //Footer
         //Datos fiscales
-
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8.5);
         $xVar = 26;
         $yVarStart = 249;
         $cellWidth = 60;
@@ -436,7 +440,9 @@ class SaleInvoicePdfManager
                 $pdf->Ln(5);
                 $pdf->setX($xVar2);
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                    'IBAN: '.$saleInvoice->getPartnerIban(),
+                    'IBAN: '.substr($saleInvoice->getPartnerIban(),0,4).' '.substr($saleInvoice->getPartnerIban(),4,4).
+                    ' '.substr($saleInvoice->getPartnerIban(),8,4).' '.substr($saleInvoice->getPartnerIban(),12,4).' '.
+                    substr($saleInvoice->getPartnerIban(),16,4).' '.substr($saleInvoice->getPartnerIban(),20,4),
                     0, 0, 'L', false);
                 $pdf->Ln(3);
                 $pdf->setX($xVar2);
@@ -466,11 +472,34 @@ class SaleInvoicePdfManager
             'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);
         $pdf->Ln();
-        $pdf->setX($xVar3);
-        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'IVA: '.number_format($saleInvoice->getIva(), 2, ',', '.').' €',
-            0, 0, 'R', false);
-        $pdf->Ln();
+        if($saleInvoice->getIva0()){
+            $pdf->setX($xVar3);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                'IVA 0%: '.number_format($saleInvoice->getIva0(), 2, ',', '.').' €',
+                0, 0, 'R', false);
+            $pdf->Ln();
+        }
+        if($saleInvoice->getIva4()){
+            $pdf->setX($xVar3);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                'IVA 4%: '.number_format($saleInvoice->getIva4(), 2, ',', '.').' €',
+                0, 0, 'R', false);
+            $pdf->Ln();
+        }
+        if($saleInvoice->getIva10()){
+            $pdf->setX($xVar3);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                'IVA 10%: '.number_format($saleInvoice->getIva10(), 2, ',', '.').' €',
+                0, 0, 'R', false);
+            $pdf->Ln();
+        }
+        if($saleInvoice->getIva21()){
+            $pdf->setX($xVar3);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                'IVA 21%: '.number_format($saleInvoice->getIva21(), 2, ',', '.').' €',
+                0, 0, 'R', false);
+            $pdf->Ln();
+        }
         if ($saleInvoice->getIrpf()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -497,7 +526,7 @@ class SaleInvoicePdfManager
     {
         //Footer
         //Datos fiscales
-        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8.5);
         $xVar = 26;
         $yVarStart = 249;
         $cellWidth = 60;
@@ -556,7 +585,7 @@ class SaleInvoicePdfManager
         //Heading with sending address
         $xDim = 32;
         $pdf->setXY($xDim, 55);
-        $this->pdfEngineService->setStyleSize('b', 10);
+        $this->pdfEngineService->setStyleSize('b', 11);
         $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerName(),
             0, 0, 'L', false,'',1);

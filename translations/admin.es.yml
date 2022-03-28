@@ -213,6 +213,7 @@ admin:
         commercial_name: "Nombre comercial"
         transference_bank: "Banco transferencia"
         checking_type: "Tipo revisión"
+        delivery_note_number: "Número albarán"
     with:
         general: "General"
         image: "Imagen"
