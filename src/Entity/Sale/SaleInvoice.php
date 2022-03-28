@@ -92,6 +92,31 @@ class SaleInvoice extends AbstractBase
      *
      * @ORM\Column(type="float", nullable=true)
      */
+    private $iva21 = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva10 = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva4 = 0;
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $iva0 = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
     private $irpf = 0;
 
     /**
@@ -149,7 +174,6 @@ class SaleInvoice extends AbstractBase
      * @ORM\Column(type="string")
      */
     private $partnerCifNif;
-
 
     /**
      * @var ?string
@@ -428,6 +452,71 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
+    /**
+     * @return float
+     */
+    public function getIva21()
+    {
+        return $this->iva21;
+    }
+
+    /**
+     * @param float $iva21
+     *
+     * @return SaleInvoice
+     */
+    public function setIva21($iva21)
+    {
+        $this->iva21 = $iva21;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIva10()
+    {
+        return $this->iva10;
+    }
+
+    public function setIva10(float $iva10): SaleInvoice
+    {
+        $this->iva10 = $iva10;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIva4()
+    {
+        return $this->iva4;
+    }
+
+    public function setIva4(float $iva4): SaleInvoice
+    {
+        $this->iva4 = $iva4;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getIva0()
+    {
+        return $this->iva0;
+    }
+
+    public function setIva0(float $iva0): SaleInvoice
+    {
+        $this->iva0 = $iva0;
+
+        return $this;
+    }
+
     public function getIrpf(): ?float
     {
         return $this->irpf;
@@ -528,33 +617,21 @@ class SaleInvoice extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPartnerName(): ?string
     {
         return $this->partnerName;
     }
 
-    /**
-     * @param string|null $partnerName
-     */
     public function setPartnerName(?string $partnerName): void
     {
         $this->partnerName = $partnerName;
     }
 
-    /**
-     * @return string
-     */
     public function getPartnerCifNif(): string
     {
         return $this->partnerCifNif;
     }
 
-    /**
-     * @param string $partnerCifNif
-     */
     public function setPartnerCifNif(string $partnerCifNif): void
     {
         $this->partnerCifNif = $partnerCifNif;
@@ -568,9 +645,6 @@ class SaleInvoice extends AbstractBase
         return $this->partnerMainAddress;
     }
 
-    /**
-     * @param string $partnerMainAddress
-     */
     public function setPartnerMainAddress(string $partnerMainAddress): void
     {
         $this->partnerMainAddress = $partnerMainAddress;
@@ -584,9 +658,6 @@ class SaleInvoice extends AbstractBase
         return $this->partnerMainCity;
     }
 
-    /**
-     * @param City $partnerMainCity
-     */
     public function setPartnerMainCity(City $partnerMainCity): void
     {
         $this->partnerMainCity = $partnerMainCity;

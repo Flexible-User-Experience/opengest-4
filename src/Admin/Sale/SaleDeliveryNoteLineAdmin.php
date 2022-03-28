@@ -107,10 +107,6 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.iva',
                     'required' => true,
                     'choices' => IvaEnum::getReversedEnumArray(),
-//                    'empty_data' => (string) ConstantsEnum::IVA,
-//                    'attr' => [
-//                        'placeholder' => ConstantsEnum::IVA,
-//                    ],
                 ]
             )
             ->add(
