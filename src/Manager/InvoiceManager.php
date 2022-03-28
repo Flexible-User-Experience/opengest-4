@@ -72,13 +72,13 @@ class InvoiceManager
                 $finalLineAmount = $baseLineAmount + $lineIva - $lineIrpf;
                 $baseAmount += $baseLineAmount;
                 $finalTotal += $finalLineAmount;
-                if (21 === $lineIvaPercent) {
+                if (21 == $lineIvaPercent) {
                     $iva21 += $lineIva;
-                } elseif (10 === $lineIvaPercent) {
+                } elseif (10 == $lineIvaPercent) {
                     $iva10 += $lineIva;
-                } elseif (4 === $lineIvaPercent) {
+                } elseif (4 == $lineIvaPercent) {
                     $iva4 += $lineIva;
-                } elseif (0 === $lineIvaPercent) {
+                } elseif (0 == $lineIvaPercent) {
                     $iva0 += $lineIva;
                 }
                 $iva += $lineIva;

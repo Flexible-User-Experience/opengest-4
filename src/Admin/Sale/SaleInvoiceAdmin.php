@@ -284,17 +284,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
-            ->add(
-                'iva',
-                null,
-                [
-                    'label' => 'admin.label.iva_amount',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true,
-                ]
-            )
             ;
         if ($this->getSubject()->getIva21() > 0) {
             $formMapper
@@ -357,6 +346,17 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ;
         }
         $formMapper
+            ->add(
+                'iva',
+                null,
+                [
+                    'label' => 'admin.label.iva_amount',
+                    'required' => false,
+                    'disabled' => true,
+                    'scale' => 2,
+                    'grouping' => true,
+                ]
+            )
             ->add(
                 'irpf',
                 null,
