@@ -278,7 +278,7 @@ class SaleInvoicePdfManager
                     $pdf->MultiCell($col7 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
                         '',
                         0, 'L', false);
-                    $pdf->Ln(2);
+                    $pdf->Ln(-2);
                 }
                 $pdf->SetX($col2+5);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,

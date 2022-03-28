@@ -237,24 +237,24 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             }
         }
         $formMapper
-            ->add(
-                'partnerIban',
-                null,
-                [
-                    'label' => 'IBAN',
-                    'required' => false,
-                    'disabled' => false,
-                ]
-            )
-            ->add(
-                'partnerSwift',
-                null,
-                [
-                    'label' => 'SWIFT',
-                    'required' => false,
-                    'disabled' => false,
-                ]
-            )
+//            ->add(
+//                'partnerIban',
+//                null,
+//                [
+//                    'label' => 'IBAN',
+//                    'required' => false,
+//                    'disabled' => false,
+//                ]
+//            )
+//            ->add(
+//                'partnerSwift',
+//                null,
+//                [
+//                    'label' => 'SWIFT',
+//                    'required' => false,
+//                    'disabled' => false,
+//                ]
+//            )
             ->add(
                 'discount',
                 null,
@@ -477,21 +477,21 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             } elseif (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
                 $formMapper
                     ->add(
-                        'partner.iban',
+                        'partnerIban',
                         null,
                         [
                             'label' => 'IBAN',
                             'required' => false,
-                            'disabled' => true,
+                            'disabled' => false,
                         ]
                     )
                     ->add(
-                        'partner.swift',
+                        'partnerSwift',
                         null,
                         [
                             'label' => 'SWIFT',
                             'required' => false,
-                            'disabled' => true,
+                            'disabled' => false,
                         ]
                     )
                 ;
