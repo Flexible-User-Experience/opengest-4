@@ -9,7 +9,6 @@ use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\City;
-use App\Entity\Setting\Province;
 use App\Entity\Setting\SaleInvoiceSeries;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -236,7 +235,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     )
                 ;
             }
-
         }
         $formMapper
             ->add(
@@ -297,6 +295,68 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
+            ;
+        if ($this->getSubject()->getIva21() > 0) {
+            $formMapper
+                ->add(
+                    'iva21',
+                    null,
+                    [
+                        'label' => 'admin.label.iva21_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva10() > 0) {
+            $formMapper
+                ->add(
+                    'iva10',
+                    null,
+                    [
+                        'label' => 'admin.label.iva10_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva4() > 0) {
+            $formMapper
+                ->add(
+                    'iva4',
+                    null,
+                    [
+                        'label' => 'admin.label.iva4_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        if ($this->getSubject()->getIva0() > 0) {
+            $formMapper
+                ->add(
+                    'iva0',
+                    null,
+                    [
+                        'label' => 'admin.label.iva0_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->add(
                 'irpf',
                 null,

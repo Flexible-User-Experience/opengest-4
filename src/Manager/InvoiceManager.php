@@ -56,23 +56,41 @@ class InvoiceManager
         $baseAmount = 0;
         $finalTotal = 0;
         $iva = 0;
+        $iva21 = 0;
+        $iva10 = 0;
+        $iva4 = 0;
+        $iva0 = 0;
         $irpf = 0;
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
                 $baseLineAmount = $deliveryNoteLine->getTotal() * (1 - $deliveryNote->getDiscount() / 100) * (1 - $saleInvoice->getDiscount() / 100);
-                $lineIva = $baseLineAmount * $deliveryNoteLine->getIva() / 100;
+                $lineIvaPercent = $deliveryNoteLine->getIva();
+                $lineIva = $baseLineAmount * $lineIvaPercent / 100;
                 $lineIrpf = $baseLineAmount * $deliveryNoteLine->getIrpf() / 100;
                 $finalLineAmount = $baseLineAmount + $lineIva - $lineIrpf;
                 $baseAmount += $baseLineAmount;
                 $finalTotal += $finalLineAmount;
+                if (21 === $lineIvaPercent) {
+                    $iva21 += $lineIva;
+                } elseif (10 === $lineIvaPercent) {
+                    $iva10 += $lineIva;
+                } elseif (4 === $lineIvaPercent) {
+                    $iva4 += $lineIva;
+                } elseif (0 === $lineIvaPercent) {
+                    $iva0 += $lineIva;
+                }
                 $iva += $lineIva;
                 $irpf += $lineIrpf;
             }
         }
         $saleInvoice->setBaseTotal(round($baseAmount, 2));
         $saleInvoice->setIva(round($iva, 2));
+        $saleInvoice->setIva21(round($iva21, 2));
+        $saleInvoice->setIva10(round($iva10, 2));
+        $saleInvoice->setIva4(round($iva4, 2));
+        $saleInvoice->setIva0(round($iva0, 2));
         $saleInvoice->setIrpf(round($irpf, 2));
         $saleInvoice->setTotal(round($saleInvoice->getBaseTotal() + $saleInvoice->getIva() - $saleInvoice->getIrpf(), 2));
     }
