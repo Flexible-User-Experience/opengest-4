@@ -70,8 +70,18 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     {
         //TODO get delivery notes by client and date interval calling $deliveryNotePdfManager->outputDeliveryNotesByClient($deliveryNotes)
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        $sdnforDates = $saleDeliveryNotes;
 
-        return new Response($this->sdnpm->outputDeliveryNotesByClient($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+        //get from to dates
+        $from = array_shift($sdnforDates)->getDateToString();
+
+        if (!$sdnforDates) {
+            $to = $from;
+        } else {
+            $to = array_pop($sdnforDates)->getDateToString();
+        }
+
+        return new Response($this->sdnpm->outputDeliveryNotesByClient($saleDeliveryNotes, $from, $to), 200, ['Content-type' => 'application/pdf']);
     }
 
     public function batchActionDeliveryNotesList(ProxyQueryInterface $selectedModelQuery): Response

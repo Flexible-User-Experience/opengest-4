@@ -51,20 +51,20 @@ class SaleDeliveryNotePdfManager
      * @param $saleDeliveryNotes
      * @return TCPDF
      */
-    public function buildDeliveryNotesByClient($saleDeliveryNotes): TCPDF
+    public function buildDeliveryNotesByClient($saleDeliveryNotes, $from, $to): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Albaranes por cliente');
         $pdf = $this->pdfEngineService->getEngine();
 
-        return $this->buildListByClient($saleDeliveryNotes, $pdf);
+        return $this->buildListByClient($saleDeliveryNotes, $from, $to, $pdf);
     }
 
     /**
      * @return string
      */
-    public function outputDeliveryNotesByClient($saleDeliveryNotes): string
+    public function outputDeliveryNotesByClient($saleDeliveryNotes, $from, $to): string
     {
-        $pdf = $this->buildDeliveryNotesByClient($saleDeliveryNotes);
+        $pdf = $this->buildDeliveryNotesByClient($saleDeliveryNotes, $from, $to);
 
         return $pdf->Output('albaranesPorCliente'.'.pdf', 'I');
     }
@@ -74,125 +74,75 @@ class SaleDeliveryNotePdfManager
      * @param TCPDF $pdf
      * @return TCPDF
      */
-    public function buildListByClient($saleDeliveryNotes, TCPDF $pdf): TCPDF
+    public function buildListByClient($saleDeliveryNotes, $from, $to, TCPDF $pdf): TCPDF
     {
-        // add start page
-        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
-        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
-
-        // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
-
-        // today date
-        $this->pdfEngineService->setStyleSize('', 18);
-        $pdf->SetXY(50,20);
-        $today = date('d/m/Y');
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $today,
-            0, 0, 'L', false);
-
-        // header
-        //TODO add partner and from to info
-        $this->pdfEngineService->setStyleSize('', 12);
-        /** @var SaleDeliveryNote $lastSaleDeliveryNote */
-        $lastSaleDeliveryNote = $saleDeliveryNotes[count($saleDeliveryNotes) - 1];
-        /** @var SaleDeliveryNote $firstDeliveryNote */
-        $firstDeliveryNote = $saleDeliveryNotes[0];
-        $pdf->SetXY(50,30);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Listado de albaranes del cliente '.$lastSaleDeliveryNote->getPartner()->getName().
-            ' desde '.$lastSaleDeliveryNote->getDateToString().' hasta '.$firstDeliveryNote->getDateToString(),
-            0, 0, 'L', false);
-        $pdf->SetXY(40,45);
-        //table headers
-        $this->pdfEngineService->setStyleSize('', 8);
-        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT,50);
-        $colWidth1 = 22;
-        $colWidth2 = 52;
-        $colWidth3 = 42;
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Nº albarán',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Fecha',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Nº factura',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Obra',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Pedido',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Horas',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Precio/Hora',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Base Imponible',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'TOTAL',
-            1, 0, 'C', true);
-        $pdf->Ln();
-        /** @var SaleDeliveryNote $saleDeliveryNote */
-        foreach($saleDeliveryNotes as $saleDeliveryNote){
-            $totalHours = 0;
-            /** @var SaleDeliveryNoteLine $saleDeliveryNoteLine */
-            foreach($saleDeliveryNote->getSaleDeliveryNoteLines() as $saleDeliveryNoteLine){
-                if($saleDeliveryNoteLine->getSaleItem()->getId() == '1'
-                    || $saleDeliveryNoteLine->getSaleItem()->getId() == '2'
-                    || $saleDeliveryNoteLine->getSaleItem()->getId() == '3'){
-                    $totalHours = $totalHours + $saleDeliveryNoteLine->getUnits();
-                }
-            }
-            $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
-            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleDeliveryNote->getId(),
-            1, 0, 'C', false);
-            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleDeliveryNote->getDateToString(),
-            1, 0, 'C', false);
-            if(!$saleDeliveryNote->getSaleInvoice()){
-                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                    '',
-                    1, 0, 'C', false);
-            } else {
-                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $saleDeliveryNote->getSaleInvoice()->getInvoiceNumber(),
-                    1, 0, 'C', false);
-            }
-            $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleDeliveryNote->getBuildingSite(),
-            1, 0, 'L', false,'',1);
-            $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $saleDeliveryNote->getOrder(),
-            1, 0, 'L', false,'',1);
-            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            $totalHours,
-            1, 0, 'C', false);
-            if($totalHours > 0){
-                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                    number_format($saleDeliveryNote->getBaseAmount()/$totalHours,2,',','.').'€',
-                    1, 0, 'C', false);
-            } else {
-                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                    '0',
-                    1, 0, 'C', false);
-            }
-            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            number_format($saleDeliveryNote->getBaseAmount(),2,',','.').'€',
-            1, 0, 'C', false);
-            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            number_format($saleDeliveryNote->getFinalTotal(),2,',','.').'€',
-            1, 0, 'C', false);
-            $pdf->Ln();
+        $partnersFromSaleDeliveryNotes = [];
+        /** @var  SaleDeliveryNote $saleDeliveryNote */
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            $partnersFromSaleDeliveryNotes[$saleDeliveryNote->getPartner()->getId()] = $saleDeliveryNote->getPartner();
         }
+        foreach($partnersFromSaleDeliveryNotes as $partner){
+            $this->addStartPage($pdf);
+            list($colWidth1, $colWidth2, $colWidth3) = $this->printHeader($pdf, $partner, $from, $to);
 
+            /** @var SaleDeliveryNote $saleDeliveryNote */
+            foreach($partner->getSaleDeliveryNotes() as $saleDeliveryNote){
+                if($pdf->getY()>210){
+                    $this->addStartPage($pdf);
+                    list($colWidth1, $colWidth2, $colWidth3) = $this->printHeader($pdf, $partner, $from, $to);
+                }
+                $totalHours = 0;
+                /** @var SaleDeliveryNoteLine $saleDeliveryNoteLine */
+                foreach($saleDeliveryNote->getSaleDeliveryNoteLines() as $saleDeliveryNoteLine){
+                    if($saleDeliveryNoteLine->getSaleItem()->getId() == '1'
+                        || $saleDeliveryNoteLine->getSaleItem()->getId() == '2'
+                        || $saleDeliveryNoteLine->getSaleItem()->getId() == '3'){
+                        $totalHours = $totalHours + $saleDeliveryNoteLine->getUnits();
+                    }
+                }
+                $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleDeliveryNote->getId(),
+                    1, 0, 'C', false);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleDeliveryNote->getDateToString(),
+                    1, 0, 'C', false);
+                if(!$saleDeliveryNote->getSaleInvoice()){
+                    $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        1, 0, 'C', false);
+                } else {
+                    $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                        $saleDeliveryNote->getSaleInvoice()->getInvoiceNumber(),
+                        1, 0, 'C', false);
+                }
+                $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleDeliveryNote->getBuildingSite(),
+                    1, 0, 'L', false,'',1);
+                $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleDeliveryNote->getOrder(),
+                    1, 0, 'L', false,'',1);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $totalHours,
+                    1, 0, 'C', false);
+                if($totalHours > 0){
+                    $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                        number_format($saleDeliveryNote->getBaseAmount()/$totalHours,2,',','.').'€',
+                        1, 0, 'C', false);
+                } else {
+                    $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '0',
+                        1, 0, 'C', false);
+                }
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    number_format($saleDeliveryNote->getBaseAmount(),2,',','.').'€',
+                    1, 0, 'C', false);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    number_format($saleDeliveryNote->getFinalTotal(),2,',','.').'€',
+                    1, 0, 'C', false);
+                $pdf->Ln();
+            }
+        }
 
         return $pdf;
     }
@@ -865,6 +815,82 @@ class SaleDeliveryNotePdfManager
 
     }
 
+    /**
+     * @param TCPDF $pdf
+     * @return void
+     */
+    private function addStartPage(TCPDF $pdf): void
+    {
+// add start page
+        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
+
+        // logo
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+
+        // today date
+        $this->pdfEngineService->setStyleSize('', 18);
+        $pdf->SetXY(50, 20);
+        $today = date('d/m/Y');
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $today,
+            0, 0, 'L', false);
+    }
+
+    /**
+     * @param TCPDF $pdf
+     * @param $partner
+     * @param $from
+     * @param $to
+     * @return int[]
+     */
+    private function printHeader(TCPDF $pdf, $partner, $from, $to): array
+    {
+// header
+        $this->pdfEngineService->setStyleSize('', 12);
+        $pdf->SetXY(50, 30);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Listado de albaranes del cliente ' . $partner->getCode() . '-' . $partner->getName() .
+            ' desde ' . $from . ' hasta ' . $to,
+            0, 0, 'L', false);
+        $pdf->SetXY(40, 45);
+        //table headers
+        $this->pdfEngineService->setStyleSize('', 8);
+        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 50);
+        $colWidth1 = 22;
+        $colWidth2 = 52;
+        $colWidth3 = 42;
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Nº albarán',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Fecha',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Nº factura',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Obra',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Pedido',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Horas',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Precio/Hora',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Base Imponible',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'TOTAL',
+            1, 0, 'C', true);
+        $pdf->Ln();
+        return array($colWidth1, $colWidth2, $colWidth3);
+    }
 
 
 }
