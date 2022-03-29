@@ -175,6 +175,7 @@ class SaleInvoicePdfManager
         $this->setHeading($pdf, $saleInvoice);
 
         //deliveryNoteInfo
+        $hasIva0 = false;
         $YDim = 110;
         $col1 = 32;
         $col2 = 46;
@@ -227,6 +228,9 @@ class SaleInvoicePdfManager
 
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+                if($deliveryNoteLine->getIva() == 0){
+                    $hasIva0 = true;
+                }
                 if($deliveryNoteLine->getDescription()){
                     $pdf->SetX($col2);
                     $pdf->MultiCell($col3 - $col2 +5, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -274,7 +278,7 @@ class SaleInvoicePdfManager
         }
         $this->writeDataTreatmentText($pdf);
 
-        $this->setFooter($pdf, $saleInvoice);
+        $this->setFooter($pdf, $saleInvoice, $hasIva0);
 
         return $pdf;
     }
@@ -321,7 +325,7 @@ class SaleInvoicePdfManager
         $pdf->setCellPaddings(1, 1, 1, 1);
     }
 
-    private function setFooter(TCPDF $pdf, SaleInvoice $saleInvoice): void
+    private function setFooter(TCPDF $pdf, SaleInvoice $saleInvoice, $hasIva0): void
     {
         //Footer
         //Datos fiscales
@@ -424,8 +428,7 @@ class SaleInvoicePdfManager
             'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);
         $pdf->Ln(4);
-//        dd($saleInvoice->getIva0(), $saleInvoice->getIva4());
-        if($saleInvoice->getIva0()){
+        if($hasIva0){
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                 'IVA 0%: '.number_format($saleInvoice->getIva0(), 2, ',', '.').' €',
