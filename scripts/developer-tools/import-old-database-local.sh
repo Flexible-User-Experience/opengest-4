@@ -26,11 +26,11 @@ php bin/console  app:import:partner:type var/csv/partner_types.csv
 php bin/console  app:import:partner var/csv/partners.csv
 php bin/console  app:import:partner:contact var/csv/partner_contacts.csv
 php bin/console  app:import:partner:unable:days var/csv/partner_unabled_days.csv
-php bin/console  app:import:partner:building:site var/csv/partner_building_sites.csv
-php bin/console  app:import:partner:order var/csv/partner_orders.csv
+#php bin/console  app:import:partner:building:site var/csv/partner_building_sites.csv
+#php bin/console  app:import:partner:order var/csv/partner_orders.csv
 php bin/console  app:import:setting:sale:invoice:series var/csv/setting_sale_invoice_series.csv
 php bin/console  app:import:sale:tariff var/csv/sale_tariff.csv
-php bin/console  app:import:sale:invoice var/csv/sale_invoice.csv
+#php bin/console  app:import:sale:invoice var/csv/sale_invoice.csv
 php bin/console  app:import:vehicle var/csv/vehicle.csv
 php bin/console  app:import:vehicle_maintenance_task var/csv/vehicle_maintenance_task.csv
 php bin/console  app:import:vehicle_maintenance var/csv/vehicle_maintenance.csv

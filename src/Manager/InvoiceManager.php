@@ -40,8 +40,18 @@ class InvoiceManager
     public function getLastInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise)
     {
         $lastSaleInvoice = $this->saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($serie, $enterprise);
+        $firstInvoiceNumber = 1;
+        if (1 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        } elseif (2 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        } elseif (3 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        } elseif (4 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        }
 
-        return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : 1;
+        return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : $firstInvoiceNumber;
     }
 
     public function getFirstInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise): int

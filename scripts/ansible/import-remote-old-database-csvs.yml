@@ -108,14 +108,14 @@
       shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:unable:days var/csv/partner_unabled_days.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
-    - name: execute partner building site CSV import to local database
-      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:building:site var/csv/partner_building_sites.csv"
-      args:
-        chdir: "{{ vhost_path }}/current/"
-    - name: execute partner order CSV import to local database
-      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:order var/csv/partner_orders.csv"
-      args:
-        chdir: "{{ vhost_path }}/current/"
+#    - name: execute partner building site CSV import to local database
+#      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:building:site var/csv/partner_building_sites.csv"
+#      args:
+#        chdir: "{{ vhost_path }}/current/"
+#    - name: execute partner order CSV import to local database
+#      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:partner:order var/csv/partner_orders.csv"
+#      args:
+#        chdir: "{{ vhost_path }}/current/"
     - name: execute setting sale invoice series CSV import to local database
       shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:setting:sale:invoice:series var/csv/setting_sale_invoice_series.csv"
       args:
@@ -124,10 +124,10 @@
       shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:sale:tariff var/csv/sale_tariff.csv"
       args:
         chdir: "{{ vhost_path }}/current/"
-    - name: execute sale invoice CSV import to local database
-      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:sale:invoice var/csv/sale_invoice.csv"
-      args:
-        chdir: "{{ vhost_path }}/current/"
+#    - name: execute sale invoice CSV import to local database
+#      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:import:sale:invoice var/csv/sale_invoice.csv"
+#      args:
+#        chdir: "{{ vhost_path }}/current/"
     - name: execute vehicle CSV import to local database
       shell: "/usr/bin/php{{ vhost_php_version }} bin/console  app:import:vehicle var/csv/vehicle.csv"
       args:
