@@ -418,34 +418,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     );
             }
         }
-
-        if ($this->getSubject()->getPartner()) {
-            if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
-                $formMapper
-                    ->add(
-                        'partner.collectionTerm2',
-                        null,
-                        [
-                            'label' => 'admin.label.collection_term_2',
-                            'required' => false,
-                            'disabled' => true,
-                        ]
-                    );
-            }
-            if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
-                $formMapper
-                    ->add(
-                        'partner.collectionTerm3',
-                        null,
-                        [
-                            'label' => 'admin.label.collection_term_3',
-                            'required' => false,
-                            'disabled' => true,
-                        ]
-                    );
-            }
-        }
-
         $formMapper
             ->add(
                 'partner.payDay1',
@@ -490,6 +462,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'class' => CollectionDocumentType::class,
                     'label' => 'admin.label.collection_document_type',
                     'required' => false,
+                    'disabled' => true,
                 ]
             );
         if ($this->getSubject()->getCollectionDocumentType()) {
