@@ -283,7 +283,7 @@ class SaleDeliveryNotePdfManager
             'Operario',
             1, 0, 'C', true);
         $pdf->Cell($col7, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Albaranes',
+            'Albarán',
             1, 0, 'C', true);
 
         $pdf->Ln();
@@ -320,8 +320,7 @@ class SaleDeliveryNotePdfManager
             }
             //Albaran
             $pdf->Cell($col7, ConstantsEnum::PDF_CELL_HEIGHT,
-                'Alb. '.$saleDeliveryNote->getId().' '.
-                number_format($saleDeliveryNote->getFinalTotal(),2,',','.').'€',
+                $saleDeliveryNote->getId(),
                 1, 0, 'L', false,'',1);
 
             $pdf->Ln();
