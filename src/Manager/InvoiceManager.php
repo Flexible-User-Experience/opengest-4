@@ -100,7 +100,7 @@ class InvoiceManager
         $saleInvoice->setIva21(round($iva21, 2));
         $saleInvoice->setIva10(round($iva10, 2));
         $saleInvoice->setIva4(round($iva4, 2));
-        $saleInvoice->setIva0(round($iva0, 2));
+        $saleInvoice->setIva0(0 == $iva0 ? round($iva0, 2) : null);
         $saleInvoice->setIrpf(round($irpf, 2));
         $saleInvoice->setTotal(round($saleInvoice->getBaseTotal() + $saleInvoice->getIva() - $saleInvoice->getIrpf(), 2));
     }
