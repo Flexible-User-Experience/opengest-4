@@ -68,7 +68,6 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
     public function batchActionDeliveryNotesByClient(ProxyQueryInterface $selectedModelQuery): Response
     {
-        //TODO get delivery notes by client and date interval calling $deliveryNotePdfManager->outputDeliveryNotesByClient($deliveryNotes)
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
         $sdnforDates = $saleDeliveryNotes;
 

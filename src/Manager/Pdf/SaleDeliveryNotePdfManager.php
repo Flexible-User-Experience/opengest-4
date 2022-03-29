@@ -85,8 +85,12 @@ class SaleDeliveryNotePdfManager
             $this->addStartPage($pdf);
             list($colWidth1, $colWidth2, $colWidth3) = $this->printHeader($pdf, $partner, $from, $to);
 
+            $filteredSaleDeliveryNotesByPartner = array_filter($saleDeliveryNotes,function($x) use($partner){
+                return $x->getPartner() == $partner;
+            }, ARRAY_FILTER_USE_BOTH);
+
             /** @var SaleDeliveryNote $saleDeliveryNote */
-            foreach($partner->getSaleDeliveryNotes() as $saleDeliveryNote){
+            foreach($filteredSaleDeliveryNotesByPartner as $saleDeliveryNote){
                 if($pdf->getY()>210){
                     $this->addStartPage($pdf);
                     list($colWidth1, $colWidth2, $colWidth3) = $this->printHeader($pdf, $partner, $from, $to);
