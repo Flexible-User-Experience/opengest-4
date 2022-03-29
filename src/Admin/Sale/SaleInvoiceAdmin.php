@@ -379,15 +379,46 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
-            ->add(
-                'partner.collectionTerm1',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_1',
-                    'required' => false,
-                    'disabled' => true,
-                ]
-            );
+            ;
+        if ($this->getSubject()->getFirstDeliveryNote()) {
+            if ($this->getSubject()->getFirstDeliveryNote()->getCollectionTerm()) {
+                $formMapper
+                    ->add(
+                        'firstDeliveryNote.collectionTerm',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_1',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getFirstDeliveryNote()->getCollectionTerm2()) {
+                $formMapper
+                    ->add(
+                        'firstDeliveryNote.collectionTerm2',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_2',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getFirstDeliveryNote()->getCollectionTerm3()) {
+                $formMapper
+                    ->add(
+                        'firstDeliveryNote.collectionTerm3',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_3',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+        }
+
         if ($this->getSubject()->getPartner()) {
             if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
                 $formMapper

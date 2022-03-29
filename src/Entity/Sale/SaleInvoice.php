@@ -697,6 +697,11 @@ class SaleInvoice extends AbstractBase
         return $this->getDate()->format('d/m/y');
     }
 
+    public function getFirstDeliveryNote(): ?SaleDeliveryNote
+    {
+        return $this->getDeliveryNotes()->first();
+    }
+
     /**
      * @return string
      */

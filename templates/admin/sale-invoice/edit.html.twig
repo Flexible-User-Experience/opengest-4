@@ -15,8 +15,8 @@
             var partnerCifNif = jQuery('#{{ form.partnerCifNif.vars.id }}');
             var partnerMainAddress = jQuery('#{{ form.partnerMainAddress.vars.id }}');
             var partnerMainCityNode = jQuery('#{{ form.partnerMainCity.vars.id }}');
-            var partnerIban = jQuery('#{{ form.partnerIban.vars.id }}');
-            var partnerSwift = jQuery('#{{ form.partnerSwift.vars.id }}');
+            {#var partnerIban = jQuery('#{{ form.partnerIban.vars.id }}');#}
+            {#var partnerSwift = jQuery('#{{ form.partnerSwift.vars.id }}');#}
             let hasInvoiceNumberWaring = false;
             let seriesId = jQuery('#{{ form.series.vars.id }}').val();
 
@@ -46,8 +46,8 @@
                     partnerCifNif.val(partner.cifNif);
                     partnerName.val(partner.name);
                     partnerMainAddress.val(partner.mainAddress);
-                    partnerIban.val(partner.iban);
-                    partnerSwift.val(partner.swift);
+                    // partnerIban.val(partner.iban);
+                    // partnerSwift.val(partner.swift);
                     console.log('partner.mainCity.id',partner.mainCity.id, partnerMainCityNode.select2())
                     partnerMainCityNode.select2().val(partner.mainCity.id)
                     partnerMainCityNode.select2().trigger('change');
