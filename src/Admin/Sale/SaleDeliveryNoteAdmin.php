@@ -543,7 +543,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     [
                         'label' => 'admin.label.printed',
                         'required' => false,
-                        'disabled' => true
+                        'disabled' => true,
                     ]
                 )
                 ->add(
@@ -1116,6 +1116,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $object->setBaseAmount($totalPrice * (1 - $object->getDiscount() / 100));
         $saleInvoice = $object->getSaleInvoice();
         if ($saleInvoice) {
+            $saleInvoice->setCollectionDocumentType($object->getCollectionDocument());
+            //If invoiced, set same collectionTerms and collectionDocuments for all the delivery notes belonging to this invoice
+            /** @var SaleDeliveryNote $deliveryNote */
+            foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
+                if ($deliveryNote->getId() !== $object->getId()) {
+                    $deliveryNote->setCollectionDocument($object->getCollectionDocument());
+                    $deliveryNote->setCollectionTerm($object->getCollectionTerm());
+                    $deliveryNote->setCollectionTerm2($object->getCollectionTerm2());
+                    $deliveryNote->setCollectionTerm3($object->getCollectionTerm3());
+                }
+            }
             $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $saleInvoice->getDeliveryNotes());
             $numberOfDueDates = $saleInvoice->getSaleInvoiceDueDates()->count();
             $totalSplit = $saleInvoice->getTotal() / $numberOfDueDates;

@@ -379,20 +379,24 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
-            ->add(
-                'partner.collectionTerm1',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_1',
-                    'required' => false,
-                    'disabled' => true,
-                ]
-            );
-        if ($this->getSubject()->getPartner()) {
-            if ($this->getSubject()->getPartner()->getCollectionTerm2()) {
+            ;
+        if ($this->getSubject()->getFirstDeliveryNote()) {
+            if ($this->getSubject()->getFirstDeliveryNote()->getCollectionTerm()) {
                 $formMapper
                     ->add(
-                        'partner.collectionTerm2',
+                        'firstDeliveryNote.collectionTerm',
+                        null,
+                        [
+                            'label' => 'admin.label.collection_term_1',
+                            'required' => false,
+                            'disabled' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getFirstDeliveryNote()->getCollectionTerm2()) {
+                $formMapper
+                    ->add(
+                        'firstDeliveryNote.collectionTerm2',
                         null,
                         [
                             'label' => 'admin.label.collection_term_2',
@@ -401,10 +405,10 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         ]
                     );
             }
-            if ($this->getSubject()->getPartner()->getCollectionTerm3()) {
+            if ($this->getSubject()->getFirstDeliveryNote()->getCollectionTerm3()) {
                 $formMapper
                     ->add(
-                        'partner.collectionTerm3',
+                        'firstDeliveryNote.collectionTerm3',
                         null,
                         [
                             'label' => 'admin.label.collection_term_3',
@@ -414,7 +418,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     );
             }
         }
-
         $formMapper
             ->add(
                 'partner.payDay1',
@@ -459,6 +462,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'class' => CollectionDocumentType::class,
                     'label' => 'admin.label.collection_document_type',
                     'required' => false,
+                    'disabled' => true,
                 ]
             );
         if ($this->getSubject()->getCollectionDocumentType()) {

@@ -40,8 +40,18 @@ class InvoiceManager
     public function getLastInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise)
     {
         $lastSaleInvoice = $this->saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($serie, $enterprise);
+        $firstInvoiceNumber = 1;
+        if (1 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        } elseif (2 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        } elseif (3 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        } elseif (4 === $serie->getId()) {
+            $firstInvoiceNumber = 1;
+        }
 
-        return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : 1;
+        return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : $firstInvoiceNumber;
     }
 
     public function getFirstInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise): int
@@ -90,7 +100,7 @@ class InvoiceManager
         $saleInvoice->setIva21(round($iva21, 2));
         $saleInvoice->setIva10(round($iva10, 2));
         $saleInvoice->setIva4(round($iva4, 2));
-        $saleInvoice->setIva0(round($iva0, 2));
+        $saleInvoice->setIva0(0 == $iva0 ? round($iva0, 2) : null);
         $saleInvoice->setIrpf(round($irpf, 2));
         $saleInvoice->setTotal(round($saleInvoice->getBaseTotal() + $saleInvoice->getIva() - $saleInvoice->getIrpf(), 2));
     }
@@ -166,6 +176,9 @@ class InvoiceManager
         $this->setDueDate($initialDueDate, $payDay1, $dueDate, $payDay2, $payDay3);
         while ($this->checkIfDateIsInPartnerUnableDates($dueDate, $partner)) {
             $this->setDueDate($dueDate, $payDay1, $dueDate, $payDay2, $payDay3);
+            if ($this->checkIfDateIsInPartnerUnableDates($dueDate, $partner)) {
+                $dueDate->modify('+1 day');
+            }
         }
         $saleInvoiceDueDate = new SaleInvoiceDueDate();
 
@@ -178,14 +191,16 @@ class InvoiceManager
     private function checkIfDateIsInPartnerUnableDates(DateTime $date, Partner $partner): bool
     {
         $isInUnableDays = false;
-        $dateFormatted = new DateTime();
-        $dateFormatted->setDate('0000', $date->format('m'), $date->format('d'));
+        $yearDate = ($date->format('m').$date->format('d')) * 1;
         $unableDays = $partner->getPartnerUnableDays();
         /** @var PartnerUnableDays $unableDay */
         foreach ($unableDays as $unableDay) {
-            if ($dateFormatted->getTimestamp() >= $unableDay->getBegin()->getTimestamp()) {
-                if ($dateFormatted->getTimestamp() <= $unableDay->getEnd()->getTimestamp()) {
+            $yearDateBegin = ($unableDay->getBegin()->format('m').$unableDay->getBegin()->format('d')) * 1;
+            $yearDateEnd = ($unableDay->getEnd()->format('m').$unableDay->getEnd()->format('d')) * 1;
+            if ($yearDate >= $yearDateBegin) {
+                if ($yearDate <= $yearDateEnd) {
                     $isInUnableDays = true;
+                    break;
                 }
             }
         }

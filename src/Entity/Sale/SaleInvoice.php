@@ -507,7 +507,7 @@ class SaleInvoice extends AbstractBase
         return $this->iva0;
     }
 
-    public function setIva0(float $iva0): SaleInvoice
+    public function setIva0(?float $iva0): SaleInvoice
     {
         $this->iva0 = $iva0;
 
@@ -695,6 +695,11 @@ class SaleInvoice extends AbstractBase
     public function getDateFormatted(): string
     {
         return $this->getDate()->format('d/m/y');
+    }
+
+    public function getFirstDeliveryNote(): ?SaleDeliveryNote
+    {
+        return $this->getDeliveryNotes()->first();
     }
 
     /**

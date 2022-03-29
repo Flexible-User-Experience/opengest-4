@@ -28,7 +28,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
         $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
         $owrhForDates = $operatorWorkRegisterHeaders;
 
-        //TODO get from, to from the filter selection
+        //get from to dates
         $from = array_shift($owrhForDates)->getDateFormatted();
 
         if (!$owrhForDates) {
