@@ -704,8 +704,8 @@ class WorkRegisterHeaderPdfManager
         $extraHourPrice = $bountyGroup ? $bountyGroup->getExtraExtraHour() : 0;
         $negativeHourPrice = $bountyGroup ? $bountyGroup->getNegativeHour() : 0;
         $lunchPrice = $bountyGroup ? $bountyGroup->getLunch() : 0;
-        $lunchIntPrice = $bountyGroup ? $bountyGroup->getDinner() : 0;
-        $dinnerPrice = $bountyGroup ? $bountyGroup->getInternationalLunch() : 0;
+        $lunchIntPrice = $bountyGroup ? $bountyGroup->getInternationalLunch() : 0;
+        $dinnerPrice = $bountyGroup ? $bountyGroup->getDinner() : 0;
         $dinnerIntPrice = $bountyGroup ? $bountyGroup->getInternationalDinner() : 0;
         $dietPrice = $bountyGroup ? $bountyGroup->getDiet() : 0;
         $dietIntPrice = $bountyGroup ? $bountyGroup->getExtraNight() : 0;

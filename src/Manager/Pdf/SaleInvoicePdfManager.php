@@ -31,20 +31,20 @@ class SaleInvoicePdfManager
     /**
      * @return TCPDF
      */
-    public function buildSingle($saleInvoices)
+    public function buildSingle($saleInvoices, $from, $to)
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Facturas');
         $pdf = $this->pdfEngineService->getEngine();
 
-        return $this->buildInvoiceList($saleInvoices, $pdf);
+        return $this->buildInvoiceList($saleInvoices, $from, $to, $pdf);
     }
 
     /**
      * @return string
      */
-    public function outputSingle($saleInvoices)
+    public function outputSingle($saleInvoices, $from, $to)
     {
-        $pdf = $this->buildSingle($saleInvoices);
+        $pdf = $this->buildSingle($saleInvoices, $from, $to);
 
         return $pdf->Output('facturas'.'.pdf', 'I');
     }
@@ -52,116 +52,73 @@ class SaleInvoicePdfManager
     /**
      * @param $saleInvoices
      */
-    public function buildInvoiceList($saleInvoices, TCPDF $pdf): TCPDF
+    public function buildInvoiceList($saleInvoices, $from, $to, TCPDF $pdf): TCPDF
     {
-        // add start page
-        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
-        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
-        // logo
-        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+        $partnersFromSaleInvoices = [];
+        /** @var  SaleInvoice $saleInvoice */
+        foreach ($saleInvoices as $allSaleInvoice) {
+            $partnersFromSaleInvoices[$allSaleInvoice->getPartner()->getId()] = $allSaleInvoice->getPartner();
+        }
+        foreach($partnersFromSaleInvoices as $partner){
+            $width = $this->addStartPage($pdf);
+            list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, $partner, $from, $to, $width);
+            $totalBases = 0;
+            $totalTotal = 0;
+            $filteredSaleInvoicesByPartner = array_filter($saleInvoices,function($x) use($partner){
+                return $x->getPartner() == $partner;
+            }, ARRAY_FILTER_USE_BOTH);
 
-        // today date
-        $this->pdfEngineService->setStyleSize('', 18);
-        $pdf->SetXY(50, 20);
-        $today = date('d/m/Y');
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $today,
-            0, 0, 'L', false);
-        // header
-        $this->pdfEngineService->setStyleSize('', 12);
-        $pdf->SetXY(50, 30);
-        /** @var SaleInvoice $oneSaleInvoice */
-        $oneSaleInvoice = $saleInvoices[0];
-        /** @var SaleInvoice $lastSaleInvoice */
-        $lastSaleInvoice = $saleInvoices[count($saleInvoices) - 1];
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Listado de facturas del cliente '.$oneSaleInvoice->getPartnerName(),
-            0, 0, 'L', false);
-        $pdf->SetXY(50, 35);
-        $this->pdfEngineService->setStyleSize('', 11);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Desde '.$lastSaleInvoice->getDateFormatted().' hasta '.$oneSaleInvoice->getDateFormatted(),
-            0, 0, 'L', false);
-        $pdf->SetXY(50, 43);
-        $this->drawHoritzontalLineSeparator($pdf, $width);
-        //table headers
-        $this->pdfEngineService->setStyleSize('', 8);
-        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 50);
-        $colWidth1 = 32;
-        $colWidth2 = 82;
-        $colWidth3 = 48;
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Nº factura',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Fecha',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Obra',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Pedido',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Base Imponible',
-            1, 0, 'C', true);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            'TOTAL',
-            1, 0, 'C', true);
-        $pdf->Ln();
-        $totalBases = 0;
-        $totalTotal = 0;
-        /** @var SaleInvoice $saleInvoice */
-        foreach ($saleInvoices as $saleInvoice) {
-            $totalBases = $saleInvoice->getBaseTotal() + $totalBases;
-            $totalTotal = $saleInvoice->getTotal() + $totalTotal;
+            /** @var SaleInvoice $saleInvoice */
+            foreach ($filteredSaleInvoicesByPartner as $saleInvoice) {
+                if($pdf->getY()>180){
+                    $this->addStartPage($pdf);
+                    list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, $partner, $from, $to, $width);
+                }
+                $totalBases = $saleInvoice->getBaseTotal() + $totalBases;
+                $totalTotal = $saleInvoice->getTotal() + $totalTotal;
+                $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getInvoiceNumber(),
+                    1, 0, 'C', false);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getDateFormatted(),
+                    1, 0, 'C', false);
+                $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getDeliveryNotes()->first() ? ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite() ? $saleInvoice->getDeliveryNotes()->first()->getBuildingSite() : '') : '',
+                    1, 0, 'L', false, '', 1);
+                $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $saleInvoice->getDeliveryNotes()->first() ? ($saleInvoice->getDeliveryNotes()->first()->getOrder() ? $saleInvoice->getDeliveryNotes()->first()->getOrder() : '') : '',
+                    1, 0, 'L', false, '', 1);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    number_format($saleInvoice->getBaseTotal(), 2, ',', '.'),
+                    1, 0, 'C', false);
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    number_format($saleInvoice->getTotal(), 2, ',', '.').'€',
+                    1, 0, 'C', false);
+                $pdf->Ln();
+            }
             $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getInvoiceNumber(),
-                1, 0, 'C', false);
+                '',
+                0, 0, 'C', false);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                $saleInvoice->getDateFormatted(),
-                1, 0, 'C', false);
-            //TODO add obra and pedido to the pdf
-            /** @var DeliveryNote $deliveryNote */
-            foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
-                $buildingSite = $deliveryNote->getBuildingSite();
-                $order = $deliveryNote->getOrder();
-            }
+                '',
+                0, 0, 'C', false);
             $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
-                $buildingSite,
-                1, 0, 'L', false, '', 1);
+                '',
+                0, 0, 'L', false, '', 1);
             $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
-                $order,
-                1, 0, 'L', false, '', 1);
+                '',
+                0, 0, 'L', false, '', 1);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                number_format($saleInvoice->getBaseTotal(), 2, ',', '.'),
+                number_format($totalBases, 2, ',', '.'),
                 1, 0, 'C', false);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                number_format($saleInvoice->getTotal(), 2, ',', '.').'€',
+                number_format($totalTotal, 2, ',', '.').'€',
                 1, 0, 'C', false);
-            $pdf->Ln();
+
         }
-        $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            '',
-            0, 0, 'C', false);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            '',
-            0, 0, 'C', false);
-        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
-            '',
-            0, 0, 'L', false, '', 1);
-        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
-            '',
-            0, 0, 'L', false, '', 1);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            number_format($totalBases, 2, ',', '.'),
-            1, 0, 'C', false);
-        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-            number_format($totalTotal, 2, ',', '.').'€',
-            1, 0, 'C', false);
+
 
         return $pdf;
     }
@@ -681,5 +638,79 @@ class SaleInvoicePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince()->getCountryName() : '',
             0, 0, 'L', false);
+    }
+
+    /**
+     * @param TCPDF $pdf
+     * @return int
+     */
+    private function addStartPage(TCPDF $pdf): int
+    {
+// add start page
+        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE;
+        // logo
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
+
+        // today date
+        $this->pdfEngineService->setStyleSize('', 18);
+        $pdf->SetXY(50, 20);
+        $today = date('d/m/Y');
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $today,
+            0, 0, 'L', false);
+        return $width;
+    }
+
+    /**
+     * @param TCPDF $pdf
+     * @param $partner
+     * @param $from
+     * @param $to
+     * @param int $width
+     * @return int[]
+     */
+    private function printHeaders(TCPDF $pdf, $partner, $from, $to, int $width): array
+    {
+// header
+        $this->pdfEngineService->setStyleSize('', 12);
+        $pdf->SetXY(50, 30);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Listado de facturas del cliente ' . $partner->getCode() . '-' . $partner->getName(),
+            0, 0, 'L', false);
+        $pdf->SetXY(50, 35);
+        $this->pdfEngineService->setStyleSize('', 11);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Desde ' . $from . ' hasta ' . $to,
+            0, 0, 'L', false);
+        $pdf->SetXY(50, 43);
+        $this->drawHoritzontalLineSeparator($pdf, $width);
+        //table headers
+        $this->pdfEngineService->setStyleSize('', 8);
+        $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 50);
+        $colWidth1 = 32;
+        $colWidth2 = 82;
+        $colWidth3 = 48;
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Nº factura',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Fecha',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Obra',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Pedido',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Base Imponible',
+            1, 0, 'C', true);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            'TOTAL',
+            1, 0, 'C', true);
+        $pdf->Ln();
+        return array($colWidth1, $colWidth2, $colWidth3);
     }
 }

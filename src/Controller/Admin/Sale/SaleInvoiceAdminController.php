@@ -43,10 +43,20 @@ class SaleInvoiceAdminController extends BaseAdminController
 
     public function batchActionInvoiceList(ProxyQueryInterface $selectedModelQuery): Response
     {
-        //TODO input client and dates and generate invoice list calling $saleInvoicePdfManager->outputSingle($saleInvoices)
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
+        $siforDates = $saleInvoices;
 
-        return new Response($this->sipm->outputSingle($saleInvoices), 200, ['Content-type' => 'application/pdf']);
+        //get from to dates
+        $from = array_shift($siforDates)->getDateFormatted();
+
+        if (!$siforDates) {
+            $to = $from;
+        } else {
+            $to = array_pop($siforDates)->getDateFormatted();
+        }
+
+
+        return new Response($this->sipm->outputSingle($saleInvoices, $from, $to), 200, ['Content-type' => 'application/pdf']);
     }
 
     /**
