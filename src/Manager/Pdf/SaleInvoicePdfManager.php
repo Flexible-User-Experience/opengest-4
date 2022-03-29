@@ -424,7 +424,8 @@ class SaleInvoicePdfManager
             'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);
         $pdf->Ln(4);
-        if($saleInvoice->getIva4()){
+//        dd($saleInvoice->getIva0(), $saleInvoice->getIva4());
+        if($saleInvoice->getIva0()){
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                 'IVA 0%: '.number_format($saleInvoice->getIva0(), 2, ',', '.').' €',
