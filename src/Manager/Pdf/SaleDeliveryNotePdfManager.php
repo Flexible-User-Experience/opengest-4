@@ -398,11 +398,11 @@ class SaleDeliveryNotePdfManager
         } else {
             // left side
             $xDim = 24;
-            $yStart = 40;
+            $yStart = 42;
             $this->fillA5deliveryNoteToPrint($saleDeliveryNote,$pdf,$total,$availableHoritzontalSpace,$xDim, $yStart);
             // right side
             $xDim = 170;
-            $yStart = 41;
+            $yStart = 43;
             $this->fillA5deliveryNoteToPrint($saleDeliveryNote,$pdf,$total,$availableHoritzontalSpace,$xDim, $yStart);
         }
 
@@ -587,20 +587,20 @@ class SaleDeliveryNotePdfManager
             substr($saleDeliveryNote->getObservations(),0,140), 0, 'L', false);
 
         //Fecha impresión
-        $yDim = 181;
+        $yDim = 182;
         $pdf->setXY($xDim+40, $yDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
         $pdf->setXY($xDim+70, $yDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date('d'), 0, 0, 'L', false);
         $pdf->setXY($xDim+89, $yDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date('m'), 0, 0, 'L', false);
-        $pdf->setXY($xDim+112, $yDim);
+        $pdf->setXY($xDim+113, $yDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date('y'), 0, 0, 'L', false);
 
         //Nº Albarán
         $this->pdfEngineService->setStyleSize('b', 15);
 
-        $pdf->setXY($xDim+8, 197);
+        $pdf->setXY($xDim+8, 199);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getId(), 0, 0, 'L', false);
 
     }
