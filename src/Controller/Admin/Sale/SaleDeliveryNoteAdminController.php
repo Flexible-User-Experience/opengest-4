@@ -260,8 +260,10 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
         /** @var SaleInvoiceRepository $saleInvoiceRepository */
         $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
-        $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
-        $saleInvoice->setInvoiceNumber($lastSaleInvoice->getInvoiceNumber() + 1);
+        $invoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
+        $saleInvoice->setInvoiceNumber($invoiceNumber);
+//        $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
+//        $saleInvoice->setInvoiceNumber($lastSaleInvoice->getInvoiceNumber() + 1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
         if ($saleInvoice->getPartner()->getCollectionDocumentType()) {
             $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());

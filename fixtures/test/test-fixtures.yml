@@ -577,6 +577,10 @@ App\Entity\Sale\SaleInvoice:
         type: <randomNumber()>
         total: <randomFloat()>
         hasBeenCounted: false
+        partnerCifNif: <word()>
+        partnerName: <word()>
+        partnerMainAddress: <word()>
+        partnerMainCity: '@city<numberBetween(1,2)>'
 
 # SaleRequestHasDeliveryNote
 App\Entity\Sale\SaleRequestHasDeliveryNote:
