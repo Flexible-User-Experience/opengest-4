@@ -699,7 +699,7 @@ class SaleInvoice extends AbstractBase
 
     public function getFirstDeliveryNote(): ?SaleDeliveryNote
     {
-        return $this->getDeliveryNotes()->first();
+        return $this->getDeliveryNotes()->first() ? $this->getDeliveryNotes()->first() : null;
     }
 
     /**
