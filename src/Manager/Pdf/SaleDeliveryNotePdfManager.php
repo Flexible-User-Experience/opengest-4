@@ -398,11 +398,11 @@ class SaleDeliveryNotePdfManager
         } else {
             // left side
             $xDim = 24;
-            $yStart = 43;
+            $yStart = 42;
             $this->fillA5deliveryNoteToPrint($saleDeliveryNote,$pdf,$total,$availableHoritzontalSpace,$xDim, $yStart);
             // right side
             $xDim = 170;
-            $yStart = 43;
+            $yStart = 42;
             $this->fillA5deliveryNoteToPrint($saleDeliveryNote,$pdf,$total,$availableHoritzontalSpace,$xDim, $yStart);
         }
 
@@ -587,7 +587,7 @@ class SaleDeliveryNotePdfManager
             substr($saleDeliveryNote->getObservations(),0,140), 0, 'L', false);
 
         //Fecha impresión
-        $yDim = 182;
+        $yDim = 180;
         $pdf->setXY($xDim+40, $yDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
         $pdf->setXY($xDim+70, $yDim);
@@ -748,7 +748,7 @@ class SaleDeliveryNotePdfManager
 
     /** @var SaleDeliveryNote $saleDeliveryNote */
     private function fillA5deliveryNoteDriverModelToPrint(SaleDeliveryNote $saleDeliveryNote, $pdf, $total, $availableHoritzontalSpace, $xDim){
-        $yStart = 36;
+        $yStart = 39;
         $yInterval = 5.8;
         $pdf->setXY($total, $yStart);
         $this->pdfEngineService->setStyleSize('', 9);
@@ -769,35 +769,35 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, substr($saleDeliveryNote->getPartner()->getMainCity(), 0, 30), 0, 0, 'L', false);
 
         //Fecha de servicio
-        $pdf->setXY($xDim+10, $yStart + $yInterval*4-1);
+        $pdf->setXY($xDim+10, $yStart + $yInterval*4);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getDateToString(), 0, 0, 'L', false);
 
         //Hora
-        $pdf->setXY($xDim+65, $yStart + $yInterval*4-1);
+        $pdf->setXY($xDim+65, $yStart + $yInterval*4);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getSaleRequest()->getServiceTimeString(), 0, 0, 'L', false);
 
         //Persona de contacto
-        $pdf->setXY($xDim+13, $yStart + $yInterval*5-2);
+        $pdf->setXY($xDim+13, $yStart + $yInterval*5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getPartner()->getMainContactName(), 0, 0, 'L', false);
 
         //Operario
-        $pdf->setXY($xDim+70, $yStart + $yInterval*5-2);
+        $pdf->setXY($xDim+70, $yStart + $yInterval*5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getOperator() ? $saleDeliveryNote->getOperator()->getShortFullName() : '', 0, 0, 'L', false);
 
         //Matrícula tractor
-        $pdf->setXY($xDim+8, $yStart + $yInterval*6-2);
+        $pdf->setXY($xDim+8, $yStart + $yInterval*6);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
 
         //Matrícula remolque
         if ($saleDeliveryNote->getSecondaryVehicle()){
-            $pdf->setXY($xDim+85, $yStart + $yInterval*6-2);
+            $pdf->setXY($xDim+85, $yStart + $yInterval*6);
             $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getSecondaryVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
         }
         //Origen
-        $pdf->setXY($xDim+70, $yStart + $yInterval*7-4);
+        $pdf->setXY($xDim+70, $yStart + $yInterval*7);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(),0,strpos($saleDeliveryNote->getPlace(),"\r\n"))), 0, 0, 'L', false);
         //Destino
-        $pdf->setXY($xDim+70, $yStart + $yInterval*8-4);
+        $pdf->setXY($xDim+70, $yStart + $yInterval*8);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(),strpos($saleDeliveryNote->getPlace(),"\r\n")+2)), 0, 0, 'L', false);
 
         //Fecha impresión
@@ -814,7 +814,7 @@ class SaleDeliveryNotePdfManager
         //Nº Albarán
         $this->pdfEngineService->setStyleSize('b', 15);
 
-        $pdf->setXY($xDim+7, 198);
+        $pdf->setXY($xDim+7, 197);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, $saleDeliveryNote->getId(), 0, 0, 'L', false);
 
     }
