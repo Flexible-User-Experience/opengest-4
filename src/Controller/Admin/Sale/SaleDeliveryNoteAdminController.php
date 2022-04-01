@@ -166,6 +166,10 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute();
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            $saleDeliveryNote->setPrinted(true);
+            $this->admin->getModelManager()->update($saleDeliveryNote);
+        }
 
         return new Response($this->sdnpm->outputCollectionDriverPrint($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
