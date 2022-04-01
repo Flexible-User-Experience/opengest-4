@@ -634,13 +634,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'partner.code',
-                null,
-                [
-                    'label' => 'admin.label.partner_code',
-                ]
-            )
-            ->add(
                 'partner',
                 ModelFilter::class,
                 [
@@ -649,6 +642,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                         'property' => 'name',
+                        'callback' => $this->partnerModelAutocompleteCallback(),
                     ],
                 ]
             )
