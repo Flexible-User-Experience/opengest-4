@@ -145,11 +145,12 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelFilter::class,
                 [
-                    'label' => 'Tercer',
+                    'label' => 'admin.label.third_party',
                     'admin_code' => 'app.admin.partner',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                 ]
             )
@@ -157,42 +158,35 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'care',
                 null,
                 [
-                    'label' => 'Càrrec',
+                    'label' => 'admin.label.care',
                 ]
             )
             ->add(
                 'phone',
                 null,
                 [
-                    'label' => 'Telèfon',
+                    'label' => 'admin.label.phone',
                 ]
             )
             ->add(
                 'mobile',
                 null,
                 [
-                    'label' => 'Mòbil',
-                ]
-            )
-            ->add(
-                'fax',
-                null,
-                [
-                    'label' => 'Fax',
+                    'label' => 'admin.label.mobile',
                 ]
             )
             ->add(
                 'notes',
                 null,
                 [
-                    'label' => 'Notes',
+                    'label' => 'admin.label.notes',
                 ]
             )
         ;
@@ -223,7 +217,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'partner',
                 null,
                 [
-                    'label' => 'Tercer',
+                    'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
                     'editable' => false,
                     'associated_property' => 'name',
@@ -236,7 +230,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'editable' => true,
                 ]
             )
@@ -244,7 +238,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'care',
                 null,
                 [
-                    'label' => 'Càrrec',
+                    'label' => 'admin.label.care',
                     'editable' => true,
                 ]
             )
@@ -252,7 +246,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'phone',
                 null,
                 [
-                    'label' => 'Telèfon',
+                    'label' => 'admin.label.phone',
                     'editable' => true,
                 ]
             )
@@ -260,7 +254,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'mobile',
                 null,
                 [
-                    'label' => 'Mòbil',
+                    'label' => 'admin.label.mobile',
                     'editable' => true,
                 ]
             )
@@ -268,7 +262,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                 'email',
                 null,
                 [
-                    'label' => 'Email',
+                    'label' => 'admin.label.email',
                     'editable' => true,
                 ]
             )
@@ -281,7 +275,7 @@ class PartnerContactAdmin extends AbstractBaseAdmin
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
-                    'label' => 'Accions',
+                    'label' => 'actions',
                 ]
             )
         ;

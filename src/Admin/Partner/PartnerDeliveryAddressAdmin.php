@@ -132,11 +132,12 @@ class PartnerDeliveryAddressAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelFilter::class,
                 [
-                    'label' => 'Tercer',
+                    'label' => 'admin.label.third_party',
                     'admin_code' => 'app.admin.partner',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                 ]
             )

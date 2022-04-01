@@ -9,14 +9,12 @@ use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
-use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -206,21 +204,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'property' => 'name',
                         'label' => 'admin.label.partner',
                         'required' => true,
-                        'callback' => function ($admin, $property, $value) {
-                            /** @var Admin $admin */
-                            $datagrid = $admin->getDatagrid();
-                            /** @var QueryBuilder $queryBuilder */
-                            $queryBuilder = $datagrid->getQuery();
-                            $queryBuilder
-                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
-                                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
-                                ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                                ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
-                                ->setParameter('enabled', true)
-                            ;
-                            $datagrid->setValue($property, null, $value);
-                        },
+                        'callback' => $this->partnerModelAutocompleteCallback(),
                     ],
                     [
                         'admin_code' => 'app.admin.partner',
@@ -759,6 +743,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                     'show_filter' => true,
                 ]

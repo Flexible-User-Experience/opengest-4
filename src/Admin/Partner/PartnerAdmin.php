@@ -314,6 +314,14 @@ class PartnerAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                    'show_filter' => true,
+                ]
+            )
+            ->add(
                 'cifNif',
                 null,
                 [

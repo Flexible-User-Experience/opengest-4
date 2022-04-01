@@ -117,11 +117,12 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelFilter::class,
                 [
-                    'label' => 'Tercer',
+                    'label' => 'admin.label.partner',
                     'admin_code' => 'app.admin.partner',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                 ]
             )
@@ -129,28 +130,28 @@ class PartnerBuildingSiteAdmin extends AbstractBaseAdmin
                 'name',
                 null,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                 ]
             )
             ->add(
                 'number',
                 null,
                 [
-                    'label' => 'Número',
+                    'label' => 'admin.label.number',
                 ]
             )
             ->add(
                 'address',
                 null,
                 [
-                    'label' => 'Adreça',
+                    'label' => 'admin.label.address',
                 ]
             )
             ->add(
                 'phone',
                 null,
                 [
-                    'label' => 'Telèfon',
+                    'label' => 'admin.label.phone',
                 ]
             )
         ;

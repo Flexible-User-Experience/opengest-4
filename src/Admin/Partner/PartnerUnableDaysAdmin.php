@@ -128,6 +128,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                 ]
             )
@@ -197,7 +198,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Data inici',
-                    'format' => 'd/m/Y',
+                    'format' => 'd/m',
                     'editable' => true,
                 ]
             )
@@ -206,7 +207,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Data fi',
-                    'format' => 'd/m/Y',
+                    'format' => 'd/m',
                     'editable' => true,
                 ]
             )

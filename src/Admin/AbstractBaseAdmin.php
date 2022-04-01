@@ -11,9 +11,12 @@ use App\Manager\RepositoriesManager;
 use App\Manager\VehicleMaintenanceManager;
 use App\Manager\YearChoicesManager;
 use App\Service\FileService;
+use Closure;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -319,5 +322,25 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
             $this->em->persist($otherVehicleMaintenance);
             $this->em->flush();
         }
+    }
+
+    protected function partnerModelAutocompleteCallback(): Closure
+    {
+        return function ($admin, $property, $value) {
+            /** @var Admin $admin */
+            $datagrid = $admin->getDatagrid();
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = $datagrid->getQuery();
+            $queryBuilder
+                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :partnerType')
+                ->setParameter('partnerType', 1);
+            if (is_numeric($value)) {
+                $datagrid->setValue('code', null, $value);
+            } else {
+                $datagrid->setValue($property, null, $value);
+            }
+        };
     }
 }
