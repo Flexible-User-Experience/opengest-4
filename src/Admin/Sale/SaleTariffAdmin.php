@@ -7,7 +7,6 @@ use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Sale\SaleTariff;
 use DateTime;
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -86,7 +85,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
     {
         $this->setTemplate('edit', 'admin/sale-tariff/edit.html.twig');
         $formMapper
-            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
+            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(2))
             ->add(
                 'year',
                 ChoiceType::class,
@@ -127,7 +126,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('admin.label.partner', $this->getFormMdSuccessBoxArray(2))
+            ->with('admin.label.partner', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
@@ -135,19 +134,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'property' => 'name',
                     'label' => 'admin.label.partner',
                     'required' => false,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.type = :partnerType')
-                            ->setParameter('partnerType', 1)
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
+                    'callback' => $this->partnerModelAutocompleteCallback(),
                 ],
                 [
                     'admin_code' => 'app.admin.partner',
@@ -207,7 +194,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'increaseForHolidaysPercentage',
-                PercentType::class,
+                null,
                 [
                     'label' => 'admin.label.increase_for_holidays_percentage',
                     'required' => false,
@@ -254,6 +241,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                 ]
             )

@@ -5,7 +5,6 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
-use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Setting\User;
@@ -29,7 +28,6 @@ use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -139,21 +137,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'property' => 'name',
                     'label' => 'admin.label.partner',
                     'required' => true,
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                            ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
-                            ->setParameter('enabled', true)
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
+                    'callback' => $this->partnerModelAutocompleteCallback(),
                 ],
                 [
                     'admin_code' => 'app.admin.partner',
@@ -392,7 +376,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'increaseForHolidaysPercentage',
-                PercentType::class,
+                null,
                 [
                     'label' => 'admin.label.increase_for_holidays_percentage',
                     'required' => false,
@@ -538,6 +522,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                 ]
             )

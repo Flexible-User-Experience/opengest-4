@@ -9,14 +9,12 @@ use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
-use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -36,7 +34,6 @@ use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -114,10 +111,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generateSaleInvoiceFromDeliveryNotes'] = [
-                'label' => 'admin.action.generate_invoice_from_selected',
-                'ask_confirmation' => false,
-            ];
             $actions['generateStandardPrint'] = [
                 'label' => 'admin.action.generate_standard_print_template_delivery_notes',
                 'ask_confirmation' => false,
@@ -140,6 +133,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ];
             $actions['deliveryNotesList'] = [
                 'label' => 'admin.action.generate_delivery_notes_list',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateSaleInvoiceFromDeliveryNotes'] = [
+                'label' => 'admin.action.generate_invoice_from_selected',
                 'ask_confirmation' => false,
             ];
         }
@@ -207,21 +204,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'property' => 'name',
                         'label' => 'admin.label.partner',
                         'required' => true,
-                        'callback' => function ($admin, $property, $value) {
-                            /** @var Admin $admin */
-                            $datagrid = $admin->getDatagrid();
-                            /** @var QueryBuilder $queryBuilder */
-                            $queryBuilder = $datagrid->getQuery();
-                            $queryBuilder
-                                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
-                                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
-                                ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                                ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
-                                ->setParameter('enabled', true)
-                            ;
-                            $datagrid->setValue($property, null, $value);
-                        },
+                        'callback' => $this->partnerModelAutocompleteCallback(),
                     ],
                     [
                         'admin_code' => 'app.admin.partner',
@@ -457,7 +440,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     )
                     ->add(
                         'increaseForHolidaysPercentage',
-                        PercentType::class,
+                        null,
                         [
                             'label' => 'admin.label.increase_for_holidays_percentage',
                             'disabled' => true,
@@ -760,6 +743,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                             'property' => 'name',
+                            'callback' => $this->partnerModelAutocompleteCallback(),
                         ],
                     'show_filter' => true,
                 ]

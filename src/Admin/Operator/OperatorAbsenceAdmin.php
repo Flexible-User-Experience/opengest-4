@@ -9,8 +9,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -141,23 +142,43 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'admin.label.operator_absence_type',
+                    'label' => 'admin.with.operator_absence_type',
                 ]
             )
             ->add(
                 'begin',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
                     'label' => 'admin.label.start',
-                    'field_type' => DatePickerType::class,
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
             ->add(
                 'end',
-                DateFilter::class,
+                DateRangeFilter::class,
                 [
-                    'label' => 'admin.label.finish',
-                    'field_type' => DatePickerType::class,
+                    'label' => 'admin.label.end',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
                 ]
             )
         ;

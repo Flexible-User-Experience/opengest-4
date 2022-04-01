@@ -76,7 +76,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'firstname',
                 TextType::class,
                 [
-                    'label' => 'Nom',
+                    'label' => 'admin.label.name',
                     'required' => false,
                 ]
             )
@@ -84,7 +84,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'lastname',
                 TextType::class,
                 [
-                    'label' => 'Cognoms',
+                    'label' => 'admin.label.surname',
                     'required' => false,
                 ]
             )
@@ -92,21 +92,21 @@ class UserAdmin extends AbstractBaseAdmin
                 'username',
                 TextType::class,
                 [
-                    'label' => 'Nom usuari',
+                    'label' => 'admin.label.username',
                 ]
             )
             ->add(
                 'email',
                 EmailType::class,
                 [
-                    'label' => 'Correu electrònic',
+                    'label' => 'admin.label.email',
                 ]
             )
             ->add(
                 'plainPassword',
                 TextType::class,
                 [
-                    'label' => 'Contrasenya',
+                    'label' => 'admin.label.password',
                     'required' => (!$this->getSubject() || is_null($this->getSubject()->getId())),
                 ]
             )
@@ -120,7 +120,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'enabled',
                 CheckboxType::class,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                     'required' => false,
                 ]
             )
@@ -129,7 +129,7 @@ class UserAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => Enterprise::class,
-                    'label' => 'Enpresa principal',
+                    'label' => 'admin.label.main_company',
                     'required' => true,
                 ]
             )
@@ -140,7 +140,7 @@ class UserAdmin extends AbstractBaseAdmin
                     'roles',
                     ChoiceType::class,
                     [
-                        'label' => 'Rols',
+                        'label' => 'admin.label.role',
                         'choices' => UserRolesEnum::getEnumArray(),
                         'multiple' => true,
                         'expanded' => true,
@@ -159,21 +159,21 @@ class UserAdmin extends AbstractBaseAdmin
                 'username',
                 null,
                 [
-                    'label' => 'Nom usuari',
+                    'label' => 'admin.label.username',
                 ]
             )
             ->add(
                 'email',
                 null,
                 [
-                    'label' => 'Correu electrònic',
+                    'label' => 'admin.label.email',
                 ]
             )
             ->add(
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                 ]
             )
         ;
@@ -186,7 +186,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'username',
                 null,
                 [
-                    'label' => 'Nom usuari',
+                    'label' => 'admin.label.username',
                     'editable' => true,
                 ]
             )
@@ -194,7 +194,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'email',
                 null,
                 [
-                    'label' => 'Correu electrònic',
+                    'label' => 'admin.label.email',
                     'editable' => true,
                 ]
             )
@@ -202,7 +202,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'defaultEnterprise',
                 null,
                 [
-                    'label' => 'Empresa principal',
+                    'label' => 'admin.label.main_company',
                     'editable' => true,
                 ]
             )
@@ -210,7 +210,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'roles',
                 null,
                 [
-                    'label' => 'Rols',
+                    'label' => 'admin.label.role',
                     'template' => 'admin/cells/list__cell_user_roles.html.twig',
                 ]
             )
@@ -218,7 +218,7 @@ class UserAdmin extends AbstractBaseAdmin
                 'enabled',
                 null,
                 [
-                    'label' => 'Actiu',
+                    'label' => 'enabled',
                     'editable' => true,
                 ]
             )
