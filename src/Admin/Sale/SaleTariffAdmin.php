@@ -207,7 +207,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'increaseForHolidaysPercentage',
-                PercentType::class,
+                null,
                 [
                     'label' => 'admin.label.increase_for_holidays_percentage',
                     'required' => false,
