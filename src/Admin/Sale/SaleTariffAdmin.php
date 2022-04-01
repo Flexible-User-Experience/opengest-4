@@ -86,7 +86,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
     {
         $this->setTemplate('edit', 'admin/sale-tariff/edit.html.twig');
         $formMapper
-            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
+            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(2))
             ->add(
                 'year',
                 ChoiceType::class,
@@ -127,7 +127,7 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                 ]
             )
             ->end()
-            ->with('admin.label.partner', $this->getFormMdSuccessBoxArray(2))
+            ->with('admin.label.partner', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
