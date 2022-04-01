@@ -6,6 +6,7 @@ use App\Admin\AbstractBaseAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -72,11 +73,12 @@ class CityAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'province',
-                null,
+                ModelAutocompleteType::class,
                 [
+                    'property' => 'name',
                     'label' => 'admin.label.province',
                     'required' => true,
-                ]
+                ],
             )
             ->end()
             ->with('Controls', $this->getFormMdSuccessBoxArray(6))
