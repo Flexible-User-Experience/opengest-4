@@ -146,7 +146,11 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                             ->andWhere($queryBuilder->getRootAliases()[0].'.type = :partnerType')
                             ->setParameter('partnerType', 1)
                         ;
-                        $datagrid->setValue($property, null, $value);
+                        if (is_numeric($value)) {
+                            $datagrid->setValue('code', null, $value);
+                        } else {
+                            $datagrid->setValue($property, null, $value);
+                        }
                     },
                 ],
                 [
