@@ -29,7 +29,6 @@ use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -392,7 +391,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'increaseForHolidaysPercentage',
-                PercentType::class,
+                null,
                 [
                     'label' => 'admin.label.increase_for_holidays_percentage',
                     'required' => false,
