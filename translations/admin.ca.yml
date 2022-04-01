@@ -209,7 +209,11 @@ admin:
         transference_bank: "Banco transferencia"
         checking_type: "Tipo revisión"
         delivery_note_number: "Número albarán"
-
+        surname: "Apellidos"
+        username: "Usuario"
+        password: "Contraseña"
+        role: "Rol"
+        main_company: "Empresa principal"
     with:
         general: "General"
         image: "Imatge"

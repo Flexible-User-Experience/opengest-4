@@ -113,10 +113,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     public function configureBatchActions($actions): array
     {
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generateSaleInvoiceFromDeliveryNotes'] = [
-                'label' => 'admin.action.generate_invoice_from_selected',
-                'ask_confirmation' => false,
-            ];
             $actions['generateStandardPrint'] = [
                 'label' => 'admin.action.generate_standard_print_template_delivery_notes',
                 'ask_confirmation' => false,
@@ -139,6 +135,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ];
             $actions['deliveryNotesList'] = [
                 'label' => 'admin.action.generate_delivery_notes_list',
+                'ask_confirmation' => false,
+            ];
+            $actions['generateSaleInvoiceFromDeliveryNotes'] = [
+                'label' => 'admin.action.generate_invoice_from_selected',
                 'ask_confirmation' => false,
             ];
         }
