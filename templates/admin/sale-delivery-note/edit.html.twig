@@ -57,7 +57,7 @@
                           units = Math.max(minimumHours, totalCountedHours);
                         } else if (saleItemId === 2) {
                             if (increaseForHolidaysPercentage) {
-                                hourPrice = hourPrice*(1 + increaseForHolidaysPercentage);
+                                hourPrice = hourPrice*(100 + increaseForHolidaysPercentage)/100;
                             }
                             if (increaseForHolidays) {
                                 hourPrice = hourPrice + increaseForHolidays;

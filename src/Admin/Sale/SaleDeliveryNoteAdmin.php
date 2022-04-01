@@ -36,7 +36,6 @@ use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -457,7 +456,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     )
                     ->add(
                         'increaseForHolidaysPercentage',
-                        PercentType::class,
+                        null,
                         [
                             'label' => 'admin.label.increase_for_holidays_percentage',
                             'disabled' => true,
