@@ -48,7 +48,7 @@ class InvoiceManager
         } elseif (3 === $serie->getId()) {
             $firstInvoiceNumber = 1;
         } elseif (4 === $serie->getId()) {
-            $firstInvoiceNumber = 1;
+            $firstInvoiceNumber = 59;
         }
 
         return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : $firstInvoiceNumber;
