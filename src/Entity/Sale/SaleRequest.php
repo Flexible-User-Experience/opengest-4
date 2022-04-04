@@ -732,7 +732,7 @@ class SaleRequest extends AbstractBase
     public function getServiceTimeString()
     {
         if ($this->getServiceTime()) {
-            return $this->getServiceTime()->format('h:i');
+            return $this->getServiceTime()->format('H:i');
         }
 
         return null;
