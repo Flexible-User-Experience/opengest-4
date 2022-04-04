@@ -4,9 +4,9 @@ namespace App\Repository\Sale;
 
 use App\Entity\Sale\SaleServiceTariff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SaleServiceTariffRepository extends ServiceEntityRepository
 {
@@ -18,9 +18,11 @@ class SaleServiceTariffRepository extends ServiceEntityRepository
     public function getEnabledSortedByNameQB(): QueryBuilder
     {
         return $this->createQueryBuilder('sst')
+            ->addSelect('sst.description + 0 as HIDDEN numeric')
             ->where('sst.enabled = :enabled')
             ->setParameter('enabled', true)
-            ->orderBy('sst.description', 'ASC')
+            ->orderBy('numeric', 'ASC')
+            ->addOrderBy('sst.description', 'ASC')
         ;
     }
 
