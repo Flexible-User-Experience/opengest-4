@@ -36,13 +36,7 @@ class EnterpriseHolidaysAdminController extends BaseAdminController
     public function checkIfDayIsEnterpriseHolidayAction(Request $request)
     {
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->get('date').' 00:00:00');
-        $holiday = false;
-        if ($date->format('N') >= 6) {
-            $holiday = true;
-        } elseif ($this->em->getRepository(EnterpriseHolidays::class)->findOneBy(['day' => $date])) {
-            $holiday = true;
-        }
 
-        return new JsonResponse($holiday);
+        return new JsonResponse($this->enterpriseHolidayManager->checkIfDayIsEnterpriseHoliday($date));
     }
 }
