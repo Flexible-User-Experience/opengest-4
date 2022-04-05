@@ -4,10 +4,12 @@ namespace App\Admin\Enterprise;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseHolidays;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\Form\Type\DatePickerType;
 
@@ -31,16 +33,22 @@ class EnterpriseHolidaysAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'empreses/dies-festius';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'day',
-        '_sort_order' => 'desc',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection
+            ->add('checkIfDayIsEnterpriseHoliday', 'check-if-day-is-enterprise-holiday')
+            ;
+    }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'day';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

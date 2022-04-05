@@ -451,7 +451,18 @@
         {
           var operatorId = selectOperator.val();
           var date = selectDate.val();
-          if (operatorId && date) {
+            if (date) {
+              jQuery.get(Routing.generate(
+                'admin_app_enterprise_enterpriseholidays_checkIfDayIsEnterpriseHoliday',
+                {
+                  date: date
+                }
+              ), function () {
+              }).done(function (response) {
+                console.log('response of data holiday', response);
+              });
+            }
+            if (operatorId && date) {
             jQuery.get(Routing.generate(
               'admin_app_operator_operatorworkregister_getJsonOperatorWorkRegistersByDataAndOperatorId',
               {
