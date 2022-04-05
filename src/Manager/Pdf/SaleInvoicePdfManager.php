@@ -605,15 +605,15 @@ class SaleInvoicePdfManager
         $pdf->Cell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerCifNif(),
             0, 0, 'C', false);
-        $pdf->setXY($xVar, $yVarStart + $incrY * 2);
-        $pdf->Cell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->setXY($xVar, $yVarStart + $incrY * 2-3.5);
+        $pdf->MultiCell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT*2,
             $saleInvoice->getPartner()->getProviderReference(),
-            0, 0, 'C', false);
-        $pdf->setXY($xVar2, $yVarStart + $incrY * 2);
+            0,  'C', false);
+        $pdf->setXY($xVar2-2, $yVarStart + $incrY * 2-3.5);
         if ($saleInvoice->getDeliveryNotes()->first()) {
-            $pdf->Cell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->MultiCell($cellwidth+1, ConstantsEnum::PDF_CELL_HEIGHT*2,
                 $saleInvoice->getDeliveryNotes()->first()->getOrder(),
-                0, 0, 'C', false);
+                0,  'C', false);
         }
     }
 
