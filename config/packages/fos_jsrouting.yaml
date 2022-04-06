@@ -10,3 +10,4 @@ fos_js_routing:
         - 'admin_app_sale_saleinvoice_getJsonNextInvoiceNumberForSeriesIdAndInvoice'
         - 'admin_app_operator_operatorworkregisterheader_getJsonOperatorWorkRegisterTotalsByHourType'
         - 'admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries'
+        - 'admin_app_enterprise_enterpriseholidays_checkIfDayIsEnterpriseHoliday'
