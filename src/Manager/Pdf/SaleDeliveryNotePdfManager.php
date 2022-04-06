@@ -451,7 +451,10 @@ class SaleDeliveryNotePdfManager
 
         //Vehículo
         $pdf->setXY($xDim + 5, $yStart + $yInterval * 5);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            strtoupper($saleDeliveryNote->getVehicle()).' ('.$saleDeliveryNote->getSaleServiceTariff().' '.
+            $saleDeliveryNote->getSaleRequest()->getMiniumHours().'+'.$saleDeliveryNote->getSaleRequest()->getDisplacement().')',
+            0, 0, 'L', false);
 
         //Operario
         $pdf->setXY($xDim + 75, $yStart + $yInterval * 5);
@@ -538,7 +541,10 @@ class SaleDeliveryNotePdfManager
 
         //Vehículo
         $pdf->setXY($xDim + 5, $yStart + $yInterval * 5 + 1);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            strtoupper($saleDeliveryNote->getVehicle()).' ('.$saleDeliveryNote->getSaleServiceTariff().' '.
+            $saleDeliveryNote->getSaleRequest()->getMiniumHours().'+'.$saleDeliveryNote->getSaleRequest()->getDisplacement().')',
+            0, 0, 'L', false);
 
         //Operario
         $pdf->setXY($xDim + 75, $yStart + $yInterval * 5 + 1);
@@ -704,7 +710,10 @@ class SaleDeliveryNotePdfManager
 
         //Matrícula tractor
         $pdf->setXY($xDim + 8, $yStart + $yInterval * 6);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            strtoupper($saleDeliveryNote->getVehicle()->getVehicleRegistrationNumber()).' ('.$saleDeliveryNote->getSaleServiceTariff().' '.
+            $saleDeliveryNote->getSaleRequest()->getMiniumHours().'+'.$saleDeliveryNote->getSaleRequest()->getDisplacement().')',
+            0, 0, 'L', false);
 
         //Matrícula remolque
         if ($saleDeliveryNote->getSecondaryVehicle()) {
@@ -776,7 +785,10 @@ class SaleDeliveryNotePdfManager
 
         //Matrícula tractor
         $pdf->setXY($xDim + 8, $yStart + $yInterval * 6 + 1);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            strtoupper($saleDeliveryNote->getVehicle()->getVehicleRegistrationNumber()).' ('.$saleDeliveryNote->getSaleServiceTariff().' '.
+            $saleDeliveryNote->getSaleRequest()->getMiniumHours().'+'.$saleDeliveryNote->getSaleRequest()->getDisplacement().')'
+            , 0, 0, 'L', false);
 
         //Matrícula remolque
         if ($saleDeliveryNote->getSecondaryVehicle()) {
