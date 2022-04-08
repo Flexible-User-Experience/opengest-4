@@ -9,7 +9,7 @@
   vars:
     # ansistrano deploys config
     ansistrano_deploy_from: "{{ playbook_dir }}/../../"
-    ansistrano_deploy_to: "{{ vhost_path_prod }}"
+    ansistrano_deploy_to: "{{ vhost_path_stage }}"
     ansistrano_keep_releases: 5
     # ansistrano shared resources
     ansistrano_shared_paths:
@@ -21,12 +21,12 @@
     # ansistrano repository config
     ansistrano_deploy_via: "git"
     ansistrano_git_repo: "{{ vhost_git_clone_repo }}"
-    ansistrano_git_branch: "master"
+    ansistrano_git_branch: "devel"
     # ansistrano hooks
     ansistrano_before_symlink_tasks_file: "{{ playbook_dir }}/hooks/before-symlink-tasks.yml"
     ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/hooks/after-symlink-tasks.yml"
     ansistrano_after_cleanup_tasks_file: "{{ playbook_dir }}/hooks/after-cleanup-tasks.yml"
-    ansistrano_before_symlink_shared_tasks_file: "{{ playbook_dir }}/hooks/before-symlink-shared-tasks.yml"
+    ansistrano_before_symlink_shared_tasks_file: "{{ playbook_dir }}/hooks/before-symlink-shared-tasks-stage.yml"
     # symfony config
     symfony_console_path: "bin/console"
     symfony_php_path: "/usr/bin/php{{ vhost_php_version }}"
