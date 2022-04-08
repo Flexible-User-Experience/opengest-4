@@ -241,4 +241,12 @@ class EnterpriseAdminController extends BaseAdminController
 
         return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'taxIdentificationNumberCardFile', $enterprise->getTaxIdentificationNumberCard());
     }
+
+    public function downloadLogoImageAction(Request $request, $id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Enterprise $enterprise */
+        $enterprise = $this->admin->getObject($id);
+
+        return $this->downloadDocument($request, $id, $downloadHandler, $enterprise, 'logoFile', $enterprise->getLogo());
+    }
 }
