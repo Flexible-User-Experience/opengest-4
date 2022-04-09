@@ -32,7 +32,7 @@
         "dropzone": "^5.5.1",
         "google-charts": "^2.0.0",
         "jquery": "^3.5.1",
-        "moment": "^2.25.3",
+        "moment": "^2.29.2",
         "pdfjs-dist": "^2.2.228"
     }
 }
