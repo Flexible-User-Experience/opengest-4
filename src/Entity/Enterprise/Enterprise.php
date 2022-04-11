@@ -11,6 +11,8 @@ use App\Entity\Setting\User;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,7 +30,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable()
  * @UniqueEntity({"taxIdentificationNumber"})
  */
-class Enterprise extends AbstractBase
+class Enterprise extends AbstractBase implements \Serializable
 {
     public const GRUAS_ROMANI_TIN = 'A43030287';
 
@@ -120,7 +122,7 @@ class Enterprise extends AbstractBase
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
-     * @Assert\Image(minWidth=300)
+     * @Assert\Image(minWidth=100)
      */
     private $logoFile;
 
@@ -2356,5 +2358,22 @@ class Enterprise extends AbstractBase
     public function __toString()
     {
         return $this->id ? $this->getName().' · '.$this->getTaxIdentificationNumber() : '---';
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->logo,
+
+        ));
+    }
+
+    public function unserialize($data)
+    {
+        list (
+            $this->id,
+
+            ) = unserialize($data);
     }
 }
