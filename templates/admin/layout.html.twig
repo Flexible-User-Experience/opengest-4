@@ -26,7 +26,8 @@
             <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:5px">
                     {% if app.user.defaultEnterprise.logo is not null %}
-                        <img src="{{ vich_uploader_asset(app.user.defaultEnterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ app.user.defaultEnterprise.name }}">
+                        <img src="{{ path('admin_app_enterprise_enterprise_downloadLogoImage', {id: app.user.defaultEnterprise.id}) }}" alt="{{ app.user.defaultEnterprise.name }}" height="40">
+{#                        <img src="{{ vich_uploader_asset(app.user.defaultEnterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ app.user.defaultEnterprise.name }}">#}
                     {% else %}
                         <img src="//via.placeholder.com/140x40?text={{ app.user.defaultEnterprise.name }}" alt="logo">
                     {% endif %}
@@ -38,7 +39,8 @@
                                 <li>
                                     <a href="{{ path('admin_app_enterprise_enterprise_change', {id: enterprise.id}) }}">
                                         {% if enterprise.logo is not null %}
-                                            <img src="{{ vich_uploader_asset(enterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ enterprise.name }}">
+                                            <img src="{{ path('admin_app_enterprise_enterprise_downloadLogoImage', {id: enterprise.id}) }}" alt="{{ enterprise.name }}" height="40">
+{#                                            <img src="{{ vich_uploader_asset(enterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ enterprise.name }}">#}
                                         {% else %}
                                             <img src="//via.placeholder.com/140x40?text={{ enterprise.name }}" alt="logo">
                                         {% endif %}

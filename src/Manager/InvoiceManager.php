@@ -42,11 +42,11 @@ class InvoiceManager
         $lastSaleInvoice = $this->saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($serie, $enterprise);
         $firstInvoiceNumber = 1;
         if (1 === $serie->getId()) {
-            $firstInvoiceNumber = 1;
+            $firstInvoiceNumber = 16681;
         } elseif (2 === $serie->getId()) {
             $firstInvoiceNumber = 1;
         } elseif (3 === $serie->getId()) {
-            $firstInvoiceNumber = 1;
+            $firstInvoiceNumber = 516;
         } elseif (4 === $serie->getId()) {
             $firstInvoiceNumber = 59;
         }

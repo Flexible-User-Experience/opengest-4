@@ -78,6 +78,7 @@ class EnterpriseAdmin extends AbstractBaseAdmin
             ->add('downloadMutualPartnership', $this->getRouterIdParameter().'/asociacion-mutua')
             ->add('downloadDeedOfIncorporation', $this->getRouterIdParameter().'/escritura-constitucion')
             ->add('downloadTaxIdentificationNumberCard', $this->getRouterIdParameter().'/tarjeta-nif')
+            ->add('downloadLogoImage', $this->getRouterIdParameter().'/logo')
         ;
     }
 

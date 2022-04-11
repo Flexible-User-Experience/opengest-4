@@ -7,7 +7,7 @@
     - name: create remote database
       mysql_db:
         state: present
-        name: "{{ mysql_db_remote_name_prod }}"
+        name: "{{ mysql_db_remote_name_stage }}"
         login_user: "{{ mysql_db_remote_root_user }}"
         login_password: "{{ mysql_db_remote_root_password }}"
     - name: set user privileges
@@ -17,4 +17,4 @@
         login_user: "{{ mysql_db_remote_root_user }}"
         login_password: "{{ mysql_db_remote_root_password }}"
         append_privs: yes
-        priv: "{{ mysql_db_remote_name_prod }}.*:ALL"
+        priv: "{{ mysql_db_remote_name_stage }}.*:ALL"
