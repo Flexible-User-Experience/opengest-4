@@ -28,6 +28,7 @@ use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
@@ -280,7 +281,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'serviceDescription',
-                null,
+                TextareaType::class,
                 [
                     'label' => 'admin.label.service_description',
                     'required' => true,

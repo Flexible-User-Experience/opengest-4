@@ -7,14 +7,14 @@
     - name: dump remote database
       mysql_db:
         state: dump
-        name: "{{ mysql_db_remote_name }}"
+        name: "{{ mysql_db_remote_name_prod }}"
         login_user: "{{ mysql_db_remote_user }}"
         login_password: "{{ mysql_db_remote_password }}"
-        target: "/tmp/remote-{{ mysql_db_remote_name }}.sql.bz2"
+        target: "/tmp/remote-{{ mysql_db_remote_name_prod }}.sql.bz2"
     - name: copy remote database dump file to local
       fetch:
-        src: "/tmp/remote-{{ mysql_db_remote_name }}.sql.bz2"
-        dest: "/tmp/remote-{{ mysql_db_remote_name }}.sql.bz2"
+        src: "/tmp/remote-{{ mysql_db_remote_name_prod }}.sql.bz2"
+        dest: "/tmp/remote-{{ mysql_db_remote_name_prod }}.sql.bz2"
         flat: yes
         validate_checksum: false
     - name: load dumb file to local database
@@ -24,4 +24,4 @@
         name: "{{ mysql_db_local_name }}"
         login_user: "{{ mysql_db_local_user }}"
         login_password: "{{ mysql_db_local_password }}"
-        target: "/tmp/remote-{{ mysql_db_remote_name }}.sql.bz2"
+        target: "/tmp/remote-{{ mysql_db_remote_name_prod }}.sql.bz2"

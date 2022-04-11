@@ -162,10 +162,12 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
      */
     protected function getLogoHelperFormMapperWithThumbnail(): string
     {
-        return ($this->getSubject() ? $this->getSubject()->getLogo() ? '<img src="'.$this->lis->getBrowserPath(
-                $this->vus->asset($this->getSubject(), 'logoFile'),
-                '480xY'
-            ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 300px (màx. 10MB amb JPG o PNG)</span>';
+        return ($this->getSubject() ? $this->getSubject()->getLogo() ? '<img src="'.
+                $this->getRouteGenerator()->generate(
+                    'admin_app_enterprise_enterprise_downloadLogoImage',
+                    ['id' => $this->getSubject()->getId()]
+                )
+                .'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">ancho mínimo 100px (màx. 10MB con JPG o PNG)</span>';
     }
 
     /**
