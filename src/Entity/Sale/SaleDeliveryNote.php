@@ -199,7 +199,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @var ?string
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $serviceDescription;
 
