@@ -96,7 +96,7 @@
                                 <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
                                     <option value="">---selecione un albarán---</option>
                                     {% for deliveryNote in content.saleDeliveryNotes %}
-                                    <option value="{{ deliveryNote.id }}">{{ deliveryNote }}</option>
+                                    <option value="{{ deliveryNote.id }}">{{ deliveryNote.id }} - ( {{ deliveryNote.partner }} )</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -220,6 +220,43 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Items y otros
+                    </h4>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                            <thead>
+                            <tr class="sonata-ba-list-field-header">
+                                <th class="sonata-ba-list-field-header">
+                                    Observaciones
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Unidades
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Precio (€)/unidad
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Total (€)
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Albarán
+                                </th>
+                                <th class="sonata-ba-list-field-header">
+                                    Acción
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="custom_table_2">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-9">
             <div class="box box-success">
                 <div class="box-header">
@@ -264,46 +301,6 @@
                         </table>
 
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="box box-success">
-                <div class="box-header">
-                    <h4 class="box-title">
-                        Items y otros
-                    </h4>
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table table-bordered table-striped table-hover sonata-ba-list">
-                            <thead>
-                            <tr class="sonata-ba-list-field-header">
-                                <th class="sonata-ba-list-field-header">
-                                    Observaciones
-                                </th>
-                                <th class="sonata-ba-list-field-header">
-                                    Unidades
-                                </th>
-                                <th class="sonata-ba-list-field-header">
-                                    Precio (€)/unidad
-                                </th>
-                                <th class="sonata-ba-list-field-header">
-                                    Total (€)
-                                </th>
-                                <th class="sonata-ba-list-field-header">
-                                    Albarán
-                                </th>
-                                <th class="sonata-ba-list-field-header">
-                                    Vehículo
-                                </th>
-                                <th class="sonata-ba-list-field-header">
-                                    Acción
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody id="custom_table_2">
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -473,7 +470,9 @@
                 createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.id || '-', row);
-                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.vehicle?.name || '-', row);
+                if (element.start) {
+                    createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.vehicle?.name || '-', row);
+                }
                 var deleteEditButton = `
                     <div class="btn-group">
                        <a href="{{ path('admin_app_operator_operatorworkregister_edit', {'id': 'idOfElement'}) }}" class="btn btn-sm btn-default edit_link" title="Editar"><i class="fa fa-pencil"></i></a>
