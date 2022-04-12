@@ -101,7 +101,7 @@ class OperatorWorkRegister extends AbstractBase
         return $this->start;
     }
 
-    public function setStart(DateTime $start): OperatorWorkRegister
+    public function setStart(?DateTime $start): OperatorWorkRegister
     {
         $this->start = $start;
 
@@ -116,7 +116,7 @@ class OperatorWorkRegister extends AbstractBase
         return $this->finish;
     }
 
-    public function setFinish(DateTime $finish): OperatorWorkRegister
+    public function setFinish(?DateTime $finish): OperatorWorkRegister
     {
         $this->finish = $finish;
 

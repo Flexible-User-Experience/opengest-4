@@ -364,5 +364,9 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     public function preUpdate($object): void
     {
         $object->setAmount($object->getUnits() * $object->getPriceUnit());
+        if ($object->getStart()->getTimestamp() === $object->getFinish()->getTimestamp()) {
+            $object->setStart(null);
+            $object->setFinish(null);
+        }
     }
 }
