@@ -64,7 +64,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->setParameter('enterprise', $enterprise)
             ->andWhere('s.isInvoiced = :isInvoiced')
             ->setParameter('isInvoiced', false)
-            ->orderBy('s.id', 'DESC')
+            ->orderBy('s.id', 'ASC')
             ;
     }
 
