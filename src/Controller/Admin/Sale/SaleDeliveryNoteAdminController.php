@@ -85,10 +85,20 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
     public function batchActionDeliveryNotesList(ProxyQueryInterface $selectedModelQuery): Response
     {
-        //TODO get delivery notes by date interval calling $deliveryNotePdfManager->outputDeliveryNotesList($deliveryNotes)
+        //TODO sort delivery notes by date
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        $sdnforDates = $saleDeliveryNotes;
 
-        return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+        //get from to dates
+        $from = array_shift($sdnforDates)->getDateToString();
+
+        if (!$sdnforDates) {
+            $to = $from;
+        } else {
+            $to = array_pop($sdnforDates)->getDateToString();
+        }
+
+        return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes,$from,$to), 200, ['Content-type' => 'application/pdf']);
     }
 
     public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery, Request $request)
