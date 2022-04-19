@@ -16,6 +16,7 @@ final class MenuBuilderListener
                 'route' => 'admin_app_sale_saledeliverynote_generateInvoicesScreen',
             ])->setExtras([
                 'translation_domain' => 'admin',
+                'roles' => ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'],
             ]);
         $manipulator = new MenuManipulator();
         $manipulator->moveChildToPosition($child, $child->getChild('Facturar albaranes'), 3);
