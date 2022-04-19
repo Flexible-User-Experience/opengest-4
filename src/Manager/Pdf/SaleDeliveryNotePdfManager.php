@@ -148,20 +148,20 @@ class SaleDeliveryNotePdfManager
     /**
      * @param $saleDeliveryNotes
      */
-    public function buildDeliveryNotesList($saleDeliveryNotes): TCPDF
+    public function buildDeliveryNotesList($saleDeliveryNotes, $from, $to): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Albaranes');
         $pdf = $this->pdfEngineService->getEngine();
 
-        return $this->buildList($saleDeliveryNotes, $pdf);
+        return $this->buildList($saleDeliveryNotes, $from, $to, $pdf);
     }
 
     /**
      * @param $saleDeliveryNotes
      */
-    public function outputDeliveryNotesList($saleDeliveryNotes): string
+    public function outputDeliveryNotesList($saleDeliveryNotes, $from, $to): string
     {
-        $pdf = $this->buildDeliveryNotesList($saleDeliveryNotes);
+        $pdf = $this->buildDeliveryNotesList($saleDeliveryNotes, $from, $to);
 
         return $pdf->Output('albaranes'.'.pdf', 'I');
     }
@@ -169,7 +169,7 @@ class SaleDeliveryNotePdfManager
     /**
      * @param $saleDeliveryNotes
      */
-    public function buildList($saleDeliveryNotes, TCPDF $pdf): TCPDF
+    public function buildList($saleDeliveryNotes, $from, $to, TCPDF $pdf): TCPDF
     {
         // add start page
         // add start page
@@ -193,10 +193,15 @@ class SaleDeliveryNotePdfManager
 
         //Heading with date and page number
         $this->pdfEngineService->setStyleSize('', 10);
-        $today = date('d/m/Y');
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Listado de servicios - Grúas Romaní - '.$today,
-            1, 0, 'L', true);
+        if ($from == $to){
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Listado de servicios - Grúas Romaní - '.$from,
+                1, 0, 'L', true);
+        } else {
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Listado de servicios - Grúas Romaní - '.'desde '.$from.' hasta '.$to,
+                1, 0, 'L', true);
+        }
 
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),

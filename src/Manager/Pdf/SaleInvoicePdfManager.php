@@ -248,19 +248,23 @@ class SaleInvoicePdfManager
                 $pdf->MultiCell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
                     number_format($deliveryNoteLine->getPriceUnit(), 2, ',', '.'),
                     0, 'C', false, 0);
+                $pdf->setCellPaddings(0, 1, 0, 1);
                 if ($deliveryNoteLine->getDiscount()) {
-                    $pdf->MultiCell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
-                        $deliveryNoteLine->getDiscount().' %',
+                    $pdf->MultiCell($col6 - $col5+3, ConstantsEnum::PDF_CELL_HEIGHT,
+                        $deliveryNoteLine->getDiscount().'%',
                         0, 'C', false, 0);
                 } else {
                     $pdf->MultiCell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
                         '',0, 'C', false, 0);
                 }
+                $pdf->setCellPaddings(1, 1, 1, 1);
                 $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
                     number_format($deliveryNoteLine->getTotal(), 2, ',', '.').' €',
                     0, 'C', false,0);
                 $pdf->Ln(4);
             }
+            // TODO include invoice discount to invoice
+            // TODO edit footer number of page
             $pdf->Ln(2);
         }
 //        if( $YDim < 110){
