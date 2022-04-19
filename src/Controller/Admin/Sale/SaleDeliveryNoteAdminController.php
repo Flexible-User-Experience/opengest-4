@@ -9,7 +9,6 @@ use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
 use App\Form\Type\GenerateSaleInvoicesFormType;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
-use App\Repository\Sale\SaleInvoiceRepository;
 use App\Repository\Setting\SaleInvoiceSeriesRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -98,7 +97,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             $to = array_pop($sdnforDates)->getDateToString();
         }
 
-        return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes,$from,$to), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes, $from, $to), 200, ['Content-type' => 'application/pdf']);
     }
 
     public function batchActionGenerateSaleInvoiceFromDeliveryNotes(ProxyQueryInterface $selectedModelQuery, Request $request)
@@ -272,12 +271,8 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoice->setDeliveryNotes($deliveryNotes);
         $saleInvoice->setSeries($saleInvoiceSeries);
         $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $deliveryNotes);
-        /** @var SaleInvoiceRepository $saleInvoiceRepository */
-        $saleInvoiceRepository = $this->container->get('doctrine')->getRepository(SaleInvoice::class);
         $invoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
         $saleInvoice->setInvoiceNumber($invoiceNumber);
-//        $lastSaleInvoice = $saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
-//        $saleInvoice->setInvoiceNumber($lastSaleInvoice->getInvoiceNumber() + 1);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
         if ($saleInvoice->getPartner()->getCollectionDocumentType()) {
             $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());
