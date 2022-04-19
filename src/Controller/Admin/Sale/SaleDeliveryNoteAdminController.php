@@ -154,6 +154,13 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return $return;
     }
 
+    public function generateInvoicesScreenAction()
+    {
+        $this->admin->checkAccess('edit');
+
+        return $this->render('admin/sale-delivery-note/invoiceGenerationScreen.html.twig');
+    }
+
     /**
      * @throws ModelManagerThrowable
      */
