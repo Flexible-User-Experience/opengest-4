@@ -12,7 +12,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -862,7 +861,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setLogoFile(File $logoFile = null)
     {
@@ -907,7 +906,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setDeedOfIncorporationFile(File $deedOfIncorporationFile = null)
     {
@@ -952,7 +951,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setTaxIdentificationNumberCardFile(File $taxIdentificationNumberCardFile = null)
     {
@@ -997,7 +996,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setTc1ReceiptFile(File $tc1ReceiptFile = null)
     {
@@ -1042,7 +1041,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setTc2ReceiptFile(File $tc2ReceiptFile = null)
     {
@@ -1087,7 +1086,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setSsRegistrationFile(File $ssRegistrationFile = null)
     {
@@ -1132,7 +1131,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setSsPaymentCertificateFile(File $ssPaymentCertificateFile = null)
     {
@@ -1177,7 +1176,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setRc1InsuranceFile(File $rc1InsuranceFile = null)
     {
@@ -1222,7 +1221,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setRc2InsuranceFile(File $rc2InsuranceFile = null)
     {
@@ -1267,7 +1266,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setRcReceiptFile(File $rcReceiptFile = null)
     {
@@ -1312,7 +1311,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setPreventionServiceContractFile(File $preventionServiceContractFile = null)
     {
@@ -1357,7 +1356,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setPreventionServiceInvoiceFile(File $preventionServiceInvoiceFile = null)
     {
@@ -1402,7 +1401,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setPreventionServiceReceiptFile(File $preventionServiceReceiptFile = null)
     {
@@ -1447,7 +1446,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setOccupationalAccidentsInsuranceFile(File $occupationalAccidentsInsuranceFile = null)
     {
@@ -1492,7 +1491,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setOccupationalReceiptFile(File $occupationalReceiptFile = null)
     {
@@ -1537,7 +1536,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setLaborRiskAssessmentFile(File $laborRiskAssessmentFile = null)
     {
@@ -1582,7 +1581,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setSecurityPlanFile(File $securityPlanFile = null)
     {
@@ -1627,7 +1626,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setReaCertificateFile(File $reaCertificateFile = null)
     {
@@ -1672,7 +1671,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setOilCertificateFile(File $oilCertificateFile = null)
     {
@@ -1717,7 +1716,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setGencatPaymentCertificateFile(File $gencatPaymentCertificateFile = null)
     {
@@ -1762,7 +1761,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setDeedsOfPowersFile(File $deedsOfPowersFile = null)
     {
@@ -1809,7 +1808,7 @@ class Enterprise extends AbstractBase implements \Serializable
      *
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setIaeRegistrationFile($iaeRegistrationFile)
     {
@@ -1854,7 +1853,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setIaeReceiptFile(File $iaeReceiptFile = null)
     {
@@ -1899,7 +1898,7 @@ class Enterprise extends AbstractBase implements \Serializable
     /**
      * @return Enterprise
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setMutualPartnershipFile(File $mutualPartnershipFile = null)
     {
@@ -2362,18 +2361,15 @@ class Enterprise extends AbstractBase implements \Serializable
 
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->id,
             $this->logo,
-
-        ));
+        ]);
     }
 
     public function unserialize($data)
     {
-        list (
-            $this->id,
-
-            ) = unserialize($data);
+        list(
+            $this->id) = unserialize($data);
     }
 }
