@@ -77,16 +77,14 @@ class WorkRegisterHeaderPdfManager
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de nóminas detalladas');
         $pdf = $this->pdfEngineService->getEngine();
+        usort($workRegisterHeaders, function(OperatorWorkRegisterHeader $a,OperatorWorkRegisterHeader $b) {
+            return strcasecmp($a->getOperator()->getSurname1(), $b->getOperator()->getSurname1());
+        });
         $operatorsFromWorkRegisterHeaders = [];
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
             $operatorsFromWorkRegisterHeaders[$workRegisterHeader->getOperator()->getId()][] = $workRegisterHeader;
         }
-//        usort($operatorsFromWorkRegisterHeaders, function($a, $b) {
-//            dd($a['operator']->getSurname1());
-//            return $a->getSurname1() - $b->getSurname1();
-//        });
-//        dd($operatorsFromWorkRegisterHeaders);
         foreach ($operatorsFromWorkRegisterHeaders as $operatorId => $operatorWorkRegisterHeaders) {
             /** @var Operator $operator */
             $operator = $this->rm->getOperatorRepository()->find($operatorId);
@@ -232,6 +230,9 @@ class WorkRegisterHeaderPdfManager
         $totalOverNight = 0;
 //        $totalRoadExtra = 0;
         $totalExitExtra = 0;
+        usort($workRegisterHeaders, function($a, $b) {
+            return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
+        });
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
             list($normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet,
@@ -432,9 +433,6 @@ class WorkRegisterHeaderPdfManager
             1, 0, 'L', false);
         $pdf->Ln();
         $totalOtherAmounts = 0;
-        usort($workRegisterHeaders, function($a, $b) {
-            return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
-        });
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
             $otherAmounts = 0;
@@ -764,6 +762,7 @@ class WorkRegisterHeaderPdfManager
         $overNight = 0;
 //            $roadExtra = 0;
         $exitExtra = 0;
+        $workRegister = null;
         /** @var OperatorWorkRegister $workRegister */
         foreach ($workRegisters as $workRegister) {
             list($normalHours, $extraHours, $negativeHours, $lunch, $dinner,
