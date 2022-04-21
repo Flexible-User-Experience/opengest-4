@@ -128,6 +128,11 @@ services:
         class: App\Listener\SitemapListener
         arguments: [ '@app.frontend_menu_builder' ]
         tags: [ { name: 'presta.sitemap.listener' } ]
+    # BackEnd menu listener
+    app.menu_listener:
+        class: App\Listener\MenuBuilderListener
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
     # Twig
 #    app.twig_extension:
 #        class: App\Twig\AppExtension
