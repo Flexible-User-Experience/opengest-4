@@ -167,7 +167,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ->end()
             ;
         }
-        //estava aqui
         $formMapper
             ->tab('Cabecera')
                 ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(3))

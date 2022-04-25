@@ -566,6 +566,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end();
         }
+        $asd = 1;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void

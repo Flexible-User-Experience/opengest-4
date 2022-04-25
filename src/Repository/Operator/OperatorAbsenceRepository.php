@@ -15,6 +15,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 class OperatorAbsenceRepository extends ServiceEntityRepository
 {
@@ -87,15 +88,16 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
     {
         try {
             $result = $this->getItemsToBeAbsenceTomorrowByEnterpriseAmountQ($enterprise)->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            $result = 0;
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException|NonUniqueResultException $e) {
             $result = 0;
         }
 
         return $result;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getAbsencesFilteredByOperator(Operator $operator)
     {
         $operatorAbsences = $this->createQueryBuilder('oa')
@@ -112,8 +114,7 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
         foreach ($operatorAbsences as $operatorAbsence) {
             $numberOfDays = ($operatorAbsence->getEnd()->getTimestamp() - $operatorAbsence->getBegin()->getTimestamp()) / (60 * 60 * 24) + 1;
             $numberOfHolidays = 0;
-            $date = $operatorAbsence->getBegin();
-            /** @var DateTime $date */
+            $date = new DateTime($operatorAbsence->getBegin()->format('Y-m-d'));
             while ($date->getTimestamp() <= $operatorAbsence->getEnd()->getTimestamp()) {
                 if (($date->format('N') >= 6) || ($this->enterpriseHolidayManager->checkIfDayIsEnterpriseHoliday($date))) {
                     ++$numberOfHolidays;
