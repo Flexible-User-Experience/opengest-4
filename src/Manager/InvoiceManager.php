@@ -40,6 +40,13 @@ class InvoiceManager
     public function getLastInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise)
     {
         $lastSaleInvoice = $this->saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($serie, $enterprise);
+        $firstInvoiceNumber = $this->getFirstInvoiceNumberBySerieAndEnterprise($serie);
+
+        return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : $firstInvoiceNumber;
+    }
+
+    public function getFirstInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie): int
+    {
         $firstInvoiceNumber = 1;
         if (1 === $serie->getId()) {
             $firstInvoiceNumber = 16681;
@@ -51,14 +58,7 @@ class InvoiceManager
             $firstInvoiceNumber = 59;
         }
 
-        return $lastSaleInvoice ? $lastSaleInvoice->getInvoiceNumber() + 1 : $firstInvoiceNumber;
-    }
-
-    public function getFirstInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise): int
-    {
-        $firstSaleInvoice = $this->saleInvoiceRepository->getFirstInvoiceBySerieAndEnterprise($serie, $enterprise);
-
-        return $firstSaleInvoice ? $firstSaleInvoice->getInvoiceNumber() : 0;
+        return $firstInvoiceNumber;
     }
 
     public function calculateInvoiceImportsFromDeliveryNotes(SaleInvoice $saleInvoice, Collection $deliveryNotes)
@@ -110,20 +110,15 @@ class InvoiceManager
      */
     public function checkIfNumberIsAllowedBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise, $invoiceNumber): bool
     {
-        $return = false;
-        if ($this->getFirstInvoiceNumberBySerieAndEnterprise($serie, $enterprise) < $invoiceNumber) {
-            if ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) == $invoiceNumber) {
-                $return = true;
-            } else {
-                if (count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber])) > 0) {
-                    $return = false;
-                } elseif ($this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise) > $invoiceNumber) {
-                    $return = true;
-                }
+        if (0 == count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber]))) {
+            $firstInvoiceNumber = $this->getFirstInvoiceNumberBySerieAndEnterprise($serie, $enterprise);
+            $lastInvoiceNumber = $this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise);
+            if ($firstInvoiceNumber <= $invoiceNumber && $lastInvoiceNumber >= $invoiceNumber) {
+                return true;
             }
         }
 
-        return $return;
+        return false;
     }
 
     public function getAvailableNumbersBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise)
