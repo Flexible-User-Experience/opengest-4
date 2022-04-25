@@ -236,6 +236,13 @@ class SaleDeliveryNote extends AbstractBase
         $this->operatorWorkRegisters = new ArrayCollection();
     }
 
+    public function setId(int $id): SaleDeliveryNote
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     /**
      * @return DateTime
      */
@@ -917,17 +924,11 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isPrinted(): bool
     {
         return $this->printed;
     }
 
-    /**
-     * @param bool $printed
-     */
     public function setPrinted(bool $printed): void
     {
         $this->printed = $printed;

@@ -129,4 +129,18 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
     {
         return $this->getFilteredByEnterpriseAndPartnerSortedByNameQ($enterprise, $partner)->getResult();
     }
+
+    public function getAllDeliveryNoteIdsByEnterprise(Enterprise $enterprise): array
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->join('s.partner', 'p')
+            ->andWhere('p.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->select('s.id')
+            ->distinct()
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

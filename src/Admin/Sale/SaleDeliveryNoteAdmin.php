@@ -15,6 +15,7 @@ use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -1081,6 +1082,12 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         }
         if (!$object->getCollectionTerm3()) {
             $object->setCollectionTerm3($partner->getCollectionTerm3());
+        }
+        $availableIds = $this->dnm->getAvailableIdsByEnterprise($partner->getEnterprise());
+        if (count($availableIds) > 0) {
+            $metadata = $this->em->getClassMetadata(SaleDeliveryNote::class);
+            $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+            $object->setId(array_values($availableIds)[0]);
         }
     }
 
