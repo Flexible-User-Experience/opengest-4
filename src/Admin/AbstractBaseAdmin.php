@@ -334,6 +334,8 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = $datagrid->getQuery();
             $queryBuilder
+                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
+                ->setParameter('enabled', true)
                 ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
                 ->andWhere($queryBuilder->getRootAliases()[0].'.type = :partnerType')
