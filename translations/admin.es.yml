@@ -259,7 +259,7 @@ admin:
         generate_payslip_xml_payment_for_diets: "XML para el pago de dietas"
         generate_payslip_xml_payment: "XML para el pago de nóminas"
         generate_time_summary: "Listado plantilla de horas"
-
+        select_option: "Seleccione opción"
     actions: "Acciones"
 enum:
     sale_request_status:

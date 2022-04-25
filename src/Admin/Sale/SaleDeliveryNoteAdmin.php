@@ -107,43 +107,44 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         ];
     }
 
-    /**
-     * @param array $actions
-     */
-    public function configureBatchActions($actions): array
+    public function configureBatchActions(array $actions): array
     {
+        $newActions['selectOption'] = [
+            'label' => 'admin.action.select_option',
+            'ask_confirmation' => false,
+        ];
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generateStandardPrint'] = [
+            $newActions['generateStandardPrint'] = [
                 'label' => 'admin.action.generate_standard_print_template_delivery_notes',
                 'ask_confirmation' => false,
             ];
-            $actions['generateDriverPrint'] = [
+            $newActions['generateDriverPrint'] = [
                 'label' => 'admin.action.generate_driver_print_template_delivery_notes',
                 'ask_confirmation' => false,
             ];
-            $actions['generateStandardMail'] = [
+            $newActions['generateStandardMail'] = [
                 'label' => 'admin.action.generate_standard_mail_template_delivery_notes',
                 'ask_confirmation' => false,
             ];
-            $actions['generateDriverMail'] = [
+            $newActions['generateDriverMail'] = [
                 'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
                 'ask_confirmation' => false,
             ];
-            $actions['deliveryNotesByClient'] = [
+            $newActions['deliveryNotesByClient'] = [
                 'label' => 'admin.action.generate_delivery_notes_by_client',
                 'ask_confirmation' => false,
             ];
-            $actions['deliveryNotesList'] = [
+            $newActions['deliveryNotesList'] = [
                 'label' => 'admin.action.generate_delivery_notes_list',
                 'ask_confirmation' => false,
             ];
-            $actions['generateSaleInvoiceFromDeliveryNotes'] = [
+            $newActions['generateSaleInvoiceFromDeliveryNotes'] = [
                 'label' => 'admin.action.generate_invoice_from_selected',
                 'ask_confirmation' => false,
             ];
         }
 
-        return $actions;
+        return array_merge($newActions, $actions);
     }
 
     /**
