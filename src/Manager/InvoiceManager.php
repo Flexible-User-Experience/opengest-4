@@ -44,7 +44,7 @@ class InvoiceManager
         if (1 === $serie->getId()) {
             $firstInvoiceNumber = 16681;
         } elseif (2 === $serie->getId()) {
-            $firstInvoiceNumber = 1;
+            $firstInvoiceNumber = 191;
         } elseif (3 === $serie->getId()) {
             $firstInvoiceNumber = 516;
         } elseif (4 === $serie->getId()) {
