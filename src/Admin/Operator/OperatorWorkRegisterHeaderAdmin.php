@@ -242,8 +242,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 'actions',
                 [
                     'actions' => [
-                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
-                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_operator_work_register_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]
