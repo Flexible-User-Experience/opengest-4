@@ -55,6 +55,25 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         return $this->getFilteredByEnterpriseSortedByNameQ($enterprise)->getResult();
     }
 
+    public function getFilteredByEnterpriseSortedByIdQB(Enterprise $enterprise): QueryBuilder
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->andWhere('s.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->orderBy('s.id', 'ASC')
+        ;
+    }
+
+    public function getFilteredByEnterpriseSortedByIdQ(Enterprise $enterprise): Query
+    {
+        return $this->getFilteredByEnterpriseSortedByIdQB($enterprise)->getQuery();
+    }
+
+    public function getFilteredByEnterpriseSortedById(Enterprise $enterprise): array
+    {
+        return $this->getFilteredByEnterpriseSortedByIdQ($enterprise)->getResult();
+    }
+
     public function getFilteredByEnterpriseNotInvoicedSortedByIdQB(Enterprise $enterprise): QueryBuilder
     {
         return $this->createQueryBuilder('s')
