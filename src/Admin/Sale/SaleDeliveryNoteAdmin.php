@@ -690,17 +690,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
-//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-//            $datagridMapper
-//                ->add(
-//                    'enterprise',
-//                    null,
-//                    [
-//                        'label' => 'Empresa',
-//                    ]
-//                )
-//            ;
-//        }
         $datagridMapper
             ->add(
             'id',
@@ -710,13 +699,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'show_filter' => true,
                 ]
             )
-//            ->add(
-//                'saleRequest.id',
-//                null,
-//                [
-//                    'label' => 'admin.label.sale_request',
-//                ]
-//            )
             ->add(
                 'date',
                 DateRangeFilter::class,
@@ -807,24 +789,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.discount',
                 ]
             )
-//            ->add(
-//                'collectionTerm',
-//                null,
-//                [
-//                    'label' => 'admin.label.expiry_date',
-//                ]
-//            )
-//            ->add(
-//                'collectionDocument',
-//                null,
-//                [
-//                    'label' => 'admin.label.payment_document_type',
-//                    'field_type' => null,
-//                    'field_options' => [
-//                            'query_builder' => $this->rm->getCollectionDocumentTypeRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-//                        ],
-//                ]
-//            )
             ->add(
                 'activityLine',
                 null,
@@ -891,6 +855,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.invoiced',
                     'show_filter' => true,
+                ]
+            )
+            ->add(
+                'printed',
+                null,
+                [
+                    'label' => 'admin.label.printed',
                 ]
             )
         ;
