@@ -415,4 +415,5 @@ category: Categoría
 enabled: "Activo"
 operator_work_register_list: "Partes de trabajo"
 sale_request_list: "Peticiones de venta"
+operator_work_register_create: "Crear partes de trabajo"
 

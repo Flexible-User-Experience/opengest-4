@@ -404,3 +404,4 @@ tonnage: "Tonelaje"
 mainImage: Foto
 category: Categoría
 enabled: "Activo"
+operator_work_register_create: "Crear partes de trabajo"
