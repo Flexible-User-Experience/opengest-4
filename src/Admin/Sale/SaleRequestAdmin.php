@@ -12,7 +12,6 @@ use App\Entity\Vehicle\Vehicle;
 use App\Enum\SaleRequestStatusEnum;
 use App\Enum\UserRolesEnum;
 use DateTime;
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -182,58 +181,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'widget' => 'single_text',
                 ]
             )
-//            ->add(
-//                'endServiceTime',
-//                TimeType::class,
-//                [
-//                    'label' => 'Fi hora servei',
-//                    'required' => false,
-//                    'minutes' => [0, 15, 30, 45],
-//                ]
-//            )
-//            ->add(
-//                'mainAddress',
-//                TextType::class,
-//                array(
-//                    'label' => 'Adreça principal',
-//                    'required' => false,
-//                    'mapped' => false,
-//                    'disabled' => true,
-//                    'help' => '<i id="main-address-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-//                )
-//            )
-//            ->add(
-//                'mainCity',
-//                TextType::class,
-//                array(
-//                    'label' => 'Població',
-//                    'required' => false,
-//                    'mapped' => false,
-//                    'disabled' => true,
-//                    'help' => '<i id="main-city-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-//                )
-//            )
-//            ->add(
-//                'province',
-//                TextType::class,
-//                array(
-//                    'label' => 'Província',
-//                    'required' => false,
-//                    'mapped' => false,
-//                    'disabled' => true,
-//                    'help' => '<i id="province-icon" class="fa fa-refresh fa-spin fa-fw hidden text-info"></i>',
-//                )
-//            )
-//            ->add(
-//                'paymentType',
-//                TextType::class,
-//                array(
-//                    'label' => 'Forma de pagament',
-//                    'required' => false,
-//                    'mapped' => false,
-//                    'disabled' => true,
-//                )
-//            )
             ->end()
             ->with('admin.label.service', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -313,16 +260,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'disabled' => true,
                 ]
             )
-//            ->add(
-//                'tariff',
-//                EntityType::class,
-//                array(
-//                    'class' => SaleTariff::class,
-//                    'label' => 'Tarifa',
-//                    'required' => false,
-//                    'query_builder' => $this->rm->getSaleTariffRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-//                )
-//            )
             ->add(
                 'miniumHours',
                 null,
@@ -418,29 +355,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-//            ->add(
-//                'invoiceTo',
-//                ModelAutocompleteType::class,
-//                [
-//                    'property' => 'name',
-//                    'label' => 'Facturar a',
-//                    'required' => false,
-//                    'callback' => function ($admin, $property, $value) {
-//                        /** @var Admin $admin */
-//                        $datagrid = $admin->getDatagrid();
-//                        /** @var QueryBuilder $queryBuilder */
-//                        $queryBuilder = $datagrid->getQuery();
-//                        $queryBuilder
-//                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-//                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-//                        ;
-//                        $datagrid->setValue($property, null, $value);
-//                    },
-//                ],
-//                [
-//                'admin_code' => 'app.admin.partner',
-//                ]
-//            )
             ->end()
             ->with('admin.label.others', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -494,6 +408,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ;
         }
         $datagridMapper
+            ->add(
+                'id',
+                null,
+                [
+                    'label' => 'Id',
+                ]
+            )
             ->add(
                 'attendedBy',
                 null,
@@ -681,17 +602,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 
     protected function configureListFields(ListMapper $listMapper): void
     {
-//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-//            $listMapper
-//                ->add(
-//                    'enterprise',
-//                    null,
-//                    array(
-//                        'label' => 'Empresa',
-//                    )
-//                )
-//            ;
-//        }
         $listMapper
             ->add(
                 'id',
