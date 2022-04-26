@@ -642,14 +642,6 @@ class OperatorAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
-                'profilePhotoImage',
-                null,
-                [
-                    'label' => 'profilePhotoImage',
-                    'template' => 'admin/cells/list__cell_profile_image_field.html.twig',
-                ]
-            )
-            ->add(
                 'taxIdentificationNumber',
                 null,
                 [
