@@ -8,8 +8,10 @@ use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -39,16 +41,14 @@ class PayslipAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'nominas/nominas';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'id',
-        '_sort_order' => 'ASC',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'toDate';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
@@ -318,6 +318,17 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $rootAlias = current($query->getRootAliases());
+        $query
+            ->join($rootAlias.'.operator', 'op')
+            ->addOrderBy('op.name', 'ASC')
+        ;
+
+        return $query;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
