@@ -594,6 +594,13 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'surname2',
+                null,
+                [
+                    'label' => 'surname2',
+                ]
+            )
+            ->add(
                 'enterpriseGroupBounty',
                 null,
                 [

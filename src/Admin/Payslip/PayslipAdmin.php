@@ -235,7 +235,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.operator',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
-                        'property' => 'name',
+                        'property' => ['name', 'surname1', 'surname2'],
                     ],
                 ]
             )

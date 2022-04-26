@@ -178,7 +178,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.operator',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
-                            'property' => 'surname1',
+                            'property' => ['name', 'surname1', 'surname2'],
                         ],
                     'show_filter' => true,
                 ]
