@@ -62,18 +62,22 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
      */
     public function configureBatchActions($actions): array
     {
+        $newActions['selectOption'] = [
+            'label' => 'admin.action.select_option',
+            'ask_confirmation' => false,
+        ];
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generateWorkRegisterReportPdf'] = [
+            $newActions['generateWorkRegisterReportPdf'] = [
                 'label' => 'admin.action.generate_work_register_report',
                 'ask_confirmation' => false,
             ];
-            $actions['generateTimeSummary'] = [
+            $newActions['generateTimeSummary'] = [
                 'label' => 'admin.action.generate_time_summary',
                 'ask_confirmation' => false,
             ];
         }
 
-        return $actions;
+        return array_merge($newActions, $actions);
     }
 
     protected function configureFormFields(FormMapper $formMapper): void

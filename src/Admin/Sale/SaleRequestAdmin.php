@@ -100,20 +100,18 @@ class SaleRequestAdmin extends AbstractBaseAdmin
      */
     public function configureBatchActions($actions): array
     {
+        $newActions['selectOption'] = [
+            'label' => 'admin.action.select_option',
+            'ask_confirmation' => false,
+        ];
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-//            $actions['generatepdfs'] = array(
-//                'label' => 'Imprimir peticions marcades',
-//                'translation_domain' => 'messages',
-//                'ask_confirmation' => false,
-//            );
-            $actions['generatedeliverynotefromsalerequests'] = [
+            $newActions['generatedeliverynotefromsalerequests'] = [
                 'label' => 'admin.action.generate_delivery_note_from_selected',
-                //'translation_domain' => 'messages',
                 'ask_confirmation' => false,
             ];
         }
 
-        return $actions;
+        return array_merge($newActions, $actions);
     }
 
     /**

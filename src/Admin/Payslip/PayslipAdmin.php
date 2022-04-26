@@ -10,7 +10,6 @@ use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -20,7 +19,6 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
@@ -66,22 +64,26 @@ class PayslipAdmin extends AbstractBaseAdmin
      */
     public function configureBatchActions($actions): array
     {
+        $newActions['selectOption'] = [
+            'label' => 'admin.action.select_option',
+            'ask_confirmation' => false,
+        ];
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generatePayslip'] = [
+            $newActions['generatePayslip'] = [
                 'label' => 'admin.action.generate_payslip',
                 'ask_confirmation' => false,
             ];
-            $actions['generatePayslipXMLPayment'] = [
+            $newActions['generatePayslipXMLPayment'] = [
                 'label' => 'admin.action.generate_payslip_xml_payment',
                 'ask_confirmation' => false,
             ];
-            $actions['generatePayslipDietsXMLPayment'] = [
+            $newActions['generatePayslipDietsXMLPayment'] = [
                 'label' => 'admin.action.generate_payslip_xml_payment_for_diets',
                 'ask_confirmation' => false,
             ];
         }
 
-        return $actions;
+        return array_merge($newActions, $actions);
     }
 
     public function configureExportFields(): array
