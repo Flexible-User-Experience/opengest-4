@@ -11,10 +11,10 @@ use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
-use App\Entity\Sale\SaleInvoiceDueDate;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
@@ -1091,12 +1091,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 }
             }
             $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $saleInvoice->getDeliveryNotes());
-            $numberOfDueDates = $saleInvoice->getSaleInvoiceDueDates()->count();
-            $totalSplit = $saleInvoice->getTotal() / $numberOfDueDates;
-            /** @var SaleInvoiceDueDate $dueDate */
-            foreach ($saleInvoice->getSaleInvoiceDueDates() as $dueDate) {
-                $dueDate->setAmount($totalSplit);
-            }
+            $saleInvoice->setSaleInvoiceDueDates(new ArrayCollection());
+            $this->im->createDueDatesFromSaleInvoice($saleInvoice);
         }
 
         $this->em->flush();
