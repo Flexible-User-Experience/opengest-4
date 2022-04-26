@@ -1066,6 +1066,22 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     /**
      * @param SaleDeliveryNote $object
      */
+    public function preUpdate($object): void
+    {
+        /** @var SaleDeliveryNote $originalObject */
+        $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
+        if ($object->getPartner()->getId() != $originalObject['partner_id']) {
+            $partner = $object->getPartner();
+            $object->setCollectionTerm($partner->getCollectionTerm1());
+            $object->setCollectionTerm2($partner->getCollectionTerm2());
+            $object->setCollectionTerm3($partner->getCollectionTerm3());
+            $object->setCollectionDocument($partner->getCollectionDocumentType());
+        }
+    }
+
+    /**
+     * @param SaleDeliveryNote $object
+     */
     public function postUpdate($object): void
     {
         $totalPrice = 0;
