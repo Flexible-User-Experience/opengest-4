@@ -9,11 +9,14 @@ use App\Entity\Vehicle\VehicleCategory;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\Form\Type\BooleanType;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -42,16 +45,13 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehicles/vehicle';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'name',
-        '_sort_order' => 'asc',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'name';
+    }
 
     /**
      * Configure route collection.
@@ -380,9 +380,6 @@ class VehicleAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-//                        'type_options' => [
-//                            'delete' => false,
-//                        ],
                     ],
                     [
                         'edit' => 'inline',
@@ -543,6 +540,14 @@ class VehicleAdmin extends AbstractBaseAdmin
             );
     }
 
+    protected function configureDefaultFilterValues(array &$filterValues): void
+    {
+        $filterValues['enabled'] = [
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => BooleanType::TYPE_YES,
+        ];
+    }
+
     public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $queryBuilder = parent::configureQuery($query);
@@ -559,14 +564,6 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add(
-                'mainImage',
-                null,
-                [
-                    'label' => 'Imatge',
-                    'template' => 'admin/cells/list__cell_main_image_field.html.twig',
-                ]
-            )
             ->add(
                 'name',
                 null,
