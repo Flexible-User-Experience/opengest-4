@@ -31,6 +31,7 @@ class OperatorAdminController extends BaseAdminController
 
         /** @var Operator $operator */
         $operator = $this->admin->getObject($id);
+        $operatorAbsences = $operator->getOperatorAbsences();
         if (!$operator) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }

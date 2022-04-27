@@ -62,18 +62,22 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
      */
     public function configureBatchActions($actions): array
     {
+        $newActions['selectOption'] = [
+            'label' => 'admin.action.select_option',
+            'ask_confirmation' => false,
+        ];
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generateWorkRegisterReportPdf'] = [
+            $newActions['generateWorkRegisterReportPdf'] = [
                 'label' => 'admin.action.generate_work_register_report',
                 'ask_confirmation' => false,
             ];
-            $actions['generateTimeSummary'] = [
+            $newActions['generateTimeSummary'] = [
                 'label' => 'admin.action.generate_time_summary',
                 'ask_confirmation' => false,
             ];
         }
 
-        return $actions;
+        return array_merge($newActions, $actions);
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
@@ -174,7 +178,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.operator',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
-                            'property' => 'surname1',
+                            'property' => ['name', 'surname1', 'surname2'],
                         ],
                     'show_filter' => true,
                 ]
@@ -238,8 +242,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 'actions',
                 [
                     'actions' => [
-                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
-                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_operator_work_register_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]

@@ -253,7 +253,7 @@ admin:
         generate_payslip_xml_payment_for_diets: "Generar XML para el pago de dietas"
         generate_payslip_xml_payment: "Generar XML para el pago de nóminas"
         generate_time_summary: "Generar listado plantilla de horas"
-
+        select_option: "Seleccione opción"
     actions: "Accions"
 enum:
     sale_request_status:
@@ -404,3 +404,4 @@ tonnage: "Tonelaje"
 mainImage: Foto
 category: Categoría
 enabled: "Activo"
+operator_work_register_create: "Crear partes de trabajo"

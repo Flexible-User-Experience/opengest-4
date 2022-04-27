@@ -41,7 +41,7 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
         $selectedDate = $this->requestStack->getCurrentRequest()->query->get('date');
         $previousInputType = $this->requestStack->getCurrentRequest()->query->get('previousInputType');
         $operators = $this->operatorRepository->getFilteredByEnterpriseEnabledSortedByName($this->tss->getToken()->getUser()->getDefaultEnterprise());
-        $saleDeliveryNotes = $this->deliveryNoteRepository->getFilteredByEnterpriseNotInvoicedSortedById($this->tss->getToken()->getUser()->getDefaultEnterprise());
+        $saleDeliveryNotes = $this->deliveryNoteRepository->getFilteredByEnterpriseSortedById($this->tss->getToken()->getUser()->getDefaultEnterprise());
         // merge settings
         $settings = $blockContext->getSettings();
         $backgroundColor = 'bg-light-blue';
