@@ -188,6 +188,7 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vendes/albara-linia/create'],
             ['/admin/vendes/albara-linia/1/edit'],
             ['/admin/vendes/albara-linia/1/delete'],
+            ['/admin/vendes/albaran-para-facturar/list'],
             ['/admin/vendes/factura/list'],
             ['/admin/vendes/factura/1/edit'],
             ['/admin/vendes/factura/1/delete'],
