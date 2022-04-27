@@ -52,8 +52,8 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
      */
     protected function configureDefaultSortValues(array &$sortValues): void
     {
-        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
-        $sortValues[DatagridInterface::SORT_BY] = 'partner.id';
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'id';
     }
 
     public function configureRoutes(RouteCollectionInterface $collection): void
@@ -303,14 +303,6 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'saleInvoice',
-                null,
-                [
-                    'template' => 'admin/cells/list__cell_sale_invoice_sale_delivery_note.html.twig',
-                    'label' => 'admin.with.sale_invoice',
-                ]
-            )
-            ->add(
                 'date',
                 null,
                 [
@@ -337,10 +329,10 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'saleServiceTariff',
+                'order',
                 null,
                 [
-                    'label' => 'admin.label.tonnage',
+                    'label' => 'order',
                 ]
             )
             ->add(
@@ -355,14 +347,6 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.operator',
-                ]
-            )
-            ->add(
-                'baseAmount',
-                null,
-                [
-                    'label' => 'admin.label.base_amount',
-                    'template' => 'admin/cells/list__cell_base_amount_currency_number.html.twig',
                 ]
             )
             ->add(
@@ -394,6 +378,14 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'baseAmount',
+                null,
+                [
+                    'label' => 'admin.label.base_amount',
+                    'template' => 'admin/cells/list__cell_base_amount_currency_number.html.twig',
+                ]
+            )
+            ->add(
                 'isInvoiced',
                 'boolean',
                 [
@@ -402,11 +394,11 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'printed',
-                'boolean',
+                'saleInvoice',
+                null,
                 [
-                    'label' => 'admin.label.printed',
-                    'transform' => true,
+                    'template' => 'admin/cells/list__cell_sale_invoice_sale_delivery_note.html.twig',
+                    'label' => 'admin.with.sale_invoice',
                 ]
             )
         ;
