@@ -22,6 +22,7 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
@@ -62,8 +63,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
      */
     protected function configureDefaultSortValues(array &$sortValues): void
     {
-        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
-        $sortValues[DatagridInterface::SORT_BY] = 'partner.id';
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'id';
     }
 
     public function configureRoutes(RouteCollectionInterface $collection): void
@@ -71,7 +72,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('generateInvoices', 'generate-invoices')
-            ->add('generateInvoicesScreen', 'generate-invoices-screen')
         ;
     }
 
@@ -136,10 +136,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ];
             $newActions['deliveryNotesList'] = [
                 'label' => 'admin.action.generate_delivery_notes_list',
-                'ask_confirmation' => false,
-            ];
-            $newActions['generateSaleInvoiceFromDeliveryNotes'] = [
-                'label' => 'admin.action.generate_invoice_from_selected',
                 'ask_confirmation' => false,
             ];
         }
@@ -862,6 +858,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.printed',
+                    'show_filter' => true,
                 ]
             )
         ;
@@ -870,6 +867,10 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['isInvoiced'] = [
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => BooleanType::TYPE_NO,
+        ];
+        $filterValues['printed'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_NO,
         ];
@@ -894,17 +895,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
 
     protected function configureListFields(ListMapper $listMapper): void
     {
-//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-//            $listMapper
-//                ->add(
-//                    'enterprise',
-//                    null,
-//                    array(
-//                        'label' => 'Empresa',
-//                    )
-//                )
-//            ;
-//        }
         $listMapper
             ->add(
                 'id',
@@ -914,19 +904,40 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'saleInvoice',
-                null,
-                [
-                    'template' => 'admin/cells/list__cell_sale_invoice_sale_delivery_note.html.twig',
-                    'label' => 'admin.with.sale_invoice',
-                ]
-            )
-            ->add(
                 'date',
                 null,
                 [
                     'label' => 'admin.label.delivery_note_date',
                     'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
+                'saleRequest.serviceTime',
+                FieldDescriptionInterface::TYPE_TIME,
+                [
+                    'label' => 'admin.label.service_time',
+                    'format' => 'H:i',
+                ]
+            )
+            ->add(
+                'vehicle',
+                null,
+                [
+                    'label' => 'admin.label.vehicle',
+                ]
+            )
+            ->add(
+                'saleServiceTariff',
+                null,
+                [
+                    'label' => 'admin.label.tonnage',
+                ]
+            )
+            ->add(
+                'operator',
+                null,
+                [
+                    'label' => 'admin.label.operator',
                 ]
             )
             ->add(
@@ -945,71 +956,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.partner_building_site',
-                ]
-            )
-            ->add(
-                'saleServiceTariff',
-                null,
-                [
-                    'label' => 'admin.label.tonnage',
-                ]
-            )
-            ->add(
-                'vehicle',
-                null,
-                [
-                    'label' => 'admin.label.vehicle',
-                ]
-            )
-            ->add(
-                'operator',
-                null,
-                [
-                    'label' => 'admin.label.operator',
-                ]
-            )
-            ->add(
-                'baseAmount',
-                null,
-                [
-                    'label' => 'admin.label.base_amount',
-                    'template' => 'admin/cells/list__cell_base_amount_currency_number.html.twig',
-                ]
-            )
-            ->add(
-                'collectionDocument',
-                null,
-                [
-                    'label' => 'admin.label.collection_document_type',
-                ]
-            )
-            ->add(
-                'collectionTerm',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_1',
-                ]
-            )
-            ->add(
-                'collectionTerm2',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_2',
-                ]
-            )
-            ->add(
-                'collectionTerm3',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_3',
-                ]
-            )
-            ->add(
-                'isInvoiced',
-                'boolean',
-                [
-                    'label' => 'admin.label.invoiced',
-                    'transform' => true,
                 ]
             )
             ->add(
