@@ -757,6 +757,16 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * Custom getters without property.
      */
+    public function getSaleRequestServiceDate(): ?DateTime
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getServiceDate() : null;
+    }
+
+    public function getSaleRequestServiceTime(): ?int
+    {
+        return $this->getSaleRequest() ? $this->getSaleRequest()->getServiceTimeString() : null;
+    }
+
     public function getSaleRequestNumber(): ?int
     {
         return $this->getSaleRequest() ? $this->getSaleRequest()->getId() : null;

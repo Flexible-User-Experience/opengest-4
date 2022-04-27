@@ -132,7 +132,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoiceSeriesRepository = $this->container->get('doctrine')->getRepository(SaleInvoiceSeries::class);
         $saleInvoiceSeries = $saleInvoiceSeriesRepository->find($formData['series']);
         $saleDeliveryNotes = [];
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em;
         foreach ($selectedModels as $saleDeliveryNote) {
             $saleDeliveryNotes[] = $em->getRepository(SaleDeliveryNote::class)->find($saleDeliveryNote);
         }
@@ -152,13 +152,6 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         }
 
         return $return;
-    }
-
-    public function generateInvoicesScreenAction()
-    {
-        $this->admin->checkAccess('edit');
-
-        return $this->render('admin/sale-delivery-note/invoiceGenerationScreen.html.twig');
     }
 
     /**
