@@ -566,6 +566,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end();
         }
+        $asd = 1;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
@@ -590,6 +591,13 @@ class OperatorAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'surname1',
+                ]
+            )
+            ->add(
+                'surname2',
+                null,
+                [
+                    'label' => 'surname2',
                 ]
             )
             ->add(
@@ -640,14 +648,6 @@ class OperatorAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add(
-                'profilePhotoImage',
-                null,
-                [
-                    'label' => 'profilePhotoImage',
-                    'template' => 'admin/cells/list__cell_profile_image_field.html.twig',
-                ]
-            )
             ->add(
                 'taxIdentificationNumber',
                 null,

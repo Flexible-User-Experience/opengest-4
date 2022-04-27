@@ -103,7 +103,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 DatePickerType::class,
                 [
                     'label' => 'admin.label.start',
-                    'format' => 'd/M/y',
+                    'format' => 'dd/MM/yyyy',
                     'required' => true,
                 ]
             )
@@ -112,7 +112,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 DatePickerType::class,
                 [
                     'label' => 'admin.label.finish',
-                    'format' => 'd/M/y',
+                    'format' => 'dd/MM/yyyy',
                     'required' => true,
                 ]
             )

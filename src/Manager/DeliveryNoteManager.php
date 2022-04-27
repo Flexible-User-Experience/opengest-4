@@ -4,7 +4,6 @@ namespace App\Manager;
 
 use App\Entity\Enterprise\Enterprise;
 use App\Repository\Sale\SaleDeliveryNoteRepository;
-use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Class DeliveryNoteManager.
@@ -13,34 +12,31 @@ use Doctrine\ORM\NonUniqueResultException;
  **/
 class DeliveryNoteManager
 {
-    /**
-     * @var SaleDeliveryNoteRepository
-     */
     private SaleDeliveryNoteRepository $saleDeliveryNoteRepository;
 
     /**
      * Methods.
-     */
-
-    /**
-     * @param SaleDeliveryNoteRepository $saleDeliveryNoteRepository
      */
     public function __construct(SaleDeliveryNoteRepository $saleDeliveryNoteRepository)
     {
         $this->saleDeliveryNoteRepository = $saleDeliveryNoteRepository;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return int
-     *
-     * @throws NonUniqueResultException
-     */
-    public function getLastDeliveryNoteByenterprise(Enterprise $enterprise)
+    public function getLastDeliveryNoteByenterprise(Enterprise $enterprise): int
     {
         $lastDeliveryNote = $this->saleDeliveryNoteRepository->getLastDeliveryNoteByenterprise($enterprise);
 
         return $lastDeliveryNote ? $lastDeliveryNote->getId() + 1 : 1;
+    }
+
+    public function getAvailableIdsByEnterprise(Enterprise $enterprise)
+    {
+        $deliveryNoteIds = $this->saleDeliveryNoteRepository->getAllDeliveryNoteIdsByEnterprise($enterprise);
+        $deliveryNoteIds = array_map(function ($number) {
+            return $number['id'];
+        }, $deliveryNoteIds);
+        $new_arr = range($deliveryNoteIds[0], max($deliveryNoteIds));
+
+        return array_diff($new_arr, $deliveryNoteIds);
     }
 }

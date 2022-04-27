@@ -1628,7 +1628,11 @@ class Operator extends AbstractBase
     {
         $date = new DateTime();
         $date->setDate($date->format('Y') * 1 - 1, 1, 1);
-        $criteria = Criteria::create()->where(Criteria::expr()->gt('begin', $date));
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gt('begin', $date))
+            ->orderBy(['begin' => Criteria::DESC])
+        ;
+        $operatorAbsences = $this->operatorAbsences->matching($criteria);
 
         return $this->operatorAbsences->matching($criteria);
     }

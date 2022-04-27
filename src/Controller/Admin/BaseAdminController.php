@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Manager\DeliveryNoteManager;
 use App\Manager\EnterpriseHolidayManager;
 use App\Manager\InvoiceManager;
 use App\Manager\Pdf\OperatorCheckingPdfManager;
@@ -30,6 +31,8 @@ abstract class BaseAdminController extends Controller
 {
     protected InvoiceManager $im;
 
+    protected DeliveryNoteManager $deliveryNoteManager;
+
     protected SaleDeliveryNotePdfManager $sdnpm;
 
     protected SaleInvoicePdfManager $sipm;
@@ -48,13 +51,14 @@ abstract class BaseAdminController extends Controller
 
     protected ManagerRegistry $em;
 
-    public function __construct(InvoiceManager $invoiceManager, SaleDeliveryNotePdfManager $sdnpm,
+    public function __construct(InvoiceManager $invoiceManager, DeliveryNoteManager $deliveryNoteManager,SaleDeliveryNotePdfManager $sdnpm,
                                 SaleInvoicePdfManager $sipm, WorkRegisterHeaderPdfManager $wrhpm,
                                 PayslipPdfManager $ppm, PayslipXmlManager $pxm, OperatorCheckingPdfManager $operatorCheckingPdfManager,
                                 VehicleCheckingPdfManager $vehicleCheckingPdfManager, ManagerRegistry $managerRegistry,
                                 EnterpriseHolidayManager $enterpriseHolidayManager)
     {
         $this->im = $invoiceManager;
+        $this->deliveryNoteManager = $deliveryNoteManager;
         $this->sdnpm = $sdnpm;
         $this->sipm = $sipm;
         $this->wrhpm = $wrhpm;

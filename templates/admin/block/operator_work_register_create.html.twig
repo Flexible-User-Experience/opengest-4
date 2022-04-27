@@ -96,7 +96,7 @@
                                 <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
                                     <option value="">---selecione un albarán---</option>
                                     {% for deliveryNote in content.saleDeliveryNotes %}
-                                    <option value="{{ deliveryNote.id }}">{{ deliveryNote.id }} - ( {{ deliveryNote.partner }} )</option>
+                                        <option value="{{ deliveryNote.id }}">{{ deliveryNote.id }} - {{ deliveryNote.partner.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
