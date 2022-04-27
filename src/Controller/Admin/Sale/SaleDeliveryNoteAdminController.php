@@ -132,7 +132,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleInvoiceSeriesRepository = $this->container->get('doctrine')->getRepository(SaleInvoiceSeries::class);
         $saleInvoiceSeries = $saleInvoiceSeriesRepository->find($formData['series']);
         $saleDeliveryNotes = [];
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em;
         foreach ($selectedModels as $saleDeliveryNote) {
             $saleDeliveryNotes[] = $em->getRepository(SaleDeliveryNote::class)->find($saleDeliveryNote);
         }
