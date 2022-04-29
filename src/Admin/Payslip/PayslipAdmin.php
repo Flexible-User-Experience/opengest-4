@@ -55,6 +55,7 @@ class PayslipAdmin extends AbstractBaseAdmin
         $collection
 //            ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('batch')
+            ->add('generatePaymentDocuments', 'generate-payment-documents')
             ->remove('create')
         ;
     }
@@ -73,12 +74,8 @@ class PayslipAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_payslip',
                 'ask_confirmation' => false,
             ];
-            $newActions['generatePayslipXMLPayment'] = [
-                'label' => 'admin.action.generate_payslip_xml_payment',
-                'ask_confirmation' => false,
-            ];
-            $newActions['generatePayslipDietsXMLPayment'] = [
-                'label' => 'admin.action.generate_payslip_xml_payment_for_diets',
+            $newActions['generatePaymentDocuments'] = [
+                'label' => 'admin.action.generate_payslip_documents',
                 'ask_confirmation' => false,
             ];
         }

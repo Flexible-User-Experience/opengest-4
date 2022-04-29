@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block sonata_admin_content %}
+    {{ parent() }}
+    <div class="sonata-ba-form">
+        <form role="form" action="{{ path('admin_app_payslip_payslip_generatePaymentDocuments') }}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <h4 class="box-title">
+                                        Generar documentos de las nóminas
+                                    </h4>
+                                </div>
+                                <div class="box-body">
+                                    {{ form(generatePaymentDocumentsPayslipForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock sonata_admin_content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    </script>
+{% endblock%}
