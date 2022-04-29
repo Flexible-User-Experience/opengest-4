@@ -128,7 +128,7 @@ class SaleRequestAdminController extends BaseAdminController
     public function batchActionGeneratepdfs(ProxyQueryInterface $selectedModelQuery)
     {
         $this->admin->checkAccess('edit');
-        $selectedModels = $selectedModelQuery->execute();
+        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
 
         /** @var SaleRequestPdfManager $rps */
         $rps = $this->container->get('app.sale_request_pdf_manager');
