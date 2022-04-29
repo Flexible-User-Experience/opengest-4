@@ -44,15 +44,23 @@ class SaleInvoiceAdminController extends BaseAdminController
     public function batchActionInvoiceList(ProxyQueryInterface $selectedModelQuery): Response
     {
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
+        usort($saleInvoices, function(SaleInvoice $a, SaleInvoice $b){
+            return $a->getDateFormatted() > $b->getDateFormatted();
+        });
         $siforDates = $saleInvoices;
+        $filterInfo = $this->admin->getFilterParameters();
 
-        //get from to dates
-        $from = array_shift($siforDates)->getDateFormatted();
-
-        if (!$siforDates) {
-            $to = $from;
-        } else {
-            $to = array_pop($siforDates)->getDateFormatted();
+        if(array_key_exists('date',$filterInfo)) {
+            //get from to filter dates
+            $from = $filterInfo['date']['value']['start'];
+            $to = $filterInfo['date']['value']['end'];
+        }else{
+            $from = array_shift($siforDates)->getDateFormatted();
+            if (!$siforDates) {
+                $to = $from;
+            } else {
+                $to = array_pop($siforDates)->getDateFormatted();
+            }
         }
 
         return new Response($this->sipm->outputSingle($saleInvoices, $from, $to), 200, ['Content-type' => 'application/pdf']);

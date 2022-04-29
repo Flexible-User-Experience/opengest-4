@@ -68,15 +68,23 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     public function batchActionDeliveryNotesByClient(ProxyQueryInterface $selectedModelQuery): Response
     {
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        usort($saleDeliveryNotes, function(SaleDeliveryNote $a, SaleDeliveryNote $b){
+            return $a->getDateToString() > $b->getDateToString();
+        });
         $sdnforDates = $saleDeliveryNotes;
+        $filterInfo = $this->admin->getFilterParameters();
 
-        //get from to dates
-        $from = array_shift($sdnforDates)->getDateToString();
-
-        if (!$sdnforDates) {
-            $to = $from;
-        } else {
-            $to = array_pop($sdnforDates)->getDateToString();
+        if(array_key_exists('date',$filterInfo)) {
+            //get from to filter dates
+            $from = $filterInfo['date']['value']['start'];
+            $to = $filterInfo['date']['value']['end'];
+        }else{
+            $from = array_shift($sdnforDates)->getDateToString();
+            if (!$sdnforDates) {
+                $to = $from;
+            } else {
+                $to = array_pop($sdnforDates)->getDateToString();
+            }
         }
 
         return new Response($this->sdnpm->outputDeliveryNotesByClient($saleDeliveryNotes, $from, $to), 200, ['Content-type' => 'application/pdf']);
@@ -84,18 +92,24 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
     public function batchActionDeliveryNotesList(ProxyQueryInterface $selectedModelQuery): Response
     {
-        //TODO sort delivery notes by date
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        usort($saleDeliveryNotes, function(SaleDeliveryNote $a, SaleDeliveryNote $b){
+            return $a->getDateToString() > $b->getDateToString();
+        });
         $sdnforDates = $saleDeliveryNotes;
         $filterInfo = $this->admin->getFilterParameters();
 
-        //get from to dates
-        $from = array_shift($sdnforDates)->getDateToString();
-
-        if (!$sdnforDates) {
-            $to = $from;
-        } else {
-            $to = array_pop($sdnforDates)->getDateToString();
+        if(array_key_exists('date',$filterInfo)) {
+            //get from to filter dates
+            $from = $filterInfo['date']['value']['start'];
+            $to = $filterInfo['date']['value']['end'];
+        }else{
+            $from = array_shift($sdnforDates)->getDateToString();
+            if (!$sdnforDates) {
+                $to = $from;
+            } else {
+                $to = array_pop($sdnforDates)->getDateToString();
+            }
         }
 
         return new Response($this->sdnpm->outputDeliveryNotesList($saleDeliveryNotes, $from, $to), 200, ['Content-type' => 'application/pdf']);
@@ -163,7 +177,6 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
-        //TODO check why $saledeliveryNotes is empty at this point
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             $saleDeliveryNote->setPrinted(true);
             $this->admin->getModelManager()->update($saleDeliveryNote);
