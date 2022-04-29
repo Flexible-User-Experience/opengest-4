@@ -162,6 +162,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute();
+        //TODO check why $saledeliveryNotes is empty at this point
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             $saleDeliveryNote->setPrinted(true);
             $this->admin->getModelManager()->update($saleDeliveryNote);
