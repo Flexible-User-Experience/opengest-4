@@ -50,32 +50,24 @@ class PayslipAdminController extends BaseAdminController
             $this->addFlash('warning', 'No existen nóminas en esta selección');
         }
         if ('payslips' === $documentType) {
-            $response = new Response($this->pxm->OutputSingle($payslips, false));
-            $disposition = HeaderUtils::makeDisposition(
-                HeaderUtils::DISPOSITION_ATTACHMENT,
-                'nominas.xml'
-            );
-            $response->headers->set('Content-Disposition', $disposition);
-            $response->headers->set('Content-type', 'text/xml');
-            $response->setStatusCode('200');
-
-            return $response;
+            $diets = false;
         } elseif ('expenses' === $documentType) {
-            $response = new Response($this->pxm->OutputSingle($payslips, true));
-            $disposition = HeaderUtils::makeDisposition(
-                HeaderUtils::DISPOSITION_ATTACHMENT,
-                'nominas.xml'
-            );
-            $response->headers->set('Content-Disposition', $disposition);
-            $response->headers->set('Content-type', 'text/xml');
-            $response->setStatusCode('200');
-
-            return $response;
+            $diets = true;
         } else {
             $this->addFlash('warning', 'Documento no válido');
-        }
 
-        return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
+            return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
+        }
+        $response = new Response($this->pxm->OutputSingle($payslips, $diets, $date));
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'nominas.xml'
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-type', 'text/xml');
+        $response->setStatusCode('200');
+
+        return $response;
     }
 
     /**
@@ -90,49 +82,5 @@ class PayslipAdminController extends BaseAdminController
         }
 
         return new Response($this->ppm->outputCollection($payslips), 200, ['Content-type' => 'application/pdf']);
-    }
-
-    /**
-     * Generate XML for payslip payment.
-     */
-    public function batchActionGeneratePayslipXMLPayment(ProxyQueryInterface $selectedModelQuery): Response
-    {
-        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
-
-        if (!$payslips) {
-            $this->addFlash('warning', 'No existen nóminas en esta selección');
-        }
-        $response = new Response($this->pxm->OutputSingle($payslips, false));
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            'nominas.xml'
-        );
-        $response->headers->set('Content-Disposition', $disposition);
-        $response->headers->set('Content-type', 'text/xml');
-        $response->setStatusCode('200');
-
-        return $response;
-    }
-
-    /**
-     * Generate XML for payslip payment.
-     */
-    public function batchActionGeneratePayslipDietsXMLPayment(ProxyQueryInterface $selectedModelQuery): Response
-    {
-        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
-
-        if (!$payslips) {
-            $this->addFlash('warning', 'No existen nóminas en esta selección');
-        }
-        $response = new Response($this->pxm->OutputSingle($payslips, true));
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            'nominas.xml'
-        );
-        $response->headers->set('Content-Disposition', $disposition);
-        $response->headers->set('Content-type', 'text/xml');
-        $response->setStatusCode('200');
-
-        return $response;
     }
 }
