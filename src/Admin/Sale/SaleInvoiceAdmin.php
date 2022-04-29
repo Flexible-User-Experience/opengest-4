@@ -77,22 +77,26 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      */
     public function configureBatchActions($actions): array
     {
+        $newActions['selectOption'] = [
+            'label' => 'admin.action.select_option',
+            'ask_confirmation' => false,
+        ];
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generatePdfsForEmail'] = [
+            $newActions['generatePdfsForEmail'] = [
                 'label' => 'admin.action.generate_pdfs_for_email',
                 'ask_confirmation' => false,
             ];
-            $actions['generatePdfsToPrint'] = [
+            $newActions['generatePdfsToPrint'] = [
                 'label' => 'admin.action.generate_pdfs_to_print',
                 'ask_confirmation' => false,
             ];
-            $actions['invoiceList'] = [
+            $newActions['invoiceList'] = [
                 'label' => 'admin.action.generate_invoice_list',
                 'ask_confirmation' => false,
             ];
         }
 
-        return $actions;
+        return array_merge($newActions, $actions);
     }
 
     public function configureExportFields(): array

@@ -8,7 +8,9 @@ use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Manager\Pdf\SaleRequestPdfManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -126,7 +128,7 @@ class SaleRequestAdminController extends BaseAdminController
     public function batchActionGeneratepdfs(ProxyQueryInterface $selectedModelQuery)
     {
         $this->admin->checkAccess('edit');
-        $selectedModels = $selectedModelQuery->execute();
+        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
 
         /** @var SaleRequestPdfManager $rps */
         $rps = $this->container->get('app.sale_request_pdf_manager');
@@ -158,6 +160,7 @@ class SaleRequestAdminController extends BaseAdminController
                 if ($a->getServiceDate()->getTimestamp() === $b->getServiceDate()->getTimestamp()) {
                     return $a->getId() > $b->getId();
                 }
+
                 return $a->getServiceDate()->getTimestamp() > $b->getServiceDate()->getTimestamp();
             });
             foreach ($saleRequests as $saleRequest) {
@@ -175,11 +178,17 @@ class SaleRequestAdminController extends BaseAdminController
     /**
      * @return SaleDeliveryNote
      *
-     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     * @throws ModelManagerException
      */
     private function generateDeliveryNoteFromSaleRequest(SaleRequest $saleRequest)
     {
         $deliveryNote = new SaleDeliveryNote();
+        $availableIds = $this->deliveryNoteManager->getAvailableIdsByEnterprise($saleRequest->getInvoiceTo()->getEnterprise());
+        if (count($availableIds) > 0) {
+            $metadata = $this->em->getManagerForClass(SaleDeliveryNote::class)->getClassMetadata(SaleDeliveryNote::class);
+            $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+            $deliveryNote->setId(array_values($availableIds)[0]);
+        }
         $deliveryNote->setDate($saleRequest->getServiceDate());
         $deliveryNote->setPartner($saleRequest->getInvoiceTo());
         $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());

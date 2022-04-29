@@ -8,9 +8,10 @@ use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -20,7 +21,6 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
@@ -41,22 +41,21 @@ class PayslipAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'nominas/nominas';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'id',
-        '_sort_order' => 'ASC',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'toDate';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
 //            ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('batch')
+            ->add('generatePaymentDocuments', 'generate-payment-documents')
             ->remove('create')
         ;
     }
@@ -66,22 +65,22 @@ class PayslipAdmin extends AbstractBaseAdmin
      */
     public function configureBatchActions($actions): array
     {
+        $newActions['selectOption'] = [
+            'label' => 'admin.action.select_option',
+            'ask_confirmation' => false,
+        ];
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
-            $actions['generatePayslip'] = [
+            $newActions['generatePayslip'] = [
                 'label' => 'admin.action.generate_payslip',
                 'ask_confirmation' => false,
             ];
-            $actions['generatePayslipXMLPayment'] = [
-                'label' => 'admin.action.generate_payslip_xml_payment',
-                'ask_confirmation' => false,
-            ];
-            $actions['generatePayslipDietsXMLPayment'] = [
-                'label' => 'admin.action.generate_payslip_xml_payment_for_diets',
+            $newActions['generatePaymentDocuments'] = [
+                'label' => 'admin.action.generate_payslip_documents',
                 'ask_confirmation' => false,
             ];
         }
 
-        return $actions;
+        return array_merge($newActions, $actions);
     }
 
     public function configureExportFields(): array
@@ -233,7 +232,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.operator',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
-                        'property' => 'name',
+                        'property' => ['name', 'surname1', 'surname2'],
                     ],
                 ]
             )
@@ -316,6 +315,17 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $rootAlias = current($query->getRootAliases());
+        $query
+            ->join($rootAlias.'.operator', 'op')
+            ->addOrderBy('op.name', 'ASC')
+        ;
+
+        return $query;
     }
 
     protected function configureListFields(ListMapper $listMapper): void

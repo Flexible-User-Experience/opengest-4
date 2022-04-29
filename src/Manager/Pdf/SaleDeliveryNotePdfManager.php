@@ -85,7 +85,7 @@ class SaleDeliveryNotePdfManager
 
             /** @var SaleDeliveryNote $saleDeliveryNote */
             foreach ($filteredSaleDeliveryNotesByPartner as $saleDeliveryNote) {
-                if ($pdf->getY() > 210) {
+                if ($pdf->getY() > 200) {
                     $this->addStartPage($pdf);
                     list($colWidth1, $colWidth2, $colWidth3) = $this->printHeader($pdf, $partner, $from, $to);
                 }
@@ -114,12 +114,14 @@ class SaleDeliveryNotePdfManager
                         $saleDeliveryNote->getSaleInvoice()->getInvoiceNumber(),
                         1, 0, 'C', false);
                 }
+                $pdf->setCellPaddings(2, 1, 1, 1);
                 $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleDeliveryNote->getBuildingSite(),
                     1, 0, 'L', false, '', 1);
                 $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleDeliveryNote->getOrder(),
                     1, 0, 'L', false, '', 1);
+                $pdf->setCellPaddings(1, 1, 1, 1);
                 $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
                     $totalHours,
                     1, 0, 'C', false);
@@ -287,6 +289,7 @@ class SaleDeliveryNotePdfManager
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de albaranes');
         $pdf = $this->pdfEngineService->getEngine();
+
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             if ('printStandard' == $documentStyle) {
@@ -497,8 +500,8 @@ class SaleDeliveryNotePdfManager
             substr($saleDeliveryNote->getObservations(), 0, 110), 0, 'L', false);
 
         //Fecha impresión
-        $pdf->setXY($xDim + 40, 176);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
+//        $pdf->setXY($xDim + 40, 176);
+//        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
         $pdf->setXY($xDim + 69, 176);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date_format($saleDeliveryNote->getDate(), 'd'), 0, 0, 'L', false);
         $pdf->setXY($xDim + 87, 176);
@@ -588,8 +591,8 @@ class SaleDeliveryNotePdfManager
 
         //Fecha impresión
         $yDim = 181;
-        $pdf->setXY($xDim + 40, $yDim);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
+//        $pdf->setXY($xDim + 40, $yDim);
+//        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
         $pdf->setXY($xDim + 70, $yDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date_format($saleDeliveryNote->getDate(), 'd'), 0, 0, 'L', false);
         $pdf->setXY($xDim + 89, $yDim);
@@ -733,8 +736,8 @@ class SaleDeliveryNotePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(), strpos($saleDeliveryNote->getPlace(), "\r\n") + 2)), 0, 0, 'L', false);
 
         //Fecha impresión
-        $pdf->setXY($xDim + 36, 174);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
+//        $pdf->setXY($xDim + 36, 174);
+//        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
         $pdf->setXY($xDim + 67, 174);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date_format($saleDeliveryNote->getDate(), 'd'), 0, 0, 'L', false);
         $pdf->setXY($xDim + 86, 174);
@@ -809,8 +812,8 @@ class SaleDeliveryNotePdfManager
 
         //Fecha impresión
         $yDim = 179.5;
-        $pdf->setXY($xDim + 36, $yDim);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
+//        $pdf->setXY($xDim + 36, $yDim);
+//        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, 'AMPOSTA', 0, 0, 'L', false);
         $pdf->setXY($xDim + 69, $yDim);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, date_format($saleDeliveryNote->getDate(), 'd'), 0, 0, 'L', false);
         $pdf->setXY($xDim + 89, $yDim);

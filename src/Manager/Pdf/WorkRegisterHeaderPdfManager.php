@@ -515,7 +515,7 @@ class WorkRegisterHeaderPdfManager
         $today = new DateTime();
         $today = $today->format('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            'Plantilal horas - Grúas Romaní - '.$today,
+            'Plantilla horas - Grúas Romaní',
             1, 0, 'L', true);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
@@ -553,6 +553,9 @@ class WorkRegisterHeaderPdfManager
 
 
         $this->pdfEngineService->setStyleSize('', 9);
+        usort($operators, function(Operator $a, Operator $b){
+            return strcasecmp($a->getSurname1(), $b->getSurname1());
+        });
         /** @var Operator $operator */
         foreach($operators as $operator){
             //get prices
@@ -624,16 +627,16 @@ class WorkRegisterHeaderPdfManager
                 $operator,
                 1, 0, 'L', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($total,'2',',','.'),
+                number_format($total,min(2,strlen(strrchr($total, '.')) -1),',','.'),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($others,'2',',','.'),
+                number_format($others,min(2,strlen(strrchr($others, '.')) -1),',','.'),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($plusprod,'2',',','.'),
+                number_format($plusprod,min(2,strlen(strrchr($plusprod, '.')) -1),',','.'),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($totaldiets,'2',',','.'),
+                number_format($totaldiets,min(2,strlen(strrchr($totaldiets, '.')) -1),',','.'),
                 1, 0, 'C', false);
             $pdf->ln();
 
