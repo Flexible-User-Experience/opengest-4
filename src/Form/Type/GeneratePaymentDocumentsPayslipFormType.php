@@ -48,6 +48,8 @@ class GeneratePaymentDocumentsPayslipFormType extends AbstractType
                     'choices' => [
                         'Nóminas' => 'payslips',
                         'Dietas' => 'expenses',
+                        'Recibos otros costes' => 'otherExpensesReceipts',
+                        'Recibos de dietas' => 'expensesReceipts',
                     ],
                 ]
             )

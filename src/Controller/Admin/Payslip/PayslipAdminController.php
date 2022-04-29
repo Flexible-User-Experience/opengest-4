@@ -49,6 +49,7 @@ class PayslipAdminController extends BaseAdminController
         if (0 === count($payslips)) {
             $this->addFlash('warning', 'No existen nóminas en esta selección');
         }
+        //TODO generate receipts when ($documentType === 'otherExpensesReceipts')  in one case and ($documentType === 'expensesReceipts')
         if ('payslips' === $documentType) {
             $diets = false;
         } elseif ('expenses' === $documentType) {
