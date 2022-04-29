@@ -26,15 +26,24 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
+        usort($operatorWorkRegisterHeaders, function(OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b){
+            return $a->getDateFormatted() > $b->getDateFormatted();
+        });
         $owrhForDates = $operatorWorkRegisterHeaders;
 
-        //get from to dates
-        $from = array_shift($owrhForDates)->getDateFormatted();
+        $filterInfo = $this->admin->getFilterParameters();
 
-        if (!$owrhForDates) {
-            $to = $from;
-        } else {
-            $to = array_pop($owrhForDates)->getDateFormatted();
+        if(array_key_exists('date',$filterInfo)) {
+            //get from to filter dates
+            $from = $filterInfo['date']['value']['start'];
+            $to = $filterInfo['date']['value']['end'];
+        }else {
+            $from = array_shift($owrhForDates)->getDateFormatted();
+            if (!$owrhForDates) {
+                $to = $from;
+            } else {
+                $to = array_pop($owrhForDates)->getDateFormatted();
+            }
         }
 
         if (!$operatorWorkRegisterHeaders) {
@@ -95,12 +104,24 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
         $form->handleRequest($request);
         /** @var Operator[] $operators */
         $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
+        usort($operatorWorkRegisterHeaders, function(OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b){
+            return $a->getDateFormatted() > $b->getDateFormatted();
+        });
+
         $owrhForDates = $operatorWorkRegisterHeaders;
-        $from = array_shift($owrhForDates)->getDate();
-        if (!$owrhForDates) {
-            $to = $from;
-        } else {
-            $to = array_pop($owrhForDates)->getDate();
+        $filterInfo = $this->admin->getFilterParameters();
+
+        if(array_key_exists('date',$filterInfo)) {
+            //get from to filter dates
+            $from = DateTime::createFromFormat('d/m/Y',$filterInfo['date']['value']['start']);
+            $to = DateTime::createFromFormat('d/m/Y', $filterInfo['date']['value']['end']);
+        }else {
+            $from = array_shift($owrhForDates)->getDate();
+            if (!$owrhForDates) {
+                $to = $from;
+            } else {
+                $to = array_pop($owrhForDates)->getDate();
+            }
         }
         $form->get('operatorWorkRegisterHeaders')->setData($operatorWorkRegisterHeaders);
         $form->get('fromDate')->setData($from);
