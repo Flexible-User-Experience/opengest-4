@@ -87,6 +87,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         //TODO sort delivery notes by date
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
         $sdnforDates = $saleDeliveryNotes;
+        $filterInfo = $this->admin->getFilterParameters();
 
         //get from to dates
         $from = array_shift($sdnforDates)->getDateToString();
@@ -161,7 +162,8 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
-        $saleDeliveryNotes = $selectedModelQuery->execute();
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        //TODO check why $saledeliveryNotes is empty at this point
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             $saleDeliveryNote->setPrinted(true);
             $this->admin->getModelManager()->update($saleDeliveryNote);
@@ -174,7 +176,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
-        $saleDeliveryNotes = $selectedModelQuery->execute();
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             $saleDeliveryNote->setPrinted(true);
             $this->admin->getModelManager()->update($saleDeliveryNote);
@@ -187,7 +189,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
-        $saleDeliveryNotes = $selectedModelQuery->execute();
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
 
         return new Response($this->sdnpm->outputCollectionStandardMail($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
@@ -196,7 +198,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
-        $saleDeliveryNotes = $selectedModelQuery->execute();
+        $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
 
         return new Response($this->sdnpm->outputCollectionDriverMail($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }

@@ -55,7 +55,6 @@ class SaleInvoiceAdminController extends BaseAdminController
             $to = array_pop($siforDates)->getDateFormatted();
         }
 
-
         return new Response($this->sipm->outputSingle($saleInvoices, $from, $to), 200, ['Content-type' => 'application/pdf']);
     }
 
@@ -194,7 +193,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         /** @var SaleInvoice[] $saleDeliveryNotes */
-        $saleInvoices = $selectedModelQuery->execute();
+        $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
 
         return new Response($this->sipm->outputCollectionPrint($saleInvoices), 200, ['Content-type' => 'application/pdf']);
     }
@@ -203,7 +202,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         /** @var SaleInvoice[] $saleDeliveryNotes */
-        $saleInvoices = $selectedModelQuery->execute();
+        $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
 
         return new Response($this->sipm->outputCollectionEmail($saleInvoices), 200, ['Content-type' => 'application/pdf']);
     }
