@@ -106,7 +106,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $this->admin->checkAccess('edit');
         $form = $this->createForm(GenerateSaleInvoicesFormType::class);
         $form->handleRequest($request);
-        /** @var SaleDeliveryNote[] $operators */
+        /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
         $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
 
