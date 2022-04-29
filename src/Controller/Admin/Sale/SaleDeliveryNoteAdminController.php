@@ -87,6 +87,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         //TODO sort delivery notes by date
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
         $sdnforDates = $saleDeliveryNotes;
+        $filterInfo = $this->admin->getFilterParameters();
 
         //get from to dates
         $from = array_shift($sdnforDates)->getDateToString();
