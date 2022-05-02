@@ -7,6 +7,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
+use App\Form\Type\Operator\GenerateDocumentationFormType;
 use App\Form\Type\Operator\GeneratePayslipsFormType;
 use DateTime;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -147,16 +148,16 @@ class OperatorAdminController extends BaseAdminController
     public function batchActionDownloadDocumentation(ProxyQueryInterface $selectedModelQuery, Request $request): Response
     {
         $this->admin->checkAccess('edit');
-        $form = $this->createForm(GeneratePayslipsFormType::class);
+        $form = $this->createForm(GenerateDocumentationFormType::class);
         $form->handleRequest($request);
         /** @var Operator[] $operators */
         $operators = $selectedModelQuery->execute()->getQuery()->getResult();
         $form->get('operators')->setData($operators);
 
         return $this->renderWithExtraParams(
-            'admin/operator/payslipGeneration.html.twig',
+            'admin/operator/documentationGeneration.html.twig',
             [
-                'generatePayslipsForm' => $form->createView(),
+                'generateDocumentationForm' => $form->createView(),
             ]
         );
     }
@@ -165,7 +166,7 @@ class OperatorAdminController extends BaseAdminController
     {
         $formData = $request->request->get('app_generate_payslips');
         try {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->em->getManager();
             $i = 0;
             /** @var Operator $operators */
             $operators = $formData['operators'];
@@ -208,6 +209,12 @@ class OperatorAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
         }
+    }
+
+    public function generateDocumentationAction(Request $request)
+    {
+        $formData = $request->request->get('app_generate_payslips');
+        dd($formData);
     }
 
     private function makePayslipLineFromDefaultPayslipLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLine

@@ -362,96 +362,96 @@ class OperatorAdmin extends AbstractBaseAdmin
 
             $formMapper
                 ->tab('Documentación')
-                ->with('No. d\'identificació fiscal', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.tax_identification_number', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'taxIdentificationNumberImageFile',
                     FileType::class,
                     [
-                        'label' => 'DNI/NIE',
+                        'label' => 'admin.with.operator.dni_nie',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Seguretat Social', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.social_security', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'dischargeSocialSecurityImageFile',
                     FileType::class,
                     [
-                        'label' => 'Baixa Seguretat Social',
+                        'label' => 'admin.with.operator.discharge_social_security',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDischargeSocialSecurityImage', 'dischargeSocialSecurityImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Contracte de treball', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.employment_contract', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'employmentContractImageFile',
                     FileType::class,
                     [
-                        'label' => 'Contracte',
+                        'label' => 'admin.with.operator.contract',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEmploymentContractImage', 'employmentContractImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Informe mèdic', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.medical_report', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'medicalCheckImageFile',
                     FileType::class,
                     [
-                        'label' => 'Revisió mèdica',
+                        'label' => 'admin.with.operator.medical_check',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadMedicalCheckImage', 'medicalCheckImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('EPI\'s', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.epis', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'episImageFile',
                     FileType::class,
                     [
-                        'label' => 'EPI',
+                        'label' => 'admin.with.operator.epis',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadEpisImage', 'episImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Formació', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.training_document', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'trainingDocumentImageFile',
                     FileType::class,
                     [
-                        'label' => 'Títol de formació',
+                        'label' => 'admin.with.operator.training_title',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTrainingDocumentImage', 'trainingDocumentImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Altres Documents', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.information', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'informationImageFile',
                     FileType::class,
                     [
-                        'label' => 'Altra informació',
+                        'label' => 'admin.with.operator.information',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadInformationImage', 'informationImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Llicències', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.operator.licences', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'drivingLicenseImageFile',
                     FileType::class,
                     [
-                        'label' => 'Carnet de conduir',
+                        'label' => 'admin.with.operator.driving_license',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadDrivingLicenseImage', 'drivingLicenseImage'),
                         'help_html' => true,
                         'required' => false,
@@ -461,7 +461,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     'useOfMachineryAuthorizationImageFile',
                     FileType::class,
                     [
-                        'label' => 'Autorització de maquinària',
+                        'label' => 'admin.with.operator.use_of_machinery_authorization',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadUseOfMachineryAuthorizationImage', 'useOfMachineryAuthorizationImage'),
                         'help_html' => true,
                         'required' => false,
@@ -471,7 +471,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     'cranesOperatorLicenseImageFile',
                     FileType::class,
                     [
-                        'label' => 'Llicència d\'operari',
+                        'label' => 'admin.with.operator.cranes_operator_license',
                         'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadCranesOperatorLicenseImage', 'cranesOperatorLicenseImage'),
                         'help_html' => true,
                         'required' => false,
