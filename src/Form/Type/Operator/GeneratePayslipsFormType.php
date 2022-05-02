@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form\Type\Operator;
 
 use App\Entity\Operator\Operator;
 use Sonata\Form\Type\DatePickerType;

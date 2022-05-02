@@ -112,6 +112,10 @@ class OperatorAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_payslips_from_selected',
                 'ask_confirmation' => false,
             ];
+            $actions['downloadDocumentation'] = [
+                'label' => 'admin.action.download_documentation',
+                'ask_confirmation' => false,
+            ];
         }
 
         return $actions;

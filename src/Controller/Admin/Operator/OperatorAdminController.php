@@ -7,7 +7,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
-use App\Form\Type\GeneratePayslipsFormType;
+use App\Form\Type\Operator\GeneratePayslipsFormType;
 use DateTime;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -140,7 +140,23 @@ class OperatorAdminController extends BaseAdminController
             'admin/operator/payslipGeneration.html.twig',
             [
                 'generatePayslipsForm' => $form->createView(),
-//                'operators' => $operators
+            ]
+        );
+    }
+
+    public function batchActionDownloadDocumentation(ProxyQueryInterface $selectedModelQuery, Request $request): Response
+    {
+        $this->admin->checkAccess('edit');
+        $form = $this->createForm(GeneratePayslipsFormType::class);
+        $form->handleRequest($request);
+        /** @var Operator[] $operators */
+        $operators = $selectedModelQuery->execute()->getQuery()->getResult();
+        $form->get('operators')->setData($operators);
+
+        return $this->renderWithExtraParams(
+            'admin/operator/payslipGeneration.html.twig',
+            [
+                'generatePayslipsForm' => $form->createView(),
             ]
         );
     }
