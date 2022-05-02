@@ -212,11 +212,31 @@ class OperatorAdminController extends BaseAdminController
         }
     }
 
-    public function generateDocumentationAction(Request $request)
+    public function generateDocumentationAction(Request $request, DownloadHandler $downloadHandler)
     {
         $formData = $request->request->get('app_generate_payslips');
-        dd(OperatorDocumentsEnum::getName(3));
-        dd($formData);
+        /** @var Operator $operators */
+        $operatorIds = $formData['operators'];
+        $documentIds = $formData['documentation'];
+        $documentation = [];
+        if (!$operatorIds) {
+            $this->addFlash('warning', 'No hay operarios seleccionados');
+        }
+        $operatorRepository = $this->em->getRepository(Operator::class);
+        /* @var Operator $operator */
+        foreach ($operatorIds as $operatorId) {
+            $operator = $operatorRepository->findOneBy(['id' => $operatorId]);
+            if (!$operator) {
+                continue;
+            }
+            dd($this->downloadDocument($request, $operatorId, $downloadHandler, $operator, 'drivingLicenseImageFile', $operator->getDrivingLicenseImage()));
+            foreach ($documentIds as $documentId) {
+                $documentName = OperatorDocumentsEnum::getName($documentId);
+//                $documentContent =
+            }
+        }
+
+        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documents), 200, ['Content-type' => 'application/pdf']);
     }
 
     private function makePayslipLineFromDefaultPayslipLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLine
