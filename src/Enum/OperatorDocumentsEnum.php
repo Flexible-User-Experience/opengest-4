@@ -9,16 +9,16 @@ namespace App\Enum;
  */
 class OperatorDocumentsEnum
 {
-    public const taxIdentificationNumberImage = '0';
-    public const drivingLicenseImage = '1';
-    public const cranesOperatorLicenseImage = '2';
-    public const medicalCheckImage = '3';
-    public const episImage = '4';
-    public const trainingDocumentImage = '5';
-    public const informationImage = '6';
-    public const useOfMachineryAuthorizationImage = '7';
-    public const dischargeSocialSecurityImage = '8';
-    public const employmentContractImage = '9';
+    public const taxIdentificationNumber = '0';
+    public const drivingLicense = '1';
+    public const cranesOperatorLicense = '2';
+    public const medicalCheck = '3';
+    public const epis = '4';
+    public const trainingDocument = '5';
+    public const information = '6';
+    public const useOfMachineryAuthorization = '7';
+    public const dischargeSocialSecurity = '8';
+    public const employmentContract = '9';
 
     /**
      * @return array
@@ -34,16 +34,16 @@ class OperatorDocumentsEnum
     public static function getReversedEnumArray()
     {
         return [
-            self::taxIdentificationNumberImage => 'DNI/NIE',
-            self::drivingLicenseImage => 'Carnet de conducir',
-            self::cranesOperatorLicenseImage => 'Autorización maquinaria',
-            self::medicalCheckImage => 'Revisión médica',
-            self::episImage => 'EPI\'s',
-            self::trainingDocumentImage => 'Título de formación',
-            self::informationImage => 'Laboral',
-            self::useOfMachineryAuthorizationImage => 'Autorización maquinaria',
-            self::dischargeSocialSecurityImage => 'Baja seguridad social',
-            self::employmentContractImage => 'Contrato de trabajo',
+            self::taxIdentificationNumber => 'admin.with.operator.tax_identification_number',
+            self::drivingLicense => 'admin.with.operator.driving_license',
+            self::cranesOperatorLicense => 'admin.with.operator.cranes_operator_license',
+            self::medicalCheck => 'admin.with.operator.medical_check',
+            self::epis => 'admin.with.operator.epis',
+            self::trainingDocument => 'admin.with.operator.training_document',
+            self::information => 'admin.with.operator.information',
+            self::useOfMachineryAuthorization => 'admin.with.operator.use_of_machinery_authorization',
+            self::dischargeSocialSecurity => 'admin.with.operator.discharge_social_security',
+            self::employmentContract => 'admin.with.operator.employment_contract',
         ];
     }
 }
