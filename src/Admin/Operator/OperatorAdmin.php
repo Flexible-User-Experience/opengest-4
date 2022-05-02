@@ -66,6 +66,7 @@ class OperatorAdmin extends AbstractBaseAdmin
             ->add('downloadDischargeSocialSecurityImage', $this->getRouterIdParameter().'/baja-seguridad-social')
             ->add('downloadEmploymentContractImage', $this->getRouterIdParameter().'/contrato-de-trabajo')
             ->add('generatePayslips', 'generate-payslips')
+            ->add('generateDocumentation', 'generate-documentation')
             ->add('batch')
             ->remove('delete');
     }

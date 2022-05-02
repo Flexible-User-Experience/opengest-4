@@ -7,6 +7,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
+use App\Enum\OperatorDocumentsEnum;
 use App\Form\Type\Operator\GenerateDocumentationFormType;
 use App\Form\Type\Operator\GeneratePayslipsFormType;
 use DateTime;
@@ -214,6 +215,7 @@ class OperatorAdminController extends BaseAdminController
     public function generateDocumentationAction(Request $request)
     {
         $formData = $request->request->get('app_generate_payslips');
+        dd(OperatorDocumentsEnum::getName(3));
         dd($formData);
     }
 

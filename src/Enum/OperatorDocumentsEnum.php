@@ -46,4 +46,22 @@ class OperatorDocumentsEnum
             self::employmentContract => 'admin.with.operator.employment_contract',
         ];
     }
+
+    public static function getName(int $id)
+    {
+        $enum = [
+            'taxIdentificationNumber',
+            'drivingLicense',
+            'cranesOperatorLicense',
+            'medicalCheck',
+            'epis',
+            'trainingDocument',
+            'information',
+            'useOfMachineryAuthorization',
+            'dischargeSocialSecurity',
+            'employmentContract',
+        ];
+
+        return $enum[$id];
+    }
 }
