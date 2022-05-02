@@ -3,8 +3,10 @@
 namespace App\Form\Type\Operator;
 
 use App\Entity\Operator\Operator;
+use App\Enum\OperatorDocumentsEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -26,6 +28,16 @@ class GenerateDocumentationFormType extends AbstractType
                     'multiple' => true,
                     'error_bubbling' => false,
                     'by_reference' => true,
+                ]
+            )
+            ->add(
+                'documentation',
+                ChoiceType::class,
+                [
+                    'label' => 'Documentos',
+                    'choices' => OperatorDocumentsEnum::getEnumArray(),
+                    'multiple' => true,
+                    'expanded' => true,
                 ]
             )
             ->add(
