@@ -229,7 +229,14 @@ class OperatorAdminController extends BaseAdminController
             if (!$operator) {
                 continue;
             }
-            dd($this->downloadDocument($request, $operatorId, $downloadHandler, $operator, 'drivingLicenseImageFile', $operator->getDrivingLicenseImage()));
+            $newDocument = $downloadHandler->downloadObject(
+                $operator,
+                $fileField = 'taxIdentificationNumberImageFile',
+                $objectClass = get_class($operator),
+                $fileName = $operator->getTaxIdentificationNumberImage(),
+                $forceDownload = false
+            );
+            dd($newDocument);
             foreach ($documentIds as $documentId) {
                 $documentName = OperatorDocumentsEnum::getName($documentId);
 //                $documentContent =
