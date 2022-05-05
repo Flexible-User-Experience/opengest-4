@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\String\UnicodeString;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -229,21 +230,22 @@ class OperatorAdminController extends BaseAdminController
             if (!$operator) {
                 continue;
             }
-            $newDocument = $downloadHandler->downloadObject(
-                $operator,
-                $fileField = 'taxIdentificationNumberImageFile',
-                $objectClass = get_class($operator),
-                $fileName = $operator->getTaxIdentificationNumberImage(),
-                $forceDownload = false
-            );
-            dd($newDocument);
             foreach ($documentIds as $documentId) {
                 $documentName = OperatorDocumentsEnum::getName($documentId);
+                $method = new UnicodeString('GET_'.$documentName);
+                $fileName = call_user_func([$operator, $method->lower()->camel()->toString()]);
+                $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/operator/'.$fileName;
+                $fileContents = file_get_contents($filePath);
+                dd($fileContents, $filePath);
+                $documentation[] = [
+                  'name' => $documentName,
+                  'content' => $fileContents,
+                ];
 //                $documentContent =
             }
         }
 
-        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documents), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documentation), 200, ['Content-type' => 'application/pdf']);
     }
 
     private function makePayslipLineFromDefaultPayslipLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLine

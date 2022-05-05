@@ -50,16 +50,16 @@ class OperatorDocumentsEnum
     public static function getName(int $id)
     {
         $enum = [
-            'taxIdentificationNumber',
-            'drivingLicense',
-            'cranesOperatorLicense',
-            'medicalCheck',
-            'epis',
-            'trainingDocument',
-            'information',
-            'useOfMachineryAuthorization',
-            'dischargeSocialSecurity',
-            'employmentContract',
+            'taxIdentificationNumberImage',
+            'drivingLicenseImage',
+            'cranesOperatorLicenseImage',
+            'medicalCheckImage',
+            'episImage',
+            'trainingDocumentImage',
+            'informationImage',
+            'useOfMachineryAuthorizationImage',
+            'dischargeSocialSecurityImage',
+            'employmentContractImage',
         ];
 
         return $enum[$id];
