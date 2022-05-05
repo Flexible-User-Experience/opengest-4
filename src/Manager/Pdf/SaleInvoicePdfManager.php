@@ -240,10 +240,16 @@ class SaleInvoicePdfManager
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                     substr($deliveryNoteLine->getSaleItem(), strpos($deliveryNoteLine->getSaleItem(), '-') + 1)/*.($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : '')*/ ,
                 0, 'L', false, 0);
-                $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNoteLine->getUnits(),
-                    0, 'C', false, 0);
-                if($deliveryNoteLine->getPriceUnit() === 0) {
+                if($deliveryNoteLine->getUnits() == 0) {
+                    $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        0, 'C', false, 0);
+                } else {
+                    $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
+                        $deliveryNoteLine->getUnits(),
+                        0, 'C', false, 0);
+                }
+                if($deliveryNoteLine->getPriceUnit() == 0) {
                     $pdf->MultiCell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
                         '',
                         0, 'C', false, 0);
@@ -262,7 +268,7 @@ class SaleInvoicePdfManager
                         '', 0, 'C', false, 0);
                 }
                 $pdf->setCellPaddings(1, 1, 1, 1);
-                if($deliveryNoteLine->getTotal() === 0) {
+                if($deliveryNoteLine->getTotal() == 0) {
                     $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
                         '',
                         0, 'C', false, 0);
