@@ -240,14 +240,18 @@ class OperatorAdminController extends BaseAdminController
                 $documentNameNotTranslated = OperatorDocumentsEnum::getReversedEnumArray()[$documentId];
                 $method = new UnicodeString('GET_'.$documentName);
                 $fileName = call_user_func([$operator, $method->lower()->camel()->toString()]);
-                $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/operator/'.$fileName;
-                $fileContents = file_get_contents($filePath);
-                $documentation[$operator->getId()][] = [
-                    'name' => $documentName,
-                    'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
-                    'content' => $fileContents,
-                    'fileType' => explode('.', $fileName)[1],
-                ];
+                if ('' != $fileName) {
+                    $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/operator/'.$fileName;
+                    if (file_exists($filePath)) {
+                        $fileContents = file_get_contents($filePath);
+                        $documentation[$operator->getId()][] = [
+                            'name' => $documentName,
+                            'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                            'content' => $fileContents,
+                            'fileType' => explode('.', $fileName)[1],
+                        ];
+                    }
+                }
             }
         }
 
