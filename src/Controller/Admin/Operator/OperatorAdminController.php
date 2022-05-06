@@ -215,7 +215,7 @@ class OperatorAdminController extends BaseAdminController
         }
     }
 
-    public function generateDocumentationAction(Request $request, DownloadHandler $downloadHandler, TranslatorInterface $translator)
+    public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
         $formData = $request->request->get('app_generate_payslips');
         /** @var Operator $operators */

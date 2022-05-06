@@ -42,6 +42,17 @@ class GenerateDocumentationFormType extends AbstractType
                 ]
             )
             ->add(
+                'enterpriseDocumentation',
+                ChoiceType::class,
+                [
+                    'label' => 'Documentos de operario',
+                    'choices' => OperatorDocumentsEnum::getEnumArray(),
+                    'multiple' => true,
+                    'translation_domain' => 'admin',
+                    'expanded' => true,
+                ]
+            )
+            ->add(
                 'create',
                 SubmitType::class,
                 [
