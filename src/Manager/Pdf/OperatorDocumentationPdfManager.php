@@ -4,9 +4,13 @@ namespace App\Manager\Pdf;
 
 use App\Entity\Operator\Operator;
 use App\Enum\ConstantsEnum;
-use App\Service\PdfEngineService;
 use Doctrine\Common\Collections\Collection;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use setasign\Fpdi\PdfParser\Filter\FilterException;
+use setasign\Fpdi\PdfParser\PdfParserException;
 use setasign\Fpdi\PdfParser\StreamReader;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
+use setasign\Fpdi\PdfReader\PdfReaderException;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF;
 
@@ -17,20 +21,8 @@ use TCPDF;
  */
 class OperatorDocumentationPdfManager
 {
-    private PdfEngineService $pdfEngineService;
-
-    /**
-     * Methods.
-     */
-    public function __construct(PdfEngineService $pdfEngineService)
-    {
-        $this->pdfEngineService = $pdfEngineService;
-    }
-
     public function buildSingle(Collection $operators, $documents): TCPDF
     {
-//        $this->pdfEngineService->initDefaultPageEngineWithTitle('Documentación operarios');
-//        $pdf = $this->pdfEngineService->getEngine();
         $pdf = new Fpdi();
 
         return $this->buildOnePayslipPerPage($operators, $documents, $pdf);
@@ -43,7 +35,14 @@ class OperatorDocumentationPdfManager
         return $pdf->Output('Documentacion operario/s.pdf', 'I');
     }
 
-    private function buildOnePayslipPerPage(Collection $operators, $documents, TCPDF $pdf): TCPDF
+    /**
+     * @throws CrossReferenceException
+     * @throws PdfReaderException
+     * @throws PdfParserException
+     * @throws PdfTypeException
+     * @throws FilterException
+     */
+    private function buildOnePayslipPerPage(Collection $operators, $documents, Fpdi $pdf): TCPDF
     {
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $today = date('d/m/Y');
@@ -79,15 +78,5 @@ class OperatorDocumentationPdfManager
         }
 
         return $pdf;
-    }
-
-    /**
-     * @param int $availableHoritzontalSpace
-     */
-    private function drawHoritzontalLineSeparator(TCPDF $pdf, $availableHoritzontalSpace)
-    {
-        $pdf->ln(4);
-        $pdf->Line(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, $pdf->getY(), $availableHoritzontalSpace + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, $pdf->getY());
-        $pdf->ln(4);
     }
 }
