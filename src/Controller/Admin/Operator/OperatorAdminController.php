@@ -3,10 +3,12 @@
 namespace App\Controller\Admin\Operator;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
+use App\Enum\EnterpriseDocumentsEnum;
 use App\Enum\OperatorDocumentsEnum;
 use App\Form\Type\Operator\GenerateDocumentationFormType;
 use App\Form\Type\Operator\GeneratePayslipsFormType;
@@ -221,7 +223,9 @@ class OperatorAdminController extends BaseAdminController
         /** @var Operator $operators */
         $operatorIds = $formData['operators'];
         $documentIds = $formData['documentation'];
+        $enterpriseDocumentIds = $formData['enterpriseDocumentation'];
         $documentation = [];
+        $enterpriseDocumentation = [];
         if (!$operatorIds) {
             $this->addFlash('warning', 'No hay operarios seleccionados');
         }
@@ -254,8 +258,27 @@ class OperatorAdminController extends BaseAdminController
                 }
             }
         }
+        $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+        foreach ($enterpriseDocumentIds as $enterpriseDocumentId) {
+            $documentName = EnterpriseDocumentsEnum::getName($enterpriseDocumentId);
+            $documentNameNotTranslated = EnterpriseDocumentsEnum::getReversedEnumArray()[$enterpriseDocumentId];
+            $method = new UnicodeString('GET_'.$documentName);
+            $fileName = call_user_func([$enterprise, $method->lower()->camel()->toString()]);
+            if ('' != $fileName) {
+                $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/enterprise/'.$fileName;
+                if (file_exists($filePath)) {
+                    $fileContents = file_get_contents($filePath);
+                    $enterpriseDocumentation[] = [
+                        'name' => $documentName,
+                        'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                        'content' => $fileContents,
+                        'fileType' => explode('.', $fileName)[1],
+                    ];
+                }
+            }
+        }
 
-        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documentation), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
     }
 
     private function makePayslipLineFromDefaultPayslipLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLine

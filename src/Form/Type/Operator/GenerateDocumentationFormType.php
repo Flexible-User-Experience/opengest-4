@@ -3,6 +3,7 @@
 namespace App\Form\Type\Operator;
 
 use App\Entity\Operator\Operator;
+use App\Enum\EnterpriseDocumentsEnum;
 use App\Enum\OperatorDocumentsEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -45,8 +46,8 @@ class GenerateDocumentationFormType extends AbstractType
                 'enterpriseDocumentation',
                 ChoiceType::class,
                 [
-                    'label' => 'Documentos de operario',
-                    'choices' => OperatorDocumentsEnum::getEnumArray(),
+                    'label' => 'Documentos de empresa',
+                    'choices' => EnterpriseDocumentsEnum::getEnumArray(),
                     'multiple' => true,
                     'translation_domain' => 'admin',
                     'expanded' => true,
