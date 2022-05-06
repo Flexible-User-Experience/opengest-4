@@ -11,11 +11,13 @@ use App\Enum\OperatorDocumentsEnum;
 use App\Form\Type\Operator\GenerateDocumentationFormType;
 use App\Form\Type\Operator\GeneratePayslipsFormType;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -213,7 +215,7 @@ class OperatorAdminController extends BaseAdminController
         }
     }
 
-    public function generateDocumentationAction(Request $request, DownloadHandler $downloadHandler)
+    public function generateDocumentationAction(Request $request, DownloadHandler $downloadHandler, TranslatorInterface $translator)
     {
         $formData = $request->request->get('app_generate_payslips');
         /** @var Operator $operators */
@@ -224,24 +226,28 @@ class OperatorAdminController extends BaseAdminController
             $this->addFlash('warning', 'No hay operarios seleccionados');
         }
         $operatorRepository = $this->em->getRepository(Operator::class);
+        /** @var Operator[] $operators */
+        $operators = new ArrayCollection();
         /* @var Operator $operator */
         foreach ($operatorIds as $operatorId) {
             $operator = $operatorRepository->findOneBy(['id' => $operatorId]);
+            $operators[] = $operator;
             if (!$operator) {
                 continue;
             }
             foreach ($documentIds as $documentId) {
                 $documentName = OperatorDocumentsEnum::getName($documentId);
+                $documentNameNotTranslated = OperatorDocumentsEnum::getReversedEnumArray()[$documentId];
                 $method = new UnicodeString('GET_'.$documentName);
                 $fileName = call_user_func([$operator, $method->lower()->camel()->toString()]);
                 $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/operator/'.$fileName;
                 $fileContents = file_get_contents($filePath);
-                dd($fileContents, $filePath);
-                $documentation[] = [
-                  'name' => $documentName,
-                  'content' => $fileContents,
+                $documentation[$operator->getId()][] = [
+                    'name' => $documentName,
+                    'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                    'content' => $fileContents,
+                    'fileType' => explode('.', $fileName)[1],
                 ];
-//                $documentContent =
             }
         }
 
