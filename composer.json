@@ -58,7 +58,8 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.0",
         "vich/uploader-bundle": "^1.10",
-        "xsolve-pl/xsolve-cookie-acknowledgement-bundle": "^1.0"
+        "xsolve-pl/xsolve-cookie-acknowledgement-bundle": "^1.0",
+        "setasign/fpdi": "^2.0"
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.0",
