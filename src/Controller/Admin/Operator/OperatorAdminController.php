@@ -220,12 +220,8 @@ class OperatorAdminController extends BaseAdminController
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
         $formData = $request->request->get('app_generate_payslips');
-        /** @var Operator $operators */
-        $operatorIds = $formData['operators'];
-        $documentIds = $formData['documentation'];
-        $enterpriseDocumentIds = $formData['enterpriseDocumentation'];
         $documentation = [];
-        $enterpriseDocumentation = [];
+        $operatorIds = $formData['operators'];
         if (!$operatorIds) {
             $this->addFlash('warning', 'No hay operarios seleccionados');
         }
@@ -239,41 +235,48 @@ class OperatorAdminController extends BaseAdminController
             if (!$operator) {
                 continue;
             }
-            foreach ($documentIds as $documentId) {
-                $documentName = OperatorDocumentsEnum::getName($documentId);
-                $documentNameNotTranslated = OperatorDocumentsEnum::getReversedEnumArray()[$documentId];
+            if (array_key_exists('documentation', $formData)) {
+                $documentIds = $formData['documentation'];
+                foreach ($documentIds as $documentId) {
+                    $documentName = OperatorDocumentsEnum::getName($documentId);
+                    $documentNameNotTranslated = OperatorDocumentsEnum::getReversedEnumArray()[$documentId];
+                    $method = new UnicodeString('GET_'.$documentName);
+                    $fileName = call_user_func([$operator, $method->lower()->camel()->toString()]);
+                    if ('' != $fileName) {
+                        $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/operator/'.$fileName;
+                        if (file_exists($filePath)) {
+                            $fileContents = file_get_contents($filePath);
+                            $documentation[$operator->getId()][] = [
+                                'name' => $documentName,
+                                'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                                'content' => $fileContents,
+                                'fileType' => explode('.', $fileName)[1],
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        if (array_key_exists('enterpriseDocumentation', $formData)) {
+            $enterpriseDocumentIds = $formData['enterpriseDocumentation'];
+            $enterpriseDocumentation = [];
+            $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+            foreach ($enterpriseDocumentIds as $enterpriseDocumentId) {
+                $documentName = EnterpriseDocumentsEnum::getName($enterpriseDocumentId);
+                $documentNameNotTranslated = EnterpriseDocumentsEnum::getReversedEnumArray()[$enterpriseDocumentId];
                 $method = new UnicodeString('GET_'.$documentName);
-                $fileName = call_user_func([$operator, $method->lower()->camel()->toString()]);
+                $fileName = call_user_func([$enterprise, $method->lower()->camel()->toString()]);
                 if ('' != $fileName) {
-                    $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/operator/'.$fileName;
+                    $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/enterprise/'.$fileName;
                     if (file_exists($filePath)) {
                         $fileContents = file_get_contents($filePath);
-                        $documentation[$operator->getId()][] = [
+                        $enterpriseDocumentation[] = [
                             'name' => $documentName,
                             'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
                             'content' => $fileContents,
                             'fileType' => explode('.', $fileName)[1],
                         ];
                     }
-                }
-            }
-        }
-        $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
-        foreach ($enterpriseDocumentIds as $enterpriseDocumentId) {
-            $documentName = EnterpriseDocumentsEnum::getName($enterpriseDocumentId);
-            $documentNameNotTranslated = EnterpriseDocumentsEnum::getReversedEnumArray()[$enterpriseDocumentId];
-            $method = new UnicodeString('GET_'.$documentName);
-            $fileName = call_user_func([$enterprise, $method->lower()->camel()->toString()]);
-            if ('' != $fileName) {
-                $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/enterprise/'.$fileName;
-                if (file_exists($filePath)) {
-                    $fileContents = file_get_contents($filePath);
-                    $enterpriseDocumentation[] = [
-                        'name' => $documentName,
-                        'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
-                        'content' => $fileContents,
-                        'fileType' => explode('.', $fileName)[1],
-                    ];
                 }
             }
         }

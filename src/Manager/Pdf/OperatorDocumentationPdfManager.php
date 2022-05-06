@@ -46,14 +46,18 @@ class OperatorDocumentationPdfManager
     {
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $today = date('d/m/Y');
-        /** @var Operator $operator */
-        foreach ($operators as $operator) {
-            foreach ($documents[$operator->getId()] as $document) {
-                $this->generateNewPdfPage($pdf, $today, $document);
+        if (count($documents)) {
+            /** @var Operator $operator */
+            foreach ($operators as $operator) {
+                foreach ($documents[$operator->getId()] as $document) {
+                    $this->generateNewPdfPage($pdf, $today, $document);
+                }
             }
         }
-        foreach ($enterpriseDocumentation as $enterpriseDocument) {
-            $this->generateNewPdfPage($pdf, $today, $enterpriseDocument);
+        if (count($enterpriseDocumentation)) {
+            foreach ($enterpriseDocumentation as $enterpriseDocument) {
+                $this->generateNewPdfPage($pdf, $today, $enterpriseDocument);
+            }
         }
 
         return $pdf;
