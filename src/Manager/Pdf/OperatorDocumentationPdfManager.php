@@ -6,6 +6,8 @@ use App\Entity\Operator\Operator;
 use App\Enum\ConstantsEnum;
 use App\Service\PdfEngineService;
 use Doctrine\Common\Collections\Collection;
+use setasign\Fpdi\PdfParser\StreamReader;
+use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF;
 
 /**
@@ -27,8 +29,9 @@ class OperatorDocumentationPdfManager
 
     public function buildSingle(Collection $operators, $documents): TCPDF
     {
-        $this->pdfEngineService->initDefaultPageEngineWithTitle('Documentación operarios');
-        $pdf = $this->pdfEngineService->getEngine();
+//        $this->pdfEngineService->initDefaultPageEngineWithTitle('Documentación operarios');
+//        $pdf = $this->pdfEngineService->getEngine();
+        $pdf = new Fpdi();
 
         return $this->buildOnePayslipPerPage($operators, $documents, $pdf);
     }
@@ -43,41 +46,34 @@ class OperatorDocumentationPdfManager
     private function buildOnePayslipPerPage(Collection $operators, $documents, TCPDF $pdf): TCPDF
     {
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
+        $today = date('d/m/Y');
         /** @var Operator $operator */
         foreach ($operators as $operator) {
             foreach ($documents[$operator->getId()] as $document) {
                 $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
-                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-                $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
-
-                // get the current page break margin
-                $bMargin = $pdf->getBreakMargin();
-                // get current auto-page-break mode
-                $auto_page_break = $pdf->getAutoPageBreak();
-                // disable auto-page-break
-                $pdf->SetAutoPageBreak(false, 0);
-                // restore auto-page-break status
-                $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
-                // set the starting point for the page content
-                $pdf->setPageMark();
-                // set cell padding
-                $pdf->setCellPaddings(1, 1, 1, 1);
-
                 //Heading with date and page number
-                $today = date('d/m/Y');
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
+                $bMargin = $pdf->getBreakMargin();
+                $auto_page_break = $pdf->getAutoPageBreak();
+                $pdf->SetAutoPageBreak(false, 0);
+                $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+                $pdf->setPageMark();
+                $pdf->setCellPaddings(1, 1, 1, 1);
                 $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
-                    0, 0, 'R', true);
-                $pdf->Ln(15);
-                $pdf->setY(15);
+                    'Fecha generación: '.$today.'      '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+                    0, 0, 'R', false);
+                $pdf->setY(5);
                 $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
                     'Documento: '.$document['nameTranslated'],
                     0, 0, 'L', false);
-                $pdf->setY(30);
                 if ('pdf' === $document['fileType']) {
                     //TODO Show correctly when documentation is pdf
+                    $pdf->setSourceFile(StreamReader::createByString($document['content']));
+                    $pdfDocumentPage = $pdf->importPage(1);
+                    $pdf->useImportedPage($pdfDocumentPage, 5, 10, 200);
                 } elseif (in_array($document['fileType'], ['png', 'jpeg', 'jpg'])) {
-                    $pdf->Image('@'.$document['content']);
+                    $pdf->setY(15);
+                    $pdf->Image('@'.$document['content'], 10, 10, 180);
                 }
             }
         }
