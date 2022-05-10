@@ -21,18 +21,18 @@ use TCPDF;
  */
 class DocumentationPdfManager
 {
-    public function buildSingle(Collection $operators, $documents, $enterpriseDocumentation): TCPDF
+    public function buildSingle(Collection $entities, $documents, $enterpriseDocumentation): TCPDF
     {
         $pdf = new Fpdi();
 
-        return $this->buildOneDocument($operators, $documents, $enterpriseDocumentation, $pdf);
+        return $this->buildOneDocument($entities, $documents, $enterpriseDocumentation, $pdf);
     }
 
-    public function outputSingle(Collection $operators, $documents, $enterpriseDocumentation): string
+    public function outputSingle(Collection $entities, $documents, $enterpriseDocumentation): string
     {
-        $pdf = $this->buildSingle($operators, $documents, $enterpriseDocumentation);
+        $pdf = $this->buildSingle($entities, $documents, $enterpriseDocumentation);
 
-        return $pdf->Output('Documentacion operario/s.pdf', 'I');
+        return $pdf->Output('Documentacion.pdf', 'I');
     }
 
     /**
@@ -42,14 +42,14 @@ class DocumentationPdfManager
      * @throws PdfTypeException
      * @throws FilterException
      */
-    private function buildOneDocument(Collection $operators, $documents, $enterpriseDocumentation, Fpdi $pdf): TCPDF
+    private function buildOneDocument(Collection $entities, $documents, $enterpriseDocumentation, Fpdi $pdf): TCPDF
     {
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $today = date('d/m/Y');
         if (count($documents)) {
             /** @var Operator $operator */
-            foreach ($operators as $operator) {
-                foreach ($documents[$operator->getId()] as $document) {
+            foreach ($entities as $entity) {
+                foreach ($documents[$entity->getId()] as $document) {
                     $this->generateNewPdfPage($pdf, $today, $document);
                 }
             }
@@ -64,6 +64,7 @@ class DocumentationPdfManager
     }
 
     /**
+     * @param Fpdi $pdf
      * @param $today
      * @param $document
      *

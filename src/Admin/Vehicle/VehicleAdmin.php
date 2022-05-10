@@ -74,6 +74,7 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add('downloadItc', $this->getRouterIdParameter().'/itc')
             ->add('downloadCEDeclaration', $this->getRouterIdParameter().'/declaracion-ce')
             ->add('generateDocumentation', 'generate-documentation')
+            ->add('batch')
             ->remove('delete');
     }
 

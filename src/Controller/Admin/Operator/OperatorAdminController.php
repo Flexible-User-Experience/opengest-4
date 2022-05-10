@@ -226,7 +226,6 @@ class OperatorAdminController extends BaseAdminController
             $this->addFlash('warning', 'No hay operarios seleccionados');
         }
         $operatorRepository = $this->em->getRepository(Operator::class);
-        /** @var Operator[] $operators */
         $operators = new ArrayCollection();
         /* @var Operator $operator */
         foreach ($operatorIds as $operatorId) {

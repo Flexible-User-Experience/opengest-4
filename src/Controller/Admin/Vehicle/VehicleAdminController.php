@@ -167,7 +167,7 @@ class VehicleAdminController extends BaseAdminController
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
-        $formData = $request->request->get('app_generate_operator_documentation');
+        $formData = $request->request->get('app_generate_vehicle_documentation');
         $documentation = [];
         $vehicleIds = $formData['vehicles'];
         if (!$vehicleIds) {
@@ -229,7 +229,7 @@ class VehicleAdminController extends BaseAdminController
             }
         }
 
-        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->documentationPdfManager->outputSingle($vehicles, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
     }
 
 }
