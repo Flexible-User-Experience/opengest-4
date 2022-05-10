@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form\Type\Operator;
 
 use App\Entity\Operator\Operator;
-use Sonata\Form\Type\DatePickerType;
+use App\Enum\EnterpriseDocumentsEnum;
+use App\Enum\OperatorDocumentsEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class GeneratePayslipsFormType.
+ * Class GenerateDocumentationFormType.
  */
-class GeneratePayslipsFormType extends AbstractType
+class GenerateDocumentationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,30 +32,32 @@ class GeneratePayslipsFormType extends AbstractType
                 ]
             )
             ->add(
-                'fromDate',
-                DatePickerType::class,
+                'documentation',
+                ChoiceType::class,
                 [
-                    'label' => 'Desde',
-                    'format' => 'dd/MM/yyyy',
-                    'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('01/m/Y'),
+                    'label' => 'Documentos de operario',
+                    'choices' => OperatorDocumentsEnum::getEnumArray(),
+                    'multiple' => true,
+                    'translation_domain' => 'admin',
+                    'expanded' => true,
                 ]
             )
             ->add(
-                'toDate',
-                DatePickerType::class,
+                'enterpriseDocumentation',
+                ChoiceType::class,
                 [
-                    'label' => 'Hasta',
-                    'format' => 'dd/MM/yyyy',
-                    'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('t/m/Y'),
+                    'label' => 'Documentos de empresa',
+                    'choices' => EnterpriseDocumentsEnum::getEnumArray(),
+                    'multiple' => true,
+                    'translation_domain' => 'admin',
+                    'expanded' => true,
                 ]
             )
             ->add(
                 'create',
                 SubmitType::class,
                 [
-                    'label' => 'Crear',
+                    'label' => 'Generar documentación',
                     'attr' => [
                         'class' => 'btn btn-primary no-m-bottom',
                         'style' => 'margin-bottom: -15px',
@@ -68,6 +72,6 @@ class GeneratePayslipsFormType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'app_generate_payslips';
+        return 'app_generate_operator_documentation';
     }
 }

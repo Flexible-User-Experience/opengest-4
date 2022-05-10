@@ -471,17 +471,19 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             );
         if ($this->getSubject()->getCollectionDocumentType()) {
             if (str_contains('transferencia', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
-                $formMapper
-                    ->add(
-                        'partner.transferAccount.name',
-                        null,
-                        [
-                            'label' => 'admin.label.transference_bank',
-                            'required' => false,
-                            'disabled' => true,
-                        ]
-                    )
-                ;
+                if ($this->getSubject()->getPartner()->getTransferAccount()) {
+                    $formMapper
+                        ->add(
+                            'partner.transferAccount.name',
+                            null,
+                            [
+                                'label' => 'admin.label.transference_bank',
+                                'required' => false,
+                                'disabled' => true,
+                            ]
+                        )
+                    ;
+                }
             } elseif (str_contains('recibo', strtolower($this->getSubject()->getCollectionDocumentType()->getName()))) {
                 $formMapper
                     ->add(

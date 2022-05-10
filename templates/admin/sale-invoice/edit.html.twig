@@ -15,8 +15,6 @@
             var partnerCifNif = jQuery('#{{ form.partnerCifNif.vars.id }}');
             var partnerMainAddress = jQuery('#{{ form.partnerMainAddress.vars.id }}');
             var partnerMainCityNode = jQuery('#{{ form.partnerMainCity.vars.id }}');
-            {#var partnerIban = jQuery('#{{ form.partnerIban.vars.id }}');#}
-            {#var partnerSwift = jQuery('#{{ form.partnerSwift.vars.id }}');#}
             let hasInvoiceNumberWaring = false;
             let seriesId = jQuery('#{{ form.series.vars.id }}').val();
 
@@ -30,6 +28,21 @@
               invoiceNumberInput.attr('title', 'No hay numeros disponibles');
             }
             });
+
+            //Check if partner collection type is tranference and if it has associated transfer account, if not show warning
+            if ('{{ admin.subject.collectionDocumentType }}' === 'TRANSFERENCIA') {
+                if ('{{ admin.subject.partner.transferAccount }}' === '') {
+                    var collectionDocumentType = jQuery('#{{ form.collectionDocumentType.vars.id }}');
+                    jQuery(`
+                      <p style="color:red">
+                        El cliente no tiene cuenta de transferencia asignada
+                      </p>
+                      <a href="{{ path('admin_app_partner_client_edit', { 'id': form.partner.vars.data.id }) }}">
+                          Ir a cliente
+                      </a>
+                  `).insertAfter(collectionDocumentType);
+                }
+            }
 
             //on change Partner
             partnerNode.change(function(event) {

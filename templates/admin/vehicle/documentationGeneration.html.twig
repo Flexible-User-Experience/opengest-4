@@ -1,0 +1,53 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block sonata_admin_content %}
+    {{ parent() }}
+    <div class="sonata-ba-form">
+        <form role="form" action="{{ path('admin_app_vehicle_vehicle_generateDocumentation') }}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_start(generateDocumentationForm) }}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <h4 class="box-title">
+                                            Generar documentos de los vehículos
+                                        </h4>
+                                    </div>
+                                    <div class="box-body">
+                                        {{ form_row(generateDocumentationForm.vehicles) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <h4 class="box-title">
+                                            Documentos de vehículo
+                                        </h4>
+                                    </div>
+                                    <div class="box-body">
+                                        {{ form_row(generateDocumentationForm.documentation) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <h4 class="box-title">
+                                            Documentos de empresa
+                                        </h4>
+                                    </div>
+                                    <div class="box-body">
+                                        {{ form_row(generateDocumentationForm.enterpriseDocumentation) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{ form_end(generateDocumentationForm) }}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock sonata_admin_content %}

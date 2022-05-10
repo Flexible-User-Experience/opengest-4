@@ -58,7 +58,9 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.0",
         "vich/uploader-bundle": "^1.10",
-        "xsolve-pl/xsolve-cookie-acknowledgement-bundle": "^1.0"
+        "xsolve-pl/xsolve-cookie-acknowledgement-bundle": "^1.0",
+        "setasign/fpdi": "^2.0",
+        "setasign/fpdi_pdf-parser": "2.0.7"
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.0",
@@ -78,7 +80,8 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "symfony/flex": true
+            "symfony/flex": true,
+            "setasign/composer-ioncube-license-installer": true
         }
     },
     "autoload": {
@@ -127,6 +130,10 @@
         {
             "type": "vcs",
             "url":  "https://github.com/kgilden/twig-spreadsheet-bundle.git"
+        },
+        {
+            "type": "composer",
+            "url": "https://www.setasign.com/downloads/"
         }
     ]
 }
