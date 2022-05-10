@@ -4,8 +4,10 @@ namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use DateTime;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class SaleRequestDocument.
@@ -16,9 +18,74 @@ use DateTime;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleRequestRepository")
  * @ORM\Table(name="sale_request_document")
- * @UniqueEntity({"description"})
+ * @UniqueEntity({"document"})
+ * @Vich\Uploadable()
  */
 class SaleRequestDocument extends AbstractBase
 {
+    /**
+     * @var File
+     *
+     * @Vich\UploadableField(mapping="saleRequestDocument", fileNameProperty="document")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     */
+    private File $documentFile;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private string $document;
+
+    /**
+     * @return File
+     */
+    public function getDocumentFile(): File
+    {
+        return $this->documentFile;
+    }
+
+    /**
+     * @return SaleRequestDocument
+     *
+     * @throws Exception
+     */
+    public function setDocumentFile(File $documentFile = null): SaleRequestDocument
+    {
+        $this->documentFile = $documentFile;
+        if ($documentFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocument(): string
+    {
+        return $this->document;
+    }
+
+    /**
+     * @param string $document
+     *
+     * @return SaleRequestDocument
+     */
+    public function setDocument(string $document): SaleRequestDocument
+    {
+        $this->document = $document;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getDocument();
+    }
 }
