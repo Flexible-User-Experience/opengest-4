@@ -71,6 +71,10 @@ class SaleDeliveryNotePdfManager
     public function buildListByClient($saleDeliveryNotes, $from, $to, TCPDF $pdf): TCPDF
     {
         $partnersFromSaleDeliveryNotes = [];
+        $totalHoursFromDeliveryNote = 0;
+        $totalBaseFromDeliveryNote = 0;
+        $totalFinalFromDeliveryNote = 0;
+
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             $partnersFromSaleDeliveryNotes[$saleDeliveryNote->getPartner()->getId()] = $saleDeliveryNote->getPartner();
@@ -85,7 +89,7 @@ class SaleDeliveryNotePdfManager
 
             /** @var SaleDeliveryNote $saleDeliveryNote */
             foreach ($filteredSaleDeliveryNotesByPartner as $saleDeliveryNote) {
-                if ($pdf->getY() > 200) {
+                if ($pdf->getY() > 180) {
                     $this->addStartPage($pdf);
                     list($colWidth1, $colWidth2, $colWidth3) = $this->printHeader($pdf, $partner, $from, $to);
                 }
@@ -141,7 +145,33 @@ class SaleDeliveryNotePdfManager
                     number_format($saleDeliveryNote->getFinalTotal(), 2, ',', '.').'€',
                     1, 0, 'C', false);
                 $pdf->Ln();
+                $totalHoursFromDeliveryNote = $totalHours + $totalHoursFromDeliveryNote;
+                $totalBaseFromDeliveryNote = $saleDeliveryNote->getBaseAmount() + $totalBaseFromDeliveryNote;
+                $totalFinalFromDeliveryNote = $saleDeliveryNote->getFinalTotal() + $totalFinalFromDeliveryNote;
             }
+            $pdf->SetX(175);
+            $pdf->setCellPaddings(1, 1, 1, 1);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 10);
+
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                $totalHoursFromDeliveryNote,
+                1, 0, 'C', false);
+            if ($totalHoursFromDeliveryNote > 0) {
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    number_format($totalBaseFromDeliveryNote / $totalHoursFromDeliveryNote, 2, ',', '.').'€',
+                    1, 0, 'C', false);
+            } else {
+                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                    '0',
+                    1, 0, 'C', false);
+            }
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                number_format($totalBaseFromDeliveryNote, 2, ',', '.').'€',
+                1, 0, 'C', false);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                number_format($totalFinalFromDeliveryNote, 2, ',', '.').'€',
+                1, 0, 'C', false);
+            $pdf->Ln();
         }
 
         return $pdf;
