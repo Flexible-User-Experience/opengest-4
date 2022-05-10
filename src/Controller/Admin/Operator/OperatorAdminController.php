@@ -219,14 +219,13 @@ class OperatorAdminController extends BaseAdminController
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
-        $formData = $request->request->get('app_generate_payslips');
+        $formData = $request->request->get('app_generate_operator_documentation');
         $documentation = [];
         $operatorIds = $formData['operators'];
         if (!$operatorIds) {
             $this->addFlash('warning', 'No hay operarios seleccionados');
         }
         $operatorRepository = $this->em->getRepository(Operator::class);
-        /** @var Operator[] $operators */
         $operators = new ArrayCollection();
         /* @var Operator $operator */
         foreach ($operatorIds as $operatorId) {
@@ -281,7 +280,7 @@ class OperatorAdminController extends BaseAdminController
             }
         }
 
-        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->documentationPdfManager->outputSingle($operators, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
     }
 
     private function makePayslipLineFromDefaultPayslipLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLine

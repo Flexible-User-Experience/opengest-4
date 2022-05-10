@@ -3,10 +3,20 @@
 namespace App\Controller\Admin\Vehicle;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\Enterprise;
+use App\Entity\Operator\Operator;
 use App\Entity\Vehicle\Vehicle;
+use App\Enum\EnterpriseDocumentsEnum;
+use App\Enum\OperatorDocumentsEnum;
+use App\Enum\VehicleDocumentsEnum;
+use App\Form\Type\Vehicle\GenerateDocumentationFormType;
+use Doctrine\Common\Collections\ArrayCollection;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\String\UnicodeString;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -135,4 +145,91 @@ class VehicleAdminController extends BaseAdminController
 
         return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'CEDeclarationFile', $vehicle->getCEDeclaration());
     }
+
+
+    public function batchActionDownloadDocumentation(ProxyQueryInterface $selectedModelQuery, Request $request): Response
+    {
+        $this->admin->checkAccess('edit');
+        $form = $this->createForm(GenerateDocumentationFormType::class);
+        $form->handleRequest($request);
+        /** @var Vehicle[] $vehicle */
+        $vehicle = $selectedModelQuery->execute()->getQuery()->getResult();
+        $form->get('vehicles')->setData($vehicle);
+
+        return $this->renderWithExtraParams(
+            'admin/vehicle/documentationGeneration.html.twig',
+            [
+                'generateDocumentationForm' => $form->createView(),
+            ]
+        );
+    }
+
+
+    public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
+    {
+        $formData = $request->request->get('app_generate_vehicle_documentation');
+        $documentation = [];
+        $vehicleIds = $formData['vehicles'];
+        if (!$vehicleIds) {
+            $this->addFlash('warning', 'No hay vehículos seleccionados');
+        }
+        $vehicleRepository = $this->em->getRepository(Vehicle::class);
+        /** @var Operator[] $operators */
+        $vehicles = new ArrayCollection();
+        /* @var Operator $operator */
+        foreach ($vehicleIds as $vehicleId) {
+            $vehicle = $vehicleRepository->findOneBy(['id' => $vehicleId]);
+            $vehicles[] = $vehicle;
+            if (!$vehicle) {
+                continue;
+            }
+            if (array_key_exists('documentation', $formData)) {
+                $documentIds = $formData['documentation'];
+                foreach ($documentIds as $documentId) {
+                    $documentName = VehicleDocumentsEnum::getName($documentId);
+                    $documentNameNotTranslated = VehicleDocumentsEnum::getReversedEnumArray()[$documentId];
+                    $method = new UnicodeString('GET_'.$documentName);
+                    $fileName = call_user_func([$vehicle, $method->lower()->camel()->toString()]);
+                    if ('' != $fileName) {
+                        $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/vehicle/'.$fileName;
+                        if (file_exists($filePath)) {
+                            $fileContents = file_get_contents($filePath);
+                            $documentation[$vehicle->getId()][] = [
+                                'name' => $documentName,
+                                'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                                'content' => $fileContents,
+                                'fileType' => explode('.', $fileName)[1],
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        if (array_key_exists('enterpriseDocumentation', $formData)) {
+            $enterpriseDocumentIds = $formData['enterpriseDocumentation'];
+            $enterpriseDocumentation = [];
+            $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+            foreach ($enterpriseDocumentIds as $enterpriseDocumentId) {
+                $documentName = EnterpriseDocumentsEnum::getName($enterpriseDocumentId);
+                $documentNameNotTranslated = EnterpriseDocumentsEnum::getReversedEnumArray()[$enterpriseDocumentId];
+                $method = new UnicodeString('GET_'.$documentName);
+                $fileName = call_user_func([$enterprise, $method->lower()->camel()->toString()]);
+                if ('' != $fileName) {
+                    $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/enterprise/'.$fileName;
+                    if (file_exists($filePath)) {
+                        $fileContents = file_get_contents($filePath);
+                        $enterpriseDocumentation[] = [
+                            'name' => $documentName,
+                            'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                            'content' => $fileContents,
+                            'fileType' => explode('.', $fileName)[1],
+                        ];
+                    }
+                }
+            }
+        }
+
+        return new Response($this->documentationPdfManager->outputSingle($vehicles, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
+    }
+
 }

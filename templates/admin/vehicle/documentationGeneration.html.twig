@@ -3,7 +3,7 @@
 {% block sonata_admin_content %}
     {{ parent() }}
     <div class="sonata-ba-form">
-        <form role="form" action="{{ path('admin_app_operator_operator_generateDocumentation') }}" method="POST" enctype="multipart/form-data">
+        <form role="form" action="{{ path('admin_app_vehicle_vehicle_generateDocumentation') }}" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     {{ form_start(generateDocumentationForm) }}
@@ -12,11 +12,11 @@
                                 <div class="box box-success">
                                     <div class="box-header">
                                         <h4 class="box-title">
-                                            Generar documentos de los operarios
+                                            Generar documentos de los vehículos
                                         </h4>
                                     </div>
                                     <div class="box-body">
-                                        {{ form_row(generateDocumentationForm.operators) }}
+                                        {{ form_row(generateDocumentationForm.vehicles) }}
                                     </div>
                                 </div>
                             </div>
@@ -24,7 +24,7 @@
                                 <div class="box box-success">
                                     <div class="box-header">
                                         <h4 class="box-title">
-                                            Documentos de operario
+                                            Documentos de vehículo
                                         </h4>
                                     </div>
                                     <div class="box-body">
