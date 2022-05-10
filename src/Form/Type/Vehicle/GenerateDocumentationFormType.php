@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Type\Operator;
+namespace App\Form\Type\Vehicle;
 
-use App\Entity\Operator\Operator;
+use App\Entity\Vehicle\Vehicle;
 use App\Enum\EnterpriseDocumentsEnum;
-use App\Enum\OperatorDocumentsEnum;
+use App\Enum\VehicleDocumentsEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,12 +20,12 @@ class GenerateDocumentationFormType extends AbstractType
     {
         $builder
             ->add(
-                'operators',
+                'vehicles',
                 EntityType::class,
                 [
-                    'label' => 'Operarios',
+                    'label' => 'Vehículos',
                     'required' => true,
-                    'class' => Operator::class,
+                    'class' => Vehicle::class,
                     'multiple' => true,
                     'error_bubbling' => false,
                     'by_reference' => true,
@@ -35,8 +35,8 @@ class GenerateDocumentationFormType extends AbstractType
                 'documentation',
                 ChoiceType::class,
                 [
-                    'label' => 'Documentos de operario',
-                    'choices' => OperatorDocumentsEnum::getEnumArray(),
+                    'label' => 'Documentos de vehículo',
+                    'choices' => VehicleDocumentsEnum::getEnumArray(),
                     'multiple' => true,
                     'translation_domain' => 'admin',
                     'expanded' => true,
@@ -72,6 +72,6 @@ class GenerateDocumentationFormType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'app_generate_operator_documentation';
+        return 'app_generate_vehicle_documentation';
     }
 }

@@ -73,6 +73,7 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add('downloadItv', $this->getRouterIdParameter().'/itv')
             ->add('downloadItc', $this->getRouterIdParameter().'/itc')
             ->add('downloadCEDeclaration', $this->getRouterIdParameter().'/declaracion-ce')
+            ->add('generateDocumentation', 'generate-documentation')
             ->remove('delete');
     }
 
@@ -91,6 +92,20 @@ class VehicleAdmin extends AbstractBaseAdmin
             'tonnage',
             'enabled',
         ];
+    }
+
+    public function configureBatchActions(array $actions): array
+    {
+        if (
+            $this->hasRoute('edit')
+        ) {
+            $actions['downloadDocumentation'] = [
+                'label' => 'admin.action.download_documentation',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return $actions;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void

@@ -219,7 +219,7 @@ class OperatorAdminController extends BaseAdminController
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
-        $formData = $request->request->get('app_generate_payslips');
+        $formData = $request->request->get('app_generate_operator_documentation');
         $documentation = [];
         $operatorIds = $formData['operators'];
         if (!$operatorIds) {
