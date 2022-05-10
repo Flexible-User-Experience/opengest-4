@@ -31,6 +31,23 @@
             }
             });
 
+            //Check if partner collection type is tranference and if it has associated transfer account, if not show warning
+            console.log('{{ admin.subject.collectionDocumentType }}');
+            if ('{{ admin.subject.collectionDocumentType }}' === 'TRANSFERENCIA') {
+                if ('{{ admin.subject.partner.transferAccount }}' === '') {
+                    console.log('Hey');
+                    var collectionDocumentType = jQuery('#{{ form.collectionDocumentType.vars.id }}');
+                    jQuery(`
+                      <p style="color:red">
+                        El cliente no tiene cuenta de transferencia asignada
+                      </p>
+                      <a href="{{ path('admin_app_partner_client_edit', { 'id': form.partner.vars.data.id }) }}">
+                          Ir a cliente
+                      </a>
+                  `).insertAfter(collectionDocumentType);
+                }
+            }
+
             //on change Partner
             partnerNode.change(function(event) {
                 var partnerId = jQuery(event.target).val();
