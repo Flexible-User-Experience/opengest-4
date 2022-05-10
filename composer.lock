@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d51158768fa836b70e5a9398f7f72979",
+    "content-hash": "11cc77e4eb21be04dae9235b5fdbaee0",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -3569,44 +3569,6 @@
             "time": "2020-08-25T19:10:18+00:00"
         },
         {
-            "name": "setasign/composer-ioncube-license-installer",
-            "version": "v1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Setasign/ComposerIoncubeLicenseInstaller.git",
-                "reference": "97bcc0a4a11cd4658e07156033289380735749eb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/ComposerIoncubeLicenseInstaller/zipball/97bcc0a4a11cd4658e07156033289380735749eb",
-                "reference": "97bcc0a4a11cd4658e07156033289380735749eb",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^2.0",
-                "php": "^5.4 || ^7.0 || ^8.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "setasign\\ComposerIoncubeLicenseInstaller\\InstallerPlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "setasign\\ComposerIoncubeLicenseInstaller\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Installer plugin for ioncube licenses",
-            "support": {
-                "issues": "https://github.com/Setasign/ComposerIoncubeLicenseInstaller/issues",
-                "source": "https://github.com/Setasign/ComposerIoncubeLicenseInstaller/tree/v1.1.1"
-            },
-            "time": "2020-09-14T08:33:54+00:00"
-        },
-        {
             "name": "setasign/fpdi",
             "version": "v2.3.6",
             "source": {
@@ -3679,15 +3641,14 @@
             "time": "2021-02-11T11:37:01+00:00"
         },
         {
-            "name": "setasign/fpdi_pdf-parser_eval_ioncube_php7.1",
+            "name": "setasign/fpdi_pdf-parser",
             "version": "2.0.7",
             "dist": {
                 "type": "zip",
-                "url": "https://www.setasign.com/downloads/3358993/FPDI_PDF-Parser-2.0.7_Ioncubed-PHP7.1.zip"
+                "url": "https://www.setasign.com/downloads/3358984/FPDI_PDF-Parser-2.0.7.zip"
             },
             "require": {
-                "setasign/fpdi": "^2.0",
-                "setasign/fpdi_pdf-parser_ioncube_license": "*"
+                "setasign/fpdi": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -3702,30 +3663,6 @@
                 "email": "support@setasign.com"
             },
             "time": "2021-12-06T00:00:00+00:00"
-        },
-        {
-            "name": "setasign/fpdi_pdf-parser_ioncube_license",
-            "version": "1.0.3689975",
-            "dist": {
-                "type": "zip",
-                "url": "https://www.setasign.com/downloads/eval/19864/ioncube/FPDI-PDF-Parser-License.zip"
-            },
-            "require": {
-                "setasign/composer-ioncube-license-installer": "*"
-            },
-            "type": "ioncube-license",
-            "extra": {
-                "licenseValidFor": [
-                    "setasign/fpdi_pdf-parser_eval_ioncube_php5",
-                    "setasign/fpdi_pdf-parser_eval_ioncube_php5.3",
-                    "setasign/fpdi_pdf-parser_eval_ioncube_php5.4",
-                    "setasign/fpdi_pdf-parser_eval_ioncube_php5.6",
-                    "setasign/fpdi_pdf-parser_eval_ioncube_php7.1"
-                ]
-            },
-            "license": [
-                "proprietary"
-            ]
         },
         {
             "name": "sonata-project/admin-bundle",
