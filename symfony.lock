@@ -357,6 +357,18 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "setasign/composer-ioncube-license-installer": {
+        "version": "v1.1.1"
+    },
+    "setasign/fpdi": {
+        "version": "v2.3.6"
+    },
+    "setasign/fpdi_pdf-parser_eval_ioncube_php7.1": {
+        "version": "2.0.7"
+    },
+    "setasign/fpdi_pdf-parser_ioncube_license": {
+        "version": "1.0.3689975"
+    },
     "sonata-project/admin-bundle": {
         "version": "3.31",
         "recipe": {
