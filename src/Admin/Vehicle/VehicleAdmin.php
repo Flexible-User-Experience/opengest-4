@@ -226,132 +226,132 @@ class VehicleAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
                 ->tab('Documentación')
-                ->with('Chasis', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.chassis_image', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'chassisImageFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadChassisImage', 'chassisImage'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Ficha técnica 1', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.technical_datasheet_1', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'technicalDatasheet1File',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet1', 'technicalDatasheet1'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Ficha técnica 2', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.technical_datasheet_2', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'technicalDatasheet2File',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTechnicalDatasheet2', 'technicalDatasheet2'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Tabla cargas', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.load_table', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'loadTableFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadLoadTable', 'loadTable'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Diagrama alcances', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.reach_diagram', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'reachDiagramFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadReachDiagram', 'reachDiagram'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Permiso circulación', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.traffic_certificate', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'trafficCertificateFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficCertificate', 'trafficCertificate'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Dimensiones', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.dimensions', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'dimensionsFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadDimensions', 'dimensions'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Tarjeta transporte', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.transport_card', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'transportCardFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTransportCard', 'transportCard'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('Seguro circulación', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.traffic_insurance', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'trafficInsuranceFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficInsurance', 'trafficInsurance'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('ITV', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.itv', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'itvFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItv', 'itv'),
                         'help_html' => true,
                         'required' => false,
                     ]
                 )
                 ->end()
-                ->with('ITC', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.with.vehicle.itc', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'itcFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itv'),
                         'help_html' => true,
                         'required' => false,
@@ -363,7 +363,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     'CEDeclarationFile',
                     FileType::class,
                     [
-                        'label' => '-',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadCEDeclaration', 'CEDeclaration'),
                         'help_html' => true,
                         'required' => false,
