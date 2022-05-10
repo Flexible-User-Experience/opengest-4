@@ -281,7 +281,7 @@ class OperatorAdminController extends BaseAdminController
             }
         }
 
-        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->documentationPdfManager->outputSingle($operators, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
     }
 
     private function makePayslipLineFromDefaultPayslipLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLine

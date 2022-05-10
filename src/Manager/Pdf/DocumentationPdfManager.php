@@ -15,11 +15,11 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF;
 
 /**
- * Class OperatorDocumentationPdfManager.
+ * Class DocumentationPdfManager.
  *
  * @category Manager
  */
-class OperatorDocumentationPdfManager
+class DocumentationPdfManager
 {
     public function buildSingle(Collection $operators, $documents, $enterpriseDocumentation): TCPDF
     {
