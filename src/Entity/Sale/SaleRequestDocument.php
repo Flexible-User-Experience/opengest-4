@@ -26,6 +26,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SaleRequestDocument extends AbstractBase
 {
     /**
+     * @var SaleRequest
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleRequest", inversedBy="documents")
+     */
+    private SaleRequest $saleRequest;
+
+    /**
      * @var File
      *
      * @Vich\UploadableField(mapping="saleRequestDocument", fileNameProperty="document")
@@ -42,6 +49,30 @@ class SaleRequestDocument extends AbstractBase
      * @ORM\Column(type="string", nullable=false)
      */
     private string $document;
+
+    /**
+     * Methods
+     */
+
+    /**
+     * @return SaleRequest
+     */
+    public function getSaleRequest(): SaleRequest
+    {
+        return $this->saleRequest;
+    }
+
+    /**
+     * @param SaleRequest $saleRequest
+     *
+     * @return $this
+     */
+    public function setSaleRequest($saleRequest): SaleRequestDocument
+    {
+        $this->saleRequest = $saleRequest;
+
+        return $this;
+    }
 
     /**
      * @return File

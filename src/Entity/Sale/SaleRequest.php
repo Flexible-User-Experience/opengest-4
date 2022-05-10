@@ -258,6 +258,13 @@ class SaleRequest extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocuments", mappedBy="saleRequest")
+     */
+    private $documents;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private int $status = 0;
@@ -272,6 +279,7 @@ class SaleRequest extends AbstractBase
     public function __construct()
     {
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     /**
@@ -909,6 +917,54 @@ class SaleRequest extends AbstractBase
     {
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
+        }
+
+        return $this;
+    }
+    /**
+     * @return ArrayCollection
+     */
+    public function getDocuments(): ArrayCollection
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @param $documents
+     *
+     * @return $this
+     */
+    public function setDocuments($documents): SaleRequest
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    /**
+     * @param SaleRequestDocument $document
+     *
+     * @return $this
+     */
+    public function addDocument(SaleRequestDocument $document): SaleRequest
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setSaleRequest($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SaleRequestDocument $document
+     *
+     * @return $this
+     */
+    public function removeDocument(SaleRequestDocument $document): SaleRequest
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
         }
 
         return $this;
