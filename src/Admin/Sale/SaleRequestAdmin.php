@@ -119,6 +119,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
+            ->tab('General')
             ->with('admin.label.sale_request', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'status',
@@ -390,6 +391,9 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                     ],
                 ]
             )
+            ->end()
+            ->end()
+            ->tab('Documentos')
             ->end()
         ;
     }

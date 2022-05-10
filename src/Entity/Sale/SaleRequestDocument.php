@@ -35,7 +35,7 @@ class SaleRequestDocument extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="saleRequestDocument", fileNameProperty="document")
+     * @Vich\UploadableField(mapping="sale_request_document", fileNameProperty="document")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
