@@ -3,16 +3,23 @@
 namespace App\Controller\Admin\Operator;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
-use App\Form\Type\GeneratePayslipsFormType;
+use App\Enum\EnterpriseDocumentsEnum;
+use App\Enum\OperatorDocumentsEnum;
+use App\Form\Type\Operator\GenerateDocumentationFormType;
+use App\Form\Type\Operator\GeneratePayslipsFormType;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\String\UnicodeString;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
@@ -140,7 +147,23 @@ class OperatorAdminController extends BaseAdminController
             'admin/operator/payslipGeneration.html.twig',
             [
                 'generatePayslipsForm' => $form->createView(),
-//                'operators' => $operators
+            ]
+        );
+    }
+
+    public function batchActionDownloadDocumentation(ProxyQueryInterface $selectedModelQuery, Request $request): Response
+    {
+        $this->admin->checkAccess('edit');
+        $form = $this->createForm(GenerateDocumentationFormType::class);
+        $form->handleRequest($request);
+        /** @var Operator[] $operators */
+        $operators = $selectedModelQuery->execute()->getQuery()->getResult();
+        $form->get('operators')->setData($operators);
+
+        return $this->renderWithExtraParams(
+            'admin/operator/documentationGeneration.html.twig',
+            [
+                'generateDocumentationForm' => $form->createView(),
             ]
         );
     }
@@ -149,7 +172,7 @@ class OperatorAdminController extends BaseAdminController
     {
         $formData = $request->request->get('app_generate_payslips');
         try {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->em->getManager();
             $i = 0;
             /** @var Operator $operators */
             $operators = $formData['operators'];
@@ -192,6 +215,73 @@ class OperatorAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
         }
+    }
+
+    public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
+    {
+        $formData = $request->request->get('app_generate_payslips');
+        $documentation = [];
+        $operatorIds = $formData['operators'];
+        if (!$operatorIds) {
+            $this->addFlash('warning', 'No hay operarios seleccionados');
+        }
+        $operatorRepository = $this->em->getRepository(Operator::class);
+        /** @var Operator[] $operators */
+        $operators = new ArrayCollection();
+        /* @var Operator $operator */
+        foreach ($operatorIds as $operatorId) {
+            $operator = $operatorRepository->findOneBy(['id' => $operatorId]);
+            $operators[] = $operator;
+            if (!$operator) {
+                continue;
+            }
+            if (array_key_exists('documentation', $formData)) {
+                $documentIds = $formData['documentation'];
+                foreach ($documentIds as $documentId) {
+                    $documentName = OperatorDocumentsEnum::getName($documentId);
+                    $documentNameNotTranslated = OperatorDocumentsEnum::getReversedEnumArray()[$documentId];
+                    $method = new UnicodeString('GET_'.$documentName);
+                    $fileName = call_user_func([$operator, $method->lower()->camel()->toString()]);
+                    if ('' != $fileName) {
+                        $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/operator/'.$fileName;
+                        if (file_exists($filePath)) {
+                            $fileContents = file_get_contents($filePath);
+                            $documentation[$operator->getId()][] = [
+                                'name' => $documentName,
+                                'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                                'content' => $fileContents,
+                                'fileType' => explode('.', $fileName)[1],
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        if (array_key_exists('enterpriseDocumentation', $formData)) {
+            $enterpriseDocumentIds = $formData['enterpriseDocumentation'];
+            $enterpriseDocumentation = [];
+            $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
+            foreach ($enterpriseDocumentIds as $enterpriseDocumentId) {
+                $documentName = EnterpriseDocumentsEnum::getName($enterpriseDocumentId);
+                $documentNameNotTranslated = EnterpriseDocumentsEnum::getReversedEnumArray()[$enterpriseDocumentId];
+                $method = new UnicodeString('GET_'.$documentName);
+                $fileName = call_user_func([$enterprise, $method->lower()->camel()->toString()]);
+                if ('' != $fileName) {
+                    $filePath = $this->getParameter('kernel.project_dir').'/var/uploads/images/enterprise/'.$fileName;
+                    if (file_exists($filePath)) {
+                        $fileContents = file_get_contents($filePath);
+                        $enterpriseDocumentation[] = [
+                            'name' => $documentName,
+                            'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
+                            'content' => $fileContents,
+                            'fileType' => explode('.', $fileName)[1],
+                        ];
+                    }
+                }
+            }
+        }
+
+        return new Response($this->operatorDocumentationPdfManager->outputSingle($operators, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
     }
 
     private function makePayslipLineFromDefaultPayslipLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLine

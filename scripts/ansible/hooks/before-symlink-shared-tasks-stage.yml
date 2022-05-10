@@ -2,3 +2,7 @@
   copy:
     src: "{{ playbook_dir }}/vars/.env.stage"
     dest: "{{ ansistrano_release_path.stdout }}/.env"
+- name: copy composer auth file
+  copy:
+    src: "{{ playbook_dir }}/vars/auth-stage.json"
+    dest: "{{ ansistrano_release_path.stdout }}/auth.json"
