@@ -260,7 +260,7 @@ class SaleRequest extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocuments", mappedBy="saleRequest")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocument", mappedBy="saleRequest")
      */
     private $documents;
 
