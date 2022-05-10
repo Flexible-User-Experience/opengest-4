@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\File;
  *
  * @author Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleRequestRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleRequestDocumentRepository")
  * @ORM\Table(name="sale_request_document")
  * @UniqueEntity({"document"})
  * @Vich\Uploadable()
