@@ -75,6 +75,29 @@ class OperatorDocumentationPdfManager
      */
     protected function generateNewPdfPage(Fpdi $pdf, $today, $document): void
     {
+        if ('pdf' === $document['fileType']) {
+            $pageCount = $pdf->setSourceFile(StreamReader::createByString($document['content']));
+            for ($pageNumber = 1; $pageNumber <= $pageCount; $pageNumber++) {
+                $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated']);
+                $pdfDocumentPage = $pdf->importPage($pageNumber);
+                $pdf->useImportedPage($pdfDocumentPage, 5, 10, 200);
+            }
+        } elseif (in_array($document['fileType'], ['png', 'jpeg', 'jpg'])) {
+            $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated']);
+            $pdf->setY(15);
+            $pdf->Image('@'.$document['content'], 10, 10, 180);
+        }
+    }
+
+    /**
+     * @param Fpdi $pdf
+     * @param $today
+     * @param $nameTranslated
+     *
+     * @return void
+     */
+    private function addNewPageAndSetHeaders(Fpdi $pdf, $today, $nameTranslated): void
+    {
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         //Heading with date and page number
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
@@ -85,19 +108,11 @@ class OperatorDocumentationPdfManager
         $pdf->setPageMark();
         $pdf->setCellPaddings(1, 1, 1, 1);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Fecha generación: '.$today.'      '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+            'Fecha generación: ' . $today . '      ' . $pdf->getAliasNumPage() . '/' . $pdf->getAliasNbPages(),
             0, 0, 'R', false);
         $pdf->setY(5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Documento: '.$document['nameTranslated'],
+            'Documento: ' . $nameTranslated,
             0, 0, 'L', false);
-        if ('pdf' === $document['fileType']) {
-            $pdf->setSourceFile(StreamReader::createByString($document['content']));
-            $pdfDocumentPage = $pdf->importPage(1);
-            $pdf->useImportedPage($pdfDocumentPage, 5, 10, 200);
-        } elseif (in_array($document['fileType'], ['png', 'jpeg', 'jpg'])) {
-            $pdf->setY(15);
-            $pdf->Image('@'.$document['content'], 10, 10, 180);
-        }
     }
 }
