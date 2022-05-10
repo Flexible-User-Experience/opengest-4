@@ -15,8 +15,6 @@
             var partnerCifNif = jQuery('#{{ form.partnerCifNif.vars.id }}');
             var partnerMainAddress = jQuery('#{{ form.partnerMainAddress.vars.id }}');
             var partnerMainCityNode = jQuery('#{{ form.partnerMainCity.vars.id }}');
-            {#var partnerIban = jQuery('#{{ form.partnerIban.vars.id }}');#}
-            {#var partnerSwift = jQuery('#{{ form.partnerSwift.vars.id }}');#}
             let hasInvoiceNumberWaring = false;
             let seriesId = jQuery('#{{ form.series.vars.id }}').val();
 
@@ -32,10 +30,8 @@
             });
 
             //Check if partner collection type is tranference and if it has associated transfer account, if not show warning
-            console.log('{{ admin.subject.collectionDocumentType }}');
             if ('{{ admin.subject.collectionDocumentType }}' === 'TRANSFERENCIA') {
                 if ('{{ admin.subject.partner.transferAccount }}' === '') {
-                    console.log('Hey');
                     var collectionDocumentType = jQuery('#{{ form.collectionDocumentType.vars.id }}');
                     jQuery(`
                       <p style="color:red">
