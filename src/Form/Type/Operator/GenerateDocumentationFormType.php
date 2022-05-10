@@ -57,7 +57,7 @@ class GenerateDocumentationFormType extends AbstractType
                 'create',
                 SubmitType::class,
                 [
-                    'label' => 'Crear',
+                    'label' => 'Generar documentación',
                     'attr' => [
                         'class' => 'btn btn-primary no-m-bottom',
                         'style' => 'margin-bottom: -15px',

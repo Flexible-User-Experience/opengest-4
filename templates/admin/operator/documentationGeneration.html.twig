@@ -6,20 +6,46 @@
         <form role="form" action="{{ path('admin_app_operator_operator_generateDocumentation') }}" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="box box-success">
-                                <div class="box-header">
-                                    <h4 class="box-title">
-                                        Generar documentos de los operarios
-                                    </h4>
+                    {{ form_start(generateDocumentationForm) }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <h4 class="box-title">
+                                            Generar documentos de los operarios
+                                        </h4>
+                                    </div>
+                                    <div class="box-body">
+                                        {{ form_row(generateDocumentationForm.operators) }}
+                                    </div>
                                 </div>
-                                <div class="box-body">
-                                    {{ form(generateDocumentationForm) }}
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <h4 class="box-title">
+                                            Documentos de operario
+                                        </h4>
+                                    </div>
+                                    <div class="box-body">
+                                        {{ form_row(generateDocumentationForm.documentation) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <h4 class="box-title">
+                                            Documentos de empresa
+                                        </h4>
+                                    </div>
+                                    <div class="box-body">
+                                        {{ form_row(generateDocumentationForm.enterpriseDocumentation) }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {{ form_end(generateDocumentationForm) }}
                 </div>
             </div>
         </form>
