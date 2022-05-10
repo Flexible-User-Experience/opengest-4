@@ -194,7 +194,7 @@ class SaleInvoicePdfManager
         }
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
-            if ($pdf->GetY() > 200) {
+            if ($pdf->GetY() > 195) {
                 $this->setParcialFooter($pdf, $saleInvoice);
                 $this->setNewPage($pdf, $withBackground);
                 $this->setHeading($pdf, $saleInvoice);
@@ -240,12 +240,24 @@ class SaleInvoicePdfManager
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                     substr($deliveryNoteLine->getSaleItem(), strpos($deliveryNoteLine->getSaleItem(), '-') + 1)/*.($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : '')*/ ,
                 0, 'L', false, 0);
-                $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $deliveryNoteLine->getUnits(),
-                    0, 'C', false, 0);
-                $pdf->MultiCell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
-                    number_format($deliveryNoteLine->getPriceUnit(), 2, ',', '.'),
-                    0, 'C', false, 0);
+                if (0 == $deliveryNoteLine->getUnits()) {
+                    $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        0, 'C', false, 0);
+                } else {
+                    $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
+                        $deliveryNoteLine->getUnits(),
+                        0, 'C', false, 0);
+                }
+                if (0 == $deliveryNoteLine->getPriceUnit()) {
+                    $pdf->MultiCell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        0, 'C', false, 0);
+                } else {
+                    $pdf->MultiCell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
+                        number_format($deliveryNoteLine->getPriceUnit(), 2, ',', '.'),
+                        0, 'C', false, 0);
+                }
                 $pdf->setCellPaddings(0, 1, 0, 1);
                 if ($deliveryNoteLine->getDiscount()) {
                     $pdf->MultiCell($col6 - $col5 + 3, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -256,9 +268,15 @@ class SaleInvoicePdfManager
                         '', 0, 'C', false, 0);
                 }
                 $pdf->setCellPaddings(1, 1, 1, 1);
-                $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
-                    number_format($deliveryNoteLine->getTotal(), 2, ',', '.').' €',
-                    0, 'C', false, 0);
+                if (0 == $deliveryNoteLine->getTotal()) {
+                    $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
+                        '',
+                        0, 'C', false, 0);
+                } else {
+                    $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
+                        number_format($deliveryNoteLine->getTotal(), 2, ',', '.').' €',
+                        0, 'C', false, 0);
+                }
                 $pdf->Ln(4);
             }
             // TODO include invoice discount to invoice

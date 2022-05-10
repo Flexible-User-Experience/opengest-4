@@ -68,9 +68,9 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     public function batchActionDeliveryNotesByClient(ProxyQueryInterface $selectedModelQuery): Response
     {
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
-        usort($saleDeliveryNotes, function(SaleDeliveryNote $a, SaleDeliveryNote $b){
-            return $a->getDateToString() > $b->getDateToString();
-        });
+//        usort($saleDeliveryNotes, function(SaleDeliveryNote $a, SaleDeliveryNote $b){
+//            return $a->getDateToString() > $b->getDateToString();
+//        });
         $sdnforDates = $saleDeliveryNotes;
         $filterInfo = $this->admin->getFilterParameters();
 
