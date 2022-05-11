@@ -69,10 +69,18 @@ class SaleRequestDocumentAdmin extends AbstractBaseAdmin
         if ($this->id($this->getSubject())) {
             $formMapper
                 ->add(
+                    'document',
+                    null,
+                    [
+                        'label' => 'admin.with.document',
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
                     'documentFile',
                     FileType::class,
                     [
-                        'label' => 'admin.with.document',
+                        'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_sale_salerequestdocument_downloadDocument', 'document'),
                         'help_html' => true,
                         'required' => false,
