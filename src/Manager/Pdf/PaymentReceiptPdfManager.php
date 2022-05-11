@@ -33,12 +33,12 @@ class PaymentReceiptPdfManager
      *
      * @return string
      */
-    public function buildSingle($payslips, $diets): TCPDF
+    public function buildSingle($payslips, $diets, $date): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Listado recibos');
         $pdf = $this->pdfEngineService->getEngine();
 
-        return $this->buildPayslipReceipts($payslips, $diets, $pdf);
+        return $this->buildPayslipReceipts($payslips, $diets, $date, $pdf);
     }
 
     /**
@@ -46,9 +46,9 @@ class PaymentReceiptPdfManager
      *
      * @return string
      */
-    public function outputSingle($payslips, $diets)
+    public function outputSingle($payslips, $diets, $date)
     {
-        $pdf = $this->buildSingle($payslips, $diets);
+        $pdf = $this->buildSingle($payslips, $diets, $date);
 
         return $pdf->Output('Listdo Recibos'.'.pdf','I');
     }
@@ -58,8 +58,10 @@ class PaymentReceiptPdfManager
      *
      * @return string
      */
-    private function buildPayslipReceipts($payslips, $diets, $pdf)
+    private function buildPayslipReceipts($payslips, $diets, $date, $pdf)
     {
+
+        //TODO fer pdf
         // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
@@ -78,7 +80,6 @@ class PaymentReceiptPdfManager
         $pdf->setPageMark();
         // set cell padding
         $pdf->setCellPaddings(1, 1, 1, 1);
-
         //START GENERATING RECEIPTS
         /** @var Payslip $payslip */
         foreach($payslips as $payslip){
