@@ -156,15 +156,9 @@ class SaleDeliveryNotePdfManager
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $totalHoursFromDeliveryNote,
                 1, 0, 'C', false);
-            if ($totalHoursFromDeliveryNote > 0) {
-                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                    number_format($totalBaseFromDeliveryNote / $totalHoursFromDeliveryNote, 2, ',', '.').'€',
-                    1, 0, 'C', false);
-            } else {
-                $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
-                    '0',
-                    1, 0, 'C', false);
-            }
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                '',
+                1, 0, 'C', false);
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
                 number_format($totalBaseFromDeliveryNote, 2, ',', '.').'€',
                 1, 0, 'C', false);
