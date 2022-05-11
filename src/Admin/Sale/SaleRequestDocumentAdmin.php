@@ -44,7 +44,6 @@ class SaleRequestDocumentAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadDocument', $this->getRouterIdParameter().'/documento')
-            ->remove('delete')
         ;
     }
 
@@ -67,17 +66,32 @@ class SaleRequestDocumentAdmin extends AbstractBaseAdmin
                 )
             ;
         }
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->add(
+                    'documentFile',
+                    FileType::class,
+                    [
+                        'label' => 'admin.with.document',
+                        'help' => $this->getDocumentHelper('admin_app_sale_salerequestdocument_downloadDocument', 'document'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+            ;
+        } else {
+            $formMapper
+                ->add(
+                    'documentFile',
+                    FileType::class,
+                    [
+                        'label' => 'admin.with.document',
+                        'required' => true,
+                    ]
+                )
+            ;
+        }
         $formMapper
-            ->add(
-                'documentFile',
-                FileType::class,
-                [
-                    'label' => 'admin.with.document',
-                    'help' => $this->getDocumentHelper('admin_app_sale_salerequestdocument_downloadDocument', 'document'),
-                    'help_html' => true,
-                    'required' => false,
-                ]
-            )
             ->end()
         ;
     }

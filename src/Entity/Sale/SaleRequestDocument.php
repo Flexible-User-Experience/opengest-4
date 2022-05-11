@@ -44,7 +44,7 @@ class SaleRequestDocument extends AbstractBase
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    private string $document;
+    private ?string $document = '';
 
     /**
      * Methods.
@@ -87,12 +87,12 @@ class SaleRequestDocument extends AbstractBase
         return $this;
     }
 
-    public function getDocument(): string
+    public function getDocument(): ?string
     {
         return $this->document;
     }
 
-    public function setDocument(string $document): SaleRequestDocument
+    public function setDocument(?string $document): SaleRequestDocument
     {
         $this->document = $document;
 
