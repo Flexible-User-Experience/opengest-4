@@ -395,7 +395,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->end()
             ->end()
             ->tab('Documentos')
-            ->with('admin.with.sale_request_documents', $this->getFormMdSuccessBoxArray(3))
+            ->with('admin.with.sale_request_documents', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'documents',
                 CollectionType::class,

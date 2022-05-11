@@ -135,6 +135,13 @@ class SaleRequestDocumentAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'saleRequest',
+                null,
+                [
+                    'label' => 'admin.label.sale_request',
+                ]
+            )
+            ->add(
                 'document',
                 null,
                 [
