@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repository\Setting;
+namespace App\Repository\Sale;
 
 use App\Entity\Sale\SaleRequestDocument;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SaleRequestDocumentRepository extends ServiceEntityRepository
 {

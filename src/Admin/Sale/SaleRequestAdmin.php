@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -394,6 +395,21 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->end()
             ->end()
             ->tab('Documentos')
+            ->with('admin.with.sale_request_documents', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'documents',
+                CollectionType::class,
+                [
+                    'required' => false,
+                    'error_bubbling' => true,
+                    'label' => false,
+                ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                ]
+            )
+            ->end()
             ->end()
         ;
     }

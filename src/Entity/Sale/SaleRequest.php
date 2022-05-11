@@ -11,6 +11,7 @@ use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -260,7 +261,7 @@ class SaleRequest extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocument", mappedBy="saleRequest")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocument", mappedBy="saleRequest", cascade={"persist", "remove"}), orphanRemoval=true)
      */
     private $documents;
 
@@ -921,10 +922,8 @@ class SaleRequest extends AbstractBase
 
         return $this;
     }
-    /**
-     * @return ArrayCollection
-     */
-    public function getDocuments(): ArrayCollection
+
+    public function getDocuments(): Collection
     {
         return $this->documents;
     }
@@ -942,8 +941,6 @@ class SaleRequest extends AbstractBase
     }
 
     /**
-     * @param SaleRequestDocument $document
-     *
      * @return $this
      */
     public function addDocument(SaleRequestDocument $document): SaleRequest
@@ -957,8 +954,6 @@ class SaleRequest extends AbstractBase
     }
 
     /**
-     * @param SaleRequestDocument $document
-     *
      * @return $this
      */
     public function removeDocument(SaleRequestDocument $document): SaleRequest
