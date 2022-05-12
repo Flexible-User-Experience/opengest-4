@@ -261,7 +261,7 @@ class SaleRequest extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocument", mappedBy="saleRequest", cascade={"persist", "remove"}), orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocument", mappedBy="saleRequest", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $documents;
 
