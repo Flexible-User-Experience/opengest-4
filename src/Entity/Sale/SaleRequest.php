@@ -11,6 +11,7 @@ use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -258,6 +259,13 @@ class SaleRequest extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocument", mappedBy="saleRequest", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $documents;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private int $status = 0;
@@ -272,6 +280,7 @@ class SaleRequest extends AbstractBase
     public function __construct()
     {
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     /**
@@ -909,6 +918,48 @@ class SaleRequest extends AbstractBase
     {
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
+        }
+
+        return $this;
+    }
+
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @param $documents
+     *
+     * @return $this
+     */
+    public function setDocuments($documents): SaleRequest
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addDocument(SaleRequestDocument $document): SaleRequest
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setSaleRequest($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeDocument(SaleRequestDocument $document): SaleRequest
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
         }
 
         return $this;

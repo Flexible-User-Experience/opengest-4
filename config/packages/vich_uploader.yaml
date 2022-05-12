@@ -46,3 +46,6 @@ vich_uploader:
         special_permit_vehicle:
             uri_prefix:         /uploads/special_permit/vehicle
             upload_destination: '%kernel.project_dir%/var/uploads/vehicle/special_permit'
+        sale_request_document:
+            uri_prefix:         /uploads/sale_request_document/sale_request
+            upload_destination: '%kernel.project_dir%/var/uploads/sale_request/sale_request_document'
