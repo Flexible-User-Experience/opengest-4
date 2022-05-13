@@ -7,6 +7,7 @@ use App\Manager\EnterpriseHolidayManager;
 use App\Manager\InvoiceManager;
 use App\Manager\Pdf\OperatorCheckingPdfManager;
 use App\Manager\Pdf\DocumentationPdfManager;
+use App\Manager\Pdf\PaymentReceiptPdfManager;
 use App\Manager\Pdf\PayslipPdfManager;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Manager\Pdf\SaleInvoicePdfManager;
@@ -44,6 +45,8 @@ abstract class BaseAdminController extends Controller
 
     protected PayslipXmlManager $pxm;
 
+    protected PaymentReceiptPdfManager $paymentReceiptPdfManager;
+
     protected OperatorCheckingPdfManager $operatorCheckingPdfManager;
 
     protected DocumentationPdfManager $documentationPdfManager;
@@ -54,12 +57,19 @@ abstract class BaseAdminController extends Controller
 
     protected ManagerRegistry $em;
 
-    public function __construct(InvoiceManager            $invoiceManager, DeliveryNoteManager $deliveryNoteManager, SaleDeliveryNotePdfManager $sdnpm,
-                                SaleInvoicePdfManager     $sipm, WorkRegisterHeaderPdfManager $wrhpm,
-                                PayslipPdfManager         $ppm, PayslipXmlManager $pxm, OperatorCheckingPdfManager $operatorCheckingPdfManager,
+    public function __construct(InvoiceManager $invoiceManager,
+                                DeliveryNoteManager $deliveryNoteManager,
+                                SaleDeliveryNotePdfManager $sdnpm,
+                                SaleInvoicePdfManager $sipm,
+                                WorkRegisterHeaderPdfManager $wrhpm,
+                                PayslipPdfManager $ppm,
+                                PayslipXmlManager $pxm,
+                                OperatorCheckingPdfManager $operatorCheckingPdfManager,
                                 DocumentationPdfManager   $documentationPdfManager,
-                                VehicleCheckingPdfManager $vehicleCheckingPdfManager, ManagerRegistry $managerRegistry,
-                                EnterpriseHolidayManager  $enterpriseHolidayManager)
+                                VehicleCheckingPdfManager $vehicleCheckingPdfManager,
+                                ManagerRegistry $managerRegistry,
+                                EnterpriseHolidayManager $enterpriseHolidayManager,
+                                PaymentReceiptPdfManager $paymentReceiptPdfManager)
     {
         $this->im = $invoiceManager;
         $this->deliveryNoteManager = $deliveryNoteManager;
@@ -73,6 +83,7 @@ abstract class BaseAdminController extends Controller
         $this->vehicleCheckingPdfManager = $vehicleCheckingPdfManager;
         $this->em = $managerRegistry;
         $this->enterpriseHolidayManager = $enterpriseHolidayManager;
+        $this->paymentReceiptPdfManager = $paymentReceiptPdfManager;
     }
 
     /**
