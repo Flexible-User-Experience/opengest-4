@@ -63,27 +63,46 @@ class PaymentReceiptPdfManager
 
         //TODO fer pdf
         // add start page
-        list($spaceBetween, $receiptSize) = $this->addStartPage($pdf);
+        list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
         //START GENERATING RECEIPTS
         /** @var Payslip $payslip */
         foreach($payslips as $payslip){
             if($pdf->GetY() > 280){
-                list($spaceBetween, $receiptSize) = $this->addStartPage($pdf);
+                list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
             }
+            $pdf->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255)));
+            $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), $pageWidth, $receiptSize, 3.50, '1111', '');
             //TODO generate receipt format
-            $pdf->MultiCell(0, $receiptSize,
-                'Hola HOla',
-                1, 'J', 1, 1);
+            $xStartWriting = 25;
+            $pdf->SetXY($xStartWriting, $pdf->GetY() + 8);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+            $pdf->Cell(80, 0,
+                'REBUT',
+                0, 0, 'L', 0);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+            $pdf->Cell(25, 0,
+                'Import: ',
+                0, 0, 'L', 0);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+            $pdf->Cell(40, 0,
+                'eurooos ',
+                0, 0, 'L', 1);
+            $pdf->SetXY($xStartWriting, $pdf->GetY() + 15);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+            $pdf->Cell(90, 0,
+                $payslip->getOperator()->getFullName(),
+                0, 0, 'L', 0);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+            $pdf->Cell(20, 0,
+                'Data: ',
+                0, 0, 'L', 0);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+            $pdf->Cell(40, 0,
+                date_format($date,'d/m/Y'),
+                0, 0, 'L', 0);
+            $pdf->Line($marginLeft, $pdf->GetY(), $marginRight, $pdf->GetY());
             $pdf->Ln($spaceBetween);
-            $pdf->MultiCell(0, $receiptSize,
-                '',
-                1, 'J', 1, 1);
-            $pdf->Ln($spaceBetween);
-            $pdf->MultiCell(0, $receiptSize,
-                '',
-                1, 'J', 1, 1);
-            $pdf->Ln($spaceBetween);
-            
+
 //            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
 //                $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
 //                0, 0, 'R', true);
@@ -216,8 +235,9 @@ class PaymentReceiptPdfManager
         $marginTop = 15;
         $marginLeft = 20;
         $marginRight = 20;
-        $spaceBetween = 20;
+        $spaceBetween = 100;
         $receiptSize = 70;
+        $pageWidth = $pdf->getPageWidth() -  $marginRight - $marginLeft;
         $pdf->setMargins($marginLeft, $marginTop, $marginRight, true);
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
@@ -225,7 +245,7 @@ class PaymentReceiptPdfManager
         $pdf->setTextColor(0, 0, 255);
         $pdf->setFillColor(204, 229, 255);
         $pdf->setColor( 0, 0, 255);
-        return array($spaceBetween, $receiptSize);
+        return array($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft);
 
 
 //        // get the current page break margin
