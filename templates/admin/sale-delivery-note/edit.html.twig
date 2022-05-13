@@ -13,12 +13,12 @@
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var invoice = jQuery('#{{ form.saleInvoice.vars.id }}');
             var partner = jQuery('#{{ form.partner.vars.id }}');
-            let buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
-            let ordersNode = jQuery('#{{ form.order.vars.id }}');
-            let projectsNode = jQuery('#{{ form.project.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
             var totalCountedHours = 0;
             {% if  admin.id(admin.subject) %}
+              let buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
+              let ordersNode = jQuery('#{{ form.order.vars.id }}');
+              let projectsNode = jQuery('#{{ form.project.vars.id }}');
               {% if form.saleInvoice.vars.data %}
                   jQuery(`
                       <a href="{{ path('admin_app_sale_saleinvoice_edit', { 'id': form.saleInvoice.vars.data.id }) }}">
