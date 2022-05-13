@@ -70,7 +70,8 @@ class PaymentReceiptPdfManager
             if($pdf->GetY() > 280){
                 list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
             }
-            $pdf->SetLineStyle(array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255)));
+            $style = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+            $pdf->SetLineStyle($style);
             $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), $pageWidth, $receiptSize, 3.50, '1111', '');
             //TODO generate receipt format
             $xStartWriting = 25;
@@ -100,7 +101,20 @@ class PaymentReceiptPdfManager
             $pdf->Cell(40, 0,
                 date_format($date,'d/m/Y'),
                 0, 0, 'L', 0);
-            $pdf->Line($marginLeft, $pdf->GetY(), $marginRight, $pdf->GetY());
+            $pdf->Ln();
+            $pdf->Line($marginLeft, $pdf->GetY(), $pageWidth + $marginLeft, $pdf->GetY(), $style);
+            $pdf->SetXY($xStartWriting, $pdf->GetY() + 10);
+            $pdf->Cell(40, 0,
+                'Rebut de: Grúas Romaní',
+                0, 1, 'L', 0);
+            $pdf->SetX($xStartWriting);
+            $pdf->Cell(40, 0,
+                'Per: Dietas mes de'.date_format($payslip->getToDate(),'M'),
+                0, 0, 'L', 0);
+            $pdf->SetXY(140, $pdf->GetY()-0.5);
+
+            $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), 50, 20, 3.50, '0100', '');
+
             $pdf->Ln($spaceBetween);
 
 //            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -235,7 +249,7 @@ class PaymentReceiptPdfManager
         $marginTop = 15;
         $marginLeft = 20;
         $marginRight = 20;
-        $spaceBetween = 100;
+        $spaceBetween = 70;
         $receiptSize = 70;
         $pageWidth = $pdf->getPageWidth() -  $marginRight - $marginLeft;
         $pdf->setMargins($marginLeft, $marginTop, $marginRight, true);
