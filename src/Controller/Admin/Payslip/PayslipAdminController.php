@@ -49,24 +49,40 @@ class PayslipAdminController extends BaseAdminController
         if (0 === count($payslips)) {
             $this->addFlash('warning', 'No existen nóminas en esta selección');
         }
-        //TODO generate receipts when ($documentType === 'otherExpensesReceipts')  in one case and ($documentType === 'expensesReceipts')
-        if ('payslips' === $documentType) {
-            $diets = false;
-        } elseif ('expenses' === $documentType) {
-            $diets = true;
+        if ('payslips' === $documentType || 'expenses' === $documentType) {
+            if ('payslips' === $documentType) {
+                $diets = false;
+            } elseif ('expenses' === $documentType) {
+                $diets = true;
+            }
+            $response = new Response($this->pxm->OutputSingle($payslips, $diets, $date));
+            $disposition = HeaderUtils::makeDisposition(
+                HeaderUtils::DISPOSITION_ATTACHMENT,
+                'nominas.xml'
+            );
+            $response->headers->set('Content-Disposition', $disposition);
+            $response->headers->set('Content-type', 'text/xml');
+            $response->setStatusCode('200');
+        }
+        if ('otherExpensesReceipts' === $documentType || 'expensesReceipts' === $documentType) {
+            if ('otherExpensesReceipts' === $documentType) {
+                $diets = false;
+            } elseif ('expensesReceipts' === $documentType) {
+                $diets = true;
+            }
+            $response = new Response($this->paymentReceiptPdfManager->OutputSingle($payslips, $diets, $date));
+            $disposition = HeaderUtils::makeDisposition(
+                HeaderUtils::DISPOSITION_ATTACHMENT,
+                'recibos.pdf'
+            );
+            $response->headers->set('Content-Disposition', $disposition);
+            $response->headers->set('Content-type', 'application/pdf');
+            $response->setStatusCode('200');
         } else {
-            $this->addFlash('warning', 'Documento no válido');
+            $this->addFlash('warning', 'Opción no válida');
 
             return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
         }
-        $response = new Response($this->pxm->OutputSingle($payslips, $diets, $date));
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            'nominas.xml'
-        );
-        $response->headers->set('Content-Disposition', $disposition);
-        $response->headers->set('Content-type', 'text/xml');
-        $response->setStatusCode('200');
 
         return $response;
     }

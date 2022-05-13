@@ -84,6 +84,10 @@ services:
     App\Manager\Pdf\WorkRegisterHeaderPdfManager:
         class: App\Manager\Pdf\WorkRegisterHeaderPdfManager
         arguments: [ '@app.pdf_engine' ]
+#    app.payment_receipt_pdf_manager:
+    App\Manager\Pdf\PaymentReceiptPdfManager:
+        class: App\Manager\Pdf\PaymentReceiptPdfManager
+        arguments: [ '@app.pdf_engine' ]
     # Messaging
     app.courier:
         class: App\Service\CourierService

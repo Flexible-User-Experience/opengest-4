@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -32,6 +33,7 @@ class PartnerProject extends AbstractBase
      *
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
+     * @Groups({"api"})
      */
     private $number;
 

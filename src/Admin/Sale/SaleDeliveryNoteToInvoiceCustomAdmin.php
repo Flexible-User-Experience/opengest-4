@@ -283,23 +283,13 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
 
     protected function configureListFields(ListMapper $listMapper): void
     {
-//        if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-//            $listMapper
-//                ->add(
-//                    'enterprise',
-//                    null,
-//                    array(
-//                        'label' => 'Empresa',
-//                    )
-//                )
-//            ;
-//        }
         $listMapper
             ->add(
                 'id',
                 null,
                 [
                     'label' => 'admin.label.delivery_note_number',
+                    'template' => 'admin/cells/list__cell_sale_delivery_note.html.twig',
                 ]
             )
             ->add(
