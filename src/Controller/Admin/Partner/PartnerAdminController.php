@@ -116,4 +116,18 @@ class PartnerAdminController extends BaseAdminController
 
         return new JsonResponse($serializedOrders);
     }
+
+    public function getJsonProjectsByIdAction(int $id): JsonResponse
+    {
+        /** @var Partner $partner */
+        $partner = $this->admin->getObject($id);
+        if (!$partner) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        $serializer = $this->container->get('serializer');
+        $serializedProjects = $serializer->serialize($partner->getProjects(), 'json', ['groups' => ['api']]);
+
+        return new JsonResponse($serializedProjects);
+    }
 }

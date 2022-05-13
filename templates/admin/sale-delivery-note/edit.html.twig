@@ -137,17 +137,20 @@
                 }).done(function (response) {
                   updateNodesInfo(response);
                 });
-
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
                 }).done(function(response) {
                   console.log('response in  building site', response)
                   updateBuildingSites(response);
                 });
-
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonOrdersById', { id: partnerId }), function() {
                 }).done(function(response) {
                   console.log('response in orders', response)
                   updateOrders(response);
+                });
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonProjectsById', { id: partnerId }), function() {
+                }).done(function(response) {
+                  console.log('response in orders', response)
+                  updateProjects(response);
                 });
               }
 
@@ -196,6 +199,23 @@
               });
             ordersNode.select2('val', '');
             ordersNode.select2({
+              enable: true,
+              allowClear: true
+            });
+          }
+          function updateProjects(response) {
+              console.log('response orders', response);
+            var partnerProjectsData = jQuery.parseJSON(response);
+            projectsNode.empty();
+            let newOption = new Option('-- elige un contrato --', '', true, false);
+            projectsNode.append(newOption);
+            partnerProjectsData.forEach(
+              function (value, index) {
+                var newOption = new Option(value.number, value.id, false, false);
+                projectsNode.append(newOption);
+              });
+            projectsNode.select2('val', '');
+            projectsNode.select2({
               enable: true,
               allowClear: true
             });
