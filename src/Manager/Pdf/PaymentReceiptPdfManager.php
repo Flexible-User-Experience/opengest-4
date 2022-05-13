@@ -67,7 +67,7 @@ class PaymentReceiptPdfManager
         //START GENERATING RECEIPTS
         /** @var Payslip $payslip */
         foreach($payslips as $payslip){
-            if($diets == 'expensesReceipts' && $payslip->getExpenses() > 0){
+            if($diets && $payslip->getExpenses() > 0){
                 if($pdf->GetY() > 280){
                     list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
                 }
@@ -125,7 +125,7 @@ class PaymentReceiptPdfManager
                 $pdf->RoundedRect($squareX, $squareY, 55, 30, 3.50, '0100', '');
 
                 $pdf->Ln($spaceBetween);
-            } elseif($diets == 'otherExpensesReceipts' && $payslip->getOtherCosts() > 0){
+            } elseif(!$diets && $payslip->getOtherCosts() > 0){
                 if($pdf->GetY() > 280){
                     list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
                 }
