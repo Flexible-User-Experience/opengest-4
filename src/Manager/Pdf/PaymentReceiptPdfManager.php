@@ -67,7 +67,7 @@ class PaymentReceiptPdfManager
         //START GENERATING RECEIPTS
         /** @var Payslip $payslip */
         foreach($payslips as $payslip){
-            if($payslip->getExpenses() > 0){
+            if($diets == 'expensesReceipts' && $payslip->getExpenses() > 0){
                 if($pdf->GetY() > 280){
                     list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
                 }
@@ -79,11 +79,11 @@ class PaymentReceiptPdfManager
                 $pdf->SetXY($xStartWriting, $pdf->GetY() + 8);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
                 $pdf->Cell(80, 0,
-                    'REBUT',
+                    'RECIBO',
                     0, 0, 'L', 0);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
                 $pdf->Cell(25, 0,
-                    'Import: ',
+                    'Importe: ',
                     0, 0, 'L', 0);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
                 $pdf->Cell(40, 0,
@@ -96,7 +96,7 @@ class PaymentReceiptPdfManager
                     0, 0, 'L', 0);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
                 $pdf->Cell(20, 0,
-                    'Data: ',
+                    'Fecha: ',
                     0, 0, 'L', 0);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
                 $pdf->Cell(40, 0,
@@ -107,12 +107,12 @@ class PaymentReceiptPdfManager
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
                 $pdf->SetXY($xStartWriting, $pdf->GetY() + 10);
                 $pdf->Cell(40, 0,
-                    'Rebut de: Grúas Romaní',
+                    'Recibo de: Grúas Romaní',
                     0, 1, 'L', 0);
                 $pdf->SetX($xStartWriting);
                 //TODO escriure el nom del mes sencer
                 $pdf->Cell(40, 0,
-                    'Per: Dietas mes de '.date_format($payslip->getToDate(),'M'),
+                    'Por: Dietas mes de '.date_format($payslip->getToDate(),'M'),
                     0, 0, 'L', 0);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 10);
 
@@ -120,8 +120,66 @@ class PaymentReceiptPdfManager
                 $squareX = 135;
                 $pdf->SetXY($squareX, $squareY);
                 $pdf->Cell(50,0,
-                'SIGNATURA',
+                'FIRMA',
                 0,1,'C',0);
+                $pdf->RoundedRect($squareX, $squareY, 55, 30, 3.50, '0100', '');
+
+                $pdf->Ln($spaceBetween);
+            } elseif($diets == 'otherExpensesReceipts' && $payslip->getOtherCosts() > 0){
+                if($pdf->GetY() > 280){
+                    list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
+                }
+                $style = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+                $pdf->SetLineStyle($style);
+                $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), $pageWidth, $receiptSize, 3.50, '1111', '');
+                //TODO generate receipt format
+                $xStartWriting = 25;
+                $pdf->SetXY($xStartWriting, $pdf->GetY() + 8);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(80, 0,
+                    'RECIBO',
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+                $pdf->Cell(25, 0,
+                    'Importe: ',
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(40, 0,
+                    number_format($payslip->getOtherCosts(),2,',','.').'€',
+                    0, 0, 'L', 1);
+                $pdf->SetXY($xStartWriting, $pdf->GetY() + 15);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(90, 0,
+                    $payslip->getOperator()->getFullName(),
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+                $pdf->Cell(20, 0,
+                    'Fecha: ',
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(40, 0,
+                    date_format($date,'d/m/Y'),
+                    0, 0, 'L', 0);
+                $pdf->Ln();
+                $pdf->Line($marginLeft, $pdf->GetY(), $pageWidth + $marginLeft, $pdf->GetY(), $style);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+                $pdf->SetXY($xStartWriting, $pdf->GetY() + 10);
+                $pdf->Cell(40, 0,
+                    'Recibo de: Grúas Romaní',
+                    0, 1, 'L', 0);
+                $pdf->SetX($xStartWriting);
+                //TODO escriure el nom del mes sencer
+                $pdf->Cell(40, 0,
+                    'Por: Otros costes del mes de '.date_format($payslip->getToDate(),'M'),
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 10);
+
+                $squareY =  $pdf->GetY()-10.2;
+                $squareX = 135;
+                $pdf->SetXY($squareX, $squareY);
+                $pdf->Cell(50,0,
+                    'FIRMA',
+                    0,1,'C',0);
                 $pdf->RoundedRect($squareX, $squareY, 55, 30, 3.50, '0100', '');
 
                 $pdf->Ln($spaceBetween);
