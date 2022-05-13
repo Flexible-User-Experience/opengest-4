@@ -67,174 +67,65 @@ class PaymentReceiptPdfManager
         //START GENERATING RECEIPTS
         /** @var Payslip $payslip */
         foreach($payslips as $payslip){
-            if($pdf->GetY() > 280){
-                list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
+            if($payslip->getExpenses() > 0){
+                if($pdf->GetY() > 280){
+                    list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
+                }
+                $style = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+                $pdf->SetLineStyle($style);
+                $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), $pageWidth, $receiptSize, 3.50, '1111', '');
+                //TODO generate receipt format
+                $xStartWriting = 25;
+                $pdf->SetXY($xStartWriting, $pdf->GetY() + 8);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(80, 0,
+                    'REBUT',
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+                $pdf->Cell(25, 0,
+                    'Import: ',
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(40, 0,
+                    number_format($payslip->getExpenses(),2,',','.').'€',
+                    0, 0, 'L', 1);
+                $pdf->SetXY($xStartWriting, $pdf->GetY() + 15);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(90, 0,
+                    $payslip->getOperator()->getFullName(),
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+                $pdf->Cell(20, 0,
+                    'Data: ',
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
+                $pdf->Cell(40, 0,
+                    date_format($date,'d/m/Y'),
+                    0, 0, 'L', 0);
+                $pdf->Ln();
+                $pdf->Line($marginLeft, $pdf->GetY(), $pageWidth + $marginLeft, $pdf->GetY(), $style);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
+                $pdf->SetXY($xStartWriting, $pdf->GetY() + 10);
+                $pdf->Cell(40, 0,
+                    'Rebut de: Grúas Romaní',
+                    0, 1, 'L', 0);
+                $pdf->SetX($xStartWriting);
+                //TODO escriure el nom del mes sencer
+                $pdf->Cell(40, 0,
+                    'Per: Dietas mes de '.date_format($payslip->getToDate(),'M'),
+                    0, 0, 'L', 0);
+                $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 10);
+
+                $squareY =  $pdf->GetY()-10.2;
+                $squareX = 135;
+                $pdf->SetXY($squareX, $squareY);
+                $pdf->Cell(50,0,
+                'SIGNATURA',
+                0,1,'C',0);
+                $pdf->RoundedRect($squareX, $squareY, 55, 30, 3.50, '0100', '');
+
+                $pdf->Ln($spaceBetween);
             }
-            $style = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
-            $pdf->SetLineStyle($style);
-            $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), $pageWidth, $receiptSize, 3.50, '1111', '');
-            //TODO generate receipt format
-            $xStartWriting = 25;
-            $pdf->SetXY($xStartWriting, $pdf->GetY() + 8);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
-            $pdf->Cell(80, 0,
-                'REBUT',
-                0, 0, 'L', 0);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
-            $pdf->Cell(25, 0,
-                'Import: ',
-                0, 0, 'L', 0);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
-            $pdf->Cell(40, 0,
-                'eurooos ',
-                0, 0, 'L', 1);
-            $pdf->SetXY($xStartWriting, $pdf->GetY() + 15);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
-            $pdf->Cell(90, 0,
-                $payslip->getOperator()->getFullName(),
-                0, 0, 'L', 0);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 15);
-            $pdf->Cell(20, 0,
-                'Data: ',
-                0, 0, 'L', 0);
-            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);
-            $pdf->Cell(40, 0,
-                date_format($date,'d/m/Y'),
-                0, 0, 'L', 0);
-            $pdf->Ln();
-            $pdf->Line($marginLeft, $pdf->GetY(), $pageWidth + $marginLeft, $pdf->GetY(), $style);
-            $pdf->SetXY($xStartWriting, $pdf->GetY() + 10);
-            $pdf->Cell(40, 0,
-                'Rebut de: Grúas Romaní',
-                0, 1, 'L', 0);
-            $pdf->SetX($xStartWriting);
-            $pdf->Cell(40, 0,
-                'Per: Dietas mes de'.date_format($payslip->getToDate(),'M'),
-                0, 0, 'L', 0);
-            $pdf->SetXY(140, $pdf->GetY()-0.5);
-
-            $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), 50, 20, 3.50, '0100', '');
-
-            $pdf->Ln($spaceBetween);
-
-//            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
-//                0, 0, 'R', true);
-//            $pdf->Ln(15);
-//
-//            //Operator and period info
-//            $this->pdfEngineService->setStyleSize('B', 12);
-//            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'PERIODO DE LIQUIDACIÓN: DESDE '.$payslip->getFromDateFormatted().' HASTA '.$payslip->getToDateFormatted(),
-//                0, 0, 'L', false);
-//            $pdf->Ln(10);
-//            $this->pdfEngineService->setStyleSize('B', 10);
-//            $pdf->Cell($width / 2, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'OPERARIO: '.$payslip->getOperator(),
-//                0, 0, 'L', false);
-//            $pdf->Ln(10);
-//
-//            //Start table
-//            $this->pdfEngineService->setStyleSize('', 9);
-//            $col1 = 50;
-//            $col2 = 30;
-//            $col3 = 35;
-//            $pdf->Cell($col1, ConstantsEnum::PDF_CELL_HEIGHT,
-//                '',
-//                0, 0, 'L', false);
-//            $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Precio/Unidad',
-//                1, 0, 'C', false);
-//            $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Unidades',
-//                1, 0, 'C', false);
-//            $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Total',
-//                1, 0, 'C', false);
-//            $pdf->Ln();
-//            /** @var PayslipLine $payslipLine */
-//            foreach($payslip->getPayslipLines() as $payslipLine){
-//                //payslip lines info
-//                $pdf->Cell($col1, ConstantsEnum::PDF_CELL_HEIGHT,
-//                    $payslipLine->getPayslipLineConcept(),
-//                    1, 0, 'L', false);
-//                $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-//                    $payslipLine->getPriceUnit(),
-//                    1, 0, 'C', false);
-//                $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-//                    $payslipLine->getUnits(),
-//                    1, 0, 'C', false);
-//                $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-//                    $payslipLine->getAmount(),
-//                    1, 0, 'C', false);
-//                $pdf->Ln();
-//            }
-//
-//            //Totals section
-//            $payslipInicialAmount = $payslip->getTotalAmount() + $payslip->getSocialSecurityCost()
-//                - $payslip->getOtherCosts() - $payslip->getExpenses() - $payslip->getExtraPay();
-//            $pdf->setXY(190,40);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Nómina:',
-//                0, 0, 'R', false);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $payslipInicialAmount.'€',
-//                0, 0, 'L', false);
-//            $pdf->Ln();
-//            $pdf->SetX(190);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Plus Productividad:',
-//                0, 0, 'R', false);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $payslip->getExtraPay().'€',
-//                0, 0, 'L', false);
-//            $pdf->Ln();
-//            $pdf->SetX(190);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Dietas:',
-//                0, 0, 'R', false);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $payslip->getExpenses().'€',
-//                0, 0, 'L', false);
-//            $pdf->Ln();
-//            $pdf->SetX(190);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Otros costes:',
-//                0, 0, 'R', false);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $payslip->getOtherCosts().'€',
-//                0, 0, 'L', false);
-//            $pdf->Ln();
-//            $pdf->SetX(190);
-//            $YDim = $pdf->GetY();
-//            $pdf->Line(190,$YDim,250,$YDim);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Total:',
-//                0, 0, 'R', false);
-//            $payslipAmountWithoutSS = $payslip->getTotalAmount() + $payslip->getSocialSecurityCost();
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $payslipAmountWithoutSS.'€',
-//                0, 0, 'L', false);
-//            $pdf->Ln();
-//            $pdf->SetX(190);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'Retenciones:',
-//                0, 0, 'R', false);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $payslip->getSocialSecurityCost().'€',
-//                0, 0, 'L', false);
-//            $pdf->Ln();
-//            $pdf->SetX(190);
-//            $YDim = $pdf->GetY();
-//            $pdf->Line(190,$YDim,250,$YDim);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                'TOTAL:',
-//                0, 0, 'R', false);
-//            $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-//                $payslip->getTotalAmount().'€',
-//                0, 0, 'L', false);
-//            $pdf->Ln();
-
         }
 
         return $pdf;
@@ -249,7 +140,7 @@ class PaymentReceiptPdfManager
         $marginTop = 15;
         $marginLeft = 20;
         $marginRight = 20;
-        $spaceBetween = 70;
+        $spaceBetween = 45;
         $receiptSize = 70;
         $pageWidth = $pdf->getPageWidth() -  $marginRight - $marginLeft;
         $pdf->setMargins($marginLeft, $marginTop, $marginRight, true);
