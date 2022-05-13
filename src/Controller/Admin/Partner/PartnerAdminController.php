@@ -89,12 +89,7 @@ class PartnerAdminController extends BaseAdminController
         return new JsonResponse($serializedDeliveryNotes);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return JsonResponse
-     */
-    public function getJsonBuildingSitesByIdAction($id)
+    public function getJsonBuildingSitesByIdAction(int $id): JsonResponse
     {
         /** @var Partner $partner */
         $partner = $this->admin->getObject($id);
@@ -106,5 +101,33 @@ class PartnerAdminController extends BaseAdminController
         $serializedBuildingSites = $serializer->serialize($partner->getBuildingSites(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedBuildingSites);
+    }
+
+    public function getJsonOrdersByIdAction(int $id): JsonResponse
+    {
+        /** @var Partner $partner */
+        $partner = $this->admin->getObject($id);
+        if (!$partner) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        $serializer = $this->container->get('serializer');
+        $serializedOrders = $serializer->serialize($partner->getOrders(), 'json', ['groups' => ['api']]);
+
+        return new JsonResponse($serializedOrders);
+    }
+
+    public function getJsonProjectsByIdAction(int $id): JsonResponse
+    {
+        /** @var Partner $partner */
+        $partner = $this->admin->getObject($id);
+        if (!$partner) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        $serializer = $this->container->get('serializer');
+        $serializedProjects = $serializer->serialize($partner->getProjects(), 'json', ['groups' => ['api']]);
+
+        return new JsonResponse($serializedProjects);
     }
 }

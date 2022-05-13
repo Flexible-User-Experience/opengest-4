@@ -16,8 +16,10 @@
             var cifNifIcon = jQuery('#cif-nif-icon');
             var totalCountedHours = 0;
             {% if  admin.id(admin.subject) %}
+              let buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
+              let ordersNode = jQuery('#{{ form.order.vars.id }}');
+              let projectsNode = jQuery('#{{ form.project.vars.id }}');
               {% if form.saleInvoice.vars.data %}
-            console.log(invoice);
                   jQuery(`
                       <a href="{{ path('admin_app_sale_saleinvoice_edit', { 'id': form.saleInvoice.vars.data.id }) }}">
                           Ir a factura
@@ -25,14 +27,12 @@
                   `).insertAfter(invoice);
               {% endif %}
                 {% if form.partner.vars.data %}
-            console.log(partner);
                 jQuery(`
                           <a href="{{ path('admin_app_partner_client_edit', { 'id': form.partner.vars.data.id }) }}">
                               Ir a cliente
                           </a>
                       `).insertAfter(partnerNode);
                 {% endif %}
-
 
             var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
                 var numberOfDeliveryNoteLines = {{ form.saleDeliveryNoteLines.vars.data.count }};
@@ -130,12 +130,27 @@
             partnerNode.change(function(event) {
                 cifNifIcon.removeClass('hidden');
                 var partnerId = jQuery(event.target).val();
-                console.log('PartnerID', partnerId);
+                console.log('PartnerId', partnerId);
               if (partnerId) {
                 //on change Partner
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
                 }).done(function (response) {
                   updateNodesInfo(response);
+                });
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
+                }).done(function(response) {
+                  console.log('response in  building site', response)
+                  updateBuildingSites(response);
+                });
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonOrdersById', { id: partnerId }), function() {
+                }).done(function(response) {
+                  console.log('response in orders', response)
+                  updateOrders(response);
+                });
+                jQuery.get(Routing.generate('admin_app_partner_partner_getJsonProjectsById', { id: partnerId }), function() {
+                }).done(function(response) {
+                  console.log('response in orders', response)
+                  updateProjects(response);
                 });
               }
 
@@ -154,6 +169,57 @@
                 cifNifIcon.addClass('hidden');
                 cifNif.val(partner.cifNif);
             }
+
+          function updateBuildingSites(response) {
+            var partnerBuildingSitesData = jQuery.parseJSON(response);
+            buildingSitesNode.empty();
+            let newOption = new Option('-- elige una obra --', '', true, false);
+            buildingSitesNode.append(newOption);
+            partnerBuildingSitesData.forEach(
+              function (value, index) {
+                var newOption = new Option(value.text, value.id, false, false);
+                buildingSitesNode.append(newOption);
+              });
+            buildingSitesNode.select2('val', '');
+            buildingSitesNode.select2({
+              enable: true,
+              allowClear: true
+            });
+          }
+          function updateOrders(response) {
+              console.log('response orders', response);
+            var partnerOrdersData = jQuery.parseJSON(response);
+            ordersNode.empty();
+            let newOption = new Option('-- elige un pedido --', '', true, false);
+            ordersNode.append(newOption);
+            partnerOrdersData.forEach(
+              function (value, index) {
+                var newOption = new Option(value.number, value.id, false, false);
+                ordersNode.append(newOption);
+              });
+            ordersNode.select2('val', '');
+            ordersNode.select2({
+              enable: true,
+              allowClear: true
+            });
+          }
+          function updateProjects(response) {
+              console.log('response orders', response);
+            var partnerProjectsData = jQuery.parseJSON(response);
+            projectsNode.empty();
+            let newOption = new Option('-- elige un contrato --', '', true, false);
+            projectsNode.append(newOption);
+            partnerProjectsData.forEach(
+              function (value, index) {
+                var newOption = new Option(value.number, value.id, false, false);
+                projectsNode.append(newOption);
+              });
+            projectsNode.select2('val', '');
+            projectsNode.select2({
+              enable: true,
+              allowClear: true
+            });
+          }
 
         });
     </script>

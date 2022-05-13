@@ -75,3 +75,10 @@ services:
             - { name: sonata.admin, manager_type: orm, label: "Items", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
             - [ setTranslationDomain, [ "admin" ] ]
+    app.admin.sale_request_document:
+        class: App\Admin\Sale\SaleRequestDocumentAdmin
+        arguments: [ ~, App\Entity\Sale\SaleRequestDocument, App\Controller\Admin\Sale\SaleRequestDocumentAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.user_password_hasher"]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Documentos de petición", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+        calls:
+            - [ setTranslationDomain, [ "admin" ] ]
