@@ -226,6 +226,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.tonnage',
                     'class' => SaleServiceTariff::class,
                     'required' => false,
+                    'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
                 ]
             )
             ->add(
