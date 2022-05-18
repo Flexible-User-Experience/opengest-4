@@ -85,6 +85,8 @@ class PayslipAdmin extends AbstractBaseAdmin
 
     public function configureExportFields(): array
     {
+        $asd = 1;
+
         return [
             'id',
             'operator',
@@ -321,8 +323,7 @@ class PayslipAdmin extends AbstractBaseAdmin
     {
         $rootAlias = current($query->getRootAliases());
         $query
-            ->join($rootAlias.'.operator', 'op')
-            ->addOrderBy('op.name', 'ASC')
+            ->addOrderBy($rootAlias.'.operator', 'ASC')
         ;
 
         return $query;
