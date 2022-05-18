@@ -44,35 +44,35 @@ class VehicleSpecialPermitPdfManager
         // add start page
         $this->startPage($pdf);
         $minWidth = 20;
-        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8);
         /** @var VehicleSpecialPermit $vehicleSpecialPermit */
         foreach($vehicleSpecialPermits as $vehicleSpecialPermit) {
-            if($pdf->GetY()>220){
+            if($pdf->GetY()>180){
                 $this->startPage($pdf);
             }
-            $pdf->Cell($minWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $vehicleSpecialPermit->getVehicle(),
-                1, 0, 'L', false);
-            $pdf->Cell($minWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+                1, 0, 'L', false,'',1);
+            $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $vehicleSpecialPermit->getAdditionalVehicle(),
-                1, 0, 'L', false);
-            $pdf->Cell($minWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                1, 0, 'L', false,'',1);
+            $pdf->Cell($minWidth*1.5, ConstantsEnum::PDF_CELL_HEIGHT,
                 $vehicleSpecialPermit->getExpedientNumber(),
-                1, 0, 'L', false);
+                1, 0, 'L', false,'',1);
             $pdf->Cell($minWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                 date_format($vehicleSpecialPermit->getExpiryDate(), 'd/m/Y'),
-                1, 0, 'L', false);
-            $pdf->Cell($minWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                1, 0, 'L', false,'',1);
+            $pdf->Cell($minWidth*2.5, ConstantsEnum::PDF_CELL_HEIGHT,
                 $vehicleSpecialPermit->getLoadContent(),
-                1, 0, 'L', false);
+                1, 0, 'L', false,'',1);
             $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $vehicleSpecialPermit->getTotalLength() . 'x' . $vehicleSpecialPermit->getTotalWidth() . 'x' . $vehicleSpecialPermit->getTotalHeight() . 'x' . $vehicleSpecialPermit->getMaximumWeight(),
-                1, 0, 'L', false);
-            $pdf->Cell($minWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+                1, 0, 'L', false,'',1);
+            $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $vehicleSpecialPermit->getRoute(),
-                1, 0, 'L', false);
+                1, 0, 'L', false,'',1);
             $pdf->Ln();
         }
+
 
         return $pdf;
     }
@@ -91,7 +91,7 @@ class VehicleSpecialPermitPdfManager
      * @param TCPDF $pdf
      * @return int
      */
-    private function startPage(TCPDF $pdf): int
+    private function startPage(TCPDF $pdf)
     {
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
@@ -110,34 +110,42 @@ class VehicleSpecialPermitPdfManager
         $pdf->setPageMark();
         // set cell padding
         $pdf->setCellPaddings(1, 1, 1, 1);
+        $pdf->setY(190);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+            0, 0, 'R', false);
+
+        $pdf->setY(20);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 9);
+
 
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             'PERMISOS ESPECIALES',
             0, 0, 'L', false);
         $pdf->Ln();
         $minWidth = 20;
-        $pdf->Cell($minWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
             'Vehículo',
             1, 0, 'L', false);
-        $pdf->Cell($minWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
             'Vehículo adicional',
             1, 0, 'L', false);
-        $pdf->Cell($minWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($minWidth*1.5, ConstantsEnum::PDF_CELL_HEIGHT,
             'Expediente',
             1, 0, 'L', false);
         $pdf->Cell($minWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Caduca',
             1, 0, 'L', false);
-        $pdf->Cell($minWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($minWidth*2.5, ConstantsEnum::PDF_CELL_HEIGHT,
             'Carga',
             1, 0, 'L', false);
         $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
             'LxANxALxP',
             1, 0, 'L', false);
-        $pdf->Cell($minWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->Cell($minWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT,
             'Itinerario',
             1, 0, 'L', false);
         $pdf->Ln();
-        return $minWidth;
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8);
     }
 }
