@@ -85,18 +85,16 @@ class PayslipAdmin extends AbstractBaseAdmin
 
     public function configureExportFields(): array
     {
-        $asd = 1;
-
         return [
             'id',
             'operator',
             'fromDateFormatted',
             'toDateFormatted',
             'year',
-            'expenses',
-            'socialSecurityCost',
-            'otherCosts',
-            'totalAmount',
+            'expensesFormatted',
+            'socialSecurityCostFormatted',
+            'otherCostsFormatted',
+            'totalAmountFormatted',
         ];
     }
 

@@ -430,6 +430,10 @@ expenses: Dietas
 socialSecurityCost: "Coste Seguridad Social"
 otherCosts: "Otros costes"
 totalAmount: "Importe total"
+expensesFormatted: Dietas
+socialSecurityCostFormatted: "Coste Seguridad Social"
+otherCostsFormatted: "Otros costes"
+totalAmountFormatted: "Importe total"
 operatorWorkRegisterHeader.dateFormatted: "Fecha"
 operatorWorkRegisterHeader.operator: Operario
 saleDeliveryNote: Albarán
