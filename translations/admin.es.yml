@@ -398,6 +398,7 @@ serviceDateString: "Fecha servicio"
 vehicle: "Vehículo"
 secondaryVehicle: "Vehículo secundario"
 hourPrice: "Precio hora"
+hourPriceFormatted: "Precio hora"
 priceHour: "Precio hora"
 increaseForHolidays: "Incremento por festivo"
 increaseForHolidaysPercentage: "Incremento por festivo (%)"
@@ -415,6 +416,10 @@ totalLines: "Total de líneas"
 discount: "Descuento"
 baseAmount: "Base imponible"
 finalTotal: "Total"
+totalLinesFormatted: "Total de líneas"
+discountFormatted: "Descuento"
+baseAmountFormatted: "Base imponible"
+finalTotalFormatted: "Total"
 activityLine: "Línea de actividad"
 series: "Série"
 invoiceNumber: "Factura"
@@ -423,6 +428,10 @@ baseTotal: "Base imponible"
 iva: IVA
 irpf: IRPF
 total: Total
+baseTotalFormatted: "Base imponible"
+ivaFormatted: IVA
+irpfFormatted: IRPF
+totalFormatted: Total
 fromDateFormatted: Desde
 toDateFormatted: Hasta
 year: Año
@@ -430,6 +439,10 @@ expenses: Dietas
 socialSecurityCost: "Coste Seguridad Social"
 otherCosts: "Otros costes"
 totalAmount: "Importe total"
+expensesFormatted: Dietas
+socialSecurityCostFormatted: "Coste Seguridad Social"
+otherCostsFormatted: "Otros costes"
+totalAmountFormatted: "Importe total"
 operatorWorkRegisterHeader.dateFormatted: "Fecha"
 operatorWorkRegisterHeader.operator: Operario
 saleDeliveryNote: Albarán

@@ -1,0 +1,4 @@
+sonata_exporter:
+  writers:
+    csv:
+      delimiter: ";"

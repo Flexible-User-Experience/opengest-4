@@ -110,11 +110,11 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             'partner.code',
             'partner.name',
             'partner.cifNif',
-            'discount',
-            'baseTotal',
-            'iva',
-            'irpf',
-            'total',
+            'discountFormatted',
+            'baseTotalFormatted',
+            'ivaFormatted',
+            'irpfFormatted',
+            'totalFormatted',
         ];
     }
 

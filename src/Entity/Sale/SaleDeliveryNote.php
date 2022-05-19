@@ -13,6 +13,7 @@ use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
 use App\Entity\Vehicle\Vehicle;
+use App\Service\Format\NumberFormatService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -898,6 +899,31 @@ class SaleDeliveryNote extends AbstractBase
         }
 
         return $irpfTotal;
+    }
+
+    public function getHourPriceFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getHourPrice());
+    }
+
+    public function getTotalLinesFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalLines());
+    }
+
+    public function getDiscountFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getDiscount());
+    }
+
+    public function getBaseAmountFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getBaseAmount());
+    }
+
+    public function getFinalTotalFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getFinalTotal());
     }
 
     /**

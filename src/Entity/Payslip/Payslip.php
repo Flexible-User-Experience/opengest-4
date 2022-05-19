@@ -4,6 +4,7 @@ namespace App\Entity\Payslip;
 
 use App\Entity\AbstractBase;
 use App\Entity\Operator\Operator;
+use App\Service\Format\NumberFormatService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -280,6 +281,26 @@ class Payslip extends AbstractBase
     public function getToDateFormatted(): string
     {
         return $this->getToDate()->format('d/m/y');
+    }
+
+    public function getExpensesFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getExpenses());
+    }
+
+    public function getSocialSecurityCostFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getSocialSecurityCost());
+    }
+
+    public function getOtherCostsFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getOtherCosts());
+    }
+
+    public function getTotalAmountFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalAmount());
     }
 
     public function __toString(): string

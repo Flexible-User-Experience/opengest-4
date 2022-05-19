@@ -8,6 +8,7 @@ use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Setting\City;
 use App\Entity\Setting\SaleInvoiceSeries;
+use App\Service\Format\NumberFormatService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -695,6 +696,31 @@ class SaleInvoice extends AbstractBase
     public function getDateFormatted(): string
     {
         return $this->getDate()->format('d/m/y');
+    }
+
+    public function getDiscountFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getDiscount());
+    }
+
+    public function getBaseTotalFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getBaseTotal());
+    }
+
+    public function getIvaFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getIva());
+    }
+
+    public function getIrpfFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getIrpf());
+    }
+
+    public function getTotalFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotal());
     }
 
     public function getFirstDeliveryNote(): ?SaleDeliveryNote

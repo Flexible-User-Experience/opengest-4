@@ -91,10 +91,10 @@ class PayslipAdmin extends AbstractBaseAdmin
             'fromDateFormatted',
             'toDateFormatted',
             'year',
-            'expenses',
-            'socialSecurityCost',
-            'otherCosts',
-            'totalAmount',
+            'expensesFormatted',
+            'socialSecurityCostFormatted',
+            'otherCostsFormatted',
+            'totalAmountFormatted',
         ];
     }
 
@@ -321,8 +321,7 @@ class PayslipAdmin extends AbstractBaseAdmin
     {
         $rootAlias = current($query->getRootAliases());
         $query
-            ->join($rootAlias.'.operator', 'op')
-            ->addOrderBy('op.name', 'ASC')
+            ->addOrderBy($rootAlias.'.operator', 'ASC')
         ;
 
         return $query;
