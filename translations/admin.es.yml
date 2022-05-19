@@ -428,6 +428,10 @@ baseTotal: "Base imponible"
 iva: IVA
 irpf: IRPF
 total: Total
+baseTotalFormatted: "Base imponible"
+ivaFormatted: IVA
+irpfFormatted: IRPF
+totalFormatted: Total
 fromDateFormatted: Desde
 toDateFormatted: Hasta
 year: Año
