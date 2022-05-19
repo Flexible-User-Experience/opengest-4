@@ -96,13 +96,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'activityLine',
             'operator',
             'miniumHours',
-            'hourPrice',
+            'hourPriceFormatted',
             'displacement',
             'miniumHolidayHours',
-            'totalLines',
-            'discount',
-            'baseAmount',
-            'finalTotal',
+            'totalLinesFormatted',
+            'discountFormatted',
+            'baseAmountFormatted',
+            'finalTotalFormatted',
             'observations',
         ];
     }
