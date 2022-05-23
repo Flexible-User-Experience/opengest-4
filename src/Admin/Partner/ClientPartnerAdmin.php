@@ -133,6 +133,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
+            ->add(
+                'blocked',
+                CheckboxType::class,
+                [
+                    'label' => 'admin.label.blocked',
+                    'required' => false,
+                ]
+            )
             ->end()
             ->with('Datos fiscales', $this->getFormMdSuccessBoxArray(4))
             ->add(
@@ -628,6 +636,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.enabled',
+                ]
+            )
+            ->add(
+                'blocked',
+                null,
+                [
+                    'label' => 'admin.label.blocked',
                 ]
             )
         ;
