@@ -49,6 +49,11 @@ class PayslipAdminController extends BaseAdminController
         if (0 === count($payslips)) {
             $this->addFlash('warning', 'No existen nóminas en esta selección');
         }
+        if (!in_array($documentType, ['payslips', 'expenses', 'otherExpensesReceipts', 'expensesReceipts'])) {
+            $this->addFlash('warning', 'Opción no válida');
+
+            return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
+        }
         if ('payslips' === $documentType || 'expenses' === $documentType) {
             if ('payslips' === $documentType) {
                 $diets = false;
@@ -78,10 +83,6 @@ class PayslipAdminController extends BaseAdminController
             $response->headers->set('Content-Disposition', $disposition);
             $response->headers->set('Content-type', 'application/pdf');
             $response->setStatusCode('200');
-        } else {
-            $this->addFlash('warning', 'Opción no válida');
-
-            return new RedirectResponse($this->generateUrl('admin_app_payslip_payslip_list'));
         }
 
         return $response;
