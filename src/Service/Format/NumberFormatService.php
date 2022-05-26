@@ -10,9 +10,9 @@ class NumberFormatService
             $number = 0;
         }
         if (0 != $number - round($number)) {
-            return number_format($number, 2, ',', '');
+            return number_format($number, 2, ',', '.');
         } else {
-            return number_format($number, 0, ',', '');
+            return number_format($number, 0, ',', '.');
         }
     }
 }
