@@ -8,6 +8,7 @@ use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Enum\ConstantsEnum;
 use App\Manager\RepositoriesManager;
+use App\Service\Format\NumberFormatService;
 use App\Service\PdfEngineService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,7 +49,6 @@ class WorkRegisterHeaderPdfManager
         return $pdf->Output('nómina_detallada'.'.pdf', 'I');
     }
 
-
     public function buildSingleTimeSum($workRegisterHeaders, $from, $to, $amount): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Plantilla horas');
@@ -68,6 +68,7 @@ class WorkRegisterHeaderPdfManager
 
         return $pdf->Output('plantilla_horas'.'.pdf', 'I');
     }
+
     /**
      * @param SaleDeliveryNote[]|ArrayCollection|array $saleDeliveryNotes
      *
@@ -77,7 +78,7 @@ class WorkRegisterHeaderPdfManager
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de nóminas detalladas');
         $pdf = $this->pdfEngineService->getEngine();
-        usort($workRegisterHeaders, function(OperatorWorkRegisterHeader $a,OperatorWorkRegisterHeader $b) {
+        usort($workRegisterHeaders, function (OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b) {
             return strcasecmp($a->getOperator()->getSurname1(), $b->getOperator()->getSurname1());
         });
         $operatorsFromWorkRegisterHeaders = [];
@@ -230,7 +231,7 @@ class WorkRegisterHeaderPdfManager
         $totalOverNight = 0;
 //        $totalRoadExtra = 0;
         $totalExitExtra = 0;
-        usort($workRegisterHeaders, function($a, $b) {
+        usort($workRegisterHeaders, function ($a, $b) {
             return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
         });
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
@@ -250,40 +251,40 @@ class WorkRegisterHeaderPdfManager
                 $workRegisterHeader->getDateFormatted(),
                 1, 0, 'L', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($normalHours,'1',',','.'),
+                NumberFormatService::formatNumber($normalHours),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($extraHours,'1',',','.'),
+                NumberFormatService::formatNumber($extraHours),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($negativeHours,'1',',','.'),
+                NumberFormatService::formatNumber($negativeHours),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($lunch,'1',',','.'),
+                NumberFormatService::formatNumber($lunch),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($dinner,'1',',','.'),
+                NumberFormatService::formatNumber($dinner),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($lunchInt,'1',',','.'),
+                NumberFormatService::formatNumber($lunchInt),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($dinnerInt,'1',',','.'),
+                NumberFormatService::formatNumber($dinnerInt),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($diet,'1',',','.'),
+                NumberFormatService::formatNumber($diet),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($dietInt,'1',',','.'),
+                NumberFormatService::formatNumber($dietInt),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($overNight,'1',',','.'),
+                NumberFormatService::formatNumber($overNight),
                 1, 0, 'C', false);
 //            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //                $roadExtra,
 //                1, 0, 'L', false);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($exitExtra,'1',',','.'),
+                NumberFormatService::formatNumber($exitExtra),
                 1, 0, 'C', false);
             $pdf->Ln();
         }
@@ -292,40 +293,40 @@ class WorkRegisterHeaderPdfManager
             'Suma',
             'B', 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalNormalHours,'1',',','.'),
+            NumberFormatService::formatNumber($totalNormalHours),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalExtraHours,'1',',','.'),
+            NumberFormatService::formatNumber($totalExtraHours),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalNegativeHours,'1',',','.'),
+            NumberFormatService::formatNumber($totalNegativeHours),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalLunch,'1',',','.'),
+            NumberFormatService::formatNumber($totalLunch),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalDinner,'1',',','.'),
+            NumberFormatService::formatNumber($totalDinner),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalLunchInt,'1',',','.'),
+            NumberFormatService::formatNumber($totalLunchInt),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalDinnerInt,'1',',','.'),
+            NumberFormatService::formatNumber($totalDinnerInt),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalDiet,'1',',','.'),
+            NumberFormatService::formatNumber($totalDiet),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalDietInt,'1',',','.'),
+            NumberFormatService::formatNumber($totalDietInt),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalOverNight,'1',',','.'),
+            NumberFormatService::formatNumber($totalOverNight),
             1, 0, 'C', false);
 //        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //            $totalRoadExtra,
 //            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalExitExtra,'1',',','.'),
+            NumberFormatService::formatNumber($totalExitExtra),
             1, 0, 'C', false);
         $pdf->Ln();
 
@@ -334,40 +335,40 @@ class WorkRegisterHeaderPdfManager
             'Precio unit.',
             'B', 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($normalHourPrice,'2',',','.'),
+            NumberFormatService::formatNumber($normalHourPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($extraHourPrice,'2',',','.'),
+            NumberFormatService::formatNumber($extraHourPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($negativeHourPrice,'2',',','.'),
+            NumberFormatService::formatNumber($negativeHourPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($lunchPrice,'2',',','.'),
+            NumberFormatService::formatNumber($lunchPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dinnerPrice,'2',',','.'),
+            NumberFormatService::formatNumber($dinnerPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($lunchIntPrice,'2',',','.'),
+            NumberFormatService::formatNumber($lunchIntPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dinnerIntPrice,'2',',','.'),
+            NumberFormatService::formatNumber($dinnerIntPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dietPrice,'2',',','.'),
+            NumberFormatService::formatNumber($dietPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dietIntPrice,'2',',','.'),
+            NumberFormatService::formatNumber($dietIntPrice),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($overNightPrice,'2',',','.'),
+            NumberFormatService::formatNumber($overNightPrice),
             1, 0, 'C', false);
 //        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //            $roadExtraPrice,
 //            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($exitExtraPrice,'2',',','.'),
+            NumberFormatService::formatNumber($exitExtraPrice),
             1, 0, 'C', false);
         $pdf->Ln();
 
@@ -376,44 +377,44 @@ class WorkRegisterHeaderPdfManager
             'Total (€)',
             'B', 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($normalHourPrice * $totalNormalHours,'2',',','.'),
+            NumberFormatService::formatNumber($normalHourPrice * $totalNormalHours),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($extraHourPrice * $totalExtraHours,'2',',','.'),
+            NumberFormatService::formatNumber($extraHourPrice * $totalExtraHours),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($negativeHourPrice * $totalNegativeHours,'2',',','.'),
+            NumberFormatService::formatNumber($negativeHourPrice * $totalNegativeHours),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($lunchPrice * $totalLunch,'2',',','.'),
+            NumberFormatService::formatNumber($lunchPrice * $totalLunch),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dinnerPrice * $totalDinner,'2',',','.'),
+            NumberFormatService::formatNumber($dinnerPrice * $totalDinner),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($lunchIntPrice * $totalLunchInt,'2',',','.'),
+            NumberFormatService::formatNumber($lunchIntPrice * $totalLunchInt),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dinnerIntPrice * $totalDinnerInt,'2',',','.'),
+            NumberFormatService::formatNumber($dinnerIntPrice * $totalDinnerInt),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dietPrice * $totalDiet,'2',',','.'),
+            NumberFormatService::formatNumber($dietPrice * $totalDiet),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($dietIntPrice * $totalDietInt,'2',',','.'),
+            NumberFormatService::formatNumber($dietIntPrice * $totalDietInt),
             1, 0, 'C', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($overNightPrice * $totalOverNight,'2',',','.'),
+            NumberFormatService::formatNumber($overNightPrice * $totalOverNight),
             1, 0, 'C', false);
 //        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
 //            $roadExtraPrice * $totalRoadExtra,
 //            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($exitExtraPrice * $totalExitExtra,'2',',','.'),
+            NumberFormatService::formatNumber($exitExtraPrice * $totalExitExtra),
             1, 0, 'C', false);
         $pdf->Ln(10);
         $whereTableEnds = $pdf->getY();
-        $finalSum = $this->getFinalSum( $normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
+        $finalSum = $this->getFinalSum($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
         $finalDiets = $this->getFinalDiets($lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt);
         $finalExtras = $this->getFinalExtras($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
         //Other imports and final totals
@@ -429,7 +430,7 @@ class WorkRegisterHeaderPdfManager
             'Concepto',
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            'Total',
+            'Total (€)',
             1, 0, 'L', false);
         $pdf->Ln();
         $totalOtherAmounts = 0;
@@ -457,13 +458,13 @@ class WorkRegisterHeaderPdfManager
                     $otherAmounts += $workRegister->getAmount();
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                         $workRegisterHeader->getDateFormatted(),
-                         1, 0,'L', false);
-                    $pdf->Cell($cellWidth *4, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                         1, 0, 'L', false);
+                    $pdf->Cell($cellWidth * 4, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                         $workRegister->getDescription(),
-                        1,  0,'L', false,'',1);
+                        1, 0, 'L', false, '', 1);
                     $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                        number_format($workRegister->getAmount(),'2',',','.'),
-                         1, 0,'C', false);
+                        NumberFormatService::formatNumber($workRegister->getAmount()),
+                         1, 0, 'C', false);
                     $pdf->Ln();
                 }
             }
@@ -476,7 +477,7 @@ class WorkRegisterHeaderPdfManager
             'Dietas:',
             0, 0, 'R', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($finalDiets,'2',',','.').' €',
+            NumberFormatService::formatNumber($finalDiets).' €',
             0, 0, 'R', false);
         $pdf->Ln();
         $pdf->SetX(230);
@@ -484,7 +485,7 @@ class WorkRegisterHeaderPdfManager
             'Extras:',
             0, 0, 'R', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($finalExtras,'2',',','.').' €',
+            NumberFormatService::formatNumber($finalExtras).' €',
             0, 0, 'R', false);
         $pdf->Ln();
         $pdf->SetX(230);
@@ -492,7 +493,7 @@ class WorkRegisterHeaderPdfManager
             'Importes varios',
             0, 0, 'R', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalOtherAmounts,'2',',','.').' €',
+            NumberFormatService::formatNumber($totalOtherAmounts).' €',
             0, 0, 'R', false);
         $pdf->Ln();
         $pdf->SetX(230);
@@ -501,11 +502,12 @@ class WorkRegisterHeaderPdfManager
             'Total (€)',
             'T', 0, 'R', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            number_format($totalOtherAmounts + $finalSum,'2',',','.').' €',
+            NumberFormatService::formatNumber($totalOtherAmounts + $finalSum).' €',
             'T', 0, 'R', false);
 
         return $pdf;
     }
+
     private function buildTimeSummary($operators, $workRegisterHeaders, $from, $to, $amount, TCPDF $pdf): TCPDF
     {
         $width = $this->startPage($pdf);
@@ -551,15 +553,14 @@ class WorkRegisterHeaderPdfManager
             1, 0, 'C', false);
         $pdf->ln();
 
-
         $this->pdfEngineService->setStyleSize('', 9);
-        usort($operators, function(Operator $a, Operator $b){
+        usort($operators, function (Operator $a, Operator $b) {
             return strcasecmp($a->getSurname1(), $b->getSurname1());
         });
         /** @var Operator $operator */
-        foreach($operators as $operator){
+        foreach ($operators as $operator) {
             //get prices
-            list( $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
+            list($normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
                 $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice)
                 = $this->getPricesForOperator($operator);
             //get totals by workregisterheader
@@ -576,7 +577,7 @@ class WorkRegisterHeaderPdfManager
 //        $totalRoadExtra = 0;
             $totalExitExtra = 0;
             $totalOtherAmounts = 0;
-            $filteredWorkRegisterHedadersByOperator = array_filter($workRegisterHeaders,function($x) use($operator){
+            $filteredWorkRegisterHedadersByOperator = array_filter($workRegisterHeaders, function ($x) use ($operator) {
                 return $x->getOperator() == $operator;
             }, ARRAY_FILTER_USE_BOTH);
             /** @var OperatorWorkRegisterHeader $workRegisterHeader */
@@ -612,37 +613,35 @@ class WorkRegisterHeaderPdfManager
                 $totalOtherAmounts += $otherAmounts;
             }
             $total = $finalSum + $totalOtherAmounts;
-            $totaldiets = $totalLunch*$lunchPrice +
-                $totalLunchInt*$lunchIntPrice +
-                $totalDinner*$dinnerPrice +
-                $totalDinnerInt*$dinnerIntPrice +
-                $totalDiet*$dietPrice +
-                $totalDietInt*$dietIntPrice;
+            $totaldiets = $totalLunch * $lunchPrice +
+                $totalLunchInt * $lunchIntPrice +
+                $totalDinner * $dinnerPrice +
+                $totalDinnerInt * $dinnerIntPrice +
+                $totalDiet * $dietPrice +
+                $totalDietInt * $dietIntPrice;
             $calc = $total - $totaldiets;
-            $plusprod = $calc * (100-$amount)/100;
-            $others = $calc * $amount/100;
+            $others = round(($calc * $amount / 100) / 5) * 5;
+//            $others = $calc*$amount/100;
+            $plusprod = $calc - $others;
 
             //Print values
             $pdf->Cell($cellWidth * 5, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 $operator,
                 1, 0, 'L', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($total,min(2,strlen(strrchr($total, '.')) -1),',','.'),
+                NumberFormatService::formatNumber($total),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($others,min(2,strlen(strrchr($others, '.')) -1),',','.'),
+                NumberFormatService::formatNumber($others),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($plusprod,min(2,strlen(strrchr($plusprod, '.')) -1),',','.'),
+                NumberFormatService::formatNumber($plusprod),
                 1, 0, 'C', false);
             $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-                number_format($totaldiets,min(2,strlen(strrchr($totaldiets, '.')) -1),',','.'),
+                NumberFormatService::formatNumber($totaldiets),
                 1, 0, 'C', false);
             $pdf->ln();
-
         }
-
-
 
         return $pdf;
     }
@@ -658,18 +657,6 @@ class WorkRegisterHeaderPdfManager
     }
 
     /**
-     * @param OperatorWorkRegister $workRegister
-     * @param float $normalHours
-     * @param float $extraHours
-     * @param float $negativeHours
-     * @param float $lunch
-     * @param float $dinner
-     * @param float $lunchInt
-     * @param float $dinnerInt
-     * @param float $diet
-     * @param float $dietInt
-     * @param float $overNight
-     * @param float $exitExtra
      * @return float[]
      */
     private function getDetailedUnits(OperatorWorkRegister $workRegister, float $normalHours, float $extraHours, float $negativeHours, float $lunch, float $dinner, float $lunchInt, float $dinnerInt, float $diet, float $dietInt, float $overNight, float $exitExtra): array
@@ -710,11 +697,13 @@ class WorkRegisterHeaderPdfManager
         if (str_contains($workRegister->getDescription(), 'Salida')) {
             $exitExtra += $workRegister->getUnits();
         }
-        return array($normalHours, $extraHours, $negativeHours, $lunch, $dinner, $lunchInt, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra);
+
+        return [$normalHours, $extraHours, $negativeHours, $lunch, $dinner, $lunchInt, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra];
     }
 
     /**
      * @param $operator
+     *
      * @return array|int[]
      */
     private function getPricesForOperator($operator): array
@@ -732,11 +721,11 @@ class WorkRegisterHeaderPdfManager
         $overNightPrice = $bountyGroup ? $bountyGroup->getOverNight() : 0;
 //        $roadExtraPrice = $bountyGroup ? $bountyGroup->getRoadExtraHour() : 0;
         $exitExtraPrice = $bountyGroup ? $bountyGroup->getCarOutput() : 0;
-        return array( $normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice, $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice);
+
+        return [$normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice, $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice];
     }
 
     /**
-     * @param OperatorWorkRegisterHeader $workRegisterHeader
      * @param $totalNormalHours
      * @param $totalExtraHours
      * @param $totalNegativeHours
@@ -748,7 +737,6 @@ class WorkRegisterHeaderPdfManager
      * @param $totalDietInt
      * @param $totalOverNight
      * @param $totalExitExtra
-     * @return array
      */
     private function getTotalsWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader, $totalNormalHours, $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra): array
     {
@@ -786,32 +774,23 @@ class WorkRegisterHeaderPdfManager
         $totalOverNight += $overNight;
 //            $totalRoadExtra += $roadExtra;
         $totalExitExtra += $exitExtra;
-        return array($normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours, $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
+
+        return [$normalHours, $extraHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours, $totalExtraHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra];
     }
 
     /**
-     * @param int $normalHourPrice
      * @param $totalNormalHours
-     * @param int $extraHourPrice
      * @param $totalExtraHours
-     * @param int $negativeHourPrice
      * @param $totalNegativeHours
-     * @param int $lunchPrice
      * @param $totalLunch
-     * @param int $dinnerPrice
      * @param $totalDinner
-     * @param int $lunchIntPrice
      * @param $totalLunchInt
-     * @param int $dinnerIntPrice
      * @param $totalDinnerInt
-     * @param int $dietPrice
      * @param $totalDiet
-     * @param int $dietIntPrice
      * @param $totalDietInt
-     * @param int $overNightPrice
      * @param $totalOverNight
-     * @param int $exitExtraPrice
      * @param $totalExitExtra
+     *
      * @return float|int
      */
     private function getFinalSum(int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $negativeHourPrice, $totalNegativeHours, int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
@@ -829,22 +808,18 @@ class WorkRegisterHeaderPdfManager
             $overNightPrice * $totalOverNight +
 //            $roadExtraPrice * $totalRoadExtra +
             $exitExtraPrice * $totalExitExtra;
+
         return $finalSum;
     }
 
     /**
-     * @param int $lunchPrice
      * @param $totalLunch
-     * @param int $dinnerPrice
      * @param $totalDinner
-     * @param int $lunchIntPrice
      * @param $totalLunchInt
-     * @param int $dinnerIntPrice
      * @param $totalDinnerInt
-     * @param int $dietPrice
      * @param $totalDiet
-     * @param int $dietIntPrice
      * @param $totalDietInt
+     *
      * @return float|int
      */
     private function getFinalDiets(int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt)
@@ -856,20 +831,17 @@ class WorkRegisterHeaderPdfManager
             $dinnerIntPrice * $totalDinnerInt +
             $dietPrice * $totalDiet +
             $dietIntPrice * $totalDietInt;
+
         return $finalDiets;
     }
 
     /**
-     * @param int $normalHourPrice
      * @param $totalNormalHours
-     * @param int $extraHourPrice
      * @param $totalExtraHours
-     * @param int $negativeHourPrice
      * @param $totalNegativeHours
-     * @param int $overNightPrice
      * @param $totalOverNight
-     * @param int $exitExtraPrice
      * @param $totalExitExtra
+     *
      * @return float|int
      */
     private function getFinalExtras(int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $negativeHourPrice, $totalNegativeHours, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
@@ -880,16 +852,13 @@ class WorkRegisterHeaderPdfManager
             $negativeHourPrice * $totalNegativeHours +
             $overNightPrice * $totalOverNight +
             $exitExtraPrice * $totalExitExtra;
+
         return $finalExtra;
     }
 
-    /**
-     * @param TCPDF $pdf
-     * @return int
-     */
     private function startPage(TCPDF $pdf): int
     {
-// add start page
+        // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
@@ -907,6 +876,7 @@ class WorkRegisterHeaderPdfManager
         $pdf->setPageMark();
         // set cell padding
         $pdf->setCellPaddings(1, 1, 1, 1);
+
         return $width;
     }
 }
