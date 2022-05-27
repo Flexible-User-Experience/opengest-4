@@ -293,6 +293,11 @@ class Payslip extends AbstractBase
         return NumberFormatService::formatNumber($this->getSocialSecurityCost());
     }
 
+    public function getExtraPayFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getExtraPay());
+    }
+
     public function getOtherCostsFormatted(): string
     {
         return NumberFormatService::formatNumber($this->getOtherCosts());

@@ -2,11 +2,10 @@
 
 namespace App\Manager\Pdf;
 
-use App\Entity\Operator\OperatorWorkRegister;
-use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Enum\ConstantsEnum;
+use App\Service\Format\NumberFormatService;
 use App\Service\PdfEngineService;
 use TCPDF;
 
@@ -135,19 +134,19 @@ class PayslipPdfManager
             1, 0, 'C', false);
         $pdf->Ln();
         /** @var PayslipLine $payslipLine */
-        foreach($payslip->getPayslipLines() as $payslipLine){
+        foreach ($payslip->getPayslipLines() as $payslipLine) {
             //payslip lines info
             $pdf->Cell($col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $payslipLine->getPayslipLineConcept(),
                 1, 0, 'L', false);
             $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                $payslipLine->getPriceUnit(),
+                NumberFormatService::formatNumber($payslipLine->getPriceUnit()),
                 1, 0, 'C', false);
             $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $payslipLine->getUnits(),
                 1, 0, 'C', false);
             $pdf->Cell($col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                $payslipLine->getAmount(),
+                NumberFormatService::formatNumber($payslipLine->getAmount()).'€',
                 1, 0, 'C', false);
             $pdf->Ln();
         }
@@ -155,12 +154,12 @@ class PayslipPdfManager
         //Totals section
         $payslipInicialAmount = $payslip->getTotalAmount() + $payslip->getSocialSecurityCost()
             - $payslip->getOtherCosts() - $payslip->getExpenses() - $payslip->getExtraPay();
-        $pdf->setXY(190,40);
+        $pdf->setXY(190, 40);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
             'Nómina:',
             0, 0, 'R', false);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $payslipInicialAmount.'€',
+            NumberFormatService::formatNumber($payslipInicialAmount).'€',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->SetX(190);
@@ -168,7 +167,7 @@ class PayslipPdfManager
             'Plus Productividad:',
             0, 0, 'R', false);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $payslip->getExtraPay().'€',
+            NumberFormatService::formatNumber($payslip->getExtraPay()).'€',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->SetX(190);
@@ -176,7 +175,7 @@ class PayslipPdfManager
             'Dietas:',
             0, 0, 'R', false);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $payslip->getExpenses().'€',
+            NumberFormatService::formatNumber($payslip->getExpenses()).'€',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->SetX(190);
@@ -184,18 +183,18 @@ class PayslipPdfManager
             'Otros costes:',
             0, 0, 'R', false);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $payslip->getOtherCosts().'€',
+            NumberFormatService::formatNumber($payslip->getOtherCosts()).'€',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->SetX(190);
         $YDim = $pdf->GetY();
-        $pdf->Line(190,$YDim,250,$YDim);
+        $pdf->Line(190, $YDim, 250, $YDim);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
             'Total:',
             0, 0, 'R', false);
         $payslipAmountWithoutSS = $payslip->getTotalAmount() + $payslip->getSocialSecurityCost();
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $payslipAmountWithoutSS.'€',
+            NumberFormatService::formatNumber($payslipAmountWithoutSS).'€',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->SetX(190);
@@ -203,17 +202,17 @@ class PayslipPdfManager
             'Retenciones:',
             0, 0, 'R', false);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $payslip->getSocialSecurityCost().'€',
+            NumberFormatService::formatNumber($payslip->getSocialSecurityCost()).'€',
             0, 0, 'L', false);
         $pdf->Ln();
         $pdf->SetX(190);
         $YDim = $pdf->GetY();
-        $pdf->Line(190,$YDim,250,$YDim);
+        $pdf->Line(190, $YDim, 250, $YDim);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
             'TOTAL:',
             0, 0, 'R', false);
         $pdf->Cell($col3, ConstantsEnum::PDF_CELL_HEIGHT,
-            $payslip->getTotalAmount().'€',
+            NumberFormatService::formatNumber($payslip->getTotalAmount()).'€',
             0, 0, 'L', false);
         $pdf->Ln();
 

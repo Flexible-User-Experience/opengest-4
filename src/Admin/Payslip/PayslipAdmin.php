@@ -92,6 +92,7 @@ class PayslipAdmin extends AbstractBaseAdmin
             'toDateFormatted',
             'year',
             'expensesFormatted',
+            'extraPayFormatted',
             'socialSecurityCostFormatted',
             'otherCostsFormatted',
             'totalAmountFormatted',
@@ -368,35 +369,35 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'expenses',
+                'expensesFormatted',
                 null,
                 [
                     'label' => 'admin.label.expenses',
                 ]
             )
             ->add(
-                'socialSecurityCost',
+                'socialSecurityCostFormatted',
                 null,
                 [
                     'label' => 'admin.label.social_security_cost',
                 ]
             )
             ->add(
-                'extraPay',
+                'extraPayFormatted',
                 null,
                 [
                     'label' => 'admin.label.extra_pay',
                 ]
             )
             ->add(
-                'otherCosts',
+                'otherCostsFormatted',
                 null,
                 [
                     'label' => 'admin.label.other_costs',
                 ]
             )
             ->add(
-                'totalAmount',
+                'totalAmountFormatted',
                 null,
                 [
                     'label' => 'admin.label.payslip_total',
