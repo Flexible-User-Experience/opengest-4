@@ -133,7 +133,6 @@ class PayslipXmlManager
                         </FinInstnId>
                     </DbtrAgt>
                     <ChrgBr>DEBT</ChrgBr>
-                    <CdtTrfTxInf>
                     ';
         $xmlDocDetail = '';
         foreach ($payslips as $payslip) {
@@ -146,7 +145,8 @@ class PayslipXmlManager
             }
             $intervalDate = 'Nómina desde '.$payslip->getFromDateFormatted().' hasta '.$payslip->getToDateFormatted();
             $xmlDocDetail = $xmlDocDetail.
-            '            <PmtId>
+            '    <CdtTrfTxInf>
+            <PmtId>
                 <InstrId>GR-'.$fileId.'-'.$payslip->getOperator()->getId().'</InstrId>
                 <EndToEndId>GR-'.$fileId.'-'.$payslip->getOperator()->getId().'</EndToEndId>
             </PmtId>
@@ -164,11 +164,11 @@ class PayslipXmlManager
             <RmtInf>
                 <Ustrd>'.$intervalDate.'</Ustrd>
             </RmtInf>
+        </CdtTrfTxInf>
             '
             ;
         }
-        $xmlDocEnd = '</CdtTrfTxInf>
-                </PmtInf>
+        $xmlDocEnd = '</PmtInf>
             </CstmrCdtTrfInitn>
         </Document>
         ';
