@@ -9,18 +9,11 @@
     <script type="text/javascript">
       partnerId = '';
         jQuery(document).ready(function() {
-             // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             partnerId = jQuery("input[name='{{ form.vars.id }}[partner]']").val();
             var buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var cifNifIcon = jQuery('#cif-nif-icon');
-            {#var mainAddress = jQuery('#{{ form.mainAddress.vars.id }}');#}
-            {#var mainAddressIcon = jQuery('#main-address-icon');#}
-            {#var mainCity = jQuery('#{{ form.mainCity.vars.id }}');#}
-            {#var mainCityIcon = jQuery('#main-city-icon');#}
-            {#var province = jQuery('#{{ form.province.vars.id }}');#}
-            {#var provinceIcon = jQuery('#province-icon');#}
             var selectContactPersonNode = jQuery('#sonata-ba-field-container-{{ form.selectContactPersonName.vars.id }}');
             var selectContactPersonName = jQuery('#{{ form.selectContactPersonName.vars.id }}');
             var contactPersonName = jQuery('#{{ form.contactPersonName.vars.id }}');
@@ -39,7 +32,6 @@
             var increaseForHolidaysIcon =jQuery('#increase-for-holidays-icon');
             var increaseForHolidaysPercentage =jQuery('#{{ form.increaseForHolidaysPercentage.vars.id }}');
             var increaseForHolidaysPercentageIcon =jQuery('#increase-for-holidays-percentage-icon');
-            {#var paymentType = jQuery('#{{ form.paymentType.vars.id }}');#}
             var serviceNode = jQuery('#sonata-ba-field-container-{{ form.service.vars.id }}');
             var selectTariffNode = jQuery('#sonata-ba-field-container-{{ form.selectTariff.vars.id }}');
             var selectTariffName = jQuery('#{{ form.selectTariff.vars.id }}');
@@ -57,9 +49,6 @@
             partnerNode.change(function(event) {
               console.log('event de prtner change', jQuery(event.target).val());
                 cifNifIcon.removeClass('hidden');
-                // mainAddressIcon.removeClass('hidden');
-                // mainCityIcon.removeClass('hidden');
-                // provinceIcon.removeClass('hidden');
                 partnerId = jQuery(event.target).val();
                 if (partnerId === '') {
                     buildingSitesNode.empty();
@@ -70,22 +59,34 @@
                     });
                 }
                 if (partnerId) {
-                    //on change Partner
                     jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
                     }).done(function (response) {
                       updateNodesInfo(response);
                     });
-
-                    //update building sites
                     jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
                     }).done(function(response) {
                         updateBuildingSites(response);
                     });
-
-                    //on change PartnerContact
                     jQuery.get(Routing.generate('admin_app_partner_partner_getPartnerContactsById', {id: partnerId}), function () {
                     }).done(function (response) {
                       updateNodesInfoContacts(response);
+                    });
+                    jQuery.get(Routing.generate('admin_app_partner_client_checkIfPartnerIsBlocked', {id: partnerId}), function () {
+                    }).done(function (response) {
+                      jQuery("#clientBlocked").remove();
+                      jQuery("#clientBlockedAction").remove();
+                      let actions = jQuery(".sonata-ba-form-actions")
+                      if (response.isBlocked) {
+                        jQuery(
+                          '<label id="clientBlocked" class="warning" style="color: red">El cliente está bloqueado</label>'
+                        ).insertAfter(partnerNode);
+                        actions.children('button').addClass('disabled')
+                        jQuery(
+                          '<label id="clientBlockedAction" class="warning" style="color: red">No se puede asignar un cliente bloqueado</label>'
+                        ).insertBefore(actions);
+                      } else {
+                        actions.children('button').removeClass('disabled')
+                      }
                     });
                 }
             });

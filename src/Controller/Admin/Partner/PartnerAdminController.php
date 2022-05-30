@@ -149,4 +149,15 @@ class PartnerAdminController extends BaseAdminController
 
         return new JsonResponse($serializedPartners);
     }
+
+    public function checkIfPartnerIsBlockedAction(int $id): JsonResponse
+    {
+        /** @var Partner $partner */
+        $partner = $this->admin->getObject($id);
+        if (!$partner) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        return new JsonResponse(['isBlocked' => $partner->isBlocked()]);
+    }
 }

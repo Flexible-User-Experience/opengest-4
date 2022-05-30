@@ -25,7 +25,6 @@
             jQuery.get(Routing.generate('admin_app_partner_client_checkIfCifNifIsUsedInAnotherPartners', {id: partnerId, cifNif: cifNif}), function () {
             }).done(function (response) {
               let partners = jQuery.parseJSON(response)
-              console.log(partners, 'partners');
               jQuery("#cifNifAlreadyUsedAlert").remove();
               if (partners.length > 0) {
                 let partnerCodes = '';
