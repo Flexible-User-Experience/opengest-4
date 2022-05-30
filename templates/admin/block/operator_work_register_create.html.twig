@@ -467,17 +467,19 @@
             }).done(function (response) {
               customTable.empty();
               customTable2.empty();
+              console.log('response', response)
               JSON.parse(response).forEach((element) => {
                 var row = document.createElement('tr');
                 if (element.start) {
                   createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
                   createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
                 }
+                console.log(element.id);
                 createCellFromInfoAndAppendToRow(element.description, row);
                 createCellFromInfoAndAppendToRow(element.units, row);
                 createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
-                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.id || '-', row);
+                createCellFromInfoEditableAndAppendToRow(element.saleDeliveryNote?.id || '-', row, element.id);
                 if (element.start) {
                     createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.vehicle?.name || '-', row);
                 }
@@ -489,7 +491,6 @@
                 `
                 ;
                 deleteEditButton = deleteEditButton.replace('idOfElement', element.id).replace('idOfElement', element.id);
-                console.log('deleteEditButton', deleteEditButton);
                 var cell = document.createElement('td');
                 cell.classList.add('sonata-ba-list-field');
                 cell.innerHTML = deleteEditButton;
@@ -510,7 +511,6 @@
               }
             ), function () {
             }).done(function (response) {
-              console.log('response from owr grouped', response);
               workingHoursTotal.text(response.workingHour);
               normalHoursTotal.text(response.normalHour);
               extraHoursTotal.text(response.extraHour);
@@ -524,9 +524,41 @@
 
         function createCellFromInfoAndAppendToRow(info, row)
         {
-          var cell = document.createElement('td');
+          let cell = document.createElement('td');
           cell.classList.add('sonata-ba-list-field');
           cell.append(info);
+          row.appendChild(cell);
+        }
+
+        function createCellFromInfoEditableAndAppendToRow(info, row, elementId)
+        {
+          console.log('id inside funciton', elementId)
+          let cell = document.createElement('td');
+          cell.classList.add('sonata-ba-list-field');
+          let form = document.createElement('form');
+          form.setAttribute('method', 'POST')
+          form.setAttribute('action', '{{ path('admin_app_operator_operatorworkregister_customChangeDeliveryNote') }}')
+          let div = document.createElement('div');
+          div.setAttribute('class', 'col')
+          let input = document.createElement('input');
+          input.setAttribute('value', info)
+          input.setAttribute('name', 'delivery_note_id')
+          input.setAttribute('class', 'form-control')
+          let inputOperatorWorkRegister = document.createElement('input');
+          inputOperatorWorkRegister.setAttribute('value', elementId)
+          inputOperatorWorkRegister.setAttribute('name', 'operator_work_register_id')
+          inputOperatorWorkRegister.setAttribute('class', 'hidden')
+          let submitButton = document.createElement('button')
+          submitButton.setAttribute('type', 'submit')
+          submitButton.setAttribute('class', 'btn btn-sm btn-primary editable-submit')
+          let icon = document.createElement('i');
+          icon.setAttribute('class', 'glyphicon glyphicon-ok')
+          submitButton.append(icon);
+          div.append(input)
+          div.append(submitButton)
+          form.append(div)
+          form.append(inputOperatorWorkRegister)
+          cell.append(form);
           row.appendChild(cell);
         }
 

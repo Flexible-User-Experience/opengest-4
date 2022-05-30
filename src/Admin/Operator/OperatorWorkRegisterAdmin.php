@@ -73,6 +73,7 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
             ->add('createCustomWorkRegister', 'createCustomWorkRegister')
             ->add('customDelete', 'customDelete')
             ->add('getJsonOperatorWorkRegistersByDataAndOperatorId', 'getOperatorWorkRegisters')
+            ->add('customChangeDeliveryNote', 'custom-change-delivery-note')
             ->remove('create')
         ;
     }

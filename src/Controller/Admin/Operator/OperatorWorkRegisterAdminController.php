@@ -14,6 +14,7 @@ use App\Enum\SaleRequestStatusEnum;
 use App\Repository\Operator\OperatorWorkRegisterRepository;
 use DateTime;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Sonata\AdminBundle\Exception\ModelManagerThrowable;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -208,6 +209,31 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegisterId.' eliminado');
 
         return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_create', $parameters));
+    }
+
+    /**
+     * @throws ModelManagerThrowable
+     */
+    public function customChangeDeliveryNoteAction(Request $request)
+    {
+        $request = $this->resolveRequest($request);
+        $operatorWorkRegisterId = $request->get('operator_work_register_id');
+        /** @var OperatorWorkRegister $operatorWorkRegister */
+        $operatorWorkRegister = $this->admin->getModelManager()->find(OperatorWorkRegister::class, $operatorWorkRegisterId);
+        if (!$operatorWorkRegister) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorWorkRegisterId));
+        }
+        $saleDeliveryNoteId = $request->get('delivery_note_id');
+        $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
+        if ($saleDeliveryNote) {
+            $operatorWorkRegister->setSaleDeliveryNote($saleDeliveryNote);
+            $this->admin->getModelManager()->update($operatorWorkRegister);
+            $this->addFlash('success', 'Se ha actualizado el albaran de la línea con id '.$operatorWorkRegisterId);
+        } else {
+            $this->addFlash('warning', 'El albarán '.$saleDeliveryNoteId.' no existe');
+        }
+
+        return new RedirectResponse($request->headers->get('referer'));
     }
 
     private function getPriceFromItem(Operator $operator, $item)
