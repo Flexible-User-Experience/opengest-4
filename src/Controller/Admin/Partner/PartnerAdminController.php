@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Partner;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Partner\Partner;
+use App\Repository\Partner\PartnerRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,5 +130,23 @@ class PartnerAdminController extends BaseAdminController
         $serializedProjects = $serializer->serialize($partner->getProjects(), 'json', ['groups' => ['api']]);
 
         return new JsonResponse($serializedProjects);
+    }
+
+    public function checkIfCifNifIsUsedInAnotherPartnersAction(int $id, Request $request): JsonResponse
+    {
+        $request = $this->resolveRequest($request);
+        $cifNif = $request->get('cifNif');
+        /** @var Partner $partner */
+        $partner = $this->admin->getObject($id);
+        if (!$partner) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+        /** @var PartnerRepository $partnerRepository */
+        $partnerRepository = $this->em->getRepository(Partner::class);
+        $partnersWithSameCifNif = $partnerRepository->getPartnersWithSameCifNifExceptCurrent($partner, $cifNif);
+        $serializer = $this->container->get('serializer');
+        $serializedPartners = $serializer->serialize($partnersWithSameCifNif, 'json', ['groups' => ['api']]);
+
+        return new JsonResponse($serializedPartners);
     }
 }

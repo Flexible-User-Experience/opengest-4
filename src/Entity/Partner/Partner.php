@@ -200,6 +200,7 @@ class Partner extends AbstractBase
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"api"})
      */
     private $code;
 
