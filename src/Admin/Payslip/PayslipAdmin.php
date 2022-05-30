@@ -8,7 +8,6 @@ use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -43,12 +42,6 @@ class PayslipAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureDefaultSortValues(array &$sortValues): void
-    {
-        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
-        $sortValues[DatagridInterface::SORT_BY] = 'toDate';
-    }
-
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
@@ -322,7 +315,9 @@ class PayslipAdmin extends AbstractBaseAdmin
     {
         $rootAlias = current($query->getRootAliases());
         $query
-            ->addOrderBy($rootAlias.'.operator', 'ASC')
+            ->addOrderBy('DATE('.$rootAlias.'.toDate)', 'DESC')
+            ->join($rootAlias.'.operator', 'operator')
+            ->addOrderBy('operator.surname1', 'ASC')
         ;
 
         return $query;

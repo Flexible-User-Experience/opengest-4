@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Payslip;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Payslip\Payslip;
 use App\Form\Type\GeneratePaymentDocumentsPayslipFormType;
 use DateTime;
@@ -37,12 +38,13 @@ class PayslipAdminController extends BaseAdminController
     public function generatePaymentDocumentsAction(Request $request)
     {
         $formData = $request->request->get('app_generate_payslip_payment_document');
+        $em = $this->em;
         /** @var Payslip[] $selectedModels */
         $selectedModels = $formData['payslips'];
         $documentType = $formData['type'];
+        // $enterpriseBankAccount = $em->getRepository(EnterpriseTransferAccount::class)->find($formData['enterpriseTransferAccount']);
         $date = DateTime::createFromFormat('d/m/Y', $formData['date']);
         $payslips = [];
-        $em = $this->em;
         foreach ($selectedModels as $payslip) {
             $payslips[] = $em->getRepository(Payslip::class)->find($payslip);
         }
