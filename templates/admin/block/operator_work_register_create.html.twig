@@ -467,14 +467,12 @@
             }).done(function (response) {
               customTable.empty();
               customTable2.empty();
-              console.log('response', response)
               JSON.parse(response).forEach((element) => {
                 var row = document.createElement('tr');
                 if (element.start) {
                   createCellFromInfoAndAppendToRow(element.start?.substring(11, 16) || '-', row);
                   createCellFromInfoAndAppendToRow(element.finish?.substring(11, 16) || '-', row);
                 }
-                console.log(element.id);
                 createCellFromInfoAndAppendToRow(element.description, row);
                 createCellFromInfoAndAppendToRow(element.units, row);
                 createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
@@ -532,7 +530,6 @@
 
         function createCellFromInfoEditableAndAppendToRow(info, row, elementId)
         {
-          console.log('id inside funciton', elementId)
           let cell = document.createElement('td');
           cell.classList.add('sonata-ba-list-field');
           let form = document.createElement('form');
