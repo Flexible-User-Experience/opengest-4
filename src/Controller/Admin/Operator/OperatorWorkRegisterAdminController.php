@@ -34,6 +34,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
     {
         $request = $this->resolveRequest($request);
         $inputType = $request->query->get('select_input_type');
+        $hourType = $request->query->get('custom_hour_type');
         $operatorId = $request->query->get('custom_operator');
         /** @var Operator $operator */
         $operator = $this->admin->getModelManager()->find(Operator::class, $operatorId);
@@ -43,6 +44,13 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         $parameters = [];
         $date = DateTime::createFromFormat('d-m-Y', $request->query->get('custom_date'));
         $isHoliday = $this->enterpriseHolidayManager->checkIfDayIsEnterpriseHoliday($date);
+        $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
+        if ('' != $saleDeliveryNoteId) {
+            /** @var SaleDeliveryNote $saleDeliveryNote */
+            $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
+        } else {
+            $saleDeliveryNote = null;
+        }
         if ($date) {
             if ('unit' === $inputType) {
                 $itemId = $request->query->get('custom_item');
@@ -50,13 +58,6 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $description = OperatorWorkRegisterUnitEnum::getReversedEnumArray()[$itemId];
                 $price = $this->getPriceFromItem($operator, $item);
                 $units = 1;
-                $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
-                if ('' != $saleDeliveryNoteId) {
-                    /** @var SaleDeliveryNote $saleDeliveryNote */
-                    $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-                } else {
-                    $saleDeliveryNote = null;
-                }
                 $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
                 $this->admin->getModelManager()->create($operatorWorkRegister);
                 $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
@@ -64,13 +65,6 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $description = $request->query->get('custom_text_description');
                 $price = $request->query->get('amount') * 1;
                 $units = 1;
-                $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
-                if ('' != $saleDeliveryNoteId) {
-                    /** @var SaleDeliveryNote $saleDeliveryNote */
-                    $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-                } else {
-                    $saleDeliveryNote = null;
-                }
                 $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
                 $this->admin->getModelManager()->create($operatorWorkRegister);
                 $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
@@ -79,54 +73,75 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $customFinish = $request->query->get('custom_finish');
                 $start = DateTime::createFromFormat('!H:i:s', $customStart.':00');
                 $finish = DateTime::createFromFormat('!H:i:s', $customFinish.':00');
-                $splitTimeRanges = $this->splitRangeInDefinedTimeRanges($start, $finish);
-                $operatorWorkRegisterIds = [];
-                foreach ($splitTimeRanges as $splitTimeRange) {
-                    $itemId = $request->query->get('custom_description');
-                    if ('' !== $itemId) {
-                        $description = OperatorWorkRegisterTimeEnum::getReversedEnumArray()[$itemId];
-                    } else {
-                        $description = '';
-                    }
-                    $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
-                    if ($isHoliday) {
-                        $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
-                        $description = 'Hora extra - '.$description;
-                    } else {
-                        // Check if hour is negative (itemId ==3)
-                        if ($itemId < 3) {
-                            $type = $splitTimeRange['type'];
-                            $price = 0;
-                            if (0 === $type) {
-                                $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
-                                $description = 'Hora laboral - '.$description;
-                            } elseif (1 === $type) {
-                                $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
-                                $description = 'Hora normal - '.$description;
-                            } elseif (2 === $type) {
-                                $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
-                                $description = 'Hora extra - '.$description;
-                            }
-                        } else {
-                            $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
-                            $units = $units * (-1);
-                        }
-                    }
-                    $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
-                    /** @var SaleDeliveryNote $saleDeliveryNote */
-                    $saleDeliveryNote = $this->admin->getModelManager()->find(SaleDeliveryNote::class, $saleDeliveryNoteId);
-                    $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $splitTimeRange['start'], $splitTimeRange['finish']);
-                    // Change status of linked saleRequest to finalized
-                    if ($saleDeliveryNote) {
-                        $saleRequest = $saleDeliveryNote->getSaleRequest();
-                        if ($saleRequest) {
-                            $saleRequest->setStatus(SaleRequestStatusEnum::FINISHED);
-                            $this->admin->getModelManager()->update($saleRequest);
-                        }
-                    }
-                    $this->admin->getModelManager()->create($operatorWorkRegister);
-                    $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
+                $itemId = $request->query->get('custom_description');
+                if ('' !== $itemId) {
+                    $description1 = OperatorWorkRegisterTimeEnum::getReversedEnumArray()[$itemId];
+                } else {
+                    $description1 = '';
                 }
+                if ('Según horario' === $hourType) {
+                    $splitTimeRanges = $this->splitRangeInDefinedTimeRanges($start, $finish);
+                    $operatorWorkRegisterIds = [];
+                    foreach ($splitTimeRanges as $splitTimeRange) {
+                        $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
+                        $description = '';
+                        if ($isHoliday) {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                            $description = 'Hora extra - '.$description1;
+                        } else {
+                            // Check if hour is negative (itemId ==3)
+                            if ($itemId < 3) {
+                                $type = $splitTimeRange['type'];
+                                $price = 0;
+                                if (0 === $type) {
+                                    $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
+                                    $description = 'Hora laboral - '.$description1;
+                                } elseif (1 === $type) {
+                                    $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
+                                    $description = 'Hora normal - '.$description1;
+                                } elseif (2 === $type) {
+                                    $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                                    $description = 'Hora extra - '.$description1;
+                                }
+                            } else {
+                                $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
+                                $units = $units * (-1);
+                            }
+                        }
+                        $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $splitTimeRange['start'], $splitTimeRange['finish']);
+                        $this->admin->getModelManager()->create($operatorWorkRegister);
+                        $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
+                    }
+                } else {
+                    if (in_array($hourType, ['Laboral', 'Normal', 'Extra'])) {
+                        $price = 0;
+                        if ('Laboral' === $hourType) {
+                            $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
+                            $description = 'Hora laboral - '.$description1;
+                        } elseif ('Normal' === $hourType) {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
+                            $description = 'Hora normal - '.$description1;
+                        } elseif ($hourType = 'Extra') {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                            $description = 'Hora extra - '.$description1;
+                        }
+                        $units = ($finish->getTimestamp() - $start->getTimestamp()) / 3600;
+                        $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $start, $finish);
+                        $this->admin->getModelManager()->create($operatorWorkRegister);
+                        $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
+                    } else {
+                        $this->addFlash('warning', 'Opción de tipo de hora inválida');
+                    }
+                }
+                // Change status of linked saleRequest to finalized
+                if ($saleDeliveryNote) {
+                    $saleRequest = $saleDeliveryNote->getSaleRequest();
+                    if ($saleRequest) {
+                        $saleRequest->setStatus(SaleRequestStatusEnum::FINISHED);
+                        $this->admin->getModelManager()->update($saleRequest);
+                    }
+                }
+
                 $this->addFlash('success', count($operatorWorkRegisterIds).' parte/s de trabajo con id '.implode(', ', $operatorWorkRegisterIds).' creado/s.');
             }
             $parameters = [
