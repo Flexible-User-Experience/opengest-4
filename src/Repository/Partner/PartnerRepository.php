@@ -96,4 +96,23 @@ class PartnerRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    public function getPartnersWithSameCifNifExceptCurrent(Partner $partner, $cifNif)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.enabled = :enabled')
+            ->andWhere('p.cifNif = :cifNif')
+            ->andWhere('p.enterprise = :enterprise')
+            ->andWhere('p.type = :type')
+            ->andWhere('p.id != :id')
+            ->setParameter('enabled', true)
+            ->setParameter('cifNif', $cifNif)
+            ->setParameter('enterprise', $partner->getEnterprise())
+            ->setParameter('type', $partner->getType())
+            ->setParameter('id', $partner->getId())
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

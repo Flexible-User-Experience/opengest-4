@@ -13,6 +13,7 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Clientes", group: "Terceros", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
+            - [ setTemplate, [ 'edit', "admin/client/edit.html.twig" ] ]
             - [ setTranslationDomain, [ "admin" ] ]
     app.admin.partner_class:
         class: App\Admin\Partner\PartnerClassAdmin

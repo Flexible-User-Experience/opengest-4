@@ -147,6 +147,19 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group" id="sonata-ba-field-container-hour-type">
+                            <label class="control-label" for="description">
+                                Tipo de hora
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="custom_hour_type">
+                                    <option value="Según horario" selected="selected">Según horario</option>
+                                    {% for timeRangeType in content.time_range_types %}
+                                        <option value="{{ timeRangeType }}">{{ timeRangeType }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group" id="sonata-ba-field-container-item">
                             <label class="control-label required" for="item">
                                 Item
@@ -208,15 +221,6 @@
                             <td id="negativeHoursTotal">0</td>
                         </tr>
                     </table>
-{#                    <div class="box-body">#}
-{#                        <p>Horas laborales:#}
-{#                            <p>#}
-{#                                <b>0</b>#}
-{#                            </p>#}
-{#                        </p>#}
-{#                        <p>Horas normales: <b>0</b></p>#}
-{#                        <p>Horas extras: <b>0</b></p>#}
-{#                    </div>#}
                 </div>
             </div>
         </div>
@@ -325,6 +329,7 @@
         var customFinish = jQuery('#sonata-ba-field-container-custom_finish');
         var customFinishInput = jQuery('#custom_finish');
         var customDescription = jQuery('#sonata-ba-field-container-description');
+        var customHourType = jQuery('#sonata-ba-field-container-hour-type');
         var customTextDescription = jQuery('#sonata-ba-field-container-text-description');
         var amount = jQuery('#sonata-ba-field-container-amount');
         var item = jQuery('#sonata-ba-field-container-item');
@@ -368,6 +373,7 @@
             customFinish.addClass('hidden');
             customDescription.addClass('hidden');
             customTextDescription.addClass('hidden');
+            customHourType.addClass('hidden');
             amount.addClass('hidden');
             item.removeClass('hidden');
           } else if (type === "hour") {
@@ -375,6 +381,7 @@
             customFinish.removeClass('hidden');
             customDescription.removeClass('hidden');
             customTextDescription.addClass('hidden');
+            customHourType.removeClass('hidden');
             amount.addClass('hidden');
             item.addClass('hidden');
           } else if (type === "other") {
@@ -384,6 +391,7 @@
             item.addClass('hidden');
             customTextDescription.removeClass('hidden');
             amount.removeClass('hidden');
+            customHourType.addClass('hidden');
           }
           enableDisableSubmitButton();
         });
@@ -469,7 +477,7 @@
                 createCellFromInfoAndAppendToRow(element.units, row);
                 createCellFromInfoAndAppendToRow(element.priceUnit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
                 createCellFromInfoAndAppendToRow(element.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}), row);
-                createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.id || '-', row);
+                createCellFromInfoEditableAndAppendToRow(element.saleDeliveryNote?.id || '-', row, element.id);
                 if (element.start) {
                     createCellFromInfoAndAppendToRow(element.saleDeliveryNote?.vehicle?.name || '-', row);
                 }
@@ -481,7 +489,6 @@
                 `
                 ;
                 deleteEditButton = deleteEditButton.replace('idOfElement', element.id).replace('idOfElement', element.id);
-                console.log('deleteEditButton', deleteEditButton);
                 var cell = document.createElement('td');
                 cell.classList.add('sonata-ba-list-field');
                 cell.innerHTML = deleteEditButton;
@@ -502,7 +509,6 @@
               }
             ), function () {
             }).done(function (response) {
-              console.log('response from owr grouped', response);
               workingHoursTotal.text(response.workingHour);
               normalHoursTotal.text(response.normalHour);
               extraHoursTotal.text(response.extraHour);
@@ -516,9 +522,46 @@
 
         function createCellFromInfoAndAppendToRow(info, row)
         {
-          var cell = document.createElement('td');
+          let cell = document.createElement('td');
           cell.classList.add('sonata-ba-list-field');
           cell.append(info);
+          row.appendChild(cell);
+        }
+
+        function createCellFromInfoEditableAndAppendToRow(info, row, elementId)
+        {
+          let cell = document.createElement('td');
+          cell.classList.add('sonata-ba-list-field');
+          let form = document.createElement('form');
+          form.setAttribute('method', 'POST')
+          form.setAttribute('action', '{{ path('admin_app_operator_operatorworkregister_customChangeDeliveryNote') }}')
+          let divRow = document.createElement('div');
+          divRow.setAttribute('class', 'col')
+          let divCol1 = document.createElement('div');
+          divCol1.setAttribute('class', 'col-2')
+          let divCol2 = document.createElement('div');
+          divCol2.setAttribute('class', 'col-2')
+          let input = document.createElement('input');
+          input.setAttribute('value', info)
+          input.setAttribute('name', 'delivery_note_id')
+          input.setAttribute('class', 'form-control')
+          let inputOperatorWorkRegister = document.createElement('input');
+          inputOperatorWorkRegister.setAttribute('value', elementId)
+          inputOperatorWorkRegister.setAttribute('name', 'operator_work_register_id')
+          inputOperatorWorkRegister.setAttribute('class', 'hidden')
+          let submitButton = document.createElement('button')
+          submitButton.setAttribute('type', 'submit')
+          submitButton.setAttribute('class', 'btn btn-sm btn-primary editable-submit')
+          let icon = document.createElement('i');
+          icon.setAttribute('class', 'glyphicon glyphicon-ok')
+          submitButton.append(icon);
+          divCol1.append(input)
+          divCol2.append(submitButton)
+          divRow.append(divCol1)
+          divRow.append(divCol2)
+          form.append(divRow)
+          form.append(inputOperatorWorkRegister)
+          cell.append(form);
           row.appendChild(cell);
         }
 

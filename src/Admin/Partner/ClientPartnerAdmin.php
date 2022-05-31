@@ -60,6 +60,8 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             ->add('getPartnerContactsById', $this->getRouterIdParameter().'/get-partner-contacts-by-id')
             ->add('getJsonDeliveryNotesById', $this->getRouterIdParameter().'/get-json-delivery-notes-by-id')
             ->add('getJsonBuildingSitesById', $this->getRouterIdParameter().'/get-json-building-sites-by-id')
+            ->add('checkIfCifNifIsUsedInAnotherPartners', $this->getRouterIdParameter().'/check-cif-nif-used-in-another-partners')
+            ->add('checkIfPartnerIsBlocked', $this->getRouterIdParameter().'/check-if-partner-is-blocked')
         ;
     }
 
@@ -130,6 +132,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 CheckboxType::class,
                 [
                     'label' => 'admin.label.enabled',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'blocked',
+                CheckboxType::class,
+                [
+                    'label' => 'admin.label.blocked',
                     'required' => false,
                 ]
             )
@@ -628,6 +638,13 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.enabled',
+                ]
+            )
+            ->add(
+                'blocked',
+                null,
+                [
+                    'label' => 'admin.label.blocked',
                 ]
             )
         ;

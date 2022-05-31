@@ -2,19 +2,32 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Payslip\Payslip;
+use App\Repository\Enterprise\EnterpriseTransferAccountRepository;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class GeneratePaymentDocumentsPayslipFormType.
  */
 class GeneratePaymentDocumentsPayslipFormType extends AbstractType
 {
+    private EnterpriseTransferAccountRepository $enterpriseTransferAccountRepository;
+
+    protected TokenStorageInterface $tokenStorage;
+
+    public function __construct(EnterpriseTransferAccountRepository $enterpriseTransferAccountRepository, TokenStorageInterface $tokenStorage)
+    {
+        $this->enterpriseTransferAccountRepository = $enterpriseTransferAccountRepository;
+        $this->tokenStorage = $tokenStorage;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -51,6 +64,15 @@ class GeneratePaymentDocumentsPayslipFormType extends AbstractType
                         'Recibos otros costes' => 'otherExpensesReceipts',
                         'Recibos de dietas' => 'expensesReceipts',
                     ],
+                ]
+            )
+            ->add(
+                'enterpriseTransferAccount',
+                EntityType::class,
+                [
+                    'label' => 'Banco transferencia',
+                    'class' => EnterpriseTransferAccount::class,
+                    'query_builder' => $this->enterpriseTransferAccountRepository->getFilteredByEnterpriseEnabledSortedByNameQB($this->tokenStorage->getToken()->getUser()->getLoggedEnterprise()),
                 ]
             )
             ->add(

@@ -13,3 +13,6 @@ fos_js_routing:
         - 'admin_app_operator_operatorworkregisterheader_getJsonOperatorWorkRegisterTotalsByHourType'
         - 'admin_app_sale_saleinvoice_getJsonAvailableInvoiceNumbersForSeries'
         - 'admin_app_enterprise_enterpriseholidays_checkIfDayIsEnterpriseHoliday'
+        - 'admin_app_partner_client_checkIfCifNifIsUsedInAnotherPartners'
+        - 'admin_app_operator_operatorworkregister_customChangeDeliveryNote'
+        - 'admin_app_partner_client_checkIfPartnerIsBlocked'

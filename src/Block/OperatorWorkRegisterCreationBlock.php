@@ -5,6 +5,7 @@ namespace App\Block;
 use App\Enum\ConstantsEnum;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
+use App\Enum\TimeRangeTypeEnum;
 use App\Repository\Operator\OperatorRepository;
 use App\Repository\Sale\SaleDeliveryNoteRepository;
 use Exception;
@@ -52,6 +53,7 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
             'timeDescriptions' => OperatorWorkRegisterTimeEnum::getReversedEnumArray(),
             'time_picker_hours' => ConstantsEnum::TIME_PICKER_HOURS,
             'time_picker_minutes' => ConstantsEnum::TIME_PICKER_MINUTES,
+            'time_range_types' => TimeRangeTypeEnum::getReversedEnumArray(),
             'selectedOperator' => $selectedOperator,
             'selectedDate' => $selectedDate,
             'previousInputType' => $previousInputType,

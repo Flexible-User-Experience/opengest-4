@@ -5,9 +5,9 @@ namespace App\Repository\Enterprise;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class EnterpriseTransferAccountRepository extends ServiceEntityRepository
 {
@@ -40,6 +40,7 @@ class EnterpriseTransferAccountRepository extends ServiceEntityRepository
         return $this->getEnabledSortedByNameQB()
             ->andWhere('e.enterprise = :enterprise')
             ->setParameter('enterprise', $enterprise)
+            ->orderBy('e.iban', 'ASC')
         ;
     }
 
