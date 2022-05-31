@@ -8,7 +8,6 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function() {
-             // Handler for .ready() called.
             var partnerNode = jQuery('#sonata-ba-field-container-{{ form.partner.vars.id }}');
             var cifNif = jQuery('#{{ form.cifNif.vars.id }}');
             var invoice = jQuery('#{{ form.saleInvoice.vars.id }}');
@@ -90,7 +89,9 @@
                 var totalUnits = 0;
                 var totalAmount = 0;
                 for (var i = 0; i < numberOfWorkRegisters; i++) {
-                  totalUnits += jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_units').val().replace(',','.')*1;
+                  if (jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_start').val()) {
+                    totalUnits += jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_units').val().replace(',','.')*1;
+                  }
                   totalAmount += jQuery('#{{ form.operatorWorkRegisters.vars.id }}_' + i + '_amount').val()*1;
                 }
                 if (numberOfWorkRegisters) {
@@ -104,7 +105,7 @@
                     </div>
                     <div>
                         <div class="pull-right" style="margin-right: 10px;">
-                            <label for="totalUnits" class="control-label">Total unidades: </label>
+                            <label for="totalUnits" class="control-label">Total horas: </label>
                             <label class="control-label"> ${totalUnits} </label>
                         </div>
                     </div>
@@ -126,37 +127,47 @@
               jQuery($info).insertAfter(workRegistersTable);
             {% endif %}
 
-             //on change
             partnerNode.change(function(event) {
                 cifNifIcon.removeClass('hidden');
                 var partnerId = jQuery(event.target).val();
-                console.log('PartnerId', partnerId);
               if (partnerId) {
-                //on change Partner
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', {id: partnerId}), function () {
                 }).done(function (response) {
                   updateNodesInfo(response);
                 });
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonBuildingSitesById', { id: partnerId }), function() {
                 }).done(function(response) {
-                  console.log('response in  building site', response)
                   updateBuildingSites(response);
                 });
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonOrdersById', { id: partnerId }), function() {
                 }).done(function(response) {
-                  console.log('response in orders', response)
                   updateOrders(response);
                 });
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonProjectsById', { id: partnerId }), function() {
                 }).done(function(response) {
-                  console.log('response in orders', response)
                   updateProjects(response);
+                });
+                jQuery.get(Routing.generate('admin_app_partner_client_checkIfPartnerIsBlocked', {id: partnerId}), function () {
+                }).done(function (response) {
+                  jQuery("#clientBlocked").remove();
+                  jQuery("#clientBlockedAction").remove();
+                  let actions = jQuery(".sonata-ba-form-actions")
+                  if (response.isBlocked) {
+                    jQuery(
+                      '<label id="clientBlocked" class="warning" style="color: red">El cliente está bloqueado</label>'
+                    ).insertAfter(partnerNode);
+                    actions.children('button').addClass('disabled')
+                    jQuery(
+                      '<label id="clientBlockedAction" class="warning" style="color: red">No se puede asignar un cliente bloqueado</label>'
+                    ).insertBefore(actions);
+                  } else {
+                    actions.children('button').removeClass('disabled')
+                  }
                 });
               }
 
             });
 
-            //on load Partner
             {% if form.partner.vars.data is not null %}
                 jQuery.get(Routing.generate('admin_app_partner_partner_getJsonPartnerById', { id: {{ form.partner.vars.data.id }} }), function() {
                 }).done(function(response) {

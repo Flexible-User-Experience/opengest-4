@@ -200,6 +200,7 @@ class Partner extends AbstractBase
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"api"})
      */
     private $code;
 
@@ -401,6 +402,11 @@ class Partner extends AbstractBase
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $invoiceCopiesNumber = null;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private bool $blocked = false;
 
     /**
      * Methods.
@@ -1594,6 +1600,16 @@ class Partner extends AbstractBase
         $this->invoiceCopiesNumber = $invoiceCopiesNumber;
 
         return $this;
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): void
+    {
+        $this->blocked = $blocked;
     }
 
     /**

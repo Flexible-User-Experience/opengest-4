@@ -4,6 +4,7 @@ namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Vehicle\Vehicle;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -35,16 +36,14 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehiculos/permisos-especiales';
 
     /**
-     * @var array
-     */
-    protected $datagridValues = [
-        '_sort_by' => 'expeditionDate',
-        '_sort_order' => 'desc',
-    ];
-
-    /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'vehicle';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);

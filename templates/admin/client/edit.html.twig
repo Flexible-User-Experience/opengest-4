@@ -1,0 +1,42 @@
+{% extends 'admin/edit.html.twig' %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+          let cifNifNode = jQuery('#{{ form.cifNif.vars.id }}');
+          let partnerId = "{{ object.id }}";
+          console.log(partnerId, 'partnerId');
+          if (partnerId) {
+            let cifNif = cifNifNode.val();
+            checkIfNifCifExists(cifNif, partnerId);
+          }
+
+          cifNifNode.keyup(function (event) {
+            let cifNif = jQuery(event.target).val();
+            checkIfNifCifExists(cifNif, partnerId);
+          });
+
+          function checkIfNifCifExists(cifNif, partnerId) {
+            jQuery.get(Routing.generate('admin_app_partner_client_checkIfCifNifIsUsedInAnotherPartners', {id: partnerId, cifNif: cifNif}), function () {
+            }).done(function (response) {
+              let partners = jQuery.parseJSON(response)
+              jQuery("#cifNifAlreadyUsedAlert").remove();
+              if (partners.length > 0) {
+                let partnerCodes = '';
+                for (let i = 0; i < partners.length; i++) {
+                  partnerCodes = partnerCodes + partners[i].code + '-' + partners[i].name;
+                }
+                jQuery(
+                  '<label id="cifNifAlreadyUsedAlert" class="warning" style="color: red">Este nif ya está asignado a: ' + partnerCodes + '</label>'
+                ).insertAfter(cifNifNode);
+              }
+            });
+          }
+        })
+    </script>
+{% endblock %}
