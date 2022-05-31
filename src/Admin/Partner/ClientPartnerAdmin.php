@@ -61,6 +61,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             ->add('getJsonDeliveryNotesById', $this->getRouterIdParameter().'/get-json-delivery-notes-by-id')
             ->add('getJsonBuildingSitesById', $this->getRouterIdParameter().'/get-json-building-sites-by-id')
             ->add('checkIfCifNifIsUsedInAnotherPartners', $this->getRouterIdParameter().'/check-cif-nif-used-in-another-partners')
+            ->add('checkIfPartnerIsBlocked', $this->getRouterIdParameter().'/check-if-partner-is-blocked')
         ;
     }
 
