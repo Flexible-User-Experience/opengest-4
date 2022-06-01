@@ -185,14 +185,14 @@ class SaleInvoicePdfManager
             $col6 = 168;
             $col7 = 194;
         } else {
-            $YDim = 110-2;
-            $col1 = 32-5;
-            $col2 = 46-3;
-            $col3 = 122+1;
-            $col4 = 140+2;
-            $col5 = 160+2;
-            $col6 = 168+3;
-            $col7 = 194+4;
+            $YDim = 110-5;
+            $col1 = 32-12;
+            $col2 = 46-6;
+            $col3 = 122+2;
+            $col4 = 140+3;
+            $col5 = 160+3;
+            $col6 = 168+7;
+            $col7 = 194+8;
         }
         $pdf->setXY($col2, $YDim);
         if ($saleInvoice->getDeliveryNotes()->first()) {
@@ -369,8 +369,8 @@ class SaleInvoicePdfManager
             $xVar = 26;
             $yVarStart = 249;
         } else {
-            $xVar = 26-3;
-            $yVarStart = 249+5;
+            $xVar = 26-5;
+            $yVarStart = 249+8;
         }
         $cellWidth = 60;
         $pdf->setXY($xVar, $yVarStart);
@@ -522,7 +522,7 @@ class SaleInvoicePdfManager
         if($withBackground){
             $pdf->setXY(40, 275);
         } else {
-            $pdf->setXY(40, 275+5);
+            $pdf->setXY(40, 275+10);
         }
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $pdf->getPageNumGroupAlias().' de '.$pdf->getPageGroupAlias(),
@@ -539,8 +539,8 @@ class SaleInvoicePdfManager
             $xVar = 26;
             $yVarStart = 249;
         } else {
-            $xVar = 26-3;
-            $yVarStart = 249+5;
+            $xVar = 26-5;
+            $yVarStart = 249+8;
         }
         $cellWidth = 60;
         $this->pdfEngineService->setStyleSize('', 8);
@@ -585,7 +585,7 @@ class SaleInvoicePdfManager
         if($withBackground){
             $pdf->setXY(40, 275);
         } else {
-            $pdf->setXY(40, 275+5);
+            $pdf->setXY(40, 275+10);
         }
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $pdf->getPageNumGroupAlias().' de '.$pdf->getPageGroupAlias(),
@@ -596,8 +596,8 @@ class SaleInvoicePdfManager
     private function writeDataTreatmentText(TCPDF $pdf): void
     {
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 7);
-        $pdf->SetAbsX(26);
-        $pdf->MultiCell(168, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->SetAbsX(26-8);
+        $pdf->MultiCell(185, ConstantsEnum::PDF_CELL_HEIGHT,
             'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.', 0, 'C', false);
     }
 
@@ -608,8 +608,8 @@ class SaleInvoicePdfManager
             $xDim = 32;
             $pdf->setXY($xDim, 55);
         } else {
-            $xDim = 32-5;
-            $pdf->setXY($xDim, 55-5);
+            $xDim = 32-8;
+            $pdf->setXY($xDim, 55-8);
         }
         $this->pdfEngineService->setStyleSize('b', 11);
         $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -663,7 +663,7 @@ class SaleInvoicePdfManager
         } else {
             $xVar = 125;
             $xVar2 = 163+3;
-            $yVarStart = 54-5;
+            $yVarStart = 54-8;
             $incrY = 15;
             $cellwidth = 33;
         }
