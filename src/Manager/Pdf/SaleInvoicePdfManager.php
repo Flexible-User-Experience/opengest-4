@@ -596,8 +596,8 @@ class SaleInvoicePdfManager
     private function writeDataTreatmentText(TCPDF $pdf): void
     {
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 7);
-        $pdf->SetAbsX(26-8);
-        $pdf->MultiCell(185, ConstantsEnum::PDF_CELL_HEIGHT,
+        $pdf->SetAbsX(26);
+        $pdf->MultiCell(170, ConstantsEnum::PDF_CELL_HEIGHT,
             'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.', 0, 'C', false);
     }
 
