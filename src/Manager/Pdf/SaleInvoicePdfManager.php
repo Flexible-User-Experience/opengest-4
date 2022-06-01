@@ -168,9 +168,10 @@ class SaleInvoicePdfManager
     private function buildOneSaleInvoicePerPage(SaleInvoice $saleInvoice, $withBackground, TCPDF $pdf)
     {
         // add start page
-        // TODO make invoice print
+        $pdf->startPageGroup();
         $this->setNewPage($pdf, $withBackground);
         $this->setHeading($pdf, $saleInvoice, $withBackground);
+
 
         //deliveryNoteInfo
         $hasIva0 = false;
@@ -291,7 +292,6 @@ class SaleInvoicePdfManager
                 $pdf->Ln(4);
             }
             // TODO include invoice discount to invoice
-            // TODO edit footer number of page
             $pdf->Ln(2);
         }
 
@@ -525,7 +525,7 @@ class SaleInvoicePdfManager
             $pdf->setXY(40, 275+5);
         }
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage().' de '.$pdf->getAliasNbPages(),
+            $pdf->getPageNumGroupAlias().' de '.$pdf->getPageGroupAlias(),
             0, 0, 'C', false);
         $pdf->Ln();
     }
@@ -588,7 +588,7 @@ class SaleInvoicePdfManager
             $pdf->setXY(40, 275+5);
         }
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage().' de '.$pdf->getAliasNbPages(),
+            $pdf->getPageNumGroupAlias().' de '.$pdf->getPageGroupAlias(),
             0, 0, 'C', false);
         $pdf->Ln();
     }
