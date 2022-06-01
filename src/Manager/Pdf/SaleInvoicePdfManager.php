@@ -615,6 +615,14 @@ class SaleInvoicePdfManager
         $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerName(),
             0, 0, 'L', false, '', 1);
+        if($saleInvoice->getPartner()->getReference()){
+            $pdf->Ln(5);
+            $pdf->setX($xDim);
+            $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getPartner()->getReference(),
+                0, 0, 'L', false, '', 1);
+
+        }
         $pdf->Ln(8);
         if ($saleInvoice->getDeliveryAddress()) {
             if (' ' !== $saleInvoice->getDeliveryAddress()->getAddress()) {
