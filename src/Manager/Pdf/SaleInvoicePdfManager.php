@@ -267,7 +267,7 @@ class SaleInvoicePdfManager
                         0, 'C', false, 0);
                 } else {
                     $pdf->MultiCell($col5 - $col4, ConstantsEnum::PDF_CELL_HEIGHT,
-                        NumberFormatService::formatNumber($deliveryNoteLine->getPriceUnit()),
+                        number_format($deliveryNoteLine->getPriceUnit(), 2, ',', '.'),
                         0, 'C', false, 0);
                 }
                 $pdf->setCellPaddings(0, 1, 0, 1);
@@ -286,7 +286,7 @@ class SaleInvoicePdfManager
                         0, 'C', false, 0);
                 } else {
                     $pdf->MultiCell($col7 - $col6, ConstantsEnum::PDF_CELL_HEIGHT,
-                        NumberFormatService::formatNumber($deliveryNoteLine->getTotal()).' €',
+                        number_format($deliveryNoteLine->getTotal(), 2, ',', '.').' €',
                         0, 'C', false, 0);
                 }
                 $pdf->Ln(4);
@@ -472,41 +472,41 @@ class SaleInvoicePdfManager
         $cellWidth = 38;
         $pdf->setXY($xVar3, $yVarStart - 3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Base imponible: '.NumberFormatService::formatNumber($saleInvoice->getBaseTotal()).' €',
+            'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);
         $pdf->Ln(4);
         if ($hasIva0) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IVA 0%: '.NumberFormatService::formatNumber($saleInvoice->getIva0()).' €',
+                'IVA 0%: '.number_format($saleInvoice->getIva0(), 2, ',', '.').' €',
                 0, 0, 'R', false);
             $pdf->Ln(4);
         }
         if ($saleInvoice->getIva4()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IVA 4%: '.NumberFormatService::formatNumber($saleInvoice->getIva4()).' €',
+                'IVA 4%: '.number_format($saleInvoice->getIva4(), 2, ',', '.').' €',
                 0, 0, 'R', false);
             $pdf->Ln(4);
         }
         if ($saleInvoice->getIva10()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IVA 10%: '.NumberFormatService::formatNumber($saleInvoice->getIva10()).' €',
+                'IVA 10%: '.number_format($saleInvoice->getIva10(), 2, ',', '.').' €',
                 0, 0, 'R', false);
             $pdf->Ln(4);
         }
         if ($saleInvoice->getIva21()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IVA 21%: '.NumberFormatService::formatNumber($saleInvoice->getIva21()).' €',
+                'IVA 21%: '.number_format($saleInvoice->getIva21(), 2, ',', '.').' €',
                 0, 0, 'R', false);
             $pdf->Ln(4);
         }
         if ($saleInvoice->getIrpf()) {
             $pdf->setX($xVar3);
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                'IRPF: '.NumberFormatService::formatNumber($saleInvoice->getIrpf()).' €',
+                'IRPF: '.number_format($saleInvoice->getIrpf(), 2, ',', '.').' €',
                 0, 0, 'R', false);
             $pdf->Ln(4);
         }
@@ -514,7 +514,7 @@ class SaleInvoicePdfManager
         $this->pdfEngineService->setStyleSize('b', 10);
         $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-            'TOTAL: '.NumberFormatService::formatNumber($saleInvoice->getTotal()).' €',
+            'TOTAL: '.number_format($saleInvoice->getTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);
 
         //page number
