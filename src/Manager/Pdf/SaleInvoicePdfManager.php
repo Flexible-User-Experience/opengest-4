@@ -168,9 +168,10 @@ class SaleInvoicePdfManager
     private function buildOneSaleInvoicePerPage(SaleInvoice $saleInvoice, $withBackground, TCPDF $pdf)
     {
         // add start page
-        // TODO make invoice print
+        $pdf->startPageGroup();
         $this->setNewPage($pdf, $withBackground);
         $this->setHeading($pdf, $saleInvoice, $withBackground);
+
 
         //deliveryNoteInfo
         $hasIva0 = false;
@@ -184,14 +185,14 @@ class SaleInvoicePdfManager
             $col6 = 168;
             $col7 = 194;
         } else {
-            $YDim = 110-2;
-            $col1 = 32-5;
-            $col2 = 46-3;
-            $col3 = 122+1;
-            $col4 = 140+2;
-            $col5 = 160+2;
-            $col6 = 168+3;
-            $col7 = 194+4;
+            $YDim = 110-5;
+            $col1 = 32-6;
+            $col2 = 46-5;
+            $col3 = 122+2;
+            $col4 = 140+3;
+            $col5 = 160+3;
+            $col6 = 168+7;
+            $col7 = 194+8;
         }
         $pdf->setXY($col2, $YDim);
         if ($saleInvoice->getDeliveryNotes()->first()) {
@@ -205,7 +206,7 @@ class SaleInvoicePdfManager
         }
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
-            if ($pdf->GetY() > 195) {
+            if ($pdf->GetY() > 220) {
                 $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
                 $this->setNewPage($pdf, $withBackground);
                 $this->setHeading($pdf, $saleInvoice, $withBackground);
@@ -291,12 +292,18 @@ class SaleInvoicePdfManager
                 $pdf->Ln(4);
             }
             // TODO include invoice discount to invoice
-            // TODO edit footer number of page
             $pdf->Ln(2);
         }
 
-        $YDim = $pdf->GetY() + 4;
+        $YDim = $pdf->GetY() + 2;
 
+        if ($pdf->GetY() > 220) {
+            $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
+            $this->setNewPage($pdf, $withBackground);
+            $this->setHeading($pdf, $saleInvoice, $withBackground);
+            $YDim = 110;
+            $pdf->setXY($col1, $YDim);
+        }
         $pdf->setXY($col1, $YDim);
         if ($saleInvoice->getObservations()) {
             $pdf->setXY($col2, $YDim);
@@ -304,7 +311,7 @@ class SaleInvoicePdfManager
                 $saleInvoice->getObservations(),
                 0, 'L', false);
         }
-        $this->writeDataTreatmentText($pdf);
+        $this->writeDataTreatmentText($pdf, $withBackground);
 
         $this->setFooter($pdf, $saleInvoice, $hasIva0, $withBackground);
 
@@ -362,7 +369,7 @@ class SaleInvoicePdfManager
             $xVar = 26;
             $yVarStart = 249;
         } else {
-            $xVar = 26-3;
+            $xVar = 26-4;
             $yVarStart = 249+5;
         }
         $cellWidth = 60;
@@ -395,7 +402,7 @@ class SaleInvoicePdfManager
         if($withBackground){
             $xVar2 = 90;
         } else {
-            $xVar2 = 90+3;
+            $xVar2 = 90;
         }
         $pdf->setXY($xVar2, $yVarStart);
         if ($saleInvoice->getDeliveryNotes()->first()) {
@@ -518,7 +525,7 @@ class SaleInvoicePdfManager
             $pdf->setXY(40, 275+5);
         }
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage().' de '.$pdf->getAliasNbPages(),
+            $pdf->getPageNumGroupAlias().' de '.$pdf->getPageGroupAlias(),
             0, 0, 'C', false);
         $pdf->Ln();
     }
@@ -532,7 +539,7 @@ class SaleInvoicePdfManager
             $xVar = 26;
             $yVarStart = 249;
         } else {
-            $xVar = 26-3;
+            $xVar = 26-4;
             $yVarStart = 249+5;
         }
         $cellWidth = 60;
@@ -581,17 +588,26 @@ class SaleInvoicePdfManager
             $pdf->setXY(40, 275+5);
         }
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage().' de '.$pdf->getAliasNbPages(),
+            $pdf->getPageNumGroupAlias().' de '.$pdf->getPageGroupAlias(),
             0, 0, 'C', false);
         $pdf->Ln();
     }
 
-    private function writeDataTreatmentText(TCPDF $pdf): void
+    private function writeDataTreatmentText(TCPDF $pdf, $withBackground): void
     {
-        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 8);
-        $pdf->SetAbsX(26);
-        $pdf->MultiCell(168, ConstantsEnum::PDF_CELL_HEIGHT,
-            'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.', 0, 'C', false);
+        if($withBackground){
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 7);
+            $pdf->SetAbsX(26);
+            $pdf->MultiCell(168, ConstantsEnum::PDF_CELL_HEIGHT,
+                'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.', 0, 'C', false);
+
+        }else{
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 7);
+            $pdf->SetAbsX(32-6);
+            $pdf->MultiCell(175, ConstantsEnum::PDF_CELL_HEIGHT,
+                'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.', 0, 'C', false);
+
+        }
     }
 
     private function setHeading(TCPDF $pdf, SaleInvoice $saleInvoice, $withBackground): void
@@ -601,13 +617,21 @@ class SaleInvoicePdfManager
             $xDim = 32;
             $pdf->setXY($xDim, 55);
         } else {
-            $xDim = 32-5;
-            $pdf->setXY($xDim, 55-5);
+            $xDim = 32-8;
+            $pdf->setXY($xDim, 55-7);
         }
         $this->pdfEngineService->setStyleSize('b', 11);
         $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerName(),
             0, 0, 'L', false, '', 1);
+        if($saleInvoice->getPartner()->getReference()){
+            $pdf->Ln(5);
+            $pdf->setX($xDim);
+            $pdf->Cell(85, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getPartner()->getReference(),
+                0, 0, 'L', false, '', 1);
+
+        }
         $pdf->Ln(8);
         if ($saleInvoice->getDeliveryAddress()) {
             if (' ' !== $saleInvoice->getDeliveryAddress()->getAddress()) {
@@ -648,7 +672,7 @@ class SaleInvoicePdfManager
         } else {
             $xVar = 125;
             $xVar2 = 163+3;
-            $yVarStart = 54-5;
+            $yVarStart = 50;
             $incrY = 15;
             $cellwidth = 33;
         }
