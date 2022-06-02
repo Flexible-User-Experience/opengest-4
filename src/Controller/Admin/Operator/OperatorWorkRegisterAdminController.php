@@ -109,6 +109,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                                     $description = 'Hora extra - '.$description1;
                                 }
                             } else {
+                                $description = 'Hora negativa - '.$description1;
                                 $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
                                 $units = $units * (-1);
                             }
@@ -132,6 +133,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         }
                         $units = ($finish->getTimestamp() - $start->getTimestamp()) / 3600;
                         if (3 == $itemId) {
+                            $description = 'Hora negativa - '.$description1;
                             $units = $units * (-1);
                         }
                         $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $start, $finish);
