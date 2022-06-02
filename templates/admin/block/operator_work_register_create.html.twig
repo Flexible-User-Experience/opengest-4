@@ -535,16 +535,12 @@
           let form = document.createElement('form');
           form.setAttribute('method', 'POST')
           form.setAttribute('action', '{{ path('admin_app_operator_operatorworkregister_customChangeDeliveryNote') }}')
-          let divRow = document.createElement('div');
-          divRow.setAttribute('class', 'col')
-          let divCol1 = document.createElement('div');
-          divCol1.setAttribute('class', 'col-2')
-          let divCol2 = document.createElement('div');
-          divCol2.setAttribute('class', 'col-2')
+          form.setAttribute('class', 'form-inline')
           let input = document.createElement('input');
           input.setAttribute('value', info)
           input.setAttribute('name', 'delivery_note_id')
           input.setAttribute('class', 'form-control')
+          input.setAttribute('style', 'width:100px')
           let inputOperatorWorkRegister = document.createElement('input');
           inputOperatorWorkRegister.setAttribute('value', elementId)
           inputOperatorWorkRegister.setAttribute('name', 'operator_work_register_id')
@@ -555,11 +551,7 @@
           let icon = document.createElement('i');
           icon.setAttribute('class', 'glyphicon glyphicon-ok')
           submitButton.append(icon);
-          divCol1.append(input)
-          divCol2.append(submitButton)
-          divRow.append(divCol1)
-          divRow.append(divCol2)
-          form.append(divRow)
+          form.append(input, submitButton)
           form.append(inputOperatorWorkRegister)
           cell.append(form);
           row.appendChild(cell);
