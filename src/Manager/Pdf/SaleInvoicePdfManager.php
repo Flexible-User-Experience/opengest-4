@@ -696,11 +696,16 @@ class SaleInvoicePdfManager
         $pdf->Cell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerCifNif(),
             0, 0, 'C', false);
-        $pdf->setXY($xVar, $yVarStart + $incrY * 2);
+        if ($withBackground) {
+            $lastLineY = $yVarStart + $incrY * 2 - 1.5;
+        } else {
+            $lastLineY = $yVarStart + $incrY * 2;
+        }
+        $pdf->setXY($xVar, $lastLineY);
         $pdf->MultiCell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT * 2,
             $saleInvoice->getPartner()->getProviderReference(),
             0, 'C', false);
-        $pdf->setXY($xVar2 - 2, $yVarStart + $incrY * 2);
+        $pdf->setXY($xVar2 - 2, $lastLineY);
         if ($saleInvoice->getDeliveryNotes()->first()) {
             $pdf->MultiCell($cellwidth + 1, ConstantsEnum::PDF_CELL_HEIGHT * 2,
                 $saleInvoice->getDeliveryNotes()->first()->getOrder(),
