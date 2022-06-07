@@ -252,6 +252,7 @@ class SaleInvoice extends AbstractBase
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
             $deliveryNote->setSaleInvoice(null);
+            $deliveryNote->setIsInvoiced(false);
         }
 
         return $this;
