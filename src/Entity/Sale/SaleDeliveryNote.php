@@ -10,6 +10,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
 use App\Entity\Vehicle\Vehicle;
@@ -177,6 +178,13 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
      */
     private ?SaleInvoice $saleInvoice;
+
+    /**
+     * @var ?PartnerDeliveryAddress
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
+     */
+    private $deliveryAddress;
 
     /**
      * @var ArrayCollection
@@ -741,6 +749,18 @@ class SaleDeliveryNote extends AbstractBase
     public function setObservations($observations): SaleDeliveryNote
     {
         $this->observations = $observations;
+
+        return $this;
+    }
+
+    public function getDeliveryAddress(): ?PartnerDeliveryAddress
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(?PartnerDeliveryAddress $deliveryAddress): SaleDeliveryNote
+    {
+        $this->deliveryAddress = $deliveryAddress;
 
         return $this;
     }
