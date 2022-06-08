@@ -323,7 +323,6 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         if ($saleInvoice->getPartner()->getCollectionDocumentType()) {
             $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());
         }
-        // TODO by default it has to come from the delivery note
         if ($deliveryNotes->first()->getDeliveryAddress()) {
             $saleInvoice->setDeliveryAddress($deliveryNotes->first()->getDeliveryAddress());
         }
