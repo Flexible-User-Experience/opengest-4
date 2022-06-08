@@ -74,11 +74,11 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $sdnforDates = $saleDeliveryNotes;
         $filterInfo = $this->admin->getFilterParameters();
 
-        if(array_key_exists('date',$filterInfo)) {
+        if (array_key_exists('date', $filterInfo)) {
             //get from to filter dates
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
-        }else{
+        } else {
             $from = array_shift($sdnforDates)->getDateToString();
             if (!$sdnforDates) {
                 $to = $from;
@@ -93,17 +93,17 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     public function batchActionDeliveryNotesList(ProxyQueryInterface $selectedModelQuery): Response
     {
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
-        usort($saleDeliveryNotes, function(SaleDeliveryNote $a, SaleDeliveryNote $b){
+        usort($saleDeliveryNotes, function (SaleDeliveryNote $a, SaleDeliveryNote $b) {
             return $a->getDateToString() > $b->getDateToString();
         });
         $sdnforDates = $saleDeliveryNotes;
         $filterInfo = $this->admin->getFilterParameters();
 
-        if(array_key_exists('date',$filterInfo)) {
+        if (array_key_exists('date', $filterInfo)) {
             //get from to filter dates
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
-        }else{
+        } else {
             $from = array_shift($sdnforDates)->getDateToString();
             if (!$sdnforDates) {
                 $to = $from;
@@ -122,7 +122,36 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $form->handleRequest($request);
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
-        $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+        $partnerIds = array_unique(array_map(
+            function (SaleDeliveryNote $saleDeliveryNote) {
+                return $saleDeliveryNote->getPartner()->getId();
+            },
+            $saleDeliveryNotes
+        ));
+        foreach ($partnerIds as $partnerId) {
+            $orderCheck = false;
+            $buildingSiteCheck = false;
+            $first = true;
+            foreach (array_filter($saleDeliveryNotes, function ($saleDeliveryNote) use ($partnerId) { return $saleDeliveryNote->getPartner()->getId() === $partnerId; })
+                     as $saleDeliveryNote) {
+                if ($first) {
+                    $order = $saleDeliveryNote->getOrder();
+                    $buildingSite = $saleDeliveryNote->getBuildingSite();
+                    $first = false;
+                } else {
+                    if ($order !== $saleDeliveryNote->getOrder()) {
+                        $orderCheck = true;
+                    }
+                    if ($buildingSite !== $saleDeliveryNote->getBuildingSite()) {
+                        $buildingSiteCheck = true;
+                    }
+                }
+            }
+            if ($buildingSiteCheck || $orderCheck) {
+                $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '.($orderCheck ? 'pedido' : '').($buildingSiteCheck ? ', obra' : ''));
+                $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+            }
+        }
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
