@@ -149,9 +149,10 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             }
             if ($buildingSiteCheck || $orderCheck) {
                 $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '.($orderCheck ? 'pedido' : '').($buildingSiteCheck ? ', obra' : ''));
-                $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
             }
         }
+
+        $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
@@ -296,6 +297,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     private function generateSaleInvoiceFromPartnerSaleDeliveryNotes($deliveryNotes, $date, SaleInvoiceSeries $saleInvoiceSeries)
     {
         $saleInvoice = new SaleInvoice();
+        /** @var SaleDeliveryNote[] $deliveryNotes */
         $deliveryNotes = new ArrayCollection($deliveryNotes);
         /** @var Partner $partner */
         $partner = $deliveryNotes->first()->getPartner();
@@ -322,8 +324,8 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());
         }
         // TODO by default it has to come from the delivery note
-        if ($saleInvoice->getPartner()->getPartnerDeliveryAddresses()->first()) {
-            $saleInvoice->setDeliveryAddress($saleInvoice->getPartner()->getPartnerDeliveryAddresses()->first());
+        if ($deliveryNotes->first()->getDeliveryAddress()) {
+            $saleInvoice->setDeliveryAddress($deliveryNotes->first()->getDeliveryAddress());
         }
         $this->im->createDueDatesFromSaleInvoice($saleInvoice);
         try {
