@@ -131,12 +131,14 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         foreach ($partnerIds as $partnerId) {
             $orderCheck = false;
             $buildingSiteCheck = false;
+            $deliveryAddressCheck = false;
             $first = true;
             foreach (array_filter($saleDeliveryNotes, function ($saleDeliveryNote) use ($partnerId) { return $saleDeliveryNote->getPartner()->getId() === $partnerId; })
                      as $saleDeliveryNote) {
                 if ($first) {
                     $order = $saleDeliveryNote->getOrder();
                     $buildingSite = $saleDeliveryNote->getBuildingSite();
+                    $deliveryAddress = $saleDeliveryNote->getDeliveryAddress();
                     $first = false;
                 } else {
                     if ($order !== $saleDeliveryNote->getOrder()) {
@@ -145,10 +147,18 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
                     if ($buildingSite !== $saleDeliveryNote->getBuildingSite()) {
                         $buildingSiteCheck = true;
                     }
+                    if ($deliveryAddress !== $saleDeliveryNote->getDeliveryAddress()) {
+                        $deliveryAddressCheck = true;
+                    }
                 }
             }
-            if ($buildingSiteCheck || $orderCheck) {
-                $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '.($orderCheck ? 'pedido' : '').($buildingSiteCheck ? ', obra' : ''));
+            if ($buildingSiteCheck || $orderCheck || $deliveryAddressCheck) {
+                $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '
+                    .($orderCheck ? 'pedido' : '')
+                    .($buildingSiteCheck ? ', obra' : '')
+                    .($deliveryAddressCheck ? ', dirección de envio' : '')
+                )
+                ;
             }
         }
 
@@ -329,7 +339,6 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $this->im->createDueDatesFromSaleInvoice($saleInvoice);
         try {
             $this->admin->getModelManager()->create($saleInvoice);
-            /** @var SaleDeliveryNote $deliveryNote */
             foreach ($deliveryNotes as $deliveryNote) {
                 $deliveryNote->setSaleInvoice($saleInvoice);
                 $deliveryNote->setIsInvoiced(true);
