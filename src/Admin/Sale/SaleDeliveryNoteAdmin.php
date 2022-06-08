@@ -98,6 +98,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'operator',
             'hourPriceFormatted',
             'totalLinesFormatted',
+            'totalHours',
+            'totalHoursFromWorkRegisters',
             'discountFormatted',
             'baseAmountFormatted',
             'finalTotalFormatted',

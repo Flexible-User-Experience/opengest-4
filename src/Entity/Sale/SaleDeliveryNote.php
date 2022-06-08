@@ -921,6 +921,32 @@ class SaleDeliveryNote extends AbstractBase
         return $irpfTotal;
     }
 
+    public function getTotalHours(): float
+    {
+        $totalHours = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            if ($deliveryNoteLine->getSaleItem()->getId() <= 3) {
+                $totalHours += $deliveryNoteLine->getUnits();
+            }
+        }
+
+        return $totalHours;
+    }
+
+    public function getTotalHoursFromWorkRegisters(): float
+    {
+        $totalHoursFromWorkRegisters = 0;
+        /** @var OperatorWorkRegister $operatorWorkRegister */
+        foreach ($this->getOperatorWorkRegisters() as $operatorWorkRegister) {
+            if (str_contains($operatorWorkRegister->getDescription(), 'Hora')) {
+                $totalHoursFromWorkRegisters += $operatorWorkRegister->getUnits();
+            }
+        }
+
+        return $totalHoursFromWorkRegisters;
+    }
+
     public function getHourPriceFormatted(): string
     {
         return NumberFormatService::formatNumber($this->getHourPrice());
