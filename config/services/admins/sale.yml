@@ -20,7 +20,7 @@ services:
         class: App\Admin\Sale\SaleDeliveryNoteAdmin
         arguments: [ ~, App\Entity\Sale\SaleDeliveryNote, App\Controller\Admin\Sale\SaleDeliveryNoteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.user_password_hasher"]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Albarán", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop", default: true }
+            - { name: sonata.admin, manager_type: orm, label: "Listar albaranes", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop", default: true }
         calls:
             - [ setTemplate, [ edit, "admin/sale-delivery-note/edit.html.twig" ] ]
             - [ setTranslationDomain, [ "admin" ] ]
@@ -28,7 +28,7 @@ services:
         class: App\Admin\Sale\SaleDeliveryNoteToInvoiceCustomAdmin
         arguments: [ ~, App\Entity\Sale\SaleDeliveryNote, App\Controller\Admin\Sale\SaleDeliveryNoteAdminController, "@liip_imagine.cache.manager", "@app.year_choices_manager", "@app.invoice_manager", "@app.repositories_manager", "@app.delivery_note_manager","@app.vehicle_maintenance_manager", "@doctrine.orm.entity_manager", "@app.file_service", "@twig", "@security.token_storage", "@security.authorization_checker","@security.user_password_hasher"]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: "Albarán (facturar)", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
+            - { name: sonata.admin, manager_type: orm, label: "Valorar albaranes", group: "Ventas", label_translator_strategy: "sonata.admin.label.strategy.noop" }
         calls:
             - [ setTemplate, [ edit, "admin/sale-delivery-note/edit.html.twig" ] ]
             - [ setTranslationDomain, [ "admin" ] ]

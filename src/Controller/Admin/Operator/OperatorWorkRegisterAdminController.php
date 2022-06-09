@@ -89,6 +89,10 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         if ($isHoliday) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
                             $description = 'Hora extra - '.$description1;
+                            if (3 == $itemId) {
+                                $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
+                                $units = $units * (-1);
+                            }
                         } else {
                             // Check if hour is negative (itemId ==3)
                             if ($itemId < 3) {
@@ -105,6 +109,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                                     $description = 'Hora extra - '.$description1;
                                 }
                             } else {
+                                $description = 'Hora negativa - '.$description1;
                                 $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
                                 $units = $units * (-1);
                             }
@@ -127,6 +132,10 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                             $description = 'Hora extra - '.$description1;
                         }
                         $units = ($finish->getTimestamp() - $start->getTimestamp()) / 3600;
+                        if (3 == $itemId) {
+                            $description = 'Hora negativa - '.$description1;
+                            $units = $units * (-1);
+                        }
                         $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote, $start, $finish);
                         $this->admin->getModelManager()->create($operatorWorkRegister);
                         $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
