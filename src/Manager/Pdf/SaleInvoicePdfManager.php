@@ -225,8 +225,8 @@ class SaleInvoicePdfManager
                 $pdf->setX($col2);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                     'Referencia: '.$deliveryNote->getDeliveryNoteReference(),
-                    0, 'L', false, 0);
-                $pdf->Ln(4);
+                    0, 'L', false, 1);
+                $pdf->Ln(-2);
             }
             if ($deliveryNote->getServiceDescription()) {
                 $pdf->SetX($col2);

@@ -791,6 +791,8 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
 
     /**
      * @param SaleInvoice $object
+     *
+     * @throws NonUniqueResultException
      */
     public function preUpdate($object): void
     {

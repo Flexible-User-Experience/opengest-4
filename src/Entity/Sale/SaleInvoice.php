@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class SaleInvoice.
@@ -28,6 +29,10 @@ class SaleInvoice extends AbstractBase
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
      * @Groups({"api"})
+     * @Assert\Count(
+     *     min = 1,
+     *     minMessage = "La factura tiene que tener un albarán como mínimo"
+     * )
      */
     private Collection $deliveryNotes;
 
@@ -252,6 +257,7 @@ class SaleInvoice extends AbstractBase
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
             $deliveryNote->setSaleInvoice(null);
+            $deliveryNote->setIsInvoiced(false);
         }
 
         return $this;
