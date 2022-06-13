@@ -7,6 +7,7 @@ use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
 use App\Entity\Sale\SaleDeliveryNote;
@@ -97,6 +98,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
             'operator',
             'hourPriceFormatted',
             'totalLinesFormatted',
+            'totalHours',
+            'totalHoursFromWorkRegisters',
             'discountFormatted',
             'baseAmountFormatted',
             'finalTotalFormatted',
@@ -507,6 +510,17 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $formMapper
             ->tab('Cabecera')
             ->with('Otros', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'deliveryAddress',
+                EntityType::class,
+                [
+                    'label' => 'admin.label.delivery_address',
+                    'required' => false,
+                    'class' => PartnerDeliveryAddress::class,
+                    'query_builder' => $this->rm->getPartnerDeliveryAddressRepository()->getFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()->getId()),
+                    'placeholder' => '--- Seleccione una dirección de envio alternativa ---',
+                ]
+            )
                 ->add(
                     'wontBeInvoiced',
                     CheckboxType::class,

@@ -10,6 +10,7 @@ use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
 use App\Entity\Vehicle\Vehicle;
@@ -177,6 +178,13 @@ class SaleDeliveryNote extends AbstractBase
      * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
      */
     private ?SaleInvoice $saleInvoice;
+
+    /**
+     * @var ?PartnerDeliveryAddress
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
+     */
+    private $deliveryAddress;
 
     /**
      * @var ArrayCollection
@@ -745,6 +753,18 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
+    public function getDeliveryAddress(): ?PartnerDeliveryAddress
+    {
+        return $this->deliveryAddress;
+    }
+
+    public function setDeliveryAddress(?PartnerDeliveryAddress $deliveryAddress): SaleDeliveryNote
+    {
+        $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
+    }
+
     /**
      * @Groups({"api"})
      *
@@ -899,6 +919,32 @@ class SaleDeliveryNote extends AbstractBase
         }
 
         return $irpfTotal;
+    }
+
+    public function getTotalHours(): float
+    {
+        $totalHours = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($this->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            if ($deliveryNoteLine->getSaleItem()->getId() <= 3) {
+                $totalHours += $deliveryNoteLine->getUnits();
+            }
+        }
+
+        return $totalHours;
+    }
+
+    public function getTotalHoursFromWorkRegisters(): float
+    {
+        $totalHoursFromWorkRegisters = 0;
+        /** @var OperatorWorkRegister $operatorWorkRegister */
+        foreach ($this->getOperatorWorkRegisters() as $operatorWorkRegister) {
+            if (str_contains($operatorWorkRegister->getDescription(), 'Hora')) {
+                $totalHoursFromWorkRegisters += $operatorWorkRegister->getUnits();
+            }
+        }
+
+        return $totalHoursFromWorkRegisters;
     }
 
     public function getHourPriceFormatted(): string
