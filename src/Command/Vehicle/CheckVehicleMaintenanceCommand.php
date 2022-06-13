@@ -5,6 +5,7 @@ namespace App\Command\Vehicle;
 use App\Command\AbstractBaseCommand;
 use App\Entity\Vehicle\VehicleMaintenance;
 use Exception;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -58,5 +59,7 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
         }
         $this->em->flush();
         $output->writeln('<info>'.$needMainenance.' vehicles need new maintenance.</info>');
+
+        return Command::SUCCESS;
     }
 }
