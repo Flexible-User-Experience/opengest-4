@@ -3,10 +3,8 @@
 namespace App\Command\Vehicle;
 
 use App\Command\AbstractBaseCommand;
-use App\Entity\Vehicle\VehicleMaintenance;
-use Exception;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -31,34 +29,18 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
     /**
      * Execute.
      *
-     * @return int|void|null
-     *
-     * @throws InvalidArgumentException
-     * @throws Exception
+     * @throws NonUniqueResultException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // Welcome
         $output->writeln('<info>Welcome to "'.$this->getDescription().'" command.</info>');
 
         // Initializations
         $this->init();
-        $needMainenance = 0;
-        /** @var VehicleMaintenance[] $vehicleMaintenances */
-        $vehicleMaintenances = $this->rm->getVehicleMaintenanceRepository()->findBy(
-            ['enabled' => true,
-            'needsCheck' => false, ]
-        );
-        foreach ($vehicleMaintenances as $vehicleMaintenance) {
-            $needsCheck = $this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance);
-            if ($needsCheck) {
-                $vehicleMaintenance->setNeedsCheck(true);
-                $this->em->persist($vehicleMaintenance);
-                ++$needMainenance;
-            }
-        }
+        $numberOfMaintenances = $this->vmm->checkVehicleMaintenance();
         $this->em->flush();
-        $output->writeln('<info>'.$needMainenance.' vehicles need new maintenance.</info>');
+        $output->writeln('<info>'.$numberOfMaintenances.' vehicles need new maintenance.</info>');
 
         return Command::SUCCESS;
     }

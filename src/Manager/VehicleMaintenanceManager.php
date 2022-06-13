@@ -7,6 +7,7 @@ use App\Entity\Vehicle\VehicleMaintenance;
 use App\Repository\Operator\OperatorWorkRegisterRepository;
 use App\Repository\Vehicle\VehicleMaintenanceRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
@@ -20,13 +21,42 @@ class VehicleMaintenanceManager
 
     private OperatorWorkRegisterRepository $operatorWorkRegisterRepository;
 
+    private EntityManagerInterface $entityManager;
+
     /**
      * Methods.
      */
-    public function __construct(VehicleMaintenanceRepository $vehicleMaintenanceRepository, OperatorWorkRegisterRepository $operatorWorkRegisterRepository)
-    {
+    public function __construct(
+        VehicleMaintenanceRepository $vehicleMaintenanceRepository,
+        OperatorWorkRegisterRepository $operatorWorkRegisterRepository,
+        EntityManagerInterface $entityManager
+    ) {
         $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
         $this->operatorWorkRegisterRepository = $operatorWorkRegisterRepository;
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function checkVehicleMaintenance(): int
+    {
+        $needMaintenance = 0;
+        /** @var VehicleMaintenance[] $vehicleMaintenances */
+        $vehicleMaintenances = $this->vehicleMaintenanceRepository->findBy(
+            ['enabled' => true,
+                'needsCheck' => false, ]
+        );
+        foreach ($vehicleMaintenances as $vehicleMaintenance) {
+            $needsCheck = $this->checkIfMaintenanceNeedsCheck($vehicleMaintenance);
+            if ($needsCheck) {
+                $vehicleMaintenance->setNeedsCheck(true);
+                $this->entityManager->persist($vehicleMaintenance);
+                ++$needMaintenance;
+            }
+        }
+
+        return $needMaintenance;
     }
 
     /**
