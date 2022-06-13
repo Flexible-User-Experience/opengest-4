@@ -54,6 +54,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('downloadPdfPendingMaintenance', 'download_pdf_pending_maintenance')
+            ->add('checkMaintenances', 'check-maintenances')
             ;
     }
 

@@ -39,7 +39,6 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
         // Initializations
         $this->init();
         $numberOfMaintenances = $this->vmm->checkVehicleMaintenance();
-        $this->em->flush();
         $output->writeln('<info>'.$numberOfMaintenances.' vehicles need new maintenance.</info>');
 
         return Command::SUCCESS;

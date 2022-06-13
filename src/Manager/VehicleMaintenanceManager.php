@@ -55,6 +55,7 @@ class VehicleMaintenanceManager
                 ++$needMaintenance;
             }
         }
+        $this->entityManager->flush();
 
         return $needMaintenance;
     }
