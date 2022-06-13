@@ -7,6 +7,7 @@ use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Entity\Vehicle\VehicleMaintenanceTask;
 use Doctrine\ORM\NonUniqueResultException;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -39,16 +40,14 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehiculos/mantenimientos';
 
     /**
-     * @var array
+     * Methods.
      */
-    protected $datagridValues = [
-        '_sort_by' => 'needsCheck',
-        '_sort_order' => 'DESC',
-    ];
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'needsCheck';
+    }
 
-    /**
-     * Configure route collection.
-     */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
