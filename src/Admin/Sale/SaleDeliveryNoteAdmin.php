@@ -510,17 +510,23 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $formMapper
             ->tab('Cabecera')
             ->with('Otros', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'deliveryAddress',
-                EntityType::class,
-                [
-                    'label' => 'admin.label.delivery_address',
-                    'required' => false,
-                    'class' => PartnerDeliveryAddress::class,
-                    'query_builder' => $this->rm->getPartnerDeliveryAddressRepository()->getFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()->getId()),
-                    'placeholder' => '--- Seleccione una dirección de envio alternativa ---',
-                ]
-            )
+            ;
+        if ($this->getSubject()->getPartner()) {
+            $formMapper
+                ->add(
+                    'deliveryAddress',
+                    EntityType::class,
+                    [
+                        'label' => 'admin.label.delivery_address',
+                        'required' => false,
+                        'class' => PartnerDeliveryAddress::class,
+                        'query_builder' => $this->rm->getPartnerDeliveryAddressRepository()->getFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()->getId()),
+                        'placeholder' => '--- Seleccione una dirección de envio alternativa ---',
+                    ]
+                )
+            ;
+        }
+        $formMapper
                 ->add(
                     'wontBeInvoiced',
                     CheckboxType::class,

@@ -122,6 +122,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $form->handleRequest($request);
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
+        $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
         $partnerIds = array_unique(array_map(
             function (SaleDeliveryNote $saleDeliveryNote) {
                 return $saleDeliveryNote->getPartner()->getId();
