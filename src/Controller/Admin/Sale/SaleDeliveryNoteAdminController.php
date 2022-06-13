@@ -122,36 +122,37 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $form->handleRequest($request);
         /** @var SaleDeliveryNote[] $saleDeliveryNotes */
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
-        $partnerIds = array_unique(array_map(
-            function (SaleDeliveryNote $saleDeliveryNote) {
-                return $saleDeliveryNote->getPartner()->getId();
-            },
-            $saleDeliveryNotes
-        ));
-        foreach ($partnerIds as $partnerId) {
-            $orderCheck = false;
-            $buildingSiteCheck = false;
-            $first = true;
-            foreach (array_filter($saleDeliveryNotes, function ($saleDeliveryNote) use ($partnerId) { return $saleDeliveryNote->getPartner()->getId() === $partnerId; })
-                     as $saleDeliveryNote) {
-                if ($first) {
-                    $order = $saleDeliveryNote->getOrder();
-                    $buildingSite = $saleDeliveryNote->getBuildingSite();
-                    $first = false;
-                } else {
-                    if ($order !== $saleDeliveryNote->getOrder()) {
-                        $orderCheck = true;
-                    }
-                    if ($buildingSite !== $saleDeliveryNote->getBuildingSite()) {
-                        $buildingSiteCheck = true;
-                    }
-                }
-            }
-            if ($buildingSiteCheck || $orderCheck) {
-                $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '.($orderCheck ? 'pedido' : '').($buildingSiteCheck ? ', obra' : ''));
-                $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
-            }
-        }
+        $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+//        $partnerIds = array_unique(array_map(
+//            function (SaleDeliveryNote $saleDeliveryNote) {
+//                return $saleDeliveryNote->getPartner()->getId();
+//            },
+//            $saleDeliveryNotes
+//        ));
+//        foreach ($partnerIds as $partnerId) {
+//            $orderCheck = false;
+//            $buildingSiteCheck = false;
+//            $first = true;
+//            foreach (array_filter($saleDeliveryNotes, function ($saleDeliveryNote) use ($partnerId) { return $saleDeliveryNote->getPartner()->getId() === $partnerId; })
+//                     as $saleDeliveryNote) {
+//                if ($first) {
+//                    $order = $saleDeliveryNote->getOrder();
+//                    $buildingSite = $saleDeliveryNote->getBuildingSite();
+//                    $first = false;
+//                } else {
+//                    if ($order !== $saleDeliveryNote->getOrder()) {
+//                        $orderCheck = true;
+//                    }
+//                    if ($buildingSite !== $saleDeliveryNote->getBuildingSite()) {
+//                        $buildingSiteCheck = true;
+//                    }
+//                }
+//            }
+//            if ($buildingSiteCheck || $orderCheck) {
+//                $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '.($orderCheck ? 'pedido' : '').($buildingSiteCheck ? ', obra' : ''));
+//                $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+//            }
+//        }
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
