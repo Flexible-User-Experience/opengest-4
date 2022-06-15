@@ -272,7 +272,7 @@ class SaleInvoicePdfManager
                 }
                 $pdf->setCellPaddings(0, 1, 0, 1);
                 if ($deliveryNoteLine->getDiscount()) {
-                    $pdf->MultiCell($col6 - $col5 + 3, ConstantsEnum::PDF_CELL_HEIGHT,
+                    $pdf->MultiCell($col6 - $col5, ConstantsEnum::PDF_CELL_HEIGHT,
                         NumberFormatService::formatNumber($deliveryNoteLine->getDiscount()).'%',
                         0, 'C', false, 0);
                 } else {
