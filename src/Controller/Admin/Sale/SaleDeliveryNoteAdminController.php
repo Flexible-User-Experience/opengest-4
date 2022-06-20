@@ -273,16 +273,21 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         }
         $saleInvoiceIds = [];
         foreach ($partnerIds as $partnerId) {
+            $partnerDeliveryNotes = [];
             /** @var SaleDeliveryNote[] $partnerDeliveryNotes */
             $partnerDeliveryNotes = array_filter($deliveryNotes, function (SaleDeliveryNote $deliveryNote) use ($partnerId) {
                 return $deliveryNote->getPartner()->getId() === $partnerId;
             });
             // Check if all deliveryNotes from partner have same collectionDocument and terms
-            $collectionDocument = $partnerDeliveryNotes[0]->getCollectionDocument();
-            $collectionTerm1 = $partnerDeliveryNotes[0]->getCollectionTerm();
-            $collectionTerm2 = $partnerDeliveryNotes[0]->getCollectionTerm2();
-            $collectionTerm3 = $partnerDeliveryNotes[0]->getCollectionTerm3();
+            $first = true;
             foreach ($partnerDeliveryNotes as $partnerDeliveryNote) {
+                if ($first) {
+                    $collectionDocument = $partnerDeliveryNote->getCollectionDocument();
+                    $collectionTerm1 = $partnerDeliveryNote->getCollectionTerm();
+                    $collectionTerm2 = $partnerDeliveryNote->getCollectionTerm2();
+                    $collectionTerm3 = $partnerDeliveryNote->getCollectionTerm3();
+                    $first = false;
+                }
                 if (
                     ($partnerDeliveryNote->getCollectionDocument() !== $collectionDocument)
                     ||

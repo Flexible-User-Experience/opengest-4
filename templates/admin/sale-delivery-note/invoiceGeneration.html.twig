@@ -5,19 +5,67 @@
     <div class="sonata-ba-form">
         <form role="form" action="{{ path('admin_app_sale_saledeliverynote_generateInvoices') }}" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box box-success">
-                                <div class="box-header">
-                                    <h4 class="box-title">
-                                        Generar facturas de los albaranes
-                                    </h4>
-                                </div>
-                                <div class="box-body">
-                                    {{ form(generateInvoicesForm) }}
-                                </div>
-                            </div>
+                <div class="col-md-3">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h4 class="box-title">Filtrar albaranes</h4>
+                        </div>
+                        <div class="box-body">
+                            Filtros
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h4 class="box-title">Nombre cliente</h4>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover sonata-ba-list">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Número</th>
+                                        <th>Fecha</th>
+                                        <th>Vehículo</th>
+                                        <th>Obra</th>
+                                        <th>Pedido</th>
+                                        <th>F. Pago</th>
+                                        <th>P. Cobro</th>
+                                        <th>Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="1314" class="delivery-note_id">
+                                        </td>
+                                        <td>1314</td>
+                                        <td>12/12/20419</td>
+                                        <td>Una grua</td>
+                                        <td>Una obra</td>
+                                        <td>49494949</td>
+                                        <td>Confirmig</td>
+                                        <td>Dias de pago 1</td>
+                                        <td>18.118,12 €</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h4 class="box-title">
+                                Generar facturas de los albaranes
+                            </h4>
+                        </div>
+                        <div class="box-body">
+                            {{ form(generateInvoicesForm) }}
                         </div>
                     </div>
                 </div>
@@ -25,3 +73,31 @@
         </form>
     </div>
 {% endblock sonata_admin_content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
+            jQuery(".delivery-note_id").each( function () {
+              jQuery(this).on('ifChanged', function () {
+                let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
+                if (this.checked) {
+                  if (!currentSelection.includes(this.id)) {
+                    currentSelection.push(this.id);
+                  }
+                } else {
+                  if (currentSelection.includes(this.id)) {
+                    currentSelection = currentSelection.filter((value) => value !== this.id);
+                  }
+                }
+                saleDeliveryNoteSelect.select2().val(currentSelection)
+                saleDeliveryNoteSelect.select2().trigger('change.select2');
+              })
+            });
+        });
+    </script>
+{% endblock %}
