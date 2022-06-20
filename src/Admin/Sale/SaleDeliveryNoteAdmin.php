@@ -73,6 +73,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $collection
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('generateInvoices', 'generate-invoices')
+            ->add('getJsonDeliveryNotesByParameters', 'get-json-delivery-notes-by-parameters')
         ;
     }
 

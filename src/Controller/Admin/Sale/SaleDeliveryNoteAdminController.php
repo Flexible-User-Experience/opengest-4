@@ -16,6 +16,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Exception\ModelManagerThrowable;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -255,6 +256,29 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
 
         return new Response($this->sdnpm->outputCollectionDriverMail($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    public function getJsonDeliveryNotesByParametersAction(Request $request): JsonResponse
+    {
+        $partner_id = $request->get('partner_id');
+        $deliveryNotes = [];
+        if ($partner_id) {
+            /** @var Partner $partner */
+            $partner = $this->admin->getModelManager()->findOneBy(Partner::class, $partner_id);
+            if (!$partner) {
+                throw $this->createNotFoundException(sprintf('unable to find partner with id: %s', $partner_id));
+            }
+            $deliveryNotes = $partner->getSaleDeliveryNotes();
+        } else {
+            $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->findAll();
+        }
+//        $fromDate = $request->get('from_date');
+//        $toDate = $request->get('from_date');
+//        $deliveryNoteNumber = $request->get('delivery_note_number');
+        $serializer = $this->container->get('serializer');
+        $serializedDeliveryNotes = $serializer->serialize($deliveryNotes, 'json', ['groups' => ['api']]);
+
+        return new JsonResponse($serializedDeliveryNotes);
     }
 
     private function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes, $date, SaleInvoiceSeries $saleInvoiceSeries)

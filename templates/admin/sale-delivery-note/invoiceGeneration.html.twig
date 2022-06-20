@@ -98,6 +98,20 @@
                 saleDeliveryNoteSelect.select2().trigger('change.select2');
               })
             });
+
+            updateDeliveryNoteTable();
         });
+
+      function updateDeliveryNoteTable() {
+        jQuery.get(Routing.generate(
+          'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters',
+          {
+            partnerId: 0
+          }
+        ), function () {
+        }).done(function (response) {
+            console.log('response', response);
+        });
+      }
     </script>
 {% endblock %}
