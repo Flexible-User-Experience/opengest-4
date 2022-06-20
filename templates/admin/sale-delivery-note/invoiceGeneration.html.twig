@@ -110,18 +110,17 @@
           }
         ), function () {
         }).done(function (response) {
-            let partners = JSON.parse(response.partners);
+            let partners = Object.values(JSON.parse(response.partners));
             let deliveryNotes = JSON.parse(response.deliveryNotes);
             console.log(partners);
             partners.forEach(function (partner) {
-              console.log('partner', partner);
               createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false))
             });
         });
       }
 
       function createPartnerBox(partner, deliveryNotes) {
-        console.log('createPartnerBox', partner.id, partner, deliveryNotes)
+        console.log('createPartnerBox', partner.id, deliveryNotes)
       }
     </script>
 {% endblock %}
