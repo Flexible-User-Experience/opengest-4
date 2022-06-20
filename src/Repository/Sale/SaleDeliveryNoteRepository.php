@@ -162,4 +162,24 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function getDeliveryNotesFilteredByParameters($partnerId = null)
+    {
+        $queryBuilder = $this->getEnabledSortedByNameQB()
+            ->andWhere('s.isInvoiced = false')
+            ;
+        if ($partnerId) {
+            $queryBuilder
+                ->join('s.partner', 'p')
+                ->andWhere('p.id = :partnerId')
+                ->setParameter('partnerId', $partnerId)
+            ;
+        }
+
+        return $queryBuilder
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

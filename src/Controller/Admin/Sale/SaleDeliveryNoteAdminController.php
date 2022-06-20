@@ -260,25 +260,22 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
     public function getJsonDeliveryNotesByParametersAction(Request $request): JsonResponse
     {
-        $partner_id = $request->get('partner_id');
-        $deliveryNotes = [];
-        if ($partner_id) {
-            /** @var Partner $partner */
-            $partner = $this->admin->getModelManager()->findOneBy(Partner::class, $partner_id);
-            if (!$partner) {
-                throw $this->createNotFoundException(sprintf('unable to find partner with id: %s', $partner_id));
-            }
-            $deliveryNotes = $partner->getSaleDeliveryNotes();
-        } else {
-            $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->findAll();
-        }
+        $partnerId = $request->get('partnerId');
+        $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->getDeliveryNotesFilteredByParameters($partnerId);
 //        $fromDate = $request->get('from_date');
 //        $toDate = $request->get('from_date');
 //        $deliveryNoteNumber = $request->get('delivery_note_number');
         $serializer = $this->container->get('serializer');
         $serializedDeliveryNotes = $serializer->serialize($deliveryNotes, 'json', ['groups' => ['api']]);
+        $partners = array_unique(array_map(
+            function (SaleDeliveryNote $saleDeliveryNote) {
+                return $saleDeliveryNote->getPartner();
+            },
+            $deliveryNotes
+        ));
+        $serializedPartners = $serializer->serialize($partners, 'json', ['groups' => ['api']]);
 
-        return new JsonResponse($serializedDeliveryNotes);
+        return new JsonResponse(['deliveryNotes' => $serializedDeliveryNotes, 'partners' => $serializedPartners]);
     }
 
     private function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes, $date, SaleInvoiceSeries $saleInvoiceSeries)

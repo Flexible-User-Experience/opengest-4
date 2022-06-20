@@ -49,6 +49,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var Partner
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleDeliveryNotes")
+     * @Groups({"api"})
      */
     private $partner;
 
