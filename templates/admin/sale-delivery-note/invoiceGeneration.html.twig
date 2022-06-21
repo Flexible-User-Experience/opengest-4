@@ -5,7 +5,7 @@
     <div class="sonata-ba-form">
         <form role="form" action="{{ path('admin_app_sale_saledeliverynote_generateInvoices') }}" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="box box-success">
                         <div class="box-header">
                             <h4 class="box-title">Filtrar albaranes</h4>
@@ -15,49 +15,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <div class="box box-success">
-                        <div class="box-header">
-                            <h4 class="box-title">Nombre cliente</h4>
-                        </div>
-                        <div class="box-body">
-                            <table class="table table-bordered table-hover sonata-ba-list">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Número</th>
-                                        <th>Fecha</th>
-                                        <th>Vehículo</th>
-                                        <th>Obra</th>
-                                        <th>Pedido</th>
-                                        <th>F. Pago</th>
-                                        <th>P. Cobro</th>
-                                        <th>Importe</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" id="1314" class="delivery-note_id">
-                                        </td>
-                                        <td>1314</td>
-                                        <td>12/12/20419</td>
-                                        <td>Una grua</td>
-                                        <td>Una obra</td>
-                                        <td>49494949</td>
-                                        <td>Confirmig</td>
-                                        <td>Dias de pago 1</td>
-                                        <td>18.118,12 €</td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="box box-success">
                         <div class="box-header">
                             <h4 class="box-title">
@@ -68,6 +26,10 @@
                             {{ form(generateInvoicesForm) }}
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="customerDeliveryNotes">
                 </div>
             </div>
         </form>
@@ -81,28 +43,14 @@
 
     <script type="text/javascript">
       jQuery(document).ready(function() {
-        const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
-            jQuery(".delivery-note_id").each( function () {
-              jQuery(this).on('ifChanged', function () {
-                let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
-                if (this.checked) {
-                  if (!currentSelection.includes(this.id)) {
-                    currentSelection.push(this.id);
-                  }
-                } else {
-                  if (currentSelection.includes(this.id)) {
-                    currentSelection = currentSelection.filter((value) => value !== this.id);
-                  }
-                }
-                saleDeliveryNoteSelect.select2().val(currentSelection)
-                saleDeliveryNoteSelect.select2().trigger('change.select2');
-              })
-            });
-
-            updateDeliveryNoteTable();
+        updateDeliveryNoteTable();
         });
 
       function updateDeliveryNoteTable() {
+
+        const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
+        let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
+        console.log('currentSelection', currentSelection);
         jQuery.get(Routing.generate(
           'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters',
           {
@@ -112,15 +60,81 @@
         }).done(function (response) {
             let partners = Object.values(JSON.parse(response.partners));
             let deliveryNotes = JSON.parse(response.deliveryNotes);
-            console.log(partners);
             partners.forEach(function (partner) {
-              createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false))
+              createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false), currentSelection);
             });
+          jQuery(".delivery-note_id").each( function () {
+            let checkBoxInput = jQuery(this);
+            checkBoxInput.on('ifChanged', function () {
+              let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
+              if (this.checked) {
+                if (!currentSelection.includes(this.id)) {
+                  currentSelection.push(this.id);
+                }
+              } else {
+                if (currentSelection.includes(this.id)) {
+                  currentSelection = currentSelection.filter((value) => value !== this.id);
+                }
+              }
+              saleDeliveryNoteSelect.select2().val(currentSelection)
+              saleDeliveryNoteSelect.select2().trigger('change.select2');
+            })
+          });
         });
       }
 
-      function createPartnerBox(partner, deliveryNotes) {
-        console.log('createPartnerBox', partner.id, deliveryNotes)
+      function createPartnerBox(partner, deliveryNotes, currentSelection) {
+        let partnerHtml = `
+          <div class="box box-success">
+            <div class="box-header">
+              <h4 class="box-title">${partner.name}</h4>
+            </div>
+            <div class="box-body">
+              <table class="table table-bordered table-hover sonata-ba-list">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Número</th>
+                  <th>Fecha</th>
+                  <th>Vehículo</th>
+                  <th>Obra</th>
+                  <th>Pedido</th>
+                  <th>Forma de Pago</th>
+                  <th>Plazo de Cobro</th>
+                  <th>Importe</th>
+                </tr>
+                </thead>
+                <tbody>`
+            ;
+        let deliveryNoteLines = '';
+        deliveryNotes.forEach((deliveryNote) => {
+          let newDeliveryNoteLine = `
+                <tr>
+                  <td>
+                    <input type="checkbox" id="${deliveryNote.id}" class="delivery-note_id customer_${partner.id}" ${currentSelection.includes(deliveryNote.id.toString()) ? 'checked=checked' : ''}>
+                  </td>
+                  <td>${deliveryNote.id}</td>
+                  <td>${deliveryNote.dateToString}</td>
+                  <td>${deliveryNote.vehicle.name}</td>
+                  <td>Una obra !!!!</td>
+                  <td>Un pedido !!!!!</td>
+                  <td>Metodo de pago!!!!!!</td>
+                  <td>Dias de pago !!!!!!</td>
+                  <td>Amount !!!! €</td>
+                </tr>
+          `;
+          deliveryNoteLines = deliveryNoteLines + newDeliveryNoteLine;
+        });
+        partnerHtml = partnerHtml + deliveryNoteLines + `
+                </tbody>
+              </table>
+            </div>
+            </div>
+        `;
+        jQuery("#customerDeliveryNotes").append(partnerHtml);
+        jQuery(".customer_" + partner.id ).iCheck({
+          handle: 'checkbox'
+        });
       }
     </script>
 {% endblock %}
