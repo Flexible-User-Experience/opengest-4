@@ -163,7 +163,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ;
     }
 
-    public function getDeliveryNotesFilteredByParameters($partnerId = null)
+    public function getDeliveryNotesFilteredByParameters($partnerId = null, $fromDate = null, $toDate = null)
     {
         $queryBuilder = $this->getEnabledSortedByNameQB()
             ->andWhere('s.isInvoiced = false')
@@ -173,6 +173,18 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
                 ->join('s.partner', 'p')
                 ->andWhere('p.id = :partnerId')
                 ->setParameter('partnerId', $partnerId)
+            ;
+        }
+        if ($fromDate) {
+            $queryBuilder
+                ->andWhere('s.date >= :fromDate')
+                ->setParameter('fromDate', $fromDate)
+            ;
+        }
+        if ($toDate) {
+            $queryBuilder
+                ->andWhere('s.date <= :toDate')
+                ->setParameter('toDate', $toDate)
             ;
         }
 

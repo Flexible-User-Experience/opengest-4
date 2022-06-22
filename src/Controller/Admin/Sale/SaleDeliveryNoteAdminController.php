@@ -267,9 +267,9 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     public function getJsonDeliveryNotesByParametersAction(Request $request): JsonResponse
     {
         $partnerId = $request->get('partnerId');
-        $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->getDeliveryNotesFilteredByParameters($partnerId);
-//        $fromDate = $request->get('from_date');
-//        $toDate = $request->get('from_date');
+        $fromDate = DateTime::createFromFormat('d/m/Y', $request->get('fromDate'));
+        $toDate = DateTime::createFromFormat('d/m/Y', $request->get('toDate'));
+        $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->getDeliveryNotesFilteredByParameters($partnerId, $fromDate, $toDate);
 //        $deliveryNoteNumber = $request->get('delivery_note_number');
         $serializer = $this->container->get('serializer');
         $serializedDeliveryNotes = $serializer->serialize($deliveryNotes, 'json', ['groups' => ['api']]);
