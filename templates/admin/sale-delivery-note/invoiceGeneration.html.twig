@@ -120,8 +120,6 @@
         let fromDate = jQuery("#custom_date_from").val();
         let toDate = jQuery("#custom_date_to").val();
         let deliveryNoteNumber = jQuery("#delivery_note_number").val();
-        console.log('fromDate', fromDate);
-          console.log('toDate', toDate);
         let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
         jQuery.get(Routing.generate(
           'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters',
@@ -135,7 +133,6 @@
         }).done(function (response) {
             let partners = Object.values(JSON.parse(response.partners));
             let deliveryNotes = JSON.parse(response.deliveryNotes);
-            console.log(deliveryNotes);
             partners.forEach(function (partner) {
               createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false), currentSelection);
             });
