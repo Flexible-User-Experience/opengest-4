@@ -3,7 +3,9 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
@@ -165,11 +167,15 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         }
 
         $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+        $enterprise = $this->em->getRepository(Enterprise::class)->find(1);
+        $partnerType = $this->em->getRepository(PartnerType::class)->find(1);
+        $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($enterprise, $partnerType);
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
             [
                 'generateInvoicesForm' => $form->createView(),
+                'partners' => $partners,
             ]
         );
     }

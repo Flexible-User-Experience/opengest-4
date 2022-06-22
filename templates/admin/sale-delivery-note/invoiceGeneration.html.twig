@@ -11,7 +11,24 @@
                             <h4 class="box-title">Filtrar albaranes</h4>
                         </div>
                         <div class="box-body">
-                            Filtros
+                            <div class="form-group" id="sonata-ba-field-container-hour-type">
+                                <label class="control-label" for="partner">
+                                    Cliente
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                    <select class="select2-container" style="width: 100%;" id="partner_selection">
+                                        <option value="0" selected="selected">--- seleccione una opción ---</option>
+                                        {% for partner in partners %}
+                                            <option value="{{ partner.id }}">{{ partner }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="filter_button" name="filter_button" class="btn btn-primary no-m-bottom btn" style="margin-bottom: -15px" onclick="updateDeliveryNoteTable()">
+                                    Filtrar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -47,13 +64,14 @@
         });
 
       function updateDeliveryNoteTable() {
-
+        jQuery("#customerDeliveryNotes").empty();
         const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
+        let partnerId = jQuery("#partner_selection").val();
         let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
         jQuery.get(Routing.generate(
           'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters',
           {
-            partnerId: 0
+            partnerId: partnerId
           }
         ), function () {
         }).done(function (response) {
