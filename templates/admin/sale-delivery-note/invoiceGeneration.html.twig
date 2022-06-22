@@ -65,7 +65,7 @@
             });
           jQuery(".delivery-note_id").each( function () {
             let checkBoxInput = jQuery(this);
-            checkBoxInput.on('ifChanged', function () {
+            checkBoxInput.on('change', function () {
               let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
               if (this.checked) {
                 if (!currentSelection.includes(this.id)) {
@@ -111,7 +111,7 @@
           let newDeliveryNoteLine = `
                 <tr>
                   <td>
-                    <input type="checkbox" id="${deliveryNote.id}" class="delivery-note_id customer_${partner.id}" ${currentSelection.includes(deliveryNote.id.toString()) ? 'checked=checked' : ''}>
+                    <input type="checkbox" id="${deliveryNote.id}" class="iCheck-helper delivery-note_id customer_${partner.id}" ${currentSelection.includes(deliveryNote.id.toString()) ? 'checked=checked' : ''}>
                   </td>
                   <td>${deliveryNote.id}</td>
                   <td>${deliveryNote.dateToString}</td>
@@ -132,9 +132,6 @@
             </div>
         `;
         jQuery("#customerDeliveryNotes").append(partnerHtml);
-        jQuery(".customer_" + partner.id ).iCheck({
-          handle: 'checkbox'
-        });
       }
     </script>
 {% endblock %}
