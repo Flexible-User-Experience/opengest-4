@@ -5,6 +5,7 @@ namespace App\Entity\Enterprise;
 use App\Entity\AbstractBase;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class CollectionDocumentType.
@@ -29,6 +30,7 @@ class CollectionDocumentType extends AbstractBase
      * @var string|null
      *
      * @ORM\Column(type="string")
+     * @Groups({"api"})
      */
     private $name;
 

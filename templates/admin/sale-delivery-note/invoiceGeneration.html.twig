@@ -50,7 +50,6 @@
 
         const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
         let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
-        console.log('currentSelection', currentSelection);
         jQuery.get(Routing.generate(
           'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters',
           {
@@ -60,6 +59,7 @@
         }).done(function (response) {
             let partners = Object.values(JSON.parse(response.partners));
             let deliveryNotes = JSON.parse(response.deliveryNotes);
+            console.log(deliveryNotes);
             partners.forEach(function (partner) {
               createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false), currentSelection);
             });
@@ -93,15 +93,15 @@
               <table class="table table-bordered table-hover sonata-ba-list">
                 <thead>
                 <tr>
-                  <th></th>
-                  <th>Número</th>
-                  <th>Fecha</th>
-                  <th>Vehículo</th>
-                  <th>Obra</th>
-                  <th>Pedido</th>
-                  <th>Forma de Pago</th>
-                  <th>Plazo de Cobro</th>
-                  <th>Importe</th>
+                  <th style="width:5%"></th>
+                  <th style="width:5%">Número</th>
+                  <th style="width:5%">Fecha</th>
+                  <th style="width:10%">Vehículo</th>
+                  <th style="width:25%">Obra</th>
+                  <th style="width:25%">Pedido</th>
+                  <th style="width:10%">Forma de Pago</th>
+                  <th style="width:10%">Plazo de Cobro</th>
+                  <th style="width:5%">Importe</th>
                 </tr>
                 </thead>
                 <tbody>`
@@ -116,11 +116,11 @@
                   <td>${deliveryNote.id}</td>
                   <td>${deliveryNote.dateToString}</td>
                   <td>${deliveryNote.vehicle.name}</td>
-                  <td>Una obra !!!!</td>
-                  <td>Un pedido !!!!!</td>
-                  <td>Metodo de pago!!!!!!</td>
-                  <td>Dias de pago !!!!!!</td>
-                  <td>Amount !!!! €</td>
+                  <td>${deliveryNote.buildingSite ? deliveryNote.buildingSite.name : '-'}</td>
+                  <td>${deliveryNote.order? deliveryNote.order.number : '-'}</td>
+                  <td>${deliveryNote.collectionDocument.name}</td>
+                  <td>${deliveryNote.collectionTerm}</td>
+                  <td>${deliveryNote.baseTotalWithDiscounts} €</td>
                 </tr>
           `;
           deliveryNoteLines = deliveryNoteLines + newDeliveryNoteLine;
