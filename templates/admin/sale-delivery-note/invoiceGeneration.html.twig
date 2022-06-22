@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="form-group" id="sonata-ba-field-container-custom_date_from">
-                                <label class="control-label required" for="custom_date_from">
+                                <label class="control-label" for="custom_date_from">
                                     Desde
                                 </label>
                                 <div class="sonata-ba-field sonata-ba-field-standard-natural">
@@ -37,48 +37,17 @@
                                                    required="required"
                                                    class="sonata-medium-date form-control"
                                                    data-date-format="DD/MM/YYYY"
-{#                                                    value="{{ "now"|date("d-m-Y") }}"#}
                                             >
                                             <span class="input-group-addon">
                                             <span class="fa-calendar fa"></span>
                                         </span>
                                         </div>
                                     </div>
-                                    <script type="text/javascript">
-                                      jQuery(function ($) {
-                                        $('#dp_custom_date_from').datetimepicker({
-                                          "pickTime": false,
-                                          "pickDate": true,
-                                          "useCurrent": true,
-                                          "minDate": "1\/1\/1900",
-                                          "maxDate": null,
-                                          "showToday": true,
-                                          "language": "es",
-                                          "defaultDate": "",
-                                          "disabledDates": [],
-                                          "enabledDates": [],
-                                          "icons": {
-                                            "time": "fa fa-clock-o",
-                                            "date": "fa fa-calendar",
-                                            "up": "fa fa-chevron-up",
-                                            "down": "fa fa-chevron-down"
-                                          },
-                                          "useStrict": false,
-                                          "sideBySide": false,
-                                          "daysOfWeekDisabled": [],
-                                          "collapse": true,
-                                          "calendarWeeks": false,
-                                          "viewMode": "days",
-                                          "minViewMode": "days",
-                                          "useSeconds": false
-                                        });
-                                      });
-                                    </script>
                                     <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                                 </div>
                             </div>
                             <div class="form-group" id="sonata-ba-field-container-custom_date_to">
-                                <label class="control-label required" for="custom_date_to">
+                                <label class="control-label" for="custom_date_to">
                                     Hasta
                                 </label>
                                 <div class="sonata-ba-field sonata-ba-field-standard-natural">
@@ -96,36 +65,6 @@
                                         </span>
                                         </div>
                                     </div>
-                                    <script type="text/javascript">
-                                      jQuery(function ($) {
-                                        $('#dp_custom_date_to').datetimepicker({
-                                          "pickTime": false,
-                                          "pickDate": true,
-                                          "useCurrent": true,
-                                          "minDate": "1\/1\/1900",
-                                          "maxDate": null,
-                                          "showToday": true,
-                                          "language": "es",
-                                          "defaultDate": "",
-                                          "disabledDates": [],
-                                          "enabledDates": [],
-                                          "icons": {
-                                            "time": "fa fa-clock-o",
-                                            "date": "fa fa-calendar",
-                                            "up": "fa fa-chevron-up",
-                                            "down": "fa fa-chevron-down"
-                                          },
-                                          "useStrict": false,
-                                          "sideBySide": false,
-                                          "daysOfWeekDisabled": [],
-                                          "collapse": true,
-                                          "calendarWeeks": false,
-                                          "viewMode": "days",
-                                          "minViewMode": "days",
-                                          "useSeconds": false
-                                        });
-                                      });
-                                    </script>
                                     <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                                 </div>
                             </div>
@@ -262,5 +201,39 @@
         `;
         jQuery("#customerDeliveryNotes").append(partnerHtml);
       }
+
+      const dateTimePickerParameters = {
+        "pickTime": false,
+        "pickDate": true,
+        "useCurrent": true,
+        "minDate": "1\/1\/1900",
+        "maxDate": null,
+        "showToday": true,
+        "language": "es",
+        "defaultDate": "",
+        "disabledDates": [],
+        "enabledDates": [],
+        "icons": {
+          "time": "fa fa-clock-o",
+          "date": "fa fa-calendar",
+          "up": "fa fa-chevron-up",
+          "down": "fa fa-chevron-down"
+        },
+        "useStrict": false,
+        "sideBySide": false,
+        "daysOfWeekDisabled": [],
+        "collapse": true,
+        "calendarWeeks": false,
+        "viewMode": "days",
+        "minViewMode": "days",
+        "useSeconds": false
+      };
+
+      jQuery(function ($) {
+        $('#dp_custom_date_from').datetimepicker(dateTimePickerParameters);
+      });
+      jQuery(function ($) {
+        $('#dp_custom_date_to').datetimepicker(dateTimePickerParameters);
+      });
     </script>
 {% endblock %}
