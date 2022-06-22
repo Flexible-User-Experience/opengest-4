@@ -189,7 +189,7 @@
               saleDeliveryNoteSelect.select2().val(currentSelection)
               saleDeliveryNoteSelect.select2().trigger('change.select2');
               selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '));
-            })
+            });
           });
         });
         selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '))
@@ -205,7 +205,7 @@
               <table class="table table-bordered table-hover sonata-ba-list">
                 <thead>
                 <tr>
-                  <th style="width:5%"></th>
+                  <th style="width:5%">Facturar</th>
                   <th style="width:5%">Número</th>
                   <th style="width:5%">Fecha</th>
                   <th style="width:10%">Vehículo</th>
