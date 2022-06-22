@@ -34,7 +34,6 @@
                                             <input type="text"
                                                    id="custom_date_from"
                                                    name="custom_date_from"
-                                                   required="required"
                                                    class="sonata-medium-date form-control"
                                                    data-date-format="DD/MM/YYYY"
                                             >
@@ -56,7 +55,6 @@
                                             <input type="text"
                                                    id="custom_date_to"
                                                    name="custom_date_to"
-                                                   required="required"
                                                    class="sonata-medium-date form-control"
                                                    data-date-format="DD/MM/YYYY"
                                             >
@@ -68,7 +66,7 @@
                                     <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                                 </div>
                             </div>
-                            <div id="sonata-ba-field-container-s62b3173b89139_miniumHours" class="form-group">
+                            <div id="sonata-ba-field-container-delivery_note_number" class="form-group">
                                 <label class="  control-label" for="delivery_note_number">Número albarán</label>
                                 <div class="sonata-ba-field sonata-ba-field-standard-natural">
                                     <input type="number" id="delivery_note_number" name="delivery_note_number" class=" form-control">
@@ -90,6 +88,12 @@
                             </h4>
                         </div>
                         <div class="box-body">
+                            <div id="selected_delivery_notes_div" class="form-group">
+                                <label class="  control-label" for="selected_delivery_notes">Albaranes seleccionados</label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                    <input type="text" id="selected_delivery_notes" name="selected_delivery_notes" class=" form-control" disabled>
+                                </div>
+                            </div>
                             {{ form(generateInvoicesForm) }}
                         </div>
                     </div>
@@ -109,18 +113,21 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 
     <script type="text/javascript">
+
       jQuery(document).ready(function() {
         updateDeliveryNoteTable();
         });
 
       function updateDeliveryNoteTable() {
-        jQuery("#customerDeliveryNotes").empty();
         const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
+        saleDeliveryNoteSelect.parent().attr('hidden', true);
+        jQuery("#customerDeliveryNotes").empty();
         let partnerId = jQuery("#partner_selection").val();
         let fromDate = jQuery("#custom_date_from").val();
         let toDate = jQuery("#custom_date_to").val();
         let deliveryNoteNumber = jQuery("#delivery_note_number").val();
         let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
+        let selectedDeliveryNotes = jQuery("#selected_delivery_notes");
         jQuery.get(Routing.generate(
           'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters',
           {
@@ -151,9 +158,11 @@
               }
               saleDeliveryNoteSelect.select2().val(currentSelection)
               saleDeliveryNoteSelect.select2().trigger('change.select2');
+              selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '));
             })
           });
         });
+        selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '))
       }
 
       function createPartnerBox(partner, deliveryNotes, currentSelection) {
