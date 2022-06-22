@@ -68,6 +68,12 @@
                                     <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
                                 </div>
                             </div>
+                            <div id="sonata-ba-field-container-s62b3173b89139_miniumHours" class="form-group">
+                                <label class="  control-label" for="delivery_note_number">Número albarán</label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                    <input type="number" id="delivery_note_number" name="delivery_note_number" class=" form-control">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <button type="button" id="filter_button" name="filter_button" class="btn btn-primary no-m-bottom btn" style="margin-bottom: -15px" onclick="updateDeliveryNoteTable()">
                                     Filtrar
@@ -113,6 +119,7 @@
         let partnerId = jQuery("#partner_selection").val();
         let fromDate = jQuery("#custom_date_from").val();
         let toDate = jQuery("#custom_date_to").val();
+        let deliveryNoteNumber = jQuery("#delivery_note_number").val();
         console.log('fromDate', fromDate);
           console.log('toDate', toDate);
         let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
@@ -121,7 +128,8 @@
           {
             partnerId: partnerId,
             fromDate: fromDate,
-            toDate: toDate
+            toDate: toDate,
+            deliveryNoteNumber: deliveryNoteNumber
           }
         ), function () {
         }).done(function (response) {
