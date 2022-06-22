@@ -11,7 +11,7 @@
                             <h4 class="box-title">Filtrar albaranes</h4>
                         </div>
                         <div class="box-body">
-                            <div class="form-group" id="sonata-ba-field-container-hour-type">
+                            <div class="form-group" id="sonata-ba-field-container-partner">
                                 <label class="control-label" for="partner">
                                     Cliente
                                 </label>
@@ -20,6 +20,32 @@
                                         <option value="0" selected="selected">--- seleccione una opción ---</option>
                                         {% for partner in partners %}
                                             <option value="{{ partner.id }}">{{ partner }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="sonata-ba-field-container-order">
+                                <label class="control-label" for="order">
+                                    Pedido
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                    <select class="select2-container" style="width: 100%;" id="order_selection">
+                                        <option value="0" selected="selected">--- seleccione una opción ---</option>
+                                        {% for order in orders %}
+                                            <option value="{{ order.id }}">{{ order }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="sonata-ba-field-container-buildingSite">
+                                <label class="control-label" for="buildingSite">
+                                    Obra
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                    <select class="select2-container" style="width: 100%;" id="buildingSite_selection">
+                                        <option value="0" selected="selected">--- seleccione una opción ---</option>
+                                        {% for buildingSite in buildingSites %}
+                                            <option value="{{ buildingSite.id }}">{{ buildingSite }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -126,6 +152,8 @@
         let fromDate = jQuery("#custom_date_from").val();
         let toDate = jQuery("#custom_date_to").val();
         let deliveryNoteNumber = jQuery("#delivery_note_number").val();
+        let orderId = jQuery("#order_selection").val();
+        let buildingSiteId = jQuery("#buildingSite_selection").val();
         let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
         let selectedDeliveryNotes = jQuery("#selected_delivery_notes");
         jQuery.get(Routing.generate(
@@ -134,7 +162,9 @@
             partnerId: partnerId,
             fromDate: fromDate,
             toDate: toDate,
-            deliveryNoteNumber: deliveryNoteNumber
+            deliveryNoteNumber: deliveryNoteNumber,
+            orderId: orderId,
+            buildingSiteId: buildingSiteId
           }
         ), function () {
         }).done(function (response) {

@@ -5,6 +5,8 @@ namespace App\Controller\Admin\Sale;
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
@@ -170,12 +172,16 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $enterprise = $this->em->getRepository(Enterprise::class)->find(1);
         $partnerType = $this->em->getRepository(PartnerType::class)->find(1);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($enterprise, $partnerType);
+        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledSortedByNumber();
+        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledSortedByName();
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
             [
                 'generateInvoicesForm' => $form->createView(),
                 'partners' => $partners,
+                'orders' => $orders,
+                'buildingSites' => $buildingSites,
             ]
         );
     }
@@ -270,7 +276,9 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $fromDate = DateTime::createFromFormat('d/m/Y', $request->get('fromDate'));
         $toDate = DateTime::createFromFormat('d/m/Y', $request->get('toDate'));
         $deliveryNoteNumber = $request->get('deliveryNoteNumber');
-        $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->getDeliveryNotesFilteredByParameters($partnerId, $fromDate, $toDate, $deliveryNoteNumber);
+        $buildingSiteId = $request->get('buildingSiteId');
+        $orderId = $request->get('orderId');
+        $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->getDeliveryNotesFilteredByParameters($partnerId, $fromDate, $toDate, $deliveryNoteNumber, $buildingSiteId, $orderId);
         $serializer = $this->container->get('serializer');
         $serializedDeliveryNotes = $serializer->serialize($deliveryNotes, 'json', ['groups' => ['api']]);
         $partners = array_unique(array_map(
