@@ -99,8 +99,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="button" id="filter_button" name="filter_button" class="btn btn-primary no-m-bottom btn" style="margin-bottom: -15px" onclick="updateDeliveryNoteTable()">
+                                <button type="button" id="filter_button" name="filter_button" class="btn btn-primary no-m-bottom btn" style="margin-bottom: -15px" onclick="updateDeliveryNoteTable(false)">
                                     Filtrar
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="filter_button" name="filter_button" class="btn btn-primary no-m-bottom btn" style="margin-bottom: -15px" onclick="selectAll()">
+                                    Seleccionar todos
                                 </button>
                             </div>
                         </div>
@@ -141,10 +146,10 @@
     <script type="text/javascript">
 
       jQuery(document).ready(function() {
-        updateDeliveryNoteTable();
+            updateDeliveryNoteTable(true);
         });
 
-      function updateDeliveryNoteTable() {
+      function updateDeliveryNoteTable(first) {
         const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
         saleDeliveryNoteSelect.parent().attr('hidden', true);
         jQuery("#customerDeliveryNotes").empty();
@@ -193,6 +198,10 @@
           });
         });
         selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '))
+        if (!first) {
+          saleDeliveryNoteSelect.select2().val(null).trigger('change.select2');
+          selectedDeliveryNotes.val('');
+        }
       }
 
       function createPartnerBox(partner, deliveryNotes, currentSelection) {
@@ -244,6 +253,12 @@
             </div>
         `;
         jQuery("#customerDeliveryNotes").append(partnerHtml);
+      }
+
+      function selectAll() {
+        jQuery(".delivery-note_id").each( function () {
+          jQuery(this).not(this.checked).prop('checked', true).trigger('change');
+        });
       }
 
       const dateTimePickerParameters = {
