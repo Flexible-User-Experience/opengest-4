@@ -504,7 +504,7 @@
               }
             ), function () {
             }).done(function (response) {
-              workingHoursTotal.text(response.workingHour);
+              workingHoursTotal.text(response.workingHour - response.negativeHour);
               normalHoursTotal.text(response.normalHour + response.negativeHour);
               extraHoursTotal.text(response.extraHour);
             });
