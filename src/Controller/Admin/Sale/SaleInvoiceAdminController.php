@@ -44,17 +44,17 @@ class SaleInvoiceAdminController extends BaseAdminController
     public function batchActionInvoiceList(ProxyQueryInterface $selectedModelQuery): Response
     {
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
-        usort($saleInvoices, function(SaleInvoice $a, SaleInvoice $b){
+        usort($saleInvoices, function (SaleInvoice $a, SaleInvoice $b) {
             return $a->getDateFormatted() > $b->getDateFormatted();
         });
         $siforDates = $saleInvoices;
         $filterInfo = $this->admin->getFilterParameters();
 
-        if(array_key_exists('date',$filterInfo)) {
+        if (array_key_exists('date', $filterInfo)) {
             //get from to filter dates
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
-        }else{
+        } else {
             $from = array_shift($siforDates)->getDateFormatted();
             if (!$siforDates) {
                 $to = $from;
@@ -145,7 +145,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         $saleInvoiceSeriesRepository = $em->getRepository(SaleInvoiceSeries::class);
         /** @var SaleInvoiceSeries $collectionType */
         $saleInvoiceSeries = $saleInvoiceSeriesRepository->findOneBy(['isDefault' => true]);
-        $deliveryNotes = $saleInvoice->getDeliveryNotes();
         $clonedSaleInvoice = clone $saleInvoice;
         $clonedSaleInvoice->setSeries($saleInvoiceSeries);
         $deliveryNotes = $saleInvoice->getDeliveryNotes();
