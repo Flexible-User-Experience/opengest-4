@@ -99,7 +99,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 'km',
                 null,
                 [
-                    'label' => 'admin.label.km',
+                    'label' => 'admin.label.km_in_checking_date',
                     'required' => false,
                 ]
             )
@@ -208,6 +208,14 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
+                'date',
+                null,
+                [
+                    'label' => 'admin.label.date',
+                    'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
                 'vehicle',
                 null,
                 [
@@ -222,18 +230,17 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'date',
-                null,
-                [
-                    'label' => 'admin.label.date',
-                    'format' => 'd/m/Y',
-                ]
-            )
-            ->add(
-                'km',
+                'vehicleMaintenanceTask.km',
                 null,
                 [
                     'label' => 'admin.label.km',
+                ]
+            )
+            ->add(
+                'vehicleMaintenanceTask.hours',
+                null,
+                [
+                    'label' => 'admin.label.hours',
                 ]
             )
             ->add(

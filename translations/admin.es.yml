@@ -222,6 +222,7 @@ admin:
         password: "Contraseña"
         role: "Rol"
         main_company: "Empresa principal"
+        km_in_checking_date: "Km del vehículo en la fecha de la revisión"
     with:
         general: "General"
         image: "Imagen"
