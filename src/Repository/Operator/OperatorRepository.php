@@ -5,9 +5,9 @@ namespace App\Repository\Operator;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class OperatorRepository extends ServiceEntityRepository
 {
@@ -37,12 +37,20 @@ class OperatorRepository extends ServiceEntityRepository
         return $this->getEnabledSortedByNameB()->getResult();
     }
 
-    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise): QueryBuilder
+    public function getFilteredByEnterpriseEnabledSortedByNameQB(Enterprise $enterprise, ?Operator $operator = null): QueryBuilder
     {
-        return $this->getEnabledSortedByNameBQ()
+        $queryBuilder = $this->getEnabledSortedByNameBQ()
             ->andWhere('o.enterprise = :enterprise')
             ->setParameter('enterprise', $enterprise)
         ;
+        if ($operator) {
+            $queryBuilder
+                ->orWhere('o.id = :operatorId')
+                ->setParameter('operatorId', $operator->getId())
+            ;
+        }
+
+        return $queryBuilder;
     }
 
     public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise): Query

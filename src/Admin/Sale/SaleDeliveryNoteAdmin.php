@@ -333,7 +333,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'class' => Operator::class,
                         'label' => 'admin.label.operator',
                         'required' => false,
-                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise(), $this->getSubject()->getOperator()),
                     ]
                 )
                 ->end()
