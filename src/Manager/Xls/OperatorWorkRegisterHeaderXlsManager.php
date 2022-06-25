@@ -33,10 +33,10 @@ class OperatorWorkRegisterHeaderXlsManager
 
     private function buildXls(Spreadsheet $spreadsheet, $operatorWorkRegisterHeaders, $from, $to)
     {
-        $sheet1 = $spreadsheet->getActiveSheet();
-        $sheet1
-            ->setCellValue('A1', 'Informe horas')
+        $activeSheet = $spreadsheet->getActiveSheet();
+        $activeSheet
             ->setTitle('Informe horas Hoja 1')
+            ->setCellValue('A1', 'Informe horas')
         ;
         // Create new sheet
         $sheet2 = $spreadsheet->createSheet()
