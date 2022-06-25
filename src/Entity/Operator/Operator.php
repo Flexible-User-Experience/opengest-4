@@ -1917,6 +1917,6 @@ class Operator extends AbstractBase
      */
     public function __toString()
     {
-        return $this->id ? $this->getFullName() : '---';
+        return $this->id ? (!$this->getEnabled() ? '¡Inactivo! - ' : '').$this->getFullName() : '---';
     }
 }
