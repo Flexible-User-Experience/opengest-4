@@ -2,6 +2,7 @@
 
 namespace App\Manager\Xls;
 
+use App\Entity\Operator\OperatorWorkRegisterHeader;
 use Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -13,17 +14,11 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
  */
 class OperatorWorkRegisterHeaderXlsManager
 {
-    public function outputXls($operators, $from, $to)
+    public function outputXls($operatorWorkRegisterHeaders, $from, $to)
     {
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet
-            ->setCellValue('A1', 'Informe horas')
-            ->setTitle('Informe horas Hoja 1')
-            ;
-
-        $date = date('d-m-y');
-        $filename = 'export_'.$date.'.xlsx';
+        $spreadsheet = $this->buildXls($spreadsheet, $operatorWorkRegisterHeaders, $from, $to);
+        $filename = 'tempfile.xlsx';
         try {
             $writer = new Xlsx($spreadsheet);
             $writer->save($filename);
@@ -34,5 +29,35 @@ class OperatorWorkRegisterHeaderXlsManager
         unlink($filename);
 
         return $content;
+    }
+
+    private function buildXls(Spreadsheet $spreadsheet, $operatorWorkRegisterHeaders, $from, $to)
+    {
+        $sheet1 = $spreadsheet->getActiveSheet();
+        $sheet1
+            ->setCellValue('A1', 'Informe horas')
+            ->setTitle('Informe horas Hoja 1')
+        ;
+        // Create new sheet
+        $sheet2 = $spreadsheet->createSheet()
+            ->setTitle('Informe Hoja 2')
+            ->setCellValue('B2', $from)
+        ;
+        //Example of iteration
+        $sheet2
+            ->setCellValue('B3', 'Fecha')
+            ->setCellValue('C3', 'Horas')
+            ;
+        $i = 4;
+        /** @var OperatorWorkRegisterHeader $operatorWorkRegisterHeader */
+        foreach ($operatorWorkRegisterHeaders as $operatorWorkRegisterHeader) {
+            $sheet2
+                ->setCellValue('B'.$i, $operatorWorkRegisterHeader->getDate())
+                ->setCellValue('C'.$i, $operatorWorkRegisterHeader->getHours())
+                ;
+            ++$i;
+        }
+
+        return $spreadsheet;
     }
 }
