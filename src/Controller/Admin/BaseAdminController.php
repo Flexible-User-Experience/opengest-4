@@ -14,6 +14,7 @@ use App\Manager\Pdf\SaleInvoicePdfManager;
 use App\Manager\Pdf\VehicleCheckingPdfManager;
 use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
 use App\Manager\VehicleMaintenanceManager;
+use App\Manager\Xls\OperatorWorkRegisterHeaderXlsManager;
 use App\Manager\Xml\PayslipXmlManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
@@ -42,6 +43,8 @@ abstract class BaseAdminController extends Controller
 
     protected WorkRegisterHeaderPdfManager $wrhpm;
 
+    protected OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager;
+
     protected PayslipPdfManager $ppm;
 
     protected PayslipXmlManager $pxm;
@@ -65,6 +68,7 @@ abstract class BaseAdminController extends Controller
                                 SaleDeliveryNotePdfManager $sdnpm,
                                 SaleInvoicePdfManager $sipm,
                                 WorkRegisterHeaderPdfManager $wrhpm,
+                                OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
                                 PayslipPdfManager $ppm,
                                 PayslipXmlManager $pxm,
                                 OperatorCheckingPdfManager $operatorCheckingPdfManager,
@@ -80,6 +84,7 @@ abstract class BaseAdminController extends Controller
         $this->sdnpm = $sdnpm;
         $this->sipm = $sipm;
         $this->wrhpm = $wrhpm;
+        $this->operatorWorkRegisterHeaderXlsManager = $operatorWorkRegisterHeaderXlsManager;
         $this->ppm = $ppm;
         $this->pxm = $pxm;
         $this->operatorCheckingPdfManager = $operatorCheckingPdfManager;
