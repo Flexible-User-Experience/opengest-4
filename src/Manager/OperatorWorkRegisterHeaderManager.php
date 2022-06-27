@@ -7,12 +7,43 @@ use App\Entity\Operator\OperatorWorkRegisterHeader;
 
 class OperatorWorkRegisterHeaderManager
 {
+    public function getTotalsFromDifferentWorkRegisterHeaders($workRegisterHeaders)
+    {
+        //TODO test function
+        $detailedHours = [
+            'normalHours' => 0,
+            'extraHours' => 0,
+            'negativeHours' => 0,
+            'displacement' => 0,
+            'waiting' => 0,
+            'lunch' => 0,
+            'lunchInt' => 0,
+            'dinner' => 0,
+            'dinnerInt' => 0,
+            'diet' => 0,
+            'dietInt' => 0,
+            'overNight' => 0,
+            'exitExtra' => 0,
+        ];
+        foreach($workRegisterHeaders as $workRegisterHeader)
+        {
+            $totalHoursFromWorkRegister = $this->getTotalsFromWorkRegisterHeader($workRegisterHeader);
+            foreach($detailedHours as $key => $value)
+            {
+                $detailedHours[$key] += $totalHoursFromWorkRegister[$key];
+            }
+        }
+
+    }
+
     public function getTotalsFromWorkRegisterHeader(OperatorWorkRegisterHeader  $workRegisterHeader): array
     {
         $detailedHours = [
             'normalHours' => 0,
             'extraHours' => 0,
             'negativeHours' => 0,
+            'displacement' => 0,
+            'waiting' => 0,
             'lunch' => 0,
             'lunchInt' => 0,
             'dinner' => 0,
@@ -64,6 +95,8 @@ class OperatorWorkRegisterHeaderManager
             'normalHours' => 0,
             'extraHours' => 0,
             'negativeHours' => 0,
+            'displacement' => 0,
+            'waiting' => 0,
             'lunch' => 0,
             'lunchInt' => 0,
             'dinner' => 0,
@@ -75,6 +108,12 @@ class OperatorWorkRegisterHeaderManager
         ];
         if (str_contains($workRegister->getDescription(), 'Hora negativa')) {
             $detailedHours['negativeHours'] = $workRegister->getUnits();
+        }
+        if (str_contains($workRegister->getDescription(), 'Desplazamiento')) {
+            $detailedHours['displacement'] = $workRegister->getUnits();
+        }
+        if (str_contains($workRegister->getDescription(), 'Espera')) {
+            $detailedHours['waiting'] = $workRegister->getUnits();
         }
         if (str_contains($workRegister->getDescription(), 'Hora normal')) {
             $detailedHours['normalHours'] = $workRegister->getUnits();

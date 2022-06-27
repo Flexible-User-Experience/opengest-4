@@ -4,6 +4,7 @@ namespace App\Manager\Xls;
 
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
+use App\Manager\OperatorWorkRegisterHeaderManager;
 use App\Manager\RepositoriesManager;
 use Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -19,12 +20,15 @@ class OperatorWorkRegisterHeaderXlsManager
 {
     private RepositoriesManager $rm;
 
+    private OperatorWorkRegisterHeaderManager $operatorWorkRegisterHeaderManager;
+
     /**
      * Methods.
      */
-    public function __construct(RepositoriesManager $rm)
+    public function __construct(RepositoriesManager $rm, OperatorWorkRegisterHeaderManager $operatorWorkRegisterHeaderManager)
     {
         $this->rm = $rm;
+        $this->operatorWorkRegisterHeaderManager = $operatorWorkRegisterHeaderManager;
     }
 
 
@@ -67,15 +71,19 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('A5', 'DIA')
                 ->setCellValue('B5', 'DESPL')
                 ->setCellValue('C5', 'ESPERA')
-                ->setCellValue('D5', 'RETEN')
-                ->setCellValue('E5', 'PLUS PERNOCTA')
-                ->setCellValue('F5', 'PRIMA NITS')
-                ->setCellValue('G5', 'PLUS CARRETERA')
+                ->setCellValue('D5', 'RETEN (???)')
+                ->setCellValue('E5', 'PLUS PERNOCTA (Extras Pernoctación)')
+                ->setCellValue('F5', 'PRIMA NITS (Extras Salida)')
+                ->setCellValue('G5', 'PLUS CARRETERA (??)')
                 ->setCellValue('H5', 'H.EXTRA')
                 ->setCellValue('I5', 'DINAR/SOPAR')
                 ->setCellValue('J5', 'DIETA')
                 ->setCellValue('K5', 'DINAR/SOPAR I')
-                ->setCellValue('L5', 'DIETA I');
+                ->setCellValue('L5', 'DIETA I')
+                ->setCellValue('M5', 'H.Norm')
+                ->setCellValue('N5', 'H.Neg')
+                ->setCellValue('N5', 'H.Norm - H.Neg')
+                ->setCellValue('N5', 'H.Extra');
             $activeSheet
                 ->getStyle('A5:L5')
                 ->getBorders()
@@ -84,22 +92,44 @@ class OperatorWorkRegisterHeaderXlsManager
             $i = 6;
             /** @var OperatorWorkRegisterHeader $workRegisterHeader */
             foreach ($workRegisterHeaders as $workRegisterHeader) {
-
+                $detailedHours = $this->operatorWorkRegisterHeaderManager->getTotalsFromWorkRegisterHeader($workRegisterHeader);
                 $activeSheet
                     ->setCellValue('A' . $i, $workRegisterHeader->getDateFormatted())
-                    ->setCellValue('B' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('C' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('D' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('E' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('F' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('G' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('H' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('I' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('J' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('K' . $i, $workRegisterHeader->getHours())
-                    ->setCellValue('L' . $i, $workRegisterHeader->getHours());
-            $i++;
+                    ->setCellValue('B' . $i, $detailedHours['displacement'])
+                    ->setCellValue('C' . $i, $detailedHours['waiting'])
+                    ->setCellValue('D' . $i, '')
+                    ->setCellValue('E' . $i, $detailedHours['overNight'])
+                    ->setCellValue('F' . $i, $detailedHours['exitExtra'])
+                    ->setCellValue('G' . $i, '')
+                    ->setCellValue('H' . $i, $detailedHours['extraHours'])
+                    ->setCellValue('I' . $i, $detailedHours['lunch'] + $detailedHours['dinner'])
+                    ->setCellValue('J' . $i, $detailedHours['diet'])
+                    ->setCellValue('K' . $i, $detailedHours['lunchInt'] + $detailedHours['dinnerInt'])
+                    ->setCellValue('L' . $i, $detailedHours['dietInt'])
+                    ->setCellValue('M' . $i, $detailedHours['normalHours'])
+                    ->setCellValue('N' . $i, $detailedHours['negativeHours'])
+                    ->setCellValue('O' . $i, $detailedHours['normalHours'] - $detailedHours['negativeHours'])
+                    ->setCellValue('P' . $i, $detailedHours['extraHours']);
+                $i++;
         }
+            $prices = $this->operatorWorkRegisterHeaderManager->getPricesForOperator($operator);
+            $activeSheet
+                ->setCellValue('A' . $i, 'PRECIO')
+                ->setCellValue('B' . $i, $prices['normalHourPrice'])
+                ->setCellValue('C' . $i, $prices['normalHourPrice'])
+                ->setCellValue('D' . $i, '')
+                ->setCellValue('E' . $i, $prices['overNightPrice'])
+                ->setCellValue('F' . $i, $prices['exitExtraPrice'])
+                ->setCellValue('G' . $i, '')
+                ->setCellValue('H' . $i, $prices['extraHourPrice'])
+                ->setCellValue('I' . $i, $prices['lunchPrice'])
+                ->setCellValue('J' . $i, $prices['dietPrice'])
+                ->setCellValue('K' . $i, $prices['lunchIntPrice'])
+                ->setCellValue('L' . $i, $prices['dietIntPrice'])
+                ->setCellValue('M' . $i, $prices['normalHourPrice'])
+                ->setCellValue('N' . $i, $prices['negativeHourPrice'])
+                ->setCellValue('P' . $i, $prices['extraHourPrice']);
+
             $spreadsheet->createSheet();
             $x++;
         }
