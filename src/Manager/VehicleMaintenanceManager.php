@@ -36,9 +36,6 @@ class VehicleMaintenanceManager
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     public function checkVehicleMaintenance(): int
     {
         $needMaintenance = 0;
@@ -65,23 +62,43 @@ class VehicleMaintenanceManager
      */
     public function checkIfMaintenanceNeedsCheck(VehicleMaintenance $vehicleMaintenance): bool
     {
+        if ($this->remainingKm($vehicleMaintenance) < 0) {
+            return true;
+        }
+        if ($this->remainingHours($vehicleMaintenance) < 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function remainingKm(VehicleMaintenance $vehicleMaintenance)
+    {
         $vehicle = $vehicleMaintenance->getVehicle();
-        $maxKm = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
+        $maxKmBetweenRevisions = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
         $currentMileage = $vehicle->getMileage();
-        if ($maxKm && $currentMileage) {
+        if ($maxKmBetweenRevisions && $currentMileage) {
             $maintenanceKm = $vehicleMaintenance->getKm();
             $kmSinceLastMaintenance = $currentMileage - $maintenanceKm;
-            if ($kmSinceLastMaintenance >= $maxKm) {
-                return true;
-            }
+
+            return $maxKmBetweenRevisions - $kmSinceLastMaintenance;
         }
-        $maxHours = $vehicleMaintenance->getVehicleMaintenanceTask()->getHours();
-        if ($maxHours) {
+
+        return false;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function remainingHours(VehicleMaintenance $vehicleMaintenance)
+    {
+        $vehicle = $vehicleMaintenance->getVehicle();
+        $maxHoursBetweenRevisions = $vehicleMaintenance->getVehicleMaintenanceTask()->getHours();
+        if ($maxHoursBetweenRevisions) {
             $date = $vehicleMaintenance->getDate();
-            $hours = $this->numberOfHoursFromDate($vehicle, $date);
-            if ($hours >= $maxHours) {
-                return true;
-            }
+            $hoursSinceLastMaintenance = $this->numberOfHoursFromDate($vehicle, $date);
+
+            return $maxHoursBetweenRevisions - $hoursSinceLastMaintenance;
         }
 
         return false;
