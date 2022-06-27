@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
@@ -377,12 +378,20 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         if ($deliveryNotes->first()->getDeliveryAddress()) {
             $saleInvoice->setDeliveryAddress($deliveryNotes->first()->getDeliveryAddress());
         }
+        $installmentCollectionDocumentType = null;
+        if (3 === $saleInvoice->getSeries()->getId()) {
+            $installmentCollectionDocumentType = $this->em->getRepository(CollectionDocumentType::class)->find(10);
+            $saleInvoice->setCollectionDocumentType($installmentCollectionDocumentType);
+        }
         $this->im->createDueDatesFromSaleInvoice($saleInvoice);
         try {
             $this->admin->getModelManager()->create($saleInvoice);
             foreach ($deliveryNotes as $deliveryNote) {
                 $deliveryNote->setSaleInvoice($saleInvoice);
                 $deliveryNote->setIsInvoiced(true);
+                if ($installmentCollectionDocumentType) {
+                    $deliveryNote->setCollectionDocument($installmentCollectionDocumentType);
+                }
                 $this->admin->getModelManager()->update($deliveryNote);
             }
 
