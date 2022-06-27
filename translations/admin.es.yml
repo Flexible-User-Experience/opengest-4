@@ -223,6 +223,8 @@ admin:
         role: "Rol"
         main_company: "Empresa principal"
         km_in_checking_date: "Km del vehículo en la fecha de la revisión"
+        hours_remaining_until_next_revision: "Horas restantes"
+        kms_remaining_until_next_revision: "Km restantes"
     with:
         general: "General"
         image: "Imagen"

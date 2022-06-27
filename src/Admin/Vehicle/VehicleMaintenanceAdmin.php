@@ -251,6 +251,26 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'hoursRemainingUntilNextRevision',
+                null,
+                [
+                    'label' => 'admin.label.hours_remaining_until_next_revision',
+                    'accessor' => function ($subject) {
+                        return false === $this->vmm->remainingHours($subject) ? '-' : $this->vmm->remainingHours($subject);
+                    },
+                ]
+            )
+            ->add(
+                'kmsRemainingUntilNextRevision',
+                null,
+                [
+                    'label' => 'admin.label.kms_remaining_until_next_revision',
+                    'accessor' => function ($subject) {
+                        return false === $this->vmm->remainingKm($subject) ? '-' : $this->vmm->remainingKm($subject);
+                    },
+                ]
+            )
+            ->add(
                 'needsCheck',
                 null,
                 [
