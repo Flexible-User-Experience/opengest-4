@@ -34,6 +34,30 @@ class OperatorWorkRegisterHeaderManager
         return $detailedHours;
     }
 
+    /**
+     * @param $operator
+     *
+     * @return array|int[]
+     */
+    public function getPricesForOperator($operator): array
+    {
+        $bountyGroup = $operator->getEnterpriseGroupBounty();
+        return [
+            'normalHourPrice' => $bountyGroup ? $bountyGroup->getExtraNormalHour() : 0,
+            'extraHourPrice' => $bountyGroup ? $bountyGroup->getExtraExtraHour() : 0,
+            'negativeHourPrice' => $bountyGroup ? $bountyGroup->getNegativeHour() : 0,
+            'lunchPrice' => $bountyGroup ? $bountyGroup->getLunch() : 0,
+            'lunchIntPrice' => $bountyGroup ? $bountyGroup->getInternationalLunch() : 0,
+            'dinnerPrice' => $bountyGroup ? $bountyGroup->getDinner() : 0,
+            'dinnerIntPrice' => $bountyGroup ? $bountyGroup->getInternationalDinner() : 0,
+            'dietPrice' => $bountyGroup ? $bountyGroup->getDiet() : 0,
+            'dietIntPrice' => $bountyGroup ? $bountyGroup->getExtraNight() : 0,
+            'overNightPrice' => $bountyGroup ? $bountyGroup->getOverNight() : 0,
+            'exitExtraPrice' => $bountyGroup ? $bountyGroup->getCarOutput() : 0,
+        ];
+    }
+
+
     private function getDetailedHoursFromWorkRegister(OperatorWorkRegister $workRegister): array
     {
         $detailedHours = [
