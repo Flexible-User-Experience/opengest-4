@@ -208,12 +208,6 @@ class WorkRegisterHeaderPdfManager
             1, 0, 'L', false);
         $pdf->ln();
 
-        // start getting info
-//        $fromDate = $payslip->getFromDate();
-//        $toDate = $payslip->getToDate();
-//        $workRegisterHeaders = $payslip->getOperator()->getWorkRegisterHeaders()->filter(function (OperatorWorkRegisterHeader $owrh) use ($fromDate, $toDate) {
-//            return ($owrh->getDate() >= $fromDate) && ($owrh->getDate() <= $toDate);
-//        });
         list($normalHourPrice, $extraHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
             $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice)
             = $this->getPricesForOperator($operator);
