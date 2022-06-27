@@ -6,6 +6,7 @@ use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\ConstantsEnum;
 use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
 use App\Service\PdfEngineService;
 use TCPDF;
 
@@ -20,14 +21,16 @@ class VehicleMaintenancePdfManager
 
     private RepositoriesManager $rm;
 
+    private VehicleMaintenanceManager $vehicleMaintenanceManager;
 
     /**
      * Methods.
      */
-    public function __construct(PdfEngineService $pdfEngineService, RepositoriesManager $rm)
+    public function __construct(PdfEngineService $pdfEngineService, RepositoriesManager $rm, VehicleMaintenanceManager $vehicleMaintenanceManager)
     {
         $this->pdfEngineService = $pdfEngineService;
         $this->rm = $rm;
+        $this->vehicleMaintenanceManager = $vehicleMaintenanceManager;
     }
 
     public function buildSingle($vehicleMaintenances): TCPDF
@@ -45,6 +48,9 @@ class VehicleMaintenancePdfManager
         return $pdf->Output('Mantenimiento vehiculos'.'.pdf', 'I');
     }
 
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     private function buildVehicleMaintenancePdf($vehicleMaintenances, TCPDF $pdf): TCPDF
     {
         $this->addStartPage($pdf);
@@ -57,7 +63,7 @@ class VehicleMaintenancePdfManager
         foreach ($vehiclesFromVehicleMaintenances as $vehicleId => $vehicleMaintenancesFromVehicle) {
             /** @var Vehicle $vehicle */
             $vehicle = $this->rm->getVehicleRepository()->find($vehicleId);
-            if($pdf->getY()>210){
+            if ($pdf->getY() > 210) {
                 $this->addStartPage($pdf);
             }
             //Header
@@ -97,16 +103,15 @@ class VehicleMaintenancePdfManager
                 $this->pdfEngineService->setStyleSize('', 9);
                 $pdf->Cell(60, ConstantsEnum::PDF_CELL_HEIGHT,
                     $vehicleMaintenance->getVehicleMaintenanceTask(),
-                    true, 0, 'L', false, '',1);
+                    true, 0, 'L', false, '', 1);
                 $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
                     $vehicleMaintenance->getDescription(),
-                    true, 0, 'L', false, '',1);
+                    true, 0, 'L', false, '', 1);
                 $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $vehicleMaintenance->getVehicleMaintenanceTask()->getKm()-($vehicle->getMileage()-$vehicleMaintenance->getKm()),
+                    $this->vehicleMaintenanceManager->remainingKm($vehicleMaintenance),
                     true, 0, 'L', false);
-                //TODO calculate pending hours to maintenance
                 $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $vehicleMaintenance->getVehicleMaintenanceTask()->getHours(),
+                    $this->vehicleMaintenanceManager->remainingHours($vehicleMaintenance),
                     true, 0, 'L', false);
                 $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
                     '',
@@ -127,13 +132,9 @@ class VehicleMaintenancePdfManager
         $pdf->ln(4);
     }
 
-    /**
-     * @param TCPDF $pdf
-     * @return void
-     */
     private function addStartPage(TCPDF $pdf): void
     {
-// add start page
+        // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
@@ -158,6 +159,6 @@ class VehicleMaintenancePdfManager
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 11);
         $pdf->setXY(50, 30);
         $pdf->Cell('', ConstantsEnum::PDF_CELL_HEIGHT,
-            'Listado de mantenimientos pendientes a ' . $today);
+            'Listado de mantenimientos pendientes a '.$today);
     }
 }
