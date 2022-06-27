@@ -325,6 +325,7 @@ admin:
         download_documentation: "Descargar documentación"
         generate_time_summary: "Listado plantilla de horas"
         select_option: "Seleccione opción"
+        generate_work_register_report_xls: "Generar Excel de horas"
     actions: "Acciones"
 enum:
     sale_request_status:

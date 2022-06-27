@@ -58,41 +58,48 @@ class OperatorWorkRegisterHeaderXlsManager
             $operator = $this->rm->getOperatorRepository()->find($operatorId);
             $spreadsheet->setActiveSheetIndex($x);
             $activeSheet = $spreadsheet->getActiveSheet()
-                ->setTitle($operator->getSurname1())
-            ;
+                ->setTitle($operator->getSurname1());
             $activeSheet
                 ->setTitle($operator->getSurname1())
-                ->setCellValue('A1', 'NOM:')
+                ->setCellValue('A1', 'NOM: ')
                 ->setCellValue('B1', $operator->getFullName())
-                ->setCellValue('B2','PERIODE:'.$from.'A'.$to)
-                ->setCellValue('A5','DIA')
-                ->setCellValue('B5','DESPL')
-                ->setCellValue('C5','ESPERA')
-                ->setCellValue('D5','RETEN')
-                ->setCellValue('E5','PLUS PERNOCTA')
-                ->setCellValue('F5','PRIMA NITS')
-                ->setCellValue('G5','PLUS CARRETERA')
-                ->setCellValue('H5','H.EXTRA')
-                ->setCellValue('I5','DINAR/SOPAR')
-                ->setCellValue('J5','DIETA')
-                ->setCellValue('K5','DINAR/SOPAR I')
-                ->setCellValue('L5','DIETA I')
-            ;
+                ->setCellValue('B2', 'PERIODE: ' . $from . ' A ' . $to)
+                ->setCellValue('A5', 'DIA')
+                ->setCellValue('B5', 'DESPL')
+                ->setCellValue('C5', 'ESPERA')
+                ->setCellValue('D5', 'RETEN')
+                ->setCellValue('E5', 'PLUS PERNOCTA')
+                ->setCellValue('F5', 'PRIMA NITS')
+                ->setCellValue('G5', 'PLUS CARRETERA')
+                ->setCellValue('H5', 'H.EXTRA')
+                ->setCellValue('I5', 'DINAR/SOPAR')
+                ->setCellValue('J5', 'DIETA')
+                ->setCellValue('K5', 'DINAR/SOPAR I')
+                ->setCellValue('L5', 'DIETA I');
             $activeSheet
                 ->getStyle('A5:L5')
                 ->getBorders()
                 ->getAllBorders()
-                ->setBorderStyle(Border::BORDER_THIN)
-            ;
-            $i=6;
+                ->setBorderStyle(Border::BORDER_THIN);
+            $i = 6;
             /** @var OperatorWorkRegisterHeader $workRegisterHeader */
             foreach ($workRegisterHeaders as $workRegisterHeader) {
+
                 $activeSheet
-                    ->setCellValue('A'.$i, $workRegisterHeader->getDateFormatted())
-                    ->setCellValue('B'.$i, $workRegisterHeader->getHours())
-                    ;
-                $i++;
-            }
+                    ->setCellValue('A' . $i, $workRegisterHeader->getDateFormatted())
+                    ->setCellValue('B' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('C' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('D' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('E' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('F' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('G' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('H' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('I' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('J' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('K' . $i, $workRegisterHeader->getHours())
+                    ->setCellValue('L' . $i, $workRegisterHeader->getHours());
+            $i++;
+        }
             $spreadsheet->createSheet();
             $x++;
         }
