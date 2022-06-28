@@ -25,32 +25,24 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
     public function batchActionGenerateWorkRegisterReportPdf(ProxyQueryInterface $selectedModelQuery): Response
     {
         $this->admin->checkAccess('edit');
-        $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
-        usort($operatorWorkRegisterHeaders, function(OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b){
-            return $a->getDateFormatted() > $b->getDateFormatted();
-        });
-        $owrhForDates = $operatorWorkRegisterHeaders;
-
-        $filterInfo = $this->admin->getFilterParameters();
-
-        if(array_key_exists('date',$filterInfo)) {
-            //get from to filter dates
-            $from = $filterInfo['date']['value']['start'];
-            $to = $filterInfo['date']['value']['end'];
-        }else {
-            $from = array_shift($owrhForDates)->getDateFormatted();
-            if (!$owrhForDates) {
-                $to = $from;
-            } else {
-                $to = array_pop($owrhForDates)->getDateFormatted();
-            }
-        }
-
-        if (!$operatorWorkRegisterHeaders) {
-            $this->addFlash('warning', 'No existen registros para esta selección');
-        }
+        list($operatorWorkRegisterHeaders, $from, $to) = $this->commonDocumentGenerationParameters($selectedModelQuery);
 
         return new Response($this->wrhpm->outputCollection($operatorWorkRegisterHeaders, $from, $to), 200, ['Content-type' => 'application/pdf']);
+    }
+
+    /**
+     * @return Response|RedirectResponse
+     */
+    public function batchActionGenerateWorkRegisterReportXls(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $this->admin->checkAccess('edit');
+        list($operatorWorkRegisterHeaders, $from, $to) = $this->commonDocumentGenerationParameters($selectedModelQuery);
+        $headers = [
+            'Content-type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="informeHoras_'.$from.'__'.$to.'.xlsx"',
+        ];
+
+        return new Response($this->operatorWorkRegisterHeaderXlsManager->outputXls($operatorWorkRegisterHeaders, $from, $to), 200, $headers);
     }
 
     public function getJsonOperatorWorkRegisterTotalsByHourTypeAction(Request $request): JsonResponse
@@ -104,18 +96,18 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
         $form->handleRequest($request);
         /** @var Operator[] $operators */
         $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
-        usort($operatorWorkRegisterHeaders, function(OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b){
+        usort($operatorWorkRegisterHeaders, function (OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b) {
             return $a->getDateFormatted() > $b->getDateFormatted();
         });
 
         $owrhForDates = $operatorWorkRegisterHeaders;
         $filterInfo = $this->admin->getFilterParameters();
 
-        if(array_key_exists('date',$filterInfo)) {
+        if (array_key_exists('date', $filterInfo)) {
             //get from to filter dates
-            $from = DateTime::createFromFormat('d/m/Y',$filterInfo['date']['value']['start']);
+            $from = DateTime::createFromFormat('d/m/Y', $filterInfo['date']['value']['start']);
             $to = DateTime::createFromFormat('d/m/Y', $filterInfo['date']['value']['end']);
-        }else {
+        } else {
             $from = array_shift($owrhForDates)->getDate();
             if (!$owrhForDates) {
                 $to = $from;
@@ -162,5 +154,35 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_list'));
         }
+    }
+
+    protected function commonDocumentGenerationParameters(ProxyQueryInterface $selectedModelQuery): array
+    {
+        $operatorWorkRegisterHeaders = $selectedModelQuery->execute()->getQuery()->getResult();
+        usort($operatorWorkRegisterHeaders, function (OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b) {
+            return $a->getDateFormatted() > $b->getDateFormatted();
+        });
+        $owrhForDates = $operatorWorkRegisterHeaders;
+
+        $filterInfo = $this->admin->getFilterParameters();
+
+        if (array_key_exists('date', $filterInfo)) {
+            //get from to filter dates
+            $from = $filterInfo['date']['value']['start'];
+            $to = $filterInfo['date']['value']['end'];
+        } else {
+            $from = array_shift($owrhForDates)->getDateFormatted();
+            if (!$owrhForDates) {
+                $to = $from;
+            } else {
+                $to = array_pop($owrhForDates)->getDateFormatted();
+            }
+        }
+
+        if (!$operatorWorkRegisterHeaders) {
+            $this->addFlash('warning', 'No existen registros para esta selección');
+        }
+
+        return [$operatorWorkRegisterHeaders, $from, $to];
     }
 }

@@ -71,6 +71,10 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_work_register_report',
                 'ask_confirmation' => false,
             ];
+            $newActions['generateWorkRegisterReportXls'] = [
+                'label' => 'admin.action.generate_work_register_report_xls',
+                'ask_confirmation' => false,
+            ];
             $newActions['generateTimeSummary'] = [
                 'label' => 'admin.action.generate_time_summary',
                 'ask_confirmation' => false,

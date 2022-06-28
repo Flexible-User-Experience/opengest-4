@@ -7,6 +7,7 @@ use App\Entity\Vehicle\VehicleMaintenance;
 use App\Repository\Operator\OperatorWorkRegisterRepository;
 use App\Repository\Vehicle\VehicleMaintenanceRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
@@ -20,13 +21,40 @@ class VehicleMaintenanceManager
 
     private OperatorWorkRegisterRepository $operatorWorkRegisterRepository;
 
+    private EntityManagerInterface $entityManager;
+
     /**
      * Methods.
      */
-    public function __construct(VehicleMaintenanceRepository $vehicleMaintenanceRepository, OperatorWorkRegisterRepository $operatorWorkRegisterRepository)
-    {
+    public function __construct(
+        VehicleMaintenanceRepository $vehicleMaintenanceRepository,
+        OperatorWorkRegisterRepository $operatorWorkRegisterRepository,
+        EntityManagerInterface $entityManager
+    ) {
         $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
         $this->operatorWorkRegisterRepository = $operatorWorkRegisterRepository;
+        $this->entityManager = $entityManager;
+    }
+
+    public function checkVehicleMaintenance(): int
+    {
+        $needMaintenance = 0;
+        /** @var VehicleMaintenance[] $vehicleMaintenances */
+        $vehicleMaintenances = $this->vehicleMaintenanceRepository->findBy(
+            ['enabled' => true,
+                'needsCheck' => false, ]
+        );
+        foreach ($vehicleMaintenances as $vehicleMaintenance) {
+            $needsCheck = $this->checkIfMaintenanceNeedsCheck($vehicleMaintenance);
+            if ($needsCheck) {
+                $vehicleMaintenance->setNeedsCheck(true);
+                $this->entityManager->persist($vehicleMaintenance);
+                ++$needMaintenance;
+            }
+        }
+        $this->entityManager->flush();
+
+        return $needMaintenance;
     }
 
     /**
@@ -34,23 +62,43 @@ class VehicleMaintenanceManager
      */
     public function checkIfMaintenanceNeedsCheck(VehicleMaintenance $vehicleMaintenance): bool
     {
+        if ($this->remainingKm($vehicleMaintenance) < 0) {
+            return true;
+        }
+        if ($this->remainingHours($vehicleMaintenance) < 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function remainingKm(VehicleMaintenance $vehicleMaintenance)
+    {
         $vehicle = $vehicleMaintenance->getVehicle();
-        $maxKm = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
+        $maxKmBetweenRevisions = $vehicleMaintenance->getVehicleMaintenanceTask()->getKm();
         $currentMileage = $vehicle->getMileage();
-        if ($maxKm && $currentMileage) {
+        if ($maxKmBetweenRevisions && $currentMileage) {
             $maintenanceKm = $vehicleMaintenance->getKm();
             $kmSinceLastMaintenance = $currentMileage - $maintenanceKm;
-            if ($kmSinceLastMaintenance >= $maxKm) {
-                return true;
-            }
+
+            return $maxKmBetweenRevisions - $kmSinceLastMaintenance;
         }
-        $maxHours = $vehicleMaintenance->getVehicleMaintenanceTask()->getHours();
-        if ($maxHours) {
+
+        return false;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function remainingHours(VehicleMaintenance $vehicleMaintenance)
+    {
+        $vehicle = $vehicleMaintenance->getVehicle();
+        $maxHoursBetweenRevisions = $vehicleMaintenance->getVehicleMaintenanceTask()->getHours();
+        if ($maxHoursBetweenRevisions) {
             $date = $vehicleMaintenance->getDate();
-            $hours = $this->numberOfHoursFromDate($vehicle, $date);
-            if ($hours >= $maxHours) {
-                return true;
-            }
+            $hoursSinceLastMaintenance = $this->numberOfHoursFromDate($vehicle, $date);
+
+            return $maxHoursBetweenRevisions - $hoursSinceLastMaintenance;
         }
 
         return false;

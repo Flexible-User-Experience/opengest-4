@@ -222,6 +222,9 @@ admin:
         password: "Contraseña"
         role: "Rol"
         main_company: "Empresa principal"
+        km_in_checking_date: "Km del vehículo en la fecha de la revisión"
+        hours_remaining_until_next_revision: "Horas restantes"
+        kms_remaining_until_next_revision: "Km restantes"
     with:
         general: "General"
         image: "Imagen"
@@ -324,6 +327,7 @@ admin:
         download_documentation: "Descargar documentación"
         generate_time_summary: "Listado plantilla de horas"
         select_option: "Seleccione opción"
+        generate_work_register_report_xls: "Generar Excel de horas"
     actions: "Acciones"
 enum:
     sale_request_status:

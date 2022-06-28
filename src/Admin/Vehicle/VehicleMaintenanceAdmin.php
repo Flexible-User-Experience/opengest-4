@@ -7,6 +7,7 @@ use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Entity\Vehicle\VehicleMaintenanceTask;
 use Doctrine\ORM\NonUniqueResultException;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -39,21 +40,20 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehiculos/mantenimientos';
 
     /**
-     * @var array
+     * Methods.
      */
-    protected $datagridValues = [
-        '_sort_by' => 'needsCheck',
-        '_sort_order' => 'DESC',
-    ];
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'needsCheck';
+    }
 
-    /**
-     * Configure route collection.
-     */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
         $collection
             ->add('downloadPdfPendingMaintenance', 'download_pdf_pending_maintenance')
+            ->add('checkMaintenances', 'check-maintenances')
             ;
     }
 
@@ -99,7 +99,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 'km',
                 null,
                 [
-                    'label' => 'admin.label.km',
+                    'label' => 'admin.label.km_in_checking_date',
                     'required' => false,
                 ]
             )
@@ -208,6 +208,14 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
+                'date',
+                null,
+                [
+                    'label' => 'admin.label.date',
+                    'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
                 'vehicle',
                 null,
                 [
@@ -222,18 +230,17 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'date',
-                null,
-                [
-                    'label' => 'admin.label.date',
-                    'format' => 'd/m/Y',
-                ]
-            )
-            ->add(
-                'km',
+                'vehicleMaintenanceTask.km',
                 null,
                 [
                     'label' => 'admin.label.km',
+                ]
+            )
+            ->add(
+                'vehicleMaintenanceTask.hours',
+                null,
+                [
+                    'label' => 'admin.label.hours',
                 ]
             )
             ->add(
@@ -241,6 +248,26 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
+                ]
+            )
+            ->add(
+                'hoursRemainingUntilNextRevision',
+                null,
+                [
+                    'label' => 'admin.label.hours_remaining_until_next_revision',
+                    'accessor' => function ($subject) {
+                        return false === $this->vmm->remainingHours($subject) ? '-' : $this->vmm->remainingHours($subject);
+                    },
+                ]
+            )
+            ->add(
+                'kmsRemainingUntilNextRevision',
+                null,
+                [
+                    'label' => 'admin.label.kms_remaining_until_next_revision',
+                    'accessor' => function ($subject) {
+                        return false === $this->vmm->remainingKm($subject) ? '-' : $this->vmm->remainingKm($subject);
+                    },
                 ]
             )
             ->add(

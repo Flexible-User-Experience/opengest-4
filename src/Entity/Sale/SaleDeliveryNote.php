@@ -49,6 +49,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var Partner
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleDeliveryNotes")
+     * @Groups({"api"})
      */
     private $partner;
 
@@ -56,6 +57,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var PartnerBuildingSite
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite")
+     * @Groups({"api"})
      */
     private $buildingSite;
 
@@ -92,6 +94,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var PartnerOrder
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerOrder", inversedBy="saleDeliveryNotes")
+     * @Groups({"api"})
      */
     private $order;
 
@@ -129,6 +132,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"api"})
      */
     private $collectionTerm;
 
@@ -150,6 +154,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var CollectionDocumentType
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
+     * @Groups({"api"})
      */
     private $collectionDocument;
 
@@ -873,6 +878,9 @@ class SaleDeliveryNote extends AbstractBase
         return $finalTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
+    /**
+     * @Groups({"api"})
+     */
     public function getBaseTotalWithDiscounts(): float
     {
         $baseTotalWithDiscounts = 0;

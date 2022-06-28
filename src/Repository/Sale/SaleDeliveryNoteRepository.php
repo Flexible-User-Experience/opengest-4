@@ -162,4 +162,56 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function getDeliveryNotesFilteredByParameters($partnerId = null, $fromDate = null, $toDate = null, $deliveryNoteNumber = null, $buildingSiteId = null, $orderId = null)
+    {
+        $queryBuilder = $this->getEnabledSortedByNameQB()
+            ->andWhere('s.isInvoiced = false')
+            ;
+        if ($partnerId) {
+            $queryBuilder
+                ->join('s.partner', 'p')
+                ->andWhere('p.id = :partnerId')
+                ->setParameter('partnerId', $partnerId)
+            ;
+        }
+        if ($fromDate) {
+            $queryBuilder
+                ->andWhere('s.date >= :fromDate')
+                ->setParameter('fromDate', $fromDate)
+            ;
+        }
+        if ($toDate) {
+            $queryBuilder
+                ->andWhere('s.date <= :toDate')
+                ->setParameter('toDate', $toDate)
+            ;
+        }
+        if ($deliveryNoteNumber) {
+            $queryBuilder
+                ->andWhere('s.id = :deliveryNoteNumber')
+                ->setParameter('deliveryNoteNumber', $deliveryNoteNumber)
+            ;
+        }
+        if ($buildingSiteId) {
+            $queryBuilder
+                ->join('s.buildingSite', 'bs')
+                ->andWhere('bs.id = :buildingSiteId')
+                ->setParameter('buildingSiteId', $buildingSiteId)
+            ;
+        }
+        if ($orderId) {
+            $queryBuilder
+                ->join('s.order', 'po')
+                ->andWhere('po.id = :orderId')
+                ->setParameter('orderId', $orderId)
+            ;
+        }
+
+        return $queryBuilder
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

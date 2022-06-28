@@ -3,7 +3,12 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\CollectionDocumentType;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Partner\PartnerOrder;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
 use App\Entity\Setting\SaleInvoiceSeries;
@@ -16,6 +21,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Exception\ModelManagerThrowable;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -164,11 +170,19 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         }
 
         $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
+        $enterprise = $this->em->getRepository(Enterprise::class)->find(1);
+        $partnerType = $this->em->getRepository(PartnerType::class)->find(1);
+        $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($enterprise, $partnerType);
+        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledSortedByNumber();
+        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledSortedByName();
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
             [
                 'generateInvoicesForm' => $form->createView(),
+                'partners' => $partners,
+                'orders' => $orders,
+                'buildingSites' => $buildingSites,
             ]
         );
     }
@@ -257,6 +271,28 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($this->sdnpm->outputCollectionDriverMail($saleDeliveryNotes), 200, ['Content-type' => 'application/pdf']);
     }
 
+    public function getJsonDeliveryNotesByParametersAction(Request $request): JsonResponse
+    {
+        $partnerId = $request->get('partnerId');
+        $fromDate = DateTime::createFromFormat('d/m/Y', $request->get('fromDate'));
+        $toDate = DateTime::createFromFormat('d/m/Y', $request->get('toDate'));
+        $deliveryNoteNumber = $request->get('deliveryNoteNumber');
+        $buildingSiteId = $request->get('buildingSiteId');
+        $orderId = $request->get('orderId');
+        $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->getDeliveryNotesFilteredByParameters($partnerId, $fromDate, $toDate, $deliveryNoteNumber, $buildingSiteId, $orderId);
+        $serializer = $this->container->get('serializer');
+        $serializedDeliveryNotes = $serializer->serialize($deliveryNotes, 'json', ['groups' => ['api']]);
+        $partners = array_unique(array_map(
+            function (SaleDeliveryNote $saleDeliveryNote) {
+                return $saleDeliveryNote->getPartner();
+            },
+            $deliveryNotes
+        ));
+        $serializedPartners = $serializer->serialize($partners, 'json', ['groups' => ['api']]);
+
+        return new JsonResponse(['deliveryNotes' => $serializedDeliveryNotes, 'partners' => $serializedPartners]);
+    }
+
     private function generateSaleInvoiceFromSaleDeliveryNotes($deliveryNotes, $date, SaleInvoiceSeries $saleInvoiceSeries)
     {
         $partnerIds = [];
@@ -273,16 +309,21 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         }
         $saleInvoiceIds = [];
         foreach ($partnerIds as $partnerId) {
+            $partnerDeliveryNotes = [];
             /** @var SaleDeliveryNote[] $partnerDeliveryNotes */
             $partnerDeliveryNotes = array_filter($deliveryNotes, function (SaleDeliveryNote $deliveryNote) use ($partnerId) {
                 return $deliveryNote->getPartner()->getId() === $partnerId;
             });
             // Check if all deliveryNotes from partner have same collectionDocument and terms
-            $collectionDocument = $partnerDeliveryNotes[0]->getCollectionDocument();
-            $collectionTerm1 = $partnerDeliveryNotes[0]->getCollectionTerm();
-            $collectionTerm2 = $partnerDeliveryNotes[0]->getCollectionTerm2();
-            $collectionTerm3 = $partnerDeliveryNotes[0]->getCollectionTerm3();
+            $first = true;
             foreach ($partnerDeliveryNotes as $partnerDeliveryNote) {
+                if ($first) {
+                    $collectionDocument = $partnerDeliveryNote->getCollectionDocument();
+                    $collectionTerm1 = $partnerDeliveryNote->getCollectionTerm();
+                    $collectionTerm2 = $partnerDeliveryNote->getCollectionTerm2();
+                    $collectionTerm3 = $partnerDeliveryNote->getCollectionTerm3();
+                    $first = false;
+                }
                 if (
                     ($partnerDeliveryNote->getCollectionDocument() !== $collectionDocument)
                     ||
@@ -337,12 +378,20 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         if ($deliveryNotes->first()->getDeliveryAddress()) {
             $saleInvoice->setDeliveryAddress($deliveryNotes->first()->getDeliveryAddress());
         }
+        $installmentCollectionDocumentType = null;
+        if (3 === $saleInvoice->getSeries()->getId()) {
+            $installmentCollectionDocumentType = $this->em->getRepository(CollectionDocumentType::class)->find(10);
+            $saleInvoice->setCollectionDocumentType($installmentCollectionDocumentType);
+        }
         $this->im->createDueDatesFromSaleInvoice($saleInvoice);
         try {
             $this->admin->getModelManager()->create($saleInvoice);
             foreach ($deliveryNotes as $deliveryNote) {
                 $deliveryNote->setSaleInvoice($saleInvoice);
                 $deliveryNote->setIsInvoiced(true);
+                if ($installmentCollectionDocumentType) {
+                    $deliveryNote->setCollectionDocument($installmentCollectionDocumentType);
+                }
                 $this->admin->getModelManager()->update($deliveryNote);
             }
 

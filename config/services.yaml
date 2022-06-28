@@ -265,6 +265,9 @@ services:
     app.vehicle_maintenance_manager:
         class: App\Manager\VehicleMaintenanceManager
         arguments: [ '@app.vehicle_maintenance_repository']
+    app.operator_work_register_header_manager:
+        class: App\Manager\OperatorWorkRegisterHeaderManager
+#        arguments: [ '@app.operator_work_register_header_repository']
     # Transformers
     app.locations_transformer:
         class: App\Transformer\LocationsTransformer
