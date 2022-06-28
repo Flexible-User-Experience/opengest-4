@@ -348,7 +348,7 @@ class SaleInvoicePdfManager
             // disable auto-page-break
             $pdf->SetAutoPageBreak(false, 0);
             // set background image
-            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/Invoice_template.png');
+            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/Invoice_template_modif.png');
             $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
             // restore auto-page-break status
             $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
