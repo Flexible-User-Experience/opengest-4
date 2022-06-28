@@ -112,6 +112,26 @@ class OperatorWorkRegisterHeaderXlsManager
                     ->setCellValue('P' . $i, $detailedHours['extraHours']);
                 $i++;
         }
+            $i++;
+            $totalHours = $this->operatorWorkRegisterHeaderManager->getTotalsFromDifferentWorkRegisterHeaders($workRegisterHeaders);
+            $activeSheet
+                ->setCellValue('A' . $i, 'TOTAL')
+                ->setCellValue('B' . $i, $totalHours['displacement'])
+                ->setCellValue('C' . $i, $totalHours['waiting'])
+                ->setCellValue('D' . $i, '')
+                ->setCellValue('E' . $i, $totalHours['overNight'])
+                ->setCellValue('F' . $i, $totalHours['exitExtra'])
+                ->setCellValue('G' . $i, '')
+                ->setCellValue('H' . $i, $totalHours['extraHours'])
+                ->setCellValue('I' . $i, $totalHours['lunch'] + $totalHours['dinner'])
+                ->setCellValue('J' . $i, $totalHours['diet'])
+                ->setCellValue('K' . $i, $totalHours['lunchInt'] + $totalHours['dinnerInt'])
+                ->setCellValue('L' . $i, $totalHours['dietInt'])
+                ->setCellValue('M' . $i, $totalHours['normalHours'])
+                ->setCellValue('N' . $i, $totalHours['negativeHours'])
+                ->setCellValue('O' . $i, $totalHours['normalHours'] - $totalHours['negativeHours'])
+                ->setCellValue('P' . $i, $totalHours['extraHours']);
+            $i++;
             $prices = $this->operatorWorkRegisterHeaderManager->getPricesForOperator($operator);
             $activeSheet
                 ->setCellValue('A' . $i, 'PRECIO')
@@ -129,6 +149,64 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('M' . $i, $prices['normalHourPrice'])
                 ->setCellValue('N' . $i, $prices['negativeHourPrice'])
                 ->setCellValue('P' . $i, $prices['extraHourPrice']);
+
+            $i++;
+            $activeSheet
+                ->setCellValue('A' . $i, 'TOTAL')
+                ->setCellValue('B' . $i, $totalHours['displacement']*$prices['normalHourPrice'])
+                ->setCellValue('C' . $i, $totalHours['waiting']*$prices['normalHourPrice'])
+                ->setCellValue('D' . $i, '')
+                ->setCellValue('E' . $i, $totalHours['overNight']*$prices['overNightPrice'])
+                ->setCellValue('F' . $i, $totalHours['exitExtra']*$prices['exitExtraPrice'])
+                ->setCellValue('G' . $i, '')
+                ->setCellValue('H' . $i, $totalHours['extraHours']*$prices['extraHourPrice'])
+                ->setCellValue('I' . $i, $totalHours['lunch']*$prices['lunchPrice'])
+                ->setCellValue('J' . $i, $totalHours['diet']*$prices['dietPrice'])
+                ->setCellValue('K' . $i, $totalHours['lunchInt']*$prices['lunchIntPrice'])
+                ->setCellValue('L' . $i, $totalHours['dietInt']*$prices['dietIntPrice'])
+                ->setCellValue('M' . $i, $prices['normalHourPrice'])
+                ->setCellValue('N' . $i, $prices['negativeHourPrice'])
+                ->setCellValue('P' . $i, $prices['extraHourPrice']);
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'TOTAL VARIS')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'PRIMA NUCLEAR')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'PRIMA TM')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'TOTAL')
+                ->setCellValue('B'.$i, '');
+            $i = $i+5;
+            $activeSheet
+                ->setCellValue('A'.$i, 'DESPLAÇAMENT')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'ESPERA')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'RETEN')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'PERNOCTA')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'CARRETERA')
+                ->setCellValue('B'.$i, '');
+            $i++;
+            $activeSheet
+                ->setCellValue('A'.$i, 'EXTRA')
+                ->setCellValue('B'.$i, '');
 
             $spreadsheet->createSheet();
             $x++;

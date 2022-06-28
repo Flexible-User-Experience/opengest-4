@@ -34,6 +34,7 @@ class OperatorWorkRegisterHeaderManager
             }
         }
 
+        return $detailedHours;
     }
 
     public function getTotalsFromWorkRegisterHeader(OperatorWorkRegisterHeader  $workRegisterHeader): array
