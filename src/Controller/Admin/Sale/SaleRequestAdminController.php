@@ -213,6 +213,9 @@ class SaleRequestAdminController extends BaseAdminController
         if ($saleRequest->getOperator()) {
             $deliveryNote->setOperator($saleRequest->getOperator());
         }
+        if ($saleRequest->getPartner()->getPartnerDeliveryAddresses()->first()) {
+            $deliveryNote->setDeliveryAddress($saleRequest->getPartner()->getPartnerDeliveryAddresses()->first());
+        }
         $deliveryNote->setCollectionDocument($partner->getCollectionDocumentType());
         $deliveryNote->setCollectionTerm($partner->getCollectionTerm1());
         $deliveryNote->setCollectionTerm2($partner->getCollectionTerm2());

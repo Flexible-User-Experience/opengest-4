@@ -522,7 +522,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'class' => PartnerDeliveryAddress::class,
                         'query_builder' => $this->rm->getPartnerDeliveryAddressRepository()->getFilteredByPartnerSortedByNameQB($this->getSubject()->getPartner()->getId()),
                         'placeholder' => '--- Seleccione una dirección de envio alternativa ---',
-    //                    'choice_label' => 'name',
                     ]
                 )
                 ->end()

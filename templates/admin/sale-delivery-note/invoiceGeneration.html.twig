@@ -5,23 +5,295 @@
     <div class="sonata-ba-form">
         <form role="form" action="{{ path('admin_app_sale_saledeliverynote_generateInvoices') }}" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box box-success">
-                                <div class="box-header">
-                                    <h4 class="box-title">
-                                        Generar facturas de los albaranes
-                                    </h4>
+                <div class="col-md-6">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h4 class="box-title">Filtrar albaranes</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group" id="sonata-ba-field-container-partner">
+                                <label class="control-label" for="partner">
+                                    Cliente
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                    <select class="select2-container" style="width: 100%;" id="partner_selection">
+                                        <option value="0" selected="selected">--- seleccione una opción ---</option>
+                                        {% for partner in partners %}
+                                            <option value="{{ partner.id }}">{{ partner }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
-                                <div class="box-body">
-                                    {{ form(generateInvoicesForm) }}
+                            </div>
+                            <div class="form-group" id="sonata-ba-field-container-order">
+                                <label class="control-label" for="order">
+                                    Pedido
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                    <select class="select2-container" style="width: 100%;" id="order_selection">
+                                        <option value="0" selected="selected">--- seleccione una opción ---</option>
+                                        {% for order in orders %}
+                                            <option value="{{ order.id }}">{{ order }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="form-group" id="sonata-ba-field-container-buildingSite">
+                                <label class="control-label" for="buildingSite">
+                                    Obra
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                    <select class="select2-container" style="width: 100%;" id="buildingSite_selection">
+                                        <option value="0" selected="selected">--- seleccione una opción ---</option>
+                                        {% for buildingSite in buildingSites %}
+                                            <option value="{{ buildingSite.id }}">{{ buildingSite }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="sonata-ba-field-container-custom_date_from">
+                                <label class="control-label" for="custom_date_from">
+                                    Desde
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                    <div class="input-group">
+                                        <div class="input-group date" id="dp_custom_date_from">
+                                            <input type="text"
+                                                   id="custom_date_from"
+                                                   name="custom_date_from"
+                                                   class="sonata-medium-date form-control"
+                                                   data-date-format="DD/MM/YYYY"
+                                            >
+                                            <span class="input-group-addon">
+                                            <span class="fa-calendar fa"></span>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" id="sonata-ba-field-container-custom_date_to">
+                                <label class="control-label" for="custom_date_to">
+                                    Hasta
+                                </label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                    <div class="input-group">
+                                        <div class="input-group date" id="dp_custom_date_to">
+                                            <input type="text"
+                                                   id="custom_date_to"
+                                                   name="custom_date_to"
+                                                   class="sonata-medium-date form-control"
+                                                   data-date-format="DD/MM/YYYY"
+                                            >
+                                            <span class="input-group-addon">
+                                            <span class="fa-calendar fa"></span>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <span class="help-block sonata-ba-field-widget-help sonata-ba-field-help"></span>
+                                </div>
+                            </div>
+                            <div id="sonata-ba-field-container-delivery_note_number" class="form-group">
+                                <label class="  control-label" for="delivery_note_number">Número albarán</label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                    <input type="number" id="delivery_note_number" name="delivery_note_number" class=" form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="filter_button" name="filter_button" class="btn btn-primary no-m-bottom btn" style="margin-bottom: -15px" onclick="updateDeliveryNoteTable(false)">
+                                    Filtrar
+                                </button>
+                                <button type="button" id="filter_button" name="filter_button" class="btn btn-primary no-m-bottom btn" style="margin-bottom: -15px" onclick="selectAll()">
+                                    Seleccionar todos*
+                                </button>
+                                <p3>* puede ser lento con una selección grande</p3>
+                            </div>
+                            <div class="form-group">
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h4 class="box-title">
+                                Generar facturas de los albaranes
+                            </h4>
+                        </div>
+                        <div class="box-body">
+                            <div id="selected_delivery_notes_div" class="form-group">
+                                <label class="  control-label" for="selected_delivery_notes">Albaranes seleccionados</label>
+                                <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                                    <input type="text" id="selected_delivery_notes" name="selected_delivery_notes" class=" form-control" disabled>
+                                </div>
+                            </div>
+                            {{ form(generateInvoicesForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="customerDeliveryNotes">
                 </div>
             </div>
         </form>
     </div>
 {% endblock sonata_admin_content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script type="text/javascript">
+
+      jQuery(document).ready(function() {
+            updateDeliveryNoteTable(true);
+        });
+
+      function updateDeliveryNoteTable(first) {
+        const saleDeliveryNoteSelect = jQuery("#app_generate_sale_invoices_saleDeliveryNotes");
+        saleDeliveryNoteSelect.parent().attr('hidden', true);
+        jQuery("#customerDeliveryNotes").empty();
+        let partnerId = jQuery("#partner_selection").val();
+        let fromDate = jQuery("#custom_date_from").val();
+        let toDate = jQuery("#custom_date_to").val();
+        let deliveryNoteNumber = jQuery("#delivery_note_number").val();
+        let orderId = jQuery("#order_selection").val();
+        let buildingSiteId = jQuery("#buildingSite_selection").val();
+        let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
+        let selectedDeliveryNotes = jQuery("#selected_delivery_notes");
+        jQuery.get(Routing.generate(
+          'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters',
+          {
+            partnerId: partnerId,
+            fromDate: fromDate,
+            toDate: toDate,
+            deliveryNoteNumber: deliveryNoteNumber,
+            orderId: orderId,
+            buildingSiteId: buildingSiteId
+          }
+        ), function () {
+        }).done(function (response) {
+            let partners = Object.values(JSON.parse(response.partners));
+            let deliveryNotes = JSON.parse(response.deliveryNotes);
+            partners.forEach(function (partner) {
+              createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false), currentSelection);
+            });
+          jQuery(".delivery-note_id").each( function () {
+            let checkBoxInput = jQuery(this);
+            checkBoxInput.on('change', function () {
+              let currentSelection = saleDeliveryNoteSelect.select2('data').map((element) => element.id );
+              if (this.checked) {
+                if (!currentSelection.includes(this.id)) {
+                  currentSelection.push(this.id);
+                }
+              } else {
+                if (currentSelection.includes(this.id)) {
+                  currentSelection = currentSelection.filter((value) => value !== this.id);
+                }
+              }
+              saleDeliveryNoteSelect.select2().val(currentSelection)
+              saleDeliveryNoteSelect.select2().trigger('change.select2');
+              selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '));
+            });
+          });
+        });
+        selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '))
+        if (!first) {
+          saleDeliveryNoteSelect.select2().val(null).trigger('change.select2');
+          selectedDeliveryNotes.val('');
+        }
+      }
+
+      function createPartnerBox(partner, deliveryNotes, currentSelection) {
+        let partnerHtml = `
+          <div class="box box-success">
+            <div class="box-header">
+              <h4 class="box-title">${partner.name}</h4>
+            </div>
+            <div class="box-body">
+              <table class="table table-bordered table-hover sonata-ba-list">
+                <thead>
+                <tr>
+                  <th style="width:5%">Facturar</th>
+                  <th style="width:5%">Número</th>
+                  <th style="width:5%">Fecha</th>
+                  <th style="width:10%">Vehículo</th>
+                  <th style="width:25%">Obra</th>
+                  <th style="width:25%">Pedido</th>
+                  <th style="width:10%">Forma de Pago</th>
+                  <th style="width:10%">Plazo de Cobro</th>
+                  <th style="width:5%">Importe</th>
+                </tr>
+                </thead>
+                <tbody>`
+            ;
+        let deliveryNoteLines = '';
+        deliveryNotes.forEach((deliveryNote) => {
+          let newDeliveryNoteLine = `
+                <tr>
+                  <td>
+                    <input type="checkbox" id="${deliveryNote.id}" class="iCheck-helper delivery-note_id customer_${partner.id}" ${currentSelection.includes(deliveryNote.id.toString()) ? 'checked=checked' : ''}>
+                  </td>
+                  <td>${deliveryNote.id}</td>
+                  <td>${deliveryNote.dateToString}</td>
+                  <td>${deliveryNote.vehicle.name}</td>
+                  <td>${deliveryNote.buildingSite ? deliveryNote.buildingSite.name : '-'}</td>
+                  <td>${deliveryNote.order? deliveryNote.order.number : '-'}</td>
+                  <td>${deliveryNote.collectionDocument.name}</td>
+                  <td>${deliveryNote.collectionTerm}</td>
+                  <td>${deliveryNote.baseTotalWithDiscounts} €</td>
+                </tr>
+          `;
+          deliveryNoteLines = deliveryNoteLines + newDeliveryNoteLine;
+        });
+        partnerHtml = partnerHtml + deliveryNoteLines + `
+                </tbody>
+              </table>
+            </div>
+            </div>
+        `;
+        jQuery("#customerDeliveryNotes").append(partnerHtml);
+      }
+
+      function selectAll() {
+        jQuery(".delivery-note_id").each( function () {
+          jQuery(this).not(this.checked).prop('checked', true).trigger('change');
+        });
+      }
+
+      const dateTimePickerParameters = {
+        "pickTime": false,
+        "pickDate": true,
+        "useCurrent": true,
+        "minDate": "1\/1\/1900",
+        "maxDate": null,
+        "showToday": true,
+        "language": "es",
+        "defaultDate": "",
+        "disabledDates": [],
+        "enabledDates": [],
+        "icons": {
+          "time": "fa fa-clock-o",
+          "date": "fa fa-calendar",
+          "up": "fa fa-chevron-up",
+          "down": "fa fa-chevron-down"
+        },
+        "useStrict": false,
+        "sideBySide": false,
+        "daysOfWeekDisabled": [],
+        "collapse": true,
+        "calendarWeeks": false,
+        "viewMode": "days",
+        "minViewMode": "days",
+        "useSeconds": false
+      };
+
+      jQuery(function ($) {
+        $('#dp_custom_date_from').datetimepicker(dateTimePickerParameters);
+      });
+      jQuery(function ($) {
+        $('#dp_custom_date_to').datetimepicker(dateTimePickerParameters);
+      });
+    </script>
+{% endblock %}

@@ -16,3 +16,4 @@ fos_js_routing:
         - 'admin_app_partner_client_checkIfCifNifIsUsedInAnotherPartners'
         - 'admin_app_operator_operatorworkregister_customChangeDeliveryNote'
         - 'admin_app_partner_client_checkIfPartnerIsBlocked'
+        - 'admin_app_sale_saledeliverynote_getJsonDeliveryNotesByParameters'

@@ -5,14 +5,16 @@ namespace App\Controller\Admin;
 use App\Manager\DeliveryNoteManager;
 use App\Manager\EnterpriseHolidayManager;
 use App\Manager\InvoiceManager;
-use App\Manager\Pdf\OperatorCheckingPdfManager;
 use App\Manager\Pdf\DocumentationPdfManager;
+use App\Manager\Pdf\OperatorCheckingPdfManager;
 use App\Manager\Pdf\PaymentReceiptPdfManager;
 use App\Manager\Pdf\PayslipPdfManager;
 use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Manager\Pdf\SaleInvoicePdfManager;
 use App\Manager\Pdf\VehicleCheckingPdfManager;
 use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
+use App\Manager\VehicleMaintenanceManager;
+use App\Manager\Xls\OperatorWorkRegisterHeaderXlsManager;
 use App\Manager\Xml\PayslipXmlManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
@@ -41,6 +43,8 @@ abstract class BaseAdminController extends Controller
 
     protected WorkRegisterHeaderPdfManager $wrhpm;
 
+    protected OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager;
+
     protected PayslipPdfManager $ppm;
 
     protected PayslipXmlManager $pxm;
@@ -53,6 +57,8 @@ abstract class BaseAdminController extends Controller
 
     protected VehicleCheckingPdfManager $vehicleCheckingPdfManager;
 
+    protected VehicleMaintenanceManager $vehicleMaintenanceManager;
+
     protected EnterpriseHolidayManager $enterpriseHolidayManager;
 
     protected ManagerRegistry $em;
@@ -62,11 +68,13 @@ abstract class BaseAdminController extends Controller
                                 SaleDeliveryNotePdfManager $sdnpm,
                                 SaleInvoicePdfManager $sipm,
                                 WorkRegisterHeaderPdfManager $wrhpm,
+                                OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
                                 PayslipPdfManager $ppm,
                                 PayslipXmlManager $pxm,
                                 OperatorCheckingPdfManager $operatorCheckingPdfManager,
-                                DocumentationPdfManager   $documentationPdfManager,
+                                DocumentationPdfManager $documentationPdfManager,
                                 VehicleCheckingPdfManager $vehicleCheckingPdfManager,
+                                VehicleMaintenanceManager $vehicleMaintenanceManager,
                                 ManagerRegistry $managerRegistry,
                                 EnterpriseHolidayManager $enterpriseHolidayManager,
                                 PaymentReceiptPdfManager $paymentReceiptPdfManager)
@@ -76,11 +84,13 @@ abstract class BaseAdminController extends Controller
         $this->sdnpm = $sdnpm;
         $this->sipm = $sipm;
         $this->wrhpm = $wrhpm;
+        $this->operatorWorkRegisterHeaderXlsManager = $operatorWorkRegisterHeaderXlsManager;
         $this->ppm = $ppm;
         $this->pxm = $pxm;
         $this->operatorCheckingPdfManager = $operatorCheckingPdfManager;
         $this->documentationPdfManager = $documentationPdfManager;
         $this->vehicleCheckingPdfManager = $vehicleCheckingPdfManager;
+        $this->vehicleMaintenanceManager = $vehicleMaintenanceManager;
         $this->em = $managerRegistry;
         $this->enterpriseHolidayManager = $enterpriseHolidayManager;
         $this->paymentReceiptPdfManager = $paymentReceiptPdfManager;
