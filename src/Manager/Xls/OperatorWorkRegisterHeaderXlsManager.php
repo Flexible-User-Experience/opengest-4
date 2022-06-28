@@ -51,6 +51,9 @@ class OperatorWorkRegisterHeaderXlsManager
 
     private function buildXls(Spreadsheet $spreadsheet, $operatorWorkRegisterHeaders, $from, $to)
     {
+        usort($operatorWorkRegisterHeaders, function (OperatorWorkRegisterHeader $a, OperatorWorkRegisterHeader $b) {
+            return strcasecmp($a->getOperator()->getSurname1(), $b->getOperator()->getSurname1());
+        });
         $operatorsFromWorkRegisterHeaders = [];
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($operatorWorkRegisterHeaders as $workRegisterHeader) {
@@ -67,7 +70,8 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setTitle($operator->getSurname1())
                 ->setCellValue('A1', 'NOM: ')
                 ->setCellValue('B1', $operator->getFullName())
-                ->setCellValue('B2', 'PERIODE: ' . $from . ' A ' . $to)
+                ->setCellValue('A2', 'PERIODE:')
+                ->setCellValue('B2', $from. ' A ' . $to)
                 ->setCellValue('A5', 'DIA')
                 ->setCellValue('B5', 'DESPL')
                 ->setCellValue('C5', 'ESPERA')
@@ -82,14 +86,14 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('L5', 'DIETA I')
                 ->setCellValue('M5', 'H.Norm')
                 ->setCellValue('N5', 'H.Neg')
-                ->setCellValue('N5', 'H.Norm - H.Neg')
-                ->setCellValue('N5', 'H.Extra');
-            $activeSheet
-                ->getStyle('A5:L5')
-                ->getBorders()
-                ->getAllBorders()
-                ->setBorderStyle(Border::BORDER_THIN);
+                ->setCellValue('O5', 'H.Norm - H.Neg')
+                ->setCellValue('P5', 'H.Extra');
+
+            usort($workRegisterHeaders, function ($a, $b) {
+                return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
+            });
             $i = 6;
+            $workingDays = 28;
             /** @var OperatorWorkRegisterHeader $workRegisterHeader */
             foreach ($workRegisterHeaders as $workRegisterHeader) {
                 $detailedHours = $this->operatorWorkRegisterHeaderManager->getTotalsFromWorkRegisterHeader($workRegisterHeader);
@@ -108,30 +112,73 @@ class OperatorWorkRegisterHeaderXlsManager
                     ->setCellValue('L' . $i, $detailedHours['dietInt'])
                     ->setCellValue('M' . $i, $detailedHours['normalHours'])
                     ->setCellValue('N' . $i, $detailedHours['negativeHours'])
-                    ->setCellValue('O' . $i, $detailedHours['normalHours'] - $detailedHours['negativeHours'])
+                    ->setCellValue('O' . $i, $detailedHours['normalHours'] + $detailedHours['negativeHours'])
                     ->setCellValue('P' . $i, $detailedHours['extraHours']);
+
+                $otherAmounts = 0;
+                /** @var OperatorWorkRegister $workRegister */
+                foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
+                    if (
+                        !str_contains($workRegister->getDescription(), 'Hora laboral') &&
+                        !str_contains($workRegister->getDescription(), 'Hora normal') &&
+                        !str_contains($workRegister->getDescription(), 'Hora extra') &&
+                        !str_contains($workRegister->getDescription(), 'Hora negativa') &&
+                        !str_contains($workRegister->getDescription(), 'Comida') &&
+                        !str_contains($workRegister->getDescription(), 'Cena') &&
+                        !str_contains($workRegister->getDescription(), 'Comida internacional') &&
+                        !str_contains($workRegister->getDescription(), 'Cena internacional') &&
+                        !str_contains($workRegister->getDescription(), 'Dieta') &&
+                        !str_contains($workRegister->getDescription(), 'Dieta internacional') &&
+                        !str_contains($workRegister->getDescription(), 'Pernoctación') &&
+                        !str_contains($workRegister->getDescription(), 'Plus carretera') &&
+                        !str_contains($workRegister->getDescription(), 'Salida')
+                    ) {
+                        $activeSheet
+                            ->setCellValue('A53', 'ALTRES CONCEPTES')
+                            ->setCellValue('A54', 'DATA')
+                            ->setCellValue('B54', 'CONCEPTE')
+                            ->setCellValue('C54', 'IMPORT')
+                            ->setCellValue('A55', $workRegisterHeader->getDateFormatted())
+                            ->setCellValue('B55', $workRegister->getDescription())
+                            ->setCellValue('C55', $workRegister->getAmount());
+                    }
+                }
                 $i++;
-        }
-            $i++;
+            }
+            $activeSheet
+                ->getStyle('A5:L33')
+                ->getBorders()
+                ->getAllBorders()
+                ->setBorderStyle(Border::BORDER_THIN);
+
+            $column = 'A';
+            while($column < 'L')
+            {
+                $activeSheet
+                    ->getColumnDimension($column)
+                    ->setAutoSize(TRUE);
+                $column ++;
+            }
+            $i=$workingDays+6;
             $totalHours = $this->operatorWorkRegisterHeaderManager->getTotalsFromDifferentWorkRegisterHeaders($workRegisterHeaders);
             $activeSheet
                 ->setCellValue('A' . $i, 'TOTAL')
-                ->setCellValue('B' . $i, $totalHours['displacement'])
-                ->setCellValue('C' . $i, $totalHours['waiting'])
-                ->setCellValue('D' . $i, '')
-                ->setCellValue('E' . $i, $totalHours['overNight'])
-                ->setCellValue('F' . $i, $totalHours['exitExtra'])
-                ->setCellValue('G' . $i, '')
-                ->setCellValue('H' . $i, $totalHours['extraHours'])
-                ->setCellValue('I' . $i, $totalHours['lunch'] + $totalHours['dinner'])
-                ->setCellValue('J' . $i, $totalHours['diet'])
-                ->setCellValue('K' . $i, $totalHours['lunchInt'] + $totalHours['dinnerInt'])
-                ->setCellValue('L' . $i, $totalHours['dietInt'])
-                ->setCellValue('M' . $i, $totalHours['normalHours'])
-                ->setCellValue('N' . $i, $totalHours['negativeHours'])
-                ->setCellValue('O' . $i, $totalHours['normalHours'] - $totalHours['negativeHours'])
-                ->setCellValue('P' . $i, $totalHours['extraHours']);
-            $i++;
+                ->setCellValue('B' . $i, '=SUM(B6:B33)')
+                ->setCellValue('C' . $i, '=SUM(C6:C33)')
+                ->setCellValue('D' . $i, '=SUM(D6:D33)')
+                ->setCellValue('E' . $i, '=SUM(E6:E33)')
+                ->setCellValue('F' . $i, '=SUM(F6:F33)')
+                ->setCellValue('G' . $i, '=SUM(G6:G33)')
+                ->setCellValue('H' . $i, '=SUM(H6:H33)')
+                ->setCellValue('I' . $i, '=SUM(I6:I33)')
+                ->setCellValue('J' . $i, '=SUM(J6:J33)')
+                ->setCellValue('K' . $i, '=SUM(K6:K33)')
+                ->setCellValue('L' . $i, '=SUM(L6:L33)')
+                ->setCellValue('M' . $i, '=SUM(M6:M33)')
+                ->setCellValue('N' . $i, '=SUM(N6:N33)')
+                ->setCellValue('O' . $i, '=SUM(O6:O33)')
+                ->setCellValue('P' . $i, '=SUM(P6:P33)');
+            $i=$workingDays+6+1;
             $prices = $this->operatorWorkRegisterHeaderManager->getPricesForOperator($operator);
             $activeSheet
                 ->setCellValue('A' . $i, 'PRECIO')
@@ -150,92 +197,68 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('N' . $i, $prices['negativeHourPrice'])
                 ->setCellValue('P' . $i, $prices['extraHourPrice']);
 
-            $i++;
+            $i=$workingDays+6+2;
             $activeSheet
                 ->setCellValue('A' . $i, 'TOTAL')
-                ->setCellValue('B' . $i, $totalHours['displacement']*$prices['normalHourPrice'])
-                ->setCellValue('C' . $i, $totalHours['waiting']*$prices['normalHourPrice'])
-                ->setCellValue('D' . $i, '')
-                ->setCellValue('E' . $i, $totalHours['overNight']*$prices['overNightPrice'])
-                ->setCellValue('F' . $i, $totalHours['exitExtra']*$prices['exitExtraPrice'])
-                ->setCellValue('G' . $i, '')
-                ->setCellValue('H' . $i, $totalHours['extraHours']*$prices['extraHourPrice'])
-                ->setCellValue('I' . $i, $totalHours['lunch']*$prices['lunchPrice'])
-                ->setCellValue('J' . $i, $totalHours['diet']*$prices['dietPrice'])
-                ->setCellValue('K' . $i, $totalHours['lunchInt']*$prices['lunchIntPrice'])
-                ->setCellValue('L' . $i, $totalHours['dietInt']*$prices['dietIntPrice'])
-                ->setCellValue('M' . $i, $prices['normalHourPrice'])
-                ->setCellValue('N' . $i, $prices['negativeHourPrice'])
-                ->setCellValue('P' . $i, $prices['extraHourPrice']);
-            $i++;
+                ->setCellValue('B' . $i, '=B34*B35')
+                ->setCellValue('C' . $i, '=C34*C35')
+                ->setCellValue('D' . $i, '=D34*D35')
+                ->setCellValue('E' . $i, '=E34*E35')
+                ->setCellValue('F' . $i, '=F34*F35')
+                ->setCellValue('G' . $i, '=G34*G35')
+                ->setCellValue('H' . $i, '=H34*H35')
+                ->setCellValue('I' . $i, '=I34*I35')
+                ->setCellValue('J' . $i, '=J34*J35')
+                ->setCellValue('K' . $i, '=K34*K35')
+                ->setCellValue('L' . $i, '=L34*L35')
+                ->setCellValue('M' . $i, '=M34*M35')
+                ->setCellValue('N' . $i, '=N34*N35')
+                ->setCellValue('P' . $i, '=O34*O35');
+            $i=$workingDays+6+4;
             $activeSheet
                 ->setCellValue('A'.$i, 'TOTAL VARIS')
                 ->setCellValue('B'.$i, '');
-            $i++;
+            $i=$workingDays+6+5;
             $activeSheet
                 ->setCellValue('A'.$i, 'PRIMA NUCLEAR')
                 ->setCellValue('B'.$i, '');
-            $i++;
+            $i=$workingDays+6+6;
             $activeSheet
                 ->setCellValue('A'.$i, 'PRIMA TM')
                 ->setCellValue('B'.$i, '');
-            $i++;
+            $i = $workingDays+6+7;
             $activeSheet
                 ->setCellValue('A'.$i, 'TOTAL')
-                ->setCellValue('B'.$i, '');
-            $i = $i+5;
+                ->setCellValue('B'.$i, '=SUM(B36:L36)+B38+B39+B40');
+            $i = $workingDays+6+11;
             $activeSheet
                 ->setCellValue('A'.$i, 'DESPLAÇAMENT')
-                ->setCellValue('B'.$i, '');
+                ->setCellValue('B'.$i, '=B36');
             $i++;
             $activeSheet
                 ->setCellValue('A'.$i, 'ESPERA')
-                ->setCellValue('B'.$i, '');
+                ->setCellValue('B'.$i, '=C36');
             $i++;
             $activeSheet
                 ->setCellValue('A'.$i, 'RETEN')
-                ->setCellValue('B'.$i, '');
+                ->setCellValue('B'.$i, '=D36');
             $i++;
             $activeSheet
                 ->setCellValue('A'.$i, 'PERNOCTA')
-                ->setCellValue('B'.$i, '');
+                ->setCellValue('B'.$i, '=E36');
             $i++;
             $activeSheet
                 ->setCellValue('A'.$i, 'CARRETERA')
-                ->setCellValue('B'.$i, '');
+                ->setCellValue('B'.$i, '=G36');
             $i++;
             $activeSheet
                 ->setCellValue('A'.$i, 'EXTRA')
-                ->setCellValue('B'.$i, '');
+                ->setCellValue('B'.$i, '=H36');
 
             $spreadsheet->createSheet();
             $x++;
-        }
 
-//        $activeSheet = $spreadsheet->getActiveSheet();
-//        $activeSheet
-//            ->setTitle('Informe horas Hoja 1')
-//            ->setCellValue('A1', 'Informe horas')
-//        ;
-//        // Create new sheet
-//        $sheet2 = $spreadsheet->createSheet()
-//            ->setTitle('Informe Hoja 2')
-//            ->setCellValue('B2', $from)
-//        ;
-//        //Example of iteration
-//        $sheet2
-//            ->setCellValue('B3', 'Fecha')
-//            ->setCellValue('C3', 'Horas')
-//            ;
-//        $i = 4;
-//        /** @var OperatorWorkRegisterHeader $operatorWorkRegisterHeader */
-//        foreach ($operatorWorkRegisterHeaders as $operatorWorkRegisterHeader) {
-//            $sheet2
-//                ->setCellValue('B'.$i, $operatorWorkRegisterHeader->getDate())
-//                ->setCellValue('C'.$i, $operatorWorkRegisterHeader->getHours())
-//                ;
-//            ++$i;
-//        }
+        }
 
         return $spreadsheet;
     }

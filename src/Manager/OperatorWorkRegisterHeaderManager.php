@@ -9,7 +9,6 @@ class OperatorWorkRegisterHeaderManager
 {
     public function getTotalsFromDifferentWorkRegisterHeaders($workRegisterHeaders)
     {
-        //TODO test function
         $detailedHours = [
             'normalHours' => 0,
             'extraHours' => 0,
@@ -89,7 +88,6 @@ class OperatorWorkRegisterHeaderManager
         ];
     }
 
-
     private function getDetailedHoursFromWorkRegister(OperatorWorkRegister $workRegister): array
     {
         $detailedHours = [
@@ -115,6 +113,9 @@ class OperatorWorkRegisterHeaderManager
         }
         if (str_contains($workRegister->getDescription(), 'Espera')) {
             $detailedHours['waiting'] = $workRegister->getUnits();
+        }
+        if (str_contains($workRegister->getDescription(), 'PRIMA')) {
+            $detailedHours['prima'] = $workRegister->getUnits();
         }
         if (str_contains($workRegister->getDescription(), 'Hora normal')) {
             $detailedHours['normalHours'] = $workRegister->getUnits();
