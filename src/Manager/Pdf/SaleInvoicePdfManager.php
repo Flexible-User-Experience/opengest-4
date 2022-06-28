@@ -176,14 +176,15 @@ class SaleInvoicePdfManager
         //deliveryNoteInfo
         $hasIva0 = false;
         if ($withBackground) {
-            $YDim = 110;
-            $col1 = 32;
-            $col2 = 46;
-            $col3 = 122;
-            $col4 = 140;
-            $col5 = 160;
-            $col6 = 168;
-            $col7 = 194;
+            $YDim = 108;
+            $col1 = 32 - 6;
+            $col2 = 46 - 5;
+            $col3 = 122 + 2;
+            $col4 = 140 + 3;
+            $col5 = 160 + 5;
+            $col6 = 168 + 9;
+            $col7 = 194 + 8;
+
         } else {
             $YDim = 110 - 5;
             $col1 = 32 - 6;
@@ -348,7 +349,7 @@ class SaleInvoicePdfManager
             // disable auto-page-break
             $pdf->SetAutoPageBreak(false, 0);
             // set background image
-            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/Invoice_template_modif.png');
+            $img_file = $this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/Invoice_template_new.png');
             $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
             // restore auto-page-break status
             $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
@@ -366,8 +367,9 @@ class SaleInvoicePdfManager
         //Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8.5);
         if ($withBackground) {
-            $xVar = 26;
-            $yVarStart = 249;
+            $xVar = 26 - 4;
+            $yVarStart = 249 + 6;
+
         } else {
             $xVar = 26 - 4;
             $yVarStart = 249 + 5;
@@ -465,7 +467,7 @@ class SaleInvoicePdfManager
 
         //Final amount
         if ($withBackground) {
-            $xVar3 = 156;
+            $xVar3 = 156+6;
         } else {
             $xVar3 = 156 + 3;
         }
@@ -520,7 +522,7 @@ class SaleInvoicePdfManager
         //page number
         $this->pdfEngineService->setStyleSize('', 9);
         if ($withBackground) {
-            $pdf->setXY(40, 275);
+            $pdf->setXY(40, 275+7);
         } else {
             $pdf->setXY(40, 275 + 5);
         }
@@ -536,8 +538,8 @@ class SaleInvoicePdfManager
         //Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8.5);
         if ($withBackground) {
-            $xVar = 26;
-            $yVarStart = 249;
+            $xVar = 26-4;
+            $yVarStart = 249+5;
         } else {
             $xVar = 26 - 4;
             $yVarStart = 249 + 5;
@@ -571,7 +573,7 @@ class SaleInvoicePdfManager
         //Final amount
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 10);
         if ($withBackground) {
-            $xVar3 = 156;
+            $xVar3 = 156+6;
         } else {
             $xVar3 = 156 + 3;
         }
@@ -583,7 +585,7 @@ class SaleInvoicePdfManager
         //page number
         $this->pdfEngineService->setStyleSize('', 9);
         if ($withBackground) {
-            $pdf->setXY(40, 275);
+            $pdf->setXY(40, 275+7);
         } else {
             $pdf->setXY(40, 275 + 5);
         }
@@ -598,7 +600,7 @@ class SaleInvoicePdfManager
         if ($withBackground) {
             $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 7);
             $pdf->SetAbsX(26);
-            $pdf->MultiCell(168, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->MultiCell(175, ConstantsEnum::PDF_CELL_HEIGHT,
                 'GRÚAS ROMANÍ, S.A. es el Responsable de Tratamiento de sus datos de acuerdo a lo dispuesto en el RGPD y la LOPDGDD y los tratan con la finalidad de mantener una relación comercial con usted. Los datos se conservarán mientras se mantenga dicha relación y una vez acabada, durante 4,5,6 y 10 años debidamente bloqueados en cumplimiento de la normativa de aplicación. Así mismo, le informamos que tiene derecho a solicitar el acceso, rectificación, portabilidad y supresión de sus datos y la limitación y oposición a su tratamiento dirigiéndose a CTRA. SANTA BARBARA KM. 1,5 AMPOSTA (TARRAGONA) o enviando un correo electrónico a info@gruasromani.com, junto con una fotocopia de su DNI o documento análogo en derecho, indicando el tipo de derecho que quiere ejercer. Para cualquier reclamación puede acudir ante la AEPD desde el sitio web www.aepd.es.', 0, 'C', false);
         } else {
             $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'I', 7);
@@ -612,8 +614,8 @@ class SaleInvoicePdfManager
     {
         //Heading with sending address
         if ($withBackground) {
-            $xDim = 32;
-            $pdf->setXY($xDim, 55);
+            $xDim = 32-8;
+            $pdf->setXY($xDim, 55-7);
         } else {
             $xDim = 32 - 8;
             $pdf->setXY($xDim, 55 - 7);
@@ -661,10 +663,15 @@ class SaleInvoicePdfManager
 
         //Heading with date, invoice number, etc.
         if ($withBackground) {
+//            $xVar = 125;
+//            $xVar2 = 163;
+//            $yVarStart = 54;
+//            $incrY = 15;
+//            $cellwidth = 33;
             $xVar = 125;
-            $xVar2 = 163;
-            $yVarStart = 54;
-            $incrY = 15;
+            $xVar2 = 163 + 3;
+            $yVarStart = 50;
+            $incrY = 15.5;
             $cellwidth = 33;
         } else {
             $xVar = 125;
