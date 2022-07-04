@@ -184,7 +184,6 @@ class SaleInvoicePdfManager
             $col5 = 160 + 5;
             $col6 = 168 + 9;
             $col7 = 194 + 8;
-
         } else {
             $YDim = 110 - 5;
             $col1 = 32 - 6;
@@ -369,7 +368,6 @@ class SaleInvoicePdfManager
         if ($withBackground) {
             $xVar = 26 - 4;
             $yVarStart = 249 + 6;
-
         } else {
             $xVar = 26 - 4;
             $yVarStart = 249 + 5;
@@ -467,7 +465,7 @@ class SaleInvoicePdfManager
 
         //Final amount
         if ($withBackground) {
-            $xVar3 = 156+6;
+            $xVar3 = 156 + 6;
         } else {
             $xVar3 = 156 + 3;
         }
@@ -522,7 +520,7 @@ class SaleInvoicePdfManager
         //page number
         $this->pdfEngineService->setStyleSize('', 9);
         if ($withBackground) {
-            $pdf->setXY(40, 275+7);
+            $pdf->setXY(40, 275 + 7);
         } else {
             $pdf->setXY(40, 275 + 5);
         }
@@ -538,8 +536,8 @@ class SaleInvoicePdfManager
         //Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8.5);
         if ($withBackground) {
-            $xVar = 26-4;
-            $yVarStart = 249+5;
+            $xVar = 26 - 4;
+            $yVarStart = 249 + 5;
         } else {
             $xVar = 26 - 4;
             $yVarStart = 249 + 5;
@@ -573,7 +571,7 @@ class SaleInvoicePdfManager
         //Final amount
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 10);
         if ($withBackground) {
-            $xVar3 = 156+6;
+            $xVar3 = 156 + 6;
         } else {
             $xVar3 = 156 + 3;
         }
@@ -585,7 +583,7 @@ class SaleInvoicePdfManager
         //page number
         $this->pdfEngineService->setStyleSize('', 9);
         if ($withBackground) {
-            $pdf->setXY(40, 275+7);
+            $pdf->setXY(40, 275 + 7);
         } else {
             $pdf->setXY(40, 275 + 5);
         }
@@ -614,8 +612,8 @@ class SaleInvoicePdfManager
     {
         //Heading with sending address
         if ($withBackground) {
-            $xDim = 32-8;
-            $pdf->setXY($xDim, 55-7);
+            $xDim = 32 - 8;
+            $pdf->setXY($xDim, 55 - 7);
         } else {
             $xDim = 32 - 8;
             $pdf->setXY($xDim, 55 - 7);
@@ -669,7 +667,7 @@ class SaleInvoicePdfManager
 //            $incrY = 15;
 //            $cellwidth = 33;
             $xVar = 125;
-            $xVar2 = 163 + 3;
+            $xVar2 = 163 + 5;
             $yVarStart = 50;
             $incrY = 15.5;
             $cellwidth = 33;
@@ -690,8 +688,8 @@ class SaleInvoicePdfManager
                 $saleInvoice->getInvoiceNumber(),
                 0, 0, 'C', false);
         } else {
-            $pdf->setXY($xVar2 - 5, $yVarStart);
-            $pdf->Cell($cellwidth, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->setXY($xVar2 - 2, $yVarStart);
+            $pdf->Cell($cellwidth + 2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $saleInvoice->getSeries()->getPrefix().$saleInvoice->getInvoiceNumber(),
                 0, 0, 'C', false);
         }
