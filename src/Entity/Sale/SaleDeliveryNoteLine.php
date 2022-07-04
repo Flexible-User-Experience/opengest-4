@@ -16,15 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
 class SaleDeliveryNoteLine extends AbstractBase
 {
     /**
-     * @var SaleDeliveryNote
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleDeliveryNoteLines")
      */
     private SaleDeliveryNote $deliveryNote;
 
     /**
-     * @var SaleItem
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleItem", inversedBy="saleDeliveryNoteLines")
      */
     private SaleItem $saleItem;
@@ -32,21 +28,21 @@ class SaleDeliveryNoteLine extends AbstractBase
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float", nullable=true, scale=4)
      */
     private $units;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", scale=4)
      */
     private $priceUnit;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float", nullable=true, scale=4)
      */
     private $total;
 
@@ -102,19 +98,11 @@ class SaleDeliveryNoteLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return SaleItem
-     */
     public function getSaleItem(): SaleItem
     {
         return $this->saleItem;
     }
 
-    /**
-     * @param SaleItem $saleItem
-     *
-     * @return SaleDeliveryNoteLine
-     */
     public function setSaleItem(SaleItem $saleItem): SaleDeliveryNoteLine
     {
         $this->saleItem = $saleItem;
@@ -262,34 +250,26 @@ class SaleDeliveryNoteLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getTotalWithAllDiscounts(): float
     {
         $saleInvoice = $this->getDeliveryNote()->getSaleInvoice();
-        $totalWithDeliveryNoteDiscount = $this->getTotal()*(1-$this->getDeliveryNote()->getDiscount()/100);
+        $totalWithDeliveryNoteDiscount = $this->getTotal() * (1 - $this->getDeliveryNote()->getDiscount() / 100);
         if ($saleInvoice) {
-            $totalWithAllDiscounts = $totalWithDeliveryNoteDiscount*(1-$saleInvoice->getDiscount()/100);
+            $totalWithAllDiscounts = $totalWithDeliveryNoteDiscount * (1 - $saleInvoice->getDiscount() / 100);
         } else {
             $totalWithAllDiscounts = $totalWithDeliveryNoteDiscount;
         }
+
         return $totalWithAllDiscounts;
     }
 
-    /**
-     * @return float
-     */
     public function getIvaAmount(): float
     {
-        return $this->getTotalWithAllDiscounts()*($this->getIva()/100);
+        return $this->getTotalWithAllDiscounts() * ($this->getIva() / 100);
     }
 
-    /**
-     * @return float
-     */
     public function getIrpfAmount(): float
     {
-        return $this->getTotalWithAllDiscounts()*($this->getIrpf()/100);
+        return $this->getTotalWithAllDiscounts() * ($this->getIrpf() / 100);
     }
 }
