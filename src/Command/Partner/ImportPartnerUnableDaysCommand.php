@@ -3,6 +3,8 @@
 namespace App\Command\Partner;
 
 use App\Command\AbstractBaseCommand;
+use App\Entity\Enterprise\Enterprise;
+use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerUnableDays;
 use DateTimeImmutable;
 use Exception;
@@ -58,8 +60,8 @@ class ImportPartnerUnableDaysCommand extends AbstractBaseCommand
             $partnerTaxIdentificationNumber = $this->readColumn(4, $row);
             $enterpriseTaxIdentificationNumber = $this->readColumn(5, $row);
             $output->writeln('#'.$rowsRead.' · ID_'.$this->readColumn(0, $row).' · '.$begin->format('d/m').' · '.$end->format('d/m').' · '.$partnerTaxIdentificationNumber.' · '.$enterpriseTaxIdentificationNumber);
-            $enterprise = $this->em->getRepository('App:Enterprise\Enterprise')->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
-            $partner = $this->em->getRepository('App:Partner\Partner')->findOneBy([
+            $enterprise = $this->em->getRepository(Enterprise::class)->findOneBy(['taxIdentificationNumber' => $enterpriseTaxIdentificationNumber]);
+            $partner = $this->em->getRepository(Partner::class)->findOneBy([
                 'cifNif' => $partnerTaxIdentificationNumber,
                 'enterprise' => $enterprise,
             ]);

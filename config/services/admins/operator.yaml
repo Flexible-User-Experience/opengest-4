@@ -1,0 +1,67 @@
+# Operator group
+services:
+    app.admin.operator:
+        class: App\Admin\Operator\OperatorAdmin
+        arguments: [ ~, App\Entity\Operator\Operator, App\Controller\Admin\Operator\OperatorAdminController, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Operario', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [setTemplate, ['edit', 'admin/operator/edit.html.twig']]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator_checking_type:
+        class: App\Admin\Operator\OperatorCheckingTypeAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorCheckingType, ~, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Tipo revisión', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator_checking:
+        class: App\Admin\Operator\OperatorCheckingAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorChecking, App\Controller\Admin\Operator\OperatorCheckingAdminController, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Revisión', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ list, 'admin/operator-checking/list.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator_absence_type:
+        class: App\Admin\Operator\OperatorAbsenceTypeAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorAbsenceType, ~, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Tipo ausencia', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator_absence:
+        class: App\Admin\Operator\OperatorAbsenceAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorAbsence, ~, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Ausencia', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator.digital_tachograph:
+        class: App\Admin\Operator\OperatorDigitalTachographAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorDigitalTachograph, App\Controller\Admin\Operator\OperatorDigitalTachographAdminController, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Tacógrafo', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+#    app.admin.operator.various_amount:
+#        class: App\Admin\Operator\OperatorVariousAmountAdmin
+#        arguments: [ ~, App\Entity\Operator\OperatorVariousAmount, App\Controller\Admin\Operator\OperatorVariousAmountAdminController, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, label: 'Importes varios', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+    app.admin.operator_work_register_header:
+        class: App\Admin\Operator\OperatorWorkRegisterHeaderAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorWorkRegisterHeader,  App\Controller\Admin\Operator\OperatorWorkRegisterHeaderAdminController, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Partes de trabajo', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ edit, 'admin/operator-work-register-header/edit.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator_work_register:
+        class: App\Admin\Operator\OperatorWorkRegisterAdmin
+        arguments: [ ~, App\Entity\Operator\OperatorWorkRegister,  App\Controller\Admin\Operator\OperatorWorkRegisterAdminController, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Partes de trabajo líneas', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+            - [ setTemplate, [ edit, 'admin/operator-work-register/edit.html.twig' ] ]

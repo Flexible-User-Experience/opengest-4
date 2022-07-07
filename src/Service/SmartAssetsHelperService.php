@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Enum\ConstantsEnum;
 use Symfony\Component\Asset\UrlPackage;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
@@ -14,9 +15,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class SmartAssetsHelperService
 {
-    /**
-     * @var KernelInterface
-     */
     private KernelInterface $kernel;
 
     /**
@@ -27,15 +25,10 @@ class SmartAssetsHelperService
     /**
      * Methods.
      */
-
-    /**
-     * @param KernelInterface $kernel
-     * @param string          $mub
-     */
-    public function __construct(KernelInterface $kernel, $mub)
+    public function __construct(KernelInterface $kernel, ContainerBagInterface $containerBag)
     {
         $this->kernel = $kernel;
-        $this->mub = $mub;
+        $this->mub = $containerBag->get('mailer_url_base');
     }
 
     /**
