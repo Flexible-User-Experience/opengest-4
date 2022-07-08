@@ -26,8 +26,6 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="front_homepage")
      *
-     * @param ServiceRepository $sr
-     *
      * @return Response
      */
     public function indexAction(ServiceRepository $sr)
@@ -39,18 +37,15 @@ class DefaultController extends AbstractController
         /** @var Service|null $servicePA */
         $servicePA = $sr->findOneBy(['slug' => 'plataformas-aereas-sobre-camion']);
 
-        return $this->render('frontend/homepage.html.twig', array(
+        return $this->render('frontend/homepage.html.twig', [
             'serviceGC' => $serviceGC,
             'serviceGH' => $serviceGH,
             'servicePA' => $servicePA,
-        ));
+        ]);
     }
 
     /**
      * @Route("/empresa", name="front_company")
-     *
-     * @param Request             $request
-     * @param NotificationService $ns
      *
      * @return Response
      *
@@ -82,9 +77,9 @@ class DefaultController extends AbstractController
             }
         }
 
-        return $this->render('frontend/company.html.twig', array(
+        return $this->render('frontend/company.html.twig', [
             'contactForm' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -114,8 +109,6 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test-email", name="front_test_email")
      *
-     * @param VehicleCheckingRepository $vcr
-     *
      * @return Response
      *
      * @throws HttpException
@@ -127,11 +120,10 @@ class DefaultController extends AbstractController
             throw new HttpException(403);
         }
         $entities = $vcr->getItemsInvalidByEnabledVehicle();
-//        $contact = $this->getDoctrine()->getRepository('App:ContactMessage')->find(223);
 
-        return $this->render(':Mails:vehicles_checking_invalid_admin_notification.html.twig', array(
+        return $this->render(':Mails:vehicles_checking_invalid_admin_notification.html.twig', [
             'entities' => $entities,
             'show_devel_top_bar' => true,
-        ));
+        ]);
     }
 }

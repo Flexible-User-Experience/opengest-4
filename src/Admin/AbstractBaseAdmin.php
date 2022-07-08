@@ -71,15 +71,9 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     /**
      * Methods.
      */
-
-    /**
-     * @param string $code
-     * @param string $class
-     * @param string $baseControllerName
-     */
-    public function __construct($code, $class, $baseControllerName, CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder)
     {
-        parent::__construct($code, $class, $baseControllerName);
+        parent::__construct();
         $this->vus = $fs->getUhs();
         $this->lis = $lis;
         $this->ycm = $ycm;

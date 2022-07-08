@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": ">=7.4.0",
+        "php": ">=8.0",
         "ext-calendar": "*",
         "ext-ctype": "*",
         "ext-fileinfo": "*",
@@ -10,9 +10,7 @@
         "ext-json": "*",
         "beberlei/doctrineextensions": "^1.0",
         "beelab/recaptcha2-bundle": "^2.3",
-        "composer/package-versions-deprecated": "1.11.99.4",
         "doctrine/annotations": "^1.0",
-        "doctrine/common": "^3.0",
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.7",
@@ -37,7 +35,7 @@
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/expression-language": "5.4.*",
-        "symfony/flex": "^1.3.1",
+        "symfony/flex": "^2.2",
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
         "symfony/http-client": "5.4.*",
@@ -48,6 +46,7 @@
         "symfony/property-access": "5.4.*",
         "symfony/property-info": "5.4.*",
         "symfony/proxy-manager-bridge": "5.4.*",
+        "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
         "symfony/serializer": "5.4.*",
         "symfony/string": "^5.3",
@@ -82,7 +81,10 @@
         "sort-packages": true,
         "allow-plugins": {
             "symfony/flex": true,
-            "setasign/composer-ioncube-license-installer": true
+            "setasign/composer-ioncube-license-installer": true,
+            "symfony/runtime": true,
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
         }
     },
     "autoload": {
@@ -96,12 +98,8 @@
         }
     },
     "replace": {
-        "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
+        "symfony/polyfill-iconv": "*"
     },
     "scripts": {
         "auto-scripts": {

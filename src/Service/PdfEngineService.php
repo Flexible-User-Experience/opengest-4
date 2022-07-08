@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Enum\ConstantsEnum;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use TCPDF;
 
 /**
@@ -14,54 +15,30 @@ use TCPDF;
  */
 class PdfEngineService
 {
-    /**
-     * @var TCPDF
-     */
     private TCPDF $engine;
 
-    /**
-     * @var SmartAssetsHelperService
-     */
     private SmartAssetsHelperService $sahs;
 
-    /**
-     * @var string
-     */
     private string $author;
 
-    /**
-     * @var string
-     */
     private string $subject;
 
     /**
      * Methods.
      */
-
-    /**
-     * @param SmartAssetsHelperService $sahs
-     * @param string                   $author
-     * @param string                   $subject
-     */
-    public function __construct(SmartAssetsHelperService $sahs, $author, $subject)
+    public function __construct(SmartAssetsHelperService $sahs, ContainerBagInterface $containerBag)
     {
         $this->engine = new TCPDF();
         $this->sahs = $sahs;
-        $this->author = $author;
-        $this->subject = $subject;
+        $this->author = $containerBag->get('mailer_url_base');
+        $this->subject = $containerBag->get('project_admin_title');
     }
 
-    /**
-     * @return TCPDF|null
-     */
     public function getEngine(): ?TCPDF
     {
         return $this->engine;
     }
 
-    /**
-     * @return SmartAssetsHelperService|null
-     */
     public function getSmartAssetsHelper(): ?SmartAssetsHelperService
     {
         return $this->sahs;
