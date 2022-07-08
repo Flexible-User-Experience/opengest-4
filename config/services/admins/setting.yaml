@@ -2,36 +2,36 @@
 services:
     app.admin.province:
         class: App\Admin\Setting\ProvinceAdmin
-        arguments: [ ~, App\Entity\Setting\Province, ~, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Província', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\Province, controller: ~, manager_type: orm, label: 'Província', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
     app.admin.city:
         class: App\Admin\Setting\CityAdmin
-        arguments: [ ~, App\Entity\Setting\City, ~, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Ciudad', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\City, controller: ~, manager_type: orm, label: 'Ciudad', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
     app.admin.user:
         class: App\Admin\Setting\UserAdmin
-        arguments: [ ~, App\Entity\Setting\User, App\Controller\Admin\Setting\UserAdminController , '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Usuario', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\User, controller: App\Controller\Admin\Setting\UserAdminController, manager_type: orm, label: 'Usuario', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
     app.admin.sale_invoice_series:
         class: App\Admin\Setting\SaleInvoiceSeriesAdmin
-        arguments: [ ~, App\Entity\Setting\SaleInvoiceSeries, ~, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Series factura', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\SaleInvoiceSeries, controller: ~, manager_type: orm, label: 'Series factura', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
     app.admin.time_range:
         class: App\Admin\Setting\TimeRangeAdmin
-        arguments: [ ~, App\Entity\Setting\TimeRange, ~, '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Franjas horarias', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\TimeRange, controller: ~, manager_type: orm, label: 'Franjas horarias', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
