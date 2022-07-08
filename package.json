@@ -1,26 +1,5 @@
 {
     "devDependencies": {
-        "@symfony/stimulus-bridge": "^2.1.0",
-        "@symfony/webpack-encore": "^1.6.0",
-        "bootstrap-less": "^3.3.8",
-        "core-js": "^3.0.0",
-        "file-loader": "^6.0.0",
-        "font-awesome": "^4.7.0",
-        "less": "^3.11.1",
-        "less-loader": "^10.0.0",
-        "regenerator-runtime": "^0.13.2",
-        "stimulus": "^2.0.0",
-        "webpack-notifier": "^1.6.0"
-    },
-    "license": "UNLICENSED",
-    "private": true,
-    "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
-    },
-    "dependencies": {
         "@fullcalendar/bootstrap": "^4.3.0",
         "@fullcalendar/core": "^4.3.1",
         "@fullcalendar/daygrid": "^4.3.0",
@@ -28,11 +7,31 @@
         "@fullcalendar/interaction": "^4.3.0",
         "@fullcalendar/list": "^4.3.0",
         "@fullcalendar/timegrid": "^4.3.0",
+        "@hotwired/stimulus": "^3.0.0",
+        "@symfony/stimulus-bridge": "^3.0.0",
+        "@symfony/webpack-encore": "^2.1",
+        "bootstrap-less": "^3.3.8",
         "ckeditor4": "^4.11.0",
+        "core-js": "^3.0.0",
         "dropzone": "^5.5.1",
+        "file-loader": "^6.0.0",
+        "font-awesome": "^4.7.0",
         "google-charts": "^2.0.0",
         "jquery": "^3.5.1",
+        "less": "^3.11.1",
+        "less-loader": "^10.0.0",
         "moment": "^2.25.3",
-        "pdfjs-dist": "^2.2.228"
-    }
+        "pdfjs-dist": "2.12.313",
+        "regenerator-runtime": "^0.13.2",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "PROPRIETARY",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {}
 }
