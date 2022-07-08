@@ -3,12 +3,12 @@
         "version": "v1.2.6"
     },
     "beelab/recaptcha2-bundle": {
-        "version": "2.0",
+        "version": "2.6",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "2.0",
-            "ref": "246da6d0e345e9ab6773dd2f46c8a138e2527ef6"
+            "ref": "ad714d23c3c754619d9f2e1bd7b621c0d6185165"
         },
         "files": [
             "config/packages/beelab_recaptcha2.yaml"
