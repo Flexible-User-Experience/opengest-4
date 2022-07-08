@@ -25,3 +25,37 @@ doctrine:
                 year:        DoctrineExtensions\Query\Mysql\Year
                 date:        DoctrineExtensions\Query\Mysql\Date
                 date_format: DoctrineExtensions\Query\Mysql\DateFormat
+
+when@test:
+    doctrine:
+        dbal:
+            driver: 'pdo_sqlite'
+        orm:
+            dql:
+                string_functions:
+                    concat_ws: DoctrineExtensions\Query\Sqlite\ConcatWs
+                datetime_functions:
+                    day: DoctrineExtensions\Query\Sqlite\Day
+                    month: DoctrineExtensions\Query\Sqlite\Month
+                    year: DoctrineExtensions\Query\Sqlite\Year
+                    date: DoctrineExtensions\Query\Sqlite\Date
+                    date_format: DoctrineExtensions\Query\Sqlite\DateFormat
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system
