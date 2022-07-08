@@ -3,12 +3,12 @@
         "version": "v1.2.6"
     },
     "beelab/recaptcha2-bundle": {
-        "version": "2.0",
+        "version": "2.6",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "2.0",
-            "ref": "246da6d0e345e9ab6773dd2f46c8a138e2527ef6"
+            "ref": "ad714d23c3c754619d9f2e1bd7b621c0d6185165"
         },
         "files": [
             "config/packages/beelab_recaptcha2.yaml"
@@ -16,9 +16,6 @@
     },
     "behat/transliterator": {
         "version": "v1.3.0"
-    },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.4"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -51,31 +48,30 @@
         "version": "v0.5.3"
     },
     "doctrine/doctrine-bundle": {
-        "version": "2.0",
+        "version": "2.7",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "a9f2463b9f73efe74482f831f03a204a41328555"
+            "branch": "main",
+            "version": "2.4",
+            "ref": "ddddd8249dd55bbda16fa7a45bb7499ef6f8e90e"
         },
         "files": [
             "config/packages/doctrine.yaml",
-            "config/packages/prod/doctrine.yaml",
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
-        "version": "1.2",
+        "version": "3.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.2",
-            "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
+            "branch": "main",
+            "version": "3.1",
+            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
         },
         "files": [
             "config/packages/doctrine_migrations.yaml",
-            "src/Migrations/.gitignore"
+            "migrations/.gitignore"
         ]
     },
     "doctrine/event-manager": {
@@ -115,12 +111,12 @@
         "version": "v1.0.3"
     },
     "friendsofsymfony/ckeditor-bundle": {
-        "version": "2.0",
+        "version": "2.4",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "2.0",
-            "ref": "8eb1cd0962ded6a6d6e1e5a9b6d3e888f9f94ff6"
+            "ref": "f5ad42002183a6881962683e6d84bbb25cdfce5d"
         },
         "files": [
             "config/packages/fos_ckeditor.yaml"
@@ -142,28 +138,27 @@
         "version": "v2.4.39"
     },
     "google/recaptcha": {
-        "version": "1.1",
+        "version": "1.2",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "1.1",
-            "ref": "d087df3e087f50da3955f2def05079380da5894b"
+            "ref": "e5a4aa21f2e98d7440ae9aab6b56e307f99dd084"
         },
         "files": [
             "config/packages/google_recaptcha.yaml"
         ]
     },
     "hautelook/alice-bundle": {
-        "version": "2.1",
+        "version": "2.11",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.1",
-            "ref": "71822522faf7ed2792d86b7f94ce73443358ccb9"
+            "branch": "main",
+            "version": "2.2",
+            "ref": "c84e4f2b9d7f436d7d52e8369230b393367607ec"
         },
         "files": [
-            "config/packages/dev/hautelook_alice.yaml",
-            "config/packages/test/hautelook_alice.yaml",
+            "config/packages/hautelook_alice.yaml",
             "fixtures/.gitignore"
         ]
     },

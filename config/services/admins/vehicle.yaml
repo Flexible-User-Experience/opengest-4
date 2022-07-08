@@ -1,0 +1,79 @@
+# Sonata Admin
+services:
+# Vehicle group
+    app.admin.vehicle:
+        class: App\Admin\Vehicle\VehicleAdmin
+        arguments: [  '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\Vehicle, controller: App\Controller\Admin\Vehicle\VehicleAdminController, manager_type: orm, label: 'Vehículo', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ edit, 'admin/vehicle/edit.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle_category:
+        class: App\Admin\Vehicle\VehicleCategoryAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleCategory, controller: ~, manager_type: orm, label: 'Categoría Vehículo', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle_checking_type:
+        class: App\Admin\Vehicle\VehicleCheckingTypeAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleCheckingType, controller: ~, manager_type: orm, label: 'Tipo revisión', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle_checking:
+        class: App\Admin\Vehicle\VehicleCheckingAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleChecking, controller: App\Controller\Admin\Vehicle\VehicleCheckingAdminController, manager_type: orm, label: 'Revisión', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ list, 'admin/vehicle-checking/list.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle.digital_tachograph:
+        class: App\Admin\Vehicle\VehicleDigitalTachographAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleDigitalTachograph, controller: App\Controller\Admin\Vehicle\VehicleDigitalTachographAdminController, manager_type: orm, label: 'Tacógrafo', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle.consumption:
+        class: App\Admin\Vehicle\VehicleConsumptionAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleConsumption, controller: App\Controller\Admin\Vehicle\VehicleConsumptionAdminController, manager_type: orm, label: 'Consumos de combustible', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ list, 'admin/vehicle-consumption/list.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle_fuel:
+        class: App\Admin\Vehicle\VehicleFuelAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleFuel, controller: ~, manager_type: orm, label: 'Combustible', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle.maintenance_task:
+        class: App\Admin\Vehicle\VehicleMaintenanceTaskAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleMaintenanceTask, controller: ~, manager_type: orm, label: 'Procesos de taller', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ edit, 'admin/vehicle-maintenance-task/edit.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle.maintenance:
+        class: App\Admin\Vehicle\VehicleMaintenanceAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleMaintenance, controller: App\Controller\Admin\Vehicle\VehicleMaintenanceAdminController, manager_type: orm, label: 'Mantenimientos de vehículo', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ list, 'admin/vehicle-maintenance/list.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.vehicle.special_permit:
+        class: App\Admin\Vehicle\VehicleSpecialPermitAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleSpecialPermit, controller: App\Controller\Admin\Vehicle\VehicleSpecialPermitAdminController, manager_type: orm, label: 'Permisos especiales', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ list, 'admin/vehicle-special-permit/list.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]

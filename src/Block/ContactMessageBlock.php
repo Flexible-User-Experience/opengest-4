@@ -2,6 +2,7 @@
 
 namespace App\Block;
 
+use App\Entity\Web\ContactMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
@@ -24,7 +25,7 @@ class ContactMessageBlock extends AbstractBlockService
         // merge settings
         $settings = $blockContext->getSettings();
 
-        $pendingMessagesAmount = $this->em->getRepository('App:Web\ContactMessage')->getPendingMessagesAmount();
+        $pendingMessagesAmount = $this->em->getRepository(ContactMessage::class)->getPendingMessagesAmount();
 
         $backgroundColor = 'bg-green';
         $content = '<h3><i class="fa fa-check-circle-o" aria-hidden="true"></i></h3><p>Tots els missatges de contacte estan contestats</p>';
@@ -40,23 +41,23 @@ class ContactMessageBlock extends AbstractBlockService
 
         return $this->renderResponse(
             $blockContext->getTemplate(),
-            array(
+            [
                 'block' => $blockContext->getBlock(),
                 'settings' => $settings,
                 'title' => 'Notificacions',
                 'background' => $backgroundColor,
                 'content' => $content,
-            ),
+            ],
             $response
         );
     }
 
     public function configureSettings(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'title' => 'Resum',
             'content' => 'Default content',
             'template' => 'admin/block/contact_message.html.twig',
-        ));
+        ]);
     }
 }

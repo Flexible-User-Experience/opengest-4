@@ -1,4 +1,5 @@
 import '../css/frontend.less';
+import jQuery from 'jquery';
 import '../../node_modules/bootstrap-less/js/bootstrap.min';
 
 jQuery(document).ready(function() {

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
@@ -11,28 +12,17 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
  */
 class FileService
 {
-    /**
-     * @var UploaderHelper
-     */
     private UploaderHelper $uhs;
 
-    /**
-     * @var string
-     */
-    private string $krd;
+    private ContainerBagInterface $containerBag;
 
     /**
      * Methods.
      */
-
-    /**
-     * @param UploaderHelper $uhs
-     * @param string         $krd
-     */
-    public function __construct(UploaderHelper $uhs, $krd)
+    public function __construct(UploaderHelper $uhs, ContainerBagInterface $containerBag)
     {
         $this->uhs = $uhs;
-        $this->krd = $krd;
+        $this->containerBag = $containerBag;
     }
 
     /**
@@ -52,7 +42,7 @@ class FileService
     public function getMimeType($entity, $attribute)
     {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $path = $this->krd.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'public'.$this->uhs->asset($entity, $attribute);
+        $path = $this->containerBag->get('kernel.project_dir').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'public'.$this->uhs->asset($entity, $attribute);
         $mimeType = finfo_file($finfo, $path);
         finfo_close($finfo);
 

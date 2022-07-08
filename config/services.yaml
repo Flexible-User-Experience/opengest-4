@@ -1,13 +1,12 @@
 imports:
-    - { resource: 'services/repositories.yml' }
-    - { resource: 'services/admins/enterprise.yml' }
-    - { resource: 'services/admins/operator.yml' }
-    - { resource: 'services/admins/partner.yml' }
-    - { resource: 'services/admins/payslip.yml' }
-    - { resource: 'services/admins/sale.yml' }
-    - { resource: 'services/admins/setting.yml' }
-    - { resource: 'services/admins/vehicle.yml' }
-    - { resource: 'services/admins/web.yml' }
+    - { resource: 'services/admins/enterprise.yaml' }
+    - { resource: 'services/admins/operator.yaml' }
+    - { resource: 'services/admins/partner.yaml' }
+    - { resource: 'services/admins/payslip.yaml' }
+    - { resource: 'services/admins/sale.yaml' }
+    - { resource: 'services/admins/setting.yaml' }
+    - { resource: 'services/admins/vehicle.yaml' }
+    - { resource: 'services/admins/web.yaml' }
 
 parameters:
     default_locale:            '%env(string:DEFAULT_LOCALE)%'
@@ -28,121 +27,54 @@ services:
         autowire:      true
         autoconfigure: true
         bind:
-            $defaultLocale:    '%default_locale%'
-            $project_url_base: '%project_url_base%'
-            $krb:              '%kernel.project_dir%'
             $amd:              '%mailer_destination%'
             $urlBase:          '%mailer_url_base%'
             $commandName:      ~
     App\:
-        resource: '../src/*'
-        exclude:  '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
-    App\Controller\:
-        resource: '../src/Controller'
-        tags: ['controller.service_arguments']
-    # Pdf
-    app.pdf_engine:
-        class: App\Service\PdfEngineService
-        arguments: [ '@app.smart_assets_helper_service', '%mailer_url_base%', '%project_admin_title%' ]
-#    app.sale_request_pdf_manager:
-    App\Manager\Pdf\SaleRequestPdfManager:
-        class: App\Manager\Pdf\SaleRequestPdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.sale_delivery_note_pdf_manager:
-    App\Manager\Pdf\SaleDeliveryNotePdfManager:
-        class: App\Manager\Pdf\SaleDeliveryNotePdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.sale_invoice_pdf_manager:
-    App\Manager\Pdf\SaleInvoicePdfManager:
-        class: App\Manager\Pdf\SaleInvoicePdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.payslip_pdf_manager:
-    App\Manager\Pdf\PayslipPdfManager:
-        class: App\Manager\Pdf\PayslipPdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.vehicle_maintenance_pdf_manager:
-    App\Manager\Pdf\VehicleMaintenancePdfManager:
-        class: App\Manager\Pdf\VehicleMaintenancePdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.vehicle_checking_pdf_manager:
-    App\Manager\Pdf\VehicleCheckingPdfManager:
-        class: App\Manager\Pdf\VehicleCheckingPdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.vehicle_special_permit_pdf_manager:
-    App\Manager\Pdf\VehicleSpecialPermitPdfManager:
-        class: App\Manager\Pdf\VehicleSpecialPermitPdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.operator_checking_pdf_manager:
-    App\Manager\Pdf\OperatorCheckingPdfManager:
-        class: App\Manager\Pdf\OperatorCheckingPdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.operator_documentation_pdf_manager:
-    App\Manager\Pdf\OperatorDocumentationPdfManager:
-        class: App\Manager\Pdf\OperatorDocumentationPdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.work_register_header_pdf_manager:
-    App\Manager\Pdf\WorkRegisterHeaderPdfManager:
-        class: App\Manager\Pdf\WorkRegisterHeaderPdfManager
-        arguments: [ '@app.pdf_engine' ]
-#    app.payment_receipt_pdf_manager:
-    App\Manager\Pdf\PaymentReceiptPdfManager:
-        class: App\Manager\Pdf\PaymentReceiptPdfManager
-        arguments: [ '@app.pdf_engine' ]
-    # Messaging
-    app.courier:
-        class: App\Service\CourierService
-        arguments: [ '@mailer.mailer' ]
-    app.notification:
-        class: App\Service\NotificationService
-        arguments:
-            $amd: '%mailer_destination%'
-            $urlBase: '%mailer_url_base%'
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
     # Menu
     app.frontend_menu_builder:
         class: App\Menu\FrontendMenuBuilder
-        arguments: [ '@knp_menu.factory', '@security.authorization_checker', '@security.token_storage', '@app.vehicle_category_repository', '@app.service_repository', '@app.work_repository', '@app.complement_repository', '@router' ]
+        arguments: [ '@knp_menu.factory', '@security.authorization_checker', '@security.token_storage', '@App\Repository\Vehicle\VehicleCategoryRepository', '@App\Repository\Web\ServiceRepository', '@App\Repository\Web\WorkRepository', '@App\Repository\Web\ComplementRepository', '@router' ]
     app.frontend_top_menu:
         class: Knp\Menu\MenuItem
-        factory: [ '@app.frontend_menu_builder', createTopMenu ]
+        factory: [ '@App\Menu\FrontendMenuBuilder', createTopMenu ]
         arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: top }
     app.frontend_vehicle_category_menu:
         class: Knp\Menu\MenuItem
-        factory: [ '@app.frontend_menu_builder', createVehicleCategoryMenu ]
+        factory: [ '@App\Menu\FrontendMenuBuilder', createVehicleCategoryMenu ]
         arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: vehicle_category }
     app.frontend_service_menu:
         class: Knp\Menu\MenuItem
-        factory: [ '@app.frontend_menu_builder', createServiceMenu ]
+        factory: [ '@App\Menu\FrontendMenuBuilder', createServiceMenu ]
         arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: service }
     app.frontend_footer_menu:
         class: Knp\Menu\MenuItem
-        factory: [ '@app.frontend_menu_builder', createFooterMenu ]
+        factory: [ '@App\Menu\FrontendMenuBuilder', createFooterMenu ]
         arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: footer }
     app.frontend_sitemap_menu:
         class: Knp\Menu\MenuItem
-        factory: [ '@app.frontend_menu_builder', createSitemapMenu ]
+        factory: [ '@App\Menu\FrontendMenuBuilder', createSitemapMenu ]
         arguments: [ '@request_stack' ]
         tags:
             - { name: knp_menu.menu, alias: sitemap }
     # Sitemap
     app.sitemap:
         class: App\Listener\SitemapListener
-        arguments: [ '@app.frontend_menu_builder' ]
+        arguments: [ '@App\Menu\FrontendMenuBuilder' ]
         tags: [ { name: 'presta.sitemap.listener' } ]
-    # Twig
-#    app.twig_extension:
-#        class: App\Twig\AppExtension
-#        public: true
-#        arguments: [ '@router', '@vich_uploader.templating.helper.uploader_helper', '@liip_imagine.cache.manager', '@app.contact_message_repository' ]
-#        tags:
-#            - { name: twig.extension }
     # Block
     app.block.contact_message:
         class: App\Block\ContactMessageBlock
@@ -151,136 +83,56 @@ services:
             - { name: sonata.block }
     app.block.vehicle_checking:
         class: App\Block\VehicleCheckingBlock
-        arguments: [ '@twig', '@app.vehicle_checking_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Vehicle\VehicleCheckingRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.vehicle_maintenance:
         class: App\Block\VehicleMaintenanceBlock
-        arguments: [ '@twig', '@app.vehicle_maintenance_repository']
+        arguments: [ '@twig', '@App\Repository\Vehicle\VehicleMaintenanceRepository']
         tags:
             - { name: sonata.block }
     app.block.operator_checking:
         class: App\Block\OperatorCheckingBlock
-        arguments: [ '@twig', '@app.operator_checking_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Operator\OperatorCheckingRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.operator_absence:
         class: App\Block\OperatorAbsenceBlock
-        arguments: [ '@twig', '@app.operator_absence_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Operator\OperatorAbsenceRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_today:
         class: App\Block\SaleRequestTodayBlock
-        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Sale\SaleRequestRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_tomorrow:
         class: App\Block\SaleRequestTomorrowBlock
-        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Sale\SaleRequestRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_next:
         class: App\Block\SaleRequestNextBlock
-        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Sale\SaleRequestRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_status_pending:
         class: App\Block\SaleRequestStatusPendingBlock
-        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Sale\SaleRequestRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_status_in_process:
         class: App\Block\SaleRequestStatusInProcessBlock
-        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Sale\SaleRequestRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.sale_request_status_to_be_approved_or_to_settle_on:
         class: App\Block\SaleRequestStatusToBeApprovedOrToSettleOnBlock
-        arguments: [ '@twig', '@app.sale_request_repository', '@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Sale\SaleRequestRepository', '@security.token_storage' ]
         tags:
             - { name: sonata.block }
     app.block.operator_work_register_creation:
         class: App\Block\OperatorWorkRegisterCreationBlock
-        arguments: [ '@twig', '@app.operator_repository', '@app.sale_delivery_note_repository','@security.token_storage' ]
+        arguments: [ '@twig', '@App\Repository\Operator\OperatorRepository', '@App\Repository\Sale\SaleDeliveryNoteRepository','@security.token_storage' ]
         tags:
             - { name: sonata.block }
-    # File
-    app.file_service:
-        class: App\Service\FileService
-        arguments: [ '@Vich\UploaderBundle\Templating\Helper\UploaderHelper', '%kernel.project_dir%' ]
-    app.smart_assets_helper_service:
-        class: App\Service\SmartAssetsHelperService
-        arguments: [ '@kernel', '%mailer_url_base%' ]
-    # Guard
-    app.guard_service:
-        public: true
-        class: App\Service\GuardService
-        arguments: [ '@security.authorization_checker' ]
-    # Form
-    app.form_user_default_enterprise:
-        class: App\Form\Type\UserDefaultEnterpriseFormType
-        arguments: [ '@doctrine.orm.entity_manager', '@security.token_storage' ]
-        tags:
-            - { name: form.type }
-    # Voters
-    app.voter_enterprise:
-        class: App\Security\EnterpriseVoter
-        tags:
-            - { name: security.voter }
-        public: false
-    app.voter_operator:
-        class: App\Security\OperatorVoter
-        tags:
-            - { name: security.voter }
-        public: false
-    app.voter_operator_checking:
-        class: App\Security\OperatorCheckingVoter
-        tags:
-            - { name: security.voter }
-        public: false
-    app.voter_vehicle:
-        class: App\Security\VehicleVoter
-        tags:
-            - { name: security.voter }
-        public: false
-    app.voter_vehicle_checking:
-        class: App\Security\VehicleCheckingVoter
-        tags:
-            - { name: security.voter }
-        public: false
-    app.voter_partner:
-        class: App\Security\PartnerVoter
-        tags:
-            - { name: security.voter }
-        public: false
-    # Managers
-    app.year_choices_manager:
-        class: App\Manager\YearChoicesManager
-    app.invoice_manager:
-        class: App\Manager\InvoiceManager
-        arguments: [ '@app.sale_invoice_repository']
-    app.delivery_note_manager:
-        class: App\Manager\DeliveryNoteManager
-        arguments: [ '@app.sale_delivery_note_repository']
-    app.vehicle_maintenance_manager:
-        class: App\Manager\VehicleMaintenanceManager
-        arguments: [ '@app.vehicle_maintenance_repository']
-    app.operator_work_register_header_manager:
-        class: App\Manager\OperatorWorkRegisterHeaderManager
-#        arguments: [ '@app.operator_work_register_header_repository']
-    # Transformers
-    app.locations_transformer:
-        class: App\Transformer\LocationsTransformer
-    app.dates_transformer:
-        class: App\Transformer\DatesTransformer
-    # Commands
-#    app.import_activity_command:
-#        class: App\Command\Enterprise\ImportActivityLineCsvCommand
-#        arguments:
-#            $name: 'app:import:enterprise:activity:line'
-#            $em: '@doctrine.orm.entity_manager'
-#            $fss: '@filesystem'
-#            $rm: '@app.repositories_manager'
-#            $ns: '@app.notification'
-#            $lts: '@app.locations_transformer'
-#            $dts: '@app.dates_transformer'
