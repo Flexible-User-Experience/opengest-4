@@ -7,7 +7,6 @@
         "ext-ctype": "*",
         "ext-fileinfo": "*",
         "ext-iconv": "*",
-        "ext-json": "*",
         "beberlei/doctrineextensions": "^1.0",
         "beelab/recaptcha2-bundle": "^2.3",
         "doctrine/annotations": "^1.0",
@@ -110,10 +109,6 @@
         "post-install-cmd": [
             "@auto-scripts",
             "local-php-security-checker-installer && local-php-security-checker"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts",
-            "local-php-security-checker"
         ]
     },
     "conflict": {
