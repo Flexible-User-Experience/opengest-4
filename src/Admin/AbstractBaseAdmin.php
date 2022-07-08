@@ -229,6 +229,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
                 'fileAvailable' => $fileAvailable,
                 'isPdf' => $isPdf,
                 'fileName' => $fileName,
+                'fileId' => substr($fileName, 0, -4),
             ]
         );
     }
