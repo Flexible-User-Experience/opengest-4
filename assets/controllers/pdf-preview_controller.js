@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/lib/pdf';
-GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker.entry.js');
+GlobalWorkerOptions.workerSrc = require('../../node_modules/pdfjs-dist/build/pdf.worker.entry.js');
 
 export default class extends Controller {
   static classes = [ 'hidden' ];
