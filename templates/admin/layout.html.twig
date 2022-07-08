@@ -90,13 +90,13 @@
         <div class="modal-dialog modal-lg" role="document">
             <div data-controller="pdf-preview" data-action="app-pdf-preview-button-clicked@window->pdf-preview#update" data-pdf-preview-hidden-class="hidden" class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'backend.admin.modal.close_window' | trans }}"><span aria-hidden="true">&times;</span></button>
-                    <div class="btn-group mr-3" role="group" aria-label="{{ 'backend.admin.modal.pdf_preview_window_title' | trans }}">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'admin.modal.close_window' | trans }}"><span aria-hidden="true">&times;</span></button>
+                    <div class="btn-group mr-3" role="group" aria-label="{{ 'admin.modal.pdf_preview_window_title' | trans }}">
                         <a data-pdf-preview-target="downloader" style="margin-right:3px;" class="btn btn-warning" download><i class="fas fa-cloud-download-alt"></i> {{ 'vich_uploader.link.download' | trans | capitalize }}</a>
                     </div>
-                    <div class="btn-group" role="group" aria-label="{{ 'backend.admin.modal.pdf_preview_window_title' | trans }}">
+                    <div class="btn-group" role="group" aria-label="{{ 'admin.modal.pdf_preview_window_title' | trans }}">
                         <button data-action="pdf-preview#onPrevPage" type="button" class="btn btn-warning"><i class="fas fa-chevron-left"></i></button>
-                        <button type="button" class="btn btn-default">{{ 'backend.admin.modal.pdf_preview_page' | trans }}&nbsp;<span data-pdf-preview-target="current"></span>&nbsp;{{ 'backend.admin.modal.pdf_preview_page_of' | trans }}&nbsp;<span data-pdf-preview-target="total"></span></button>
+                        <button type="button" class="btn btn-default">{{ 'admin.modal.pdf_preview_page' | trans }}&nbsp;<span data-pdf-preview-target="current"></span>&nbsp;{{ 'admin.modal.pdf_preview_page_of' | trans }}&nbsp;<span data-pdf-preview-target="total"></span></button>
                         <button data-action="pdf-preview#onNextPage" type="button" class="btn btn-warning"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>

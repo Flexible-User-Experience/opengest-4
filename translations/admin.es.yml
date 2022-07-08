@@ -11,11 +11,6 @@ admin:
         pending: "Pendientes"
         in_process: "En proceso"
         to_be_approved_or_to_settle_on: "Ofertadas o por concretar"
-    modal:
-        pdf_preview_window_title: "Previsualització PDF"
-        pdf_preview_page: "Pàgina"
-        pdf_preview_page_of: "de"
-        close_window: "Tancar"
     label:
         position: "Posición"
         enabled_male: "Activo"
