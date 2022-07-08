@@ -14,6 +14,11 @@
             <i class="fa fa-cloud-download"></i>
             Descargar
         </a>
+        {% if isPdf %}
+            <a data-controller="pdf-button" data-action="pdf-button#clicked" data-toggle="modal" data-target="#pdf-preview-modal" data-pdf-button-attachment-value="{{ documentSrc }}" data-pdf-button-path-value="{{ documentSrc }}" class="btn btn-warning btn-xs">
+                <i class="fa fa-search"></i>
+            </a>
+        {% endif %}
     {% else %}
         <img src="https://via.placeholder.com/60x60.png?text=?" alt="thumbnail">
     {% endif %}
