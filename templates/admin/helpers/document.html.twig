@@ -1,8 +1,11 @@
 {% block field %}
     {% if fileAvailable %}
         {% if isPdf %}
-{#            TODO View pdf correctly #}
-{#            <canvas id="pdf-{{ object.id }}" class="pdf-canvas"></canvas>#}
+            <div id="{{ fileId }}" data-holder="pdf" data-download="{{ documentSrc }}" class="d-block p-5">
+                <canvas id="pdf-{{ fileId }}" class="pdf-canvas" style="width:100%">
+                    <i class="fa fa-5x fa-spin fa-circle-o-notch" aria-hidden="true"></i>
+                </canvas>
+            </div>
         {% else %}
             <img src="{{ documentSrc }}" alt="No se puede recuperar la imagen" style="height: 150px">
         {% endif %}
@@ -11,6 +14,11 @@
             <i class="fa fa-cloud-download"></i>
             Descargar
         </a>
+        {% if isPdf %}
+            <a data-controller="pdf-button" data-action="pdf-button#clicked" data-toggle="modal" data-target="#pdf-preview-modal" data-pdf-button-attachment-value="{{ documentSrc }}" data-pdf-button-path-value="{{ documentSrc }}" class="btn btn-warning btn-xs">
+                <i class="fa fa-search"></i>
+            </a>
+        {% endif %}
     {% else %}
         <img src="https://via.placeholder.com/60x60.png?text=?" alt="thumbnail">
     {% endif %}
