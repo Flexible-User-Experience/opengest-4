@@ -256,9 +256,9 @@ class OperatorAdminController extends BaseAdminController
                 }
             }
         }
+        $enterpriseDocumentation = [];
         if (array_key_exists('enterpriseDocumentation', $formData)) {
             $enterpriseDocumentIds = $formData['enterpriseDocumentation'];
-            $enterpriseDocumentation = [];
             $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
             foreach ($enterpriseDocumentIds as $enterpriseDocumentId) {
                 $documentName = EnterpriseDocumentsEnum::getName($enterpriseDocumentId);
