@@ -47,7 +47,7 @@ class DocumentationPdfManager
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $today = date('d/m/Y');
         if (count($documents)) {
-            /** @var Operator $operator */
+            /* @var Operator $operator */
             foreach ($entities as $entity) {
                 foreach ($documents[$entity->getId()] as $document) {
                     $this->generateNewPdfPage($pdf, $today, $document);
@@ -64,7 +64,6 @@ class DocumentationPdfManager
     }
 
     /**
-     * @param Fpdi $pdf
      * @param $today
      * @param $document
      *
@@ -76,26 +75,25 @@ class DocumentationPdfManager
      */
     protected function generateNewPdfPage(Fpdi $pdf, $today, $document): void
     {
-        if ('pdf' === $document['fileType']) {
-            $pageCount = $pdf->setSourceFile(StreamReader::createByString($document['content']));
-            for ($pageNumber = 1; $pageNumber <= $pageCount; $pageNumber++) {
+        if ($document['exists']) {
+            if ('pdf' === $document['fileType']) {
+                $pageCount = $pdf->setSourceFile(StreamReader::createByString($document['content']));
+                for ($pageNumber = 1; $pageNumber <= $pageCount; ++$pageNumber) {
+                    $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated']);
+                    $pdfDocumentPage = $pdf->importPage($pageNumber);
+                    $pdf->useImportedPage($pdfDocumentPage, 5, 10, 200);
+                }
+            } elseif (in_array($document['fileType'], ['png', 'jpeg', 'jpg'])) {
                 $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated']);
-                $pdfDocumentPage = $pdf->importPage($pageNumber);
-                $pdf->useImportedPage($pdfDocumentPage, 5, 10, 200);
+                $pdf->setY(15);
+                $pdf->Image('@'.$document['content'], 10, 10, 180);
             }
-        } elseif (in_array($document['fileType'], ['png', 'jpeg', 'jpg'])) {
-            $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated']);
-            $pdf->setY(15);
-            $pdf->Image('@'.$document['content'], 10, 10, 180);
         }
     }
 
     /**
-     * @param Fpdi $pdf
      * @param $today
      * @param $nameTranslated
-     *
-     * @return void
      */
     private function addNewPageAndSetHeaders(Fpdi $pdf, $today, $nameTranslated): void
     {
@@ -109,11 +107,11 @@ class DocumentationPdfManager
         $pdf->setPageMark();
         $pdf->setCellPaddings(1, 1, 1, 1);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Fecha generación: ' . $today . '      ' . $pdf->getAliasNumPage() . '/' . $pdf->getAliasNbPages(),
+            'Fecha generación: '.$today.'      '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
             0, 0, 'R', false);
         $pdf->setY(5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Documento: ' . $nameTranslated,
+            'Documento: '.$nameTranslated,
             0, 0, 'L', false);
     }
 }

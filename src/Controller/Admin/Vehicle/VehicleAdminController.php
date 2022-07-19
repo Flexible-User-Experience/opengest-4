@@ -196,8 +196,13 @@ class VehicleAdminController extends BaseAdminController
                                 'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
                                 'content' => $fileContents,
                                 'fileType' => explode('.', $fileName)[1],
+                                'exists' => true,
                             ];
                         }
+                    } else {
+                        $documentation[$vehicle->getId()][] = [
+                            'exists' => false,
+                        ];
                     }
                 }
             }
@@ -220,8 +225,13 @@ class VehicleAdminController extends BaseAdminController
                             'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
                             'content' => $fileContents,
                             'fileType' => explode('.', $fileName)[1],
+                            'exists' => true,
                         ];
                     }
+                } else {
+                    $enterpriseDocumentation[] = [
+                        'exists' => false,
+                    ];
                 }
             }
         }
