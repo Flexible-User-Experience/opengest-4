@@ -7,7 +7,6 @@ use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\EnterpriseDocumentsEnum;
-use App\Enum\OperatorDocumentsEnum;
 use App\Enum\VehicleDocumentsEnum;
 use App\Form\Type\Vehicle\GenerateDocumentationFormType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -146,7 +145,6 @@ class VehicleAdminController extends BaseAdminController
         return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'CEDeclarationFile', $vehicle->getCEDeclaration());
     }
 
-
     public function batchActionDownloadDocumentation(ProxyQueryInterface $selectedModelQuery, Request $request): Response
     {
         $this->admin->checkAccess('edit');
@@ -163,7 +161,6 @@ class VehicleAdminController extends BaseAdminController
             ]
         );
     }
-
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
@@ -205,9 +202,9 @@ class VehicleAdminController extends BaseAdminController
                 }
             }
         }
+        $enterpriseDocumentation = [];
         if (array_key_exists('enterpriseDocumentation', $formData)) {
             $enterpriseDocumentIds = $formData['enterpriseDocumentation'];
-            $enterpriseDocumentation = [];
             $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
             foreach ($enterpriseDocumentIds as $enterpriseDocumentId) {
                 $documentName = EnterpriseDocumentsEnum::getName($enterpriseDocumentId);
@@ -231,5 +228,4 @@ class VehicleAdminController extends BaseAdminController
 
         return new Response($this->documentationPdfManager->outputSingle($vehicles, $documentation, $enterpriseDocumentation), 200, ['Content-type' => 'application/pdf']);
     }
-
 }
