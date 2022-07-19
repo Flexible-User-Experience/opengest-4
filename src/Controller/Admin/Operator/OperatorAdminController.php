@@ -250,8 +250,13 @@ class OperatorAdminController extends BaseAdminController
                                 'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
                                 'content' => $fileContents,
                                 'fileType' => explode('.', $fileName)[1],
+                                'exists' => true,
                             ];
                         }
+                    } else {
+                        $documentation[$operator->getId()][] = [
+                            'exists' => false,
+                        ];
                     }
                 }
             }
@@ -274,8 +279,13 @@ class OperatorAdminController extends BaseAdminController
                             'nameTranslated' => $translator->trans($documentNameNotTranslated, [], 'admin'),
                             'content' => $fileContents,
                             'fileType' => explode('.', $fileName)[1],
+                            'exists' => true,
                         ];
                     }
+                } else {
+                    $enterpriseDocumentation[] = [
+                        'exists' => false,
+                    ];
                 }
             }
         }
