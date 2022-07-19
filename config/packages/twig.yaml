@@ -14,3 +14,7 @@ twig:
         admin_brand_title:        '%project_admin_title%'
         admin_tag_version:        'v4.0.00'
         cookieExpiryTime:         90 # days
+
+when@test:
+    twig:
+        strict_variables: true
