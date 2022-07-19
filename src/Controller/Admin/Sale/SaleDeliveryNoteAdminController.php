@@ -288,6 +288,9 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             },
             $deliveryNotes
         ));
+        usort($partners, function(Partner $a, Partner $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
         $serializedPartners = $serializer->serialize($partners, 'json', ['groups' => ['api']]);
 
         return new JsonResponse(['deliveryNotes' => $serializedDeliveryNotes, 'partners' => $serializedPartners]);
