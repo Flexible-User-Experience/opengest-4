@@ -243,7 +243,7 @@
                   <td>${deliveryNote.order? deliveryNote.order.number : '-'}</td>
                   <td>${deliveryNote.collectionDocument.name}</td>
                   <td>${deliveryNote.collectionTerm}</td>
-                  <td>${deliveryNote.baseTotalWithDiscounts} €</td>
+                  <td style="text-align: right">${deliveryNote.baseTotalWithDiscountsFormatted} €</td>
                 </tr>
           `;
           deliveryNoteLines = deliveryNoteLines + newDeliveryNoteLine;
