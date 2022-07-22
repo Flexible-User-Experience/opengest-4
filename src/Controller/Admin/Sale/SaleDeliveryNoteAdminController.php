@@ -135,6 +135,17 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             },
             $saleDeliveryNotes
         ));
+        $nonInvoiceableDeliveryNotes = array_filter($saleDeliveryNotes, function (SaleDeliveryNote $saleDeliveryNote) {
+            return $saleDeliveryNote->isWontBeInvoiced();
+        });
+        if (count($nonInvoiceableDeliveryNotes)) {
+            $nonInvoiceableDeliveryNotesIds = array_map(function (SaleDeliveryNote $saleDeliveryNote) {
+                return $saleDeliveryNote->getId();
+            }, $nonInvoiceableDeliveryNotes);
+            $this->addFlash('warning', 'Los albaranes '.implode(',',$nonInvoiceableDeliveryNotesIds).' son no facturables');
+
+            return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_to_invoice_custom_list'));
+        }
         foreach ($partnerIds as $partnerId) {
             $orderCheck = false;
             $buildingSiteCheck = false;
