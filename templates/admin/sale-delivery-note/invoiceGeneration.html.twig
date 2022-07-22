@@ -176,6 +176,7 @@
         }).done(function (response) {
             let partners = Object.values(JSON.parse(response.partners));
             let deliveryNotes = JSON.parse(response.deliveryNotes);
+            console.log('partners', partners)
             partners.forEach(function (partner) {
               createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false), currentSelection);
             });
@@ -209,7 +210,7 @@
         let partnerHtml = `
           <div class="box box-success">
             <div class="box-header">
-              <h4 class="box-title">${partner.name}</h4>
+              <h4 class="box-title">${partner.code} - ${partner.name}</h4>
             </div>
             <div class="box-body">
               <table class="table table-bordered table-hover sonata-ba-list">
@@ -242,7 +243,7 @@
                   <td>${deliveryNote.order? deliveryNote.order.number : '-'}</td>
                   <td>${deliveryNote.collectionDocument.name}</td>
                   <td>${deliveryNote.collectionTerm}</td>
-                  <td>${deliveryNote.baseTotalWithDiscounts} €</td>
+                  <td style="text-align: right">${deliveryNote.baseTotalWithDiscountsFormatted} €</td>
                 </tr>
           `;
           deliveryNoteLines = deliveryNoteLines + newDeliveryNoteLine;

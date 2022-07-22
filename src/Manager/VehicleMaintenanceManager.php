@@ -104,6 +104,19 @@ class VehicleMaintenanceManager
         return false;
     }
 
+    public function updateVehicleMileage(VehicleMaintenance $vehicleMaintenance): void
+    {
+        $km = $vehicleMaintenance->getKm();
+        if ($km > 0) {
+            $vehicle = $vehicleMaintenance->getVehicle();
+            $vehicleKm = $vehicle->getMileage();
+            if ($km > $vehicleKm) {
+                $vehicle->setMileage($km);
+                $this->entityManager->flush();
+            }
+        }
+    }
+
     /**
      * @throws NonUniqueResultException
      */

@@ -879,6 +879,13 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'show_filter' => true,
                 ]
             )
+            ->add(
+                'place',
+                null,
+                [
+                    'label' => 'admin.label.place',
+                ]
+            )
         ;
     }
 
