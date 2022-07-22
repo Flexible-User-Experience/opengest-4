@@ -423,6 +423,14 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'wontBeInvoiced',
+                'boolean',
+                [
+                    'label' => 'admin.label.no_invoice',
+                    'transform' => true,
+                ]
+            )
+            ->add(
                 'saleInvoice',
                 null,
                 [
