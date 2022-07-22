@@ -285,6 +285,13 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.printed',
                 ]
             )
+            ->add(
+                'place',
+                null,
+                [
+                    'label' => 'admin.label.place',
+                ]
+            )
         ;
     }
 
