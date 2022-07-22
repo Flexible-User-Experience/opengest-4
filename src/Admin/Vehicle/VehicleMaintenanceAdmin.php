@@ -307,6 +307,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     public function prePersist($object): void
     {
         $this->disablePreviousAndCheckIfNeedMaintenance($object);
+        $this->vmm->updateVehicleMileage($object);
     }
 
     /**
@@ -317,6 +318,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     public function preUpdate($object): void
     {
         $this->disablePreviousAndCheckIfNeedMaintenance($object);
+        $this->vmm->updateVehicleMileage($object);
     }
 
     /**

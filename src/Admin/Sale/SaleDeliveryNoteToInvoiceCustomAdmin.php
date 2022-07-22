@@ -285,6 +285,13 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.printed',
                 ]
             )
+            ->add(
+                'place',
+                null,
+                [
+                    'label' => 'admin.label.place',
+                ]
+            )
         ;
     }
 
@@ -412,6 +419,14 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 'boolean',
                 [
                     'label' => 'admin.label.invoiced',
+                    'transform' => true,
+                ]
+            )
+            ->add(
+                'wontBeInvoiced',
+                'boolean',
+                [
+                    'label' => 'admin.label.no_invoice',
                     'transform' => true,
                 ]
             )

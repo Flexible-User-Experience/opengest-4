@@ -73,6 +73,7 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.units',
                     'required' => false,
+                    'scale' => 4
                 ]
             )
             ->add(

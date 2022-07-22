@@ -893,6 +893,14 @@ class SaleDeliveryNote extends AbstractBase
         return $baseTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
+    /**
+     * @Groups({"api"})
+     */
+    public function getBaseTotalWithDiscountsFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getBaseTotalWithDiscounts(), true);
+    }
+
     public function getDiscountTotal(): float
     {
         $discountTotal = 0;
