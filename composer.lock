@@ -4341,16 +4341,16 @@
         },
         {
             "name": "sonata-project/block-bundle",
-            "version": "4.15.0",
+            "version": "4.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataBlockBundle.git",
-                "reference": "bed7f51c2661f798e03884fa61b54b89e2e2f487"
+                "reference": "29b56c8df0b487949c3ea6c8d2c32ecb61ff016c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/bed7f51c2661f798e03884fa61b54b89e2e2f487",
-                "reference": "bed7f51c2661f798e03884fa61b54b89e2e2f487",
+                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/29b56c8df0b487949c3ea6c8d2c32ecb61ff016c",
+                "reference": "29b56c8df0b487949c3ea6c8d2c32ecb61ff016c",
                 "shasum": ""
             },
             "require": {
@@ -4440,7 +4440,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sonata-project/SonataBlockBundle/issues",
-                "source": "https://github.com/sonata-project/SonataBlockBundle/tree/4.15.0"
+                "source": "https://github.com/sonata-project/SonataBlockBundle/tree/4.16.0"
             },
             "funding": [
                 {
@@ -4460,7 +4460,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-18T07:24:02+00:00"
+            "time": "2022-07-20T16:05:01+00:00"
         },
         {
             "name": "sonata-project/cache",
@@ -4669,16 +4669,16 @@
         },
         {
             "name": "sonata-project/doctrine-orm-admin-bundle",
-            "version": "4.3.1",
+            "version": "4.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-                "reference": "522853c9566eecd3996ec2e858eaa1ad18510ec9"
+                "reference": "f5093f0ea49643c472f0a5cfe034cc1d5e48344f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/522853c9566eecd3996ec2e858eaa1ad18510ec9",
-                "reference": "522853c9566eecd3996ec2e858eaa1ad18510ec9",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/f5093f0ea49643c472f0a5cfe034cc1d5e48344f",
+                "reference": "f5093f0ea49643c472f0a5cfe034cc1d5e48344f",
                 "shasum": ""
             },
             "require": {
@@ -4775,7 +4775,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/issues",
-                "source": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/tree/4.3.1"
+                "source": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/tree/4.3.3"
             },
             "funding": [
                 {
@@ -4795,7 +4795,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-13T08:17:49+00:00"
+            "time": "2022-07-22T07:19:29+00:00"
         },
         {
             "name": "sonata-project/exporter",
@@ -11253,16 +11253,16 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.19.0",
+            "version": "v1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "d7f08a622b3346766325488aa32ddc93ccdecc75"
+                "reference": "37f751c67a5372d4e26353bd9384bc03744ec77b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/d7f08a622b3346766325488aa32ddc93ccdecc75",
-                "reference": "d7f08a622b3346766325488aa32ddc93ccdecc75",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/37f751c67a5372d4e26353bd9384bc03744ec77b",
+                "reference": "37f751c67a5372d4e26353bd9384bc03744ec77b",
                 "shasum": ""
             },
             "require": {
@@ -11289,7 +11289,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "v1.19-dev"
+                    "dev-main": "v1.20-dev"
                 }
             },
             "autoload": {
@@ -11314,9 +11314,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.19.0"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.20.0"
             },
-            "time": "2022-02-02T17:38:57+00:00"
+            "time": "2022-07-20T13:12:54+00:00"
         },
         {
             "name": "hautelook/alice-bundle",
