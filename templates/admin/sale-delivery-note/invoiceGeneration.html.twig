@@ -178,6 +178,7 @@
             let deliveryNotes = JSON.parse(response.deliveryNotes);
             console.log('partners', partners)
             partners.forEach(function (partner) {
+                console.log('partner', partner);
               createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false), currentSelection);
             });
           jQuery(".delivery-note_id").each( function () {
@@ -207,6 +208,7 @@
       }
 
       function createPartnerBox(partner, deliveryNotes, currentSelection) {
+          console.log('partner inside', partner)
         let partnerHtml = `
           <div class="box box-success">
             <div class="box-header">
@@ -231,6 +233,7 @@
             ;
         let deliveryNoteLines = '';
         deliveryNotes.forEach((deliveryNote) => {
+            console.log('delivery note', deliveryNote);
           let newDeliveryNoteLine = `
                 <tr>
                   <td>
@@ -241,7 +244,7 @@
                   <td>${deliveryNote.vehicle.name}</td>
                   <td>${deliveryNote.buildingSite ? deliveryNote.buildingSite.name : '-'}</td>
                   <td>${deliveryNote.order? deliveryNote.order.number : '-'}</td>
-                  <td>${deliveryNote.collectionDocument.name}</td>
+                  <td>${deliveryNote.collectionDocument ? deliveryNote.collectionDocument.name : '-'}</td>
                   <td>${deliveryNote.collectionTerm}</td>
                   <td style="text-align: right">${deliveryNote.baseTotalWithDiscountsFormatted} €</td>
                 </tr>
