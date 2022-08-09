@@ -48,6 +48,13 @@ class PurchaseInvoice extends AbstractBase
     private int $invoiceNumber;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", nullable = true)
+     */
+    private ?string $reference;
+
+    /**
      * @var float|null
      *
      * @ORM\Column(type="float", nullable=true)
@@ -468,6 +475,26 @@ class PurchaseInvoice extends AbstractBase
     public function setAccount(?int $account): PurchaseInvoice
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    /**
+     * @param string|null $reference
+     *
+     * @return PurchaseInvoice
+     */
+    public function setReference(?string $reference): PurchaseInvoice
+    {
+        $this->reference = $reference;
 
         return $this;
     }
