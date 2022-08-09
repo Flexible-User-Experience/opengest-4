@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\CostCenter")
+ * @ORM\Entity(repositoryClass="App\Repository\Setting\CostCenterRepository")
  * @ORM\Table(name="cost_center")
  * @UniqueEntity({"code"})
  */

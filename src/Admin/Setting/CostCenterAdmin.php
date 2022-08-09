@@ -1,52 +1,66 @@
 <?php
 
-namespace App\Admin\Purchase;
+namespace App\Admin\Setting;
 
 use App\Admin\AbstractBaseAdmin;
-use App\Enum\SaleItemTypeEnum;
-use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
- * Class PurchaseItemAdmin.
+ * Class CostCenterAdmin.
  *
- * @category    Admin
+ * @category Admin
+ *
+ * @author   Jordi Sort <jordi.sort@mirmit.com>
  */
-class PurchaseItemAdmin extends AbstractBaseAdmin
+class CostCenterAdmin extends AbstractBaseAdmin
 {
     /**
      * @var string
      */
-    protected $classnameLabel = 'Articulos de compra';
+    protected $classnameLabel = 'Centro de coste';
 
     /**
      * @var string
      */
-    protected $baseRoutePattern = 'compras/articulos';
+    protected $baseRoutePattern = 'configuracion/centro_de_coste';
 
     /**
      * Methods.
      */
     protected function configureDefaultSortValues(array &$sortValues): void
     {
-        $sortValues[DatagridInterface::PAGE] = 1;
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
-        $sortValues[DatagridInterface::SORT_BY] = 'name';
+        $sortValues[DatagridInterface::SORT_BY] = 'code';
     }
 
-
     /**
-     * @throws Exception
+     * Configure route collection.
+     *
+     * @param RouteCollection $collection
      */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection->remove('delete');
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->with('admin.with.general', $this->getFormMdSuccessBoxArray(4))
+            ->with('General', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
             ->add(
                 'name',
                 null,
@@ -67,7 +81,7 @@ class PurchaseItemAdmin extends AbstractBaseAdmin
                 'enabled',
                 CheckboxType::class,
                 [
-                    'label' => 'admin.label.enabled_male',
+                    'label' => 'admin.label.enabled',
                     'required' => false,
                 ]
             )
@@ -79,10 +93,10 @@ class PurchaseItemAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
-                'id',
+                'code',
                 null,
                 [
-                    'label' => 'Id',
+                    'label' => 'admin.label.code',
                 ]
             )
             ->add(
@@ -97,6 +111,13 @@ class PurchaseItemAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
+                ]
+            )
+            ->add(
+                'enabled',
+                null,
+                [
+                    'label' => 'admin.label.enabled',
                 ]
             )
         ;
@@ -106,10 +127,11 @@ class PurchaseItemAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
-                'id',
+                'code',
                 null,
                 [
-                    'label' => 'Id',
+                    'label' => 'admin.label.code',
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -117,6 +139,7 @@ class PurchaseItemAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.name',
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -124,6 +147,15 @@ class PurchaseItemAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'enabled',
+                null,
+                [
+                    'label' => 'admin.label.enabled',
+                    'editable' => true,
                 ]
             )
             ->add(
