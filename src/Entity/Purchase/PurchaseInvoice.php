@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Sale;
+namespace App\Entity\Purchase;
 
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\CollectionDocumentType;
