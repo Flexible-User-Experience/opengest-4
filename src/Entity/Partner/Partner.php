@@ -404,6 +404,20 @@ class Partner extends AbstractBase
     private ?int $invoiceCopiesNumber = null;
 
     /**
+     * @var float|null
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $defaultIva = null;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $defaultIrpf = null;
+
+    /**
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private bool $blocked = false;
@@ -1598,6 +1612,45 @@ class Partner extends AbstractBase
     public function setInvoiceCopiesNumber(?int $invoiceCopiesNumber = null): Partner
     {
         $this->invoiceCopiesNumber = $invoiceCopiesNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getDefaultIva(): ?float
+    {
+        return $this->defaultIva;
+    }
+
+    /**
+     * @param float $defaultIva
+     * @return Partner
+     */
+    public function setDefaultIva(float $defaultIva): Partner
+    {
+        $this->defaultIva = $defaultIva;
+
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getDefaultIrpf(): ?float
+    {
+        return $this->defaultIrpf;
+    }
+
+    /**
+     * @param float $defaultIrpf
+     *
+     * @return Partner
+     */
+    public function setDefaultIrpf(float $defaultIrpf): Partner
+    {
+        $this->defaultIrpf = $defaultIrpf;
 
         return $this;
     }
