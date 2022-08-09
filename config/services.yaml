@@ -5,6 +5,7 @@ imports:
     - { resource: 'services/admins/operator.yaml' }
     - { resource: 'services/admins/partner.yaml' }
     - { resource: 'services/admins/payslip.yaml' }
+    - { resource: 'services/admins/purchase.yaml' }
     - { resource: 'services/admins/sale.yaml' }
     - { resource: 'services/admins/setting.yaml' }
     - { resource: 'services/admins/vehicle.yaml' }
