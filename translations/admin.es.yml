@@ -73,6 +73,8 @@ admin:
         contact_person_email: "Email persona de contacto"
         irpf: "Retención (%)"
         iva: "Iva (%)"
+        default_irpf: "Retención por defecto (%)"
+        default_iva: "Iva por defecto (%)"
         irpf_amount: "Retención (€)"
         iva_amount: "Total Iva (€)"
         iva21_amount: "Iva 21 % (€)"

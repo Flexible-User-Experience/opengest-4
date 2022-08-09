@@ -10,6 +10,7 @@ use App\Entity\Partner\PartnerClass;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
 use App\Entity\Setting\Province;
+use App\Enum\IvaEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -18,6 +19,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Class PartnerAdmin.
@@ -270,6 +272,23 @@ class PartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.discount',
+                ]
+            )
+            ->add(
+                'defaultIva',
+                ChoiceType::class,
+                [
+                    'label' => 'admin.label.default_iva',
+                    'choices' => IvaEnum::getReversedEnumArray(),
+                    'placeholder' => '--- seleccione una opción ---'
+                ]
+            )
+            ->add(
+                'defaultIrpf',
+                null,
+
+                [
+                    'label' => 'admin.label.default_irpf',
                 ]
             )
             ->end()
