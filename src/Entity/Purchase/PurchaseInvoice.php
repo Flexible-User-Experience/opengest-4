@@ -170,7 +170,7 @@ class PurchaseInvoice extends AbstractBase
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $account;
+    private ?int $accountingAccount;
 
     /**
      * Methods.
@@ -462,19 +462,19 @@ class PurchaseInvoice extends AbstractBase
     /**
      * @return int|null
      */
-    public function getAccount(): ?int
+    public function getAccountingAccount(): ?int
     {
-        return $this->account;
+        return $this->accountingAccount;
     }
 
     /**
-     * @param int|null $account
+     * @param int|null $accountingAccount
      *
      * @return PurchaseInvoice
      */
-    public function setAccount(?int $account): PurchaseInvoice
+    public function setAccountingAccount(?int $accountingAccount): PurchaseInvoice
     {
-        $this->account = $account;
+        $this->accountingAccount = $accountingAccount;
 
         return $this;
     }
