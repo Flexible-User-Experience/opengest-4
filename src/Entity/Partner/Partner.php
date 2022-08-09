@@ -340,6 +340,13 @@ class Partner extends AbstractBase
     private $saleInvoices;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoice", mappedBy="partner")
+     */
+    private Collection $purchaseInvoices;
+
+    /**
      * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -440,6 +447,7 @@ class Partner extends AbstractBase
         $this->partnerUnableDays = new ArrayCollection();
         $this->saleDeliveryNotes = new ArrayCollection();
         $this->saleInvoices = new ArrayCollection();
+        $this->purchaseInvoices = new ArrayCollection();
     }
 
     /**
@@ -1492,6 +1500,26 @@ class Partner extends AbstractBase
     public function setSaleInvoices(ArrayCollection $saleInvoices): Partner
     {
         $this->saleInvoices = $saleInvoices;
+
+        return $this;
+    }
+
+    /**
+     * @return ?Collection
+     */
+    public function getPurchaseInvoices(): ?Collection
+    {
+        return $this->purchaseInvoices;
+    }
+
+    /**
+     * @param ArrayCollection $purchaseInvoices
+     *
+     * @return Partner
+     */
+    public function setPurchaseInvoices(ArrayCollection $purchaseInvoices): Partner
+    {
+        $this->purchaseInvoices = $purchaseInvoices;
 
         return $this;
     }
