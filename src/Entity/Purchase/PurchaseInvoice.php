@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\PurchaseInvoiceRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Purchase\PurchaseInvoiceRepository")
  * @ORM\Table(name="purchase_invoice")
  */
 class PurchaseInvoice extends AbstractBase
