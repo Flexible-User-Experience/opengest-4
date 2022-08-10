@@ -41,6 +41,13 @@ class PurchaseInvoice extends AbstractBase
     private Partner $partner;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="purchaseInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $purchaseInvoiceLines;
+
+    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -175,6 +182,56 @@ class PurchaseInvoice extends AbstractBase
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->purchaseInvoiceLines = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getPurchaseInvoiceLines(): ArrayCollection|Collection
+    {
+        return $this->purchaseInvoiceLines;
+    }
+
+    /**
+     * @param ArrayCollection $purchaseInvoiceLines
+     *
+     * @return $this
+     */
+    public function setPurchaseInvoiceLines(ArrayCollection $purchaseInvoiceLines): PurchaseInvoice
+    {
+        $this->purchaseInvoiceLines = $purchaseInvoiceLines;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPurchaseInvoiceLine(PurchaseInvoiceLine $purchaseInvoiceLine): PurchaseInvoice
+    {
+        if (!$this->purchaseInvoiceLines->contains($purchaseInvoiceLine)) {
+            $this->purchaseInvoiceLines->add($purchaseInvoiceLine);
+            $purchaseInvoiceLine->setPurchaseInvoice($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePurchaseInvoiceLine(PurchaseInvoiceLine $purchaseInvoiceLine): PurchaseInvoice
+    {
+        if ($this->purchaseInvoiceLines->contains($purchaseInvoiceLine)) {
+            $this->purchaseInvoiceLines->removeElement($purchaseInvoiceLine);
+        }
+
+        return $this;
+    }
+
 
     /**
      * @return DateTime
