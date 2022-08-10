@@ -6,3 +6,10 @@ services:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseItem, controller: ~, manager_type: orm, label: 'Artículos', group: 'Compras', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
       - [ setTranslationDomain, [ 'admin' ] ]
+  app.admin.purchase_invoice:
+    class: App\Admin\Purchase\PurchaseInvoiceAdmin
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    tags:
+      - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseInvoice, controller: ~, manager_type: orm, label: 'Factura de compra', group: 'Compras', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+    calls:
+      - [ setTranslationDomain, [ 'admin' ] ]
