@@ -55,27 +55,26 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
     {
         $collection
             ->remove('show')
-            ->remove('create')
         ;
     }
-//
-//    public function configureExportFields(): array
-//    {
-//        return [
-//            'id',
-//            'series',
-//            'invoiceNumber',
-//            'dateFormatted',
-//            'partner.code',
-//            'partner.name',
-//            'partner.cifNif',
-//            'discountFormatted',
-//            'baseTotalFormatted',
-//            'ivaFormatted',
-//            'irpfFormatted',
-//            'totalFormatted',
-//        ];
-//    }
+
+    public function configureExportFields(): array
+    {
+        return [
+            'id',
+            'series',
+            'invoiceNumber',
+            'dateFormatted',
+            'partner.code',
+            'partner.name',
+            'partner.cifNif',
+            'discountFormatted',
+            'baseTotalFormatted',
+            'ivaFormatted',
+            'irpfFormatted',
+            'totalFormatted',
+        ];
+    }
 
     /**
      * @throws Exception
@@ -123,9 +122,9 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                         $datagrid->setValue($property, null, $value);
                     },
                 ],
-//                [
-//                    'admin_code' => 'app.admin.partner',
-//                ]
+                [
+                    'admin_code' => 'app.admin.partner',
+                ]
             )
             ->add(
                 'partnerName',
@@ -378,19 +377,19 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     ],
                 ]
             )
-//            ->add(
-//                'partner',
-//                ModelFilter::class,
-//                [
-//                    'label' => 'admin.label.partner',
-//                    'admin_code' => 'app.admin.partner',
-//                    'field_type' => ModelAutocompleteType::class,
-//                    'field_options' => [
-//                        'property' => 'name',
-//                        'callback' => $this->partnerModelAutocompleteCallback(),
-//                    ],
-//                ]
-//            )
+            ->add(
+                'partner',
+                ModelFilter::class,
+                [
+                    'label' => 'admin.label.partner',
+                    'admin_code' => 'app.admin.partner',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => [
+                        'property' => 'name',
+                        'callback' => $this->partnerModelAutocompleteCallback(),
+                    ],
+                ]
+            )
             ->add(
                 'total',
                 null,
@@ -431,39 +430,39 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     'format' => 'd/m/Y',
                 ]
             )
-//            ->add(
-//                'partner.code',
-//                null,
-//                [
-//                    'label' => 'admin.label.partner_code',
-//                ]
-//            )
-//            ->add(
-//                'partner',
-//                null,
-//                [
-//                    'label' => 'admin.label.partner',
-//                    'editable' => false,
-//                    'associated_property' => 'name',
-//                    'sortable' => true,
-//                    'sort_field_mapping' => ['fieldName' => 'name'],
-//                    'sort_parent_association_mappings' => [['fieldName' => 'partner']],
-//                    'admin_code' => 'app.admin.partner',
-//                ]
-//            )
-//            ->add(
-//                'deliveryAddress',
-//                null,
-//                [
-//                    'label' => 'admin.label.delivery_address',
-//                ]
-//            )
+            ->add(
+                'partner.code',
+                null,
+                [
+                    'label' => 'admin.label.partner_code',
+                ]
+            )
+            ->add(
+                'partner',
+                null,
+                [
+                    'label' => 'admin.label.partner',
+                    'editable' => false,
+                    'associated_property' => 'name',
+                    'sortable' => true,
+                    'sort_field_mapping' => ['fieldName' => 'name'],
+                    'sort_parent_association_mappings' => [['fieldName' => 'partner']],
+                    'admin_code' => 'app.admin.partner',
+                ]
+            )
+            ->add(
+                'deliveryAddress',
+                null,
+                [
+                    'label' => 'admin.label.delivery_address',
+                ]
+            )
             ->add(
                 'total',
                 null,
                 [
                     'label' => 'admin.label.total',
-//                    'template' => 'admin/cells/list__cell_total_currency_number.html.twig',
+                    'template' => 'admin/cells/list__cell_total_currency_number.html.twig',
                 ]
             )
             ->add(
