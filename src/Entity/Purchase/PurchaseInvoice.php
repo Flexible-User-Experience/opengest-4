@@ -3,11 +3,9 @@
 namespace App\Entity\Purchase;
 
 use App\Entity\AbstractBase;
-use App\Entity\Enterprise\CollectionDocumentType;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Setting\City;
-use App\Entity\Setting\SaleInvoiceSeries;
 use App\Service\Format\NumberFormatService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
