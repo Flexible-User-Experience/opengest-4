@@ -48,6 +48,13 @@ class PurchaseInvoice extends AbstractBase
     private Collection $purchaseInvoiceLines;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceDueDate", mappedBy="purchaseInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $purchaseInvoiceDueDates;
+
+    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -185,6 +192,7 @@ class PurchaseInvoice extends AbstractBase
     public function __construct()
     {
         $this->purchaseInvoiceLines = new ArrayCollection();
+        $this->purchaseInvoiceDueDates = new ArrayCollection();
     }
 
     /**
@@ -232,6 +240,50 @@ class PurchaseInvoice extends AbstractBase
         return $this;
     }
 
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getPurchaseInvoiceDueDates(): ArrayCollection|Collection
+    {
+        return $this->purchaseInvoiceDueDates;
+    }
+
+    /**
+     * @param ArrayCollection $purchaseInvoiceDueDates
+     *
+     * @return $this
+     */
+    public function setPurchaseInvoiceDueDates(ArrayCollection $purchaseInvoiceDueDates): PurchaseInvoice
+    {
+        $this->purchaseInvoiceDueDates = $purchaseInvoiceDueDates;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addPurchaseInvoiceDueDate(PurchaseInvoiceDueDate $purchaseInvoiceDueDate): PurchaseInvoice
+    {
+        if (!$this->purchaseInvoiceDueDates->contains($purchaseInvoiceDueDate)) {
+            $this->purchaseInvoiceDueDates->add($purchaseInvoiceDueDate);
+            $purchaseInvoiceDueDate->setPurchaseInvoice($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removePurchaseInvoiceDueDate(PurchaseInvoiceDueDate $purchaseInvoiceDueDate): PurchaseInvoice
+    {
+        if ($this->purchaseInvoiceDueDates->contains($purchaseInvoiceDueDate)) {
+            $this->purchaseInvoiceDueDates->removeElement($purchaseInvoiceDueDate);
+        }
+
+        return $this;
+    }
 
     /**
      * @return DateTime
