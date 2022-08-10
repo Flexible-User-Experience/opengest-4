@@ -25,7 +25,7 @@ class PurchaseInvoiceLine extends AbstractBase
     private PurchaseInvoice $purchaseInvoice;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchasItem", inversedBy="purchaseInvoiceLines")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchaseItem", inversedBy="purchaseInvoiceLines")
      */
     private PurchaseItem $purchaseItem;
 

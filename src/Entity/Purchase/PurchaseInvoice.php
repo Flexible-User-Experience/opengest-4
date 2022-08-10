@@ -41,7 +41,7 @@ class PurchaseInvoice extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="purchaseInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="purchaseInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $purchaseInvoiceLines;
 
