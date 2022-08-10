@@ -475,11 +475,14 @@ class Operator extends AbstractBase
     private $operatorVariousAmount;
 
     /**
-     * Methods.
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="operator")
      */
+    private Collection $purchaseInvoiceLines;
 
     /**
-     * Operator constructor.
+     * Methods.
      */
     public function __construct()
     {
@@ -490,6 +493,7 @@ class Operator extends AbstractBase
         $this->operatorVariousAmount = new ArrayCollection();
         $this->payslipOperatorDefaultLines = new ArrayCollection();
         $this->payslips = new ArrayCollection();
+        $this->purchaseInvoiceLines = new ArrayCollection();
     }
 
     /**
@@ -1908,6 +1912,26 @@ class Operator extends AbstractBase
         if ($this->payslips->contains($payslip)) {
             $this->payslips->removeElement($payslip);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPurchaseInvoiceLines(): Collection
+    {
+        return $this->purchaseInvoiceLines;
+    }
+
+    /**
+     * @param Collection $purchaseInvoiceLines
+     *
+     * @return Operator
+     */
+    public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): Operator
+    {
+        $this->purchaseInvoiceLines = $purchaseInvoiceLines;
 
         return $this;
     }

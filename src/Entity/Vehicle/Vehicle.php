@@ -338,11 +338,14 @@ class Vehicle extends AbstractBase
     private ?SaleServiceTariff $tonnage;
 
     /**
-     * Methods.
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="operator")
      */
+    private Collection $purchaseInvoiceLines;
 
     /**
-     * Vehicle constructor.
+     * Methods.
      */
     public function __construct()
     {
@@ -352,6 +355,7 @@ class Vehicle extends AbstractBase
         $this->vehicleConsumptions = new ArrayCollection();
         $this->vehicleMaintenances = new ArrayCollection();
         $this->vehicleSpecialPermits = new ArrayCollection();
+        $this->purchaseInvoiceLines = new ArrayCollection();
     }
 
     public function getVehicleRegistrationNumber(): string
@@ -1156,6 +1160,26 @@ class Vehicle extends AbstractBase
     public function setTonnage(?SaleServiceTariff $tonnage): Vehicle
     {
         $this->tonnage = $tonnage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPurchaseInvoiceLines(): Collection
+    {
+        return $this->purchaseInvoiceLines;
+    }
+
+    /**
+     * @param Collection $purchaseInvoiceLines
+     *
+     * @return Vehicle
+     */
+    public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): Vehicle
+    {
+        $this->purchaseInvoiceLines = $purchaseInvoiceLines;
 
         return $this;
     }

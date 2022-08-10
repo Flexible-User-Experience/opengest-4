@@ -211,6 +211,13 @@ class SaleDeliveryNote extends AbstractBase
     private Collection $operatorWorkRegisters;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="saleDeliveryNote")
+     */
+    private Collection $purchaseInvoiceLines;
+
+    /**
      * @var ?string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -248,6 +255,7 @@ class SaleDeliveryNote extends AbstractBase
         $this->saleDeliveryNoteLines = new ArrayCollection();
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
         $this->operatorWorkRegisters = new ArrayCollection();
+        $this->purchaseInvoiceLines = new ArrayCollection();
     }
 
     public function setId(int $id): SaleDeliveryNote
@@ -766,6 +774,26 @@ class SaleDeliveryNote extends AbstractBase
     public function setDeliveryAddress(?PartnerDeliveryAddress $deliveryAddress): SaleDeliveryNote
     {
         $this->deliveryAddress = $deliveryAddress;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPurchaseInvoiceLines(): Collection
+    {
+        return $this->purchaseInvoiceLines;
+    }
+
+    /**
+     * @param Collection $purchaseInvoiceLines
+     *
+     * @return SaleDeliveryNote
+     */
+    public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): SaleDeliveryNote
+    {
+        $this->purchaseInvoiceLines = $purchaseInvoiceLines;
 
         return $this;
     }

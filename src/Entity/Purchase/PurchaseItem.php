@@ -21,6 +21,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class PurchaseItem extends AbstractBase
 {
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="purchaseItem", cascade={"persist"})
+     */
+    private Collection $purchaseInvoiceLines;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string")
@@ -33,6 +40,34 @@ class PurchaseItem extends AbstractBase
      * @ORM\Column(type="string", nullable = true)
      */
     private ?string $description;
+
+    /**
+     * Methods.
+     */
+    public function __construct()
+    {
+        $this->purchaseInvoiceLines = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPurchaseInvoiceLines(): Collection
+    {
+        return $this->purchaseInvoiceLines;
+    }
+
+    /**
+     * @param Collection $purchaseInvoiceLines
+     *
+     * @return PurchaseItem
+     */
+    public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): PurchaseItem
+    {
+        $this->purchaseInvoiceLines = $purchaseInvoiceLines;
+
+        return $this;
+    }
 
     /**
      * @return string
@@ -74,9 +109,6 @@ class PurchaseItem extends AbstractBase
         return $this;
     }
 
-    /**
-     * Methods.
-     */
     public function __toString()
     {
         return $this->getId().'-'.$this->getName();

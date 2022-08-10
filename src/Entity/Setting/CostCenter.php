@@ -3,6 +3,8 @@
 namespace App\Entity\Setting;
 
 use App\Entity\AbstractBase;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -20,6 +22,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class CostCenter extends AbstractBase
 {
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="purchaseItem", cascade={"persist"})
+     */
+    private Collection $purchaseInvoiceLines;
+
     /**
      * @var string
      *
@@ -45,6 +54,30 @@ class CostCenter extends AbstractBase
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->purchaseInvoiceLines = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPurchaseInvoiceLines(): Collection
+    {
+        return $this->purchaseInvoiceLines;
+    }
+
+    /**
+     * @param Collection $purchaseInvoiceLines
+     *
+     * @return CostCenter
+     */
+    public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): CostCenter
+    {
+        $this->purchaseInvoiceLines = $purchaseInvoiceLines;
+
+        return $this;
+    }
 
     /**
      * @return string
