@@ -7,6 +7,7 @@ use App\Entity\Partner\Partner;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Class EnterpriseTransferAccount.
@@ -86,6 +87,13 @@ class EnterpriseTransferAccount extends AbstractBase
     private $partners;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceDueDates", mappedBy="enterpriseTransferAccount")
+     */
+    private Collection $purchaseInvoiceDueDates;
+
+    /**
      * Methods.
      */
 
@@ -95,6 +103,7 @@ class EnterpriseTransferAccount extends AbstractBase
     public function __construct()
     {
         $this->partners = new ArrayCollection();
+        $this->purchaseInvoiceDueDates = new ArrayCollection();
     }
 
     /**
@@ -302,6 +311,26 @@ class EnterpriseTransferAccount extends AbstractBase
         if ($this->partners->contains($partner)) {
             $this->partners->removeElement($partner);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPurchaseInvoiceDueDates(): Collection
+    {
+        return $this->purchaseInvoiceDueDates;
+    }
+
+    /**
+     * @param Collection $purchaseInvoiceDueDates
+     *
+     * @return EnterpriseTransferAccount
+     */
+    public function setPurchaseInvoiceDueDates(Collection $purchaseInvoiceDueDates): EnterpriseTransferAccount
+    {
+        $this->purchaseInvoiceDueDates = $purchaseInvoiceDueDates;
 
         return $this;
     }
