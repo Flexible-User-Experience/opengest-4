@@ -213,7 +213,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLines", mappedBy="saleDeliveryNote")
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="saleDeliveryNote")
      */
     private Collection $purchaseInvoiceLines;
 
