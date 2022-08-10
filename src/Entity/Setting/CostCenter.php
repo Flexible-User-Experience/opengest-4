@@ -25,7 +25,7 @@ class CostCenter extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="purchaseItem", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="costCenter", cascade={"persist"})
      */
     private Collection $purchaseInvoiceLines;
 

@@ -340,7 +340,7 @@ class Vehicle extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="operator")
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="vehicle")
      */
     private Collection $purchaseInvoiceLines;
 
