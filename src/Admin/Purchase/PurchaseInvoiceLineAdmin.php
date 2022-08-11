@@ -98,6 +98,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.iva',
                     'required' => true,
                     'choices' => IvaEnum::getReversedEnumArray(),
+                    'data' => $this->getIvaFromPartner()
                 ]
             )
             ->add(
@@ -378,6 +379,17 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
             return $this->getSubject()->getPurchaseInvoice()->getPartner()->getDefaultIrpf();
         } else {
             return $purchaseInvoiceLine->getIrpf();
+        }
+    }
+
+    private function getIvaFromPartner()
+    {
+        /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
+        $purchaseInvoiceLine = $this->getSubject();
+        if (!$this->id($purchaseInvoiceLine)){
+            return $this->getSubject()->getPurchaseInvoice()->getPartner()->getDefaultIva();
+        } else {
+            return $purchaseInvoiceLine->getIva();
         }
     }
 }
