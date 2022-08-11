@@ -92,6 +92,13 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'reference',
+                null,
+                [
+                    'label' => 'admin.label.invoice_reference',
+                ]
+            )
+            ->add(
                 'date',
                 DatePickerType::class,
                 [
@@ -100,6 +107,15 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     'required' => true,
                 ]
             )
+            ->add(
+                'accountingAccount',
+                null,
+                [
+                    'label' => 'admin.label.accounting_account',
+                ]
+            )
+            ->end()
+            ->with('admin.label.supplier', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'partner',
                 ModelAutocompleteType::class,
@@ -499,5 +515,6 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $purchaseInvoice->setPartnerMainCity($partner->getMainCity());
         $purchaseInvoice->setPartnerName($partner->getName());
         $purchaseInvoice->setPartnerSwift($partner->getSwift());
+        $purchaseInvoice->setAccountingAccount($partner->getAccountingAccount());
     }
 }

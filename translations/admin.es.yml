@@ -228,6 +228,7 @@ admin:
         hours_remaining_until_next_revision: "Horas restantes"
         kms_remaining_until_next_revision: "Km restantes"
         supplier: "Proveedor"
+        invoice_reference: "Referencia"
     with:
         general: "General"
         image: "Imagen"
