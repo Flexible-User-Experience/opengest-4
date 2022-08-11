@@ -3,6 +3,7 @@
 namespace App\Entity\Purchase;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Setting\City;
@@ -37,6 +38,13 @@ class PurchaseInvoice extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner",inversedBy="purchaseInvoices")
      */
     private Partner $partner;
+
+    /**
+     * @var Enterprise
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
+     */
+    private Enterprise $enterprise;
 
     /**
      * @var ArrayCollection
@@ -319,6 +327,26 @@ class PurchaseInvoice extends AbstractBase
     public function setPartner(Partner $partner): PurchaseInvoice
     {
         $this->partner = $partner;
+
+        return $this;
+    }
+
+    /**
+     * @return Enterprise
+     */
+    public function getEnterprise(): Enterprise
+    {
+        return $this->enterprise;
+    }
+
+    /**
+     * @param Enterprise $enterprise
+     *
+     * @return PurchaseInvoice
+     */
+    public function setEnterprise(Enterprise $enterprise): PurchaseInvoice
+    {
+        $this->enterprise = $enterprise;
 
         return $this;
     }
