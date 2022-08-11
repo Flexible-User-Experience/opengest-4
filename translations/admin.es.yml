@@ -227,6 +227,7 @@ admin:
         km_in_checking_date: "Km del vehículo en la fecha de la revisión"
         hours_remaining_until_next_revision: "Horas restantes"
         kms_remaining_until_next_revision: "Km restantes"
+        supplier: "Proveedor"
     with:
         general: "General"
         image: "Imagen"

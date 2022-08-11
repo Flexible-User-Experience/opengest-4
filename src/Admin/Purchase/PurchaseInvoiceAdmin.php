@@ -5,6 +5,7 @@ namespace App\Admin\Purchase;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerType;
+use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Setting\City;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -104,8 +105,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 ModelAutocompleteType::class,
                 [
                     'property' => 'name',
-                    'disabled' => true,
-                    'label' => 'admin.label.partner',
+                    'label' => 'admin.label.supplier',
                     'callback' => function ($admin, $property, $value) {
                         /** @var Admin $admin */
                         $datagrid = $admin->getDatagrid();
@@ -116,7 +116,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                             ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
                             ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
                             ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                            ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 1))
+                            ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 2))
                             ->setParameter('enabled', true)
                         ;
                         $datagrid->setValue($property, null, $value);
@@ -126,42 +126,44 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
-            ->add(
-                'partnerName',
-                null,
-                [
-                    'label' => 'admin.label.partner',
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'partnerCifNif',
-                null,
-                [
-                    'label' => 'CIF/NIF',
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'partnerMainAddress',
-                null,
-                [
-                    'label' => 'admin.label.main_address',
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'partnerMainCity',
-                EntityType::class,
-                [
-                    'class' => City::class,
-                    'label' => 'admin.label.main_city',
-                    'required' => true,
-                    'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
-                ]
-            )
             ;
         if ($this->id($this->getSubject())) { // is edit mode
+            $formMapper
+                ->add(
+                    'partnerName',
+                    null,
+                    [
+                        'label' => 'admin.label.supplier',
+                        'required' => true,
+                    ]
+                )
+                ->add(
+                    'partnerCifNif',
+                    null,
+                    [
+                        'label' => 'CIF/NIF',
+                        'required' => true,
+                    ]
+                )
+                ->add(
+                    'partnerMainAddress',
+                    null,
+                    [
+                        'label' => 'admin.label.main_address',
+                        'required' => true,
+                    ]
+                )
+                ->add(
+                    'partnerMainCity',
+                    EntityType::class,
+                    [
+                        'class' => City::class,
+                        'label' => 'admin.label.main_city',
+                        'required' => true,
+                        'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
+                    ]
+                )
+                ;
             if ($this->getSubject()->getPartnerMainCity()) {
                 $formMapper
                     ->add(
@@ -187,127 +189,113 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         }
         $formMapper
             ->end()
-            ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'baseTotal',
-                null,
-                [
-                    'label' => 'admin.label.base_amount',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true,
-                ]
-            )
             ;
-        if ($this->getSubject()->getIva21() > 0) {
-            $formMapper
-                ->add(
-                    'iva21',
-                    null,
-                    [
-                        'label' => 'admin.label.iva21_amount',
-                        'required' => false,
-                        'disabled' => true,
-                        'scale' => 2,
-                        'grouping' => true,
-                    ]
-                )
-            ;
-        }
-        if ($this->getSubject()->getIva10() > 0) {
-            $formMapper
-                ->add(
-                    'iva10',
-                    null,
-                    [
-                        'label' => 'admin.label.iva10_amount',
-                        'required' => false,
-                        'disabled' => true,
-                        'scale' => 2,
-                        'grouping' => true,
-                    ]
-                )
-            ;
-        }
-        if ($this->getSubject()->getIva4() > 0) {
-            $formMapper
-                ->add(
-                    'iva4',
-                    null,
-                    [
-                        'label' => 'admin.label.iva4_amount',
-                        'required' => false,
-                        'disabled' => true,
-                        'scale' => 2,
-                        'grouping' => true,
-                    ]
-                )
-            ;
-        }
-        if ($this->getSubject()->getIva0() > 0) {
-            $formMapper
-                ->add(
-                    'iva0',
-                    null,
-                    [
-                        'label' => 'admin.label.iva0_amount',
-                        'required' => false,
-                        'disabled' => true,
-                        'scale' => 2,
-                        'grouping' => true,
-                    ]
-                )
-            ;
-        }
-        $formMapper
-            ->add(
-                'iva',
-                null,
-                [
-                    'label' => 'admin.label.iva_amount',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true,
-                ]
-            )
-            ->add(
-                'irpf',
-                null,
-                [
-                    'label' => 'admin.label.irpf_amount',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true,
-                ]
-            )
-            ->add(
-                'total',
-                null,
-                [
-                    'label' => 'admin.label.total',
-                    'required' => false,
-                    'disabled' => true,
-                    'scale' => 2,
-                    'grouping' => true,
-                ]
-            )
-            ->add(
-                'partner.payDay1',
-                null,
-                [
-                    'label' => 'admin.label.pay_day_1',
-                    'required' => false,
-                    'disabled' => true,
-                ]
-            )
-            ->end()
-        ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
-                ->with('admin.label.delivery_address', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'baseTotal',
+                    null,
+                    [
+                        'label' => 'admin.label.base_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                );
+            if ($this->getSubject()->getIva21() > 0) {
+                $formMapper
+                    ->add(
+                        'iva21',
+                        null,
+                        [
+                            'label' => 'admin.label.iva21_amount',
+                            'required' => false,
+                            'disabled' => true,
+                            'scale' => 2,
+                            'grouping' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getIva10() > 0) {
+                $formMapper
+                    ->add(
+                        'iva10',
+                        null,
+                        [
+                            'label' => 'admin.label.iva10_amount',
+                            'required' => false,
+                            'disabled' => true,
+                            'scale' => 2,
+                            'grouping' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getIva4() > 0) {
+                $formMapper
+                    ->add(
+                        'iva4',
+                        null,
+                        [
+                            'label' => 'admin.label.iva4_amount',
+                            'required' => false,
+                            'disabled' => true,
+                            'scale' => 2,
+                            'grouping' => true,
+                        ]
+                    );
+            }
+            if ($this->getSubject()->getIva0() > 0) {
+                $formMapper
+                    ->add(
+                        'iva0',
+                        null,
+                        [
+                            'label' => 'admin.label.iva0_amount',
+                            'required' => false,
+                            'disabled' => true,
+                            'scale' => 2,
+                            'grouping' => true,
+                        ]
+                    );
+            }
+            $formMapper
+                ->add(
+                    'iva',
+                    null,
+                    [
+                        'label' => 'admin.label.iva_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+                ->add(
+                    'irpf',
+                    null,
+                    [
+                        'label' => 'admin.label.irpf_amount',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+                ->add(
+                    'total',
+                    null,
+                    [
+                        'label' => 'admin.label.total',
+                        'required' => false,
+                        'disabled' => true,
+                        'scale' => 2,
+                        'grouping' => true,
+                    ]
+                )
+                ->end()
+            ->with('admin.label.delivery_address', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'deliveryAddress',
                     EntityType::class,
@@ -332,7 +320,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 ->end()
             ->with('admin.label.due_dates', $this->getFormMdSuccessBoxArray(6))
                 ->add(
-                    'saleInvoiceDueDates',
+                    'purchaseInvoiceDueDates',
                     CollectionType::class,
                     [
                         'required' => false,
@@ -476,5 +464,40 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    /**
+     * @param PurchaseInvoice $object
+     *
+     * @return void
+     */
+    public function prePersist(object $object): void
+    {
+        $this->setPartnerInformation($object);
+    }
+
+    /**
+     * @param PurchaseInvoice $object
+     *
+     * @return void
+     */
+    public function preUpdate(object $object): void
+    {
+        /** @var PurchaseInvoice $originalObject */
+        $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
+        if ($object->getPartner()->getId() !== $originalObject['partner']->getId()) {
+            $this->setPartnerInformation($object);
+        }
+    }
+
+    private function setPartnerInformation(PurchaseInvoice $purchaseInvoice)
+    {
+        $partner = $purchaseInvoice->getPartner();
+        $purchaseInvoice->setPartnerCifNif($partner->getCifNif());
+        $purchaseInvoice->setPartnerIban($partner->getIban());
+        $purchaseInvoice->setPartnerMainAddress($partner->getMainAddress());
+        $purchaseInvoice->setPartnerMainCity($partner->getMainCity());
+        $purchaseInvoice->setPartnerName($partner->getName());
+        $purchaseInvoice->setPartnerSwift($partner->getSwift());
     }
 }
