@@ -111,6 +111,6 @@ class PurchaseItem extends AbstractBase
 
     public function __toString()
     {
-        return $this->getId().'-'.$this->getName();
+        return $this->getName();
     }
 }

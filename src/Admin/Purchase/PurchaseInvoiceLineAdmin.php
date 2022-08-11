@@ -53,7 +53,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'class' => PurchaseItem::class,
                     'label' => 'admin.label.purchase_item',
                     'required' => false,
-                    'placeholder' => '--selecciona una opción---',
+                    'placeholder' => '---',
                 ]
             )
             ->add(
@@ -82,10 +82,10 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'total',
+                'baseTotal',
                 null,
                 [
-                    'label' => 'admin.label.total',
+                    'label' => 'admin.label.base',
                     'required' => false,
                     'disabled' => true,
                 ]
@@ -112,13 +112,22 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'total',
+                null,
+                [
+                    'label' => 'admin.label.total',
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            )
+            ->add(
                 'vehicle',
                 EntityType::class,
                 [
                     'class' => Vehicle::class,
                     'label' => 'admin.label.vehicle',
                     'required' => false,
-                    'placeholder' => '--selecciona una opción---',
+                    'placeholder' => '---',
                 ]
             )
             ->add(
@@ -128,7 +137,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'class' => Operator::class,
                     'label' => 'admin.label.operator',
                     'required' => false,
-                    'placeholder' => '--selecciona una opción---',
+                    'placeholder' => '---',
                 ]
             )
             ->add(
@@ -136,9 +145,9 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => SaleDeliveryNote::class,
-                    'label' => 'admin.label.delivery_note',
+                    'label' => 'admin.with.delivery_note',
                     'required' => false,
-                    'placeholder' => '--selecciona una opción---',
+                    'placeholder' => '---',
                 ]
             )
             ->add(
@@ -148,7 +157,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'class' => CostCenter::class,
                     'label' => 'admin.label.cost_center',
                     'required' => false,
-                    'placeholder' => '--selecciona una opción---',
+                    'placeholder' => '---',
                 ]
             )
             ->add(
@@ -223,7 +232,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 'saleDeliveryNote',
                 null,
                 [
-                    'label' => 'admin.label.delivery_note',
+                    'label' => 'admin.with.delivery_note',
                 ]
             )
             ->add(
@@ -320,7 +329,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 'saleDeliveryNote',
                 null,
                 [
-                    'label' => 'admin.label.delivery_note',
+                    'label' => 'admin.with.delivery_note',
                 ]
             )
             ->add(

@@ -111,6 +111,7 @@ admin:
         invoiced: "Facturado"
         printed: "Impreso"
         base_amount: "Importe base"
+        base: "Base"
         total_lines: "Total líneas"
         final_total_with_taxes: "Total final con impuestos y retenciones"
         payment_document_type: "Tipo de documento de pago"
@@ -230,6 +231,10 @@ admin:
         kms_remaining_until_next_revision: "Km restantes"
         supplier: "Proveedor"
         invoice_reference: "Referencia"
+        purchase_invoice_line: "Línea de factura"
+        purchase_invoice_lines: "Líneas de factura"
+        purchase_item: "Artículo"
+        cost_center: "Centro de coste"
     with:
         general: "General"
         image: "Imagen"
