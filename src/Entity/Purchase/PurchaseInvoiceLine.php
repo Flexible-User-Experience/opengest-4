@@ -54,7 +54,7 @@ class PurchaseInvoiceLine extends AbstractBase
      *
      * @ORM\Column(type="float", nullable=true, scale=4)
      */
-    private ?float $units;
+    private ?float $units = 0;
 
     /**
      * @var float

@@ -5,6 +5,7 @@ namespace App\Admin\Purchase;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Purchase\PurchaseInvoice;
+use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Purchase\PurchaseItem;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleItem;
@@ -109,6 +110,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'attr' => [
                         'placeholder' => ConstantsEnum::IRPF,
                     ],
+                    'data' => $this->getIrpfFromPartner()
                 ]
             )
             ->add(
@@ -366,5 +368,16 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    private function getIrpfFromPartner()
+    {
+        /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
+        $purchaseInvoiceLine = $this->getSubject();
+        if (!$this->id($purchaseInvoiceLine)){
+            return $this->getSubject()->getPurchaseInvoice()->getPartner()->getDefaultIrpf();
+        } else {
+            return $purchaseInvoiceLine->getIrpf();
+        }
     }
 }
