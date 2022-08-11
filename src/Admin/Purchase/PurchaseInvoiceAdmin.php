@@ -83,6 +83,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
+            ->tab('Cabecera')
             ->with('admin.with.general', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'invoiceNumber',
@@ -349,7 +350,25 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
-                ;
+                ->end()
+                ->tab('Líneas')
+                ->with('admin.label.purchase_invoice_lines', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'purchaseInvoiceLines',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+            ;
         }
     }
 
