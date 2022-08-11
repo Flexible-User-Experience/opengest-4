@@ -27,6 +27,10 @@ use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Payslip\PayslipLineConceptRepository;
+use App\Repository\Purchase\PurchaseInvoiceDueDateRepository;
+use App\Repository\Purchase\PurchaseInvoiceLineRepository;
+use App\Repository\Purchase\PurchaseInvoiceRepository;
+use App\Repository\Purchase\PurchaseItemRepository;
 use App\Repository\Sale\SaleDeliveryNoteRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Repository\Sale\SaleItemRepository;
@@ -34,6 +38,7 @@ use App\Repository\Sale\SaleRequestRepository;
 use App\Repository\Sale\SaleServiceTariffRepository;
 use App\Repository\Sale\SaleTariffRepository;
 use App\Repository\Setting\CityRepository;
+use App\Repository\Setting\CostCenterRepository;
 use App\Repository\Setting\ProvinceRepository;
 use App\Repository\Setting\SaleInvoiceSeriesRepository;
 use App\Repository\Setting\TimeRangeRepository;
@@ -153,6 +158,16 @@ class RepositoriesManager
 
     private PayslipLineConceptRepository $payslipLineConceptRepository;
 
+    private PurchaseInvoiceRepository $purchaseInvoiceRepository;
+
+    private PurchaseInvoiceLineRepository $purchaseInvoiceLineRepository;
+
+    private PurchaseInvoiceDueDateRepository $purchaseInvoiceDueDateRepository;
+
+    private PurchaseItemRepository $purchaseItemRepository;
+
+    private CostCenterRepository $costCenterRepository;
+
     /**
      * Methods.
      */
@@ -207,7 +222,12 @@ class RepositoriesManager
         SaleItemRepository $saleItemRepository,
         WorkRepository $workRepository,
         TimeRangeRepository $timeRangeRepository,
-        PayslipLineConceptRepository $payslipLineConceptRepository
+        PayslipLineConceptRepository $payslipLineConceptRepository,
+        PurchaseInvoiceRepository $purchaseInvoiceRepository,
+        PurchaseInvoiceLineRepository $purchaseInvoiceLineRepository,
+        PurchaseInvoiceDueDateRepository $purchaseInvoiceDueDateRepository,
+        PurchaseItemRepository $purchaseItemRepository,
+        CostCenterRepository $costCenterRepository
     ) {
         $this->serviceRepository = $serviceRepository;
         $this->vehicleCategoryRepository = $vehicleCategoryRepository;
@@ -256,6 +276,11 @@ class RepositoriesManager
         $this->workRepository = $workRepository;
         $this->timeRangeRepository = $timeRangeRepository;
         $this->payslipLineConceptRepository = $payslipLineConceptRepository;
+        $this->purchaseInvoiceRepository = $purchaseInvoiceRepository;
+        $this->purchaseInvoiceLineRepository = $purchaseInvoiceLineRepository;
+        $this->purchaseInvoiceDueDateRepository = $purchaseInvoiceDueDateRepository;
+        $this->purchaseItemRepository = $purchaseItemRepository;
+        $this->costCenterRepository = $costCenterRepository;
     }
 
     /**
@@ -608,5 +633,45 @@ class RepositoriesManager
     public function getPayslipLineConceptRepository(): PayslipLineConceptRepository
     {
         return $this->payslipLineConceptRepository;
+    }
+
+    /**
+     * @return PurchaseInvoiceRepository
+     */
+    public function getPurchaseInvoiceRepository(): PurchaseInvoiceRepository
+    {
+        return $this->purchaseInvoiceRepository;
+    }
+
+    /**
+     * @return PurchaseInvoiceLineRepository
+     */
+    public function getPurchaseInvoiceLineRepository(): PurchaseInvoiceLineRepository
+    {
+        return $this->purchaseInvoiceLineRepository;
+    }
+
+    /**
+     * @return PurchaseInvoiceDueDateRepository
+     */
+    public function getPurchaseInvoiceDueDateRepository(): PurchaseInvoiceDueDateRepository
+    {
+        return $this->purchaseInvoiceDueDateRepository;
+    }
+
+    /**
+     * @return PurchaseItemRepository
+     */
+    public function getPurchaseItemRepository(): PurchaseItemRepository
+    {
+        return $this->purchaseItemRepository;
+    }
+
+    /**
+     * @return CostCenterRepository
+     */
+    public function getCostCenterRepository(): CostCenterRepository
+    {
+        return $this->costCenterRepository;
     }
 }

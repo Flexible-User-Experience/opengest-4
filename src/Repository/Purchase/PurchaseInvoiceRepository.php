@@ -2,6 +2,7 @@
 
 namespace App\Repository\Purchase;
 
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Purchase\PurchaseInvoice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,21 +16,31 @@ class PurchaseInvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, PurchaseInvoice::class);
     }
 
-    public function getEnabledSortedByNameQB(): QueryBuilder
+    public function getEnabledSortedByDateQB(): QueryBuilder
     {
-        return $this->createQueryBuilder('st')
-            ->where('st.enabled = :enabled')
+        return $this->createQueryBuilder('s')
+            ->where('s.enabled = :enabled')
             ->setParameter('enabled', true)
-        ;
+            ->orderBy('s.date', 'DESC')
+            ;
     }
 
-    public function getEnabledSortedByNameB(): Query
+    public function gettEnabledSortedByDateQ(): Query
     {
-        return $this->getEnabledSortedByNameQB()->getQuery();
+        return $this->getEnabledSortedByDateQB()->getQuery();
     }
 
-    public function getEnabledSortedByName(): array
+    public function getEnabledSortedByDate(): array
     {
-        return $this->getEnabledSortedByNameB()->getResult();
+        return $this->gettEnabledSortedByDateQ()->getResult();
+    }
+
+    public function getFilteredByEnterpriseSortedByDateQB(Enterprise $enterprise): QueryBuilder
+    {
+        return $this->getEnabledSortedByDateQB()
+            ->join('s.partner', 'p')
+            ->andWhere('p.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ;
     }
 }
