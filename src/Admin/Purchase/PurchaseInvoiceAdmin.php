@@ -6,6 +6,7 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Purchase\PurchaseInvoice;
+use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Setting\City;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -524,6 +525,42 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         if ($object->getPartner()->getId() !== $originalObject['partner']->getId()) {
             $this->setPartnerInformation($object);
         }
+    }
+
+    /**
+     * @param PurchaseInvoice $object
+     *
+     * @return void
+     */
+    public function postUpdate(object $object): void
+    {
+        $irpfTotal = 0;
+        $ivaTotal = 0;
+        $baseTotal = 0;
+        $total = 0;
+        $object->setIva0(0);
+        $object->setIva4(0);
+        $object->setIva10(0);
+        $object->setIva21(0);
+        /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
+        foreach ($object->getPurchaseInvoiceLines() as $purchaseInvoiceLine) {
+            $base = $purchaseInvoiceLine->getUnits()*$purchaseInvoiceLine->getPriceUnit();
+            $iva = $base*$purchaseInvoiceLine->getIva()/100;
+            $irpf = $base*$purchaseInvoiceLine->getIrpf()/100;
+            $purchaseInvoiceLine->setBaseTotal($base);
+            $purchaseInvoiceLine->setTotal($base + $iva - $irpf);
+            $baseTotal += $base;
+            $irpfTotal += $irpf;
+            $ivaTotal += $iva;
+            $total += $purchaseInvoiceLine->getTotal();
+            $newPartialIva = call_user_func([$object, 'getIva'.$purchaseInvoiceLine->getIva()]) + $iva;
+            call_user_func([$object, 'setIva'.$purchaseInvoiceLine->getIva()], $newPartialIva);
+        }
+        $object->setIrpf($irpfTotal);
+        $object->setIva($ivaTotal);
+        $object->setBaseTotal($baseTotal);
+        $object->setTotal($total);
+        $this->em->flush();
     }
 
     private function setPartnerInformation(PurchaseInvoice $purchaseInvoice)
