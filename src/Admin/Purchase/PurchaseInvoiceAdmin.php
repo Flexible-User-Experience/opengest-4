@@ -489,6 +489,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
      */
     public function prePersist(object $object): void
     {
+        $object->setEnterprise($this->getUserLogedEnterprise());
         $this->setPartnerInformation($object);
     }
 
