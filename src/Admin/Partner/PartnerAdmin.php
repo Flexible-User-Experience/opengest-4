@@ -96,7 +96,6 @@ class PartnerAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.type',
                     'required' => true,
                     'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
-                    'data' => $this->rm->getPartnerTypeRepository()->find(1),
                 ]
             )
         ;
@@ -268,19 +267,13 @@ class PartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'discount',
-                null,
-                [
-                    'label' => 'admin.label.discount',
-                ]
-            )
-            ->add(
                 'defaultIva',
                 ChoiceType::class,
                 [
                     'label' => 'admin.label.default_iva',
                     'choices' => IvaEnum::getReversedEnumArray(),
-                    'placeholder' => '--- seleccione una opción ---'
+                    'placeholder' => '--- seleccione una opción ---',
+                    'required' => false
                 ]
             )
             ->add(
@@ -394,6 +387,14 @@ class PartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.accounting_account',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'costAccountingAccount',
+                null,
+                [
+                    'label' => 'admin.label.cost_accounting_account',
                     'required' => false,
                 ]
             )

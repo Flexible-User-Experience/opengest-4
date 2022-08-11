@@ -1672,10 +1672,10 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param float $defaultIva
+     * @param ?float $defaultIva
      * @return Partner
      */
-    public function setDefaultIva(float $defaultIva): Partner
+    public function setDefaultIva(?float $defaultIva): Partner
     {
         $this->defaultIva = $defaultIva;
 
@@ -1691,11 +1691,11 @@ class Partner extends AbstractBase
     }
 
     /**
-     * @param float $defaultIrpf
+     * @param ?float $defaultIrpf
      *
      * @return Partner
      */
-    public function setDefaultIrpf(float $defaultIrpf): Partner
+    public function setDefaultIrpf(?float $defaultIrpf): Partner
     {
         $this->defaultIrpf = $defaultIrpf;
 

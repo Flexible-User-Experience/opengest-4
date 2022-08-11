@@ -191,6 +191,7 @@ admin:
         invoice_email: "Email facturación"
         province: "Província"
         accounting_account: "Cuenta contable"
+        cost_accounting_account: "Cuenta contable de gasto"
         collection_document_type: "Forma de pago"
         pay_day_1: "Día pago 1"
         pay_day_2: "Día pago 2"
