@@ -368,6 +368,13 @@ class Partner extends AbstractBase
      *
      * @ORM\Column(type="integer", nullable=true)
      */
+    private ?int $costAccountingAccount = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
     private ?int $collectionTerm1 = null;
 
     /**
@@ -1556,6 +1563,18 @@ class Partner extends AbstractBase
     public function setAccountingAccount(?int $accountingAccount): Partner
     {
         $this->accountingAccount = $accountingAccount;
+
+        return $this;
+    }
+
+    public function getCostAccountingAccount(): ?int
+    {
+        return $this->costAccountingAccount;
+    }
+
+    public function setCostAccountingAccount(?int $costAccountingAccount): Partner
+    {
+        $this->costAccountingAccount = $costAccountingAccount;
 
         return $this;
     }

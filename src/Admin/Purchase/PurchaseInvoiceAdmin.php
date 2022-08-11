@@ -515,6 +515,6 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $purchaseInvoice->setPartnerMainCity($partner->getMainCity());
         $purchaseInvoice->setPartnerName($partner->getName());
         $purchaseInvoice->setPartnerSwift($partner->getSwift());
-        $purchaseInvoice->setAccountingAccount($partner->getAccountingAccount());
+        $purchaseInvoice->setAccountingAccount($partner->getCostAccountingAccount());
     }
 }
