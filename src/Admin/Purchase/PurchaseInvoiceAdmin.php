@@ -6,8 +6,10 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Purchase\PurchaseInvoice;
+use App\Entity\Purchase\PurchaseInvoiceDueDate;
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Setting\City;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -560,6 +562,8 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $object->setIva($ivaTotal);
         $object->setBaseTotal($baseTotal);
         $object->setTotal($total);
+        $object->setPurchaseInvoiceDueDates(new ArrayCollection());
+        $this->em->persist($this->createDueDate($object));
         $this->em->flush();
     }
 
@@ -573,5 +577,15 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $purchaseInvoice->setPartnerName($partner->getName());
         $purchaseInvoice->setPartnerSwift($partner->getSwift());
         $purchaseInvoice->setAccountingAccount($partner->getCostAccountingAccount());
+    }
+
+    private function createDueDate(PurchaseInvoice $purchaseInvoice): PurchaseInvoiceDueDate
+    {
+        $dueDate = new PurchaseInvoiceDueDate();
+        $dueDate->setPurchaseInvoice($purchaseInvoice);
+        $dueDate->setDate($purchaseInvoice->getDate());
+        $dueDate->setAmount($purchaseInvoice->getTotal());
+
+        return $dueDate;
     }
 }
