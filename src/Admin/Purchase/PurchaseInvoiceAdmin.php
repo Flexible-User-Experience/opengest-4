@@ -66,13 +66,11 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
     {
         return [
             'id',
-            'series',
             'invoiceNumber',
             'dateFormatted',
             'partner.code',
-            'partner.name',
-            'partner.cifNif',
-            'discountFormatted',
+            'partnerName',
+            'partnerCifNif',
             'baseTotalFormatted',
             'ivaFormatted',
             'irpfFormatted',
@@ -111,13 +109,18 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     'required' => true,
                 ]
             )
-            ->add(
-                'accountingAccount',
-                null,
-                [
-                    'label' => 'admin.label.accounting_account',
-                ]
-            )
+            ;
+        if ($this->id($this->getSubject())) { // is edit mode
+            $formMapper
+                ->add(
+                    'accountingAccount',
+                    null,
+                    [
+                        'label' => 'admin.label.cost_accounting_account',
+                    ]
+                );
+        }
+        $formMapper
             ->end()
             ->with('admin.label.supplier', $this->getFormMdSuccessBoxArray(3))
             ->add(
@@ -328,7 +331,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
-                ->with('observations', $this->getFormMdSuccessBoxArray(6))
+                ->with('observations', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'observations',
                     null,
@@ -407,7 +410,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 'partner',
                 ModelFilter::class,
                 [
-                    'label' => 'admin.label.partner',
+                    'label' => 'admin.label.supplier',
                     'admin_code' => 'app.admin.partner',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
@@ -460,27 +463,20 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 'partner.code',
                 null,
                 [
-                    'label' => 'admin.label.partner_code',
+                    'label' => 'admin.label.supplier_code',
                 ]
             )
             ->add(
                 'partner',
                 null,
                 [
-                    'label' => 'admin.label.partner',
+                    'label' => 'admin.label.supplier',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'partner']],
                     'admin_code' => 'app.admin.partner',
-                ]
-            )
-            ->add(
-                'deliveryAddress',
-                null,
-                [
-                    'label' => 'admin.label.delivery_address',
                 ]
             )
             ->add(
