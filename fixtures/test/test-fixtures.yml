@@ -640,3 +640,48 @@ App\Entity\Payslip\PayslipLineConcept:
     payslipLineConcept{1..3}:
         description: <word()>
 
+# PurchaseItem
+App\Entity\Purchase\PurchaseItem:
+    purchaseItem{1..4}:
+        name: <word()>
+        description: <word()>
+
+# CostCenter
+App\Entity\Setting\CostCenter:
+    costCenter{1..4}:
+        name: <word()>
+        code: <word()>
+        description: <word()>
+
+# PurchaseInvoice
+App\Entity\Purchase\PurchaseInvoice:
+    purchaseInvoice{1..4}:
+        date: <dateTime()>
+        enterprise: '@enterprise<numberBetween(1,2)>'
+        partner: '@partner<numberBetween(1,2)>'
+        invoiceNumber: <randomNumber()>
+        reference: <randomNumber()>
+        partnerCifNif: '@partner<numberBetween(1,2)>->cifNif'
+
+# PurchaseInvoiceLine
+App\Entity\Purchase\PurchaseInvoiceLine:
+    purchaseInvoiceLine{1..4}:
+        purchaseInvoice: '@purchaseInvoice<numberBetween(1,2)>'
+        purchaseItem: '@purchaseItem<numberBetween(1,2)>'
+        costCenter: '@costCenter<numberBetween(1,2)>'
+        operator: '@operator<numberBetween(1,2)>'
+        vehicle: '@vehicle<numberBetween(1,2)>'
+        saleDeliveryNote: '@saleDeliveryNote<numberBetween(1,2)>'
+        units: <numberBetween(1,5)>
+        priceUnit: <randomFloat()>
+        baseTotal: <randomFloat()>
+        iva: <randomFloat()>
+        irpf: <randomFloat()>
+        total: <randomFloat()>
+
+# PurchaseInvoiceDueDate
+App\Entity\Purchase\PurchaseInvoiceDueDate:
+    purchaseInvoiceDueDate{1..4}:
+        purchaseInvoice: '@purchaseInvoice<numberBetween(1,2)>'
+        amount: <randomFloat()>
+        date: <dateTime()>
