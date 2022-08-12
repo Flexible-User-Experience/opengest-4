@@ -662,6 +662,10 @@ App\Entity\Purchase\PurchaseInvoice:
         invoiceNumber: <randomNumber()>
         reference: <randomNumber()>
         partnerCifNif: '@partner<numberBetween(1,2)>->cifNif'
+        partnerMainCity: '@partner<numberBetween(1,2)>->mainCity'
+        partnerName: '@partner<numberBetween(1,2)>->name'
+        partnerIban: '@partner<numberBetween(1,2)>->iban'
+        partnerSwift: '@partner<numberBetween(1,2)>->swift'
 
 # PurchaseInvoiceLine
 App\Entity\Purchase\PurchaseInvoiceLine:
