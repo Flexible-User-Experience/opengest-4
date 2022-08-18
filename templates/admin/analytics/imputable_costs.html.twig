@@ -3,6 +3,43 @@
 {% block sonata_admin_content %}
 
     {{ parent() }}
-
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Costes imputables
+                    </h4>
+                </div>
+                <form>
+                    <div class="box-body">
+                        <div class="form-group" id="sonata-ba-field-container-custom_sale_delivery_note">
+                            <label class="control-label" for="year">
+                                Año
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="year" id="year">
+                                {% for year in years %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                            <label class="control-label" for="custom_sale_delivery_note">
+                                Albarán
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
+                                    <option value="">---selecione un albarán---</option>
+                                    {% for deliveryNote in saleDeliveryNotes %}
+                                        <option value="{{ deliveryNote.id }}">{{ deliveryNote.id }} - {{ deliveryNote.partner.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
