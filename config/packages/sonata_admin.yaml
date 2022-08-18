@@ -33,6 +33,12 @@ sonata_admin:
                 icon: '<i class="fa fa-building"></i>'
             Web:
                 icon: '<i class="fa fa-chrome"></i>'
+            Analítica:
+                items:
+                    - route: admin_app_purchase_purchaseinvoiceline_imputableCosts
+                      label: Costes imputables
+                      roles: [ ROLE_SONATA_MANAGER_ADMIN ]
+                icon: '<i class="fa fa-line-chart"></i>'
             Configuración:
                 label: 'Configuración'
                 icon:  '<i class="fa fa-briefcase"></i>'

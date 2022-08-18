@@ -8,7 +8,6 @@ use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Purchase\PurchaseItem;
 use App\Entity\Sale\SaleDeliveryNote;
-use App\Entity\Sale\SaleItem;
 use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\ConstantsEnum;
@@ -18,6 +17,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -39,6 +39,14 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
      * @var string
      */
     protected $baseRoutePattern = 'compras/factura-linea';
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection
+            ->add('imputableCosts', 'costes-imputables')
+        ;
+    }
 
     /**
      * Methods.
@@ -71,7 +79,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.units',
                     'required' => false,
-                    'scale' => 4
+                    'scale' => 4,
                 ]
             )
             ->add(
@@ -98,7 +106,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.iva',
                     'required' => true,
                     'choices' => IvaEnum::getReversedEnumArray(),
-                    'data' => $this->getIvaFromPartner()
+                    'data' => $this->getIvaFromPartner(),
                 ]
             )
             ->add(
@@ -111,7 +119,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'attr' => [
                         'placeholder' => ConstantsEnum::IRPF,
                     ],
-                    'data' => $this->getIrpfFromPartner()
+                    'data' => $this->getIrpfFromPartner(),
                 ]
             )
             ->add(
@@ -375,7 +383,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
     {
         /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
         $purchaseInvoiceLine = $this->getSubject();
-        if (!$this->id($purchaseInvoiceLine)){
+        if (!$this->id($purchaseInvoiceLine)) {
             return $this->getSubject()->getPurchaseInvoice()->getPartner()->getDefaultIrpf();
         } else {
             return $purchaseInvoiceLine->getIrpf();
@@ -386,7 +394,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
     {
         /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
         $purchaseInvoiceLine = $this->getSubject();
-        if (!$this->id($purchaseInvoiceLine)){
+        if (!$this->id($purchaseInvoiceLine)) {
             return $this->getSubject()->getPurchaseInvoice()->getPartner()->getDefaultIva();
         } else {
             return $purchaseInvoiceLine->getIva();
