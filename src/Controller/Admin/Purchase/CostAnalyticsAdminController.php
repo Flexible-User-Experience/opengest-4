@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Analytics;
+namespace App\Controller\Admin\Purchase;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
