@@ -18,7 +18,7 @@ class CostAnalyticsAdminController extends BaseAdminController
     public function imputableCostsAction(Request $request): Response
     {
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
-        $year = $request->get('year');
+        $year = $request->get('year') ?? date('Y');
         $saleDeliveryNoteId = $request->get('sale_delivery_note');
         $vehicleId = $request->get('vehicle');
         $operatorId = $request->get('operator');

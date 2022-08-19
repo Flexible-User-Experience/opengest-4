@@ -99,6 +99,210 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-9">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Lineas de factura de compra
+                    </h4>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                            <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                    <th class="sonata-ba-list-field-header">
+                                        Id
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Unidades
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Precio
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Importe (€)
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Artículo
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Descripción
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Imputado a
+                                </tr>
+                            </thead>
+                            <tbody id="purchase_invoice_lines_table">
+                                {% for purchaseInvoiceLine in purchaseInvoiceLines %}
+                                    <tr>
+                                        <td>
+                                            {{ purchaseInvoiceLine.id }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.purchaseInvoice.date | date('d/m/Y') }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.units }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.priceUnit }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.baseTotal }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.purchaseItem }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.description }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.imputedToType }} - {{ purchaseInvoiceLine.imputedTo }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if operatorWorkRegisters|length > 0 %}
+            <div class="col-md-9">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h4 class="box-title">
+                            Partes de trabajo
+                        </h4>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                                <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                    <th class="sonata-ba-list-field-header">
+                                        Id
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Unidades
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Precio
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Importe (€)
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Albarán de venta
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Descripción
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="operator_work_registers_table">
+                                    {% for operatorWorkRegister in operatorWorkRegisters %}
+                                        <tr>
+                                            <td>
+                                                {{ operatorWorkRegister.id }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.operatorWorkRegisterHeader.date | date('d/m/Y') }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.units }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.priceUnit }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.amount }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.saleDeliveryNote }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.description }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if vehicleConsumptions %}
+            <div class="col-md-9">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h4 class="box-title">
+                            Consumos de vehículo
+                        </h4>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                                <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                    <th class="sonata-ba-list-field-header">
+                                        Id
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Unidades
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Precio
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Importe (€)
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Vehiculo
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Tipo de combustible
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="operator_work_registers_table">
+                                {% for vehicleConsumption in vehicleConsumptions %}
+                                    <tr>
+                                        <td>
+                                            {{ vehicleConsumption.id }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.supplyDate | date('d/m/Y') }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.quantity }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.priceUnit }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.amount }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.vehicle }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.fuelType }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     <script type="text/javascript">

@@ -27,73 +27,59 @@ class PurchaseInvoiceLine extends AbstractBase
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchaseItem", inversedBy="purchaseInvoiceLines")
      */
-    private PurchaseItem $purchaseItem;
+    private ?PurchaseItem $purchaseItem;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="purchaseInvoiceLines")
      */
-    private Operator $operator;
+    private ?Operator $operator;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="purchaseInvoiceLines")
      */
-    private Vehicle $vehicle;
+    private ?Vehicle $vehicle;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="purchaseInvoiceLines")
      */
-    private SaleDeliveryNote $saleDeliveryNote;
+    private ?SaleDeliveryNote $saleDeliveryNote;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Setting\CostCenter", inversedBy="purchaseInvoiceLines")
      */
-    private CostCenter $costCenter;
+    private ?CostCenter $costCenter;
 
     /**
-     * @var float|null
-     *
      * @ORM\Column(type="float", nullable=true, scale=4)
      */
     private ?float $units = 0;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float", scale=4)
      */
     private float $priceUnit = 0;
 
     /**
-     * @var float|null
-     *
      * @ORM\Column(type="float", nullable=true, scale=4)
      */
     private ?float $total;
 
     /**
-     * @var float|null
-     *
      * @ORM\Column(type="float", nullable=true, scale=4)
      */
     private ?float $baseTotal;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $description;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      */
     private float $iva;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="float")
      */
     private float $irpf;
@@ -101,19 +87,11 @@ class PurchaseInvoiceLine extends AbstractBase
     /**
      * Methods.
      */
-    /**
-     * @return PurchaseInvoice
-     */
     public function getPurchaseInvoice(): PurchaseInvoice
     {
         return $this->purchaseInvoice;
     }
 
-    /**
-     * @param PurchaseInvoice $purchaseInvoice
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setPurchaseInvoice(PurchaseInvoice $purchaseInvoice): PurchaseInvoiceLine
     {
         $this->purchaseInvoice = $purchaseInvoice;
@@ -122,18 +100,13 @@ class PurchaseInvoiceLine extends AbstractBase
     }
 
     /**
-     * @return PurchaseItem
+     * @return ?PurchaseItem
      */
-    public function getPurchaseItem(): PurchaseItem
+    public function getPurchaseItem(): ?PurchaseItem
     {
         return $this->purchaseItem;
     }
 
-    /**
-     * @param PurchaseItem $purchaseItem
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setPurchaseItem(PurchaseItem $purchaseItem): PurchaseInvoiceLine
     {
         $this->purchaseItem = $purchaseItem;
@@ -142,18 +115,13 @@ class PurchaseInvoiceLine extends AbstractBase
     }
 
     /**
-     * @return Operator
+     * @return ?Operator
      */
-    public function getOperator(): Operator
+    public function getOperator(): ?Operator
     {
         return $this->operator;
     }
 
-    /**
-     * @param Operator $operator
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setOperator(Operator $operator): PurchaseInvoiceLine
     {
         $this->operator = $operator;
@@ -162,18 +130,13 @@ class PurchaseInvoiceLine extends AbstractBase
     }
 
     /**
-     * @return Vehicle
+     * @return ?Vehicle
      */
-    public function getVehicle(): Vehicle
+    public function getVehicle(): ?Vehicle
     {
         return $this->vehicle;
     }
 
-    /**
-     * @param Vehicle $vehicle
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setVehicle(Vehicle $vehicle): PurchaseInvoiceLine
     {
         $this->vehicle = $vehicle;
@@ -182,18 +145,13 @@ class PurchaseInvoiceLine extends AbstractBase
     }
 
     /**
-     * @return SaleDeliveryNote
+     * @return ?SaleDeliveryNote
      */
-    public function getSaleDeliveryNote(): SaleDeliveryNote
+    public function getSaleDeliveryNote(): ?SaleDeliveryNote
     {
         return $this->saleDeliveryNote;
     }
 
-    /**
-     * @param SaleDeliveryNote $saleDeliveryNote
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setSaleDeliveryNote(SaleDeliveryNote $saleDeliveryNote): PurchaseInvoiceLine
     {
         $this->saleDeliveryNote = $saleDeliveryNote;
@@ -202,18 +160,13 @@ class PurchaseInvoiceLine extends AbstractBase
     }
 
     /**
-     * @return CostCenter
+     * @return ?CostCenter
      */
-    public function getCostCenter(): CostCenter
+    public function getCostCenter(): ?CostCenter
     {
         return $this->costCenter;
     }
 
-    /**
-     * @param CostCenter $costCenter
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setCostCenter(CostCenter $costCenter): PurchaseInvoiceLine
     {
         $this->costCenter = $costCenter;
@@ -221,19 +174,11 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getUnits(): ?float
     {
         return $this->units;
     }
 
-    /**
-     * @param float|null $units
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setUnits(?float $units): PurchaseInvoiceLine
     {
         $this->units = $units;
@@ -241,19 +186,11 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getPriceUnit(): float
     {
         return $this->priceUnit;
     }
 
-    /**
-     * @param float $priceUnit
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setPriceUnit(float $priceUnit): PurchaseInvoiceLine
     {
         $this->priceUnit = $priceUnit;
@@ -261,19 +198,11 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getTotal(): ?float
     {
         return $this->total;
     }
 
-    /**
-     * @param float|null $total
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setTotal(?float $total): PurchaseInvoiceLine
     {
         $this->total = $total;
@@ -281,19 +210,11 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getBaseTotal(): ?float
     {
         return $this->baseTotal;
     }
 
-    /**
-     * @param float|null $baseTotal
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setBaseTotal(?float $baseTotal): PurchaseInvoiceLine
     {
         $this->baseTotal = $baseTotal;
@@ -301,19 +222,11 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setDescription(?string $description): PurchaseInvoiceLine
     {
         $this->description = $description;
@@ -321,19 +234,11 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getIva(): float
     {
         return $this->iva;
     }
 
-    /**
-     * @param float $iva
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setIva(float $iva): PurchaseInvoiceLine
     {
         $this->iva = $iva;
@@ -341,24 +246,53 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getIrpf(): float
     {
         return $this->irpf;
     }
 
-    /**
-     * @param float $irpf
-     *
-     * @return PurchaseInvoiceLine
-     */
     public function setIrpf(float $irpf): PurchaseInvoiceLine
     {
         $this->irpf = $irpf;
 
         return $this;
+    }
+
+    /**
+     * Custom methods.
+     */
+    public function getImputedTo()
+    {
+        if ($this->getSaleDeliveryNote()) {
+            return $this->getSaleDeliveryNote();
+        }
+        if ($this->getVehicle()) {
+            return $this->getVehicle();
+        }
+        if ($this->getOperator()) {
+            return $this->getOperator();
+        }
+        if ($this->getCostCenter()) {
+            return $this->getCostCenter();
+        }
+    }
+
+    public function getImputedToType(): string
+    {
+        if ($this->getSaleDeliveryNote()) {
+            return 'Albarán';
+        }
+        if ($this->getVehicle()) {
+            return 'Vehículo';
+        }
+        if ($this->getOperator()) {
+            return 'Operario';
+        }
+        if ($this->getCostCenter()) {
+            return 'Centro de coste';
+        }
+
+        return '';
     }
 
     public function __toString()

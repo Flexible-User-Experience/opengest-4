@@ -17,8 +17,8 @@ class PurchaseInvoiceLineRepository extends ServiceEntityRepository
 
     public function getEnabledSortedByNameQB(): QueryBuilder
     {
-        return $this->createQueryBuilder('st')
-            ->where('st.enabled = :enabled')
+        return $this->createQueryBuilder('pil')
+            ->where('pil.enabled = :enabled')
             ->setParameter('enabled', true)
         ;
     }
@@ -36,7 +36,8 @@ class PurchaseInvoiceLineRepository extends ServiceEntityRepository
     public function getFilteredByYear(int $year)
     {
         return $this->getEnabledSortedByNameQB()
-            ->where('year(st.year) = :year')
+            ->join('pil.purchaseInvoice', 'pi')
+            ->andWhere('year(pi.date) = :year')
             ->setParameter('year', $year)
             ->getQuery()
             ->getResult()
