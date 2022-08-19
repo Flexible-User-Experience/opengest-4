@@ -34,7 +34,7 @@
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
                                 <select class="select2-container" style="width: 100%;" name="sale_delivery_note" id="sale_delivery_note">
-                                    <option value="">---selecione un albarán---</option>
+                                    <option value="">---</option>
                                     {% for deliveryNote in saleDeliveryNotes %}
                                         <option
                                                 value="{{ deliveryNote.id }}"
@@ -50,7 +50,7 @@
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
                                 <select class="select2-container" style="width: 100%;" name="vehicle" id="vehicle">
-                                    <option value="">---selecione una opción---</option>
+                                    <option value="">---</option>
                                     {% for vehicle in vehicles %}
                                         <option
                                                 value="{{ vehicle.id }}"
@@ -66,7 +66,7 @@
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
                                 <select class="select2-container" style="width: 100%;" name="operator" id="operator">
-                                    <option value="">---selecione una opción---</option>
+                                    <option value="">---</option>
                                     {% for operator in operators %}
                                         <option
                                                 value="{{ operator.id }}"
@@ -82,7 +82,7 @@
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
                                 <select class="select2-container" style="width: 100%;" name="costCenter" id="costCenter">
-                                    <option value="">---selecione una opción---</option>
+                                    <option value="">---</option>
                                     {% for costCenter in costCenters %}
                                         <option
                                                 value="{{ costCenter.id }}"
@@ -100,5 +100,46 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        let saleDeliveryNoteSelect = jQuery('#sale_delivery_note');
+        let vehicleSelect = jQuery('#vehicle');
+        let operatorSelect = jQuery('#operator');
+        let costCenterSelect = jQuery('#costCenter');
+        saleDeliveryNoteSelect.change((event) => {
+          if (saleDeliveryNoteSelect.val() !== '') {
+            vehicleSelect.select2().val('').trigger('change');
+            operatorSelect.select2().val('').trigger('change');
+            costCenterSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+        vehicleSelect.change((event) => {
+          if (vehicleSelect.val() !== '') {
+            saleDeliveryNoteSelect.select2().val('').trigger('change');
+            operatorSelect.select2().val('').trigger('change');
+            costCenterSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+        operatorSelect.change((event) => {
+          if (operatorSelect.val() !== '') {
+            saleDeliveryNoteSelect.select2().val('').trigger('change');
+            vehicleSelect.select2().val('').trigger('change');
+            costCenterSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+        costCenterSelect.change((event) => {
+          if (costCenterSelect.val() !== '') {
+            saleDeliveryNoteSelect.select2().val('').trigger('change');
+            vehicleSelect.select2().val('').trigger('change');
+            operatorSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+      });
+    </script>
 
 {% endblock %}
