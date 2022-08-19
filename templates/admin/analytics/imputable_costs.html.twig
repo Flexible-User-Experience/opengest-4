@@ -13,29 +13,88 @@
                         Costes imputables
                     </h4>
                 </div>
-                <form>
+                <form action="{{ path('admin_app_purchase_purchaseinvoiceline_imputableCosts') }}">
                     <div class="box-body">
-                        <div class="form-group" id="sonata-ba-field-container-custom_sale_delivery_note">
+                        <div class="form-group">
                             <label class="control-label" for="year">
                                 Año
                             </label>
                             <select class="select2-container" style="width: 100%;" name="year" id="year">
                                 {% for year in years %}
-                                    <option value="{{ year }}">{{ year }}</option>
+                                    <option
+                                            value="{{ year }}"
+                                            {% if year == selectedYear %}
+                                                selected
+                                            {% endif %}
+                                    >{{ year }}</option>
                                 {% endfor %}
                             </select>
-                            <label class="control-label" for="custom_sale_delivery_note">
+                            <label class="control-label" for="sale_delivery_note">
                                 Albarán
                             </label>
                             <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
-                                <select class="select2-container" style="width: 100%;" name="custom_sale_delivery_note" id="custom_sale_delivery_note">
+                                <select class="select2-container" style="width: 100%;" name="sale_delivery_note" id="sale_delivery_note">
                                     <option value="">---selecione un albarán---</option>
                                     {% for deliveryNote in saleDeliveryNotes %}
-                                        <option value="{{ deliveryNote.id }}">{{ deliveryNote.id }} - {{ deliveryNote.partner.name }}</option>
+                                        <option
+                                                value="{{ deliveryNote.id }}"
+                                                {% if deliveryNote.id == selectedSaleDeliveryNoteId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ deliveryNote.id }} - {{ deliveryNote.partner.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <label class="control-label" for="vehicle">
+                                Vehículo
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="vehicle" id="vehicle">
+                                    <option value="">---selecione una opción---</option>
+                                    {% for vehicle in vehicles %}
+                                        <option
+                                                value="{{ vehicle.id }}"
+                                                {% if vehicle.id == selectedVehicleId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ vehicle }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <label class="control-label" for="operator">
+                                Operario
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="operator" id="operator">
+                                    <option value="">---selecione una opción---</option>
+                                    {% for operator in operators %}
+                                        <option
+                                                value="{{ operator.id }}"
+                                                {% if operator.id == selectedOperatorId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ operator }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <label class="control-label" for="costCenter">
+                                Centro de coste
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="costCenter" id="costCenter">
+                                    <option value="">---selecione una opción---</option>
+                                    {% for costCenter in costCenters %}
+                                        <option
+                                                value="{{ costCenter.id }}"
+                                                {% if costCenter.id == selectedCostCenterId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ costCenter }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                         </div>
+                        <button class="btn btn-success" type="submit" id="btn_custom_submit" name="btn_custom_submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
                     </div>
                 </form>
             </div>
