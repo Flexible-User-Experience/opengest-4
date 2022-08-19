@@ -2,6 +2,7 @@
 
 namespace App\Repository\Vehicle;
 
+use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleConsumption;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -28,5 +29,17 @@ class VehicleConsumptionRepository extends ServiceEntityRepository
     public function getVehicleConsumptionsSortedByName(): array
     {
         return $this->getVehicleConsumptionsSortedByNameQ()->getResult();
+    }
+
+    public function getFilteredByVehicleAndYear(Vehicle $vehicle, $year)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.vehicle = :vehicle')
+            ->andWhere('year(c.year) = :year')
+            ->setParameter('vehicle', $vehicle)
+            ->setParameter('year', $year)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

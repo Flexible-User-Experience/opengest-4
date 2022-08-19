@@ -4,9 +4,12 @@ namespace App\Controller\Admin\Purchase;
 
 use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
+use App\Entity\Operator\OperatorWorkRegister;
+use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
+use App\Entity\Vehicle\VehicleConsumption;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,11 +17,29 @@ class CostAnalyticsAdminController extends BaseAdminController
 {
     public function imputableCostsAction(Request $request): Response
     {
+        $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $year = $request->get('year');
         $saleDeliveryNoteId = $request->get('sale_delivery_note');
         $vehicleId = $request->get('vehicle');
         $operatorId = $request->get('operator');
         $costCenterId = $request->get('costCenter');
+        if ($saleDeliveryNoteId) {
+            $saleDeliveryNote = $saleDeliveryNoteRepository->find($saleDeliveryNoteId);
+            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['saleDeliveryNote' => $saleDeliveryNote]);
+        } elseif ($vehicleId) {
+            $vehicle = $this->em->getRepository(Vehicle::class)->find($vehicleId);
+            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['vehicle' => $vehicle]);
+            $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->findBy(['vehicle' => $vehicle]);
+        } elseif ($operatorId) {
+            $operator = $this->em->getRepository(Operator::class)->find($operatorId);
+            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['operator' => $operator]);
+            $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByOperatorAndYear($operator, $year);
+        } elseif ($costCenterId) {
+            $costCenter = $this->em->getRepository(CostCenter::class)->find($costCenterId);
+            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['costCenter' => $costCenter]);
+        } else {
+            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findAll();
+        }
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $vehicles = $this->em->getRepository(Vehicle::class)->findEnabledSortedByName();
         $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());

@@ -2,6 +2,7 @@
 
 namespace App\Repository\Operator;
 
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
 use DateTime;
@@ -32,7 +33,7 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
             ->setParameter('date', $date->format('Y-m-d'))
             ->setParameter('sdnIds', $saleDeliveryNoteIds)
             ->select('SUM(owr.units) as hours')
-            ;
+        ;
     }
 
     public function getHoursFromOperatorWorkRegistersWithHoursFromDeliveryNotesAndDateQ(Collection $saleDeliveryNotes, DateTime $date): Query
@@ -56,6 +57,19 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
             ->setParameter('operatorWorkRegisterHeader', $operatorWorkRegisterHeader)
             ->getQuery()
             ->getResult()
-            ;
+        ;
+    }
+
+    public function getFilteredByOperatorAndYear(Operator $operator, $year)
+    {
+        return $this->createQueryBuilder('owr')
+            ->join('owr.operatorWorkRegisterHeader', 'owrh')
+            ->where('owrh.operator = :operator')
+            ->andWhere('year(owrh.date) = :year')
+            ->setParameter('year', $year)
+            ->setParameter('operator', $operator)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }
