@@ -130,6 +130,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.vehicle',
                     'required' => false,
                     'placeholder' => '---',
+                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
             ->add(
@@ -140,6 +141,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.operator',
                     'required' => false,
                     'placeholder' => '---',
+                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                 ]
             )
             ->add(
@@ -160,6 +162,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.cost_center',
                     'required' => false,
                     'placeholder' => '---',
+                    'query_builder' => $this->rm->getCostCenterRepository()->getEnabledSortedByNameQB(),
                 ]
             )
             ->add(
