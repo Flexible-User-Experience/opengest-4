@@ -4,9 +4,9 @@ namespace App\Repository\Purchase;
 
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class PurchaseInvoiceLineRepository extends ServiceEntityRepository
 {
@@ -31,5 +31,15 @@ class PurchaseInvoiceLineRepository extends ServiceEntityRepository
     public function getEnabledSortedByName(): array
     {
         return $this->getEnabledSortedByNameB()->getResult();
+    }
+
+    public function getFilteredByYear(int $year)
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->where('year(st.year) = :year')
+            ->setParameter('year', $year)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

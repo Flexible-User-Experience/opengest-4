@@ -31,15 +31,20 @@ class VehicleConsumptionRepository extends ServiceEntityRepository
         return $this->getVehicleConsumptionsSortedByNameQ()->getResult();
     }
 
-    public function getFilteredByVehicleAndYear(Vehicle $vehicle, $year)
+    public function getFilteredByYearAndVehicle($year, Vehicle $vehicle = null)
     {
-        return $this->createQueryBuilder('c')
-            ->where('c.vehicle = :vehicle')
-            ->andWhere('year(c.year) = :year')
-            ->setParameter('vehicle', $vehicle)
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->where('year(c.supplyDate) = :year')
             ->setParameter('year', $year)
-            ->getQuery()
-            ->getResult()
+            ->addOrderBy('c.supplyDate', 'ASC')
         ;
+        if ($vehicle) {
+            $queryBuilder
+                ->andWhere('c.vehicle = :vehicle')
+                ->setParameter('vehicle', $vehicle)
+            ;
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

@@ -60,16 +60,22 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
         ;
     }
 
-    public function getFilteredByOperatorAndYear(Operator $operator, $year)
+    public function getFilteredByYearAndOperator($year, Operator $operator = null)
     {
-        return $this->createQueryBuilder('owr')
+        $queryBuilder = $this->createQueryBuilder('owr')
             ->join('owr.operatorWorkRegisterHeader', 'owrh')
-            ->where('owrh.operator = :operator')
-            ->andWhere('year(owrh.date) = :year')
+            ->where('year(owrh.date) = :year')
             ->setParameter('year', $year)
-            ->setParameter('operator', $operator)
-            ->getQuery()
-            ->getResult()
+            ->orderBy('owrh.date', 'ASC')
+            ->addOrderBy('owr.id', 'ASC')
         ;
+        if ($operator) {
+            $queryBuilder
+                ->andWhere('owrh.operator = :operator')
+                ->setParameter('operator', $operator)
+            ;
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

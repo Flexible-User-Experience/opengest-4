@@ -23,22 +23,26 @@ class CostAnalyticsAdminController extends BaseAdminController
         $vehicleId = $request->get('vehicle');
         $operatorId = $request->get('operator');
         $costCenterId = $request->get('costCenter');
+        $operatorWorkRegisters = [];
+        $vehicleConsumptions = [];
         if ($saleDeliveryNoteId) {
             $saleDeliveryNote = $saleDeliveryNoteRepository->find($saleDeliveryNoteId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['saleDeliveryNote' => $saleDeliveryNote]);
         } elseif ($vehicleId) {
             $vehicle = $this->em->getRepository(Vehicle::class)->find($vehicleId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['vehicle' => $vehicle]);
-            $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->findBy(['vehicle' => $vehicle]);
+            $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->getFilteredByYearAndVehicle($year, $vehicle);
         } elseif ($operatorId) {
             $operator = $this->em->getRepository(Operator::class)->find($operatorId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['operator' => $operator]);
-            $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByOperatorAndYear($operator, $year);
+            $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByYearAndOperator($year, $operator);
         } elseif ($costCenterId) {
             $costCenter = $this->em->getRepository(CostCenter::class)->find($costCenterId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['costCenter' => $costCenter]);
         } else {
-            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findAll();
+            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->getFilteredByYear($year);
+            $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByYearAndOperator($year);
+            $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->getFilteredByYearAndVehicle($year);
         }
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $vehicles = $this->em->getRepository(Vehicle::class)->findEnabledSortedByName();
@@ -62,6 +66,9 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'selectedVehicleId' => $vehicleId,
                 'selectedOperatorId' => $operatorId,
                 'selectedCostCenterId' => $costCenterId,
+                'purchaseInvoiceLines' => $purchaseInvoiceLines,
+                'operatorWorkRegisters' => $operatorWorkRegisters,
+                'vehicleConsumptions' => $vehicleConsumptions,
             ]
         );
     }
