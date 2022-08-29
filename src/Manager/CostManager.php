@@ -93,24 +93,46 @@ class CostManager
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()] = [
                 'income' => $saleDeliveryNote->getBaseAmount(),
-                'workingHoursCost' => $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote),
+                'workingHoursDirectCost' => $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote),
+                'purchaseInvoiceDirectCost' => $this->getPurchaseInvoiceCostFromDeliveryNote($saleDeliveryNote),
             ];
         }
 
         return $saleDeliveryNotesMarginAnalysis;
     }
 
-    public function getWorkingHoursCostFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote)
+    private function getWorkingHoursCostFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote)
     {
         $operatorWorkRegisterHours = $this->repositoriesManager->getOperatorWorkRegisterRepository()->getEnabledWithHoursSortedByIdQB()
             ->andWhere('owr.saleDeliveryNote = :saleDeliveryNote')
             ->andWhere('owr.start is not null')
             ->setParameter('saleDeliveryNote', $saleDeliveryNote)
-            ->select('SUM(owr.units) as hours')
+            ->select('SUM(owr.amount) as hours')
             ->getQuery()
             ->getResult()
         ;
 
         return $operatorWorkRegisterHours[0]['hours'];
+    }
+
+    private function getPurchaseInvoiceCostFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote): float
+    {
+        $cost = 0;
+        $purchaseInvoiceLines = $saleDeliveryNote->getPurchaseInvoiceLines();
+        foreach ($purchaseInvoiceLines as $purchaseInvoiceLine) {
+            $cost += $purchaseInvoiceLine->getBaseTotal();
+        }
+
+        return $cost;
+    }
+
+    private function getPriceHourFromVehicle(Vehicle $vehicle): float
+    {
+        $priceHour = $vehicle->getPriceHour();
+        if (null === $priceHour) {
+            $priceHour = 0;
+        }
+
+        return $priceHour;
     }
 }
