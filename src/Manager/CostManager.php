@@ -2,47 +2,30 @@
 
 namespace App\Manager;
 
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Sale\SaleDeliveryNote;
+use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleConsumption;
 
 class CostManager
 {
-    private RepositoriesManager $repositoriesManager;
-
-    public function __construct(RepositoriesManager $repositoriesManager)
+    public function getPurchaseInvoiceLinesFromYear(int $year, ?SaleDeliveryNote $saleDeliveryNote = null, ?Vehicle $vehicle = null, ?Operator $operator = null, ?CostCenter $costCenter = null)
     {
-        $this->repositoriesManager = $repositoriesManager;
-    }
-
-    public function getPurchaseInvoiceLinesFromYear(int $year, $saleDeliveryNote = null, $vehicle = null, $operator = null, $activityLine = null)
-    {
-        $purchaseInvoiceLinesQueryBuilder = $this->repositoriesManager->getPurchaseInvoiceLineRepository()->getEnabledFilteredByYearQB($year);
+        $purchaseInvoiceLines = [];
         if ($saleDeliveryNote) {
-            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
-                ->andWhere('pil.saleDeliveryNote = :saleDeliveryNote')
-                ->setParameter('saleDeliveryNote', $saleDeliveryNote)
-            ;
+            $purchaseInvoiceLines = $saleDeliveryNote->getPurchaseInvoiceLines();
         } elseif ($vehicle) {
-            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
-                ->andWhere('pil.vehicle = :vehicle')
-                ->setParameter('vehicle', $vehicle)
-            ;
+            $purchaseInvoiceLines = $vehicle->getPurchaseInvoiceLines();
         } elseif ($operator) {
-            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
-                ->andWhere('pil.operator = :operator')
-                ->setParameter('operator', $operator)
-            ;
-        } elseif ($activityLine) {
-            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
-                ->andWhere('pil.activityLine = :activityLine')
-                ->setParameter('activityLine', $activityLine)
-            ;
+            $purchaseInvoiceLines = $operator->getPurchaseInvoiceLines();
+        } elseif ($costCenter) {
+            $purchaseInvoiceLines = $costCenter->getPurchaseInvoiceLines();
         }
 
-        return $purchaseInvoiceLinesQueryBuilder->getQuery()->getResult();
+        return $purchaseInvoiceLines;
     }
 
     /**
@@ -176,7 +159,10 @@ class CostManager
         $priceHour = 0;
         if ($hours > 0) {
             $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines($this->getPurchaseInvoiceLinesFromYear($year, null, $vehicle));
-            $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($this->repositoriesManager->getVehicleConsumptionRepository()->getFilteredByYearAndVehicle($year, $vehicle));
+            $vehicleConsumptions = $vehicle->getVehicleConsumptions()->filter(function (VehicleConsumption $vehicleConsumption) use ($year) {
+                return $vehicleConsumption->getSupplyDate()->format('Y') === $year;
+            });
+            $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($vehicleConsumptions);
             $totalCost = $purchaseInvoiceCost + $vehicleConsumptionCost;
             $priceHour = $totalCost / $hours;
         }

@@ -113,6 +113,9 @@ class CostAnalyticsAdminController extends BaseAdminController
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $year = $request->get('year') ?? date('Y');
         $saleDeliveryNotes = $saleDeliveryNoteRepository->getFilteredByEnterpriseSortedByNameQB($this->getUser()->getDefaultEnterprise())
+            ->leftJoin('s.purchaseInvoiceLines', 'purchaseInvoiceLines')
+            ->leftJoin('s.operatorWorkRegisters', 'operatorWorkRegisters')
+            ->addSelect('purchaseInvoiceLines, operatorWorkRegisters')
             ->andWhere('YEAR(s.date) = :year')
             ->setParameter('year', $year)
             ->orderBy('s.date', 'ASC')
