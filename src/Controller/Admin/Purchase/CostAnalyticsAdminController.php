@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleConsumption;
+use App\Repository\Sale\SaleDeliveryNoteRepository;
 use App\Service\Format\NumberFormatService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,6 +103,32 @@ class CostAnalyticsAdminController extends BaseAdminController
         return $this->renderWithExtraParams(
             'admin/analytics/imputable_costs.html.twig',
             $parameters
+        );
+    }
+
+    public function marginAnalysisAction(Request $request): Response
+    {
+        $this->admin->checkAccess('edit');
+        /** @var SaleDeliveryNoteRepository $saleDeliveryNoteRepository */
+        $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
+        $year = $request->get('year') ?? date('Y');
+        $saleDeliveryNotes = $saleDeliveryNoteRepository->getFilteredByEnterpriseSortedByNameQB($this->getUser()->getDefaultEnterprise())
+            ->andWhere('YEAR(s.date) = :year')
+            ->setParameter('year', $year)
+            ->orderBy('s.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes);
+
+        return $this->renderWithExtraParams(
+            'admin/analytics/margin_analysis.html.twig',
+            [
+                'saleDeliveryNotes' => $saleDeliveryNotes,
+                'saleDeliveryNotesMarginAnalysis' => $saleDeliveryNotesMarginAnalysis,
+                'years' => range(date('Y'), date('Y') - 10),
+                'selectedYear' => $year,
+            ]
         );
     }
 }

@@ -38,6 +38,9 @@ sonata_admin:
                     - route: admin_app_purchase_purchaseinvoiceline_imputableCosts
                       label: Costes imputables
                       roles: [ ROLE_SONATA_MANAGER_ADMIN ]
+                    - route: admin_app_purchase_purchaseinvoiceline_marginAnalysis
+                      label: Análisis de margen
+                      roles: [ ROLE_SONATA_MANAGER_ADMIN ]
                 icon: '<i class="fa fa-line-chart"></i>'
             Configuración:
                 label: 'Configuración'

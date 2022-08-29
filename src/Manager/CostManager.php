@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Purchase\PurchaseInvoiceLine;
+use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleConsumption;
 
@@ -81,5 +82,35 @@ class CostManager
         ;
 
         return $this->getTotalWorkingHoursFromOperatorWorkRegisters($operatorWorkRegisters);
+    }
+
+    /**
+     * @param SaleDeliveryNote[] $saleDeliveryNotes
+     */
+    public function getSaleDeliveryNotesMarginAnalysis(array $saleDeliveryNotes): array
+    {
+        $saleDeliveryNotesMarginAnalysis = [];
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()] = [
+                'income' => $saleDeliveryNote->getBaseAmount(),
+                'workingHoursCost' => $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote),
+            ];
+        }
+
+        return $saleDeliveryNotesMarginAnalysis;
+    }
+
+    public function getWorkingHoursCostFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote)
+    {
+        $operatorWorkRegisterHours = $this->repositoriesManager->getOperatorWorkRegisterRepository()->getEnabledWithHoursSortedByIdQB()
+            ->andWhere('owr.saleDeliveryNote = :saleDeliveryNote')
+            ->andWhere('owr.start is not null')
+            ->setParameter('saleDeliveryNote', $saleDeliveryNote)
+            ->select('SUM(owr.units) as hours')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $operatorWorkRegisterHours[0]['hours'];
     }
 }

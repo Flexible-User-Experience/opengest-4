@@ -1,0 +1,172 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block sonata_admin_content %}
+
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-success">
+                <form action="{{ path('admin_app_purchase_purchaseinvoiceline_marginAnalysis') }}">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="control-label" for="year">
+                                Año
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="year" id="year">
+                                {% for year in years %}
+                                    <option
+                                            value="{{ year }}"
+                                            {% if year == selectedYear %}
+                                                selected
+                                            {% endif %}
+                                    >{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-success" type="submit" id="btn_custom_submit" name="btn_custom_submit"><i class="fa fa-arrow-right" aria-hidden="true"></i> Aplicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Totales
+                    </h4>
+                    <table class="table table-bordered table-hover sonata-ba-list">
+                        <tr>
+                            <td>Ingresos</td>
+                            <td>
+                                {{ 0 }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Costes</td>
+                            <td style="text-align: right">
+                                {{ 0 }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Margen</td>
+                            <td style="text-align: right">
+                                {{ 0 }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Margen %</td>
+                            <td style="text-align: right">
+                                {{ 0 }} %
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Albaranes de venta
+                    </h4>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                            <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                    <th class="sonata-ba-list-field-header">
+                                        Id
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Cliente
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Ingresos
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Costes Directos Operario
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Costes Directos Facturas Albarán
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Costes Indirectos Vehículo
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Costes Indirectos Facturas Operario
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Costes Indirectos Nóminas Operario
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Total Costes
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Margen
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Margen %
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Línea actividad
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="deliveryNoteTable">
+                            {% for saleDeliveryNote in saleDeliveryNotes %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('admin_app_sale_saledeliverynote_edit', {'id': saleDeliveryNote.id}) }}">
+                                            {{ saleDeliveryNote.id }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ saleDeliveryNote.date | date('d/m/Y') }}
+                                    </td>
+                                    <td>
+                                        {{ saleDeliveryNote.partner }}
+                                    </td>
+                                    <td style="text-align: right">
+                                        {{ saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].income }} €
+                                    </td>
+                                    <td style="text-align: right">
+                                        -
+                                    </td>
+                                    <td style="text-align: right">
+                                        -
+                                    </td>
+                                    <td style="text-align: right">
+                                        -
+                                    </td>
+                                    <td style="text-align: right">
+                                        -
+                                    </td>
+                                    <td style="text-align: right">
+                                        -
+                                    </td>
+                                    <td style="text-align: right">
+                                        -
+                                    </td>
+                                    <td style="text-align: right">
+                                        -
+                                    </td>
+                                    <td style="text-align: right">
+                                        - %
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
