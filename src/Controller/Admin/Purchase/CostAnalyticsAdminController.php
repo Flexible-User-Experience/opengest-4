@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleConsumption;
+use App\Service\Format\NumberFormatService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,6 +18,7 @@ class CostAnalyticsAdminController extends BaseAdminController
 {
     public function imputableCostsAction(Request $request): Response
     {
+        $this->admin->checkAccess('edit');
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $year = $request->get('year') ?? date('Y');
         $saleDeliveryNoteId = $request->get('sale_delivery_note');
@@ -57,6 +59,7 @@ class CostAnalyticsAdminController extends BaseAdminController
             $totalWorkingHours = $this->costManager->getTotalWorkingHoursFromOperatorWorkRegisters($operatorWorkRegisters);
             $totalWorkingHoursCost = $this->costManager->getTotalCostFromOperatorWorkRegisters($operatorWorkRegisters);
         }
+        $totalCost = $totalInvoiceCost + $totalVehicleConsumptionCost + $totalWorkingHoursCost;
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $vehicles = $this->em->getRepository(Vehicle::class)->findEnabledSortedByName();
         $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
@@ -76,10 +79,11 @@ class CostAnalyticsAdminController extends BaseAdminController
             'selectedVehicleId' => $vehicleId,
             'selectedOperatorId' => $operatorId,
             'selectedCostCenterId' => $costCenterId,
-            'totalWorkingHours' => $totalWorkingHours,
-            'totalWorkingHoursCost' => $totalWorkingHoursCost,
-            'totalInvoiceCost' => $totalInvoiceCost,
-            'totalVehicleConsumptionCost' => $totalVehicleConsumptionCost,
+            'totalWorkingHours' => NumberFormatService::formatNumber($totalWorkingHours),
+            'totalWorkingHoursCost' => NumberFormatService::formatNumber($totalWorkingHoursCost),
+            'totalInvoiceCost' => NumberFormatService::formatNumber($totalInvoiceCost),
+            'totalVehicleConsumptionCost' => NumberFormatService::formatNumber($totalVehicleConsumptionCost),
+            'totalCost' => NumberFormatService::formatNumber($totalCost),
             'purchaseInvoiceLines' => $purchaseInvoiceLines,
             'operatorWorkRegisters' => $operatorWorkRegisters,
             'vehicleConsumptions' => $vehicleConsumptions,
