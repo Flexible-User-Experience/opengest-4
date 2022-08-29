@@ -25,6 +25,10 @@ class CostAnalyticsAdminController extends BaseAdminController
         $costCenterId = $request->get('costCenter');
         $operatorWorkRegisters = [];
         $vehicleConsumptions = [];
+        $totalWorkingHours = 0;
+        $totalWorkingHoursCost = 0;
+        $totalVehicleConsumptionCost = 0;
+        $totalInvoiceCost = 0;
         if ($saleDeliveryNoteId) {
             $saleDeliveryNote = $saleDeliveryNoteRepository->find($saleDeliveryNoteId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['saleDeliveryNote' => $saleDeliveryNote]);
@@ -44,6 +48,7 @@ class CostAnalyticsAdminController extends BaseAdminController
             $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByYearAndOperator($year);
             $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->getFilteredByYearAndVehicle($year);
         }
+        $totalInvoiceCost = $this->costManager->getTotalCostFromPurchaseInvoiceLines($purchaseInvoiceLines);
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $vehicles = $this->em->getRepository(Vehicle::class)->findEnabledSortedByName();
         $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
@@ -66,6 +71,10 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'selectedVehicleId' => $vehicleId,
                 'selectedOperatorId' => $operatorId,
                 'selectedCostCenterId' => $costCenterId,
+                'totalWorkingHours' => $totalWorkingHours,
+                'totalWorkingHoursCost' => $totalWorkingHoursCost,
+                'totalInvoiceCost' => $totalInvoiceCost,
+                'totalVehicleConsumptionCost' => $totalVehicleConsumptionCost,
                 'purchaseInvoiceLines' => $purchaseInvoiceLines,
                 'operatorWorkRegisters' => $operatorWorkRegisters,
                 'vehicleConsumptions' => $vehicleConsumptions,

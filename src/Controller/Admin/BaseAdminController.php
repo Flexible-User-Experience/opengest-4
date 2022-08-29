@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Manager\CostManager;
 use App\Manager\DeliveryNoteManager;
 use App\Manager\EnterpriseHolidayManager;
 use App\Manager\InvoiceManager;
@@ -35,6 +36,8 @@ abstract class BaseAdminController extends Controller
 {
     protected InvoiceManager $im;
 
+    protected CostManager $costManager;
+
     protected DeliveryNoteManager $deliveryNoteManager;
 
     protected SaleDeliveryNotePdfManager $sdnpm;
@@ -64,22 +67,24 @@ abstract class BaseAdminController extends Controller
     protected ManagerRegistry $em;
 
     public function __construct(InvoiceManager $invoiceManager,
-                                DeliveryNoteManager $deliveryNoteManager,
-                                SaleDeliveryNotePdfManager $sdnpm,
-                                SaleInvoicePdfManager $sipm,
-                                WorkRegisterHeaderPdfManager $wrhpm,
-                                OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
-                                PayslipPdfManager $ppm,
-                                PayslipXmlManager $pxm,
-                                OperatorCheckingPdfManager $operatorCheckingPdfManager,
-                                DocumentationPdfManager $documentationPdfManager,
-                                VehicleCheckingPdfManager $vehicleCheckingPdfManager,
-                                VehicleMaintenanceManager $vehicleMaintenanceManager,
-                                ManagerRegistry $managerRegistry,
-                                EnterpriseHolidayManager $enterpriseHolidayManager,
-                                PaymentReceiptPdfManager $paymentReceiptPdfManager)
+        CostManager $costManager,
+        DeliveryNoteManager $deliveryNoteManager,
+        SaleDeliveryNotePdfManager $sdnpm,
+        SaleInvoicePdfManager $sipm,
+        WorkRegisterHeaderPdfManager $wrhpm,
+        OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
+        PayslipPdfManager $ppm,
+        PayslipXmlManager $pxm,
+        OperatorCheckingPdfManager $operatorCheckingPdfManager,
+        DocumentationPdfManager $documentationPdfManager,
+        VehicleCheckingPdfManager $vehicleCheckingPdfManager,
+        VehicleMaintenanceManager $vehicleMaintenanceManager,
+        ManagerRegistry $managerRegistry,
+        EnterpriseHolidayManager $enterpriseHolidayManager,
+        PaymentReceiptPdfManager $paymentReceiptPdfManager)
     {
         $this->im = $invoiceManager;
+        $this->costManager = $costManager;
         $this->deliveryNoteManager = $deliveryNoteManager;
         $this->sdnpm = $sdnpm;
         $this->sipm = $sipm;
@@ -118,7 +123,7 @@ abstract class BaseAdminController extends Controller
                 $fileName = $documentName,
                 $forceDownload = false
             );
-        } catch (\ErrorException | NoFileFoundException $e) {
+        } catch (\ErrorException|NoFileFoundException $e) {
             if ($fillErrorBag) {
                 $this->addFlash(
                     'warning',
