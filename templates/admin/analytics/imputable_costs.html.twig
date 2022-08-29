@@ -138,7 +138,9 @@
                                 {% for purchaseInvoiceLine in purchaseInvoiceLines %}
                                     <tr>
                                         <td>
-                                            {{ purchaseInvoiceLine.id }}
+                                            <a href="{{ path('admin_app_purchase_purchaseinvoice_edit', {'id': purchaseInvoiceLine.purchaseInvoice.id}) }}">
+                                                {{ purchaseInvoiceLine.id }}
+                                            </a>
                                         </td>
                                         <td>
                                             {{ purchaseInvoiceLine.purchaseInvoice.date | date('d/m/Y') }}
@@ -207,7 +209,9 @@
                                     {% for operatorWorkRegister in operatorWorkRegisters %}
                                         <tr>
                                             <td>
-                                                {{ operatorWorkRegister.id }}
+                                                <a href="{{ path('admin_app_operator_operatorworkregisterheader_create', {'operator': operatorWorkRegister.operatorWorkRegisterHeader.operator.id, 'date': operatorWorkRegister.operatorWorkRegisterHeader.date | date('d-m-Y') }) }}">
+                                                    {{ operatorWorkRegister.id }}
+                                                </a>
                                             </td>
                                             <td>
                                                 {{ operatorWorkRegister.operatorWorkRegisterHeader.date | date('d/m/Y') }}
@@ -274,7 +278,9 @@
                                 {% for vehicleConsumption in vehicleConsumptions %}
                                     <tr>
                                         <td>
-                                            {{ vehicleConsumption.id }}
+                                            <a href="{{ path('admin_app_vehicle_vehicleconsumption_edit', {'id': vehicleConsumption.id}) }}">
+                                                {{ vehicleConsumption.id }}
+                                            </a>
                                         </td>
                                         <td>
                                             {{ vehicleConsumption.supplyDate | date('d/m/Y') }}
