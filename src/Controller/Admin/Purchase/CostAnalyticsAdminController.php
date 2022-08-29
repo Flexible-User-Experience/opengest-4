@@ -36,6 +36,7 @@ class CostAnalyticsAdminController extends BaseAdminController
             $vehicle = $this->em->getRepository(Vehicle::class)->find($vehicleId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['vehicle' => $vehicle]);
             $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->getFilteredByYearAndVehicle($year, $vehicle);
+            $totalWorkingHours = $this->costManager->getTotalWorkingHoursFromVehicleInYear($vehicle, $year);
         } elseif ($operatorId) {
             $operator = $this->em->getRepository(Operator::class)->find($operatorId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['operator' => $operator]);
@@ -49,6 +50,13 @@ class CostAnalyticsAdminController extends BaseAdminController
             $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->getFilteredByYearAndVehicle($year);
         }
         $totalInvoiceCost = $this->costManager->getTotalCostFromPurchaseInvoiceLines($purchaseInvoiceLines);
+        if ($vehicleConsumptions) {
+            $totalVehicleConsumptionCost = $this->costManager->getTotalCostFromVehicleConsumptions($vehicleConsumptions);
+        }
+        if ($operatorWorkRegisters) {
+            $totalWorkingHours = $this->costManager->getTotalWorkingHoursFromOperatorWorkRegisters($operatorWorkRegisters);
+            $totalWorkingHoursCost = $this->costManager->getTotalCostFromOperatorWorkRegisters($operatorWorkRegisters);
+        }
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $vehicles = $this->em->getRepository(Vehicle::class)->findEnabledSortedByName();
         $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());

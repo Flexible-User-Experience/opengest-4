@@ -20,6 +20,16 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
         parent::__construct($registry, OperatorWorkRegister::class);
     }
 
+    public function getEnabledWithHoursSortedByIdQB(): QueryBuilder
+    {
+        return $this->createQueryBuilder('owr')
+            ->where('owr.enabled = :enabled')
+            ->andWhere('owr.start is not null')
+            ->setParameter('enabled', true)
+            ->orderBy('owr.id', 'ASC')
+        ;
+    }
+
     public function getHoursFromOperatorWorkRegistersWithHoursFromDeliveryNotesAndDateQB(Collection $saleDeliveryNotes, DateTime $date): QueryBuilder
     {
         $saleDeliveryNoteIds = $saleDeliveryNotes->map(function ($obj) {return $obj->getId(); })->getValues();
