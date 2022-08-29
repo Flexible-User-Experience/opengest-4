@@ -28,7 +28,6 @@ class CostAnalyticsAdminController extends BaseAdminController
         $totalWorkingHours = 0;
         $totalWorkingHoursCost = 0;
         $totalVehicleConsumptionCost = 0;
-        $totalInvoiceCost = 0;
         if ($saleDeliveryNoteId) {
             $saleDeliveryNote = $saleDeliveryNoteRepository->find($saleDeliveryNoteId);
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['saleDeliveryNote' => $saleDeliveryNote]);
@@ -65,28 +64,30 @@ class CostAnalyticsAdminController extends BaseAdminController
         $oldestYear = $saleDeliveryNoteRepository->getOldestYearFilteredByEnterprise($this->getUser()->getDefaultEnterprise());
         $currentYear = date('Y');
         $oldestYear = $oldestYear['year'] ?? $currentYear;
+        $parameters = [
+            'saleDeliveryNotes' => $saleDeliveryNotes,
+            'years' => range($currentYear, $oldestYear),
+            'vehicles' => $vehicles,
+            'operators' => $operators,
+            'costCenters' => $costCenters,
+            'selectedYear' => $year,
+            'selectedSaleDeliveryNoteId' => $saleDeliveryNoteId,
+            'selectedVehicleId' => $vehicleId,
+            'selectedOperatorId' => $operatorId,
+            'selectedCostCenterId' => $costCenterId,
+            'totalWorkingHours' => $totalWorkingHours,
+            'totalWorkingHoursCost' => $totalWorkingHoursCost,
+            'totalInvoiceCost' => $totalInvoiceCost,
+            'totalVehicleConsumptionCost' => $totalVehicleConsumptionCost,
+            'purchaseInvoiceLines' => $purchaseInvoiceLines,
+            'operatorWorkRegisters' => $operatorWorkRegisters,
+            'vehicleConsumptions' => $vehicleConsumptions,
+        ]
+        ;
 
         return $this->renderWithExtraParams(
             'admin/analytics/imputable_costs.html.twig',
-            [
-                'saleDeliveryNotes' => $saleDeliveryNotes,
-                'years' => range($currentYear, $oldestYear),
-                'vehicles' => $vehicles,
-                'operators' => $operators,
-                'costCenters' => $costCenters,
-                'selectedYear' => $year,
-                'selectedSaleDeliveryNoteId' => $saleDeliveryNoteId,
-                'selectedVehicleId' => $vehicleId,
-                'selectedOperatorId' => $operatorId,
-                'selectedCostCenterId' => $costCenterId,
-                'totalWorkingHours' => $totalWorkingHours,
-                'totalWorkingHoursCost' => $totalWorkingHoursCost,
-                'totalInvoiceCost' => $totalInvoiceCost,
-                'totalVehicleConsumptionCost' => $totalVehicleConsumptionCost,
-                'purchaseInvoiceLines' => $purchaseInvoiceLines,
-                'operatorWorkRegisters' => $operatorWorkRegisters,
-                'vehicleConsumptions' => $vehicleConsumptions,
-            ]
+            $parameters
         );
     }
 }
