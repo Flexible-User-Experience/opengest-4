@@ -115,7 +115,7 @@ class CostManager
     /**
      * @param SaleDeliveryNote[] $saleDeliveryNotes
      */
-    public function getSaleDeliveryNotesMarginAnalysis(array $saleDeliveryNotes): array
+    public function getSaleDeliveryNotesMarginAnalysis(array $saleDeliveryNotes, int $year): array
     {
         $saleDeliveryNotesMarginAnalysis = [];
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
@@ -123,6 +123,7 @@ class CostManager
                 'income' => $saleDeliveryNote->getBaseAmount(),
                 'workingHoursDirectCost' => $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote),
                 'purchaseInvoiceDirectCost' => $this->getPurchaseInvoiceCostFromDeliveryNote($saleDeliveryNote),
+                'vehicleIndirectCost' => $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote) * $this->getPriceHourFromVehicleInYear($saleDeliveryNote->getVehicle(), $year),
             ];
         }
 
@@ -135,7 +136,21 @@ class CostManager
             ->andWhere('owr.saleDeliveryNote = :saleDeliveryNote')
             ->andWhere('owr.start is not null')
             ->setParameter('saleDeliveryNote', $saleDeliveryNote)
-            ->select('SUM(owr.amount) as hours')
+            ->select('SUM(owr.amount) as amount')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $operatorWorkRegisterHours[0]['amount'];
+    }
+
+    private function getWorkingHoursFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote)
+    {
+        $operatorWorkRegisterHours = $this->repositoriesManager->getOperatorWorkRegisterRepository()->getEnabledWithHoursSortedByIdQB()
+            ->andWhere('owr.saleDeliveryNote = :saleDeliveryNote')
+            ->andWhere('owr.start is not null')
+            ->setParameter('saleDeliveryNote', $saleDeliveryNote)
+            ->select('SUM(owr.units) as hours')
             ->getQuery()
             ->getResult()
         ;
@@ -157,10 +172,14 @@ class CostManager
     private function getPriceHourFromVehicleInYear(Vehicle $vehicle, $year): float
     {
         $hours = $this->getTotalWorkingHoursFromVehicleInYear($vehicle, $year);
-        $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines($this->getPurchaseInvoiceLinesFromYear($year, null, $vehicle));
-        $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($this->repositoriesManager->getVehicleConsumptionRepository()->getFilteredByYearAndVehicle($year, $vehicle));
-        $totalCost = $purchaseInvoiceCost + $vehicleConsumptionCost;
+        $priceHour = 0;
+        if ($hours > 0) {
+            $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines($this->getPurchaseInvoiceLinesFromYear($year, null, $vehicle));
+            $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($this->repositoriesManager->getVehicleConsumptionRepository()->getFilteredByYearAndVehicle($year, $vehicle));
+            $totalCost = $purchaseInvoiceCost + $vehicleConsumptionCost;
+            $priceHour = $totalCost / $hours;
+        }
 
-        return $totalCost / $hours;
+        return $priceHour;
     }
 }

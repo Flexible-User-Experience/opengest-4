@@ -119,7 +119,7 @@ class CostAnalyticsAdminController extends BaseAdminController
             ->getQuery()
             ->getResult()
         ;
-        $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes);
+        $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, $year);
 
         return $this->renderWithExtraParams(
             'admin/analytics/margin_analysis.html.twig',
