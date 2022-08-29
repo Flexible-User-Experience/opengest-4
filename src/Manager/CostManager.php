@@ -99,15 +99,18 @@ class CostManager
 
     public function getTotalWorkingHoursFromVehicleInYear(Vehicle $vehicle, $year): float
     {
-        $operatorWorkRegisters = $this->repositoriesManager->getOperatorWorkRegisterRepository()->getEnabledWithHoursSortedByIdQB()
-            ->join('owr.saleDeliveryNote', 's')
-            ->andWhere('year(s.date) = :year')
-            ->andWhere('s.vehicle = :vehicle')
-            ->setParameter('year', $year)
-            ->setParameter('vehicle', $vehicle)
-            ->getQuery()
-            ->getResult()
-        ;
+        $operatorWorkRegisters = [];
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach ($vehicle->getSaleDeliveryNotes() as $saleDeliveryNote) {
+            if ($saleDeliveryNote->getDate()->format('Y') === $year) {
+                $operatorWorkRegisters = array_merge(
+                    $operatorWorkRegisters,
+                    $saleDeliveryNote->getOperatorWorkRegisters()->filter(function (OperatorWorkRegister $operatorWorkRegister) {
+                        return null !== $operatorWorkRegister->getStart();
+                    })
+                );
+            }
+        }
 
         return $this->getTotalWorkingHoursFromOperatorWorkRegisters($operatorWorkRegisters);
     }
@@ -132,16 +135,15 @@ class CostManager
 
     private function getWorkingHoursCostFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote)
     {
-        $operatorWorkRegisterHours = $this->repositoriesManager->getOperatorWorkRegisterRepository()->getEnabledWithHoursSortedByIdQB()
-            ->andWhere('owr.saleDeliveryNote = :saleDeliveryNote')
-            ->andWhere('owr.start is not null')
-            ->setParameter('saleDeliveryNote', $saleDeliveryNote)
-            ->select('SUM(owr.amount) as amount')
-            ->getQuery()
-            ->getResult()
-        ;
+        $operatorWorkRegisters = $saleDeliveryNote->getOperatorWorkRegisters()->filter(function (OperatorWorkRegister $operatorWorkRegister) {
+            return null !== $operatorWorkRegister->getStart();
+        });
+        $amount = 0;
+        foreach ($operatorWorkRegisters as $operatorWorkRegister) {
+            $amount += $operatorWorkRegister->getAmount();
+        }
 
-        return $operatorWorkRegisterHours[0]['amount'];
+        return $amount;
     }
 
     private function getWorkingHoursFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote)
