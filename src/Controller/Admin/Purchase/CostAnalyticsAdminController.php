@@ -23,6 +23,7 @@ class CostAnalyticsAdminController extends BaseAdminController
         $vehicleId = $request->get('vehicle');
         $operatorId = $request->get('operator');
         $costCenterId = $request->get('costCenter');
+        $download = $request->get('download');
         $operatorWorkRegisters = [];
         $vehicleConsumptions = [];
         $totalWorkingHours = 0;
@@ -84,6 +85,15 @@ class CostAnalyticsAdminController extends BaseAdminController
             'vehicleConsumptions' => $vehicleConsumptions,
         ]
         ;
+
+        if ($download) {
+            $headers = [
+                'Content-type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Content-Disposition' => 'attachment; filename="costesImputables.xlsx"',
+            ];
+
+            return new Response($this->imputableCostXlsManager->outputXls($parameters), 200, $headers);
+        }
 
         return $this->renderWithExtraParams(
             'admin/analytics/imputable_costs.html.twig',
