@@ -33,12 +33,18 @@ class PurchaseInvoiceLineRepository extends ServiceEntityRepository
         return $this->getEnabledSortedByNameB()->getResult();
     }
 
-    public function getFilteredByYear(int $year)
+    public function getEnabledFilteredByYearQB(int $year): QueryBuilder
     {
         return $this->getEnabledSortedByNameQB()
             ->join('pil.purchaseInvoice', 'pi')
             ->andWhere('year(pi.date) = :year')
             ->setParameter('year', $year)
+        ;
+    }
+
+    public function getFilteredByYear(int $year)
+    {
+        return $this->getEnabledFilteredByYearQB($year)
             ->getQuery()
             ->getResult()
         ;

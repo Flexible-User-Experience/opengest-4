@@ -17,6 +17,34 @@ class CostManager
         $this->repositoriesManager = $repositoriesManager;
     }
 
+    public function getPurchaseInvoiceLinesFromYear(int $year, $saleDeliveryNote = null, $vehicle = null, $operator = null, $activityLine = null)
+    {
+        $purchaseInvoiceLinesQueryBuilder = $this->repositoriesManager->getPurchaseInvoiceLineRepository()->getEnabledFilteredByYearQB($year);
+        if ($saleDeliveryNote) {
+            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
+                ->andWhere('pil.saleDeliveryNote = :saleDeliveryNote')
+                ->setParameter('saleDeliveryNote', $saleDeliveryNote)
+            ;
+        } elseif ($vehicle) {
+            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
+                ->andWhere('pil.vehicle = :vehicle')
+                ->setParameter('vehicle', $vehicle)
+            ;
+        } elseif ($operator) {
+            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
+                ->andWhere('pil.operator = :operator')
+                ->setParameter('operator', $operator)
+            ;
+        } elseif ($activityLine) {
+            $purchaseInvoiceLinesQueryBuilder = $purchaseInvoiceLinesQueryBuilder
+                ->andWhere('pil.activityLine = :activityLine')
+                ->setParameter('activityLine', $activityLine)
+            ;
+        }
+
+        return $purchaseInvoiceLinesQueryBuilder->getQuery()->getResult();
+    }
+
     /**
      * @param PurchaseInvoiceLine[] $purchaseInvoiceLines
      */
@@ -126,13 +154,13 @@ class CostManager
         return $cost;
     }
 
-    private function getPriceHourFromVehicle(Vehicle $vehicle): float
+    private function getPriceHourFromVehicleInYear(Vehicle $vehicle, $year): float
     {
-        $priceHour = $vehicle->getPriceHour();
-        if (null === $priceHour) {
-            $priceHour = 0;
-        }
+        $hours = $this->getTotalWorkingHoursFromVehicleInYear($vehicle, $year);
+        $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines($this->getPurchaseInvoiceLinesFromYear($year, null, $vehicle));
+        $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($this->repositoriesManager->getVehicleConsumptionRepository()->getFilteredByYearAndVehicle($year, $vehicle));
+        $totalCost = $purchaseInvoiceCost + $vehicleConsumptionCost;
 
-        return $priceHour;
+        return $totalCost / $hours;
     }
 }

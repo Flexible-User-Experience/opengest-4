@@ -34,19 +34,19 @@ class CostAnalyticsAdminController extends BaseAdminController
         $totalVehicleConsumptionCost = 0;
         if ($saleDeliveryNoteId) {
             $saleDeliveryNote = $saleDeliveryNoteRepository->find($saleDeliveryNoteId);
-            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['saleDeliveryNote' => $saleDeliveryNote]);
+            $purchaseInvoiceLines = $this->costManager->getPurchaseInvoiceLinesFromYear($year, $saleDeliveryNote);
         } elseif ($vehicleId) {
             $vehicle = $this->em->getRepository(Vehicle::class)->find($vehicleId);
-            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['vehicle' => $vehicle]);
+            $purchaseInvoiceLines = $this->costManager->getPurchaseInvoiceLinesFromYear($year, null, $vehicle);
             $vehicleConsumptions = $this->em->getRepository(VehicleConsumption::class)->getFilteredByYearAndVehicle($year, $vehicle);
             $totalWorkingHours = $this->costManager->getTotalWorkingHoursFromVehicleInYear($vehicle, $year);
         } elseif ($operatorId) {
             $operator = $this->em->getRepository(Operator::class)->find($operatorId);
-            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['operator' => $operator]);
+            $purchaseInvoiceLines = $this->costManager->getPurchaseInvoiceLinesFromYear($year, null, null, $operator);
             $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByYearAndOperator($year, $operator);
         } elseif ($costCenterId) {
             $costCenter = $this->em->getRepository(CostCenter::class)->find($costCenterId);
-            $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->findBy(['costCenter' => $costCenter]);
+            $purchaseInvoiceLines = $this->costManager->getPurchaseInvoiceLinesFromYear($year, null, null, null, $costCenter);
         } else {
             $purchaseInvoiceLines = $this->em->getRepository(PurchaseInvoiceLine::class)->getFilteredByYear($year);
             $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByYearAndOperator($year);

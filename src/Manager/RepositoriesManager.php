@@ -46,6 +46,7 @@ use App\Repository\Setting\UserRepository;
 use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
+use App\Repository\Vehicle\VehicleConsumptionRepository;
 use App\Repository\Vehicle\VehicleDigitalTachographRepository;
 use App\Repository\Vehicle\VehicleFuelRepository;
 use App\Repository\Vehicle\VehicleMaintenanceRepository;
@@ -97,6 +98,8 @@ class RepositoriesManager
     private VehicleCheckingTypeRepository $vehicleCheckingTypeRepository;
 
     private VehicleCheckingRepository $vehicleCheckingRepository;
+
+    private VehicleConsumptionRepository $vehicleConsumptionRepository;
 
     private VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository;
 
@@ -195,6 +198,7 @@ class RepositoriesManager
         VehicleRepository $vehicleRepository,
         VehicleCheckingTypeRepository $vehicleCheckingTypeRepository,
         VehicleCheckingRepository $vehicleCheckingRepository,
+        VehicleConsumptionRepository $vehicleConsumptionRepository,
         VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository,
         VehicleMaintenanceRepository $vehicleMaintenanceRepository,
         VehicleFuelRepository $vehicleFuelRepository,
@@ -248,6 +252,7 @@ class RepositoriesManager
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleCheckingTypeRepository = $vehicleCheckingTypeRepository;
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
+        $this->vehicleConsumptionRepository = $vehicleConsumptionRepository;
         $this->vehicleMaintenanceTaskRepository = $vehicleMaintenanceTaskRepository;
         $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
         $this->vehicleFuelRepository = $vehicleFuelRepository;
@@ -417,6 +422,11 @@ class RepositoriesManager
     public function getVehicleCheckingRepository()
     {
         return $this->vehicleCheckingRepository;
+    }
+
+    public function getVehicleConsumptionRepository(): VehicleConsumptionRepository
+    {
+        return $this->vehicleConsumptionRepository;
     }
 
     /**
@@ -635,41 +645,26 @@ class RepositoriesManager
         return $this->payslipLineConceptRepository;
     }
 
-    /**
-     * @return PurchaseInvoiceRepository
-     */
     public function getPurchaseInvoiceRepository(): PurchaseInvoiceRepository
     {
         return $this->purchaseInvoiceRepository;
     }
 
-    /**
-     * @return PurchaseInvoiceLineRepository
-     */
     public function getPurchaseInvoiceLineRepository(): PurchaseInvoiceLineRepository
     {
         return $this->purchaseInvoiceLineRepository;
     }
 
-    /**
-     * @return PurchaseInvoiceDueDateRepository
-     */
     public function getPurchaseInvoiceDueDateRepository(): PurchaseInvoiceDueDateRepository
     {
         return $this->purchaseInvoiceDueDateRepository;
     }
 
-    /**
-     * @return PurchaseItemRepository
-     */
     public function getPurchaseItemRepository(): PurchaseItemRepository
     {
         return $this->purchaseItemRepository;
     }
 
-    /**
-     * @return CostCenterRepository
-     */
     public function getCostCenterRepository(): CostCenterRepository
     {
         return $this->costCenterRepository;
