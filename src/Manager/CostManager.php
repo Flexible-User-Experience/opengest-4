@@ -146,16 +146,15 @@ class CostManager
 
     private function getWorkingHoursFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote)
     {
-        $operatorWorkRegisterHours = $this->repositoriesManager->getOperatorWorkRegisterRepository()->getEnabledWithHoursSortedByIdQB()
-            ->andWhere('owr.saleDeliveryNote = :saleDeliveryNote')
-            ->andWhere('owr.start is not null')
-            ->setParameter('saleDeliveryNote', $saleDeliveryNote)
-            ->select('SUM(owr.units) as hours')
-            ->getQuery()
-            ->getResult()
-        ;
+        $operatorWorkRegisters = $saleDeliveryNote->getOperatorWorkRegisters()->filter(function (OperatorWorkRegister $operatorWorkRegister) {
+            return null !== $operatorWorkRegister->getStart();
+        });
+        $hours = 0;
+        foreach ($operatorWorkRegisters as $operatorWorkRegister) {
+            $hours += $operatorWorkRegister->getUnits();
+        }
 
-        return $operatorWorkRegisterHours[0]['hours'];
+        return $hours;
     }
 
     private function getPurchaseInvoiceCostFromDeliveryNote(SaleDeliveryNote $saleDeliveryNote): float
