@@ -61,7 +61,9 @@ class PaymentReceiptPdfManager
     private function buildPayslipReceipts($payslips, $diets, $date, $pdf)
     {
 
-        //TODO fer pdf
+        usort($payslips, function (Payslip $a, Payslip $b) {
+            return strcasecmp($a->getOperator()->getSurname1(), $b->getOperator()->getSurname1());
+        });
         // add start page
         list($spaceBetween, $receiptSize, $pageWidth, $marginRight, $marginLeft) = $this->addStartPage($pdf);
         //START GENERATING RECEIPTS
@@ -74,7 +76,7 @@ class PaymentReceiptPdfManager
                 $style = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
                 $pdf->SetLineStyle($style);
                 $pdf->RoundedRect($pdf->GetX(), $pdf->GetY(), $pageWidth, $receiptSize, 3.50, '1111', '');
-                //TODO generate receipt format
+                // generate receipt format
                 $xStartWriting = 25;
                 $pdf->SetXY($xStartWriting, $pdf->GetY() + 8);
                 $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 15);

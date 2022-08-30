@@ -863,14 +863,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.no_invoice',
                 ]
             )
-            ->add(
-                'isInvoiced',
-                null,
-                [
-                    'label' => 'admin.label.invoiced',
-                    'show_filter' => true,
-                ]
-            )
+
             ->add(
                 'printed',
                 null,
@@ -974,21 +967,6 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'id'],
                     'sort_parent_association_mappings' => [['fieldName' => 'partner']],
-                ]
-            )
-            ->add(
-                'buildingSite',
-                null,
-                [
-                    'label' => 'admin.label.partner_building_site',
-                ]
-            )
-            ->add(
-                'baseAmount',
-                null,
-                [
-                    'label' => 'admin.label.base_amount',
-                    'template' => 'admin/cells/list__cell_base_amount_currency_number.html.twig',
                 ]
             )
             ->add(
