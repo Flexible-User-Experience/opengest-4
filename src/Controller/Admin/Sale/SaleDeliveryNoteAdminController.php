@@ -386,7 +386,13 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $invoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
         $saleInvoice->setInvoiceNumber($invoiceNumber);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
-        if ($saleInvoice->getPartner()->getCollectionDocumentType()) {
+//        if ($saleInvoice->getPartner()->getCollectionDocumentType()) {
+//            $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());
+//        }
+        //TODO check if it works properly
+        if ($deliveryNotes->first()->getCollectionDocument()) {
+            $saleInvoice->setCollectionDocumentType($deliveryNotes->first()->getCollectionDocument());
+        } elseif ($saleInvoice->getPartner()->getCollectionDocumentType()) {
             $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());
         }
         if ($deliveryNotes->first()->getDeliveryAddress()) {
