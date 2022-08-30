@@ -27,6 +27,7 @@ use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Payslip\PayslipLineConceptRepository;
+use App\Repository\Payslip\PayslipRepository;
 use App\Repository\Purchase\PurchaseInvoiceDueDateRepository;
 use App\Repository\Purchase\PurchaseInvoiceLineRepository;
 use App\Repository\Purchase\PurchaseInvoiceRepository;
@@ -159,6 +160,8 @@ class RepositoriesManager
 
     private OperatorWorkRegisterHeaderRepository $operatorWorkRegisterHeaderRepository;
 
+    private PayslipRepository $payslipRepository;
+
     private PayslipLineConceptRepository $payslipLineConceptRepository;
 
     private PurchaseInvoiceRepository $purchaseInvoiceRepository;
@@ -226,6 +229,7 @@ class RepositoriesManager
         SaleItemRepository $saleItemRepository,
         WorkRepository $workRepository,
         TimeRangeRepository $timeRangeRepository,
+        PayslipRepository $payslipRepository,
         PayslipLineConceptRepository $payslipLineConceptRepository,
         PurchaseInvoiceRepository $purchaseInvoiceRepository,
         PurchaseInvoiceLineRepository $purchaseInvoiceLineRepository,
@@ -280,6 +284,7 @@ class RepositoriesManager
         $this->saleItemRepository = $saleItemRepository;
         $this->workRepository = $workRepository;
         $this->timeRangeRepository = $timeRangeRepository;
+        $this->payslipRepository = $payslipRepository;
         $this->payslipLineConceptRepository = $payslipLineConceptRepository;
         $this->purchaseInvoiceRepository = $purchaseInvoiceRepository;
         $this->purchaseInvoiceLineRepository = $purchaseInvoiceLineRepository;
@@ -643,6 +648,11 @@ class RepositoriesManager
     public function getPayslipLineConceptRepository(): PayslipLineConceptRepository
     {
         return $this->payslipLineConceptRepository;
+    }
+
+    public function getPayslipRepository(): PayslipRepository
+    {
+        return $this->payslipRepository;
     }
 
     public function getPurchaseInvoiceRepository(): PurchaseInvoiceRepository

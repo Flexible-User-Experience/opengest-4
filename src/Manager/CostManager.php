@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
+use App\Entity\Payslip\Payslip;
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\CostCenter;
@@ -31,6 +32,8 @@ class CostManager
             $purchaseInvoiceLines = $operator->getPurchaseInvoiceLines();
         } elseif ($costCenter) {
             $purchaseInvoiceLines = $costCenter->getPurchaseInvoiceLines();
+        } else {
+            $purchaseInvoiceLines = $this->repositoriesManager->getPurchaseInvoiceLineRepository()->getFilteredByYear($year);
         }
 
         return $purchaseInvoiceLines;
@@ -110,13 +113,17 @@ class CostManager
     public function getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, int $year): array
     {
         $priceHourVehicles = $this->getVehiclePriceHoursFromDeliveryNotes($saleDeliveryNotes, $year);
+        $priceHourOperators = $this->getOperatorPriceHoursFromDeliveryNotes($saleDeliveryNotes, $year);
         $saleDeliveryNotesMarginAnalysis = [];
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            $workingHours = $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
             $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()] = [
                 'income' => $saleDeliveryNote->getBaseAmount(),
                 'workingHoursDirectCost' => $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote),
                 'purchaseInvoiceDirectCost' => $this->getPurchaseInvoiceCostFromDeliveryNote($saleDeliveryNote),
-                'vehicleIndirectCost' => $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote) * $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['priceHour'],
+                'vehicleIndirectCost' => $workingHours * $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['priceHourIndirect'],
+                'operatorPurchaseInvoiceIndirectCost' => $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPurchaseInvoiceIndirect'],
+                'operatorPayslipIndirectCost' => $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPayslipIndirect'],
             ];
         }
 
@@ -195,7 +202,7 @@ class CostManager
             /** @var Vehicle $vehicle */
             $vehicle = $priceHourVehicle['vehicle'];
             $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines(array_filter($purchaseInvoiceLines, function (PurchaseInvoiceLine $purchaseInvoiceLine) use ($vehicle) {
-                return $purchaseInvoiceLine->getVehicle()->getId() === $vehicle->getId();
+                return ($purchaseInvoiceLine->getVehicle() ? $purchaseInvoiceLine->getVehicle()->getId() : null) === $vehicle->getId();
             }));
             $vehicleConsumptions = array_filter($vehicleConsumptions, function (VehicleConsumption $vehicleConsumption) use ($vehicle) {
                 return $vehicleConsumption->getVehicle()->getId() === $vehicle->getId();
@@ -203,9 +210,9 @@ class CostManager
             $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($vehicleConsumptions);
             $priceHourVehicles[$vehicle->getId()]['cost'] = $purchaseInvoiceCost + $vehicleConsumptionCost;
             if ($priceHourVehicles[$vehicle->getId()]['hours'] > 0) {
-                $priceHourVehicles[$vehicle->getId()]['priceHour'] = $priceHourVehicles[$vehicle->getId()]['cost'] / $priceHourVehicles[$vehicle->getId()]['hours'];
+                $priceHourVehicles[$vehicle->getId()]['priceHourIndirect'] = $priceHourVehicles[$vehicle->getId()]['cost'] / $priceHourVehicles[$vehicle->getId()]['hours'];
             } else {
-                $priceHourVehicles[$vehicle->getId()]['priceHour'] = 0;
+                $priceHourVehicles[$vehicle->getId()]['priceHourIndirect'] = 0;
             }
         }
 
@@ -215,5 +222,68 @@ class CostManager
     private function getVehicleConsumptionsFromYear($year)
     {
         return $this->repositoriesManager->getVehicleConsumptionRepository()->getFilteredByYearAndVehicle($year);
+    }
+
+    private function getOperatorPriceHoursFromDeliveryNotes($saleDeliveryNotes, int $year)
+    {
+        $priceHourOperators = [];
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            if (array_key_exists($saleDeliveryNote->getOperator()->getId(), $priceHourOperators)) {
+                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['hours'] += $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['directCost'] += $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote);
+            } else {
+                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['hours'] = $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['directCost'] = $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote);
+                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['operator'] = $saleDeliveryNote->getOperator();
+            }
+        }
+        $purchaseInvoiceLines = $this->getPurchaseInvoiceLinesFromYear($year);
+        $payslips = $this->getPayslipsFromYear($year);
+        foreach ($priceHourOperators as $priceHourOperator) {
+            /** @var Operator $operator */
+            $operator = $priceHourOperator['operator'];
+            $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines(array_filter($purchaseInvoiceLines, function (PurchaseInvoiceLine $purchaseInvoiceLine) use ($operator) {
+                return ($purchaseInvoiceLine->getOperator() ? $purchaseInvoiceLine->getOperator()->getId() : null) === $operator->getId();
+            }));
+            $payslipsFromOperator = array_filter($payslips, function (Payslip $payslip) use ($operator) {
+                return $payslip->getOperator()->getId() === $operator->getId();
+            });
+            $payslipTotalCost = $this->getTotalCostFromPayslips($payslipsFromOperator);
+            $priceHourOperators[$operator->getId()]['indirectCost'] = $purchaseInvoiceCost + $payslipTotalCost - $priceHourOperators[$operator->getId()]['directCost'];
+            if ($priceHourOperators[$operator->getId()]['hours'] > 0) {
+                $priceHourOperators[$operator->getId()]['priceHourPayslipIndirect'] = ($payslipTotalCost - $priceHourOperators[$operator->getId()]['directCost']) / $priceHourOperators[$operator->getId()]['hours'];
+                $priceHourOperators[$operator->getId()]['priceHourPurchaseInvoiceIndirect'] = $purchaseInvoiceCost / $priceHourOperators[$operator->getId()]['hours'];
+                $priceHourOperators[$operator->getId()]['priceHourIndirect'] = $priceHourOperators[$operator->getId()]['indirectCost'] / $priceHourOperators[$operator->getId()]['hours'];
+            } else {
+                $priceHourOperators[$operator->getId()]['priceHourPayslipIndirect'] = 0;
+                $priceHourOperators[$operator->getId()]['priceHourPurchaseInvoiceIndirect'] = 0;
+                $priceHourOperators[$operator->getId()]['priceHourIndirect'] = 0;
+            }
+        }
+
+        return $priceHourOperators;
+    }
+
+    private function getPayslipsFromYear(int $year)
+    {
+        return $this->repositoriesManager->getPayslipRepository()->getPayslipsSortedByNameQB()
+            ->leftJoin('p.payslipLines', 'payslipLines')
+            ->addSelect('payslipLines')
+            ->where('YEAR(p.fromDate) = :year')
+            ->setParameter('year', $year)
+            ->getQuery()
+            ->getResult();
+    }
+
+    private function getTotalCostFromPayslips(array $payslipsFromOperator): float|int
+    {
+        $costFromPayslip = 0;
+        /** @var Payslip $payslip */
+        foreach ($payslipsFromOperator as $payslip) {
+            $costFromPayslip += $payslip->getTotalAmount() + $payslip->getExpenses() + $payslip->getOtherCosts() + $payslip->getSocialSecurityCost();
+        }
+
+        return $costFromPayslip;
     }
 }

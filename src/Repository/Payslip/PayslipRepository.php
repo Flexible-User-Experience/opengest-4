@@ -17,7 +17,7 @@ class PayslipRepository extends ServiceEntityRepository
 
     public function getPayslipsSortedByNameQB(): QueryBuilder
     {
-        return $this->createQueryBuilder('c')->orderBy('c.name');
+        return $this->createQueryBuilder('p')->orderBy('p.fromDate', 'ASC');
     }
 
     public function getPayslipsSortedByNameQ(): Query
