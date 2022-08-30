@@ -9,6 +9,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleConsumption;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class CostManager
 {
@@ -31,7 +32,7 @@ class CostManager
     /**
      * @param PurchaseInvoiceLine[] $purchaseInvoiceLines
      */
-    public function getTotalCostFromPurchaseInvoiceLines(array $purchaseInvoiceLines): float
+    public function getTotalCostFromPurchaseInvoiceLines($purchaseInvoiceLines): float
     {
         $totalCost = 0;
         foreach ($purchaseInvoiceLines as $purchaseInvoiceLine) {
@@ -44,7 +45,7 @@ class CostManager
     /**
      * @param VehicleConsumption[] $vehicleConsumptions
      */
-    public function getTotalCostFromVehicleConsumptions(array $vehicleConsumptions): float
+    public function getTotalCostFromVehicleConsumptions($vehicleConsumptions): float
     {
         $totalCost = 0;
         foreach ($vehicleConsumptions as $vehicleConsumption) {
@@ -57,7 +58,7 @@ class CostManager
     /**
      * @param OperatorWorkRegister[] $operatorWorkRegisters
      */
-    public function getTotalCostFromOperatorWorkRegisters(array $operatorWorkRegisters): float
+    public function getTotalCostFromOperatorWorkRegisters($operatorWorkRegisters): float
     {
         $totalCost = 0;
         foreach ($operatorWorkRegisters as $operatorWorkRegister) {
@@ -70,7 +71,7 @@ class CostManager
     /**
      * @param OperatorWorkRegister[] $operatorWorkRegisters
      */
-    public function getTotalWorkingHoursFromOperatorWorkRegisters(array $operatorWorkRegisters): float
+    public function getTotalWorkingHoursFromOperatorWorkRegisters($operatorWorkRegisters): float
     {
         $totalWorkingHours = 0;
         foreach ($operatorWorkRegisters as $operatorWorkRegister) {
@@ -82,34 +83,33 @@ class CostManager
 
     public function getTotalWorkingHoursFromVehicleInYear(Vehicle $vehicle, $year): float
     {
-        $operatorWorkRegisters = [];
+        /** @var OperatorWorkRegister[] $operatorWorkRegisters */
+        $operatorWorkRegisters = new ArrayCollection();
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($vehicle->getSaleDeliveryNotes() as $saleDeliveryNote) {
             if ($saleDeliveryNote->getDate()->format('Y') === $year) {
-                $operatorWorkRegisters = array_merge(
-                    $operatorWorkRegisters,
+                $operatorWorkRegisters = new ArrayCollection(array_merge(
+                    $operatorWorkRegisters->toArray(),
                     $saleDeliveryNote->getOperatorWorkRegisters()->filter(function (OperatorWorkRegister $operatorWorkRegister) {
                         return null !== $operatorWorkRegister->getStart();
-                    })
-                );
+                    })->toArray()
+                ));
             }
         }
 
         return $this->getTotalWorkingHoursFromOperatorWorkRegisters($operatorWorkRegisters);
     }
 
-    /**
-     * @param SaleDeliveryNote[] $saleDeliveryNotes
-     */
-    public function getSaleDeliveryNotesMarginAnalysis(array $saleDeliveryNotes, int $year): array
+    public function getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, int $year): array
     {
+        $priceHourVehicles = $this->getVehiclePriceHoursFromDeliveryNotes($saleDeliveryNotes, $year);
         $saleDeliveryNotesMarginAnalysis = [];
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
             $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()] = [
                 'income' => $saleDeliveryNote->getBaseAmount(),
                 'workingHoursDirectCost' => $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote),
                 'purchaseInvoiceDirectCost' => $this->getPurchaseInvoiceCostFromDeliveryNote($saleDeliveryNote),
-                'vehicleIndirectCost' => $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote) * $this->getPriceHourFromVehicleInYear($saleDeliveryNote->getVehicle(), $year),
+                'vehicleIndirectCost' => $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote) * $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['priceHour'],
             ];
         }
 
@@ -168,5 +168,36 @@ class CostManager
         }
 
         return $priceHour;
+    }
+
+    private function getVehiclePriceHoursFromDeliveryNotes($saleDeliveryNotes, $year)
+    {
+        $priceHourVehicles = [];
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            if (array_key_exists($saleDeliveryNote->getVehicle()->getId(), $priceHourVehicles)) {
+                $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['hours'] += $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+            } else {
+                $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['hours'] = $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+                $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['vehicle'] = $saleDeliveryNote->getVehicle();
+            }
+        }
+        foreach ($priceHourVehicles as $priceHourVehicle) {
+            /** @var Vehicle $vehicle */
+            $vehicle = $priceHourVehicle['vehicle'];
+            $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines($this->getPurchaseInvoiceLinesFromYear($year, null, $vehicle));
+            $vehicleConsumptions = $vehicle->getVehicleConsumptions()->filter(function (VehicleConsumption $vehicleConsumption) use ($year) {
+                return $vehicleConsumption->getSupplyDate()->format('Y') == $year;
+            });
+            $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($vehicleConsumptions);
+            $priceHourVehicles[$vehicle->getId()]['cost'] = $purchaseInvoiceCost + $vehicleConsumptionCost;
+            if ($priceHourVehicles[$vehicle->getId()]['hours'] > 0) {
+                $priceHourVehicles[$vehicle->getId()]['priceHour'] = $priceHourVehicles[$vehicle->getId()]['cost'] / $priceHourVehicles[$vehicle->getId()]['hours'];
+            } else {
+                $priceHourVehicles[$vehicle->getId()]['priceHour'] = 0;
+            }
+        }
+
+        return $priceHourVehicles;
     }
 }

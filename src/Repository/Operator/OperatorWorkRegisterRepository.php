@@ -74,6 +74,7 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('owr')
             ->join('owr.operatorWorkRegisterHeader', 'owrh')
+            ->addSelect('owrh')
             ->where('year(owrh.date) = :year')
             ->setParameter('year', $year)
             ->orderBy('owrh.date', 'ASC')
