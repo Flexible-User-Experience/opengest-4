@@ -498,6 +498,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle',
+                    'show_filter' => true,
                 ]
             )
             ->add(

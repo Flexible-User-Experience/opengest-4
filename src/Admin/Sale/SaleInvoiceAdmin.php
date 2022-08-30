@@ -618,7 +618,9 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoice_number',
-                ]
+                    'show_filter' => true
+                ],
+
             )
             ->add(
                 'date',
@@ -649,6 +651,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'property' => 'name',
                         'callback' => $this->partnerModelAutocompleteCallback(),
                     ],
+                    'show_filter' => true
                 ]
             )
             ->add(
