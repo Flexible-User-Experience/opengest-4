@@ -125,6 +125,7 @@ class CostAnalyticsAdminController extends BaseAdminController
             ->getResult()
         ;
         $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, $year);
+        $numberFormat = new NumberFormatService();
 
         return $this->renderWithExtraParams(
             'admin/analytics/margin_analysis.html.twig',
@@ -133,6 +134,7 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'saleDeliveryNotesMarginAnalysis' => $saleDeliveryNotesMarginAnalysis,
                 'years' => range(date('Y'), date('Y') - 10),
                 'selectedYear' => $year,
+                'numberFormat' => $numberFormat,
             ]
         );
     }

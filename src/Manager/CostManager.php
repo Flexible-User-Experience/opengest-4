@@ -125,6 +125,25 @@ class CostManager
                 'operatorPurchaseInvoiceIndirectCost' => $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPurchaseInvoiceIndirect'],
                 'operatorPayslipIndirectCost' => $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPayslipIndirect'],
             ];
+            $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['totalCost'] =
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['workingHoursDirectCost'] +
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['purchaseInvoiceDirectCost'] +
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['vehicleIndirectCost'] +
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['operatorPurchaseInvoiceIndirectCost'] +
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['operatorPayslipIndirectCost']
+            ;
+            $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['margin'] =
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['income'] -
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['totalCost']
+            ;
+            if ($saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['income'] > 0) {
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['marginPercentage'] =
+                    $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['margin'] /
+                    $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['income'] * 100
+                ;
+            } else {
+                $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['marginPercentage'] = 0;
+            }
         }
 
         return $saleDeliveryNotesMarginAnalysis;

@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
@@ -131,34 +131,34 @@
                                         {{ saleDeliveryNote.partner }}
                                     </td>
                                     <td style="text-align: right">
-                                        {{ saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].income }} €
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].income) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        {{ saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].workingHoursDirectCost }} €
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].workingHoursDirectCost) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        {{ saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].purchaseInvoiceDirectCost }} €
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].purchaseInvoiceDirectCost) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        {{ saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].vehicleIndirectCost }} €
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].vehicleIndirectCost) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        {{ saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].operatorPurchaseInvoiceIndirectCost }} €
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].operatorPurchaseInvoiceIndirectCost) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        {{ saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].operatorPayslipIndirectCost }} €
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].operatorPayslipIndirectCost) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        -
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].totalCost) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        -
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].margin) }} €
                                     </td>
                                     <td style="text-align: right">
-                                        - %
+                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].marginPercentage) }} %
                                     </td>
                                     <td>
-                                        -
+                                        {{ saleDeliveryNote.activityLine }}
                                     </td>
                                 </tr>
                             {% endfor %}
