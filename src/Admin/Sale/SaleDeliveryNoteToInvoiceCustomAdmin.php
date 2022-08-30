@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
@@ -101,6 +102,30 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
         if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
             $newActions['generateSaleInvoiceFromDeliveryNotes'] = [
                 'label' => 'admin.action.generate_invoice_from_selected',
+                'ask_confirmation' => false,
+            ];
+            $newActions['generateStandardPrint'] = [
+                'label' => 'admin.action.generate_standard_print_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $newActions['generateDriverPrint'] = [
+                'label' => 'admin.action.generate_driver_print_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $newActions['generateStandardMail'] = [
+                'label' => 'admin.action.generate_standard_mail_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $newActions['generateDriverMail'] = [
+                'label' => 'admin.action.generate_driver_mail_template_delivery_notes',
+                'ask_confirmation' => false,
+            ];
+            $newActions['deliveryNotesByClient'] = [
+                'label' => 'admin.action.generate_delivery_notes_by_client',
+                'ask_confirmation' => false,
+            ];
+            $newActions['deliveryNotesList'] = [
+                'label' => 'admin.action.generate_delivery_notes_list',
                 'ask_confirmation' => false,
             ];
         }
@@ -340,6 +365,14 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'saleRequest.serviceTime',
+                FieldDescriptionInterface::TYPE_TIME,
+                [
+                    'label' => 'admin.label.service_time',
+                    'format' => 'H:i',
+                ]
+            )
+            ->add(
                 'partner',
                 null,
                 [
@@ -372,38 +405,18 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'vehicle.tonnage',
+                null,
+                [
+                    'label' => 'admin.label.tonnage',
+                ]
+            )
+
+            ->add(
                 'operator',
                 null,
                 [
                     'label' => 'admin.label.operator',
-                ]
-            )
-            ->add(
-                'collectionDocument',
-                null,
-                [
-                    'label' => 'admin.label.collection_document_type',
-                ]
-            )
-            ->add(
-                'collectionTerm',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_1',
-                ]
-            )
-            ->add(
-                'collectionTerm2',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_2',
-                ]
-            )
-            ->add(
-                'collectionTerm3',
-                null,
-                [
-                    'label' => 'admin.label.collection_term_3',
                 ]
             )
             ->add(
@@ -436,6 +449,19 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 [
                     'template' => 'admin/cells/list__cell_sale_invoice_sale_delivery_note.html.twig',
                     'label' => 'admin.with.sale_invoice',
+                ]
+            )
+            ->add(
+                '_action',
+                'actions',
+                [
+                    'actions' => [
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_sale_delivery_note_button.html.twig'],
+                    ],
+                    'label' => 'admin.actions',
+                    'header_style' => 'width:120px;',
                 ]
             )
         ;
