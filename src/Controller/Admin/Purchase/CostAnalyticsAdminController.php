@@ -65,7 +65,12 @@ class CostAnalyticsAdminController extends BaseAdminController
         $vehicles = $this->em->getRepository(Vehicle::class)->findEnabledSortedByName();
         $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
         $costCenters = $this->em->getRepository(CostCenter::class)->getEnabledSortedByName();
-        $saleDeliveryNotes = $saleDeliveryNoteRepository->getFilteredByEnterpriseSortedById($this->getUser()->getDefaultEnterprise());
+        $saleDeliveryNotes = $saleDeliveryNoteRepository->getFilteredByEnterpriseSortedByIdQB($this->getUser()->getDefaultEnterprise())
+            ->leftJoin('s.partner', 'partner')
+            ->addSelect('partner')
+            ->getQuery()
+            ->getResult()
+        ;
         $oldestYear = $saleDeliveryNoteRepository->getOldestYearFilteredByEnterprise($this->getUser()->getDefaultEnterprise());
         $currentYear = date('Y');
         $oldestYear = $oldestYear['year'] ?? $currentYear;
