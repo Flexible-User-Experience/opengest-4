@@ -51,6 +51,7 @@ class VehicleAdmin extends AbstractBaseAdmin
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
         $sortValues[DatagridInterface::SORT_BY] = 'name';
+        $sortValues[DatagridInterface::PER_PAGE] = 100;
     }
 
     /**
@@ -497,6 +498,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.vehicle',
+                    'show_filter' => true,
                 ]
             )
             ->add(

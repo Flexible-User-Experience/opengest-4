@@ -321,6 +321,10 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
                 $partnerIds[] = $deliveryNote->getPartner()->getId();
             }
         }
+        $buildingSiteCheck = false;
+        $orderCheck = false;
+        $deliveryAddressCheck = false;
+
         $saleInvoiceIds = [];
         foreach ($partnerIds as $partnerId) {
             $partnerDeliveryNotes = [];
@@ -329,6 +333,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
                 return $deliveryNote->getPartner()->getId() === $partnerId;
             });
             // Check if all deliveryNotes from partner have same collectionDocument and terms
+            // Check if all deliveryNotes from partner have same buildingSite and order
             $first = true;
             foreach ($partnerDeliveryNotes as $partnerDeliveryNote) {
                 if ($first) {
@@ -336,7 +341,20 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
                     $collectionTerm1 = $partnerDeliveryNote->getCollectionTerm();
                     $collectionTerm2 = $partnerDeliveryNote->getCollectionTerm2();
                     $collectionTerm3 = $partnerDeliveryNote->getCollectionTerm3();
+                    $order = $partnerDeliveryNote->getOrder();
+                    $buildingSite = $partnerDeliveryNote->getBuildingSite();
+                    $deliveryAddress = $partnerDeliveryNote->getDeliveryAddress();
                     $first = false;
+                } else {
+                    if ($order !== $partnerDeliveryNote->getOrder()) {
+                        $orderCheck = true;
+                    }
+                    if ($buildingSite !== $partnerDeliveryNote->getBuildingSite()) {
+                        $buildingSiteCheck = true;
+                    }
+                    if ($deliveryAddress !== $partnerDeliveryNote->getDeliveryAddress()) {
+                        $deliveryAddressCheck = true;
+                    }
                 }
                 if (
                     ($partnerDeliveryNote->getCollectionDocument() !== $collectionDocument)
@@ -350,6 +368,14 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
                     $this->addFlash('warning', 'Los albaranes del cliente '.$partnerDeliveryNote->getPartner().' tienen que tener la misma forma y plazos de pago');
 
                     return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+                }
+                if ($buildingSiteCheck || $orderCheck || $deliveryAddressCheck) {
+                    $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$partnerDeliveryNote->getPartner().' no tienen el mismo/a: '
+                        .($orderCheck ? 'pedido' : '')
+                        .($buildingSiteCheck ? ', obra' : '')
+                        .($deliveryAddressCheck ? ', dirección de envio' : '')
+                    )
+                    ;
                 }
             }
             $saleInvoice = $this->generateSaleInvoiceFromPartnerSaleDeliveryNotes($partnerDeliveryNotes, $date, $saleInvoiceSeries);
@@ -386,7 +412,12 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $invoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($saleInvoiceSeries, $deliveryNotes->first()->getEnterprise());
         $saleInvoice->setInvoiceNumber($invoiceNumber);
         $saleInvoice->setDeliveryNotes($deliveryNotes);
-        if ($saleInvoice->getPartner()->getCollectionDocumentType()) {
+//        if ($saleInvoice->getPartner()->getCollectionDocumentType()) {
+//            $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());
+//        }
+        if ($deliveryNotes->first()->getCollectionDocument()) {
+            $saleInvoice->setCollectionDocumentType($deliveryNotes->first()->getCollectionDocument());
+        } elseif ($saleInvoice->getPartner()->getCollectionDocumentType()) {
             $saleInvoice->setCollectionDocumentType($saleInvoice->getPartner()->getCollectionDocumentType());
         }
         if ($deliveryNotes->first()->getDeliveryAddress()) {

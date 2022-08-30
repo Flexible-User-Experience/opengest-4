@@ -586,13 +586,8 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.name',
-                ]
-            )
-            ->add(
-                'providerReference',
-                null,
-                [
-                    'label' => 'admin.label.reference',
+                    'show_filter' => true,
+
                 ]
             )
             ->add(
@@ -600,6 +595,14 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.commercial_name',
+                    'show_filter' => true,
+                ]
+            )
+            ->add(
+                'providerReference',
+                null,
+                [
+                    'label' => 'admin.label.reference',
                 ]
             )
             ->add(

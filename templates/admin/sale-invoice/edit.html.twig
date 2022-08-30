@@ -139,6 +139,8 @@
                                 <tr>
                                     <th>Núm. albarán</th>
                                     <th>Fecha</th>
+                                    <th>Obra</th>
+                                    <th>Pedido</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,6 +152,8 @@
                                         </a>
                                     </td>
                                     <td>{{ deliveryNote.date|date('d/m/Y') }}</td>
+                                    <td>{{ deliveryNote.buildingSite }}</td>
+                                    <td>{{ deliveryNote.order }}</td>
                                 </tr>
                                 <tr>
                                     <td>

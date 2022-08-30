@@ -468,6 +468,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Nombre',
+                    'show_filter' => true,
                 ]
             )
             ->add(

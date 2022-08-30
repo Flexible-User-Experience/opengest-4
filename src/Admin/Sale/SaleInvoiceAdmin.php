@@ -618,7 +618,9 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoice_number',
-                ]
+                    'show_filter' => true
+                ],
+
             )
             ->add(
                 'date',
@@ -649,6 +651,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'property' => 'name',
                         'callback' => $this->partnerModelAutocompleteCallback(),
                     ],
+                    'show_filter' => true
                 ]
             )
             ->add(
@@ -822,6 +825,11 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     public function postUpdate($object): void
     {
         $this->im->calculateInvoiceImportsFromDeliveryNotes($object, $object->getDeliveryNotes());
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach ($object->getDeliveryNotes() as $saleDeliveryNote) {
+            $saleDeliveryNote->setIsInvoiced(true);
+            $this->em->persist($saleDeliveryNote);
+        }
 
         $this->em->flush();
     }
