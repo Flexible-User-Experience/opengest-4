@@ -151,6 +151,7 @@ class SaleInvoiceAdminController extends BaseAdminController
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
             $deliveryNote->setSaleInvoice($clonedSaleInvoice);
+//            $deliveryNote->setIsInvoiced(true);
             $em->persist($deliveryNote);
         }
         $dueDates = $saleInvoice->getSaleInvoiceDueDates();

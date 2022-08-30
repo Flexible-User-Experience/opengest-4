@@ -146,40 +146,39 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_to_invoice_custom_list'));
         }
-        //TODO verify if we can delete this piece of code (the functionallity is on the next function)
-//        foreach ($partnerIds as $partnerId) {
-//            $orderCheck = false;
-//            $buildingSiteCheck = false;
-//            $deliveryAddressCheck = false;
-//            $first = true;
-//            foreach (array_filter($saleDeliveryNotes, function ($saleDeliveryNote) use ($partnerId) { return $saleDeliveryNote->getPartner()->getId() === $partnerId; })
-//                     as $saleDeliveryNote) {
-//                if ($first) {
-//                    $order = $saleDeliveryNote->getOrder();
-//                    $buildingSite = $saleDeliveryNote->getBuildingSite();
-//                    $deliveryAddress = $saleDeliveryNote->getDeliveryAddress();
-//                    $first = false;
-//                } else {
-//                    if ($order !== $saleDeliveryNote->getOrder()) {
-//                        $orderCheck = true;
-//                    }
-//                    if ($buildingSite !== $saleDeliveryNote->getBuildingSite()) {
-//                        $buildingSiteCheck = true;
-//                    }
-//                    if ($deliveryAddress !== $saleDeliveryNote->getDeliveryAddress()) {
-//                        $deliveryAddressCheck = true;
-//                    }
-//                }
-//            }
-//            if ($buildingSiteCheck || $orderCheck || $deliveryAddressCheck) {
-//                $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '
-//                    .($orderCheck ? 'pedido' : '')
-//                    .($buildingSiteCheck ? ', obra' : '')
-//                    .($deliveryAddressCheck ? ', dirección de envio' : '')
-//                )
-//                ;
-//            }
-//        }
+        foreach ($partnerIds as $partnerId) {
+            $orderCheck = false;
+            $buildingSiteCheck = false;
+            $deliveryAddressCheck = false;
+            $first = true;
+            foreach (array_filter($saleDeliveryNotes, function ($saleDeliveryNote) use ($partnerId) { return $saleDeliveryNote->getPartner()->getId() === $partnerId; })
+                     as $saleDeliveryNote) {
+                if ($first) {
+                    $order = $saleDeliveryNote->getOrder();
+                    $buildingSite = $saleDeliveryNote->getBuildingSite();
+                    $deliveryAddress = $saleDeliveryNote->getDeliveryAddress();
+                    $first = false;
+                } else {
+                    if ($order !== $saleDeliveryNote->getOrder()) {
+                        $orderCheck = true;
+                    }
+                    if ($buildingSite !== $saleDeliveryNote->getBuildingSite()) {
+                        $buildingSiteCheck = true;
+                    }
+                    if ($deliveryAddress !== $saleDeliveryNote->getDeliveryAddress()) {
+                        $deliveryAddressCheck = true;
+                    }
+                }
+            }
+            if ($buildingSiteCheck || $orderCheck || $deliveryAddressCheck) {
+                $this->addFlash('warning', 'Los albaranes seleccionados del cliente: '.$saleDeliveryNote->getPartner().' no tienen el mismo/a: '
+                    .($orderCheck ? 'pedido' : '')
+                    .($buildingSiteCheck ? ', obra' : '')
+                    .($deliveryAddressCheck ? ', dirección de envio' : '')
+                )
+                ;
+            }
+        }
 
         $form->get('saleDeliveryNotes')->setData($saleDeliveryNotes);
         $enterprise = $this->em->getRepository(Enterprise::class)->find(1);
