@@ -16,6 +16,7 @@ use App\Manager\Pdf\VehicleCheckingPdfManager;
 use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
 use App\Manager\VehicleMaintenanceManager;
 use App\Manager\Xls\ImputableCostXlsManager;
+use App\Manager\Xls\MarginAnalysisXlsManager;
 use App\Manager\Xls\OperatorWorkRegisterHeaderXlsManager;
 use App\Manager\Xml\PayslipXmlManager;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,6 +43,8 @@ abstract class BaseAdminController extends Controller
     protected DeliveryNoteManager $deliveryNoteManager;
 
     protected ImputableCostXlsManager $imputableCostXlsManager;
+
+    protected MarginAnalysisXlsManager $marginAnalysisXlsManager;
 
     protected SaleDeliveryNotePdfManager $sdnpm;
 
@@ -73,6 +76,7 @@ abstract class BaseAdminController extends Controller
         CostManager $costManager,
         DeliveryNoteManager $deliveryNoteManager,
         ImputableCostXlsManager $imputableCostXlsManager,
+        MarginAnalysisXlsManager $marginAnalysisXlsManager,
         SaleDeliveryNotePdfManager $sdnpm,
         SaleInvoicePdfManager $sipm,
         WorkRegisterHeaderPdfManager $wrhpm,
@@ -91,6 +95,7 @@ abstract class BaseAdminController extends Controller
         $this->costManager = $costManager;
         $this->deliveryNoteManager = $deliveryNoteManager;
         $this->imputableCostXlsManager = $imputableCostXlsManager;
+        $this->marginAnalysisXlsManager = $marginAnalysisXlsManager;
         $this->sdnpm = $sdnpm;
         $this->sipm = $sipm;
         $this->wrhpm = $wrhpm;
