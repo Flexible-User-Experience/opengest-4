@@ -8,6 +8,7 @@ use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -38,6 +39,14 @@ class PayslipAdmin extends AbstractBaseAdmin
      * @var string
      */
     protected $baseRoutePattern = 'nominas/nominas';
+
+    /**
+     * Methods.
+     */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::PER_PAGE] = 50;
+    }
 
     /**
      * Methods.

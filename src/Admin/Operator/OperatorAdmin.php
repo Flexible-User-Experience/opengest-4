@@ -45,6 +45,7 @@ class OperatorAdmin extends AbstractBaseAdmin
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
         $sortValues[DatagridInterface::SORT_BY] = 'surname1';
+        $sortValues[DatagridInterface::PER_PAGE] = 50;
     }
 
     /**
