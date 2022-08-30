@@ -39,26 +39,56 @@
                     <table class="table table-bordered table-hover sonata-ba-list">
                         <tr>
                             <td>Ingresos</td>
-                            <td>
-                                {{ 0 }}
+                            <td style="text-align: right">
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalIncome) }} €
                             </td>
                         </tr>
                         <tr>
-                            <td>Costes</td>
+                            <td>Costes directos operarios</td>
                             <td style="text-align: right">
-                                {{ 0 }} €
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalWorkingHoursDirectCost) }} €
                             </td>
                         </tr>
                         <tr>
-                            <td>Margen</td>
+                            <td>Costes directos facturas albarán</td>
                             <td style="text-align: right">
-                                {{ 0 }} €
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalPurchaseInvoiceDirectCost) }} €
                             </td>
                         </tr>
                         <tr>
-                            <td>Margen %</td>
+                            <td>Costes indirectos vehículos</td>
                             <td style="text-align: right">
-                                {{ 0 }} %
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalVehicleIndirectCost) }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Costes indirectos facturas operario</td>
+                            <td style="text-align: right">
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalOperatorPurchaseInvoiceIndirectCost) }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Costes indirectos nóminas operario</td>
+                            <td style="text-align: right">
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalOperatorPayslipIndirectCost) }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Costes</td>
+                            <td style="text-align: right">
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalCost) }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Margen</td>
+                            <td style="text-align: right">
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalMargin) }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Margen %</td>
+                            <td style="text-align: right">
+                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalMarginPercentage) }} %
                             </td>
                         </tr>
                     </table>

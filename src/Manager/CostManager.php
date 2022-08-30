@@ -145,6 +145,25 @@ class CostManager
                 $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['marginPercentage'] = 0;
             }
         }
+        $saleDeliveryNotesMarginAnalysis['totalIncome'] = array_sum(array_column($saleDeliveryNotesMarginAnalysis, 'income'));
+        $saleDeliveryNotesMarginAnalysis['totalWorkingHoursDirectCost'] = array_sum(array_column($saleDeliveryNotesMarginAnalysis, 'workingHoursDirectCost'));
+        $saleDeliveryNotesMarginAnalysis['totalPurchaseInvoiceDirectCost'] = array_sum(array_column($saleDeliveryNotesMarginAnalysis, 'purchaseInvoiceDirectCost'));
+        $saleDeliveryNotesMarginAnalysis['totalVehicleIndirectCost'] = array_sum(array_column($saleDeliveryNotesMarginAnalysis, 'vehicleIndirectCost'));
+        $saleDeliveryNotesMarginAnalysis['totalOperatorPurchaseInvoiceIndirectCost'] = array_sum(array_column($saleDeliveryNotesMarginAnalysis, 'operatorPurchaseInvoiceIndirectCost'));
+        $saleDeliveryNotesMarginAnalysis['totalOperatorPayslipIndirectCost'] = array_sum(array_column($saleDeliveryNotesMarginAnalysis, 'operatorPayslipIndirectCost'));
+        $saleDeliveryNotesMarginAnalysis['totalCost'] =
+            $saleDeliveryNotesMarginAnalysis['totalWorkingHoursDirectCost'] +
+            $saleDeliveryNotesMarginAnalysis['totalPurchaseInvoiceDirectCost'] +
+            $saleDeliveryNotesMarginAnalysis['totalVehicleIndirectCost'] +
+            $saleDeliveryNotesMarginAnalysis['totalOperatorPurchaseInvoiceIndirectCost'] +
+            $saleDeliveryNotesMarginAnalysis['totalOperatorPayslipIndirectCost']
+        ;
+        $saleDeliveryNotesMarginAnalysis['totalMargin'] = $saleDeliveryNotesMarginAnalysis['totalIncome'] - $saleDeliveryNotesMarginAnalysis['totalCost'];
+        if ($saleDeliveryNotesMarginAnalysis['totalIncome'] > 0) {
+            $saleDeliveryNotesMarginAnalysis['totalMarginPercentage'] = $saleDeliveryNotesMarginAnalysis['totalMargin'] / $saleDeliveryNotesMarginAnalysis['totalIncome'] * 100;
+        } else {
+            $saleDeliveryNotesMarginAnalysis['totalMarginPercentage'] = 0;
+        }
 
         return $saleDeliveryNotesMarginAnalysis;
     }
