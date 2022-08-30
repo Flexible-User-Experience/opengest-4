@@ -13,6 +13,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class CostManager
 {
+    private RepositoriesManager $repositoriesManager;
+
+    public function __construct(RepositoriesManager $repositoriesManager)
+    {
+        $this->repositoriesManager = $repositoriesManager;
+    }
+
     public function getPurchaseInvoiceLinesFromYear(int $year, ?SaleDeliveryNote $saleDeliveryNote = null, ?Vehicle $vehicle = null, ?Operator $operator = null, ?CostCenter $costCenter = null)
     {
         $purchaseInvoiceLines = [];
@@ -182,12 +189,16 @@ class CostManager
                 $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['vehicle'] = $saleDeliveryNote->getVehicle();
             }
         }
+        $purchaseInvoiceLines = $this->getPurchaseInvoiceLinesFromYear($year);
+        $vehicleConsumptions = $this->getVehicleConsumptionsFromYear($year);
         foreach ($priceHourVehicles as $priceHourVehicle) {
             /** @var Vehicle $vehicle */
             $vehicle = $priceHourVehicle['vehicle'];
-            $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines($this->getPurchaseInvoiceLinesFromYear($year, null, $vehicle));
-            $vehicleConsumptions = $vehicle->getVehicleConsumptions()->filter(function (VehicleConsumption $vehicleConsumption) use ($year) {
-                return $vehicleConsumption->getSupplyDate()->format('Y') == $year;
+            $purchaseInvoiceCost = $this->getTotalCostFromPurchaseInvoiceLines(array_filter($purchaseInvoiceLines, function (PurchaseInvoiceLine $purchaseInvoiceLine) use ($vehicle) {
+                return $purchaseInvoiceLine->getVehicle()->getId() === $vehicle->getId();
+            }));
+            $vehicleConsumptions = array_filter($vehicleConsumptions, function (VehicleConsumption $vehicleConsumption) use ($vehicle) {
+                return $vehicleConsumption->getVehicle()->getId() === $vehicle->getId();
             });
             $vehicleConsumptionCost = $this->getTotalCostFromVehicleConsumptions($vehicleConsumptions);
             $priceHourVehicles[$vehicle->getId()]['cost'] = $purchaseInvoiceCost + $vehicleConsumptionCost;
@@ -199,5 +210,10 @@ class CostManager
         }
 
         return $priceHourVehicles;
+    }
+
+    private function getVehicleConsumptionsFromYear($year)
+    {
+        return $this->repositoriesManager->getVehicleConsumptionRepository()->getFilteredByYearAndVehicle($year);
     }
 }
