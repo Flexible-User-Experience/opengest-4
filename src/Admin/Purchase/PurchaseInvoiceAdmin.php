@@ -552,17 +552,6 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $this->em->flush();
     }
 
-//    /**
-//     * @param PurchaseInvoice $object
-//     *
-//     * @return void
-//     */
-//    public function postUpdate(object $object): void
-//    {
-//
-//        $this->em->flush();
-//    }
-
     private function setPartnerInformation(PurchaseInvoice $purchaseInvoice)
     {
         $partner = $purchaseInvoice->getPartner();
