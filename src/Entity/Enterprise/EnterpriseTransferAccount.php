@@ -96,7 +96,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceDueDate", mappedBy="enterpriseTransferAccount")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="enterpriseTransferAccount")
      */
     private Collection $saleInvoiceDueDates;
 

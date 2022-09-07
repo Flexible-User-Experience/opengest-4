@@ -232,10 +232,13 @@ admin:
         supplier: "Proveedor"
         supplier_code: "Código proveedor"
         invoice_reference: "Referencia"
+        purchase_invoice: "Factura de compra"
         purchase_invoice_line: "Línea de factura"
         purchase_invoice_lines: "Líneas de factura"
         purchase_item: "Artículo"
         cost_center: "Centro de coste"
+        paid: "Pagado"
+        payment_date: "Dia de pago"
     with:
         general: "General"
         image: "Imagen"

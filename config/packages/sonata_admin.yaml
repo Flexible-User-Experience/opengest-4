@@ -21,6 +21,8 @@ sonata_admin:
                 icon: '<i class="fa fa-eur"></i>'
             Compras:
                 icon: '<i class="fa fa-money-bill "></i>'
+            Cartera:
+                icon: '<i class="fa fa-wallet "></i>'
             Operarios:
                 icon: '<i class="fa fa-users"></i>'
             Nóminas:
