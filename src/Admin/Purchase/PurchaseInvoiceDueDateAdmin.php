@@ -3,6 +3,7 @@
 namespace App\Admin\Purchase;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Sale\SaleInvoice;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -36,41 +37,107 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
      */
     protected function configureFormFields(FormMapper $formMapper): void
     {
-        $formMapper
-            ->with('Vencimiento', $this->getFormMdSuccessBoxArray(3))
-            ->add(
-                'purchaseInvoice',
-                EntityType::class,
-                [
-                    'class' => SaleInvoice::class,
-                    'label' => 'admin.label.purchase_invoice',
-                    'required' => true,
-                    'query_builder' => $this->rm->getPurchaseInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
-                    'attr' => [
-                        'hidden' => 'true',
-                    ],
-                ]
-            )
-            ->add(
-                'date',
-                DatePickerType::class,
-                [
-                    'label' => 'admin.label.date',
-                    'format' => 'dd/MM/yyyy',
-                    'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
-                ]
-            )
-            ->add(
-                'amount',
-                null,
-                [
-                    'label' => 'admin.label.amount',
-                    'required' => true,
-                ]
-            )
-            ->end()
-        ;
+        if ($this->getCode() === $this->getRootCode()) {
+            $formMapper
+                ->with('Vencimento', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'purchaseInvoice',
+                    EntityType::class,
+                    [
+                        'class' => SaleInvoice::class,
+                        'label' => 'admin.label.purchase_invoice',
+                        'required' => true,
+                        'disabled' => true,
+                        'query_builder' => $this->rm->getPurchaseInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
+                    ]
+                )
+                ->add(
+                    'date',
+                    DatePickerType::class,
+
+                    [
+                        'label' => 'admin.label.date',
+                        'format' => 'd/M/y',
+                        'required' => true,
+                        'disabled' => true,
+                    ]
+                )
+                ->add(
+                    'amount',
+                    null,
+                    [
+                        'label' => 'admin.label.amount',
+                        'scale' => 2,
+                        'required' => true,
+                        'disabled' => true,
+                    ]
+                )
+                ->end()
+                ->with('Datos de pago', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'paid',
+                    null,
+                    [
+                        'label' => 'admin.label.paid',
+                    ]
+                )
+                ->add(
+                    'paymentDate',
+                    DatePickerType::class,
+                    [
+                        'label' => 'admin.label.date',
+                        'format' => 'd/M/y',
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    'enterpriseTransferAccount',
+                    EntityType::class,
+                    [
+                        'label' => 'admin.label.transference_bank',
+                        'class' => EnterpriseTransferAccount::class,
+                        'required' => false,
+                    ]
+                )
+                ->end()
+            ;
+        } else {
+            $formMapper
+                ->with('Vencimiento', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'purchaseInvoice',
+                    EntityType::class,
+                    [
+                        'class' => SaleInvoice::class,
+                        'label' => 'admin.label.purchase_invoice',
+                        'required' => true,
+                        'query_builder' => $this->rm->getPurchaseInvoiceRepository()->getFilteredByEnterpriseSortedByDateQB($this->getUserLogedEnterprise()),
+                        'attr' => [
+                            'hidden' => 'true',
+                        ],
+                    ]
+                )
+                ->add(
+                    'date',
+                    DatePickerType::class,
+                    [
+                        'label' => 'admin.label.date',
+                        'format' => 'dd/MM/yyyy',
+                        'required' => true,
+                        'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    ]
+                )
+                ->add(
+                    'amount',
+                    null,
+                    [
+                        'label' => 'admin.label.amount',
+                        'required' => true,
+                    ]
+                )
+                ->end()
+            ;
+        }
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
@@ -88,6 +155,20 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.units',
+                ]
+            )
+            ->add(
+                'paid',
+                null,
+                [
+                    'label' => 'admin.label.paid',
+                ]
+            )
+            ->add(
+                'enterpriseTransferAccount',
+                null,
+                [
+                    'label' => 'admin.label.transference_bank',
                 ]
             )
             ->add(
@@ -114,18 +195,12 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add(
+            ->addIdentifier(
                 'purchaseInvoice',
                 null,
                 [
                     'label' => 'admin.label.purchase_invoice',
-                ]
-            )
-            ->add(
-                'amount',
-                null,
-                [
-                    'label' => 'admin.label.amount',
+                    'sortable' => true,
                 ]
             )
             ->add(
@@ -133,6 +208,15 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.date',
+                    'format' => 'd/m/Y',
+                ]
+            )
+            ->add(
+                'amount',
+                null,
+                [
+                    'label' => 'admin.label.amount',
+                    'template' => 'admin/cells/list__cell_amount_currency_number.html.twig',
                 ]
             )
             ->add(
@@ -140,6 +224,7 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.paid',
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -147,14 +232,17 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.payment_date',
+                    'format' => 'd/m/Y',
                 ]
             )
-            ->add(
+            ->addIdentifier(
                 'enterpriseTransferAccount',
                 null,
                 [
                     'label' => 'admin.label.transference_bank',
-                ])
+                    'sortable' => true,
+                ]
+            )
             ->add(
                 '_action',
                 'actions',
@@ -162,7 +250,7 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
                     'actions' => [
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
-                    'label' => 'admin.with.actions',
+                    'label' => 'admin.actions',
                 ]
             )
         ;
