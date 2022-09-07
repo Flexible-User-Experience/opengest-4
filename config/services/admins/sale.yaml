@@ -51,7 +51,7 @@ services:
         class: App\Admin\Sale\SaleInvoiceDueDateAdmin
         arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
         tags:
-            - { name: sonata.admin, code:  ~, model_class: App\Entity\Sale\SaleInvoiceDueDate, controller: ~, manager_type: orm, label: 'Vencimientos', group: 'Ventas', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+            - { name: sonata.admin, code:  ~, model_class: App\Entity\Sale\SaleInvoiceDueDate, controller: ~, manager_type: orm, label: 'Vencimientos de venta', group: 'Cartera', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
     app.admin.sale_request_has_delivery_note:

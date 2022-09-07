@@ -232,6 +232,8 @@ admin:
         supplier: "Proveedor"
         supplier_code: "Código proveedor"
         invoice_reference: "Referencia"
+        sale_invoice: "Factura de venta"
+        collection_date: "Dia de cobro"
         purchase_invoice: "Factura de compra"
         purchase_invoice_line: "Línea de factura"
         purchase_invoice_lines: "Líneas de factura"
