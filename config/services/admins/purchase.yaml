@@ -20,6 +20,7 @@ services:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseInvoiceDueDate, controller: ~, manager_type: orm, label: 'Vencimientos de compra', group: 'Cartera', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
       - [ setTranslationDomain, [ 'admin' ] ]
+      - [ setTemplate, [ list, 'admin/due-date/list.html.twig' ] ]
   app.admin.purchase_invoice_line:
     class: App\Admin\Purchase\PurchaseInvoiceLineAdmin
     arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
