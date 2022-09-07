@@ -8,6 +8,7 @@ use App\Entity\Sale\SaleInvoice;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
@@ -35,6 +36,13 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection
+            ->remove('delete')
+        ;
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getCode() === $this->getRootCode()) {

@@ -9,8 +9,6 @@ use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Purchase\PurchaseInvoiceDueDate;
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Setting\City;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
@@ -109,7 +107,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     'required' => true,
                 ]
             )
-            ;
+        ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
                 ->add(
@@ -149,7 +147,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     'admin_code' => 'app.admin.partner',
                 ]
             )
-            ;
+        ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
                 ->add(
@@ -186,7 +184,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                         'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
                     ]
                 )
-                ;
+            ;
             if ($this->getSubject()->getPartnerMainCity()) {
                 $formMapper
                     ->add(
@@ -212,7 +210,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         }
         $formMapper
             ->end()
-            ;
+        ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
                 ->with('admin.label.amount', $this->getFormMdSuccessBoxArray(3))
@@ -502,8 +500,6 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
 
     /**
      * @param PurchaseInvoice $object
-     *
-     * @return void
      */
     public function prePersist(object $object): void
     {
@@ -513,8 +509,6 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
 
     /**
      * @param PurchaseInvoice $object
-     *
-     * @return void
      */
     public function preUpdate(object $object): void
     {
@@ -523,15 +517,6 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         if ($object->getPartner()->getId() !== $originalObject['partner']->getId()) {
             $this->setPartnerInformation($object);
         }
-    }
-
-    /**
-     * @param PurchaseInvoice $object
-     *
-     * @return void
-     */
-    public function postUpdate(object $object): void
-    {
         $irpfTotal = 0;
         $ivaTotal = 0;
         $baseTotal = 0;
@@ -542,9 +527,9 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $object->setIva21(0);
         /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
         foreach ($object->getPurchaseInvoiceLines() as $purchaseInvoiceLine) {
-            $base = $purchaseInvoiceLine->getUnits()*$purchaseInvoiceLine->getPriceUnit();
-            $iva = $base*$purchaseInvoiceLine->getIva()/100;
-            $irpf = $base*$purchaseInvoiceLine->getIrpf()/100;
+            $base = $purchaseInvoiceLine->getUnits() * $purchaseInvoiceLine->getPriceUnit();
+            $iva = $base * $purchaseInvoiceLine->getIva() / 100;
+            $irpf = $base * $purchaseInvoiceLine->getIrpf() / 100;
             $purchaseInvoiceLine->setBaseTotal($base);
             $purchaseInvoiceLine->setTotal($base + $iva - $irpf);
             $baseTotal += $base;
@@ -558,10 +543,25 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $object->setIva($ivaTotal);
         $object->setBaseTotal($baseTotal);
         $object->setTotal($total);
-        $object->setPurchaseInvoiceDueDates(new ArrayCollection());
-        $this->em->persist($this->createDueDate($object));
+        if ($originalObject['date'] !== $object->getDate() || $originalObject['total'] !== $object->getTotal()) {
+            foreach ($object->getPurchaseInvoiceDueDates() as $purchaseInvoiceDueDate) {
+                $this->em->remove($purchaseInvoiceDueDate);
+            }
+            $this->em->persist($this->createDueDate($object));
+        }
         $this->em->flush();
     }
+
+//    /**
+//     * @param PurchaseInvoice $object
+//     *
+//     * @return void
+//     */
+//    public function postUpdate(object $object): void
+//    {
+//
+//        $this->em->flush();
+//    }
 
     private function setPartnerInformation(PurchaseInvoice $purchaseInvoice)
     {
