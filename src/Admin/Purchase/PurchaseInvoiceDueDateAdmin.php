@@ -5,6 +5,7 @@ namespace App\Admin\Purchase;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use App\Entity\Sale\SaleInvoice;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -41,6 +42,12 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
         $collection
             ->remove('delete')
         ;
+    }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+        $sortValues[DatagridInterface::SORT_BY] = 'date';
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
