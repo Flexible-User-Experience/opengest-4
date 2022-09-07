@@ -582,6 +582,13 @@ App\Entity\Sale\SaleInvoice:
         partnerMainAddress: <word()>
         partnerMainCity: '@city<numberBetween(1,2)>'
 
+# SaleInvoiceDueDate
+App\Entity\Sale\SaleInvoiceDueDate:
+  saleInvoiceDueDate{1..4}:
+    saleInvoice: '@saleInvoice<numberBetween(1,2)>'
+    amount: <randomFloat()>
+    date: <dateTime()>
+
 # SaleRequestHasDeliveryNote
 App\Entity\Sale\SaleRequestHasDeliveryNote:
     saleRequestHasDeliveryNote{1..2}:
