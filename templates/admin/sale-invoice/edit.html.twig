@@ -250,4 +250,10 @@
             Generar factura desde proforma
         </a>
     {% endif %}
+    <br>
+    <br>
+    <a href="{{ admin.generateUrl('createEInvoice', { 'id': object.id }) }}" class="btn btn-success" name="btn_update">
+        <i class="fas fa-file-invoice" aria-hidden="true"></i>
+        Generar Factura-e
+    </a>
 {% endblock %}
