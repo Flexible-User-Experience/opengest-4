@@ -757,7 +757,16 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 
     public function getLinesFacturaE(): array
     {
-        // TODO: Implement getLinesFacturaE() method.
+        $lines = [];
+        /** @var SaleDeliveryNote $deliveryNote */
+        foreach ($this->getDeliveryNotes() as $deliveryNote) {
+            /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+            foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+                $lines[] = $deliveryNoteLine;
+            }
+        }
+
+        return $lines;
     }
 
     public function getBuyerFacturaE(): BuyerFacturaEInterface
