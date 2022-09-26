@@ -59,7 +59,8 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.0",
         "vich/uploader-bundle": "^1.10",
-        "xsolve-pl/xsolve-cookie-acknowledgement-bundle": "^1.0"
+        "xsolve-pl/xsolve-cookie-acknowledgement-bundle": "^1.0",
+        "mirmit/e-factura-bundle": "v0.0.12-alpha"
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.0",
@@ -128,6 +129,10 @@
         {
             "type": "composer",
             "url": "https://www.setasign.com/downloads/"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Mirmit/EFacturaBundle.git"
         }
     ]
 }

@@ -20,6 +20,7 @@ use App\Manager\Xls\MarginAnalysisXlsManager;
 use App\Manager\Xls\OperatorWorkRegisterHeaderXlsManager;
 use App\Manager\Xml\PayslipXmlManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Mirmit\EFacturaBundle\Service\EFacturaService;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,6 +73,8 @@ abstract class BaseAdminController extends Controller
 
     protected ManagerRegistry $em;
 
+    protected EFacturaService $EFacturaService;
+
     public function __construct(InvoiceManager $invoiceManager,
         CostManager $costManager,
         DeliveryNoteManager $deliveryNoteManager,
@@ -89,8 +92,9 @@ abstract class BaseAdminController extends Controller
         VehicleMaintenanceManager $vehicleMaintenanceManager,
         ManagerRegistry $managerRegistry,
         EnterpriseHolidayManager $enterpriseHolidayManager,
-        PaymentReceiptPdfManager $paymentReceiptPdfManager)
-    {
+        PaymentReceiptPdfManager $paymentReceiptPdfManager,
+        EFacturaService $EFacturaService
+    ) {
         $this->im = $invoiceManager;
         $this->costManager = $costManager;
         $this->deliveryNoteManager = $deliveryNoteManager;
@@ -109,6 +113,7 @@ abstract class BaseAdminController extends Controller
         $this->em = $managerRegistry;
         $this->enterpriseHolidayManager = $enterpriseHolidayManager;
         $this->paymentReceiptPdfManager = $paymentReceiptPdfManager;
+        $this->EFacturaService = $EFacturaService;
     }
 
     /**
