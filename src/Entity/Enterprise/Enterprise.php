@@ -2372,7 +2372,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
 
     public function getAddressFacturaE(): string
     {
-        return $this->getAddress();
+        return $this->getAddress() ?? '';
     }
 
     public function getPostalCodeFacturaE(): string
@@ -2396,7 +2396,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     public function getCountryCodeFacturaE(): string
     {
         // TODO return actual country
-        return 'ES';
+        return 'ESP';
     }
 
     public function getEmailFacturaE(): string

@@ -311,8 +311,12 @@ class SaleInvoiceAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
-        dd($this->EFacturaService);
+        $xml = $this->EFacturaService->createEFactura($saleInvoice);
+        $response = new Response($xml);
+        $response->headers->set('Content-type', 'text/xml');
+        $response->headers->set('Content-Disposition', 'attachment; filename="factura-e-'.$saleInvoice->getInvoiceNumber().'.xml"');
+        // 'Content-Disposition' => 'attachment; filename="margenes.xlsx"',
 
-        $xml = $eInvoice->createEFactura($saleInvoice);
+        return $response;
     }
 }
