@@ -13,6 +13,9 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Mirmit\EFacturaBundle\Interfaces\BuyerFacturaEInterface;
+use Mirmit\EFacturaBundle\Interfaces\InvoiceFacturaEInterface;
+use Mirmit\EFacturaBundle\Interfaces\SellerFacturaEInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleInvoiceRepository")
  * @ORM\Table(name="sale_invoice")
  */
-class SaleInvoice extends AbstractBase
+class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 {
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
@@ -732,6 +735,44 @@ class SaleInvoice extends AbstractBase
     public function getFirstDeliveryNote(): ?SaleDeliveryNote
     {
         return $this->getDeliveryNotes()->first() ? $this->getDeliveryNotes()->first() : null;
+    }
+
+    /**
+     * FacturaE Methods.
+     */
+    public function getNumberFacturaE(): string
+    {
+        return $this->getInvoiceNumber();
+    }
+
+    public function getBatchFacturaE(): string
+    {
+        return $this->getSeries()->getPrefix();
+    }
+
+    public function getDateFacturaE(): string
+    {
+        return $this->getDate()->format('Y-m-d');
+    }
+
+    public function getLinesFacturaE(): array
+    {
+        // TODO: Implement getLinesFacturaE() method.
+    }
+
+    public function getBuyerFacturaE(): BuyerFacturaEInterface
+    {
+        return $this->getPartner();
+    }
+
+    public function getSellerFacturaE(): SellerFacturaEInterface
+    {
+        return $this->getPartner()->getEnterprise();
+    }
+
+    public function getTotalAmountFacturaE(): float
+    {
+        return $this->getTotal();
     }
 
     /**

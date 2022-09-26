@@ -13,6 +13,7 @@ use App\Entity\Setting\City;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Mirmit\EFacturaBundle\Interfaces\BuyerFacturaEInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -26,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerRepository")
  * @ORM\Table(name="partner")
  */
-class Partner extends AbstractBase
+class Partner extends AbstractBase implements BuyerFacturaEInterface
 {
     /**
      * @var string
@@ -418,15 +419,11 @@ class Partner extends AbstractBase
     private ?int $invoiceCopiesNumber = null;
 
     /**
-     * @var float|null
-     *
      * @ORM\Column(type="float", nullable=true)
      */
     private ?float $defaultIva = null;
 
     /**
-     * @var float|null
-     *
      * @ORM\Column(type="float", nullable=true)
      */
     private ?float $defaultIrpf = null;
@@ -1519,11 +1516,6 @@ class Partner extends AbstractBase
         return $this->purchaseInvoices;
     }
 
-    /**
-     * @param ArrayCollection $purchaseInvoices
-     *
-     * @return Partner
-     */
     public function setPurchaseInvoices(ArrayCollection $purchaseInvoices): Partner
     {
         $this->purchaseInvoices = $purchaseInvoices;
@@ -1663,9 +1655,6 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getDefaultIva(): ?float
     {
         return $this->defaultIva;
@@ -1673,7 +1662,6 @@ class Partner extends AbstractBase
 
     /**
      * @param ?float $defaultIva
-     * @return Partner
      */
     public function setDefaultIva(?float $defaultIva): Partner
     {
@@ -1682,9 +1670,6 @@ class Partner extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getDefaultIrpf(): ?float
     {
         return $this->defaultIrpf;
@@ -1692,8 +1677,6 @@ class Partner extends AbstractBase
 
     /**
      * @param ?float $defaultIrpf
-     *
-     * @return Partner
      */
     public function setDefaultIrpf(?float $defaultIrpf): Partner
     {
@@ -1710,6 +1693,76 @@ class Partner extends AbstractBase
     public function setBlocked(bool $blocked): void
     {
         $this->blocked = $blocked;
+    }
+
+    /**
+     * FacturaE Methods.
+     */
+    public function getIsLegalEntityFacturaE(): bool
+    {
+        return !preg_match('~[0-9]+~', substr($this->getCifNif(), 0, 1));
+    }
+
+    public function getTaxNumberFacturaE(): string
+    {
+        return $this->getCifNif();
+    }
+
+    public function getNameFacturaE(): string
+    {
+        if ($this->getIsLegalEntityFacturaE()) {
+            return $this->getName();
+        } else {
+            return explode($this->getName(), ' ', 2)[0];
+        }
+    }
+
+    public function getAddressFacturaE(): string
+    {
+        return $this->getMainAddress();
+    }
+
+    public function getPostalCodeFacturaE(): string
+    {
+        return $this->getMainCity()->getPostalCode();
+    }
+
+    public function getTownFacturaE(): string
+    {
+        return $this->getMainCity()->getName();
+    }
+
+    public function getProvinceFacturaE(): string
+    {
+        return $this->getMainCity()->getProvince()->getName();
+    }
+
+    public function getCountryCodeFacturaE(): string
+    {
+        return $this->getMainCity()->getProvince()->getCountry();
+    }
+
+    public function getEmailFacturaE(): string
+    {
+        return $this->getEmail();
+    }
+
+    public function getFirstSurnameFacturaE(): string
+    {
+        if ($this->getIsLegalEntityFacturaE()) {
+            return '';
+        } else {
+            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[0];
+        }
+    }
+
+    public function getLastSurnameFacturaE(): string
+    {
+        if ($this->getIsLegalEntityFacturaE()) {
+            return '';
+        } else {
+            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[1];
+        }
     }
 
     /**

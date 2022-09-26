@@ -12,6 +12,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Mirmit\EFacturaBundle\Interfaces\SellerFacturaEInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,7 +30,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable()
  * @UniqueEntity({"taxIdentificationNumber"})
  */
-class Enterprise extends AbstractBase implements \Serializable
+class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEInterface
 {
     public const GRUAS_ROMANI_TIN = 'A43030287';
 
@@ -2349,6 +2350,68 @@ class Enterprise extends AbstractBase implements \Serializable
         }
 
         return $this;
+    }
+
+    /**
+     * FacturaE Methods.
+     */
+    public function getIsLegalEntityFacturaE(): bool
+    {
+        return true;
+    }
+
+    public function getTaxNumberFacturaE(): string
+    {
+        return $this->getTaxIdentificationNumber();
+    }
+
+    public function getNameFacturaE(): string
+    {
+        return $this->getBusinessName();
+    }
+
+    public function getAddressFacturaE(): string
+    {
+        return $this->getAddress();
+    }
+
+    public function getPostalCodeFacturaE(): string
+    {
+        // TODO return actual postal code
+        return '';
+    }
+
+    public function getTownFacturaE(): string
+    {
+        // TODO return actual town
+        return '';
+    }
+
+    public function getProvinceFacturaE(): string
+    {
+        // TODO return actual province
+        return '';
+    }
+
+    public function getCountryCodeFacturaE(): string
+    {
+        // TODO return actual country
+        return 'ES';
+    }
+
+    public function getEmailFacturaE(): string
+    {
+        return $this->getEmail();
+    }
+
+    public function getFirstSurnameFacturaE(): string
+    {
+        return '';
+    }
+
+    public function getLastSurnameFacturaE(): string
+    {
+        return '';
     }
 
     /**
