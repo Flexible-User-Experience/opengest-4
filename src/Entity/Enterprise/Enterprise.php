@@ -15,6 +15,7 @@ use Exception;
 use Mirmit\EFacturaBundle\Interfaces\SellerFacturaEInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -2377,26 +2378,22 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
 
     public function getPostalCodeFacturaE(): string
     {
-        // TODO return actual postal code
-        return '';
+        return $this->getCity()->getPostalCode();
     }
 
     public function getTownFacturaE(): string
     {
-        // TODO return actual town
-        return '';
+        return $this->getCity()->getName();
     }
 
     public function getProvinceFacturaE(): string
     {
-        // TODO return actual province
-        return '';
+        return $this->getCity()->getProvince()->getName();
     }
 
     public function getCountryCodeFacturaE(): string
     {
-        // TODO return actual country
-        return 'ESP';
+        return Countries::getAlpha3Code($this->getCity()->getProvince()->getCountry());
     }
 
     public function getEmailFacturaE(): string

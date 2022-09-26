@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mirmit\EFacturaBundle\Interfaces\BuyerFacturaEInterface;
-use Symfony\Component\Intl\Languages;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -1740,7 +1740,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 
     public function getCountryCodeFacturaE(): string
     {
-        return Languages::getAlpha3Code($this->getMainCity()->getProvince()->getCountry());
+        return Countries::getAlpha3Code($this->getMainCity()->getProvince()->getCountry());
     }
 
     public function getEmailFacturaE(): string
