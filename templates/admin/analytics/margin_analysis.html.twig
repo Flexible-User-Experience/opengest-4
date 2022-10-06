@@ -39,6 +39,24 @@
         </div>
         <div class="col-md-3">
             <div class="box box-success">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label class="control-label" for="year">
+                            Línea de actividad
+                        </label>
+                        <select class="select2-container" style="width: 100%;" name="activityLine" id="activity_line_select">
+                            {% for activityLine in activityLines %}
+                                <option value="{{ activityLine.id }}">
+                                    {{ activityLine }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
                         Totales
@@ -169,11 +187,14 @@
       jQuery(document).ready(function() {
         let saleDeliveryNotes = {{ saleDeliveryNotes | json_encode | raw }};
         let deliveryNoteTable = jQuery('#delivery_note_table')
+        let saleDeliveryNotesFiltered = saleDeliveryNotes
+        let selectActivityLine = jQuery('#activity_line_select')
 
         updateDeliveryNoteTable()
 
         function updateDeliveryNoteTable() {
-          for( const [ key, saleDeliveryNote ] of Object.entries(saleDeliveryNotes)) {
+          deliveryNoteTable.empty()
+          for( const [ key, saleDeliveryNote ] of Object.entries(saleDeliveryNotesFiltered)) {
             let row = document.createElement('tr');
             let idLink = `
                 <a href="{{ path('admin_app_sale_saledeliverynote_edit', {'id': 'idOfElement'}) }}">

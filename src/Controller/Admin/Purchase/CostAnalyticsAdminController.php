@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Purchase;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Purchase\PurchaseInvoiceLine;
@@ -152,6 +153,7 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'activityLine' => $saleDeliveryNote->getActivityLine()?->getName() ?? '',
             ];
         }
+        $activityLines = $this->em->getRepository(ActivityLine::class)->getEnabledSortedByName();
 
         return $this->renderWithExtraParams(
             'admin/analytics/margin_analysis.html.twig',
@@ -161,6 +163,7 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'years' => range(date('Y'), date('Y') - 10),
                 'selectedYear' => $year,
                 'numberFormat' => $numberFormat,
+                'activityLines' => $activityLines,
             ]
         );
     }
