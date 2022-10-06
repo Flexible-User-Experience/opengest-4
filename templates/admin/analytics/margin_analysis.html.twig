@@ -167,8 +167,7 @@
     {{ parent() }}
     <script type="text/javascript">
       jQuery(document).ready(function() {
-        let saleDeliveryNotes = {{ saleDeliveryNotes2 | json_encode | raw }};
-        console.log('saleDeliveryNotes', saleDeliveryNotes)
+        let saleDeliveryNotes = {{ saleDeliveryNotes | json_encode | raw }};
         let deliveryNoteTable = jQuery('#delivery_note_table')
 
         updateDeliveryNoteTable()
@@ -197,7 +196,7 @@
             createCellFromInfoAndAppendToRow(saleDeliveryNote.totalCost, row)
             createCellFromInfoAndAppendToRow(saleDeliveryNote.margin, row)
             createCellFromInfoAndAppendToRow(saleDeliveryNote.marginPercentage.toLocaleString(undefined , {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %', row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.activityLine, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.activityLine, row, 'left')
             deliveryNoteTable.append(row)
           }
         }
