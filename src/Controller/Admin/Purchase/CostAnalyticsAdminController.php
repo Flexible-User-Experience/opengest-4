@@ -131,10 +131,32 @@ class CostAnalyticsAdminController extends BaseAdminController
         ;
         $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, $year);
         $numberFormat = new NumberFormatService();
+        $saleDeliveryNotes2 = [];
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            $saleDeliveryNoteId = $saleDeliveryNote->getId();
+            $saleDeliveryNotes2[$saleDeliveryNote->getId()] = [
+                'id' => $saleDeliveryNote->getId(),
+                'date' => $saleDeliveryNote->getDate()->format('d/m/Y'),
+                'partner_code' => $saleDeliveryNote->getPartner()?->getCode() ?? '',
+                'partner_name' => $saleDeliveryNote->getPartner()?->getName() ?? '',
+                'income' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['income'],
+                'workingHoursDirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['workingHoursDirectCost'],
+                'purchaseInvoiceDirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['purchaseInvoiceDirectCost'],
+                'vehicleIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['vehicleIndirectCost'],
+                'operatorPurchaseInvoiceIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['operatorPurchaseInvoiceIndirectCost'],
+                'operatorPayslipIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['operatorPayslipIndirectCost'],
+                'totalCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['totalCost'],
+                'margin' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['margin'],
+                'marginPercentage' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['marginPercentage'],
+                'activityLine' => $saleDeliveryNote->getActivityLine()?->getName() ?? '',
+            ];
+        }
 
         return $this->renderWithExtraParams(
             'admin/analytics/margin_analysis.html.twig',
             [
+                'saleDeliveryNotes2' => $saleDeliveryNotes2,
                 'saleDeliveryNotes' => $saleDeliveryNotes,
                 'saleDeliveryNotesMarginAnalysis' => $saleDeliveryNotesMarginAnalysis,
                 'years' => range(date('Y'), date('Y') - 10),

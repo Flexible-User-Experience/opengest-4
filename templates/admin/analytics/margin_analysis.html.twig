@@ -153,52 +153,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="deliveryNoteTable">
-                            {% for saleDeliveryNote in saleDeliveryNotes %}
-                                <tr>
-                                    <td>
-                                        <a href="{{ path('admin_app_sale_saledeliverynote_edit', {'id': saleDeliveryNote.id}) }}">
-                                            {{ saleDeliveryNote.id }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {{ saleDeliveryNote.date | date('d/m/Y') }}
-                                    </td>
-                                    <td>
-                                        {{ saleDeliveryNote.partner }}
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].income) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].workingHoursDirectCost) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].purchaseInvoiceDirectCost) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].vehicleIndirectCost) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].operatorPurchaseInvoiceIndirectCost) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].operatorPayslipIndirectCost) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].totalCost) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].margin) }} €
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis[saleDeliveryNote.id].marginPercentage) }} %
-                                    </td>
-                                    <td>
-                                        {{ saleDeliveryNote.activityLine }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                            <tbody id="delivery_note_table">
                             </tbody>
                         </table>
                     </div>
@@ -206,4 +161,58 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        let saleDeliveryNotes = {{ saleDeliveryNotes2 | json_encode | raw }};
+        console.log('saleDeliveryNotes', saleDeliveryNotes)
+        let deliveryNoteTable = jQuery('#delivery_note_table')
+
+        updateDeliveryNoteTable()
+
+        function updateDeliveryNoteTable() {
+          for( const [ key, saleDeliveryNote ] of Object.entries(saleDeliveryNotes)) {
+            let row = document.createElement('tr');
+            let idLink = `
+                <a href="{{ path('admin_app_sale_saledeliverynote_edit', {'id': 'idOfElement'}) }}">
+                    idOfElement
+                </a>
+            `
+            idLink = idLink.replaceAll('idOfElement', saleDeliveryNote.id)
+            let cell = document.createElement('td')
+            cell.classList.add('sonata-ba-list-field');
+            cell.innerHTML = idLink
+            row.appendChild(cell)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.date, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.partner_code + '-' + saleDeliveryNote.partner_name, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.income, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.workingHoursDirectCost, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.purchaseInvoiceDirectCost, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.vehicleIndirectCost, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.operatorPurchaseInvoiceIndirectCost, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.operatorPayslipIndirectCost, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.totalCost, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.margin, row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.marginPercentage.toLocaleString(undefined , {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %', row)
+            createCellFromInfoAndAppendToRow(saleDeliveryNote.activityLine, row)
+            deliveryNoteTable.append(row)
+          }
+        }
+
+        function createCellFromInfoAndAppendToRow(info, row, textAlign = 'right')
+        {
+            let cell = document.createElement('td')
+            if (!isNaN(info)) {
+               info = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(info)
+            }
+            cell.classList.add('sonata-ba-list-field')
+            cell.style.textAlign = textAlign
+            cell.append(info)
+            row.appendChild(cell)
+        }
+      })
+    </script>
 {% endblock %}
