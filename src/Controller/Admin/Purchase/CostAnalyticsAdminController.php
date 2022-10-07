@@ -155,11 +155,15 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'marginPercentage' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['marginPercentage'],
                 'activityLine' => $saleDeliveryNote->getActivityLine()?->getName() ?? '',
                 'activityLine_id' => $saleDeliveryNote->getActivityLine()?->getId() ?? '',
+                'operator_id' => $saleDeliveryNote->getOperator()?->getId() ?? '',
+                'vehicle_id' => $saleDeliveryNote->getVehicle()?->getId() ?? '',
             ];
         }
         $activityLines = $this->em->getRepository(ActivityLine::class)->getEnabledSortedByName();
         $partnerType = $this->em->getRepository(PartnerType::class)->findOneBy(['id' => 1]);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($this->getUser()->getDefaultEnterprise(), $partnerType);
+        $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
+        $vehicles = $this->em->getRepository(Vehicle::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
 
         return $this->renderWithExtraParams(
             'admin/analytics/margin_analysis.html.twig',
@@ -171,6 +175,8 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'numberFormat' => $numberFormat,
                 'activityLines' => $activityLines,
                 'partners' => $partners,
+                'operators' => $operators,
+                'vehicles' => $vehicles,
             ]
         );
     }
