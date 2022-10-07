@@ -45,6 +45,7 @@
                             Línea de actividad
                         </label>
                         <select class="select2-container" style="width: 100%;" name="activityLine" id="activity_line_select">
+                            <option value="" selected>--selecione una opción---</option>
                             {% for activityLine in activityLines %}
                                 <option value="{{ activityLine.id }}">
                                     {{ activityLine }}
@@ -185,16 +186,25 @@
     {{ parent() }}
     <script type="text/javascript">
       jQuery(document).ready(function() {
-        let saleDeliveryNotes = {{ saleDeliveryNotes | json_encode | raw }};
+        let saleDeliveryNotes = Object.values({{ saleDeliveryNotes | json_encode | raw }});
         let deliveryNoteTable = jQuery('#delivery_note_table')
         let saleDeliveryNotesFiltered = saleDeliveryNotes
         let selectActivityLine = jQuery('#activity_line_select')
 
         updateDeliveryNoteTable()
 
+        selectActivityLine.change((event) => {
+          updateDeliveryNoteTable()
+          }
+        )
+
         function updateDeliveryNoteTable() {
           deliveryNoteTable.empty()
-          for( const [ key, saleDeliveryNote ] of Object.entries(saleDeliveryNotesFiltered)) {
+          saleDeliveryNotesFiltered = saleDeliveryNotes.filter((saleDeliveryNote) => {
+            let activityLineId = selectActivityLine.val()*1
+            return activityLineId ? saleDeliveryNote.activityLine_id === activityLineId : true
+          })
+          for( const saleDeliveryNote of saleDeliveryNotesFiltered) {
             let row = document.createElement('tr');
             let idLink = `
                 <a href="{{ path('admin_app_sale_saledeliverynote_edit', {'id': 'idOfElement'}) }}">

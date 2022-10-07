@@ -151,6 +151,7 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'margin' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['margin'],
                 'marginPercentage' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['marginPercentage'],
                 'activityLine' => $saleDeliveryNote->getActivityLine()?->getName() ?? '',
+                'activityLine_id' => $saleDeliveryNote->getActivityLine()?->getId() ?? '',
             ];
         }
         $activityLines = $this->em->getRepository(ActivityLine::class)->getEnabledSortedByName();
