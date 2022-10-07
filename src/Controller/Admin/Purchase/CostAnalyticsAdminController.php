@@ -6,6 +6,8 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Enterprise\ActivityLine;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
+use App\Entity\Partner\Partner;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\CostCenter;
@@ -139,6 +141,7 @@ class CostAnalyticsAdminController extends BaseAdminController
             $saleDeliveryNotesWithInfo[$saleDeliveryNote->getId()] = [
                 'id' => $saleDeliveryNote->getId(),
                 'date' => $saleDeliveryNote->getDate()->format('d/m/Y'),
+                'partner_id' => $saleDeliveryNote->getPartner()?->getId() ?? '',
                 'partner_code' => $saleDeliveryNote->getPartner()?->getCode() ?? '',
                 'partner_name' => $saleDeliveryNote->getPartner()?->getName() ?? '',
                 'income' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['income'],
@@ -155,6 +158,8 @@ class CostAnalyticsAdminController extends BaseAdminController
             ];
         }
         $activityLines = $this->em->getRepository(ActivityLine::class)->getEnabledSortedByName();
+        $partnerType = $this->em->getRepository(PartnerType::class)->findOneBy(['id' => 1]);
+        $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($this->getUser()->getDefaultEnterprise(), $partnerType);
 
         return $this->renderWithExtraParams(
             'admin/analytics/margin_analysis.html.twig',
@@ -165,6 +170,7 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'selectedYear' => $year,
                 'numberFormat' => $numberFormat,
                 'activityLines' => $activityLines,
+                'partners' => $partners,
             ]
         );
     }

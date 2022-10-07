@@ -41,7 +41,7 @@
             <div class="box box-success">
                 <div class="box-body">
                     <div class="form-group">
-                        <label class="control-label" for="year">
+                        <label class="control-label" for="activity_line_select">
                             Línea de actividad
                         </label>
                         <select class="select2-container" style="width: 100%;" name="activityLine" id="activity_line_select">
@@ -49,6 +49,19 @@
                             {% for activityLine in activityLines %}
                                 <option value="{{ activityLine.id }}">
                                     {{ activityLine }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="partner_select">
+                            Cliente
+                        </label>
+                        <select class="select2-container" style="width: 100%;" name="activityLine" id="partner_select">
+                            <option value="">---</option>
+                            {% for partner in partners %}
+                                <option value="{{ partner.id }}">
+                                    {{ partner.code }} - {{ partner.name }}
                                 </option>
                             {% endfor %}
                         </select>
@@ -186,56 +199,52 @@
     {{ parent() }}
     <script type="text/javascript">
       jQuery(document).ready(function() {
-        let saleDeliveryNotes = Object.values({{ saleDeliveryNotes | json_encode | raw }});
+        let deliveryNotes = Object.values({{ saleDeliveryNotes | json_encode | raw }});
         let deliveryNoteTable = jQuery('#delivery_note_table')
-        let saleDeliveryNotesFiltered = saleDeliveryNotes
+        let deliveryNotesFiltered = deliveryNotes
         let selectActivityLine = jQuery('#activity_line_select')
+        let selectPartner = jQuery('#partner_select')
 
         updateAll()
 
-        selectActivityLine.change((event) => {
-          updateAll()
-          }
-        )
+        selectActivityLine.change((event) => updateAll() )
+        selectPartner.change((event) => updateAll() )
 
         function updateAll() {
-          saleDeliveryNotesFiltered = saleDeliveryNotes.filter((saleDeliveryNote) => {
             let activityLineId = selectActivityLine.val()*1
-            return activityLineId ? saleDeliveryNote.activityLine_id === activityLineId : true
-          })
-          updateDeliveryNoteTable()
-          updateTotals()
+            let partnerId = selectPartner.val()*1
+            deliveryNotesFiltered = deliveryNotes.filter(deliveryNote => activityLineId ? deliveryNote.activityLine_id === activityLineId : true )
+            deliveryNotesFiltered = deliveryNotesFiltered.filter(deliveryNote => partnerId ? deliveryNote.partner_id === partnerId : true )
+            updateDeliveryNoteTable()
+            updateTotals()
         }
 
         function updateTotals() {
-            let totalIncome = saleDeliveryNotesFiltered.reduce((totalIncome, saleDeliveryNote) => {
-              return totalIncome + saleDeliveryNote.income
+            let totalIncome = deliveryNotesFiltered.reduce((totalIncome, deliveryNote) => {
+              return totalIncome + deliveryNote.income
             }, 0)
-            let totalWorkingHoursDirectCost = saleDeliveryNotesFiltered.reduce((totalWorkingHoursDirectCost, saleDeliveryNote) => {
-              return totalWorkingHoursDirectCost + saleDeliveryNote.workingHoursDirectCost
+            let totalWorkingHoursDirectCost = deliveryNotesFiltered.reduce((totalWorkingHoursDirectCost, deliveryNote) => {
+              return totalWorkingHoursDirectCost + deliveryNote.workingHoursDirectCost
             }, 0)
-            let totalPurchaseInvoiceDirectCost = saleDeliveryNotesFiltered.reduce((totalPurchaseInvoiceDirectCost, saleDeliveryNote) => {
-              return totalPurchaseInvoiceDirectCost + saleDeliveryNote.purchaseInvoiceDirectCost
+            let totalPurchaseInvoiceDirectCost = deliveryNotesFiltered.reduce((totalPurchaseInvoiceDirectCost, deliveryNote) => {
+              return totalPurchaseInvoiceDirectCost + deliveryNote.purchaseInvoiceDirectCost
             }, 0)
-            let totalVehicleIndirectCost = saleDeliveryNotesFiltered.reduce((totalVehicleIndirectCost, saleDeliveryNote) => {
-              return totalVehicleIndirectCost + saleDeliveryNote.vehicleIndirectCost
+            let totalVehicleIndirectCost = deliveryNotesFiltered.reduce((totalVehicleIndirectCost, deliveryNote) => {
+              return totalVehicleIndirectCost + deliveryNote.vehicleIndirectCost
             }, 0)
-            let totalOperatorPurchaseInvoiceIndirectCost = saleDeliveryNotesFiltered.reduce((totalOperatorPurchaseInvoiceIndirectCost, saleDeliveryNote) => {
-              return totalOperatorPurchaseInvoiceIndirectCost + saleDeliveryNote.operatorPurchaseInvoiceIndirectCost
+            let totalOperatorPurchaseInvoiceIndirectCost = deliveryNotesFiltered.reduce((totalOperatorPurchaseInvoiceIndirectCost, deliveryNote) => {
+              return totalOperatorPurchaseInvoiceIndirectCost + deliveryNote.operatorPurchaseInvoiceIndirectCost
             }, 0)
-            let totalOperatorPayslipIndirectCost = saleDeliveryNotesFiltered.reduce((totalOperatorPayslipIndirectCost, saleDeliveryNote) => {
-              return totalOperatorPayslipIndirectCost + saleDeliveryNote.operatorPayslipIndirectCost
+            let totalOperatorPayslipIndirectCost = deliveryNotesFiltered.reduce((totalOperatorPayslipIndirectCost, deliveryNote) => {
+              return totalOperatorPayslipIndirectCost + deliveryNote.operatorPayslipIndirectCost
             }, 0)
-            let totalCost = saleDeliveryNotesFiltered.reduce((totalCost, saleDeliveryNote) => {
-              return totalCost + saleDeliveryNote.totalCost
+            let totalCost = deliveryNotesFiltered.reduce((totalCost, deliveryNote) => {
+              return totalCost + deliveryNote.totalCost
             }, 0)
-            let totalMargin = saleDeliveryNotesFiltered.reduce((totalMargin, saleDeliveryNote) => {
-              return totalMargin + saleDeliveryNote.margin
+            let totalMargin = deliveryNotesFiltered.reduce((totalMargin, deliveryNote) => {
+              return totalMargin + deliveryNote.margin
             }, 0)
             let totalMarginPercentage = totalIncome ? (totalMargin/totalIncome) * 100 : 0
-            console.log('totalIncome', totalIncome)
-            console.log('totalMargin', totalMargin)
-            console.log('totalMarginPercentage', totalMarginPercentage)
             jQuery('#total_income').text( numberFormat(totalIncome, true))
             jQuery('#total_working_hours_direct_cost').text( numberFormat(totalWorkingHoursDirectCost, true))
             jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true))
@@ -249,30 +258,30 @@
 
         function updateDeliveryNoteTable() {
           deliveryNoteTable.empty()
-          for( const saleDeliveryNote of saleDeliveryNotesFiltered) {
+          for( const deliveryNote of deliveryNotesFiltered) {
             let row = document.createElement('tr');
             let idLink = `
                 <a href="{{ path('admin_app_sale_saledeliverynote_edit', {'id': 'idOfElement'}) }}">
                     idOfElement
                 </a>
             `
-            idLink = idLink.replaceAll('idOfElement', saleDeliveryNote.id)
+            idLink = idLink.replaceAll('idOfElement', deliveryNote.id)
             let cell = document.createElement('td')
             cell.classList.add('sonata-ba-list-field');
             cell.innerHTML = idLink
             row.appendChild(cell)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.date, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.partner_code + '-' + saleDeliveryNote.partner_name, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.income, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.workingHoursDirectCost, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.purchaseInvoiceDirectCost, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.vehicleIndirectCost, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.operatorPurchaseInvoiceIndirectCost, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.operatorPayslipIndirectCost, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.totalCost, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.margin, row)
-            createCellFromInfoAndAppendToRow( numberFormat(saleDeliveryNote.marginPercentage) + ' %', row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.activityLine, row, 'left')
+            createCellFromInfoAndAppendToRow(deliveryNote.date, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.partner_code + '-' + deliveryNote.partner_name, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.income, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.workingHoursDirectCost, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.purchaseInvoiceDirectCost, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.vehicleIndirectCost, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.operatorPurchaseInvoiceIndirectCost, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.operatorPayslipIndirectCost, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.totalCost, row)
+            createCellFromInfoAndAppendToRow(deliveryNote.margin, row)
+            createCellFromInfoAndAppendToRow( numberFormat(deliveryNote.marginPercentage) + ' %', row)
+            createCellFromInfoAndAppendToRow(deliveryNote.activityLine, row, 'left')
             deliveryNoteTable.append(row)
           }
         }
