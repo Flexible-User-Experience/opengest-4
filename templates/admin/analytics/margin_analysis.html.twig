@@ -45,7 +45,7 @@
                             Línea de actividad
                         </label>
                         <select class="select2-container" style="width: 100%;" name="activityLine" id="activity_line_select">
-                            <option value="" selected>--selecione una opción---</option>
+                            <option value="">---</option>
                             {% for activityLine in activityLines %}
                                 <option value="{{ activityLine.id }}">
                                     {{ activityLine }}
@@ -65,55 +65,55 @@
                     <table class="table table-bordered table-hover sonata-ba-list">
                         <tr>
                             <td>Ingresos</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_income">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalIncome) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes directos operarios</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_working_hours_direct_cost">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalWorkingHoursDirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes directos facturas albarán</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total-purchase_invoice_direct_dost">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalPurchaseInvoiceDirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos vehículos</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_vehicle_indirect_cost">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalVehicleIndirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos facturas operario</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_operator_purchase_invoice_indirect_cost">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalOperatorPurchaseInvoiceIndirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos nóminas operario</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_operator_payslip_indirect_cost">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalOperatorPayslipIndirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Total Costes</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_cost">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Total Margen</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_margin">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalMargin) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Total Margen %</td>
-                            <td style="text-align: right">
+                            <td style="text-align: right" id="total_margin_percentage">
                                 {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalMarginPercentage) }} %
                             </td>
                         </tr>
@@ -191,19 +191,64 @@
         let saleDeliveryNotesFiltered = saleDeliveryNotes
         let selectActivityLine = jQuery('#activity_line_select')
 
-        updateDeliveryNoteTable()
+        updateAll()
 
         selectActivityLine.change((event) => {
-          updateDeliveryNoteTable()
+          updateAll()
           }
         )
 
-        function updateDeliveryNoteTable() {
-          deliveryNoteTable.empty()
+        function updateAll() {
           saleDeliveryNotesFiltered = saleDeliveryNotes.filter((saleDeliveryNote) => {
             let activityLineId = selectActivityLine.val()*1
             return activityLineId ? saleDeliveryNote.activityLine_id === activityLineId : true
           })
+          updateDeliveryNoteTable()
+          updateTotals()
+        }
+
+        function updateTotals() {
+            let totalIncome = saleDeliveryNotesFiltered.reduce((totalIncome, saleDeliveryNote) => {
+              return totalIncome + saleDeliveryNote.income
+            }, 0)
+            let totalWorkingHoursDirectCost = saleDeliveryNotesFiltered.reduce((totalWorkingHoursDirectCost, saleDeliveryNote) => {
+              return totalWorkingHoursDirectCost + saleDeliveryNote.workingHoursDirectCost
+            }, 0)
+            let totalPurchaseInvoiceDirectCost = saleDeliveryNotesFiltered.reduce((totalPurchaseInvoiceDirectCost, saleDeliveryNote) => {
+              return totalPurchaseInvoiceDirectCost + saleDeliveryNote.purchaseInvoiceDirectCost
+            }, 0)
+            let totalVehicleIndirectCost = saleDeliveryNotesFiltered.reduce((totalVehicleIndirectCost, saleDeliveryNote) => {
+              return totalVehicleIndirectCost + saleDeliveryNote.vehicleIndirectCost
+            }, 0)
+            let totalOperatorPurchaseInvoiceIndirectCost = saleDeliveryNotesFiltered.reduce((totalOperatorPurchaseInvoiceIndirectCost, saleDeliveryNote) => {
+              return totalOperatorPurchaseInvoiceIndirectCost + saleDeliveryNote.operatorPurchaseInvoiceIndirectCost
+            }, 0)
+            let totalOperatorPayslipIndirectCost = saleDeliveryNotesFiltered.reduce((totalOperatorPayslipIndirectCost, saleDeliveryNote) => {
+              return totalOperatorPayslipIndirectCost + saleDeliveryNote.operatorPayslipIndirectCost
+            }, 0)
+            let totalCost = saleDeliveryNotesFiltered.reduce((totalCost, saleDeliveryNote) => {
+              return totalCost + saleDeliveryNote.totalCost
+            }, 0)
+            let totalMargin = saleDeliveryNotesFiltered.reduce((totalMargin, saleDeliveryNote) => {
+              return totalMargin + saleDeliveryNote.margin
+            }, 0)
+            let totalMarginPercentage = totalIncome ? (totalMargin/totalIncome) * 100 : 0
+            console.log('totalIncome', totalIncome)
+            console.log('totalMargin', totalMargin)
+            console.log('totalMarginPercentage', totalMarginPercentage)
+            jQuery('#total_income').text( numberFormat(totalIncome, true))
+            jQuery('#total_working_hours_direct_cost').text( numberFormat(totalWorkingHoursDirectCost, true))
+            jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true))
+            jQuery('#total_vehicle_indirect_cost').text( numberFormat(totalVehicleIndirectCost, true))
+            jQuery('#total_operator_purchase_invoice_indirect_cost').text( numberFormat(totalOperatorPurchaseInvoiceIndirectCost, true))
+            jQuery('#total_operator_payslip_indirect_cost').text( numberFormat(totalOperatorPayslipIndirectCost, true))
+            jQuery('#total_cost').text( numberFormat(totalCost, true))
+            jQuery('#total_margin').text( numberFormat(totalMargin, true))
+            jQuery('#total_margin_percentage').text( numberFormat(totalMarginPercentage) + ' %')
+        }
+
+        function updateDeliveryNoteTable() {
+          deliveryNoteTable.empty()
           for( const saleDeliveryNote of saleDeliveryNotesFiltered) {
             let row = document.createElement('tr');
             let idLink = `
@@ -226,7 +271,7 @@
             createCellFromInfoAndAppendToRow(saleDeliveryNote.operatorPayslipIndirectCost, row)
             createCellFromInfoAndAppendToRow(saleDeliveryNote.totalCost, row)
             createCellFromInfoAndAppendToRow(saleDeliveryNote.margin, row)
-            createCellFromInfoAndAppendToRow(saleDeliveryNote.marginPercentage.toLocaleString(undefined , {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %', row)
+            createCellFromInfoAndAppendToRow( numberFormat(saleDeliveryNote.marginPercentage) + ' %', row)
             createCellFromInfoAndAppendToRow(saleDeliveryNote.activityLine, row, 'left')
             deliveryNoteTable.append(row)
           }
@@ -236,12 +281,20 @@
         {
             let cell = document.createElement('td')
             if (!isNaN(info)) {
-               info = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(info)
+               info = numberFormat(info, true)
             }
             cell.classList.add('sonata-ba-list-field')
             cell.style.textAlign = textAlign
             cell.append(info)
             row.appendChild(cell)
+        }
+
+        function numberFormat(number, currency = false) {
+          if (currency) {
+            return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(number)
+          } else {
+            return new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number)
+          }
         }
       })
     </script>
