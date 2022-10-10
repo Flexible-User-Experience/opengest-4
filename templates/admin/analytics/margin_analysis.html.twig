@@ -148,6 +148,8 @@
                             <td>Ingresos</td>
                             <td style="text-align: right" id="total_income">
                             </td>
+                            <td style="text-align: right" id="total_income_py_percentage">
+                            </td>
                         </tr>
                         <tr>
                             <td>Costes directos operarios</td>
@@ -269,7 +271,7 @@
         let selectOperator = jQuery('#operator_select')
         let fromDateNode = jQuery('#dp_custom_date_from')
         let toDateNode = jQuery('#dp_custom_date_to')
-        let {
+        let [
           totalIncome,
           totalWorkingHoursDirectCost,
           totalPurchaseInvoiceDirectCost,
@@ -279,8 +281,8 @@
           totalCost,
           totalMargin,
           totalMarginPercentage
-        } = getTotals(deliveryNotesFiltered)
-        let {
+        ] = getTotals(deliveryNotesFiltered)
+        let [
           pyTotalIncome,
           pyTWorkingHoursDirectCost,
           pyTPurchaseInvoiceDirectCost,
@@ -290,7 +292,7 @@
           pyTCost,
           pyTMargin,
           pyTMarginPercentage
-        } = getTotals(previousYearDeliveryNotesFiltered)
+        ] = getTotals(previousYearDeliveryNotesFiltered)
 
         updateAll()
 
@@ -303,12 +305,12 @@
 
         function updateAll() {
             deliveryNotesFiltered = applyFilters(deliveryNotes)
-            previousYearDeliveryNotesFiltered = applyFilters(previousYearDeliveryNotes)
+            previousYearDeliveryNotesFiltered = applyFilters(previousYearDeliveryNotes, true)
             updateDeliveryNoteTable()
             updateTotalsAndShow()
         }
 
-        function applyFilters(tempDeliveryNotes) {
+        function applyFilters(tempDeliveryNotes, previousYear = false) {
           let activityLineId = selectActivityLine.val()*1
           let partnerId = selectPartner.val()*1
           let vehicleId = selectVehicle.val()*1
@@ -320,10 +322,18 @@
           tempDeliveryNotesFiltered = tempDeliveryNotesFiltered.filter(deliveryNote => vehicleId ? deliveryNote.vehicle_id === vehicleId : true )
           tempDeliveryNotesFiltered = tempDeliveryNotesFiltered.filter(deliveryNote => operatorId ? deliveryNote.operator_id === operatorId : true )
           tempDeliveryNotesFiltered = tempDeliveryNotesFiltered.filter(deliveryNote => {
-            return fromDate ? moment(deliveryNote.date, 'DD/MM/YYYY').isSameOrAfter(moment(fromDate, 'DD/MM/YYYY')) : true
+            if (previousYear) {
+              return fromDate ? moment(deliveryNote.date, 'DD/MM/YYYY').add(1, 'year').isSameOrAfter(moment(fromDate, 'DD/MM/YYYY')) : true
+            } else {
+              return fromDate ? moment(deliveryNote.date, 'DD/MM/YYYY').isSameOrAfter(moment(fromDate, 'DD/MM/YYYY')) : true
+            }
           } )
           tempDeliveryNotesFiltered = tempDeliveryNotesFiltered.filter(deliveryNote => {
-            return toDate ? moment(deliveryNote.date, 'DD/MM/YYYY').isSameOrBefore(moment(toDate, 'DD/MM/YYYY')) : true
+            if (previousYear) {
+              return toDate ? moment(deliveryNote.date, 'DD/MM/YYYY').add(1, 'year').isSameOrBefore(moment(toDate, 'DD/MM/YYYY')) : true
+            } else {
+              return toDate ? moment(deliveryNote.date, 'DD/MM/YYYY').isSameOrBefore(moment(toDate, 'DD/MM/YYYY')) : true
+            }
           } )
           tempDeliveryNotesFiltered = tempDeliveryNotesFiltered.sort((a, b) => {
             return moment(a.date, 'DD/MM/YYYY').isSameOrAfter(moment(b.date, 'DD/MM/YYYY')) ? 1 : -1
@@ -356,6 +366,7 @@
             pyTMarginPercentage
           ] = getTotals(previousYearDeliveryNotesFiltered)
           jQuery('#total_income').text( numberFormat(totalIncome, true))
+          jQuery('#total_income_py_percentage').text( numberFormat(pyTotalIncome, true))
             jQuery('#total_working_hours_direct_cost').text( numberFormat(totalWorkingHoursDirectCost, true))
             jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true) )
             jQuery('#total_vehicle_indirect_cost').text( numberFormat(totalVehicleIndirectCost, true))
@@ -423,7 +434,7 @@
           }, 0)
           let totalMarginPercentage = totalIncome ? (totalMargin / totalIncome) * 100 : 0
 
-          return {
+          return [
             totalIncome,
             totalWorkingHoursDirectCost,
             totalPurchaseInvoiceDirectCost,
@@ -433,7 +444,7 @@
             totalCost,
             totalMargin,
             totalMarginPercentage
-          };
+          ];
         }
 
         function createCellFromInfoAndAppendToRow(info, row, textAlign = 'right')
