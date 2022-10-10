@@ -225,6 +225,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->select('min(year(s.date)), year(s.date) as year')
             ->groupBy('year')
             ->orderBy('year')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;
