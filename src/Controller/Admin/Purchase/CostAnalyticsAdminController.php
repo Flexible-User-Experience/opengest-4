@@ -118,8 +118,8 @@ class CostAnalyticsAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         $year = $request->get('year') ?? date('Y');
-        $saleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithInfo($year);
-        $previousYearSaleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithInfo($year - 1);
+        $saleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithMarginInfo($year);
+        $previousYearSaleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithMarginInfo($year - 1);
         $activityLines = $this->em->getRepository(ActivityLine::class)->getEnabledSortedByName();
         $partnerType = $this->em->getRepository(PartnerType::class)->findOneBy(['id' => 1]);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($this->getUser()->getDefaultEnterprise(), $partnerType);
@@ -168,7 +168,7 @@ class CostAnalyticsAdminController extends BaseAdminController
         return new Response($this->marginAnalysisXlsManager->outputXls($saleDeliveryNotesMarginAnalysis), 200, $headers);
     }
 
-    private function getSaleDeliveryNotesWithInfo(mixed $year)
+    private function getSaleDeliveryNotesWithMarginInfo(mixed $year): array
     {
         /** @var SaleDeliveryNoteRepository $saleDeliveryNoteRepository */
         $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
