@@ -147,55 +147,46 @@
                         <tr>
                             <td>Ingresos</td>
                             <td style="text-align: right" id="total_income">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalIncome) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes directos operarios</td>
                             <td style="text-align: right" id="total_working_hours_direct_cost">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalWorkingHoursDirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes directos facturas albarán</td>
-                            <td style="text-align: right" id="total-purchase_invoice_direct_dost">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalPurchaseInvoiceDirectCost) }} €
+                            <td style="text-align: right" id="total_purchase_invoice_direct_cost">
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos vehículos</td>
                             <td style="text-align: right" id="total_vehicle_indirect_cost">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalVehicleIndirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos facturas operario</td>
                             <td style="text-align: right" id="total_operator_purchase_invoice_indirect_cost">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalOperatorPurchaseInvoiceIndirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos nóminas operario</td>
                             <td style="text-align: right" id="total_operator_payslip_indirect_cost">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalOperatorPayslipIndirectCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Total Costes</td>
                             <td style="text-align: right" id="total_cost">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalCost) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Total Margen</td>
                             <td style="text-align: right" id="total_margin">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalMargin) }} €
                             </td>
                         </tr>
                         <tr>
                             <td>Total Margen %</td>
                             <td style="text-align: right" id="total_margin_percentage">
-                                {{ numberFormat.formatNumber(saleDeliveryNotesMarginAnalysis.totalMarginPercentage) }} %
                             </td>
                         </tr>
                     </table>
@@ -342,7 +333,7 @@
             let totalMarginPercentage = totalIncome ? (totalMargin/totalIncome) * 100 : 0
             jQuery('#total_income').text( numberFormat(totalIncome, true))
             jQuery('#total_working_hours_direct_cost').text( numberFormat(totalWorkingHoursDirectCost, true))
-            jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true))
+            jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true) )
             jQuery('#total_vehicle_indirect_cost').text( numberFormat(totalVehicleIndirectCost, true))
             jQuery('#total_operator_purchase_invoice_indirect_cost').text( numberFormat(totalOperatorPurchaseInvoiceIndirectCost, true))
             jQuery('#total_operator_payslip_indirect_cost').text( numberFormat(totalOperatorPayslipIndirectCost, true))

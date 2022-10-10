@@ -117,48 +117,9 @@ class CostAnalyticsAdminController extends BaseAdminController
     public function marginAnalysisAction(Request $request): Response
     {
         $this->admin->checkAccess('edit');
-        /** @var SaleDeliveryNoteRepository $saleDeliveryNoteRepository */
-        $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $year = $request->get('year') ?? date('Y');
-        $saleDeliveryNotes = $saleDeliveryNoteRepository->getFilteredByEnterpriseSortedByNameQB($this->getUser()->getDefaultEnterprise())
-            ->leftJoin('s.purchaseInvoiceLines', 'purchaseInvoiceLines')
-            ->leftJoin('s.operatorWorkRegisters', 'operatorWorkRegisters')
-            ->leftJoin('s.partner', 'partner')
-            ->leftJoin('s.vehicle', 'vehicle')
-            ->addSelect('purchaseInvoiceLines, operatorWorkRegisters, partner, vehicle')
-            ->andWhere('YEAR(s.date) = :year')
-            ->setParameter('year', $year)
-            ->orderBy('s.date', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-        $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, $year);
-        $numberFormat = new NumberFormatService();
-        $saleDeliveryNotesWithInfo = [];
-        /** @var SaleDeliveryNote $saleDeliveryNote */
-        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
-            $saleDeliveryNoteId = $saleDeliveryNote->getId();
-            $saleDeliveryNotesWithInfo[$saleDeliveryNote->getId()] = [
-                'id' => $saleDeliveryNote->getId(),
-                'date' => $saleDeliveryNote->getDate()->format('d/m/Y'),
-                'partner_id' => $saleDeliveryNote->getPartner()?->getId() ?? '',
-                'partner_code' => $saleDeliveryNote->getPartner()?->getCode() ?? '',
-                'partner_name' => $saleDeliveryNote->getPartner()?->getName() ?? '',
-                'income' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['income'],
-                'workingHoursDirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['workingHoursDirectCost'],
-                'purchaseInvoiceDirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['purchaseInvoiceDirectCost'],
-                'vehicleIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['vehicleIndirectCost'],
-                'operatorPurchaseInvoiceIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['operatorPurchaseInvoiceIndirectCost'],
-                'operatorPayslipIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['operatorPayslipIndirectCost'],
-                'totalCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['totalCost'],
-                'margin' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['margin'],
-                'marginPercentage' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['marginPercentage'],
-                'activityLine' => $saleDeliveryNote->getActivityLine()?->getName() ?? '',
-                'activityLine_id' => $saleDeliveryNote->getActivityLine()?->getId() ?? '',
-                'operator_id' => $saleDeliveryNote->getOperator()?->getId() ?? '',
-                'vehicle_id' => $saleDeliveryNote->getVehicle()?->getId() ?? '',
-            ];
-        }
+        $saleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithInfo($year);
+        $previousYearSaleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithInfo($year - 1);
         $activityLines = $this->em->getRepository(ActivityLine::class)->getEnabledSortedByName();
         $partnerType = $this->em->getRepository(PartnerType::class)->findOneBy(['id' => 1]);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($this->getUser()->getDefaultEnterprise(), $partnerType);
@@ -169,10 +130,9 @@ class CostAnalyticsAdminController extends BaseAdminController
             'admin/analytics/margin_analysis.html.twig',
             [
                 'saleDeliveryNotes' => $saleDeliveryNotesWithInfo,
-                'saleDeliveryNotesMarginAnalysis' => $saleDeliveryNotesMarginAnalysis,
+                'previousYearSaleDeliveryNotes' => $previousYearSaleDeliveryNotesWithInfo,
                 'years' => range(date('Y'), date('Y') - 10),
                 'selectedYear' => $year,
-                'numberFormat' => $numberFormat,
                 'activityLines' => $activityLines,
                 'partners' => $partners,
                 'operators' => $operators,
@@ -206,5 +166,51 @@ class CostAnalyticsAdminController extends BaseAdminController
         ];
 
         return new Response($this->marginAnalysisXlsManager->outputXls($saleDeliveryNotesMarginAnalysis), 200, $headers);
+    }
+
+    private function getSaleDeliveryNotesWithInfo(mixed $year)
+    {
+        /** @var SaleDeliveryNoteRepository $saleDeliveryNoteRepository */
+        $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
+        $saleDeliveryNotes = $saleDeliveryNoteRepository->getFilteredByEnterpriseSortedByNameQB($this->getUser()->getDefaultEnterprise())
+            ->leftJoin('s.purchaseInvoiceLines', 'purchaseInvoiceLines')
+            ->leftJoin('s.operatorWorkRegisters', 'operatorWorkRegisters')
+            ->leftJoin('s.partner', 'partner')
+            ->leftJoin('s.vehicle', 'vehicle')
+            ->addSelect('purchaseInvoiceLines, operatorWorkRegisters, partner, vehicle')
+            ->andWhere('YEAR(s.date) = :year')
+            ->setParameter('year', $year)
+            ->orderBy('s.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, $year);
+        $saleDeliveryNotesWithInfo = [];
+        /** @var SaleDeliveryNote $saleDeliveryNote */
+        foreach ($saleDeliveryNotes as $saleDeliveryNote) {
+            $saleDeliveryNoteId = $saleDeliveryNote->getId();
+            $saleDeliveryNotesWithInfo[$saleDeliveryNote->getId()] = [
+                'id' => $saleDeliveryNote->getId(),
+                'date' => $saleDeliveryNote->getDate()->format('d/m/Y'),
+                'partner_id' => $saleDeliveryNote->getPartner()?->getId() ?? '',
+                'partner_code' => $saleDeliveryNote->getPartner()?->getCode() ?? '',
+                'partner_name' => $saleDeliveryNote->getPartner()?->getName() ?? '',
+                'income' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['income'],
+                'workingHoursDirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['workingHoursDirectCost'],
+                'purchaseInvoiceDirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['purchaseInvoiceDirectCost'],
+                'vehicleIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['vehicleIndirectCost'],
+                'operatorPurchaseInvoiceIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['operatorPurchaseInvoiceIndirectCost'],
+                'operatorPayslipIndirectCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['operatorPayslipIndirectCost'],
+                'totalCost' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['totalCost'],
+                'margin' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['margin'],
+                'marginPercentage' => $saleDeliveryNotesMarginAnalysis[$saleDeliveryNoteId]['marginPercentage'],
+                'activityLine' => $saleDeliveryNote->getActivityLine()?->getName() ?? '',
+                'activityLine_id' => $saleDeliveryNote->getActivityLine()?->getId() ?? '',
+                'operator_id' => $saleDeliveryNote->getOperator()?->getId() ?? '',
+                'vehicle_id' => $saleDeliveryNote->getVehicle()?->getId() ?? '',
+            ];
+        }
+
+        return $saleDeliveryNotesWithInfo;
     }
 }
