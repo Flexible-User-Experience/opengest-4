@@ -142,6 +142,11 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-7">
+            <div class="box box-success">
+                <canvas id="incomeChartPerActivityLine" width="400" height="150"></canvas>
+            </div>
+        </div>
         <div class="col-md-3">
             <div class="box box-success">
                 <div class="box-header">
@@ -299,6 +304,7 @@
           pyTMarginPercentage
         ] = getTotals(previousYearDeliveryNotesFiltered)
         let incomeChart = drawIncomeChart()
+        let incomeChartPerActivityLine = drawIncomeChartPerActivityLine()
 
         updateAll()
 
@@ -509,7 +515,47 @@
                 },
                 title: {
                   display: true,
-                  text: 'Ingresos'
+                  text: 'Ingresos (€)'
+                }
+              }
+            }
+          };
+          return new Chart(incomeChartCtx, config)
+        }
+
+        function drawIncomeChartPerActivityLine() {
+          const incomeChartCtx = document.getElementById('incomeChartPerActivityLine').getContext('2d')
+          let incomePerActivityLine = getTotalsPerActivityLine(deliveryNotesFiltered)
+          console.log('incomePerActivityLine', incomePerActivityLine)
+          const config = {
+            type: 'bar',
+            data: {
+              labels: incomePerActivityLine.map((res) => res.activityLine),
+              datasets: [
+                {
+                label: 'Actual',
+                data: incomePerActivityLine.map((res) => res.income),
+                fill: false,
+                borderColor:'#eded5b',
+                tension: 0.1
+              },
+                {
+                label: 'Anterior',
+                data: incomePerActivityLine.map((res) => res.income),
+                fill: false,
+                borderColor:  '#747c08',
+                tension: 0.1
+              },
+              ]
+            },
+            options: {
+              plugins: {
+                legend: {
+                  position: 'right',
+                },
+                title: {
+                  display: true,
+                  text: 'Ingresos (€)'
                 }
               }
             }
@@ -520,8 +566,6 @@
         function updateIncomeChart(incomeChart) {
             let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered)
             let pyIncomePerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
-          console.log('incomePerMonth', incomePerMonth)
-          console.log('pyIncomePerMonth', pyIncomePerMonth)
             if (incomePerMonth.length > 0) {
               incomeChart.data.labels = incomePerMonth.map((res) => res.month)
               incomeChart.data.datasets.forEach((dataset) => {
@@ -547,6 +591,26 @@
           tempDeliveryNotes.reduce(function(res, deliveryNote) {
             let month = moment(deliveryNote.date, 'DD/MM/YYYY').month();
             totalsPerMonth[month].income += deliveryNote.income;
+            return res;
+          }, {});
+         return totalsPerMonth.filter(Object)
+        }
+
+        function getTotalsPerActivityLine(tempDeliveryNotes) {
+          let activityLines = Object.values({{ activityLinesChart | json_encode | raw }});
+          let totalsPerMonth = []
+          console.log('activityLines', activityLines)
+          activityLines.forEach((activityLine) => {
+            totalsPerMonth[activityLine.id] = {
+              id: activityLine.id,
+              activityLine: activityLine.name,
+              income: 0
+            }
+          })
+          tempDeliveryNotes.reduce(function(res, deliveryNote) {
+            if (deliveryNote.activityLine_id) {
+              totalsPerMonth[deliveryNote.activityLine_id].income += deliveryNote.income;
+            }
             return res;
           }, {});
          return totalsPerMonth.filter(Object)
