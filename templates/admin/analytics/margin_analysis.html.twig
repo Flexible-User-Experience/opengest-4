@@ -487,20 +487,31 @@
               labels: incomePerMonth.map((res) => res.month),
               datasets: [
                 {
-                label: 'Ingresos',
+                label: 'Actual',
                 data: incomePerMonth.map((res) => res.income),
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)',
+                borderColor:'#eded5b',
                 tension: 0.1
               },
                 {
-                label: 'Año anterior',
+                label: 'Anterior',
                 data: pyIncomePerMonth.map((res) => res.income),
                 fill: false,
-                borderColor: 'rgb(0,252,0)',
+                borderColor:  '#747c08',
                 tension: 0.1
               },
               ]
+            },
+            options: {
+              plugins: {
+                legend: {
+                  position: 'right',
+                },
+                title: {
+                  display: true,
+                  text: 'Ingresos'
+                }
+              }
             }
           };
           return new Chart(incomeChartCtx, config)
@@ -514,7 +525,7 @@
             if (incomePerMonth.length > 0) {
               incomeChart.data.labels = incomePerMonth.map((res) => res.month)
               incomeChart.data.datasets.forEach((dataset) => {
-                if (dataset.label === 'Ingresos') {
+                if (dataset.label === 'Actual') {
                   dataset.data = incomePerMonth.map((res) => res.income)
                 } else {
                   dataset.data = pyIncomePerMonth.map((res) => res.income)
