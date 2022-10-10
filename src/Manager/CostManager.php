@@ -121,9 +121,9 @@ class CostManager
                 'income' => $saleDeliveryNote->getBaseAmount(),
                 'workingHoursDirectCost' => $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote),
                 'purchaseInvoiceDirectCost' => $this->getPurchaseInvoiceCostFromDeliveryNote($saleDeliveryNote),
-                'vehicleIndirectCost' => $workingHours * $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['priceHourIndirect'],
-                'operatorPurchaseInvoiceIndirectCost' => $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPurchaseInvoiceIndirect'],
-                'operatorPayslipIndirectCost' => $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPayslipIndirect'],
+                'vehicleIndirectCost' => $saleDeliveryNote->getVehicle() ? $workingHours * $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['priceHourIndirect'] : 0,
+                'operatorPurchaseInvoiceIndirectCost' => $saleDeliveryNote->getOperator() ? $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPurchaseInvoiceIndirect'] : 0,
+                'operatorPayslipIndirectCost' => $saleDeliveryNote->getOperator() ? $workingHours * $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['priceHourPayslipIndirect'] : 0,
             ];
             $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['totalCost'] =
                 $saleDeliveryNotesMarginAnalysis[$saleDeliveryNote->getId()]['workingHoursDirectCost'] +
@@ -227,11 +227,13 @@ class CostManager
         $priceHourVehicles = [];
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
-            if (array_key_exists($saleDeliveryNote->getVehicle()->getId(), $priceHourVehicles)) {
-                $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['hours'] += $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
-            } else {
-                $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['hours'] = $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
-                $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['vehicle'] = $saleDeliveryNote->getVehicle();
+            if ($saleDeliveryNote->getVehicle()) {
+                if (array_key_exists($saleDeliveryNote->getVehicle()->getId(), $priceHourVehicles)) {
+                    $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['hours'] += $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+                } else {
+                    $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['hours'] = $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+                    $priceHourVehicles[$saleDeliveryNote->getVehicle()->getId()]['vehicle'] = $saleDeliveryNote->getVehicle();
+                }
             }
         }
         $purchaseInvoiceLines = $this->getPurchaseInvoiceLinesFromYear($year);
@@ -267,13 +269,15 @@ class CostManager
         $priceHourOperators = [];
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($saleDeliveryNotes as $saleDeliveryNote) {
-            if (array_key_exists($saleDeliveryNote->getOperator()->getId(), $priceHourOperators)) {
-                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['hours'] += $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
-                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['directCost'] += $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote);
-            } else {
-                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['hours'] = $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
-                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['directCost'] = $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote);
-                $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['operator'] = $saleDeliveryNote->getOperator();
+            if ($saleDeliveryNote->getOperator()) {
+                if (array_key_exists($saleDeliveryNote->getOperator()->getId(), $priceHourOperators)) {
+                    $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['hours'] += $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+                    $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['directCost'] += $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote);
+                } else {
+                    $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['hours'] = $this->getWorkingHoursFromDeliveryNote($saleDeliveryNote);
+                    $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['directCost'] = $this->getWorkingHoursCostFromDeliveryNote($saleDeliveryNote);
+                    $priceHourOperators[$saleDeliveryNote->getOperator()->getId()]['operator'] = $saleDeliveryNote->getOperator();
+                }
             }
         }
         $purchaseInvoiceLines = $this->getPurchaseInvoiceLinesFromYear($year);
