@@ -269,6 +269,28 @@
         let selectOperator = jQuery('#operator_select')
         let fromDateNode = jQuery('#dp_custom_date_from')
         let toDateNode = jQuery('#dp_custom_date_to')
+        let {
+          totalIncome,
+          totalWorkingHoursDirectCost,
+          totalPurchaseInvoiceDirectCost,
+          totalVehicleIndirectCost,
+          totalOperatorPurchaseInvoiceIndirectCost,
+          totalOperatorPayslipIndirectCost,
+          totalCost,
+          totalMargin,
+          totalMarginPercentage
+        } = getTotals(deliveryNotesFiltered)
+        let {
+          pyTotalIncome,
+          pyTWorkingHoursDirectCost,
+          pyTPurchaseInvoiceDirectCost,
+          pyTVehicleIndirectCost,
+          pyTOperatorPurchaseInvoiceIndirectCost,
+          pyTOperatorPayslipIndirectCost,
+          pyTCost,
+          pyTMargin,
+          pyTMarginPercentage
+        } = getTotals(previousYearDeliveryNotesFiltered)
 
         updateAll()
 
@@ -283,7 +305,7 @@
             deliveryNotesFiltered = applyFilters(deliveryNotes)
             previousYearDeliveryNotesFiltered = applyFilters(previousYearDeliveryNotes)
             updateDeliveryNoteTable()
-            updateTotals()
+            updateTotalsAndShow()
         }
 
         function applyFilters(tempDeliveryNotes) {
@@ -310,33 +332,30 @@
           return tempDeliveryNotesFiltered;
         }
 
-        function updateTotals() {
-            let totalIncome = deliveryNotesFiltered.reduce((totalIncome, deliveryNote) => {
-              return totalIncome + deliveryNote.income
-            }, 0)
-            let totalWorkingHoursDirectCost = deliveryNotesFiltered.reduce((totalWorkingHoursDirectCost, deliveryNote) => {
-              return totalWorkingHoursDirectCost + deliveryNote.workingHoursDirectCost
-            }, 0)
-            let totalPurchaseInvoiceDirectCost = deliveryNotesFiltered.reduce((totalPurchaseInvoiceDirectCost, deliveryNote) => {
-              return totalPurchaseInvoiceDirectCost + deliveryNote.purchaseInvoiceDirectCost
-            }, 0)
-            let totalVehicleIndirectCost = deliveryNotesFiltered.reduce((totalVehicleIndirectCost, deliveryNote) => {
-              return totalVehicleIndirectCost + deliveryNote.vehicleIndirectCost
-            }, 0)
-            let totalOperatorPurchaseInvoiceIndirectCost = deliveryNotesFiltered.reduce((totalOperatorPurchaseInvoiceIndirectCost, deliveryNote) => {
-              return totalOperatorPurchaseInvoiceIndirectCost + deliveryNote.operatorPurchaseInvoiceIndirectCost
-            }, 0)
-            let totalOperatorPayslipIndirectCost = deliveryNotesFiltered.reduce((totalOperatorPayslipIndirectCost, deliveryNote) => {
-              return totalOperatorPayslipIndirectCost + deliveryNote.operatorPayslipIndirectCost
-            }, 0)
-            let totalCost = deliveryNotesFiltered.reduce((totalCost, deliveryNote) => {
-              return totalCost + deliveryNote.totalCost
-            }, 0)
-            let totalMargin = deliveryNotesFiltered.reduce((totalMargin, deliveryNote) => {
-              return totalMargin + deliveryNote.margin
-            }, 0)
-            let totalMarginPercentage = totalIncome ? (totalMargin/totalIncome) * 100 : 0
-            jQuery('#total_income').text( numberFormat(totalIncome, true))
+        function updateTotalsAndShow() {
+          [
+            totalIncome,
+            totalWorkingHoursDirectCost,
+            totalPurchaseInvoiceDirectCost,
+            totalVehicleIndirectCost,
+            totalOperatorPurchaseInvoiceIndirectCost,
+            totalOperatorPayslipIndirectCost,
+            totalCost,
+            totalMargin,
+            totalMarginPercentage
+          ] = getTotals(deliveryNotesFiltered);
+          [
+            pyTotalIncome,
+            pyTWorkingHoursDirectCost,
+            pyTPurchaseInvoiceDirectCost,
+            pyTVehicleIndirectCost,
+            pyTOperatorPurchaseInvoiceIndirectCost,
+            pyTOperatorPayslipIndirectCost,
+            pyTCost,
+            pyTMargin,
+            pyTMarginPercentage
+          ] = getTotals(previousYearDeliveryNotesFiltered)
+          jQuery('#total_income').text( numberFormat(totalIncome, true))
             jQuery('#total_working_hours_direct_cost').text( numberFormat(totalWorkingHoursDirectCost, true))
             jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true) )
             jQuery('#total_vehicle_indirect_cost').text( numberFormat(totalVehicleIndirectCost, true))
@@ -375,6 +394,46 @@
             createCellFromInfoAndAppendToRow(deliveryNote.activityLine, row, 'left')
             deliveryNoteTable.append(row)
           }
+        }
+
+        function getTotals(tempDeliveryNotes) {
+          let totalIncome = tempDeliveryNotes.reduce((totalIncome, deliveryNote) => {
+            return totalIncome + deliveryNote.income
+          }, 0)
+          let totalWorkingHoursDirectCost = tempDeliveryNotes.reduce((totalWorkingHoursDirectCost, deliveryNote) => {
+            return totalWorkingHoursDirectCost + deliveryNote.workingHoursDirectCost
+          }, 0)
+          let totalPurchaseInvoiceDirectCost = tempDeliveryNotes.reduce((totalPurchaseInvoiceDirectCost, deliveryNote) => {
+            return totalPurchaseInvoiceDirectCost + deliveryNote.purchaseInvoiceDirectCost
+          }, 0)
+          let totalVehicleIndirectCost = tempDeliveryNotes.reduce((totalVehicleIndirectCost, deliveryNote) => {
+            return totalVehicleIndirectCost + deliveryNote.vehicleIndirectCost
+          }, 0)
+          let totalOperatorPurchaseInvoiceIndirectCost = tempDeliveryNotes.reduce((totalOperatorPurchaseInvoiceIndirectCost, deliveryNote) => {
+            return totalOperatorPurchaseInvoiceIndirectCost + deliveryNote.operatorPurchaseInvoiceIndirectCost
+          }, 0)
+          let totalOperatorPayslipIndirectCost = tempDeliveryNotes.reduce((totalOperatorPayslipIndirectCost, deliveryNote) => {
+            return totalOperatorPayslipIndirectCost + deliveryNote.operatorPayslipIndirectCost
+          }, 0)
+          let totalCost = tempDeliveryNotes.reduce((totalCost, deliveryNote) => {
+            return totalCost + deliveryNote.totalCost
+          }, 0)
+          let totalMargin = tempDeliveryNotes.reduce((totalMargin, deliveryNote) => {
+            return totalMargin + deliveryNote.margin
+          }, 0)
+          let totalMarginPercentage = totalIncome ? (totalMargin / totalIncome) * 100 : 0
+
+          return {
+            totalIncome,
+            totalWorkingHoursDirectCost,
+            totalPurchaseInvoiceDirectCost,
+            totalVehicleIndirectCost,
+            totalOperatorPurchaseInvoiceIndirectCost,
+            totalOperatorPayslipIndirectCost,
+            totalCost,
+            totalMargin,
+            totalMarginPercentage
+          };
         }
 
         function createCellFromInfoAndAppendToRow(info, row, textAlign = 'right')
