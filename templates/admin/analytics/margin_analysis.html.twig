@@ -37,6 +37,11 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-7">
+            <div class="box box-success">
+                <canvas id="incomeChart" width="400" height="150"></canvas>
+            </div>
+        </div>
         <div class="col-md-3">
             <div class="box box-success">
                 <div class="box-body">
@@ -293,6 +298,7 @@
           pyTMargin,
           pyTMarginPercentage
         ] = getTotals(previousYearDeliveryNotesFiltered)
+        let incomeChart = drawIncomeChart()
 
         updateAll()
 
@@ -308,6 +314,7 @@
             previousYearDeliveryNotesFiltered = applyFilters(previousYearDeliveryNotes, true)
             updateDeliveryNoteTable()
             updateTotalsAndShow()
+            updateIncomeChart(incomeChart)
         }
 
         function applyFilters(tempDeliveryNotes, previousYear = false) {
@@ -465,6 +472,57 @@
           } else {
             return new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number)
           }
+        }
+
+        // Charts
+
+        // Income line chart
+        function drawIncomeChart() {
+          const incomeChartCtx = document.getElementById('incomeChart').getContext('2d');
+          let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered);
+          const config = {
+            type: 'line',
+            data: {
+              labels: incomePerMonth.map((res) => res.month),
+              datasets: [{
+                label: 'Ingresos',
+                data: incomePerMonth.map((res) => res.income),
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+              }]
+            }
+          };
+          return new Chart(incomeChartCtx, config)
+        }
+
+        function updateIncomeChart(incomeChart) {
+            let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered);
+            if (incomePerMonth.length > 0) {
+
+              incomeChart.data.labels = incomePerMonth.map((res) => res.month)
+              incomeChart.data.datasets.forEach((dataset) => {
+                dataset.data = incomePerMonth.map((res) => res.income)
+              })
+              incomeChart.update()
+            }
+        }
+
+        function getTotalsPerMonth(tempDeliveryNotes) {
+          let totalsPerMonth = []
+          deliveryNotesFiltered.reduce(function(res, deliveryNote) {
+            let month = moment(deliveryNote.date, 'DD/MM/YYYY').month();
+            if (!totalsPerMonth[month]) {
+              totalsPerMonth[month] = {
+                id: month,
+                month: moment(deliveryNote.date, 'DD/MM/YYYY').format('MMM'),
+                income: 0
+              };
+            }
+            totalsPerMonth[month].income += deliveryNote.income;
+            return res;
+          }, {});
+         return totalsPerMonth.filter(Object)
         }
       })
 

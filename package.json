@@ -32,5 +32,9 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "chart.js": "^3.9.1",
+        "lodash": "^4.17.21"
     }
 }
