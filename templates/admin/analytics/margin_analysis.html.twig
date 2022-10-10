@@ -478,31 +478,47 @@
 
         // Income line chart
         function drawIncomeChart() {
-          const incomeChartCtx = document.getElementById('incomeChart').getContext('2d');
-          let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered);
+          const incomeChartCtx = document.getElementById('incomeChart').getContext('2d')
+          let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered)
+          let pyIncomePerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
           const config = {
             type: 'line',
             data: {
               labels: incomePerMonth.map((res) => res.month),
-              datasets: [{
+              datasets: [
+                {
                 label: 'Ingresos',
                 data: incomePerMonth.map((res) => res.income),
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
-              }]
+              },
+                {
+                label: 'Año anterior',
+                data: pyIncomePerMonth.map((res) => res.income),
+                fill: false,
+                borderColor: 'rgb(0,252,0)',
+                tension: 0.1
+              },
+              ]
             }
           };
           return new Chart(incomeChartCtx, config)
         }
 
         function updateIncomeChart(incomeChart) {
-            let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered);
+            let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered)
+            let pyIncomePerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
+          console.log('incomePerMonth', incomePerMonth)
+          console.log('pyIncomePerMonth', pyIncomePerMonth)
             if (incomePerMonth.length > 0) {
-
               incomeChart.data.labels = incomePerMonth.map((res) => res.month)
               incomeChart.data.datasets.forEach((dataset) => {
-                dataset.data = incomePerMonth.map((res) => res.income)
+                if (dataset.label === 'Ingresos') {
+                  dataset.data = incomePerMonth.map((res) => res.income)
+                } else {
+                  dataset.data = pyIncomePerMonth.map((res) => res.income)
+                }
               })
               incomeChart.update()
             }
@@ -510,15 +526,15 @@
 
         function getTotalsPerMonth(tempDeliveryNotes) {
           let totalsPerMonth = []
-          deliveryNotesFiltered.reduce(function(res, deliveryNote) {
-            let month = moment(deliveryNote.date, 'DD/MM/YYYY').month();
-            if (!totalsPerMonth[month]) {
-              totalsPerMonth[month] = {
-                id: month,
-                month: moment(deliveryNote.date, 'DD/MM/YYYY').format('MMM'),
-                income: 0
-              };
+          for (let i = 1; i <= 12; i++) {
+            totalsPerMonth[i] = {
+              id: i,
+              month: moment(i, 'M').format('MMM'),
+              income: 0
             }
+          }
+          tempDeliveryNotes.reduce(function(res, deliveryNote) {
+            let month = moment(deliveryNote.date, 'DD/MM/YYYY').month();
             totalsPerMonth[month].income += deliveryNote.income;
             return res;
           }, {});
