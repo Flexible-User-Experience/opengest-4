@@ -6,7 +6,7 @@
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="box box-success">
                 <form action="{{ path('admin_app_purchase_purchaseinvoiceline_marginAnalysis') }}">
                     <div class="box-body">
@@ -36,13 +36,6 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <div class="col-md-9">
-            <div class="box box-success">
-                <canvas id="incomeChart"></canvas>
-            </div>
-        </div>
-        <div class="col-md-3">
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
@@ -136,7 +129,7 @@
                                            class="sonata-medium-date form-control"
                                            data-date-format="DD/MM/YYYY"
                                     >
-                                <span class="input-group-addon">
+                                    <span class="input-group-addon">
                                     <span class="fa-calendar fa"></span>
                                 </span>
                                 </div>
@@ -147,12 +140,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-7">
+            <div class="box box-success">
+                <canvas id="incomeChart"></canvas>
+            </div>
             <div class="box box-success">
                 <canvas id="marginChart"></canvas>
             </div>
-        </div>
-        <div class="col-md-9">
             <div class="box box-success">
                 <canvas id="incomeChartPerActivityLine"></canvas>
             </div>
