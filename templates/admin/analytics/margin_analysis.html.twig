@@ -150,6 +150,9 @@
             <div class="box box-success">
                 <canvas id="incomeChartPerActivityLine"></canvas>
             </div>
+            <div class="box box-success">
+                <canvas id="incomeChartPerPartner"></canvas>
+            </div>
         </div>
         <div class="col-md-3">
             <div class="box box-success">
@@ -316,6 +319,7 @@
         let incomeChart = drawIncomeChart()
         let marginChart = drawMarginChart()
         let incomeChartPerActivityLine = drawIncomeChartPerActivityLine()
+        // let incomeChartPerPartner = drawIncomeChartPerPartner()
 
         updateAll()
 
@@ -538,8 +542,6 @@
           const marginChartCtx = document.getElementById('marginChart').getContext('2d')
           let marginPerMonth = getTotalsPerMonth(deliveryNotesFiltered)
           let pyMarginPerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
-          console.log('marginPerMonth', marginPerMonth)
-          console.log('pyMarginPerMonth', pyMarginPerMonth)
           const config = {
             type: 'line',
             data: {
@@ -580,45 +582,16 @@
           const incomeChartCtx = document.getElementById('incomeChartPerActivityLine').getContext('2d')
           let incomePerActivityLine = getTotalsPerActivityLine(deliveryNotesFiltered)
           let pyIncomePerActivityLine = getTotalsPerActivityLine(previousYearDeliveryNotesFiltered)
-          const config = {
-            type: 'bar',
-            data: {
-              labels: incomePerActivityLine.map((res) => res.activityLine),
-              datasets: [
-                {
-                label: 'Actual',
-                data: incomePerActivityLine.map((res) => res.income),
-                fill: false,
-                borderColor:'#eded5b',
-                backgroundColor:'#eded5b',
-                tension: 0.1
-              },
-                {
-                label: 'Anterior',
-                data: incomePerActivityLine.map(
-                  (res) =>
-                    pyIncomePerActivityLine.find((pyRes) => pyRes.activityLine === res.activityLine)?.income ?? 0
-                ),
-                fill: false,
-                borderColor:  '#747c08',
-                backgroundColor: '#747c08',
-                tension: 0.1
-              },
-              ]
-            },
-            options: {
-              plugins: {
-                legend: {
-                  position: 'right',
-                },
-                title: {
-                  display: true,
-                  text: 'Ingresos por Línea de Actividad (€)'
-                }
-              }
-            }
-          };
-          return new Chart(incomeChartCtx, config)
+          let labels = incomePerActivityLine.map((res) => res.activityLine)
+          let data1 = incomePerActivityLine.map((res) => res.income)
+          let labelData1 = 'Actual'
+          let data2 = incomePerActivityLine.map(
+            (res) =>
+              pyIncomePerActivityLine.find((pyRes) => pyRes.activityLine === res.activityLine)?.income ?? 0
+          )
+          let labelData2 = 'Anterior'
+
+          return drawBarChart(incomeChartCtx, 'Ingresos por Línea de Actividad (€)', labels, data1, labelData1, data2, labelData2 )
         }
 
         function updateIncomeChart(incomeChart) {

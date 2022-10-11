@@ -46,3 +46,46 @@ window.Dropzone = require('dropzone/dist/min/dropzone.min');
 
 // start the Stimulus application
 import '../stimulus_bootstrap';
+
+// Draw charts functions
+
+global.drawBarChart = (context, title, labels, data1, labelData1, data2, labelData2) => {
+  const config = {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: labelData1,
+          data: data1,
+          fill: false,
+          borderColor:'#eded5b',
+          backgroundColor:'#eded5b',
+          tension: 0.1
+        },
+        {
+          label: labelData2,
+          data: data2,
+          fill: false,
+          borderColor:  '#747c08',
+          backgroundColor: '#747c08',
+          tension: 0.1
+        },
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+        title: {
+          display: true,
+          text: title
+        }
+      }
+    }
+  };
+
+  return new Chart(context, config)
+}
+
