@@ -166,46 +166,55 @@
                         <tr>
                             <td>Ingresos</td>
                             <td style="text-align: right" id="total_income">
+                            <td style="text-align: right" id="total_income_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Costes directos operarios</td>
                             <td style="text-align: right" id="total_working_hours_direct_cost">
+                            <td style="text-align: right" id="total_working_hours_direct_cost_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Costes directos facturas albarán</td>
                             <td style="text-align: right" id="total_purchase_invoice_direct_cost">
+                            <td style="text-align: right" id="total_purchase_invoice_direct_cost_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos vehículos</td>
                             <td style="text-align: right" id="total_vehicle_indirect_cost">
+                            <td style="text-align: right" id="total_vehicle_indirect_cost_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos facturas operario</td>
                             <td style="text-align: right" id="total_operator_purchase_invoice_indirect_cost">
+                            <td style="text-align: right" id="total_operator_purchase_invoice_indirect_cost_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Costes indirectos nóminas operario</td>
                             <td style="text-align: right" id="total_operator_payslip_indirect_cost">
+                            <td style="text-align: right" id="total_operator_payslip_indirect_cost_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Total Costes</td>
                             <td style="text-align: right" id="total_cost">
+                            <td style="text-align: right" id="total_cost_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Total Margen</td>
                             <td style="text-align: right" id="total_margin">
+                            <td style="text-align: right" id="total_margin_variation">
                             </td>
                         </tr>
                         <tr>
                             <td>Total Margen %</td>
                             <td style="text-align: right" id="total_margin_percentage">
+                            <td style="text-align: right" id="total_margin_percentage_variation">
                             </td>
                         </tr>
                     </table>
@@ -407,7 +416,7 @@
             pyTMargin,
             pyTMarginPercentage
           ] = getTotals(previousYearDeliveryNotesFiltered)
-          jQuery('#total_income').text( numberFormat(totalIncome, true))
+            jQuery('#total_income').text( numberFormat(totalIncome, true))
             jQuery('#total_working_hours_direct_cost').text( numberFormat(totalWorkingHoursDirectCost, true))
             jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true) )
             jQuery('#total_vehicle_indirect_cost').text( numberFormat(totalVehicleIndirectCost, true))
@@ -416,6 +425,16 @@
             jQuery('#total_cost').text( numberFormat(totalCost, true))
             jQuery('#total_margin').text( numberFormat(totalMargin, true))
             jQuery('#total_margin_percentage').text( numberFormat(totalMarginPercentage) + ' %')
+
+            jQuery('#total_income_variation').html( drawVariation((totalIncome - pyTotalIncome)*100/pyTotalIncome))
+            jQuery('#total_working_hours_direct_cost_variation').html( drawVariation((totalWorkingHoursDirectCost - pyTWorkingHoursDirectCost)*100/totalWorkingHoursDirectCost))
+            jQuery('#total_purchase_invoice_direct_cost_variation').html( drawVariation((totalPurchaseInvoiceDirectCost - pyTPurchaseInvoiceDirectCost)*100/pyTPurchaseInvoiceDirectCost))
+            jQuery('#total_vehicle_indirect_cost_variation').html( drawVariation((totalVehicleIndirectCost - pyTVehicleIndirectCost)*100/pyTVehicleIndirectCost))
+            jQuery('#total_operator_purchase_invoice_indirect_cost_variation').html( drawVariation((totalOperatorPurchaseInvoiceIndirectCost - pyTOperatorPurchaseInvoiceIndirectCost)*100/pyTOperatorPurchaseInvoiceIndirectCost))
+            jQuery('#total_operator_payslip_indirect_cost_variation').html( drawVariation((totalOperatorPayslipIndirectCost - pyTOperatorPayslipIndirectCost)*100/pyTOperatorPayslipIndirectCost))
+            jQuery('#total_cost_variation').html( drawVariation((totalCost - pyTCost)*100/pyTCost))
+            jQuery('#total_margin_variation').html( drawVariation((totalMargin - pyTMargin)*100/pyTMargin))
+            jQuery('#total_margin_percentage_variation').html( drawVariation((totalMarginPercentage - pyTMarginPercentage)*100/pyTMarginPercentage))
         }
 
         function updateDeliveryNoteTable() {
@@ -506,15 +525,17 @@
             return new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number)
           }
         }
-        //
-        // function drawIncrementOrDecrementPercentage(number)
-        // {
-        //   let arrow ='&#8638;';
-        //   if (number < 0) {
-        //     arrow = '&#8642;'
-        //   }
-        //    return arrow + ' ' + new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number)
-        // }
+
+        function drawVariation(number)
+        {
+          let arrow ='&uarr;';
+          let color = 'green';
+          if (number < 0) {
+            arrow = '&darr;'
+            color = 'red'
+          }
+           return '<p style="color:' + color + '">' + arrow + ' ' + new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number) + ' %' + '</p>'
+        }
 
         // Charts
 
