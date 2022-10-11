@@ -142,16 +142,16 @@
         </div>
         <div class="col-md-7">
             <div class="box box-success">
-                <canvas id="incomeChart"></canvas>
+                <canvas id="incomeChart" height="200"></canvas>
             </div>
             <div class="box box-success">
-                <canvas id="marginChart"></canvas>
+                <canvas id="marginChart" height="200"></canvas>
             </div>
             <div class="box box-success">
-                <canvas id="incomeChartPerActivityLine"></canvas>
+                <canvas id="incomeChartPerActivityLine" height="200"></canvas>
             </div>
             <div class="box box-success">
-                <canvas id="incomeChartPerPartner"></canvas>
+                <canvas id="incomeChartPerPartner" height="200"></canvas>
             </div>
         </div>
         <div class="col-md-3">
@@ -347,6 +347,7 @@
             updateIncomeChart(incomeChart)
             updateMarginChart(marginChart)
             updateIncomeChartPerActivityLine(incomeChartPerActivityLine)
+            updateIncomeChartPerPartner(incomeChartPerPartner)
         }
 
         function applyFilters(tempDeliveryNotes, previousYear = false) {
@@ -613,6 +614,25 @@
                 }
               })
               incomeChartPerActivityLine.update()
+            }
+        }
+
+        function updateIncomeChartPerPartner(incomeChartPerPartner) {
+          let totalsPerPartner = getTotalsPerPartner(deliveryNotesFiltered).slice(0, 15)
+          let pyTotalsPerPartner = getTotalsPerPartner(previousYearDeliveryNotesFiltered)
+            if (totalsPerPartner.length > 0) {
+              incomeChartPerPartner.data.labels = totalsPerPartner.map((res) => res.partner)
+              incomeChartPerPartner.data.datasets.forEach((dataset) => {
+                if (dataset.label === 'Actual') {
+                  dataset.data = totalsPerPartner.map((res) => res.income)
+                } else {
+                  dataset.data = totalsPerPartner.map(
+                    (res) =>
+                      pyTotalsPerPartner.find((pyRes) => pyRes.partner === res.partner)?.income ?? 0
+                  )
+                }
+              })
+              incomeChartPerPartner.update()
             }
         }
 

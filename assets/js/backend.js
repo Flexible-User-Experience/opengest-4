@@ -74,6 +74,7 @@ global.drawBarChart = (context, title, labels, data1, labelData1, data2, labelDa
       ]
     },
     options: {
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           position: 'right',
@@ -112,6 +113,7 @@ global.drawLineChart = (context, title, labels, data1, labelData1, data2, labelD
       ]
     },
     options: {
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           position: 'right',
