@@ -285,6 +285,15 @@
             },
           {% endfor %}
         ];
+        let partners = [
+          {% for partner in partners %}
+            {
+              'id' : {{ partner.id }},
+              'name': '{{ partner }}'
+            },
+          {% endfor %}
+        ];
+        console.log('partners', partners)
         let deliveryNoteTable = jQuery('#delivery_note_table')
         let deliveryNotesFiltered = deliveryNotes
         let previousYearDeliveryNotesFiltered = previousYearDeliveryNotes
@@ -319,7 +328,7 @@
         let incomeChart = drawIncomeChart()
         let marginChart = drawMarginChart()
         let incomeChartPerActivityLine = drawIncomeChartPerActivityLine()
-        // let incomeChartPerPartner = drawIncomeChartPerPartner()
+        let incomeChartPerPartner = drawIncomeChartPerPartner()
 
         updateAll()
 
@@ -525,7 +534,7 @@
         }
 
         function drawIncomeChartPerActivityLine() {
-          const incomeChartCtx = document.getElementById('incomeChartPerActivityLine').getContext('2d')
+          const incomeChartPerActivityLineCtx = document.getElementById('incomeChartPerActivityLine').getContext('2d')
           let incomePerActivityLine = getTotalsPerActivityLine(deliveryNotesFiltered)
           let pyIncomePerActivityLine = getTotalsPerActivityLine(previousYearDeliveryNotesFiltered)
           let labels = incomePerActivityLine.map((res) => res.activityLine)
@@ -537,7 +546,23 @@
           )
           let labelData2 = 'Anterior'
 
-          return drawBarChart(incomeChartCtx, 'Ingresos por Línea de Actividad (€)', labels, data1, labelData1, data2, labelData2 )
+          return drawBarChart(incomeChartPerActivityLineCtx, 'Ingresos por Línea de Actividad (€)', labels, data1, labelData1, data2, labelData2 )
+        }
+
+        function drawIncomeChartPerPartner() {
+          const incomeChartPerPartnerCtx = document.getElementById('incomeChartPerPartner').getContext('2d')
+          let totalsPerPartner = getTotalsPerPartner(deliveryNotesFiltered).slice(0, 15)
+          let pyTotalsPerPartner = getTotalsPerPartner(previousYearDeliveryNotesFiltered)
+          let labels = totalsPerPartner.map((res) => res.partner)
+          let data1 = totalsPerPartner.map((res) => res.income)
+          let labelData1 = 'Actual'
+          let data2 = totalsPerPartner.map(
+            (res) =>
+              pyTotalsPerPartner.find((pyRes) => pyRes.partner === res.partner)?.income ?? 0
+          )
+          let labelData2 = 'Anterior'
+
+          return drawBarChart(incomeChartPerPartnerCtx, 'Ingresos por Cliente (€)', labels, data1, labelData1, data2, labelData2 )
         }
 
         function updateIncomeChart(incomeChart) {
@@ -632,6 +657,31 @@
             if (deliveryNote.activityLine_id) {
               totalsPerMonth[deliveryNote.activityLine_id].income += deliveryNote.income;
               totalsPerMonth[deliveryNote.activityLine_id].margin += deliveryNote.margin;
+            }
+            return res;
+          }, {});
+          totalsPerMonth = totalsPerMonth
+            .filter(Object)
+            .filter((activityLine) => activityLine.income > 0)
+            .sort((a, b) => b.income - a.income)
+
+         return totalsPerMonth
+        }
+
+        function getTotalsPerPartner(tempDeliveryNotes) {
+          let totalsPerMonth = []
+          partners.forEach((partner) => {
+            totalsPerMonth[partner.id] = {
+              id: partner.id,
+              partner: partner.name.substring(0, 10),
+              income: 0,
+              margin: 0
+            }
+          })
+          tempDeliveryNotes.reduce(function(res, deliveryNote) {
+            if (deliveryNote.partner_id) {
+              totalsPerMonth[deliveryNote.partner_id].income += deliveryNote.income;
+              totalsPerMonth[deliveryNote.partner_id].margin += deliveryNote.margin;
             }
             return res;
           }, {});
