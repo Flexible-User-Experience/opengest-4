@@ -37,13 +37,18 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-9">
             <div class="box box-success">
                 <canvas id="incomeChart" width="400" height="150"></canvas>
             </div>
         </div>
         <div class="col-md-3">
             <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Filtros
+                    </h4>
+                </div>
                 <div class="box-body">
                     <div class="form-group">
                         <label class="control-label" for="activity_line_select">
@@ -142,7 +147,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-9">
+            <div class="box box-success">
+                <canvas id="marginChart" width="400" height="150"></canvas>
+            </div>
+        </div>
+        <div class="col-md-9">
             <div class="box box-success">
                 <canvas id="incomeChartPerActivityLine" width="400" height="150"></canvas>
             </div>
@@ -157,8 +167,6 @@
                         <tr>
                             <td>Ingresos</td>
                             <td style="text-align: right" id="total_income">
-                            </td>
-                            <td style="text-align: right" id="total_income_py_percentage">
                             </td>
                         </tr>
                         <tr>
@@ -280,7 +288,6 @@
             },
           {% endfor %}
         ];
-        console.log('activityLines', activityLines)
         let deliveryNoteTable = jQuery('#delivery_note_table')
         let deliveryNotesFiltered = deliveryNotes
         let previousYearDeliveryNotesFiltered = previousYearDeliveryNotes
@@ -313,6 +320,7 @@
           pyTMarginPercentage
         ] = getTotals(previousYearDeliveryNotesFiltered)
         let incomeChart = drawIncomeChart()
+        let marginChart = drawMarginChart()
         let incomeChartPerActivityLine = drawIncomeChartPerActivityLine()
 
         updateAll()
@@ -330,6 +338,7 @@
             updateDeliveryNoteTable()
             updateTotalsAndShow()
             updateIncomeChart(incomeChart)
+            updateIncomeChartPerActivityLine(incomeChartPerActivityLine)
         }
 
         function applyFilters(tempDeliveryNotes, previousYear = false) {
@@ -388,7 +397,6 @@
             pyTMarginPercentage
           ] = getTotals(previousYearDeliveryNotesFiltered)
           jQuery('#total_income').text( numberFormat(totalIncome, true))
-          jQuery('#total_income_py_percentage').text( numberFormat(pyTotalIncome, true))
             jQuery('#total_working_hours_direct_cost').text( numberFormat(totalWorkingHoursDirectCost, true))
             jQuery('#total_purchase_invoice_direct_cost').text( numberFormat(totalPurchaseInvoiceDirectCost, true) )
             jQuery('#total_vehicle_indirect_cost').text( numberFormat(totalVehicleIndirectCost, true))
@@ -469,8 +477,7 @@
           ];
         }
 
-        function createCellFromInfoAndAppendToRow(info, row, textAlign = 'right')
-        {
+        function createCellFromInfoAndAppendToRow(info, row, textAlign = 'right') {
             let cell = document.createElement('td')
             if (!isNaN(info)) {
                info = numberFormat(info, true)
@@ -532,10 +539,54 @@
           return new Chart(incomeChartCtx, config)
         }
 
+        function drawMarginChart() {
+          const marginChartCtx = document.getElementById('marginChart').getContext('2d')
+          let marginPerMonth = getTotalsPerMonth(deliveryNotesFiltered)
+          let pyMarginPerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
+          console.log('marginPerMonth', marginPerMonth)
+          console.log('pyMarginPerMonth', pyMarginPerMonth)
+          const config = {
+            type: 'line',
+            data: {
+              labels: marginPerMonth.map((res) => res.month),
+              datasets: [
+                {
+                label: 'Actual',
+                data: marginPerMonth.map((res) => res.marginPercentage),
+                fill: false,
+                borderColor:  '#eded5b',
+                tension: 0.1,
+              },
+                {
+                label: 'Anterior',
+                data: pyMarginPerMonth.map((res) => res.marginPercentage),
+                fill: false,
+                borderColor:  '#747c08',
+                tension: 0.1,
+              },
+              ]
+            },
+            options: {
+              plugins: {
+                legend: {
+                  position: 'right',
+                },
+                title: {
+                  display: true,
+                  text: 'Margen (%)'
+                }
+              },
+            }
+          };
+          return new Chart(marginChartCtx, config)
+        }
+
         function drawIncomeChartPerActivityLine() {
           const incomeChartCtx = document.getElementById('incomeChartPerActivityLine').getContext('2d')
           let incomePerActivityLine = getTotalsPerActivityLine(deliveryNotesFiltered)
           let pyIncomePerActivityLine = getTotalsPerActivityLine(previousYearDeliveryNotesFiltered)
+          console.log('incomePerActivityLine', incomePerActivityLine)
+          console.log('pyIncomePerActivityLine', pyIncomePerActivityLine)
           const config = {
             type: 'bar',
             data: {
@@ -569,7 +620,7 @@
                 },
                 title: {
                   display: true,
-                  text: 'Ingresos (€)'
+                  text: 'Ingresos por Línea de Actividad (€)'
                 }
               }
             }
@@ -580,7 +631,7 @@
         function updateIncomeChart(incomeChart) {
             let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered)
             let pyIncomePerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
-            if (incomePerMonth.length > 0) {
+          if (incomePerMonth.length > 0) {
               incomeChart.data.labels = incomePerMonth.map((res) => res.month)
               incomeChart.data.datasets.forEach((dataset) => {
                 if (dataset.label === 'Actual') {
@@ -593,21 +644,50 @@
             }
         }
 
+        function updateIncomeChartPerActivityLine(incomeChartPerActivityLine) {
+          let incomePerActivityLine = getTotalsPerActivityLine(deliveryNotesFiltered)
+          let pyIncomePerActivityLine = getTotalsPerActivityLine(previousYearDeliveryNotesFiltered)
+            if (incomePerActivityLine.length > 0) {
+              incomeChartPerActivityLine.data.labels = incomePerActivityLine.map((res) => res.activityLine)
+              incomeChartPerActivityLine.data.datasets.forEach((dataset) => {
+                if (dataset.label === 'Actual') {
+                  dataset.data = incomePerActivityLine.map((res) => res.income)
+                } else {
+                  dataset.data = incomePerActivityLine.map(
+                    (res) =>
+                      pyIncomePerActivityLine.find((pyRes) => pyRes.activityLine === res.activityLine)?.income ?? 0
+                  )
+                }
+              })
+              incomeChartPerActivityLine.update()
+            }
+        }
+
         function getTotalsPerMonth(tempDeliveryNotes) {
           let totalsPerMonth = []
           for (let i = 1; i <= 12; i++) {
             totalsPerMonth[i] = {
               id: i,
               month: moment(i, 'M').format('MMM'),
-              income: 0
+              income: 0,
+              margin: 0,
+              marginPercentage: 0
             }
           }
           tempDeliveryNotes.reduce(function(res, deliveryNote) {
             let month = moment(deliveryNote.date, 'DD/MM/YYYY').month();
-            totalsPerMonth[month].income += deliveryNote.income;
+              totalsPerMonth[month].margin += deliveryNote.margin;
+              totalsPerMonth[month].income += deliveryNote.income;
             return res;
           }, {});
-         return totalsPerMonth.filter(Object)
+            totalsPerMonth = totalsPerMonth.map((res) => {
+              if (res.income) {
+                res.marginPercentage = (res.margin / res.income) * 100
+              }
+              return res
+            })
+
+         return totalsPerMonth
         }
 
         function getTotalsPerActivityLine(tempDeliveryNotes) {
@@ -616,12 +696,14 @@
             totalsPerMonth[activityLine.id] = {
               id: activityLine.id,
               activityLine: activityLine.name,
-              income: 0
+              income: 0,
+              margin: 0
             }
           })
           tempDeliveryNotes.reduce(function(res, deliveryNote) {
             if (deliveryNote.activityLine_id) {
               totalsPerMonth[deliveryNote.activityLine_id].income += deliveryNote.income;
+              totalsPerMonth[deliveryNote.activityLine_id].margin += deliveryNote.margin;
             }
             return res;
           }, {});
