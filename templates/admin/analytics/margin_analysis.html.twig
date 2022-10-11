@@ -502,80 +502,26 @@
           const incomeChartCtx = document.getElementById('incomeChart').getContext('2d')
           let incomePerMonth = getTotalsPerMonth(deliveryNotesFiltered)
           let pyIncomePerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
-          const config = {
-            type: 'line',
-            data: {
-              labels: incomePerMonth.map((res) => res.month),
-              datasets: [
-                {
-                label: 'Actual',
-                data: incomePerMonth.map((res) => res.income),
-                fill: false,
-                borderColor:'#eded5b',
-                tension: 0.1
-              },
-                {
-                label: 'Anterior',
-                data: pyIncomePerMonth.map((res) => res.income),
-                fill: false,
-                borderColor:  '#747c08',
-                tension: 0.1
-              },
-              ]
-            },
-            options: {
-              plugins: {
-                legend: {
-                  position: 'right',
-                },
-                title: {
-                  display: true,
-                  text: 'Ingresos (€)'
-                }
-              }
-            }
-          };
-          return new Chart(incomeChartCtx, config)
+          let labels = incomePerMonth.map((res) => res.month)
+          let data1 = incomePerMonth.map((res) => res.income)
+          let labelData1 = 'Actual'
+          let data2 = pyIncomePerMonth.map((res) => res.income)
+          let labelData2 = 'Anterior'
+
+          return drawLineChart(incomeChartCtx , 'Ingresos (€)', labels, data1, labelData1, data2, labelData2 )
         }
 
         function drawMarginChart() {
           const marginChartCtx = document.getElementById('marginChart').getContext('2d')
           let marginPerMonth = getTotalsPerMonth(deliveryNotesFiltered)
           let pyMarginPerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
-          const config = {
-            type: 'line',
-            data: {
-              labels: marginPerMonth.map((res) => res.month),
-              datasets: [
-                {
-                label: 'Actual',
-                data: marginPerMonth.map((res) => res.marginPercentage),
-                fill: false,
-                borderColor:  '#eded5b',
-                tension: 0.1,
-              },
-                {
-                label: 'Anterior',
-                data: pyMarginPerMonth.map((res) => res.marginPercentage),
-                fill: false,
-                borderColor:  '#747c08',
-                tension: 0.1,
-              },
-              ]
-            },
-            options: {
-              plugins: {
-                legend: {
-                  position: 'right',
-                },
-                title: {
-                  display: true,
-                  text: 'Margen (%)'
-                }
-              },
-            }
-          };
-          return new Chart(marginChartCtx, config)
+          let labels = marginPerMonth.map((res) => res.month)
+          let data1 = marginPerMonth.map((res) => res.marginPercentage)
+          let labelData1 = 'Actual'
+          let data2 = pyMarginPerMonth.map((res) => res.marginPercentage)
+          let labelData2 = 'Anterior'
+
+          return drawLineChart(marginChartCtx , 'Margen (%)', labels, data1, labelData1, data2, labelData2 )
         }
 
         function drawIncomeChartPerActivityLine() {
