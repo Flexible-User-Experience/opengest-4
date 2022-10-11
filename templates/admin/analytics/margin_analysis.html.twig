@@ -338,6 +338,7 @@
             updateDeliveryNoteTable()
             updateTotalsAndShow()
             updateIncomeChart(incomeChart)
+            updateMarginChart(marginChart)
             updateIncomeChartPerActivityLine(incomeChartPerActivityLine)
         }
 
@@ -585,8 +586,6 @@
           const incomeChartCtx = document.getElementById('incomeChartPerActivityLine').getContext('2d')
           let incomePerActivityLine = getTotalsPerActivityLine(deliveryNotesFiltered)
           let pyIncomePerActivityLine = getTotalsPerActivityLine(previousYearDeliveryNotesFiltered)
-          console.log('incomePerActivityLine', incomePerActivityLine)
-          console.log('pyIncomePerActivityLine', pyIncomePerActivityLine)
           const config = {
             type: 'bar',
             data: {
@@ -641,6 +640,22 @@
                 }
               })
               incomeChart.update()
+            }
+        }
+
+        function updateMarginChart(marginChart) {
+            let totalsPerMonth = getTotalsPerMonth(deliveryNotesFiltered)
+            let pyTotalsPerMonth = getTotalsPerMonth(previousYearDeliveryNotesFiltered)
+          if (totalsPerMonth.length > 0) {
+            marginChart.data.labels = totalsPerMonth.map((res) => res.month)
+            marginChart.data.datasets.forEach((dataset) => {
+                if (dataset.label === 'Actual') {
+                  dataset.data = totalsPerMonth.map((res) => res.marginPercentage)
+                } else {
+                  dataset.data = pyTotalsPerMonth.map((res) => res.marginPercentage)
+                }
+              })
+            marginChart.update()
             }
         }
 
