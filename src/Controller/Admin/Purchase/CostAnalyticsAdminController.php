@@ -121,12 +121,6 @@ class CostAnalyticsAdminController extends BaseAdminController
         $saleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithMarginInfo($year);
         $previousYearSaleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithMarginInfo($year - 1);
         $activityLines = $this->em->getRepository(ActivityLine::class)->getEnabledSortedByName();
-        $activityLinesChart = array_map(function (ActivityLine $activityLine) {
-            return [
-                'id' => $activityLine->getId(),
-                'name' => $activityLine->getName(),
-            ];
-        }, $activityLines);
         $partnerType = $this->em->getRepository(PartnerType::class)->findOneBy(['id' => 1]);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($this->getUser()->getDefaultEnterprise(), $partnerType);
         $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
@@ -140,7 +134,6 @@ class CostAnalyticsAdminController extends BaseAdminController
                 'years' => range(date('Y'), date('Y') - 10),
                 'selectedYear' => $year,
                 'activityLines' => $activityLines,
-                'activityLinesChart' => $activityLinesChart,
                 'partners' => $partners,
                 'operators' => $operators,
                 'vehicles' => $vehicles,

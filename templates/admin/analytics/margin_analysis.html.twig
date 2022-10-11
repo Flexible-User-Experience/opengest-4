@@ -272,6 +272,15 @@
       jQuery(document).ready(function() {
         let deliveryNotes = Object.values({{ saleDeliveryNotes | json_encode | raw }});
         let previousYearDeliveryNotes = Object.values({{ previousYearSaleDeliveryNotes | json_encode | raw }});
+        let activityLines = [
+          {% for activityLine in activityLines %}
+            {
+              'id' : {{ activityLine.id }},
+              'name': '{{ activityLine.name }}'
+            },
+          {% endfor %}
+        ];
+        console.log('activityLines', activityLines)
         let deliveryNoteTable = jQuery('#delivery_note_table')
         let deliveryNotesFiltered = deliveryNotes
         let previousYearDeliveryNotesFiltered = previousYearDeliveryNotes
@@ -526,7 +535,7 @@
         function drawIncomeChartPerActivityLine() {
           const incomeChartCtx = document.getElementById('incomeChartPerActivityLine').getContext('2d')
           let incomePerActivityLine = getTotalsPerActivityLine(deliveryNotesFiltered)
-          console.log('incomePerActivityLine', incomePerActivityLine)
+          let pyIncomePerActivityLine = getTotalsPerActivityLine(previousYearDeliveryNotesFiltered)
           const config = {
             type: 'bar',
             data: {
@@ -537,13 +546,18 @@
                 data: incomePerActivityLine.map((res) => res.income),
                 fill: false,
                 borderColor:'#eded5b',
+                backgroundColor:'#eded5b',
                 tension: 0.1
               },
                 {
                 label: 'Anterior',
-                data: incomePerActivityLine.map((res) => res.income),
+                data: incomePerActivityLine.map(
+                  (res) =>
+                    pyIncomePerActivityLine.find((pyRes) => pyRes.activityLine === res.activityLine)?.income ?? 0
+                ),
                 fill: false,
                 borderColor:  '#747c08',
+                backgroundColor: '#747c08',
                 tension: 0.1
               },
               ]
@@ -597,9 +611,7 @@
         }
 
         function getTotalsPerActivityLine(tempDeliveryNotes) {
-          let activityLines = Object.values({{ activityLinesChart | json_encode | raw }});
           let totalsPerMonth = []
-          console.log('activityLines', activityLines)
           activityLines.forEach((activityLine) => {
             totalsPerMonth[activityLine.id] = {
               id: activityLine.id,
@@ -613,7 +625,12 @@
             }
             return res;
           }, {});
-         return totalsPerMonth.filter(Object)
+          totalsPerMonth = totalsPerMonth
+            .filter(Object)
+            .filter((activityLine) => activityLine.income > 0)
+            .sort((a, b) => b.income - a.income)
+
+         return totalsPerMonth
         }
       })
 
