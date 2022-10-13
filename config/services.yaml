@@ -144,3 +144,9 @@ services:
         arguments: [ '@twig', '@App\Repository\Operator\OperatorRepository', '@App\Repository\Sale\SaleDeliveryNoteRepository','@security.token_storage' ]
         tags:
             - { name: sonata.block }
+    # Listeners
+    app.menu_listener:
+        class: App\Listener\MenuBuilderListener
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+

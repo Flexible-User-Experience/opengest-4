@@ -122,6 +122,13 @@ class SaleRequestAdminController extends BaseAdminController
         return new RedirectResponse($request->headers->get('referer'));
     }
 
+    public function calendarAction(Request $request)
+    {
+        return $this->renderWithExtraParams(
+            'admin/sale-request/calendar.html.twig'
+        );
+    }
+
     /**
      * @return Response|RedirectResponse
      */
