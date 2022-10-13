@@ -6,7 +6,7 @@
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="box box-success">
                 <form action="{{ path('admin_app_purchase_purchaseinvoiceline_marginAnalysis') }}">
                     <div class="box-body">
@@ -36,13 +36,15 @@
                     </div>
                 </form>
             </div>
-            <div class="box box-success">
-                <div class="box-header">
-                    <h4 class="box-title">
+        </div>
+        <div class="col-md-9">
+            <div class="box box-success" >
+                <div class="box-header" onclick="showFilterBox()">
+                    <h4 class="box-title" >
                         Filtros
                     </h4>
                 </div>
-                <div class="box-body">
+                <div class="box-body" id="filterBox" hidden>
                     <div class="form-group">
                         <label class="control-label" for="activity_line_select">
                             Línea de actividad
@@ -140,21 +142,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-7">
-            <div class="box box-success">
-                <canvas id="incomeChart" height="200"></canvas>
-            </div>
-            <div class="box box-success">
-                <canvas id="marginChart" height="200"></canvas>
-            </div>
-            <div class="box box-success">
-                <canvas id="incomeChartPerActivityLine" height="200"></canvas>
-            </div>
-            <div class="box box-success">
-                <canvas id="incomeChartPerPartner" height="200"></canvas>
-            </div>
-        </div>
-        <div class="col-md-3">
+    </div>
+    <div class="row">
+        <div class="col-md-4">
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
@@ -221,6 +211,22 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-8">
+            <div class="box box-success">
+                <canvas id="incomeChart" height="200"></canvas>
+            </div>
+            <div class="box box-success">
+                <canvas id="marginChart" height="200"></canvas>
+            </div>
+            <div class="box box-success">
+                <canvas id="incomeChartPerActivityLine" height="200"></canvas>
+            </div>
+            <div class="box box-success">
+                <canvas id="incomeChartPerPartner" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             <div class="box box-success">
                 <div class="box-header">
@@ -779,5 +785,10 @@
       jQuery(function ($) {
         $('#dp_custom_date_to').datetimepicker(dateTimePickerParameters);
       })
+
+      function showFilterBox(){
+          document.getElementById('filterBox').hidden = !document.getElementById('filterBox').hidden;
+      }
+
     </script>
 {% endblock %}
