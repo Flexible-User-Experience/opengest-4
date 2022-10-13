@@ -43,6 +43,7 @@ class MarginAnalysisXlsManager
 
     private function buildXls(Spreadsheet $spreadsheet, $parameters)
     {
+        dd($parameters['current']);
         return $spreadsheet;
     }
 }

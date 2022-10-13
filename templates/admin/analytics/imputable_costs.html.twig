@@ -6,7 +6,7 @@
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-5">
             <div class="box box-success">
                 <form action="{{ path('admin_app_purchase_purchaseinvoiceline_imputableCosts') }}">
                     <div class="box-body">
@@ -100,7 +100,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
@@ -139,9 +139,12 @@
                         </tr>
                     </table>
                 </div>
+                <button class="btn btn-light" type="button" onclick="showPurchaseInvoices()"> Facturas compra</button>
+                <button class="btn btn-light" type="button" onclick="showWorkRegisters()"> Partes de trabajo</button>
+                <button class="btn btn-light" type="button" onclick="showVehicleConsumptions()"> Suministros</button>
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-12" id="PurchaseInvoices">
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
@@ -214,7 +217,7 @@
             </div>
         </div>
         {% if operatorWorkRegisters|length > 0 %}
-            <div class="col-md-10">
+            <div class="col-md-12" id="WorkRegisters" hidden>
                 <div class="box box-success">
                     <div class="box-header">
                         <h4 class="box-title">
@@ -229,6 +232,9 @@
                                     </th>
                                     <th class="sonata-ba-list-field-header">
                                         Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Operario
                                     </th>
                                     <th class="sonata-ba-list-field-header">
                                         Unidades
@@ -259,6 +265,9 @@
                                                 {{ operatorWorkRegister.operatorWorkRegisterHeader.date | date('d/m/Y') }}
                                             </td>
                                             <td>
+                                                {{ operatorWorkRegister.operatorWorkRegisterHeader.operator }}
+                                            </td>
+                                            <td>
                                                 {{ operatorWorkRegister.units }}
                                             </td>
                                             <td>
@@ -283,11 +292,11 @@
             </div>
         {% endif %}
         {% if vehicleConsumptions %}
-            <div class="col-md-10">
+            <div class="col-md-12" id="VehicleConsumptions" hidden>
                 <div class="box box-success">
                     <div class="box-header">
                         <h4 class="box-title">
-                            Consumos de vehículo
+                            Suministros
                         </h4>
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-bordered table-striped table-hover sonata-ba-list">
@@ -392,6 +401,16 @@
             }
           )
       });
+
+      function showPurchaseInvoices(){
+          document.getElementById('PurchaseInvoices').hidden = !document.getElementById('PurchaseInvoices').hidden;
+      }
+      function showWorkRegisters(){
+          document.getElementById('WorkRegisters').hidden = !document.getElementById('WorkRegisters').hidden;
+      }
+      function showVehicleConsumptions(){
+          document.getElementById('VehicleConsumptions').hidden = !document.getElementById('VehicleConsumptions').hidden;
+      }
     </script>
 
 {% endblock %}
