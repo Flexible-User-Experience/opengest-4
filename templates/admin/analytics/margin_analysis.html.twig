@@ -229,11 +229,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-success">
-                <div class="box-header">
+                <div class="box-header" onclick="showDeliveryNotesDetail()">
                     <h4 class="box-title">
-                        Albaranes de venta
+                        Detalle basado en albaranes de venta
                     </h4>
-                    <div class="box-body table-responsive no-padding">
+                    <div class="box-body table-responsive no-padding" id="deliveryNotesBox" hidden>
                         <table class="table table-bordered table-striped table-hover sonata-ba-list">
                             <thead>
                                 <tr class="sonata-ba-list-field-header">
@@ -788,6 +788,10 @@
 
       function showFilterBox(){
           document.getElementById('filterBox').hidden = !document.getElementById('filterBox').hidden;
+      }
+
+      function showDeliveryNotesDetail(){
+          document.getElementById('deliveryNotesBox').hidden = !document.getElementById('deliveryNotesBox').hidden;
       }
 
     </script>
