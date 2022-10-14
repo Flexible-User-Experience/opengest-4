@@ -144,28 +144,20 @@ class CostAnalyticsAdminController extends BaseAdminController
     public function downloadMarginAnalysisAction(Request $request): Response
     {
         $this->admin->checkAccess('edit');
-        /** @var SaleDeliveryNoteRepository $saleDeliveryNoteRepository */
-        $saleDeliveryNoteRepository = $this->em->getRepository(SaleDeliveryNote::class);
         $year = $request->get('year') ?? date('Y');
-        $saleDeliveryNotes = $saleDeliveryNoteRepository->getFilteredByEnterpriseSortedByNameQB($this->getUser()->getDefaultEnterprise())
-            ->leftJoin('s.purchaseInvoiceLines', 'purchaseInvoiceLines')
-            ->leftJoin('s.operatorWorkRegisters', 'operatorWorkRegisters')
-            ->leftJoin('s.partner', 'partner')
-            ->leftJoin('s.vehicle', 'vehicle')
-            ->addSelect('purchaseInvoiceLines, operatorWorkRegisters, partner, vehicle')
-            ->andWhere('YEAR(s.date) = :year')
-            ->setParameter('year', $year)
-            ->orderBy('s.date', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-        $saleDeliveryNotesMarginAnalysis = $this->costManager->getSaleDeliveryNotesMarginAnalysis($saleDeliveryNotes, $year);
+        $saleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithMarginInfo($year);
+        $previousYearSaleDeliveryNotesWithInfo = $this->getSaleDeliveryNotesWithMarginInfo($year - 1);
         $headers = [
             'Content-type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'Content-Disposition' => 'attachment; filename="margenes.xlsx"',
         ];
 
-        return new Response($this->marginAnalysisXlsManager->outputXls($saleDeliveryNotesMarginAnalysis), 200, $headers);
+        return new Response($this->marginAnalysisXlsManager->outputXls(
+            [
+                'current' => $saleDeliveryNotesWithInfo,
+                'previous' => $previousYearSaleDeliveryNotesWithInfo
+            ]
+        ), 200, $headers);
     }
 
     private function getSaleDeliveryNotesWithMarginInfo(mixed $year): array
