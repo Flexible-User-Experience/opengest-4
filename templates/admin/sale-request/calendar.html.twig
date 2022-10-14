@@ -20,23 +20,27 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
+
       jQuery(document).ready(function() {
         let calendarEl = document.getElementById('calendar')
         let calendar = new Calendar(calendarEl, {
           plugins: [dayGridPlugin],
-          initialView: 'dayGridMonth',
+          initialView: 'dayGridWeek',
+          locale: 'es',
+          firstDay: '1',
           headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,listWeek'
+            right: 'dayGridMonth,dayGridWeek,dayGridDay'
           }
         });
         {%  for saleRequest in saleRequests %}
             calendar.addEvent({
               id: '{{ saleRequest.id }}',
-              title: '{{ saleRequest }} - {{ saleRequest.vehicle }} - {{ saleRequest.operator }}',
-              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}',
-              color: 'green',
+              title: '{{ saleRequest.partner.code }} - {{ saleRequest.partner.name }}',
+              url: '{{ path('admin_app_sale_salerequest_edit', {'id': saleRequest.id}) }}',
+              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}T{{ saleRequest.serviceTime.format('H:i:s')}}',
+              color: {% if (saleRequest.status == 0) %} 'green' {% else %} 'blue' {% endif %},
               extendedProps: {
                 vehicle: '{{ saleRequest.vehicle }}',
                 operator: '{{ saleRequest.operator }}',
