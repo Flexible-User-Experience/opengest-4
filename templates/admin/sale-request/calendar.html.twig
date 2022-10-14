@@ -23,7 +23,7 @@
       jQuery(document).ready(function() {
         let calendarEl = document.getElementById('calendar')
         let calendar = new Calendar(calendarEl, {
-          plugins: [ dayGridPlugin ],
+          plugins: [dayGridPlugin],
           initialView: 'dayGridMonth',
           headerToolbar: {
             left: 'prev,next today',
@@ -31,13 +31,19 @@
             right: 'dayGridMonth,timeGridWeek,listWeek'
           }
         });
-        calendar.addEvent({
-          id: '1',
-          title: 'Event aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaa',
-          start: '2022-10-11',
-          display: 'block',
-          color: 'green'
-        })
+        {%  for saleRequest in saleRequests %}
+            calendar.addEvent({
+              id: '{{ saleRequest.id }}',
+              title: '{{ saleRequest }} - {{ saleRequest.vehicle }} - {{ saleRequest.operator }}',
+              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}',
+              color: 'green',
+              extendedProps: {
+                vehicle: '{{ saleRequest.vehicle }}',
+                operator: '{{ saleRequest.operator }}',
+                secondaryVehicle: '{{ saleRequest.secondaryVehicle }}',
+              }
+            })
+        {% endfor %}
         calendar.render()
       })
     </script>

@@ -7,6 +7,8 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Manager\Pdf\SaleRequestPdfManager;
+use DateInterval;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -124,8 +126,21 @@ class SaleRequestAdminController extends BaseAdminController
 
     public function calendarAction(Request $request)
     {
+        $date = new DateTimeImmutable();
+        $date = $date->sub(new DateInterval('P2M'));
+        $saleRequests = $this->em->getRepository(SaleRequest::class)
+            ->getFilteredByEnterpriseEnabledSortedByRequestDateQB($this->getUser()->getDefaultEnterprise())
+            ->andWhere('DATE(s.serviceDate) > DATE(:moment)')
+            ->setParameter('moment', $date)
+            ->getQuery()
+            ->getResult()
+        ;
+
         return $this->renderWithExtraParams(
-            'admin/sale-request/calendar.html.twig'
+            'admin/sale-request/calendar.html.twig',
+            [
+                'saleRequests' => $saleRequests,
+            ]
         );
     }
 
