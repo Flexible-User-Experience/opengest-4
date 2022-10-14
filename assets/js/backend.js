@@ -2,10 +2,15 @@ import '../css/backend.less';
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 const routes = require('../../public/js/fos_js_routes.json');
 import { Chart, registerables } from 'chart.js';
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 Chart.register(...registerables);
 
 global.Chart = Chart;
+
+global.Calendar = Calendar
+global.dayGridPlugin = dayGridPlugin
 
 // start PDF JS library
 import jQuery from 'jquery';

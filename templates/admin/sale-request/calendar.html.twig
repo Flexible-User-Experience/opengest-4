@@ -1,10 +1,15 @@
 {% extends 'admin/layout.html.twig' %}
 
+{% block  stylesheets %}
+    {{ parent() }}
+    <link rel='stylesheet' type='text/css' href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css"/>
+{% endblock %}
+
 {# override javascript includes #}
 {% block sonata_admin_content %}
     {{ parent() }}
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-12">
             <div class="box box-success">
                 <div id="calendar"></div>
             </div>
@@ -16,6 +21,24 @@
     {{ parent() }}
     <script type="text/javascript">
       jQuery(document).ready(function() {
+        let calendarEl = document.getElementById('calendar')
+        let calendar = new Calendar(calendarEl, {
+          plugins: [ dayGridPlugin ],
+          initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek'
+          }
+        });
+        calendar.addEvent({
+          id: '1',
+          title: 'Event aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaa',
+          start: '2022-10-11',
+          display: 'block',
+          color: 'green'
+        })
+        calendar.render()
       })
     </script>
 {% endblock %}
