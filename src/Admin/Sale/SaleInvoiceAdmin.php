@@ -67,6 +67,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ->add('setHasNotBeenCounted', $this->getRouterIdParameter().'/descontabilizar')
             ->add('getJsonNextInvoiceNumberForSeriesIdAndInvoice', $this->getRouterIdParameter().'/get-json-next-invoice-number-for-series-id-and-invoice')
             ->add('getJsonAvailableInvoiceNumbersForSeries', $this->getRouterIdParameter().'/get-json-available-invoice-numbers-for-serie')
+            ->add('createEInvoice', $this->getRouterIdParameter().'/generar-e-factura')
             ->remove('show')
             ->remove('create')
         ;
@@ -215,7 +216,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
                 ]
             )
-            ;
+        ;
         if ($this->id($this->getSubject())) { // is edit mode
             if ($this->getSubject()->getPartnerMainCity()) {
                 $formMapper
@@ -288,7 +289,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
-            ;
+        ;
         if ($this->getSubject()->getIva21() > 0) {
             $formMapper
                 ->add(
@@ -383,7 +384,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'grouping' => true,
                 ]
             )
-            ;
+        ;
         if ($this->getSubject()->getFirstDeliveryNote()) {
             if ($this->getSubject()->getFirstDeliveryNote()->getCollectionTerm()) {
                 $formMapper
@@ -542,7 +543,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         ]
                     )
                     ->end()
-                ;
+            ;
         } else { // is create mode
             $formMapper
                 ->with('admin.with.delivery_notes', $this->getFormMdSuccessBoxArray(4))
@@ -593,7 +594,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
-                ;
+            ;
         }
     }
 
@@ -618,9 +619,8 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoice_number',
-                    'show_filter' => true
+                    'show_filter' => true,
                 ],
-
             )
             ->add(
                 'date',
@@ -651,7 +651,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                         'property' => 'name',
                         'callback' => $this->partnerModelAutocompleteCallback(),
                     ],
-                    'show_filter' => true
+                    'show_filter' => true,
                 ]
             )
             ->add(

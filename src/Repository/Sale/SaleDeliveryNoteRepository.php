@@ -84,7 +84,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->andWhere('s.isInvoiced = :isInvoiced')
             ->setParameter('isInvoiced', false)
             ->orderBy('s.id', 'ASC')
-            ;
+        ;
     }
 
     public function getFilteredByEnterpriseNotInvoicedSortedByIdQ(Enterprise $enterprise): Query
@@ -102,7 +102,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         return $this->getFilteredByEnterpriseSortedByNameQB($enterprise)
              ->orderBy('s.deliveryNoteReference', 'DESC')
              ->setMaxResults(1)
-         ;
+        ;
     }
 
     public function getLastDeliveryNoteByEnterpriseQ(Enterprise $enterprise): Query
@@ -136,7 +136,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->setParameter('enterprise', $enterprise)
             ->andWhere('s.partner = :partner')
             ->setParameter('partner', $partner)
-            ;
+        ;
     }
 
     public function getFilteredByEnterpriseAndPartnerSortedByNameQ(Enterprise $enterprise, Partner $partner): Query
@@ -160,7 +160,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->orderBy('s.id', 'ASC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     public function getDeliveryNotesFilteredByParameters($partnerId = null, $fromDate = null, $toDate = null, $deliveryNoteNumber = null, $buildingSiteId = null, $orderId = null)
@@ -168,7 +168,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEnabledSortedByNameQB()
             ->andWhere('s.isInvoiced = false')
             ->andWhere('s.wontBeInvoiced = false')
-            ;
+        ;
         if ($partnerId) {
             $queryBuilder
                 ->join('s.partner', 'p')
@@ -213,6 +213,21 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
             ->orderBy('s.id', 'ASC')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getOldestYearFilteredByEnterprise(Enterprise $enterprise)
+    {
+        return $this->getFilteredByEnterpriseSortedByNameQB($enterprise)
+            ->select('min(year(s.date)), year(s.date) as year')
+            ->groupBy('year')
+            ->orderBy('year')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 }

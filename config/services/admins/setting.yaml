@@ -35,3 +35,10 @@ services:
             - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\TimeRange, controller: ~, manager_type: orm, label: 'Franjas horarias', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.cost_center:
+        class: App\Admin\Setting\CostCenterAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\CostCenter, controller: ~, manager_type: orm, label: 'Centros de coste', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]

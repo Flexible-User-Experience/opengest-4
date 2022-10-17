@@ -3,6 +3,7 @@
 namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\EnterpriseTransferAccount;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +23,11 @@ class SaleInvoiceDueDate extends AbstractBase
     private SaleInvoice $saleInvoice;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="saleInvoiceDueDates")
+     */
+    private ?EnterpriseTransferAccount $enterpriseTransferAccount;
+
+    /**
      * @var float
      *
      * @ORM\Column(type="float", nullable=true)
@@ -34,6 +40,16 @@ class SaleInvoiceDueDate extends AbstractBase
      * @ORM\Column(type="datetime")
      */
     protected $date;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?DateTime $paymentDate;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $paid = false;
 
     /**
      * Methods.
@@ -70,6 +86,42 @@ class SaleInvoiceDueDate extends AbstractBase
     public function setDate(DateTime $date): SaleInvoiceDueDate
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getEnterpriseTransferAccount(): ?EnterpriseTransferAccount
+    {
+        return $this->enterpriseTransferAccount;
+    }
+
+    public function setEnterpriseTransferAccount(?EnterpriseTransferAccount $enterpriseTransferAccount): SaleInvoiceDueDate
+    {
+        $this->enterpriseTransferAccount = $enterpriseTransferAccount;
+
+        return $this;
+    }
+
+    public function getPaymentDate(): ?DateTime
+    {
+        return $this->paymentDate;
+    }
+
+    public function setPaymentDate(?DateTime $paymentDate): SaleInvoiceDueDate
+    {
+        $this->paymentDate = $paymentDate;
+
+        return $this;
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->paid;
+    }
+
+    public function setPaid(bool $paid): SaleInvoiceDueDate
+    {
+        $this->paid = $paid;
 
         return $this;
     }

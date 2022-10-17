@@ -2,6 +2,7 @@
 
 namespace App\Repository\Operator;
 
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
 use DateTime;
@@ -19,6 +20,16 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
         parent::__construct($registry, OperatorWorkRegister::class);
     }
 
+    public function getEnabledWithHoursSortedByIdQB(): QueryBuilder
+    {
+        return $this->createQueryBuilder('owr')
+            ->where('owr.enabled = :enabled')
+            ->andWhere('owr.start is not null')
+            ->setParameter('enabled', true)
+            ->orderBy('owr.id', 'ASC')
+        ;
+    }
+
     public function getHoursFromOperatorWorkRegistersWithHoursFromDeliveryNotesAndDateQB(Collection $saleDeliveryNotes, DateTime $date): QueryBuilder
     {
         $saleDeliveryNoteIds = $saleDeliveryNotes->map(function ($obj) {return $obj->getId(); })->getValues();
@@ -32,7 +43,7 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
             ->setParameter('date', $date->format('Y-m-d'))
             ->setParameter('sdnIds', $saleDeliveryNoteIds)
             ->select('SUM(owr.units) as hours')
-            ;
+        ;
     }
 
     public function getHoursFromOperatorWorkRegistersWithHoursFromDeliveryNotesAndDateQ(Collection $saleDeliveryNotes, DateTime $date): Query
@@ -56,6 +67,26 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
             ->setParameter('operatorWorkRegisterHeader', $operatorWorkRegisterHeader)
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function getFilteredByYearAndOperator($year, Operator $operator = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('owr')
+            ->join('owr.operatorWorkRegisterHeader', 'owrh')
+            ->addSelect('owrh')
+            ->where('year(owrh.date) = :year')
+            ->setParameter('year', $year)
+            ->orderBy('owrh.date', 'ASC')
+            ->addOrderBy('owr.id', 'ASC')
+        ;
+        if ($operator) {
+            $queryBuilder
+                ->andWhere('owrh.operator = :operator')
+                ->setParameter('operator', $operator)
             ;
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

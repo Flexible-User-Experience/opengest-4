@@ -1,6 +1,19 @@
 import '../css/backend.less';
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 const routes = require('../../public/js/fos_js_routes.json');
+import { Chart, registerables } from 'chart.js';
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import tippy from "tippy.js";
+import 'tippy.js/dist/tippy.css';
+
+Chart.register(...registerables);
+
+global.Chart = Chart;
+
+global.Calendar = Calendar
+global.dayGridPlugin = dayGridPlugin
+global.tippy = tippy
 
 // start PDF JS library
 import jQuery from 'jquery';
@@ -41,3 +54,86 @@ window.Dropzone = require('dropzone/dist/min/dropzone.min');
 
 // start the Stimulus application
 import '../stimulus_bootstrap';
+
+// Draw charts functions
+
+global.drawBarChart = (context, title, labels, data1, labelData1, data2, labelData2) => {
+  const config = {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: labelData1,
+          data: data1,
+          fill: false,
+          borderColor:'#eded5b',
+          backgroundColor:'#eded5b',
+          tension: 0.1
+        },
+        {
+          label: labelData2,
+          data: data2,
+          fill: false,
+          borderColor:  '#747c08',
+          backgroundColor: '#747c08',
+          tension: 0.1
+        },
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+        title: {
+          display: true,
+          text: title
+        }
+      }
+    }
+  };
+
+  return new Chart(context, config)
+}
+
+global.drawLineChart = (context, title, labels, data1, labelData1, data2, labelData2) => {
+  const config = {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: labelData1,
+          data: data1,
+          fill: false,
+          borderColor:  '#eded5b',
+          tension: 0.1,
+        },
+        {
+          label: labelData2,
+          data: data2,
+          fill: false,
+          borderColor:  '#747c08',
+          tension: 0.1,
+        },
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+        title: {
+          display: true,
+          text: title
+        }
+      },
+    }
+  };
+
+  return new Chart(context, config)
+}
+

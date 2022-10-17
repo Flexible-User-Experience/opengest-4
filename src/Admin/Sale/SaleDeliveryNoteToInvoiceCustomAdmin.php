@@ -61,6 +61,7 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
     {
         $collection
             ->add('generateInvoices', 'generate-invoices')
+            ->remove('create')
         ;
     }
 
@@ -138,8 +139,8 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
-            'id',
-            null,
+                'id',
+                null,
                 [
                     'label' => 'admin.label.delivery_note_number',
                     'show_filter' => true,
@@ -514,7 +515,7 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
         $saleInvoice = $object->getSaleInvoice();
         if ($saleInvoice) {
             $saleInvoice->setCollectionDocumentType($object->getCollectionDocument());
-            //If invoiced, set same collectionTerms and collectionDocuments for all the delivery notes belonging to this invoice
+            // If invoiced, set same collectionTerms and collectionDocuments for all the delivery notes belonging to this invoice
             /** @var SaleDeliveryNote $deliveryNote */
             foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
                 if ($deliveryNote->getId() !== $object->getId()) {

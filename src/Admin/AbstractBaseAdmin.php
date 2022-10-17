@@ -99,7 +99,6 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     public function configureBatchActions(array $actions): array
     {
-        $actions = parent::getBatchActions();
         unset($actions['delete']);
 
         return $actions;

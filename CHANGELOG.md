@@ -1,6 +1,11 @@
 Changelog
 =========
 
+##### Version 2.0.00 (2022-08-20)
+* add purchase invoice management
+* add article management
+* add cost centers management
+
 ##### Version 1.1.10 (WIP)
  * apply new privacy policy
  
@@ -67,3 +72,4 @@ Changelog
  * add enterprise transfer account management
  * add partner class management
  * add partner type management
+

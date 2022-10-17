@@ -66,6 +66,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('clone', $this->getRouterIdParameter().'/clone')
             ->add('generateDeliveryNoteFromSaleRequest', $this->getRouterIdParameter().'/generateDeliveryNote')
+            ->add('calendar', 'calendario')
             ->remove('show')
         ;
     }

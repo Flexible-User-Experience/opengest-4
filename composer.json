@@ -19,6 +19,7 @@
         "knplabs/knp-paginator-bundle": "^5.0",
         "krixer/google-map-form-type-bundle": "^1.2",
         "liip/imagine-bundle": "^2.1",
+        "mirmit/e-factura-bundle": "v0.0.12-alpha",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^1.23",
         "presta/sitemap-bundle": "^2.0",
@@ -128,6 +129,10 @@
         {
             "type": "composer",
             "url": "https://www.setasign.com/downloads/"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Mirmit/EFacturaBundle.git"
         }
     ]
 }

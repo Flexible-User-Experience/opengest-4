@@ -211,6 +211,9 @@
     "markbaker/matrix": {
         "version": "3.0.0"
     },
+    "mirmit/e-factura-bundle": {
+        "version": "v0.0.4-alpha"
+    },
     "monolog/monolog": {
         "version": "1.25.3"
     },
