@@ -19,6 +19,10 @@ sonata_admin:
         groups:
             Ventas:
                 icon: '<i class="fa fa-eur"></i>'
+            Compras:
+                icon: '<i class="fa fa-money-bill "></i>'
+            Cartera:
+                icon: '<i class="fa fa-wallet "></i>'
             Operarios:
                 icon: '<i class="fa fa-users"></i>'
             Nóminas:
@@ -31,6 +35,15 @@ sonata_admin:
                 icon: '<i class="fa fa-building"></i>'
             Web:
                 icon: '<i class="fa fa-chrome"></i>'
+            Analítica:
+                items:
+                    - route: admin_app_purchase_purchaseinvoiceline_imputableCosts
+                      label: Costes imputables
+                      roles: [ ROLE_SONATA_MANAGER_ADMIN ]
+                    - route: admin_app_purchase_purchaseinvoiceline_marginAnalysis
+                      label: Análisis de margen
+                      roles: [ ROLE_SONATA_MANAGER_ADMIN ]
+                icon: '<i class="fa fa-line-chart"></i>'
             Configuración:
                 label: 'Configuración'
                 icon:  '<i class="fa fa-briefcase"></i>'

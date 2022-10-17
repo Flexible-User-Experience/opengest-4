@@ -1,0 +1,199 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block  stylesheets %}
+    {{ parent() }}
+    <link rel='stylesheet' type='text/css' href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.css"/>
+{% endblock %}
+
+{# override javascript includes #}
+{% block sonata_admin_content %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h1 class="box-title">Filtros</h1>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="operator_select">
+                                Operario
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="operator" id="operator_select">
+                                <option value="">---</option>
+                                {% for operator in operators %}
+                                    <option value="{{ operator.id }}">
+                                        {{ operator }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="vehicle_select">
+                                Vehículo
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="vehicle" id="vehicle_select">
+                                <option value="">---</option>
+                                {% for vehicle in vehicles %}
+                                    <option value="{{ vehicle.id }}">
+                                        {{ vehicle }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="partner_select">
+                                Cliente
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="partner" id="partner_select">
+                                <option value="">---</option>
+                                {% for partner in partners %}
+                                    <option value="{{ partner.id }}">
+                                        {{ partner }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="box-body" id="loading">
+                            <p>
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                Actualizando datos
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+
+      jQuery(document).ready(function() {
+        let operatorSelect = jQuery('#operator_select')
+        let vehicleSelect = jQuery('#vehicle_select')
+        let partnerSelect = jQuery('#partner_select')
+        let loadingIcon = jQuery('#loading')
+
+        operatorSelect.change(() => updateFilter())
+        vehicleSelect.change(() => updateFilter())
+        partnerSelect.change(() => updateFilter())
+
+        let calendarEl = document.getElementById('calendar')
+        let calendar = new Calendar(calendarEl, {
+          plugins: [dayGridPlugin],
+          initialView: 'dayGridWeek',
+          locale: 'es',
+          height: 'auto',
+          firstDay: '1',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+          },
+          eventDidMount: function(info) {
+            if (!info.event.id.includes('absence')) {
+              tippy(info.el, {
+                content:
+                  `
+                <div style="background-color:lightblue; padding-left:15px;padding-right: 15px;padding-top:10px; padding-bottom: 5px">
+                    <p>
+                        <b>` + info.event.title + `</b>
+                    </p>
+                    <p>
+                        <b>Vehículo</b>: ` + info.event.extendedProps.vehicle + `
+                    </p>
+                    <p>
+                        <b>Veh. Sec.</b>: ` + info.event.extendedProps.secondaryVehicle + `
+                    </p>
+                    <p>
+                        <b>Operario</b>: ` + info.event.extendedProps.operator + `
+                    </p>
+                </div>
+              `,
+                allowHTML: true,
+              })
+            }
+
+          },
+        });
+        {%  for saleRequest in saleRequests %}
+            calendar.addEvent({
+              id: '{{ saleRequest.id }}',
+              title: '{{ saleRequest.partner.code }} - {{ saleRequest.partner.name }}',
+              url: '{{ path('admin_app_sale_salerequest_edit', {'id': saleRequest.id}) }}',
+              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}T{{ saleRequest.serviceTime.format('H:i:s')}}',
+              color: {% if (saleRequest.status == 0) %} 'green' {% else %} 'blue' {% endif %},
+              extendedProps: {
+                vehicle: '{{ saleRequest.vehicle }}',
+                operator: '{{ saleRequest.operator }}',
+                operatorId: '{{ saleRequest.operator.id }}',
+                secondaryVehicle: '{{ saleRequest.secondaryVehicle }}',
+                partnerId: '{{ saleRequest.partner ? saleRequest.partner.id : 0 }}',
+                vehicleId: '{{ saleRequest.vehicle ? saleRequest.vehicle.id : 0 }}',
+                secondaryVehicleId: '{{ saleRequest.secondaryVehicle ? saleRequest.secondaryVehicle.id : 0 }}',
+              },
+            })
+        {% endfor %}
+        {% for operatorAbsence in operatorAbsences %}
+            calendar.addEvent({
+              id: 'absence-{{ operatorAbsence.id }}',
+              title: '{{ operatorAbsence.type }} - {{ operatorAbsence.operator }}',
+              url: '{{ path('admin_app_operator_operatorabsence_edit', {'id': operatorAbsence.id}) }}',
+              start: '{{ operatorAbsence.begin.format('Y-m-d') }}',
+              end: '{{ operatorAbsence.end.format('Y-m-d') }}',
+              fullDay: true,
+              color: 'orange',
+              extendedProps: {
+                operatorId: '{{ operatorAbsence.operator.id }}',
+                vehicleId: 0,
+                secondaryVehicleId: 0,
+                partnerId: 0
+              },
+            })
+        {% endfor %}
+        let initialEvents = calendar.getEvents()
+        calendar.render()
+        loadingIcon.hide()
+
+        function updateFilter() {
+          loadingIcon.show()
+          let operatorId = operatorSelect.val()
+            let vehicleId = vehicleSelect.val()
+            let partnerId = partnerSelect.val()
+          let events = initialEvents
+          if (operatorId) {
+            events = events.filter(event => operatorId ? event.extendedProps.operatorId === operatorId : true)
+          }
+            if (vehicleId) {
+              events = events.filter((event) => vehicleId ? (event.extendedProps.vehicleId === vehicleId || event.extendedProps.secondaryVehicleId === vehicleId) : true)
+            }
+            if (partnerId) {
+              events = events.filter(event => partnerId ? event.extendedProps.partnerId === partnerId : true)
+            }
+            calendar.removeAllEvents()
+          events.forEach(event => calendar.addEvent(event))
+          calendar.render()
+          loadingIcon.hide(1000)
+        }
+      })
+    </script>
+{% endblock %}

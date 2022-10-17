@@ -1,0 +1,416 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block sonata_admin_content %}
+
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="box box-success">
+                <form action="{{ path('admin_app_purchase_purchaseinvoiceline_imputableCosts') }}">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="control-label" for="year">
+                                Año
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="year" id="year">
+                                {% for year in years %}
+                                    <option
+                                            value="{{ year }}"
+                                            {% if year == selectedYear %}
+                                                selected
+                                            {% endif %}
+                                    >{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                            <label class="control-label" for="sale_delivery_note">
+                                Albarán
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="sale_delivery_note" id="sale_delivery_note">
+                                    <option value="">---</option>
+                                    {% for deliveryNote in saleDeliveryNotes %}
+                                        <option
+                                                value="{{ deliveryNote.id }}"
+                                                {% if deliveryNote.id == selectedSaleDeliveryNoteId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ deliveryNote.id }} - {{ deliveryNote.partner.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <label class="control-label" for="vehicle">
+                                Vehículo
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="vehicle" id="vehicle">
+                                    <option value="">---</option>
+                                    {% for vehicle in vehicles %}
+                                        <option
+                                                value="{{ vehicle.id }}"
+                                                {% if vehicle.id == selectedVehicleId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ vehicle }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <label class="control-label" for="operator">
+                                Operario
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="operator" id="operator">
+                                    <option value="">---</option>
+                                    {% for operator in operators %}
+                                        <option
+                                                value="{{ operator.id }}"
+                                                {% if operator.id == selectedOperatorId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ operator }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <label class="control-label" for="costCenter">
+                                Centro de coste
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="costCenter" id="costCenter">
+                                    <option value="">---</option>
+                                    {% for costCenter in costCenters %}
+                                        <option
+                                                value="{{ costCenter.id }}"
+                                                {% if costCenter.id == selectedCostCenterId %}
+                                                    selected
+                                                {% endif %}
+                                        >{{ costCenter }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <label class="control-label" for="download">
+                                Descargar en xls
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <input type="checkbox" id="download" name="download" class="iCheck-helper delivery-note_id">
+                            </div>
+                        </div>
+                        <button class="btn btn-success" type="submit" id="btn_custom_submit" name="btn_custom_submit"><i class="fa fa-arrow-right" aria-hidden="true"></i> Aplicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Costes imputables
+                    </h4>
+                    <table class="table table-bordered table-hover sonata-ba-list">
+                        <tr>
+                            <td>Horas trabajadas</td>
+                            <td>
+                                {{ totalWorkingHours }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Coste horas trabajadas</td>
+                            <td style="text-align: right">
+                                {{ totalWorkingHoursCost }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Coste facturas de compra</td>
+                            <td style="text-align: right">
+                                {{ totalInvoiceCost }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Coste suministros de vehículos</td>
+                            <td style="text-align: right">
+                                {{ totalVehicleConsumptionCost }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td style="text-align: right">
+                                {{ totalCost }} €
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="btn btn-light" type="button" onclick="showPurchaseInvoices()"> Facturas compra</button>
+                <button class="btn btn-light" type="button" onclick="showWorkRegisters()"> Partes de trabajo</button>
+                <button class="btn btn-light" type="button" onclick="showVehicleConsumptions()"> Suministros</button>
+            </div>
+        </div>
+        <div class="col-md-12" id="PurchaseInvoices">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        Lineas de factura de compra
+                    </h4>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                            <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                    <th class="sonata-ba-list-field-header">
+                                        Id
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Unidades
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Precio
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Importe (€)
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Artículo
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Descripción
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Imputado a
+                                </tr>
+                            </thead>
+                            <tbody id="purchase_invoice_lines_table">
+                                {% for purchaseInvoiceLine in purchaseInvoiceLines %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('admin_app_purchase_purchaseinvoice_edit', {'id': purchaseInvoiceLine.purchaseInvoice.id}) }}">
+                                                {{ purchaseInvoiceLine.id }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.purchaseInvoice.date | date('d/m/Y') }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.units }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.priceUnit }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.baseTotal }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.purchaseItem }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.description }}
+                                        </td>
+                                        <td>
+                                            {{ purchaseInvoiceLine.imputedToType }} - {{ purchaseInvoiceLine.imputedTo }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if operatorWorkRegisters|length > 0 %}
+            <div class="col-md-12" id="WorkRegisters" hidden>
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h4 class="box-title">
+                            Partes de trabajo
+                        </h4>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                                <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                    <th class="sonata-ba-list-field-header">
+                                        Id
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Operario
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Unidades
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Precio
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Importe (€)
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Albarán de venta
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Descripción
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="operator_work_registers_table">
+                                    {% for operatorWorkRegister in operatorWorkRegisters %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('admin_app_operator_operatorworkregisterheader_create', {'operator': operatorWorkRegister.operatorWorkRegisterHeader.operator.id, 'date': operatorWorkRegister.operatorWorkRegisterHeader.date | date('d-m-Y') }) }}">
+                                                    {{ operatorWorkRegister.id }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.operatorWorkRegisterHeader.date | date('d/m/Y') }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.operatorWorkRegisterHeader.operator }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.units }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.priceUnit }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.amount }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.saleDeliveryNote }}
+                                            </td>
+                                            <td>
+                                                {{ operatorWorkRegister.description }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if vehicleConsumptions %}
+            <div class="col-md-12" id="VehicleConsumptions" hidden>
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h4 class="box-title">
+                            Suministros
+                        </h4>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                                <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                    <th class="sonata-ba-list-field-header">
+                                        Id
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Fecha
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Unidades
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Precio
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Importe (€)
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Vehiculo
+                                    </th>
+                                    <th class="sonata-ba-list-field-header">
+                                        Tipo de combustible
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="operator_work_registers_table">
+                                {% for vehicleConsumption in vehicleConsumptions %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('admin_app_vehicle_vehicleconsumption_edit', {'id': vehicleConsumption.id}) }}">
+                                                {{ vehicleConsumption.id }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.supplyDate | date('d/m/Y') }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.quantity }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.priceUnit }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.amount }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.vehicle }}
+                                        </td>
+                                        <td>
+                                            {{ vehicleConsumption.fuelType }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        let saleDeliveryNoteSelect = jQuery('#sale_delivery_note');
+        let vehicleSelect = jQuery('#vehicle');
+        let operatorSelect = jQuery('#operator');
+        let costCenterSelect = jQuery('#costCenter');
+        saleDeliveryNoteSelect.change((event) => {
+          if (saleDeliveryNoteSelect.val() !== '') {
+            vehicleSelect.select2().val('').trigger('change');
+            operatorSelect.select2().val('').trigger('change');
+            costCenterSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+        vehicleSelect.change((event) => {
+          if (vehicleSelect.val() !== '') {
+            saleDeliveryNoteSelect.select2().val('').trigger('change');
+            operatorSelect.select2().val('').trigger('change');
+            costCenterSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+        operatorSelect.change((event) => {
+          if (operatorSelect.val() !== '') {
+            saleDeliveryNoteSelect.select2().val('').trigger('change');
+            vehicleSelect.select2().val('').trigger('change');
+            costCenterSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+        costCenterSelect.change((event) => {
+          if (costCenterSelect.val() !== '') {
+            saleDeliveryNoteSelect.select2().val('').trigger('change');
+            vehicleSelect.select2().val('').trigger('change');
+            operatorSelect.select2().val('').trigger('change');
+          }
+            }
+          )
+      });
+
+      function showPurchaseInvoices(){
+          document.getElementById('PurchaseInvoices').hidden = !document.getElementById('PurchaseInvoices').hidden;
+      }
+      function showWorkRegisters(){
+          document.getElementById('WorkRegisters').hidden = !document.getElementById('WorkRegisters').hidden;
+      }
+      function showVehicleConsumptions(){
+          document.getElementById('VehicleConsumptions').hidden = !document.getElementById('VehicleConsumptions').hidden;
+      }
+    </script>
+
+{% endblock %}

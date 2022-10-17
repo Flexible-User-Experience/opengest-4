@@ -27,6 +27,11 @@ use App\Repository\Partner\PartnerRepository;
 use App\Repository\Partner\PartnerTypeRepository;
 use App\Repository\Partner\PartnerUnableDaysRepository;
 use App\Repository\Payslip\PayslipLineConceptRepository;
+use App\Repository\Payslip\PayslipRepository;
+use App\Repository\Purchase\PurchaseInvoiceDueDateRepository;
+use App\Repository\Purchase\PurchaseInvoiceLineRepository;
+use App\Repository\Purchase\PurchaseInvoiceRepository;
+use App\Repository\Purchase\PurchaseItemRepository;
 use App\Repository\Sale\SaleDeliveryNoteRepository;
 use App\Repository\Sale\SaleInvoiceRepository;
 use App\Repository\Sale\SaleItemRepository;
@@ -34,6 +39,7 @@ use App\Repository\Sale\SaleRequestRepository;
 use App\Repository\Sale\SaleServiceTariffRepository;
 use App\Repository\Sale\SaleTariffRepository;
 use App\Repository\Setting\CityRepository;
+use App\Repository\Setting\CostCenterRepository;
 use App\Repository\Setting\ProvinceRepository;
 use App\Repository\Setting\SaleInvoiceSeriesRepository;
 use App\Repository\Setting\TimeRangeRepository;
@@ -41,6 +47,7 @@ use App\Repository\Setting\UserRepository;
 use App\Repository\Vehicle\VehicleCategoryRepository;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Vehicle\VehicleCheckingTypeRepository;
+use App\Repository\Vehicle\VehicleConsumptionRepository;
 use App\Repository\Vehicle\VehicleDigitalTachographRepository;
 use App\Repository\Vehicle\VehicleFuelRepository;
 use App\Repository\Vehicle\VehicleMaintenanceRepository;
@@ -92,6 +99,8 @@ class RepositoriesManager
     private VehicleCheckingTypeRepository $vehicleCheckingTypeRepository;
 
     private VehicleCheckingRepository $vehicleCheckingRepository;
+
+    private VehicleConsumptionRepository $vehicleConsumptionRepository;
 
     private VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository;
 
@@ -151,7 +160,19 @@ class RepositoriesManager
 
     private OperatorWorkRegisterHeaderRepository $operatorWorkRegisterHeaderRepository;
 
+    private PayslipRepository $payslipRepository;
+
     private PayslipLineConceptRepository $payslipLineConceptRepository;
+
+    private PurchaseInvoiceRepository $purchaseInvoiceRepository;
+
+    private PurchaseInvoiceLineRepository $purchaseInvoiceLineRepository;
+
+    private PurchaseInvoiceDueDateRepository $purchaseInvoiceDueDateRepository;
+
+    private PurchaseItemRepository $purchaseItemRepository;
+
+    private CostCenterRepository $costCenterRepository;
 
     /**
      * Methods.
@@ -180,6 +201,7 @@ class RepositoriesManager
         VehicleRepository $vehicleRepository,
         VehicleCheckingTypeRepository $vehicleCheckingTypeRepository,
         VehicleCheckingRepository $vehicleCheckingRepository,
+        VehicleConsumptionRepository $vehicleConsumptionRepository,
         VehicleMaintenanceTaskRepository $vehicleMaintenanceTaskRepository,
         VehicleMaintenanceRepository $vehicleMaintenanceRepository,
         VehicleFuelRepository $vehicleFuelRepository,
@@ -207,7 +229,13 @@ class RepositoriesManager
         SaleItemRepository $saleItemRepository,
         WorkRepository $workRepository,
         TimeRangeRepository $timeRangeRepository,
-        PayslipLineConceptRepository $payslipLineConceptRepository
+        PayslipRepository $payslipRepository,
+        PayslipLineConceptRepository $payslipLineConceptRepository,
+        PurchaseInvoiceRepository $purchaseInvoiceRepository,
+        PurchaseInvoiceLineRepository $purchaseInvoiceLineRepository,
+        PurchaseInvoiceDueDateRepository $purchaseInvoiceDueDateRepository,
+        PurchaseItemRepository $purchaseItemRepository,
+        CostCenterRepository $costCenterRepository
     ) {
         $this->serviceRepository = $serviceRepository;
         $this->vehicleCategoryRepository = $vehicleCategoryRepository;
@@ -228,6 +256,7 @@ class RepositoriesManager
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleCheckingTypeRepository = $vehicleCheckingTypeRepository;
         $this->vehicleCheckingRepository = $vehicleCheckingRepository;
+        $this->vehicleConsumptionRepository = $vehicleConsumptionRepository;
         $this->vehicleMaintenanceTaskRepository = $vehicleMaintenanceTaskRepository;
         $this->vehicleMaintenanceRepository = $vehicleMaintenanceRepository;
         $this->vehicleFuelRepository = $vehicleFuelRepository;
@@ -255,7 +284,13 @@ class RepositoriesManager
         $this->saleItemRepository = $saleItemRepository;
         $this->workRepository = $workRepository;
         $this->timeRangeRepository = $timeRangeRepository;
+        $this->payslipRepository = $payslipRepository;
         $this->payslipLineConceptRepository = $payslipLineConceptRepository;
+        $this->purchaseInvoiceRepository = $purchaseInvoiceRepository;
+        $this->purchaseInvoiceLineRepository = $purchaseInvoiceLineRepository;
+        $this->purchaseInvoiceDueDateRepository = $purchaseInvoiceDueDateRepository;
+        $this->purchaseItemRepository = $purchaseItemRepository;
+        $this->costCenterRepository = $costCenterRepository;
     }
 
     /**
@@ -392,6 +427,11 @@ class RepositoriesManager
     public function getVehicleCheckingRepository()
     {
         return $this->vehicleCheckingRepository;
+    }
+
+    public function getVehicleConsumptionRepository(): VehicleConsumptionRepository
+    {
+        return $this->vehicleConsumptionRepository;
     }
 
     /**
@@ -608,5 +648,35 @@ class RepositoriesManager
     public function getPayslipLineConceptRepository(): PayslipLineConceptRepository
     {
         return $this->payslipLineConceptRepository;
+    }
+
+    public function getPayslipRepository(): PayslipRepository
+    {
+        return $this->payslipRepository;
+    }
+
+    public function getPurchaseInvoiceRepository(): PurchaseInvoiceRepository
+    {
+        return $this->purchaseInvoiceRepository;
+    }
+
+    public function getPurchaseInvoiceLineRepository(): PurchaseInvoiceLineRepository
+    {
+        return $this->purchaseInvoiceLineRepository;
+    }
+
+    public function getPurchaseInvoiceDueDateRepository(): PurchaseInvoiceDueDateRepository
+    {
+        return $this->purchaseInvoiceDueDateRepository;
+    }
+
+    public function getPurchaseItemRepository(): PurchaseItemRepository
+    {
+        return $this->purchaseItemRepository;
+    }
+
+    public function getCostCenterRepository(): CostCenterRepository
+    {
+        return $this->costCenterRepository;
     }
 }

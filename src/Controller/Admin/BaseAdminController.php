@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Manager\CostManager;
 use App\Manager\DeliveryNoteManager;
 use App\Manager\EnterpriseHolidayManager;
 use App\Manager\InvoiceManager;
@@ -14,9 +15,12 @@ use App\Manager\Pdf\SaleInvoicePdfManager;
 use App\Manager\Pdf\VehicleCheckingPdfManager;
 use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
 use App\Manager\VehicleMaintenanceManager;
+use App\Manager\Xls\ImputableCostXlsManager;
+use App\Manager\Xls\MarginAnalysisXlsManager;
 use App\Manager\Xls\OperatorWorkRegisterHeaderXlsManager;
 use App\Manager\Xml\PayslipXmlManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Mirmit\EFacturaBundle\Service\EFacturaService;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +39,13 @@ abstract class BaseAdminController extends Controller
 {
     protected InvoiceManager $im;
 
+    protected CostManager $costManager;
+
     protected DeliveryNoteManager $deliveryNoteManager;
+
+    protected ImputableCostXlsManager $imputableCostXlsManager;
+
+    protected MarginAnalysisXlsManager $marginAnalysisXlsManager;
 
     protected SaleDeliveryNotePdfManager $sdnpm;
 
@@ -63,24 +73,33 @@ abstract class BaseAdminController extends Controller
 
     protected ManagerRegistry $em;
 
+    protected EFacturaService $EFacturaService;
+
     public function __construct(InvoiceManager $invoiceManager,
-                                DeliveryNoteManager $deliveryNoteManager,
-                                SaleDeliveryNotePdfManager $sdnpm,
-                                SaleInvoicePdfManager $sipm,
-                                WorkRegisterHeaderPdfManager $wrhpm,
-                                OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
-                                PayslipPdfManager $ppm,
-                                PayslipXmlManager $pxm,
-                                OperatorCheckingPdfManager $operatorCheckingPdfManager,
-                                DocumentationPdfManager $documentationPdfManager,
-                                VehicleCheckingPdfManager $vehicleCheckingPdfManager,
-                                VehicleMaintenanceManager $vehicleMaintenanceManager,
-                                ManagerRegistry $managerRegistry,
-                                EnterpriseHolidayManager $enterpriseHolidayManager,
-                                PaymentReceiptPdfManager $paymentReceiptPdfManager)
-    {
+        CostManager $costManager,
+        DeliveryNoteManager $deliveryNoteManager,
+        ImputableCostXlsManager $imputableCostXlsManager,
+        MarginAnalysisXlsManager $marginAnalysisXlsManager,
+        SaleDeliveryNotePdfManager $sdnpm,
+        SaleInvoicePdfManager $sipm,
+        WorkRegisterHeaderPdfManager $wrhpm,
+        OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
+        PayslipPdfManager $ppm,
+        PayslipXmlManager $pxm,
+        OperatorCheckingPdfManager $operatorCheckingPdfManager,
+        DocumentationPdfManager $documentationPdfManager,
+        VehicleCheckingPdfManager $vehicleCheckingPdfManager,
+        VehicleMaintenanceManager $vehicleMaintenanceManager,
+        ManagerRegistry $managerRegistry,
+        EnterpriseHolidayManager $enterpriseHolidayManager,
+        PaymentReceiptPdfManager $paymentReceiptPdfManager,
+        EFacturaService $EFacturaService
+    ) {
         $this->im = $invoiceManager;
+        $this->costManager = $costManager;
         $this->deliveryNoteManager = $deliveryNoteManager;
+        $this->imputableCostXlsManager = $imputableCostXlsManager;
+        $this->marginAnalysisXlsManager = $marginAnalysisXlsManager;
         $this->sdnpm = $sdnpm;
         $this->sipm = $sipm;
         $this->wrhpm = $wrhpm;
@@ -94,6 +113,7 @@ abstract class BaseAdminController extends Controller
         $this->em = $managerRegistry;
         $this->enterpriseHolidayManager = $enterpriseHolidayManager;
         $this->paymentReceiptPdfManager = $paymentReceiptPdfManager;
+        $this->EFacturaService = $EFacturaService;
     }
 
     /**
@@ -118,7 +138,7 @@ abstract class BaseAdminController extends Controller
                 $fileName = $documentName,
                 $forceDownload = false
             );
-        } catch (\ErrorException | NoFileFoundException $e) {
+        } catch (\ErrorException|NoFileFoundException $e) {
             if ($fillErrorBag) {
                 $this->addFlash(
                     'warning',

@@ -4,6 +4,7 @@ namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
 use Doctrine\ORM\Mapping as ORM;
+use Mirmit\EFacturaBundle\Interfaces\LineFacturaEInterface;
 
 /**
  * Class SaleDeliveryNoteLine.
@@ -13,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteLineRepository")
  * @ORM\Table(name="sale_delivery_note_line")
  */
-class SaleDeliveryNoteLine extends AbstractBase
+class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
 {
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleDeliveryNoteLines")
@@ -271,5 +272,38 @@ class SaleDeliveryNoteLine extends AbstractBase
     public function getIrpfAmount(): float
     {
         return $this->getTotalWithAllDiscounts() * ($this->getIrpf() / 100);
+    }
+
+    /**
+     * Factura e methods.
+     */
+    public function getNameFacturaE(): string
+    {
+        return $this->getSaleItem()->getDescription();
+    }
+
+    public function getDescriptionFacturaE(): string
+    {
+        return $this->getSaleItem()->getDescription();
+    }
+
+    public function getQuantityFacturaE(): float
+    {
+        return 1;
+    }
+
+    public function getUnitPriceFacturaE(): float
+    {
+        return $this->getTotalWithAllDiscounts();
+    }
+
+    public function getIvaFacturaE(): int
+    {
+        return $this->getIva();
+    }
+
+    public function getIrpfFacturaE(): int
+    {
+        return $this->getIrpf();
     }
 }

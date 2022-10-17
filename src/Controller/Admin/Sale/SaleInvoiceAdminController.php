@@ -51,7 +51,7 @@ class SaleInvoiceAdminController extends BaseAdminController
         $filterInfo = $this->admin->getFilterParameters();
 
         if (array_key_exists('date', $filterInfo)) {
-            //get from to filter dates
+            // get from to filter dates
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
         } else {
@@ -299,5 +299,24 @@ class SaleInvoiceAdminController extends BaseAdminController
         $availableInvociceNumbers = $this->im->getAvailableNumbersBySerieAndEnterprise($series, $enterprise);
 
         return new JsonResponse($availableInvociceNumbers);
+    }
+
+    public function createEInvoiceAction(Request $request)
+    {
+        $request = $this->resolveRequest($request);
+        $id = $request->get($this->admin->getIdParameter());
+        /** @var SaleInvoice $saleInvoice */
+        $saleInvoice = $this->admin->getObject($id);
+        if (!$saleInvoice) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        $xml = $this->EFacturaService->createEFactura($saleInvoice);
+        $response = new Response($xml);
+        $response->headers->set('Content-type', 'text/xml');
+        $response->headers->set('Content-Disposition', 'attachment; filename="factura-e-'.$saleInvoice->getInvoiceNumber().'.xml"');
+        // 'Content-Disposition' => 'attachment; filename="margenes.xlsx"',
+
+        return $response;
     }
 }

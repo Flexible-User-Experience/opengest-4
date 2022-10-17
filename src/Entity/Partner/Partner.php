@@ -13,6 +13,8 @@ use App\Entity\Setting\City;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Mirmit\EFacturaBundle\Interfaces\BuyerFacturaEInterface;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -26,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerRepository")
  * @ORM\Table(name="partner")
  */
-class Partner extends AbstractBase
+class Partner extends AbstractBase implements BuyerFacturaEInterface
 {
     /**
      * @var string
@@ -340,6 +342,13 @@ class Partner extends AbstractBase
     private $saleInvoices;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoice", mappedBy="partner")
+     */
+    private Collection $purchaseInvoices;
+
+    /**
      * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
@@ -355,6 +364,13 @@ class Partner extends AbstractBase
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $accountingAccount = null;
+
+    /**
+     * @var ?integer
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $costAccountingAccount = null;
 
     /**
      * @var ?integer
@@ -404,6 +420,16 @@ class Partner extends AbstractBase
     private ?int $invoiceCopiesNumber = null;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $defaultIva = null;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $defaultIrpf = null;
+
+    /**
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private bool $blocked = false;
@@ -426,6 +452,7 @@ class Partner extends AbstractBase
         $this->partnerUnableDays = new ArrayCollection();
         $this->saleDeliveryNotes = new ArrayCollection();
         $this->saleInvoices = new ArrayCollection();
+        $this->purchaseInvoices = new ArrayCollection();
     }
 
     /**
@@ -1482,6 +1509,21 @@ class Partner extends AbstractBase
         return $this;
     }
 
+    /**
+     * @return ?Collection
+     */
+    public function getPurchaseInvoices(): ?Collection
+    {
+        return $this->purchaseInvoices;
+    }
+
+    public function setPurchaseInvoices(ArrayCollection $purchaseInvoices): Partner
+    {
+        $this->purchaseInvoices = $purchaseInvoices;
+
+        return $this;
+    }
+
     public function getCollectionDocumentType(): ?CollectionDocumentType
     {
         return $this->collectionDocumentType;
@@ -1514,6 +1556,18 @@ class Partner extends AbstractBase
     public function setAccountingAccount(?int $accountingAccount): Partner
     {
         $this->accountingAccount = $accountingAccount;
+
+        return $this;
+    }
+
+    public function getCostAccountingAccount(): ?int
+    {
+        return $this->costAccountingAccount;
+    }
+
+    public function setCostAccountingAccount(?int $costAccountingAccount): Partner
+    {
+        $this->costAccountingAccount = $costAccountingAccount;
 
         return $this;
     }
@@ -1602,6 +1656,36 @@ class Partner extends AbstractBase
         return $this;
     }
 
+    public function getDefaultIva(): ?float
+    {
+        return $this->defaultIva;
+    }
+
+    /**
+     * @param ?float $defaultIva
+     */
+    public function setDefaultIva(?float $defaultIva): Partner
+    {
+        $this->defaultIva = $defaultIva;
+
+        return $this;
+    }
+
+    public function getDefaultIrpf(): ?float
+    {
+        return $this->defaultIrpf;
+    }
+
+    /**
+     * @param ?float $defaultIrpf
+     */
+    public function setDefaultIrpf(?float $defaultIrpf): Partner
+    {
+        $this->defaultIrpf = $defaultIrpf;
+
+        return $this;
+    }
+
     public function isBlocked(): bool
     {
         return $this->blocked;
@@ -1610,6 +1694,76 @@ class Partner extends AbstractBase
     public function setBlocked(bool $blocked): void
     {
         $this->blocked = $blocked;
+    }
+
+    /**
+     * FacturaE Methods.
+     */
+    public function getIsLegalEntityFacturaE(): bool
+    {
+        return !preg_match('~[0-9]+~', substr($this->getCifNif(), 0, 1));
+    }
+
+    public function getTaxNumberFacturaE(): string
+    {
+        return $this->getCifNif();
+    }
+
+    public function getNameFacturaE(): string
+    {
+        if ($this->getIsLegalEntityFacturaE()) {
+            return $this->getName();
+        } else {
+            return explode($this->getName(), ' ', 2)[0];
+        }
+    }
+
+    public function getAddressFacturaE(): string
+    {
+        return $this->getMainAddress();
+    }
+
+    public function getPostalCodeFacturaE(): string
+    {
+        return $this->getMainCity()->getPostalCode();
+    }
+
+    public function getTownFacturaE(): string
+    {
+        return $this->getMainCity()->getName();
+    }
+
+    public function getProvinceFacturaE(): string
+    {
+        return $this->getMainCity()->getProvince()->getName();
+    }
+
+    public function getCountryCodeFacturaE(): string
+    {
+        return Countries::getAlpha3Code($this->getMainCity()->getProvince()->getCountry());
+    }
+
+    public function getEmailFacturaE(): string
+    {
+        return $this->getEmail();
+    }
+
+    public function getFirstSurnameFacturaE(): string
+    {
+        if ($this->getIsLegalEntityFacturaE()) {
+            return '';
+        } else {
+            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[0];
+        }
+    }
+
+    public function getLastSurnameFacturaE(): string
+    {
+        if ($this->getIsLegalEntityFacturaE()) {
+            return '';
+        } else {
+            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[1];
+        }
     }
 
     /**

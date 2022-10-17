@@ -192,6 +192,10 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vendes/factura/list'],
             ['/admin/vendes/factura/1/edit'],
             ['/admin/vendes/factura/1/delete'],
+            // SaleInvoiceDueDate
+            ['/admin/ventas/vencimientos-factura/list'],
+            ['/admin/ventas/vencimientos-factura/create'],
+            ['/admin/ventas/vencimientos-factura/1/edit'],
             ['/admin/vendes/valoracio-peticio-albara/list'],
             ['/admin/vendes/valoracio-peticio-albara/create'],
             ['/admin/vendes/valoracio-peticio-albara/1/edit'],
@@ -223,7 +227,23 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/nominas/conceptos_linea/create'],
             ['/admin/nominas/conceptos_linea/1/edit'],
             ['/admin/nominas/conceptos_linea/1/delete'],
-
+            // PurchaseInvoice
+            ['/admin/compras/facturas/list'],
+            ['/admin/compras/facturas/create'],
+            ['/admin/compras/facturas/1/edit'],
+            ['/admin/compras/facturas/1/delete'],
+            // PurchaseInvoiceDueDate
+            ['/admin/compras/vencimientos-factura/list'],
+            ['/admin/compras/vencimientos-factura/create'],
+            ['/admin/compras/vencimientos-factura/1/edit'],
+            // PurchaseItem
+            ['/admin/compras/articulos/list'],
+            ['/admin/compras/articulos/create'],
+            ['/admin/compras/articulos/1/edit'],
+            // CostCenter
+            ['/admin/configuracion/centro_de_coste/list'],
+            ['/admin/configuracion/centro_de_coste/create'],
+            ['/admin/configuracion/centro_de_coste/1/edit'],
         ];
     }
 
@@ -342,6 +362,7 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vendes/albara-linia/batch'],
             ['/admin/vendes/factura/1/show'],
             ['/admin/vendes/factura/batch'],
+            ['/admin/vendes/vencimientos-factura/1/delete'],
             ['/admin/vendes/valoracio-peticio-albara/1/show'],
             ['/admin/vendes/valoracio-peticio-albara/batch'],
             // Setting
@@ -355,6 +376,10 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/configuracio/usuari/batch'],
             ['/admin/configuracio/series-factura/1/show'],
             ['/admin/configuracio/series-factura/batch'],
+            ['/admin/configuracion/centro_de_coste/1/delete'],
+            // Purchase
+            ['/admin/compras/articulos/1/delete'],
+            ['/admin/compras/vencimientos-factura/1/delete'],
         ];
     }
 }

@@ -3,10 +3,16 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Operator\Operator;
+use App\Entity\Operator\OperatorAbsence;
+use App\Entity\Partner\Partner;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
+use App\Entity\Vehicle\Vehicle;
 use App\Manager\Pdf\SaleRequestPdfManager;
+use DateInterval;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -120,6 +126,39 @@ class SaleRequestAdminController extends BaseAdminController
         $deliveryNote = $this->generateDeliveryNoteFromSaleRequest($saleRequest);
 
         return new RedirectResponse($request->headers->get('referer'));
+    }
+
+    public function calendarAction(Request $request)
+    {
+        $date = new DateTimeImmutable();
+        $date = $date->sub(new DateInterval('P2M'));
+        $saleRequests = $this->em->getRepository(SaleRequest::class)
+            ->getFilteredByEnterpriseEnabledSortedByRequestDateQB($this->getUser()->getDefaultEnterprise())
+            ->andWhere('DATE(s.serviceDate) > DATE(:moment)')
+            ->setParameter('moment', $date)
+            ->getQuery()
+            ->getResult()
+        ;
+        $operatorAbsences = $this->em->getRepository(OperatorAbsence::class)->getFilteredByEnterpriseSortedByStartDateQB($this->getUser()->getDefaultEnterprise())
+            ->andWhere('DATE(oa.begin) > DATE(:moment)')
+            ->setParameter('moment', $date)
+            ->getQuery()
+            ->getResult()
+        ;
+        $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
+        $vehicles = $this->em->getRepository(Vehicle::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
+        $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
+
+        return $this->renderWithExtraParams(
+            'admin/sale-request/calendar.html.twig',
+            [
+                'saleRequests' => $saleRequests,
+                'operatorAbsences' => $operatorAbsences,
+                'operators' => $operators,
+                'vehicles' => $vehicles,
+                'partners' => $partners,
+        ]
+        );
     }
 
     /**
