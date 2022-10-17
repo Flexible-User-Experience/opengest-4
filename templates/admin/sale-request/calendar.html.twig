@@ -15,6 +15,67 @@
                     <h1 class="box-title">Filtros</h1>
                 </div>
                 <div class="box-body">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="operator_select">
+                                Operario
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="operator" id="operator_select">
+                                <option value="">---</option>
+                                {% for operator in operators %}
+                                    <option value="{{ operator.id }}">
+                                        {{ operator }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="vehicle_select">
+                                Vehículo
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="vehicle" id="vehicle_select">
+                                <option value="">---</option>
+                                {% for vehicle in vehicles %}
+                                    <option value="{{ vehicle.id }}">
+                                        {{ vehicle }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="partner_select">
+                                Cliente
+                            </label>
+                            <select class="select2-container" style="width: 100%;" name="partner" id="partner_select">
+                                <option value="">---</option>
+                                {% for partner in partners %}
+                                    <option value="{{ partner.id }}">
+                                        {{ partner }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="box-body" id="loading">
+                            <p>
+                                <i class="fa fa-spinner" aria-hidden="true"></i>
+                                Actualizando datos
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-body">
                     <div id='calendar'></div>
                 </div>
             </div>
@@ -27,6 +88,15 @@
     <script type="text/javascript">
 
       jQuery(document).ready(function() {
+        let operatorSelect = jQuery('#operator_select')
+        let vehicleSelect = jQuery('#vehicle_select')
+        let partnerSelect = jQuery('#partner_select')
+        let loadingIcon = jQuery('#loading')
+
+        operatorSelect.change(() => updateFilter())
+        vehicleSelect.change(() => updateFilter())
+        partnerSelect.change(() => updateFilter())
+
         let calendarEl = document.getElementById('calendar')
         let calendar = new Calendar(calendarEl, {
           plugins: [dayGridPlugin],
@@ -74,7 +144,11 @@
               extendedProps: {
                 vehicle: '{{ saleRequest.vehicle }}',
                 operator: '{{ saleRequest.operator }}',
+                operatorId: '{{ saleRequest.operator.id }}',
                 secondaryVehicle: '{{ saleRequest.secondaryVehicle }}',
+                partnerId: '{{ saleRequest.partner ? saleRequest.partner.id : 0 }}',
+                vehicleId: '{{ saleRequest.vehicle ? saleRequest.vehicle.id : 0 }}',
+                secondaryVehicleId: '{{ saleRequest.secondaryVehicle ? saleRequest.secondaryVehicle.id : 0 }}',
               },
             })
         {% endfor %}
@@ -87,9 +161,38 @@
               end: '{{ operatorAbsence.end.format('Y-m-d') }}',
               fullDay: true,
               color: 'orange',
+              extendedProps: {
+                operatorId: '{{ operatorAbsence.operator.id }}',
+                vehicleId: 0,
+                secondaryVehicleId: 0,
+                partnerId: 0
+              },
             })
         {% endfor %}
+        let initialEvents = calendar.getEvents()
         calendar.render()
+        loadingIcon.hide()
+
+        function updateFilter() {
+          loadingIcon.show()
+          let operatorId = operatorSelect.val()
+            let vehicleId = vehicleSelect.val()
+            let partnerId = partnerSelect.val()
+          let events = initialEvents
+          if (operatorId) {
+            events = events.filter(event => operatorId ? event.extendedProps.operatorId === operatorId : true)
+          }
+            if (vehicleId) {
+              events = events.filter((event) => vehicleId ? (event.extendedProps.vehicleId === vehicleId || event.extendedProps.secondaryVehicleId === vehicleId) : true)
+            }
+            if (partnerId) {
+              events = events.filter(event => partnerId ? event.extendedProps.partnerId === partnerId : true)
+            }
+            calendar.removeAllEvents()
+          events.forEach(event => calendar.addEvent(event))
+          calendar.render()
+          loadingIcon.hide(1000)
+        }
       })
     </script>
 {% endblock %}

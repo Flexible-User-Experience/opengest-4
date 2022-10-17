@@ -3,10 +3,13 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorAbsence;
+use App\Entity\Partner\Partner;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
+use App\Entity\Vehicle\Vehicle;
 use App\Manager\Pdf\SaleRequestPdfManager;
 use DateInterval;
 use DateTimeImmutable;
@@ -142,12 +145,18 @@ class SaleRequestAdminController extends BaseAdminController
             ->getQuery()
             ->getResult()
         ;
+        $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
+        $vehicles = $this->em->getRepository(Vehicle::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
+        $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
 
         return $this->renderWithExtraParams(
             'admin/sale-request/calendar.html.twig',
             [
                 'saleRequests' => $saleRequests,
                 'operatorAbsences' => $operatorAbsences,
+                'operators' => $operators,
+                'vehicles' => $vehicles,
+                'partners' => $partners,
         ]
         );
     }
