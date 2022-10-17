@@ -13,7 +13,8 @@
 {# custom sidebar footer #}
 {% block side_bar_after_nav %}
     <p class="text-left small" style="padding:50px 0 0 20px;color:#EEE;">
-        {{ admin_tag_version }}<br><i class="fa fa-code"></i> Desenvolupat per <a href="https://www.flux.cat" target="_blank">Flux</a><br>
+        {{ admin_tag_version }}<br>
+        <i class="fa fa-code"></i> Desenvolupat per <a href="https://www.flux.cat" target="_blank">Flux</a> i <a href="https://www.mirmit.com" target="_blank">Mirmit</a><br>
         <i class="fa fa-copyright"></i> {{ 'now' | date('Y') }} <a href="{{ path('front_homepage') }}" target="_blank">{{ main_brand_title | title }}</a>
     </p>
 {% endblock %}
