@@ -27,6 +27,16 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
         $this->enterpriseHolidayManager = $enterpriseHolidayManager;
     }
 
+    public function getFilteredByEnterpriseSortedByStartDateQB(Enterprise $enterprise): QueryBuilder
+    {
+        return $this->createQueryBuilder('oa')
+            ->join('oa.operator', 'o')
+            ->where('o.enterprise = :enterprise')
+            ->setParameter('enterprise', $enterprise)
+            ->orderBy('oa.begin', 'DESC')
+        ;
+    }
+
     public function getItemsAbsenceTodayByEnterpriseAmountQB(Enterprise $enterprise): QueryBuilder
     {
         $today = new DateTimeImmutable();
@@ -116,7 +126,7 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
             $numberOfHolidays = 0;
             $date = new DateTime($operatorAbsence->getBegin()->format('Y-m-d'));
             while ($date->getTimestamp() <= $operatorAbsence->getEnd()->getTimestamp()) {
-                if (($date->format('N') >= 6) || ($this->enterpriseHolidayManager->checkIfDayIsEnterpriseHoliday($date))) {
+                if (($date->format('N') >= 6) || $this->enterpriseHolidayManager->checkIfDayIsEnterpriseHoliday($date)) {
                     ++$numberOfHolidays;
                 }
                 $date->modify('+1 day');
@@ -133,13 +143,13 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
                     $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['currentYear'] = $numberOfDays;
                 }
             } elseif (
-                (($operatorAbsence->getBegin()->format('Y') == $currentYear - 1))
+                ($operatorAbsence->getBegin()->format('Y') == $currentYear - 1)
                     &&
                     (!$operatorAbsence->isToPreviousYearCount())
                 ||
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear)
                     &&
-                    ($operatorAbsence->isToPreviousYearCount()))
+                    $operatorAbsence->isToPreviousYearCount())
             ) {
                 if (isset($operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'])) {
                     $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'] += $numberOfDays;

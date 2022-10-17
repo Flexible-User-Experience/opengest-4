@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Sale;
 
 use App\Controller\Admin\BaseAdminController;
+use App\Entity\Operator\OperatorAbsence;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
@@ -135,12 +136,19 @@ class SaleRequestAdminController extends BaseAdminController
             ->getQuery()
             ->getResult()
         ;
+        $operatorAbsences = $this->em->getRepository(OperatorAbsence::class)->getFilteredByEnterpriseSortedByStartDateQB($this->getUser()->getDefaultEnterprise())
+            ->andWhere('DATE(oa.begin) > DATE(:moment)')
+            ->setParameter('moment', $date)
+            ->getQuery()
+            ->getResult()
+        ;
 
         return $this->renderWithExtraParams(
             'admin/sale-request/calendar.html.twig',
             [
                 'saleRequests' => $saleRequests,
-            ]
+                'operatorAbsences' => $operatorAbsences,
+        ]
         );
     }
 

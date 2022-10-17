@@ -35,6 +35,7 @@
     },
     "dependencies": {
         "chart.js": "^3.9.1",
-        "lodash": "^4.17.21"
+        "lodash": "^4.17.21",
+        "tippy.js": "^6.3.7"
     }
 }

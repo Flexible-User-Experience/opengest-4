@@ -11,7 +11,12 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-success">
-                <div id="calendar"></div>
+                <div class="box-header with-border">
+                    <h1 class="box-title">Filtros</h1>
+                </div>
+                <div class="box-body">
+                    <div id='calendar'></div>
+                </div>
             </div>
         </div>
     </div>
@@ -32,7 +37,32 @@
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,dayGridWeek,dayGridDay'
-          }
+          },
+          eventDidMount: function(info) {
+            if (!info.event.id.includes('absence')) {
+              tippy(info.el, {
+                content:
+                  `
+                <div style="background-color:lightblue; padding-left:15px;padding-right: 15px;padding-top:10px; padding-bottom: 5px">
+                    <p>
+                        <b>` + info.event.title + `</b>
+                    </p>
+                    <p>
+                        <b>Vehículo</b>: ` + info.event.extendedProps.vehicle + `
+                    </p>
+                    <p>
+                        <b>Veh. Sec.</b>: ` + info.event.extendedProps.secondaryVehicle + `
+                    </p>
+                    <p>
+                        <b>Operario</b>: ` + info.event.extendedProps.operator + `
+                    </p>
+                </div>
+              `,
+                allowHTML: true,
+              })
+            }
+
+          },
         });
         {%  for saleRequest in saleRequests %}
             calendar.addEvent({
@@ -45,7 +75,18 @@
                 vehicle: '{{ saleRequest.vehicle }}',
                 operator: '{{ saleRequest.operator }}',
                 secondaryVehicle: '{{ saleRequest.secondaryVehicle }}',
-              }
+              },
+            })
+        {% endfor %}
+        {% for operatorAbsence in operatorAbsences %}
+            calendar.addEvent({
+              id: 'absence-{{ operatorAbsence.id }}',
+              title: '{{ operatorAbsence.type }} - {{ operatorAbsence.operator }}',
+              url: '{{ path('admin_app_operator_operatorabsence_edit', {'id': operatorAbsence.id}) }}',
+              start: '{{ operatorAbsence.begin.format('Y-m-d') }}',
+              end: '{{ operatorAbsence.end.format('Y-m-d') }}',
+              fullDay: true,
+              color: 'orange',
             })
         {% endfor %}
         calendar.render()

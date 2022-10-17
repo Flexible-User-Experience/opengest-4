@@ -4,6 +4,8 @@ const routes = require('../../public/js/fos_js_routes.json');
 import { Chart, registerables } from 'chart.js';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import tippy from "tippy.js";
+import 'tippy.js/dist/tippy.css';
 
 Chart.register(...registerables);
 
@@ -11,6 +13,7 @@ global.Chart = Chart;
 
 global.Calendar = Calendar
 global.dayGridPlugin = dayGridPlugin
+global.tippy = tippy
 
 // start PDF JS library
 import jQuery from 'jquery';
