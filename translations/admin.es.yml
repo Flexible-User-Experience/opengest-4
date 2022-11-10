@@ -241,6 +241,7 @@ admin:
         cost_center: "Centro de coste"
         paid: "Pagado"
         payment_date: "Dia de pago"
+        enterprise_main_transfer_account: "Banco principal empresa"
     with:
         general: "General"
         image: "Imagen"

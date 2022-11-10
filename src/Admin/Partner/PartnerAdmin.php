@@ -77,7 +77,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.code',
-                    'disabled' => true,
+//                    'disabled' => true,
                 ]
             )
             ->add(
@@ -273,7 +273,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.default_iva',
                     'choices' => IvaEnum::getReversedEnumArray(),
                     'placeholder' => '--- seleccione una opción ---',
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
@@ -303,7 +303,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 EntityType::class,
                 [
                     'class' => EnterpriseTransferAccount::class,
-                    'label' => 'admin.label.transfer_account',
+                    'label' => 'admin.label.enterprise_main_transfer_account',
                     'placeholder' => '---selecciona una opción---',
                     'required' => false,
                     'query_builder' => $this->rm->getEnterpriseTransferAccountRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
@@ -320,14 +320,14 @@ class PartnerAdmin extends AbstractBaseAdmin
                 'iban',
                 null,
                 [
-                    'label' => 'IBAN Domiciliación',
+                    'label' => 'IBAN Tercero',
                 ]
             )
             ->add(
                 'swift',
                 null,
                 [
-                    'label' => 'SWIFT Domiciliación',
+                    'label' => 'SWIFT Tercero',
                 ]
             )
             ->end()
@@ -586,5 +586,7 @@ class PartnerAdmin extends AbstractBaseAdmin
     public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
+        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterprise($this->getUserLogedEnterprise())->getCode();
+        $object->setCode($lastPartnerCode + 1);
     }
 }
