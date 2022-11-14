@@ -1,0 +1,10 @@
+{% extends "admin/edit.html.twig" %}
+
+{% block sonata_form_actions %}
+    <a href="{{ path('admin_app_operator_operator_edit', { id: object.operator ? object.operator.id : app.request.query.get("operatorId") }) }}" class="btn btn-success" name="btn_update">
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        Volver a operario
+    </a>
+    <br>
+    {{ parent() }}
+{% endblock %}

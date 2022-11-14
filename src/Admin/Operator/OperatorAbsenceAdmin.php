@@ -281,6 +281,8 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
         $operatorId = $this->getRequest()->query->get('operatorId');
         if ($operatorId) {
             $operator = $this->rm->getOperatorRepository()->find($operatorId);
+        } else {
+            $operator = $this->getSubject()->getOperator();
         }
 
         return $operator;
