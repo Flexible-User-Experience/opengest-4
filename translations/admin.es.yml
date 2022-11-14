@@ -241,6 +241,7 @@ admin:
         cost_center: "Centro de coste"
         paid: "Pagado"
         payment_date: "Dia de pago"
+        enterprise_main_transfer_account: "Banco principal empresa"
     with:
         general: "General"
         image: "Imagen"
@@ -260,7 +261,7 @@ admin:
         sale_request_documents: "Documentos de petición"
         document: "Documento"
         operator:
-            discharge_social_security: "Baja seguridad social"
+            discharge_social_security: "Alta seguridad social"
             social_security: "Seguridad social"
             tax_identification_number: "Nº de identificación fiscal"
             dni_nie: "DNI/NIE"

@@ -75,7 +75,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.code',
-                    'disabled' => true,
                 ]
             )
             ->add(
@@ -190,7 +189,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getCityRepository()->getCitiesSortedByNameQB(),
                 ]
             )
-            ;
+        ;
         if ($this->id($this->getSubject())) { // is edit mode
             $formMapper
                 ->add(
@@ -587,7 +586,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.name',
                     'show_filter' => true,
-
                 ]
             )
             ->add(

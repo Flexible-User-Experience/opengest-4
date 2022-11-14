@@ -122,7 +122,7 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
         $operatorAbsencesGrouped = [];
         /** @var OperatorAbsence $operatorAbsence */
         foreach ($operatorAbsences as $operatorAbsence) {
-            $numberOfDays = ($operatorAbsence->getEnd()->getTimestamp() - $operatorAbsence->getBegin()->getTimestamp()) / (60 * 60 * 24) + 1;
+            $numberOfDays = $operatorAbsence->getEnd()->diff($operatorAbsence->getBegin())->format('%a') + 1;
             $numberOfHolidays = 0;
             $date = new DateTime($operatorAbsence->getBegin()->format('Y-m-d'));
             while ($date->getTimestamp() <= $operatorAbsence->getEnd()->getTimestamp()) {

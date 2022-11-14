@@ -66,6 +66,7 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                         'choice_label' => 'fullName',
                         'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
                         'placeholder' => '--- seleccione una opción ---',
+                        'data' => $this->getOperatorFromPreviousPage(),
                     ]
                 )
             ;
@@ -273,5 +274,17 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 ]
             )
         ;
+    }
+
+    private function getOperatorFromPreviousPage(): ?Operator
+    {
+        $operatorId = $this->getRequest()->query->get('operatorId');
+        if ($operatorId) {
+            $operator = $this->rm->getOperatorRepository()->find($operatorId);
+        } else {
+            $operator = $this->getSubject()->getOperator();
+        }
+
+        return $operator;
     }
 }

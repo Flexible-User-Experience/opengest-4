@@ -452,6 +452,18 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                     'label' => 'admin.with.sale_invoice',
                 ]
             )
+
+            ->add(
+                '_action',
+                'actions',
+                [
+                    'actions' => [
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_delivery_note_button.html.twig'],
+                    ],
+                    'label' => 'admin.actions',
+                    'header_style' => 'width:120px;',
+                ]
+            )
         ;
     }
 
