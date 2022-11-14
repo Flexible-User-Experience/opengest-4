@@ -261,7 +261,7 @@ admin:
         sale_request_documents: "Documentos de petición"
         document: "Documento"
         operator:
-            discharge_social_security: "Baja seguridad social"
+            discharge_social_security: "Alta seguridad social"
             social_security: "Seguridad social"
             tax_identification_number: "Nº de identificación fiscal"
             dni_nie: "DNI/NIE"
