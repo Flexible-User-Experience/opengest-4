@@ -11,7 +11,7 @@
             {% if  admin.id(admin.subject) %}
               const operatorAbsenceNode = jQuery('#sonata-ba-field-container-{{ form.operatorAbsences.vars.id }}');
               jQuery(`
-                      <a class="btn btn-default" href="{{ path('admin_app_operator_operatorabsence_create') }}">
+                      <a class="btn btn-default" href="{{ path('admin_app_operator_operatorabsence_create', {'operatorId': admin.id(admin.subject)}) }}">
                           Crear ausencia
                       </a>
                     `).insertAfter(operatorAbsenceNode);

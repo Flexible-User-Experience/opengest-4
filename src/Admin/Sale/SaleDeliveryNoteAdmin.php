@@ -230,7 +230,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'disabled' => false,
                     ]
                 )
-            ;
+        ;
         if ($this->id($this->getSubject())) {
             $formMapper
                     ->add(
@@ -473,7 +473,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                     )
                     ->end()
                 ->end()
-                ;
+            ;
         }
         $formMapper
             ->tab('Cabecera')
@@ -511,7 +511,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $formMapper
             ->tab('Cabecera')
             ->with('Otros', $this->getFormMdSuccessBoxArray(3))
-            ;
+        ;
         if ($this->getSubject()->getPartner()) {
             $formMapper
                 ->add(
@@ -706,8 +706,8 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
-            'id',
-            null,
+                'id',
+                null,
                 [
                     'label' => 'admin.label.delivery_note_number',
                     'show_filter' => true,
@@ -982,8 +982,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
                 'actions',
                 [
                     'actions' => [
-                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_delivery_note_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_delivery_note_button.html.twig'],
                         'delete' => ['template' => 'admin/buttons/list__action_delete_sale_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
@@ -1053,7 +1052,7 @@ class SaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $saleInvoice = $object->getSaleInvoice();
         if ($saleInvoice) {
             $saleInvoice->setCollectionDocumentType($object->getCollectionDocument());
-            //If invoiced, set same collectionTerms and collectionDocuments for all the delivery notes belonging to this invoice
+            // If invoiced, set same collectionTerms and collectionDocuments for all the delivery notes belonging to this invoice
             /** @var SaleDeliveryNote $deliveryNote */
             foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
                 if ($deliveryNote->getId() !== $object->getId()) {

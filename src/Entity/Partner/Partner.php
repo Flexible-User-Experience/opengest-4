@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mirmit\EFacturaBundle\Interfaces\BuyerFacturaEInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,6 +28,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerRepository")
  * @ORM\Table(name="partner")
+ * @UniqueEntity(
+ *     fields={"code", "enterprise", "type"}
+ * )
  */
 class Partner extends AbstractBase implements BuyerFacturaEInterface
 {
@@ -362,6 +366,10 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      * @var ?integer
      *
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Length(
+     *     min = 10,
+     *     max=10
+     *     )
      */
     private ?int $accountingAccount = null;
 

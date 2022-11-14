@@ -47,7 +47,7 @@ class SaleInvoicePdfManager
     {
         $pdf = $this->buildSingle($saleInvoices, $from, $to);
 
-        return $pdf->Output('facturas'.'.pdf', 'I');
+        return $pdf->Output($this->getInvoicesNumbers($saleInvoices).'.pdf', 'I');
     }
 
     /**
@@ -129,7 +129,7 @@ class SaleInvoicePdfManager
      */
     public function buildCollection($saleInvoices, $withBackground)
     {
-        $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de facturas');
+        $this->pdfEngineService->initDefaultPageEngineWithTitle('Facturas');
         $pdf = $this->pdfEngineService->getEngine();
         /** @var SaleInvoice $saleInvoice */
         foreach ($saleInvoices as $saleInvoice) {
@@ -148,7 +148,7 @@ class SaleInvoicePdfManager
     {
         $pdf = $this->buildCollection($saleInvoices, true);
 
-        return $pdf->Output('grupo_facturas.pdf', 'I');
+        return $pdf->Output($this->getInvoicesNumbers($saleInvoices).'.pdf', 'I');
     }
 
     /**
@@ -160,7 +160,7 @@ class SaleInvoicePdfManager
     {
         $pdf = $this->buildCollection($saleInvoices, false);
 
-        return $pdf->Output('grupo_facturas.pdf', 'I');
+        return $pdf->Output($this->getInvoicesNumbers($saleInvoices).'.pdf', 'I');
     }
 
     /**
@@ -173,7 +173,7 @@ class SaleInvoicePdfManager
         $this->setNewPage($pdf, $withBackground);
         $this->setHeading($pdf, $saleInvoice, $withBackground);
 
-        //deliveryNoteInfo
+        // deliveryNoteInfo
         $hasIva0 = false;
         if ($withBackground) {
             $YDim = 108;
@@ -216,7 +216,7 @@ class SaleInvoicePdfManager
             $pdf->setX($col1);
             $pdf->Cell($col2 - $col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getId(),
-            0, 0, 'L', false, 0);
+                0, 0, 'L', false, 0);
             $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getDateToString(),
                 0, 'L', false, 0);
@@ -230,7 +230,7 @@ class SaleInvoicePdfManager
             }
             if ($deliveryNote->getServiceDescription()) {
                 $pdf->SetX($col2);
-                $pdf->MultiCell($col3 - $col2 + 5,ConstantsEnum::PDF_CELL_HEIGHT,
+                $pdf->MultiCell($col3 - $col2 + 5, ConstantsEnum::PDF_CELL_HEIGHT,
                     $deliveryNote->getServiceDescription(),
                     0, 'L', false, 1);
                 $pdf->Ln(-2);
@@ -250,8 +250,8 @@ class SaleInvoicePdfManager
                 }
                 $pdf->SetX($col2 + 5);
                 $pdf->MultiCell($col3 - $col2, ConstantsEnum::PDF_CELL_HEIGHT,
-                    substr($deliveryNoteLine->getSaleItem(), strpos($deliveryNoteLine->getSaleItem(), '-') + 1)/*.($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : '')*/ ,
-                0, 'L', false, 0);
+                    substr($deliveryNoteLine->getSaleItem(), strpos($deliveryNoteLine->getSaleItem(), '-') + 1)/* .($deliveryNoteLine->getDescription() ? ': '.$deliveryNoteLine->getDescription() : '') */ ,
+                    0, 'L', false, 0);
                 if (0 == $deliveryNoteLine->getUnits()) {
                     $pdf->MultiCell($col4 - $col3, ConstantsEnum::PDF_CELL_HEIGHT,
                         '',
@@ -362,8 +362,8 @@ class SaleInvoicePdfManager
 
     private function setFooter(TCPDF $pdf, SaleInvoice $saleInvoice, $hasIva0, $withBackground): void
     {
-        //Footer
-        //Datos fiscales
+        // Footer
+        // Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8.5);
         if ($withBackground) {
             $xVar = 26 - 4;
@@ -398,7 +398,7 @@ class SaleInvoicePdfManager
             $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince()->getCountryName() : '',
             0, 0, 'L', false);
 
-        //Forma de pago
+        // Forma de pago
         if ($withBackground) {
             $xVar2 = 90;
         } else {
@@ -411,12 +411,12 @@ class SaleInvoicePdfManager
                 ($saleInvoice->getDeliveryNotes()->first()->getCollectionTerm() ? ' a '.$saleInvoice->getDeliveryNotes()->first()->getCollectionTerm().(
                     $saleInvoice->getDeliveryNotes()->first()->getCollectionTerm2() ? '+'.$saleInvoice->getDeliveryNotes()->first()->getCollectionTerm2().(
                         $saleInvoice->getDeliveryNotes()->first()->getCollectionTerm3() ? '+'.$saleInvoice->getDeliveryNotes()->first()->getCollectionTerm3() : ''
-                        ) : ''
-                    ).' días' : ''),
+                    ) : ''
+                ).' días' : ''),
                 0, 0, 'L', false);
         } else {
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
-                ($saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : ''),
+                $saleInvoice->getCollectionDocumentType() ? $saleInvoice->getCollectionDocumentType()->getName() : '',
                 0, 0, 'L', false);
         }
         if ($saleInvoice->getCollectionDocumentType()) {
@@ -463,7 +463,7 @@ class SaleInvoicePdfManager
             }
         }
 
-        //Final amount
+        // Final amount
         if ($withBackground) {
             $xVar3 = 156 + 6;
         } else {
@@ -517,7 +517,7 @@ class SaleInvoicePdfManager
             'TOTAL: '.number_format($saleInvoice->getTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);
 
-        //page number
+        // page number
         $this->pdfEngineService->setStyleSize('', 9);
         if ($withBackground) {
             $pdf->setXY(40, 275 + 7);
@@ -532,8 +532,8 @@ class SaleInvoicePdfManager
 
     private function setParcialFooter(TCPDF $pdf, SaleInvoice $saleInvoice, $withBackground): void
     {
-        //Footer
-        //Datos fiscales
+        // Footer
+        // Datos fiscales
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 8.5);
         if ($withBackground) {
             $xVar = 26 - 4;
@@ -568,7 +568,7 @@ class SaleInvoicePdfManager
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $saleInvoice->getPartnerMainCity() ? $saleInvoice->getPartnerMainCity()->getProvince()->getCountryName() : '',
             0, 0, 'L', false);
-        //Final amount
+        // Final amount
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 10);
         if ($withBackground) {
             $xVar3 = 156 + 6;
@@ -580,7 +580,7 @@ class SaleInvoicePdfManager
             'Suma y sigue',
             0, 0, 'L', false);
 
-        //page number
+        // page number
         $this->pdfEngineService->setStyleSize('', 9);
         if ($withBackground) {
             $pdf->setXY(40, 275 + 7);
@@ -610,7 +610,7 @@ class SaleInvoicePdfManager
 
     private function setHeading(TCPDF $pdf, SaleInvoice $saleInvoice, $withBackground): void
     {
-        //Heading with sending address
+        // Heading with sending address
         if ($withBackground) {
             $xDim = 32 - 8;
             $pdf->setXY($xDim, 55 - 7);
@@ -659,7 +659,7 @@ class SaleInvoicePdfManager
         }
         $this->pdfEngineService->setStyleSize('', 9);
 
-        //Heading with date, invoice number, etc.
+        // Heading with date, invoice number, etc.
         if ($withBackground) {
 //            $xVar = 125;
 //            $xVar2 = 163;
@@ -783,7 +783,7 @@ class SaleInvoicePdfManager
             0, 0, 'L', false);
         $pdf->SetXY(50, 43);
         $this->drawHoritzontalLineSeparator($pdf, $width);
-        //table headers
+        // table headers
         $this->pdfEngineService->setStyleSize('', 8);
         $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 50);
         $colWidth1 = 32;
@@ -810,5 +810,22 @@ class SaleInvoicePdfManager
         $pdf->Ln();
 
         return [$colWidth1, $colWidth2, $colWidth3];
+    }
+
+    /**
+     * @param SaleInvoice[] $saleInvoices
+     */
+    private function getInvoicesNumbers(array $saleInvoices): string
+    {
+        $saleInvoiceNumbers = '';
+        foreach ($saleInvoices as $saleInvoice) {
+            if ('' === $saleInvoiceNumbers) {
+                $saleInvoiceNumbers = $saleInvoice->getInvoiceNumber();
+            } else {
+                $saleInvoiceNumbers = $saleInvoiceNumbers.'_'.$saleInvoice->getInvoiceNumber();
+            }
+        }
+
+        return $saleInvoiceNumbers;
     }
 }
