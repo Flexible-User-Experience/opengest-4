@@ -3,7 +3,7 @@
 {% trans_default_domain 'admin' %}
 
 {% block field %}
-    <a href="{{ path('admin_app_sale_saledeliverynote_edit', { 'id': object.id }) }}">
+    <a href="{{ admin.generateObjectUrl('edit', object) }}">
         {{ object.id }}
     </a>
 {% endblock %}

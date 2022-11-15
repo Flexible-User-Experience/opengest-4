@@ -2,7 +2,6 @@
 
 namespace App\Admin\Sale;
 
-use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
@@ -31,7 +30,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  *
  * @auhtor      Jordi Sort <jordi.sort@mirmit.com>
  */
-class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
+class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractSaleDeliveryNoteAdmin
 {
     /**
      * @var string
@@ -51,11 +50,11 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-    protected function configureDefaultSortValues(array &$sortValues): void
-    {
-        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
-        $sortValues[DatagridInterface::SORT_BY] = 'id';
-    }
+//    protected function configureDefaultSortValues(array &$sortValues): void
+//    {
+//        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+//        $sortValues[DatagridInterface::SORT_BY] = 'id';
+//    }
 
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
@@ -458,7 +457,7 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractBaseAdmin
                 'actions',
                 [
                     'actions' => [
-                        'edit' => ['template' => 'admin/buttons/list__action_edit_delivery_note_button.html.twig'],
+                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                     'header_style' => 'width:120px;',
