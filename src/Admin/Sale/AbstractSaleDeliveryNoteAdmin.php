@@ -14,10 +14,12 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
+use App\Enum\UserRolesEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\Form\Type\BooleanType;
@@ -593,6 +595,23 @@ class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ->end()
             ->end()
         ;
+    }
+
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $queryBuilder = parent::configureQuery($query);
+        $queryBuilder
+            ->leftJoin($queryBuilder->getRootAliases()[0].'.partner', 'pa')
+            ->orderBy($queryBuilder->getRootAliases()[0].'.date', 'DESC')
+        ;
+        if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
+            $queryBuilder
+                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                ->setParameter('enterprise', $this->getUserLogedEnterprise())
+            ;
+        }
+
+        return $queryBuilder;
     }
 
     /**

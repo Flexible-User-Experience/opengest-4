@@ -3,11 +3,9 @@
 namespace App\Admin\Sale;
 
 use App\Entity\Operator\Operator;
-use App\Enum\UserRolesEnum;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
@@ -306,23 +304,6 @@ class SaleDeliveryNoteAdmin extends AbstractSaleDeliveryNoteAdmin
             'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_NO,
         ];
-    }
-
-    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
-    {
-        $queryBuilder = parent::configureQuery($query);
-        $queryBuilder
-            ->leftJoin($queryBuilder->getRootAliases()[0].'.partner', 'pa')
-            ->orderBy($queryBuilder->getRootAliases()[0].'.date', 'DESC')
-        ;
-        if (!$this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
-            $queryBuilder
-                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                ->setParameter('enterprise', $this->getUserLogedEnterprise())
-            ;
-        }
-
-        return $queryBuilder;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
