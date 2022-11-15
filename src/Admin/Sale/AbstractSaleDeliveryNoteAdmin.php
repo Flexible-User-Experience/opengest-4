@@ -10,8 +10,13 @@ use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
+use App\Entity\Sale\SaleDeliveryNote;
+use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
@@ -588,5 +593,83 @@ class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ->end()
             ->end()
         ;
+    }
+
+    /**
+     * @param SaleDeliveryNote $object
+     */
+    public function prePersist($object): void
+    {
+        $object->setEnterprise($this->getUserLogedEnterprise());
+        $partner = $object->getPartner();
+        if (!$object->getCollectionDocument()) {
+            $object->setCollectionDocument($partner->getCollectionDocumentType());
+        }
+        if (!$object->getCollectionTerm()) {
+            $object->setCollectionTerm($partner->getCollectionTerm1());
+        }
+        if (!$object->getCollectionTerm2()) {
+            $object->setCollectionTerm2($partner->getCollectionTerm2());
+        }
+        if (!$object->getCollectionTerm3()) {
+            $object->setCollectionTerm3($partner->getCollectionTerm3());
+        }
+        $availableIds = $this->dnm->getAvailableIdsByEnterprise($partner->getEnterprise());
+        if (count($availableIds) > 0) {
+            $metadata = $this->em->getClassMetadata(SaleDeliveryNote::class);
+            $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+            $object->setId(array_values($availableIds)[0]);
+        }
+    }
+
+    /**
+     * @param SaleDeliveryNote $object
+     */
+    public function preUpdate($object): void
+    {
+        /** @var SaleDeliveryNote $originalObject */
+        $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
+        if ($object->getPartner()->getId() != $originalObject['partner_id']) {
+            $partner = $object->getPartner();
+            $object->setCollectionTerm($partner->getCollectionTerm1());
+            $object->setCollectionTerm2($partner->getCollectionTerm2());
+            $object->setCollectionTerm3($partner->getCollectionTerm3());
+            $object->setCollectionDocument($partner->getCollectionDocumentType());
+        }
+    }
+
+    /**
+     * @param SaleDeliveryNote $object
+     */
+    public function postUpdate($object): void
+    {
+        $totalPrice = 0;
+        /** @var SaleDeliveryNoteLine $deliveryNoteLine */
+        foreach ($object->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+            $base = $deliveryNoteLine->getUnits() * $deliveryNoteLine->getPriceUnit() * (1 - $deliveryNoteLine->getDiscount() / 100);
+            $deliveryNoteLine->setTotal($base);
+            $subtotal = $deliveryNoteLine->getTotal();
+            $totalPrice = $totalPrice + $subtotal;
+        }
+        $object->setBaseAmount($totalPrice * (1 - $object->getDiscount() / 100));
+        $saleInvoice = $object->getSaleInvoice();
+        if ($saleInvoice) {
+            $saleInvoice->setCollectionDocumentType($object->getCollectionDocument());
+            // If invoiced, set same collectionTerms and collectionDocuments for all the delivery notes belonging to this invoice
+            /** @var SaleDeliveryNote $deliveryNote */
+            foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
+                if ($deliveryNote->getId() !== $object->getId()) {
+                    $deliveryNote->setCollectionDocument($object->getCollectionDocument());
+                    $deliveryNote->setCollectionTerm($object->getCollectionTerm());
+                    $deliveryNote->setCollectionTerm2($object->getCollectionTerm2());
+                    $deliveryNote->setCollectionTerm3($object->getCollectionTerm3());
+                }
+            }
+            $this->im->calculateInvoiceImportsFromDeliveryNotes($saleInvoice, $saleInvoice->getDeliveryNotes());
+            $saleInvoice->setSaleInvoiceDueDates(new ArrayCollection());
+            $this->im->createDueDatesFromSaleInvoice($saleInvoice);
+        }
+
+        $this->em->flush();
     }
 }
