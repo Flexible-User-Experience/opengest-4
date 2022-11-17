@@ -107,8 +107,8 @@ class DocumentationPdfManager
         $pdf->setCellPaddings(1, 1, 1, 1);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             ($entity ? (
-                $entity instanceof Operator ? 'Operario: ' : 'Vehicle: '
-                .$entity) : '').'      '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+                ($entity instanceof Operator ? 'Operario: ' : 'Vehicle: ')
+                    .$entity) : '').'      '.$pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
             0, 0, 'R', false);
         $pdf->setY(5);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
