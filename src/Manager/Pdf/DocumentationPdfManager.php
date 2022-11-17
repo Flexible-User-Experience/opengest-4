@@ -76,11 +76,13 @@ class DocumentationPdfManager
     {
         if ($document['exists']) {
             if ('pdf' === $document['fileType']) {
-                $pageCount = $pdf->setSourceFile(StreamReader::createByString($document['content']));
-                for ($pageNumber = 1; $pageNumber <= $pageCount; ++$pageNumber) {
-                    $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated'], $entity);
-                    $pdfDocumentPage = $pdf->importPage($pageNumber);
-                    $pdf->useImportedPage($pdfDocumentPage, 5, 10, 200);
+                if (!str_contains($document['content'], '/Encrypt')) {
+                    $pageCount = $pdf->setSourceFile(StreamReader::createByString($document['content']));
+                    for ($pageNumber = 1; $pageNumber <= $pageCount; ++$pageNumber) {
+                        $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated'], $entity);
+                        $pdfDocumentPage = $pdf->importPage($pageNumber);
+                        $pdf->useImportedPage($pdfDocumentPage, 5, 10, 200);
+                    }
                 }
             } elseif (in_array($document['fileType'], ['png', 'jpeg', 'jpg'])) {
                 $this->addNewPageAndSetHeaders($pdf, $today, $document['nameTranslated'], $entity);
