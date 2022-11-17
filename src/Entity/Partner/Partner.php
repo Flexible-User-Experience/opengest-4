@@ -365,7 +365,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @var ?integer
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="bigint", nullable=true)
      * @Assert\Length(
      *     min = 10,
      *     max=10
