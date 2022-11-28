@@ -25,6 +25,8 @@ doctrine:
                 year:        DoctrineExtensions\Query\Mysql\Year
                 date:        DoctrineExtensions\Query\Mysql\Date
                 date_format: DoctrineExtensions\Query\Mysql\DateFormat
+        filters:
+            operator_absence_filter: App\Doctrine\Filter\OperatorAbsencesFilter
 
 when@test:
     doctrine:
