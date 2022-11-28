@@ -375,7 +375,7 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractSaleDeliveryNoteAdmin
                 ]
             )
             ->add(
-                'vehicle.tonnage',
+                'saleServiceTariff',
                 null,
                 [
                     'label' => 'admin.label.tonnage',
