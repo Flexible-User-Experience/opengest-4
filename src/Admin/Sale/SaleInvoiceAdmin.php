@@ -91,10 +91,15 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_pdfs_to_print',
                 'ask_confirmation' => false,
             ];
+            $newActions['invoiceListByClient'] = [
+                'label' => 'admin.action.generate_invoice_list_by_client',
+                'ask_confirmation' => false,
+            ];
             $newActions['invoiceList'] = [
                 'label' => 'admin.action.generate_invoice_list',
                 'ask_confirmation' => false,
             ];
+
         }
 
         return array_merge($newActions, $actions);
