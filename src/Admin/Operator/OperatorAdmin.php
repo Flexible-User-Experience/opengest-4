@@ -358,7 +358,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     )
                 ->end()
             ->end()
-            ;
+        ;
         if ($this->id($this->getSubject())) {
             $this->operatorAbsences = $this->rm->getOperatorAbsenceRepository()->getAbsencesFilteredByOperator($this->getSubject());
 
@@ -508,7 +508,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-                        'btn_add' => false,
+                        'btn_add' => true,
                     ],
                     [
                         'edit' => 'inline',

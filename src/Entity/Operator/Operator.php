@@ -431,6 +431,7 @@ class Operator extends AbstractBase
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"begin" = "DESC"})
      */
     private $operatorAbsences;
 
@@ -1630,15 +1631,16 @@ class Operator extends AbstractBase
      */
     public function getOperatorAbsences()
     {
-        $date = new DateTime();
-        $date->setDate($date->format('Y') * 1 - 1, 1, 1);
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->gt('begin', $date))
-            ->orderBy(['begin' => Criteria::DESC])
-        ;
-        $operatorAbsences = $this->operatorAbsences->matching($criteria);
-
-        return $this->operatorAbsences->matching($criteria);
+//        $date = new DateTime();
+//        $date->setDate($date->format('Y') * 1 - 1, 1, 1);
+//        $criteria = Criteria::create()
+//            ->where(Criteria::expr()->gt('begin', $date))
+//            ->orderBy(['begin' => Criteria::DESC])
+//        ;
+//        $operatorAbsences = $this->operatorAbsences->matching($criteria);
+//
+//        return $this->operatorAbsences->matching($criteria);
+        return $this->operatorAbsences;
     }
 
     /**
@@ -1916,19 +1918,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPurchaseInvoiceLines(): Collection
     {
         return $this->purchaseInvoiceLines;
     }
 
-    /**
-     * @param Collection $purchaseInvoiceLines
-     *
-     * @return Operator
-     */
     public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): Operator
     {
         $this->purchaseInvoiceLines = $purchaseInvoiceLines;
