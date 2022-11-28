@@ -388,6 +388,7 @@ class PartnerAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.accounting_account',
                     'required' => false,
+                    'attr' => ['pattern' => '[0-9]{10}', 'maxlength' => 10],
                 ]
             )
             ->add(

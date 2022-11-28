@@ -18,6 +18,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class PartnerAdmin, filtered only by clients.
@@ -445,10 +446,11 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
             ->with('Datos contables', $this->getFormMdSuccessBoxArray(4))
             ->add(
                 'accountingAccount',
-                null,
+                TextType::class,
                 [
                     'label' => 'admin.label.accounting_account',
                     'required' => false,
+                    'attr' => ['pattern' => '[0-9]{10}', 'maxlength' => 10],
                 ]
             )
             ->add(
