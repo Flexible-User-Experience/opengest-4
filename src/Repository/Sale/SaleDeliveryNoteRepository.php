@@ -180,13 +180,13 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         if ($fromDate) {
             $queryBuilder
                 ->andWhere('s.date >= :fromDate')
-                ->setParameter('fromDate', $fromDate)
+                ->setParameter('fromDate', $fromDate->format('Y-m-d'))
             ;
         }
         if ($toDate) {
             $queryBuilder
                 ->andWhere('s.date <= :toDate')
-                ->setParameter('toDate', $toDate)
+                ->setParameter('toDate', $toDate->format('Y-m-d'))
             ;
         }
         if ($deliveryNoteNumber) {
