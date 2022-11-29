@@ -168,6 +168,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEnabledSortedByNameQB()
             ->andWhere('s.isInvoiced = false')
             ->andWhere('s.wontBeInvoiced = false')
+            ->andWhere('s.saleInvoice IS NULL')
         ;
         if ($partnerId) {
             $queryBuilder

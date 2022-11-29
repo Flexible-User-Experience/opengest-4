@@ -583,6 +583,9 @@ class SaleDeliveryNote extends AbstractBase
     public function setSaleInvoice(?SaleInvoice $saleInvoice): SaleDeliveryNote
     {
         $this->saleInvoice = $saleInvoice;
+        if ($saleInvoice) {
+            $this->setIsInvoiced(true);
+        }
 
         return $this;
     }
@@ -778,19 +781,11 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPurchaseInvoiceLines(): Collection
     {
         return $this->purchaseInvoiceLines;
     }
 
-    /**
-     * @param Collection $purchaseInvoiceLines
-     *
-     * @return SaleDeliveryNote
-     */
     public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): SaleDeliveryNote
     {
         $this->purchaseInvoiceLines = $purchaseInvoiceLines;
@@ -1059,14 +1054,4 @@ class SaleDeliveryNote extends AbstractBase
     {
         $this->printed = $printed;
     }
-
-//    public function isInvoiced(): bool
-//    {
-//        $value = false;
-//        if ($this->getSaleInvoice()) {
-//            $value = true;
-//        }
-//
-//        return $value;
-//    }
 }
