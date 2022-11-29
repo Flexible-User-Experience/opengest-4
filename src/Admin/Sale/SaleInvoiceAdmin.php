@@ -99,7 +99,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_invoice_list',
                 'ask_confirmation' => false,
             ];
-
         }
 
         return array_merge($newActions, $actions);
@@ -766,6 +765,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.has_been_counted',
+                ]
+            )
+            ->add(
+                'saleInvoiceGenerated',
+                null,
+                [
+                    'label' => 'admin.label.sale_invoice_generated',
                 ]
             )
             ->add(
