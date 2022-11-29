@@ -490,7 +490,6 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-//                        'btn_add' => false,
                     ],
                     [
                         'edit' => 'inline',
@@ -508,7 +507,6 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-                        'btn_add' => true,
                     ],
                     [
                         'edit' => 'inline',
