@@ -99,7 +99,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_invoice_list',
                 'ask_confirmation' => false,
             ];
-
         }
 
         return array_merge($newActions, $actions);
@@ -769,16 +768,19 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'saleInvoiceGenerated',
+                null,
+                [
+                    'label' => 'admin.label.sale_invoice_generated',
+                ]
+            )
+            ->add(
                 '_action',
                 'actions',
                 [
                     'actions' => [
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_invoice_button.html.twig'],
-//                        'pdfWithBackground' => ['template' => 'admin/buttons/list__action_pdf_invoice_with_background_button.html.twig'],
-//                        'count' => ['template' => 'admin/buttons/list__action_pdf_invoice_to_count_button.html.twig'],
-//                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]

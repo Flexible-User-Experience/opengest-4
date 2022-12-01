@@ -480,6 +480,21 @@ class OperatorAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
+                ->with('admin.label.other_documents', $this->getFormMdSuccessBoxArray(7))
+                ->add(
+                    'documents',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                    ]
+                )
+                ->end()
                 ->end()
                 ->tab('Revisiones')
                 ->with('Revisiones', $this->getFormMdSuccessBoxArray(6))
@@ -490,7 +505,6 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-//                        'btn_add' => false,
                     ],
                     [
                         'edit' => 'inline',
@@ -508,7 +522,6 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-                        'btn_add' => true,
                     ],
                     [
                         'edit' => 'inline',

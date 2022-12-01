@@ -696,3 +696,9 @@ App\Entity\Purchase\PurchaseInvoiceDueDate:
         purchaseInvoice: '@purchaseInvoice<numberBetween(1,2)>'
         amount: <randomFloat()>
         date: <dateTime()>
+
+# Document
+App\Entity\Setting\Document:
+    document{1..4}:
+        description: '@purchaseInvoice<numberBetween(1,2)>'
+        operator: '@operator<numberBetween(1,2)>'

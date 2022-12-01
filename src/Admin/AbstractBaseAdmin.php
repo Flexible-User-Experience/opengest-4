@@ -145,9 +145,9 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     protected function getImageHelperFormMapperWithThumbnail(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getImage() ? '<img src="'.$this->lis->getBrowserPath(
-                $this->vus->asset($this->getSubject(), 'imageFile'),
-                '480xY'
-            ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 1200px (màx. 10MB amb JPG o PNG)</span>';
+            $this->vus->asset($this->getSubject(), 'imageFile'),
+            '480xY'
+        ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 1200px (màx. 10MB amb JPG o PNG)</span>';
     }
 
     /**
@@ -239,17 +239,17 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     protected function getImageHelperFormMapperWithThumbnailBW(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getImageNameBW() ? '<img src="'.$this->lis->getBrowserPath(
-                $this->vus->asset($this->getSubject(), 'imageFileBW'),
-                '480xY'
-            ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 1200px (màx. 10MB amb JPG o PNG)</span>';
+            $this->vus->asset($this->getSubject(), 'imageFileBW'),
+            '480xY'
+        ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">amplada mínima 1200px (màx. 10MB amb JPG o PNG)</span>';
     }
 
     protected function getImageHelperFormMapperWithThumbnailGif(): string
     {
         return ($this->getSubject() ? $this->getSubject()->getGifName() ? '<img src="'.$this->lis->getBrowserPath(
-                $this->vus->asset($this->getSubject(), 'gifFile'),
-                '480xY'
-            ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">mida 780x1168px (màx. 10MB amb GIF)</span>';
+            $this->vus->asset($this->getSubject(), 'gifFile'),
+            '480xY'
+        ).'" class="admin-preview img-responsive" alt="thumbnail"/>' : '' : '').'<span style="width:100%;display:block;">mida 780x1168px (màx. 10MB amb GIF)</span>';
     }
 
     protected function getDownloadPdfButton(): string
@@ -327,17 +327,21 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
             $datagrid = $admin->getDatagrid();
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = $datagrid->getQuery();
+            $rootAlias = $queryBuilder->getRootAliases()[0];
             $queryBuilder
-                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
+                ->andWhere($rootAlias.'.enabled = :enabled')
                 ->setParameter('enabled', true)
-                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                ->andWhere($rootAlias.'.enterprise = :enterprise')
                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :partnerType')
+                ->andWhere($rootAlias.'.type = :partnerType')
                 ->setParameter('partnerType', 1);
             if (is_numeric($value)) {
                 $datagrid->setValue('code', null, $value);
             } else {
-                $datagrid->setValue($property, null, $value);
+                $queryBuilder
+                    ->andWhere($rootAlias.'.name like :codeOrReference OR '.$rootAlias.'.reference like :codeOrReference')
+                    ->setParameter('codeOrReference', '%'.$value.'%')
+                ;
             }
         };
     }

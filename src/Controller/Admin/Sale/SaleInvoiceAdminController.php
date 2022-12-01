@@ -189,8 +189,9 @@ class SaleInvoiceAdminController extends BaseAdminController
         $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
         $nextInvoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($saleInvoiceSeries, $enterprise);
         $clonedSaleInvoice->setInvoiceNumber($nextInvoiceNumber);
-//        $em->clear(SaleInvoice::class);
+        $saleInvoice->setSaleInvoiceGenerated($clonedSaleInvoice);
         $em->persist($clonedSaleInvoice);
+        $em->persist($saleInvoice);
         $em->flush();
 
         return $this->redirectToRoute('admin_app_sale_saleinvoice_edit', ['id' => $clonedSaleInvoice->getId()]);

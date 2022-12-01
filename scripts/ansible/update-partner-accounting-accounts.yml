@@ -1,0 +1,11 @@
+---
+- hosts: s8
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/vars/config.yml"
+  tasks:
+    - name: execute default create sale items to local database
+      shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:update:partner:accounting_account"
+      args:
+        chdir: "{{ vhost_path }}/current/"
+

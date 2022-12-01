@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleServiceTariff;
+use App\Entity\Setting\Document;
 use App\Entity\Traits\NameTrait;
 use App\Entity\Traits\SlugTrait;
 use DateTime;
@@ -345,6 +346,12 @@ class Vehicle extends AbstractBase
     private Collection $purchaseInvoiceLines;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"description" = "ASC"})
+     */
+    private ?Collection $documents = null;
+
+    /**
      * Methods.
      */
     public function __construct()
@@ -356,6 +363,7 @@ class Vehicle extends AbstractBase
         $this->vehicleMaintenances = new ArrayCollection();
         $this->vehicleSpecialPermits = new ArrayCollection();
         $this->purchaseInvoiceLines = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getVehicleRegistrationNumber(): string
@@ -775,7 +783,7 @@ class Vehicle extends AbstractBase
     public function addSaleRequest($saleRequest): Vehicle
     {
         if (!$this->saleRequests->contains($saleRequest)) {
-            $this->saleRequests->add(($saleRequest));
+            $this->saleRequests->add($saleRequest);
             $saleRequest->setVehicle($this);
         }
 
@@ -1164,22 +1172,45 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPurchaseInvoiceLines(): Collection
     {
         return $this->purchaseInvoiceLines;
     }
 
-    /**
-     * @param Collection $purchaseInvoiceLines
-     *
-     * @return Vehicle
-     */
     public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): Vehicle
     {
         $this->purchaseInvoiceLines = $purchaseInvoiceLines;
+
+        return $this;
+    }
+
+    public function getDocuments(): ?Collection
+    {
+        return $this->documents;
+    }
+
+    public function setDocuments($documents): self
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
+        }
 
         return $this;
     }

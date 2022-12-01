@@ -212,6 +212,12 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     private $partnerSwift;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Sale\SaleInvoice")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private SaleInvoice|null $saleInvoiceGenerated = null;
+
+    /**
      * Methods.
      */
 
@@ -644,9 +650,6 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         $this->partnerCifNif = $partnerCifNif;
     }
 
-    /**
-     * @return string
-     */
     public function getPartnerMainAddress(): ?string
     {
         return $this->partnerMainAddress;
@@ -657,9 +660,6 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         $this->partnerMainAddress = $partnerMainAddress;
     }
 
-    /**
-     * @return ?City
-     */
     public function getPartnerMainCity(): ?City
     {
         return $this->partnerMainCity;
@@ -670,33 +670,21 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         $this->partnerMainCity = $partnerMainCity;
     }
 
-    /**
-     * @return ?string
-     */
     public function getPartnerIban(): ?string
     {
         return $this->partnerIban;
     }
 
-    /**
-     * @param ?string $partnerIban
-     */
     public function setPartnerIban(?string $partnerIban): void
     {
         $this->partnerIban = $partnerIban;
     }
 
-    /**
-     * @return ?string
-     */
     public function getPartnerSwift(): ?string
     {
         return $this->partnerSwift;
     }
 
-    /**
-     * @param ?string $partnerSwift
-     */
     public function setPartnerSwift(?string $partnerSwift): void
     {
         $this->partnerSwift = $partnerSwift;
@@ -735,6 +723,18 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     public function getFirstDeliveryNote(): ?SaleDeliveryNote
     {
         return $this->getDeliveryNotes()->first() ? $this->getDeliveryNotes()->first() : null;
+    }
+
+    public function getSaleInvoiceGenerated(): ?SaleInvoice
+    {
+        return $this->saleInvoiceGenerated;
+    }
+
+    public function setSaleInvoiceGenerated(?SaleInvoice $saleInvoiceGenerated): SaleInvoice
+    {
+        $this->saleInvoiceGenerated = $saleInvoiceGenerated;
+
+        return $this;
     }
 
     /**
@@ -784,9 +784,6 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         return $this->getTotal();
     }
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return $this->id ? $this->getInvoiceNumber().'' : '---';
