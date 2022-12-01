@@ -7,5 +7,5 @@
     - name: update partner accounting accounts to match 10 digit criteria
       shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:update:partner:accounting_account"
       args:
-        chdir: "{{ vhost_path_stage }}/current/"
+        chdir: "{{ vhost_path_prod }}/current/"
 
