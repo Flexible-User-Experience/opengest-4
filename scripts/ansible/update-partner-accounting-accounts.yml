@@ -4,7 +4,7 @@
   vars_files:
     - "{{ playbook_dir }}/vars/config.yml"
   tasks:
-    - name: execute default create sale items to local database
+    - name: update partner accounting accounts to match 10 digit criteria
       shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:update:partner:accounting_account"
       args:
         chdir: "{{ vhost_path_stage }}/current/"
