@@ -9,10 +9,10 @@ use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Setting\City;
+use App\Entity\Setting\Document;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineExtensions\Query\Mysql\Date;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -431,6 +431,7 @@ class Operator extends AbstractBase
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"begin" = "DESC"})
      */
     private $operatorAbsences;
 
@@ -482,6 +483,12 @@ class Operator extends AbstractBase
     private Collection $purchaseInvoiceLines;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"description" = "ASC"})
+     */
+    private ?Collection $documents = null;
+
+    /**
      * Methods.
      */
     public function __construct()
@@ -494,6 +501,7 @@ class Operator extends AbstractBase
         $this->payslipOperatorDefaultLines = new ArrayCollection();
         $this->payslips = new ArrayCollection();
         $this->purchaseInvoiceLines = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     /**
@@ -1630,15 +1638,7 @@ class Operator extends AbstractBase
      */
     public function getOperatorAbsences()
     {
-        $date = new DateTime();
-        $date->setDate($date->format('Y') * 1 - 1, 1, 1);
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->gt('begin', $date))
-            ->orderBy(['begin' => Criteria::DESC])
-        ;
-        $operatorAbsences = $this->operatorAbsences->matching($criteria);
-
-        return $this->operatorAbsences->matching($criteria);
+        return $this->operatorAbsences;
     }
 
     /**
@@ -1673,6 +1673,37 @@ class Operator extends AbstractBase
     {
         if ($this->operatorAbsences->contains($operatorAbsence)) {
             $this->operatorAbsences->removeElement($operatorAbsence);
+        }
+
+        return $this;
+    }
+
+    public function getDocuments(): ?Collection
+    {
+        return $this->documents;
+    }
+
+    public function setDocuments($documents): self
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document)
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
         }
 
         return $this;
@@ -1916,19 +1947,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPurchaseInvoiceLines(): Collection
     {
         return $this->purchaseInvoiceLines;
     }
 
-    /**
-     * @param Collection $purchaseInvoiceLines
-     *
-     * @return Operator
-     */
     public function setPurchaseInvoiceLines(Collection $purchaseInvoiceLines): Operator
     {
         $this->purchaseInvoiceLines = $purchaseInvoiceLines;

@@ -758,5 +758,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
         $object->setType($partnerType);
         $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterprise($this->getUserLogedEnterprise())->getCode();
         $object->setCode($lastPartnerCode + 1);
+        $object->setAccountingAccount(4300000000 + $object->getCode());
     }
 }

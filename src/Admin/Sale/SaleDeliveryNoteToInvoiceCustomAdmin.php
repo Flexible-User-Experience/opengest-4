@@ -375,7 +375,7 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractSaleDeliveryNoteAdmin
                 ]
             )
             ->add(
-                'vehicle.tonnage',
+                'saleServiceTariff',
                 null,
                 [
                     'label' => 'admin.label.tonnage',
@@ -428,6 +428,7 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractSaleDeliveryNoteAdmin
                 [
                     'actions' => [
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        'delete' => ['template' => 'admin/buttons/list__action_delete_sale_delivery_note_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                     'header_style' => 'width:120px;',

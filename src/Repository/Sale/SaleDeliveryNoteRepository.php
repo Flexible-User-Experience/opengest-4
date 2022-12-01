@@ -168,6 +168,7 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEnabledSortedByNameQB()
             ->andWhere('s.isInvoiced = false')
             ->andWhere('s.wontBeInvoiced = false')
+            ->andWhere('s.saleInvoice IS NULL')
         ;
         if ($partnerId) {
             $queryBuilder
@@ -179,13 +180,13 @@ class SaleDeliveryNoteRepository extends ServiceEntityRepository
         if ($fromDate) {
             $queryBuilder
                 ->andWhere('s.date >= :fromDate')
-                ->setParameter('fromDate', $fromDate)
+                ->setParameter('fromDate', $fromDate->format('Y-m-d'))
             ;
         }
         if ($toDate) {
             $queryBuilder
                 ->andWhere('s.date <= :toDate')
-                ->setParameter('toDate', $toDate)
+                ->setParameter('toDate', $toDate->format('Y-m-d'))
             ;
         }
         if ($deliveryNoteNumber) {

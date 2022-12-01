@@ -41,6 +41,31 @@ class SaleInvoiceAdminController extends BaseAdminController
         return parent::editAction($request);
     }
 
+    public function batchActionInvoiceListByClient(ProxyQueryInterface $selectedModelQuery): Response
+    {
+        $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
+        usort($saleInvoices, function (SaleInvoice $a, SaleInvoice $b) {
+            return $a->getDateFormatted() > $b->getDateFormatted();
+        });
+        $siforDates = $saleInvoices;
+        $filterInfo = $this->admin->getFilterParameters();
+
+        if (array_key_exists('date', $filterInfo)) {
+            // get from to filter dates
+            $from = $filterInfo['date']['value']['start'];
+            $to = $filterInfo['date']['value']['end'];
+        } else {
+            $from = array_shift($siforDates)->getDateFormatted();
+            if (!$siforDates) {
+                $to = $from;
+            } else {
+                $to = array_pop($siforDates)->getDateFormatted();
+            }
+        }
+
+        return new Response($this->sipm->outputSingleListByClient($saleInvoices, $from, $to), 200, ['Content-type' => 'application/pdf']);
+    }
+
     public function batchActionInvoiceList(ProxyQueryInterface $selectedModelQuery): Response
     {
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
@@ -63,7 +88,7 @@ class SaleInvoiceAdminController extends BaseAdminController
             }
         }
 
-        return new Response($this->sipm->outputSingle($saleInvoices, $from, $to), 200, ['Content-type' => 'application/pdf']);
+        return new Response($this->sipm->outputSingleList($saleInvoices, $from, $to), 200, ['Content-type' => 'application/pdf']);
     }
 
     /**
@@ -164,8 +189,9 @@ class SaleInvoiceAdminController extends BaseAdminController
         $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
         $nextInvoiceNumber = $this->im->getLastInvoiceNumberBySerieAndEnterprise($saleInvoiceSeries, $enterprise);
         $clonedSaleInvoice->setInvoiceNumber($nextInvoiceNumber);
-//        $em->clear(SaleInvoice::class);
+        $saleInvoice->setSaleInvoiceGenerated($clonedSaleInvoice);
         $em->persist($clonedSaleInvoice);
+        $em->persist($saleInvoice);
         $em->flush();
 
         return $this->redirectToRoute('admin_app_sale_saleinvoice_edit', ['id' => $clonedSaleInvoice->getId()]);

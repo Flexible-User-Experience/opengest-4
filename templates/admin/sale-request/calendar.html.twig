@@ -140,7 +140,7 @@
               id: '{{ saleRequest.id }}',
               title: '{{ saleRequest.partner.code }} - {{ saleRequest.partner.name }}',
               url: '{{ path('admin_app_sale_salerequest_edit', {'id': saleRequest.id}) }}',
-              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}T{{ saleRequest.serviceTime.format('H:i:s')}}',
+              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}{% if saleRequest.serviceTime %}T{{ saleRequest.serviceTime.format('H:i:s')}} {% endif %}',
               color: {% if (saleRequest.status == 0) %} 'green' {% else %} 'blue' {% endif %},
               extendedProps: {
                 vehicle: '{{ saleRequest.vehicle }}',

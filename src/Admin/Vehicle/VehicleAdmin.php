@@ -240,7 +240,7 @@ class VehicleAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->end()
-            ;
+        ;
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $formMapper
                 ->tab('Documentación')
@@ -385,6 +385,21 @@ class VehicleAdmin extends AbstractBaseAdmin
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadCEDeclaration', 'CEDeclaration'),
                         'help_html' => true,
                         'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('admin.label.other_documents', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'documents',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
                     ]
                 )
                 ->end()

@@ -176,9 +176,7 @@
         }).done(function (response) {
             let partners = Object.values(JSON.parse(response.partners));
             let deliveryNotes = JSON.parse(response.deliveryNotes);
-            console.log('partners', partners)
             partners.forEach(function (partner) {
-                console.log('partner', partner);
               createPartnerBox(partner, deliveryNotes.filter((deliveryNote) => deliveryNote.partner.id ? deliveryNote.partner.id === partner.id : false), currentSelection);
             });
           jQuery(".delivery-note_id").each( function () {
@@ -197,10 +195,12 @@
               saleDeliveryNoteSelect.select2().val(currentSelection)
               saleDeliveryNoteSelect.select2().trigger('change.select2');
               selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '));
+              checkIfExistDifferentBuildingSites(currentSelection)
             });
           });
         });
         selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '))
+        checkIfExistDifferentBuildingSites(currentSelection)
         if (!first) {
           saleDeliveryNoteSelect.select2().val(null).trigger('change.select2');
           selectedDeliveryNotes.val('');
@@ -208,7 +208,6 @@
       }
 
       function createPartnerBox(partner, deliveryNotes, currentSelection) {
-          console.log('partner inside', partner)
         let partnerHtml = `
           <div class="box box-success">
             <div class="box-header">
@@ -233,7 +232,6 @@
             ;
         let deliveryNoteLines = '';
         deliveryNotes.forEach((deliveryNote) => {
-            console.log('delivery note', deliveryNote);
           let newDeliveryNoteLine = `
                 <tr>
                   <td>
@@ -264,6 +262,40 @@
         jQuery(".delivery-note_id").each( function () {
           jQuery(this).not(this.checked).prop('checked', true).trigger('change');
         });
+      }
+
+      function checkIfExistDifferentBuildingSites(deliveryNotes)
+      {
+        console.log('selectedDeliveryNotes', deliveryNotes)
+        jQuery.get(Routing.generate(
+          'admin_app_sale_saledeliverynote_checkIfDeliveryNotesHaveDifferentBuildingSites',
+          {
+            deliveryNoteIds: deliveryNotes,
+          }
+        ), function () {
+        }).done(function (exist) {
+          let generateButton = jQuery("#app_generate_sale_invoices_create")
+          if (exist) {
+            generateButton.attr('disabled', true)
+            generateButton.parent().append(`
+            <p id="sameBuildingSiteWarning" class="btn">
+              Los albaranes seleccionados tienen obras distintas.
+            </p>
+          <button id="sameBuildingSiteButton" class="btn btn-default no-m-bottom btn" style="margin-bottom: -15px" onclick="hideWaringSameBuildingSite()">
+            Habilitar
+          </button>
+            `);
+          } else {
+            hideWaringSameBuildingSite()
+          }
+        })
+      }
+
+      function hideWaringSameBuildingSite()
+      {
+        jQuery("#app_generate_sale_invoices_create").attr('disabled', false)
+        jQuery("#sameBuildingSiteWarning").remove()
+        jQuery("#sameBuildingSiteButton").remove()
       }
 
       const dateTimePickerParameters = {

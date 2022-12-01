@@ -7,9 +7,11 @@ use App\Entity\Partner\Partner;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\City;
+use App\Entity\Setting\Document;
 use App\Entity\Setting\User;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Mirmit\EFacturaBundle\Interfaces\SellerFacturaEInterface;
@@ -613,6 +615,12 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     private $collectionDocumentTypes;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="enterprise", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"description" = "ASC"})
+     */
+    private ?Collection $documents = null;
+
+    /**
      * Methods.
      */
 
@@ -630,6 +638,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         $this->saleRequests = new ArrayCollection();
         $this->activityLines = new ArrayCollection();
         $this->collectionDocumentTypes = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     /**
@@ -2348,6 +2357,37 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     {
         if ($this->collectionDocumentTypes->contains($collectionDocumentType)) {
             $this->collectionDocumentTypes->removeElement($collectionDocumentType);
+        }
+
+        return $this;
+    }
+
+    public function getDocuments(): ?Collection
+    {
+        return $this->documents;
+    }
+
+    public function setDocuments($documents): self
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setEnterprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
         }
 
         return $this;

@@ -42,3 +42,11 @@ services:
             - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\CostCenter, controller: ~, manager_type: orm, label: 'Centros de coste', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.document:
+        class: App\Admin\Setting\DocumentAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher' ]
+        tags:
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Setting\Document, controller: App\Controller\Admin\Setting\DocumentAdminController, manager_type: orm, label: 'Documentos', group: 'Configuración', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTranslationDomain, [ 'admin' ] ]
+

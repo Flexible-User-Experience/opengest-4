@@ -4,7 +4,9 @@ namespace App\Admin\Sale;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\CollectionDocumentType;
+use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerDeliveryAddress;
+use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleInvoice;
@@ -18,10 +20,12 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\BooleanType;
@@ -89,6 +93,10 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ];
             $newActions['generatePdfsToPrint'] = [
                 'label' => 'admin.action.generate_pdfs_to_print',
+                'ask_confirmation' => false,
+            ];
+            $newActions['invoiceListByClient'] = [
+                'label' => 'admin.action.generate_invoice_list_by_client',
                 'ask_confirmation' => false,
             ];
             $newActions['invoiceList'] = [
@@ -242,24 +250,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             }
         }
         $formMapper
-//            ->add(
-//                'partnerIban',
-//                null,
-//                [
-//                    'label' => 'IBAN',
-//                    'required' => false,
-//                    'disabled' => false,
-//                ]
-//            )
-//            ->add(
-//                'partnerSwift',
-//                null,
-//                [
-//                    'label' => 'SWIFT',
-//                    'required' => false,
-//                    'disabled' => false,
-//                ]
-//            )
             ->add(
                 'discount',
                 null,
@@ -598,9 +588,9 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'series',
                 null,
@@ -666,6 +656,50 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.has_been_counted',
+                ]
+            )
+            ->add('order',
+                CallbackFilter::class,
+                [
+                    'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
+                        if (!$data->hasValue()) {
+                            return false;
+                        }
+                        $query
+                            ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn')
+                            ->andWhere('dn.order = :order')
+                            ->setParameter('order', $data->getValue());
+
+                        return true;
+                    },
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'class' => PartnerOrder::class,
+                        'choice_label' => 'number',
+                        'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
+                    ],
+                ]
+            )
+            ->add('buildingSite',
+                CallbackFilter::class,
+                [
+                    'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
+                        if (!$data->hasValue()) {
+                            return false;
+                        }
+                        $query
+                            ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn2')
+                            ->andWhere('dn2.buildingSite = :buildingSite')
+                            ->setParameter('buildingSite', $data->getValue());
+
+                        return true;
+                    },
+                    'field_type' => EntityType::class,
+                    'field_options' => [
+                        'class' => PartnerBuildingSite::class,
+                        'choice_label' => 'name',
+                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                    ],
                 ]
             )
         ;
@@ -764,16 +798,19 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'saleInvoiceGenerated',
+                null,
+                [
+                    'label' => 'admin.label.sale_invoice_generated',
+                ]
+            )
+            ->add(
                 '_action',
                 'actions',
                 [
                     'actions' => [
                         'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
                         'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-//                        'pdf' => ['template' => 'admin/buttons/list__action_pdf_invoice_button.html.twig'],
-//                        'pdfWithBackground' => ['template' => 'admin/buttons/list__action_pdf_invoice_with_background_button.html.twig'],
-//                        'count' => ['template' => 'admin/buttons/list__action_pdf_invoice_to_count_button.html.twig'],
-//                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
                     ],
                     'label' => 'admin.actions',
                 ]

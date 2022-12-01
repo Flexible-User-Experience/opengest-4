@@ -17,6 +17,9 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -39,9 +42,26 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
      */
     protected $baseRoutePattern = 'compras/factura-linea';
 
-    /**
-     * Methods.
-     */
+    public function configureExportFields(): array
+    {
+        return [
+            'id',
+            'purchaseInvoice',
+            'purchaseInvoice.dateFormatted',
+            'purchaseInvoice.partner',
+            'purchaseItem',
+            'description',
+            'units',
+            'priceUnit',
+            'baseTotal',
+            'total',
+            'saleDeliveryNote',
+            'vehicle',
+            'operator',
+            'costCenter'
+        ];
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
@@ -94,7 +114,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 'iva',
                 ChoiceType::class,
                 [
-                    'label' => 'admin.label.iva',
+                    'label' => 'IVA',
                     'required' => true,
                     'choices' => IvaEnum::getReversedEnumArray(),
                     'data' => $this->getIvaFromPartner(),
@@ -104,7 +124,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 'irpf',
                 null,
                 [
-                    'label' => 'admin.label.irpf',
+                    'label' => 'IRPF',
                     'required' => true,
                     'empty_data' => (string) ConstantsEnum::IRPF,
                     'attr' => [
@@ -165,18 +185,36 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getCostCenterRepository()->getEnabledSortedByNameQB(),
                 ]
             )
-            ->add(
-                'purchaseInvoice',
-                EntityType::class,
-                [
-                    'class' => PurchaseInvoice::class,
-                    'label' => false,
-                    'required' => true,
-                    'attr' => [
-                        'hidden' => 'true',
-                    ],
-                ]
-            )
+            ;
+        if ($this->getCode() == $this->getRootCode()) {
+            $formMapper
+                ->add(
+                    'purchaseInvoice',
+                    EntityType::class,
+                    [
+                        'class' => PurchaseInvoice::class,
+                        'label' => false,
+                        'required' => true,
+                    ]
+                )
+            ;
+        } else {
+            $formMapper
+                ->add(
+                    'purchaseInvoice',
+                    EntityType::class,
+                    [
+                        'class' => PurchaseInvoice::class,
+                        'label' => false,
+                        'required' => true,
+                        'attr' => [
+                            'hidden' => 'true',
+                        ],
+                    ]
+                )
+            ;
+        }
+        $formMapper
             ->end()
         ;
     }
@@ -189,6 +227,41 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.purchase_invoice',
+                ]
+            )
+            ->add(
+                'purchaseInvoice.date',
+                DateRangeFilter::class,
+                [
+                    'label' => 'admin.label.date',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
+                    'show_filter' => true,
+                ]
+            )
+            ->add(
+                'purchaseInvoice.partner',
+                null,
+                [
+                    'label' => 'admin.label.supplier',
+                    'admin_code' => 'app.admin.partner',
+                    'show_filter' => true,
+                ]
+            )
+            ->add(
+                'purchaseItem',
+                null,
+                [
+                    'label' => 'admin.label.item',
                 ]
             )
             ->add(
@@ -289,6 +362,35 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'purchaseInvoice.dateFormatted',
+                null,
+                [
+                    'label' => 'admin.label.date',
+                ]
+            )
+            ->add(
+                'purchaseInvoice.partner',
+                null,
+                [
+                    'label' => 'admin.label.supplier',
+                    'admin_code' => 'app.admin.partner',
+                ]
+            )
+            ->add(
+                'purchaseItem',
+                null,
+                [
+                    'label' => 'admin.label.item',
+                ]
+            )
+            ->add(
+                'description',
+                null,
+                [
+                    'label' => 'admin.label.description',
+                ]
+            )
+            ->add(
                 'units',
                 null,
                 [
@@ -303,31 +405,17 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'baseTotal',
+                null,
+                [
+                    'label' => 'admin.label.base',
+                ]
+            )
+            ->add(
                 'total',
                 null,
                 [
                     'label' => 'admin.label.total',
-                ]
-            )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'admin.label.description',
-                ]
-            )
-            ->add(
-                'iva',
-                null,
-                [
-                    'label' => 'admin.label.IVA',
-                ]
-            )
-            ->add(
-                'irpf',
-                null,
-                [
-                    'label' => 'admin.label.IRPF',
                 ]
             )
             ->add(
@@ -358,18 +446,18 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.cost_center',
                 ]
             )
-            ->add(
-                '_action',
-                'actions',
-                [
-                    'actions' => [
-                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
-                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
-                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
-                    ],
-                    'label' => 'Accions',
-                ]
-            )
+//            ->add(
+//                '_action',
+//                'actions',
+//                [
+//                    'actions' => [
+//                        'show' => ['template' => 'admin/buttons/list__action_show_button.html.twig'],
+//                        'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+//                        'delete' => ['template' => 'admin/buttons/list__action_delete_button.html.twig'],
+//                    ],
+//                    'label' => 'Accions',
+//                ]
+//            )
         ;
     }
 
