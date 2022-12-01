@@ -55,22 +55,12 @@ class DocumentAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('General', $this->getFormMdSuccessBoxArray(6))
+            ->with('General', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'description',
                 null,
                 [
                     'label' => 'admin.label.description',
-                ]
-            )
-            ->add(
-                'fileFile',
-                FileType::class,
-                [
-                    'label' => 'admin.label.document',
-                    'help' => $this->getDocumentHelper('admin_app_setting_document_downloadDocument', 'file'),
-                    'help_html' => true,
-                    'required' => false,
                 ]
             )
             ->add(
@@ -103,6 +93,35 @@ class DocumentAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getEnterpriseRepository()->getEnterprisesByUserQB($this->getUser()),
                 ]
             )
+            ->end()
+            ->with('Documento', $this->getFormMdSuccessBoxArray(9))
+        ;
+        if ($this->id($this->getSubject())) {
+            $form
+                ->add(
+                    'fileFile',
+                    FileType::class,
+                    [
+                        'label' => 'admin.label.document',
+                        'help' => $this->getDocumentHelper('admin_app_setting_document_downloadDocument', 'file'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+            ;
+        } else {
+            $form
+                ->add(
+                    'fileFile',
+                    FileType::class,
+                    [
+                        'label' => 'admin.label.document',
+                        'required' => false,
+                    ]
+                )
+            ;
+        }
+        $form
             ->end()
             ->with('Controls', $this->getFormMdSuccessBoxArray(6))
             ->add(

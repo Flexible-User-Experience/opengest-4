@@ -222,6 +222,10 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/configuracio/series-factura/1/edit'],
             ['/admin/configuracio/series-factura/1/delete'],
             ['/admin/configuracion/franjas_horarias/list'],
+            ['/admin/configuracion/documentos/list'],
+            ['/admin/configuracion/documentos/create'],
+            ['/admin/configuracion/documentos/1/edit'],
+            ['/admin/configuracion/documentos/1/delete'],
             // Payslip
             ['/admin/nominas/conceptos_linea/list'],
             ['/admin/nominas/conceptos_linea/create'],
