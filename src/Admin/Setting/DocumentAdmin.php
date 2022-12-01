@@ -95,7 +95,18 @@ class DocumentAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'query_builder' => $this->rm->getEnterpriseRepository()->getEnterprisesByUserQB($this->getUser()),
                     ]
-                );
+                )
+                ->with('Controls', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'enabled',
+                    CheckboxType::class,
+                    [
+                        'label' => 'admin.label.enabled',
+                        'required' => false,
+                    ]
+                )
+                ->end()
+            ;
         }
         $form
             ->end()
@@ -127,16 +138,6 @@ class DocumentAdmin extends AbstractBaseAdmin
             ;
         }
         $form
-            ->end()
-            ->with('Controls', $this->getFormMdSuccessBoxArray(6))
-            ->add(
-                'enabled',
-                CheckboxType::class,
-                [
-                    'label' => 'admin.label.enabled',
-                    'required' => false,
-                ]
-            )
             ->end()
         ;
     }

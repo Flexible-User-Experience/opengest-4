@@ -480,7 +480,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
-                ->with('admin.label.other_documents', $this->getFormMdSuccessBoxArray(9))
+                ->with('admin.label.other_documents', $this->getFormMdSuccessBoxArray(7))
                 ->add(
                     'documents',
                     CollectionType::class,
