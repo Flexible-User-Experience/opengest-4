@@ -243,6 +243,7 @@ admin:
         payment_date: "Dia de pago"
         enterprise_main_transfer_account: "Banco principal empresa"
         sale_invoice_generated: "Factura generada"
+        other_documents: "Otros documentos"
     with:
         general: "General"
         image: "Imagen"

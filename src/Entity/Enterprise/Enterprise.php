@@ -616,7 +616,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="enterprise", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"description" = "DESC"})
+     * @ORM\OrderBy({"description" = "ASC"})
      */
     private ?Collection $documents = null;
 

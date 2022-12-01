@@ -63,36 +63,41 @@ class DocumentAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 ]
             )
-            ->add(
-                'operator',
-                EntityType::class,
-                [
-                    'class' => Operator::class,
-                    'label' => 'admin.label.operator',
-                    'required' => false,
-                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
-            ->add(
-                'vehicle',
-                EntityType::class,
-                [
-                    'class' => Vehicle::class,
-                    'label' => 'admin.label.vehicle',
-                    'required' => false,
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                ]
-            )
-            ->add(
-                'enterprise',
-                EntityType::class,
-                [
-                    'class' => Enterprise::class,
-                    'label' => 'admin.label.enterprise',
-                    'required' => false,
-                    'query_builder' => $this->rm->getEnterpriseRepository()->getEnterprisesByUserQB($this->getUser()),
-                ]
-            )
+        ;
+        if ($this->getCode() === $this->getRootCode()) {
+            $form
+                ->add(
+                    'operator',
+                    EntityType::class,
+                    [
+                        'class' => Operator::class,
+                        'label' => 'admin.label.operator',
+                        'required' => false,
+                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                )
+                ->add(
+                    'vehicle',
+                    EntityType::class,
+                    [
+                        'class' => Vehicle::class,
+                        'label' => 'admin.label.vehicle',
+                        'required' => false,
+                        'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    ]
+                )
+                ->add(
+                    'enterprise',
+                    EntityType::class,
+                    [
+                        'class' => Enterprise::class,
+                        'label' => 'admin.label.company',
+                        'required' => false,
+                        'query_builder' => $this->rm->getEnterpriseRepository()->getEnterprisesByUserQB($this->getUser()),
+                    ]
+                );
+        }
+        $form
             ->end()
             ->with('Documento', $this->getFormMdSuccessBoxArray(9))
         ;
@@ -216,7 +221,7 @@ class DocumentAdmin extends AbstractBaseAdmin
                 'enterprise',
                 null,
                 [
-                    'label' => 'admin.label.enterprise',
+                    'label' => 'admin.label.company',
                 ]
             )
             ->add(
