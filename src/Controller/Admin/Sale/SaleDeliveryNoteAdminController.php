@@ -71,17 +71,30 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($sdnps->outputSingle($saleDeliveryNote), 200, ['Content-type' => 'application/pdf']);
     }
 
+    public function checkIfDeliveryNotesHaveDifferentBuildingSitesAction(Request $request)
+    {
+        $deliveryNoteIds = $request->get('deliveryNoteIds');
+        $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->findBy(['id' => $deliveryNoteIds]);
+        $buildingSites = array_map(function (SaleDeliveryNote $deliveryNote) {
+            return $deliveryNote->getBuildingSite() ? $deliveryNote->getBuildingSite()->getId() : '';
+        }, $deliveryNotes);
+        $distinct = count(array_unique($buildingSites));
+        $response = false;
+        if ($distinct > 1) {
+            $response = true;
+        }
+
+        return new JsonResponse($response);
+    }
+
     public function batchActionDeliveryNotesByClient(ProxyQueryInterface $selectedModelQuery): Response
     {
         $saleDeliveryNotes = $selectedModelQuery->execute()->getQuery()->getResult();
-//        usort($saleDeliveryNotes, function(SaleDeliveryNote $a, SaleDeliveryNote $b){
-//            return $a->getDateToString() > $b->getDateToString();
-//        });
         $sdnforDates = $saleDeliveryNotes;
         $filterInfo = $this->admin->getFilterParameters();
 
         if (array_key_exists('date', $filterInfo)) {
-            //get from to filter dates
+            // get from to filter dates
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
         } else {
@@ -106,7 +119,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $filterInfo = $this->admin->getFilterParameters();
 
         if (array_key_exists('date', $filterInfo)) {
-            //get from to filter dates
+            // get from to filter dates
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
         } else {
@@ -142,7 +155,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             $nonInvoiceableDeliveryNotesIds = array_map(function (SaleDeliveryNote $saleDeliveryNote) {
                 return $saleDeliveryNote->getId();
             }, $nonInvoiceableDeliveryNotes);
-            $this->addFlash('warning', 'Los albaranes '.implode(',',$nonInvoiceableDeliveryNotesIds).' son no facturables');
+            $this->addFlash('warning', 'Los albaranes '.implode(',', $nonInvoiceableDeliveryNotesIds).' son no facturables');
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_to_invoice_custom_list'));
         }
@@ -299,7 +312,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             },
             $deliveryNotes
         ));
-        usort($partners, function(Partner $a, Partner $b) {
+        usort($partners, function (Partner $a, Partner $b) {
             return strcmp($a->getName(), $b->getName());
         });
         $serializedPartners = $serializer->serialize($partners, 'json', ['groups' => ['api']]);
