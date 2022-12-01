@@ -200,6 +200,7 @@
           });
         });
         selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '))
+        checkIfExistDifferentBuildingSites(currentSelection)
         if (!first) {
           saleDeliveryNoteSelect.select2().val(null).trigger('change.select2');
           selectedDeliveryNotes.val('');
@@ -272,9 +273,29 @@
             deliveryNoteIds: deliveryNotes,
           }
         ), function () {
-        }).done(function (response) {
-          console.log('response', response)
+        }).done(function (exist) {
+          let generateButton = jQuery("#app_generate_sale_invoices_create")
+          if (exist) {
+            generateButton.attr('disabled', true)
+            generateButton.parent().append(`
+            <p id="sameBuildingSiteWarning" class="btn">
+              Los albaranes seleccionados tienen obras distintas.
+            </p>
+          <button id="sameBuildingSiteButton" class="btn btn-default no-m-bottom btn" style="margin-bottom: -15px" onclick="hideWaringSameBuildingSite()">
+            Habilitar
+          </button>
+            `);
+          } else {
+            hideWaringSameBuildingSite()
+          }
         })
+      }
+
+      function hideWaringSameBuildingSite()
+      {
+        jQuery("#app_generate_sale_invoices_create").attr('disabled', false)
+        jQuery("#sameBuildingSiteWarning").remove()
+        jQuery("#sameBuildingSiteButton").remove()
       }
 
       const dateTimePickerParameters = {

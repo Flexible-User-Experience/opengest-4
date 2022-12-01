@@ -71,7 +71,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         return new Response($sdnps->outputSingle($saleDeliveryNote), 200, ['Content-type' => 'application/pdf']);
     }
 
-    public function checkIfDeliveryNotesHaveDifferentBuildingSitesAction(Request $request)
+    public function checkIfDeliveryNotesHaveDifferentBuildingSitesAction(Request $request): JsonResponse
     {
         $deliveryNoteIds = $request->get('deliveryNoteIds');
         $deliveryNotes = $this->em->getRepository(SaleDeliveryNote::class)->findBy(['id' => $deliveryNoteIds]);
