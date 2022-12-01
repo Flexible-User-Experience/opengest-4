@@ -835,7 +835,7 @@ class SaleInvoicePdfManager
 
         // today date
         $this->pdfEngineService->setStyleSize('', 18);
-        $pdf->SetXY(50, 20);
+        $pdf->SetXY(50, 10);
         $today = date('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $today,
@@ -855,18 +855,19 @@ class SaleInvoicePdfManager
     {
         // header
         $this->pdfEngineService->setStyleSize('', 12);
-        $pdf->SetXY(50, 30);
+        $pdf->SetXY(50, 20);
+        $pdf->setCellPaddings( 1, 0, 1, 0);
         if($partner){
             $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
                 'Listado de facturas del cliente '.$partner->getCode().'-'.$partner->getName(),
                 0, 0, 'L', false);
         }
-        $pdf->SetXY(50, 35);
+        $pdf->SetXY(50, 30);
         $this->pdfEngineService->setStyleSize('', 11);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             'Desde '.$from.' hasta '.$to,
             0, 0, 'L', false);
-        $pdf->SetXY(50, 43);
+        $pdf->SetXY(50, 40);
         $this->drawHoritzontalLineSeparator($pdf, $width);
         // table headers
         $this->pdfEngineService->setStyleSize('', 8);
