@@ -44,6 +44,7 @@ class SaleDeliveryNoteAdmin extends AbstractSaleDeliveryNoteAdmin
             ->add('pdf', $this->getRouterIdParameter().'/pdf')
             ->add('generateInvoices', 'generate-invoices')
             ->add('getJsonDeliveryNotesByParameters', 'get-json-delivery-notes-by-parameters')
+            ->add('checkIfDeliveryNotesHaveDifferentBuildingSites', 'check-different-building-sites')
         ;
     }
 

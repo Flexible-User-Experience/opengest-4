@@ -195,6 +195,7 @@
               saleDeliveryNoteSelect.select2().val(currentSelection)
               saleDeliveryNoteSelect.select2().trigger('change.select2');
               selectedDeliveryNotes.val(currentSelection.map((a) => Number(a)).sort((a, b) => a - b).join('; '));
+              checkIfExistDifferentBuildingSites(currentSelection)
             });
           });
         });
@@ -260,6 +261,20 @@
         jQuery(".delivery-note_id").each( function () {
           jQuery(this).not(this.checked).prop('checked', true).trigger('change');
         });
+      }
+
+      function checkIfExistDifferentBuildingSites(deliveryNotes)
+      {
+        console.log('selectedDeliveryNotes', deliveryNotes)
+        jQuery.get(Routing.generate(
+          'admin_app_sale_saledeliverynote_checkIfDeliveryNotesHaveDifferentBuildingSites',
+          {
+            deliveryNoteIds: deliveryNotes,
+          }
+        ), function () {
+        }).done(function (response) {
+          console.log('response', response)
+        })
       }
 
       const dateTimePickerParameters = {
