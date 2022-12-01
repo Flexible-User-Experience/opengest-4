@@ -149,4 +149,11 @@ services:
         class: App\Listener\MenuBuilderListener
         tags:
             - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+    app.before_request_listener:
+        class: App\Listener\BeforeRequestListener
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - name: kernel.event_listener
+              event: kernel.request
+              method: onKernelRequest
 

@@ -242,6 +242,9 @@ admin:
         paid: "Pagado"
         payment_date: "Dia de pago"
         enterprise_main_transfer_account: "Banco principal empresa"
+        sale_invoice_generated: "Factura generada"
+        document: "Documento"
+        other_documents: "Otros documentos"
     with:
         general: "General"
         image: "Imagen"
@@ -336,6 +339,7 @@ admin:
         generate_pdfs_to_print: "Pdf de factura sin fondo (impresión)"
         generate_pdfs_for_email: "Pdf de factura con fondo (e-mail)"
         generate_invoice_list: "Listado de facturas"
+        generate_invoice_list_by_client: "Listado de facturas por cliente"
         generate_delivery_notes_by_client: "Listado de albaranes por cliente"
         generate_delivery_notes_list: "Listado de albaranes"
         generate_payslip_xml_payment_for_diets: "XML para el pago de dietas"

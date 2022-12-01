@@ -32,7 +32,28 @@ class SaleInvoicePdfManager
     /**
      * @return TCPDF
      */
-    public function buildSingle($saleInvoices, $from, $to)
+    public function buildSingleListByClient($saleInvoices, $from, $to)
+    {
+        $this->pdfEngineService->initDefaultPageEngineWithTitle('FacturasCliente');
+        $pdf = $this->pdfEngineService->getEngine();
+
+        return $this->buildInvoiceListByClient($saleInvoices, $from, $to, $pdf);
+    }
+
+    /**
+     * @return string
+     */
+    public function outputSingleListByClient($saleInvoices, $from, $to)
+    {
+        $pdf = $this->buildSingleListByClient($saleInvoices, $from, $to);
+
+        return $pdf->Output($this->getInvoicesNumbers($saleInvoices).'.pdf', 'I');
+    }
+
+    /**
+     * @return TCPDF
+     */
+    public function buildSingleList($saleInvoices, $from, $to)
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Facturas');
         $pdf = $this->pdfEngineService->getEngine();
@@ -43,17 +64,18 @@ class SaleInvoicePdfManager
     /**
      * @return string
      */
-    public function outputSingle($saleInvoices, $from, $to)
+    public function outputSingleList($saleInvoices, $from, $to)
     {
-        $pdf = $this->buildSingle($saleInvoices, $from, $to);
+        $pdf = $this->buildSingleList($saleInvoices, $from, $to);
 
         return $pdf->Output($this->getInvoicesNumbers($saleInvoices).'.pdf', 'I');
     }
 
+
     /**
      * @param $saleInvoices
      */
-    public function buildInvoiceList($saleInvoices, $from, $to, TCPDF $pdf): TCPDF
+    public function buildInvoiceListByClient($saleInvoices, $from, $to, TCPDF $pdf): TCPDF
     {
         $partnersFromSaleInvoices = [];
         /* @var  SaleInvoice $saleInvoice */
@@ -118,6 +140,67 @@ class SaleInvoicePdfManager
                 number_format($totalTotal, 2, ',', '.').'€',
                 1, 0, 'C', false);
         }
+
+        return $pdf;
+    }
+
+    /**
+     * @param $saleInvoices
+     */
+    public function buildInvoiceList($saleInvoices, $from, $to, TCPDF $pdf): TCPDF
+    {
+        $width = $this->addStartPage($pdf);
+        list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, '', $from, $to, $width);
+        $totalBases = 0;
+        $totalTotal = 0;
+        /** @var SaleInvoice $saleInvoice */
+        foreach ($saleInvoices as $saleInvoice) {
+            if ($pdf->getY() > 180) {
+                $this->addStartPage($pdf);
+                list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, '', $from, $to, $width);
+            }
+            $totalBases = $saleInvoice->getBaseTotal() + $totalBases;
+            $totalTotal = $saleInvoice->getTotal() + $totalTotal;
+            $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getInvoiceNumber(),
+                1, 0, 'C', false);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getDateFormatted(),
+                1, 0, 'C', false);
+            $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getDeliveryNotes()->first() ? ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite() ? $saleInvoice->getDeliveryNotes()->first()->getBuildingSite() : '') : '',
+                1, 0, 'L', false, '', 1);
+            $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getDeliveryNotes()->first() ? ($saleInvoice->getDeliveryNotes()->first()->getOrder() ? $saleInvoice->getDeliveryNotes()->first()->getOrder() : '') : '',
+                1, 0, 'L', false, '', 1);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                number_format($saleInvoice->getBaseTotal(), 2, ',', '.'),
+                1, 0, 'C', false);
+            $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+                number_format($saleInvoice->getTotal(), 2, ',', '.').'€',
+                1, 0, 'C', false);
+            $pdf->Ln();
+        }
+        $pdf->SetX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'C', false);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'C', false);
+        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'L', false, '', 1);
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'L', false, '', 1);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            number_format($totalBases, 2, ',', '.'),
+            1, 0, 'C', false);
+        $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
+            number_format($totalTotal, 2, ',', '.').'€',
+            1, 0, 'C', false);
 
         return $pdf;
     }
@@ -752,7 +835,7 @@ class SaleInvoicePdfManager
 
         // today date
         $this->pdfEngineService->setStyleSize('', 18);
-        $pdf->SetXY(50, 20);
+        $pdf->SetXY(50, 10);
         $today = date('d/m/Y');
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $today,
@@ -772,16 +855,19 @@ class SaleInvoicePdfManager
     {
         // header
         $this->pdfEngineService->setStyleSize('', 12);
+        $pdf->SetXY(50, 20);
+        $pdf->setCellPaddings( 1, 0, 1, 0);
+        if($partner){
+            $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Listado de facturas del cliente '.$partner->getCode().'-'.$partner->getName(),
+                0, 0, 'L', false);
+        }
         $pdf->SetXY(50, 30);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Listado de facturas del cliente '.$partner->getCode().'-'.$partner->getName(),
-            0, 0, 'L', false);
-        $pdf->SetXY(50, 35);
         $this->pdfEngineService->setStyleSize('', 11);
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             'Desde '.$from.' hasta '.$to,
             0, 0, 'L', false);
-        $pdf->SetXY(50, 43);
+        $pdf->SetXY(50, 40);
         $this->drawHoritzontalLineSeparator($pdf, $width);
         // table headers
         $this->pdfEngineService->setStyleSize('', 8);

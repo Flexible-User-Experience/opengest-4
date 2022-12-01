@@ -1,4 +1,6 @@
 vich_uploader:
+    metadata:
+        type: annotation
     db_driver: orm
     mappings:
         service:
@@ -49,3 +51,8 @@ vich_uploader:
         sale_request_document:
             uri_prefix:         /uploads/sale_request_document/sale_request
             upload_destination: '%kernel.project_dir%/var/uploads/sale_request/sale_request_document'
+        document:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix: /uploads/documents/document
+            upload_destination: '%kernel.project_dir%/var/uploads/documents/document'
+
