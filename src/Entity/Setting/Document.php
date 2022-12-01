@@ -21,6 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Setting\DocumentRepository")
  * @ORM\Table(name="document")
+ * @Vich\Uploadable()
  * @UniqueEntity({"description", "operator", "vehicle", "enterprise"})
  */
 class Document extends AbstractBase

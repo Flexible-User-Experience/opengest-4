@@ -48,6 +48,7 @@ class DocumentAdmin extends AbstractBaseAdmin
     {
         $collection
             ->remove('show')
+            ->add('downloadDocument', $this->getRouterIdParameter().'/document')
         ;
     }
 
@@ -67,8 +68,8 @@ class DocumentAdmin extends AbstractBaseAdmin
                 FileType::class,
                 [
                     'label' => 'admin.label.document',
-//                    'help' => $this->getDocumentHelper('admin_app_operator_operator_downloadTaxIdentificationNumberImage', 'taxIdentificationNumberImage'),
-//                    'help_html' => true,
+                    'help' => $this->getDocumentHelper('admin_app_setting_document_downloadDocument', 'file'),
+                    'help_html' => true,
                     'required' => false,
                 ]
             )
