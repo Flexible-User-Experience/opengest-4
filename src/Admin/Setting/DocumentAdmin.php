@@ -96,6 +96,7 @@ class DocumentAdmin extends AbstractBaseAdmin
                         'query_builder' => $this->rm->getEnterpriseRepository()->getEnterprisesByUserQB($this->getUser()),
                     ]
                 )
+                ->end()
                 ->with('Controls', $this->getFormMdSuccessBoxArray(6))
                 ->add(
                     'enabled',

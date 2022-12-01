@@ -7,5 +7,5 @@
     - name: execute default create sale items to local database
       shell: "/usr/bin/php{{ vhost_php_version }} bin/console --env=prod app:update:partner:accounting_account"
       args:
-        chdir: "{{ vhost_path }}/current/"
+        chdir: "{{ vhost_path_stage }}/current/"
 
