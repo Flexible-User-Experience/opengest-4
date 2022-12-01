@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\Document")
+ * @ORM\Entity(repositoryClass="App\Repository\Setting\DocumentRepository")
  * @ORM\Table(name="document")
  * @UniqueEntity({"description", "operator", "vehicle", "enterprise"})
  */
