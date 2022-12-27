@@ -109,6 +109,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         return [
             'csv',
             'xls',
+            'xml',
         ];
     }
 
