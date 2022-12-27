@@ -1,10 +1,68 @@
 Changelog
 =========
 
-##### Version 2.0.00 (2022-08-20)
+##### Version 4.1.04 (2022-12-01)
+* update ansible 
+* add document collection in operator vehicle and company
+* upgrade vichUploader
+* filter client by commercial name
+
+##### Version 4.1.03 (2022-11-28)
+* add operatorAbsences in operator
+* show tonnage on deliveryNotesToInvoice
+
+##### Version 4.1.02 (2022-11-15)
+* update yarn dependencies
+* edit accounting account length
+
+##### Version 4.1.01 (2022-10-11)
+* add Javascript to speed up business intelligence panel
+* update bump loader-utils from 2.0.2 to 2.0.3
+
+##### Version 4.1.00 (2022-09-26)
+* add business intelligence panel
+* add electronic invoice generation
+* add cost centers management
+
+##### Version 4.0.01 (2022-08-28)
+* add payment control system
+
+##### Version 4.0.00 with KitDig features (2022-08-20)
 * add purchase invoice management
 * add article management
 * add cost centers management
+* include provider management
+* include article management
+
+##### Version 3.3.00 (2022-07-21)
+* upgrade to symfony/webpack-encore 3 and less11
+* update symfony web profiler bundle config
+* update symfony validator config
+* update symfony twig recipe
+* update translations recipe
+* update security recipe
+* update phpunit monolog routing recipes
+* update sonata to 4.14
+* update php8
+* update ansible deploy to php8.1
+
+##### Version 3.2.00 (2021-04-10)
+* include fuel registers
+* edit client info
+* edit maintenance procedure
+
+##### Version 3.1.00 (2021-01-15)
+* update exports and pdf generation to adjust to company
+
+##### Version 3.0.00 (2020-12-23)
+* system prepared to migrate to updated version
+
+##### Version 2.1.00 (2020-08-01)
+* change request-deliverynote-invoice flux
+
+##### Version 2.0.00 (2020-08-01)
+* update Symphony to 4.5
+* update Sonata 4
 
 ##### Version 1.1.10 (WIP)
  * apply new privacy policy
