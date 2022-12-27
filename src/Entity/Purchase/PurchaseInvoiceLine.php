@@ -122,7 +122,7 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this->operator;
     }
 
-    public function setOperator(Operator $operator): PurchaseInvoiceLine
+    public function setOperator(?Operator $operator): PurchaseInvoiceLine
     {
         $this->operator = $operator;
 
@@ -137,7 +137,7 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this->vehicle;
     }
 
-    public function setVehicle(Vehicle $vehicle): PurchaseInvoiceLine
+    public function setVehicle(?Vehicle $vehicle): PurchaseInvoiceLine
     {
         $this->vehicle = $vehicle;
 
@@ -152,7 +152,7 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this->saleDeliveryNote;
     }
 
-    public function setSaleDeliveryNote(SaleDeliveryNote $saleDeliveryNote): PurchaseInvoiceLine
+    public function setSaleDeliveryNote(?SaleDeliveryNote $saleDeliveryNote): PurchaseInvoiceLine
     {
         $this->saleDeliveryNote = $saleDeliveryNote;
 
@@ -167,7 +167,7 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this->costCenter;
     }
 
-    public function setCostCenter(CostCenter $costCenter): PurchaseInvoiceLine
+    public function setCostCenter(?CostCenter $costCenter): PurchaseInvoiceLine
     {
         $this->costCenter = $costCenter;
 
