@@ -5,7 +5,6 @@ namespace App\Entity\Operator;
 use App\Entity\AbstractBase;
 use App\Entity\Traits\DescriptionTrait;
 use App\Entity\Traits\NameTrait;
-use App\Enum\OperatorCheckingTypeGroupEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,26 +25,23 @@ class OperatorCheckingType extends AbstractBase
     /**
      * @ORM\Column(type="integer")
      */
-    private OperatorCheckingTypeGroupEnum $group = OperatorCheckingTypeGroupEnum::CHECKING;
+    private int $category = 0;
 
     /**
      * Methods.
      */
-    public function getGroup(): OperatorCheckingTypeGroupEnum
+    public function getCategory(): int
     {
-        return $this->group;
+        return $this->category;
     }
 
-    public function setGroup(OperatorCheckingTypeGroupEnum $group): OperatorCheckingType
+    public function setCategory(int $category): OperatorCheckingType
     {
-        $this->group = $group;
+        $this->category = $category;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return $this->id ? $this->getName() : '---';

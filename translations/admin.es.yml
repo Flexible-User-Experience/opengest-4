@@ -362,6 +362,10 @@ enum:
         working: "Laboral"
         normal: "Normal"
         extra: "Extra"
+    operator_checking_type_group:
+        checking: "Revisión"
+        ppe: "EPI"
+        training: "Formación"
 Servei_list: "Servicios"
 Servei_create: "Crear"
 Servei_delete: "Borrar"

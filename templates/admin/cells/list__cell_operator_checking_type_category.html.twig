@@ -1,0 +1,13 @@
+{% extends "@SonataAdmin/CRUD/base_list_field.html.twig" %}
+
+{% trans_default_domain 'admin' %}
+
+{% block field %}
+    {% if object.category is same as(0) %}
+        <span class="label label-warning" style="margin-right:10px">{{ 'enum.operator_checking_type_group.checking' | trans }}</span>
+    {% elseif object.category == 1 %}
+        <span class="label label-info" style="margin-right:10px">{{ 'enum.operator_checking_type_group.ppe' | trans }}</span>
+    {% elseif object.category == 2 %}
+        <span class="label label-success" style="margin-right:10px">{{ 'enum.operator_checking_type_group.training' | trans }}</span>
+    {% endif %}
+{% endblock %}
