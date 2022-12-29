@@ -10,6 +10,7 @@ use App\Entity\Payslip\PayslipOperatorDefaultLine;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Setting\City;
 use App\Entity\Setting\Document;
+use App\Enum\OperatorCheckingTypeCategoryEnum;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -1593,7 +1594,14 @@ class Operator extends AbstractBase
      */
     public function getOperatorCheckings()
     {
-        return $this->operatorCheckings;
+        return $this->operatorCheckings
+//            ->filter(function (OperatorChecking $operatorChecking) {
+//                if (!$operatorChecking->getId()) {
+//                    return true;
+//                }
+//            return $operatorChecking->getType()?->getCategory() === OperatorCheckingTypeCategoryEnum::CHECKING;
+//        })
+            ;
     }
 
     /**
