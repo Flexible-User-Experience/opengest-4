@@ -2,13 +2,13 @@
 
 namespace App\Admin\Operator;
 
+use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
-use App\Enum\OperatorCheckingTypeCategoryEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
@@ -16,52 +16,17 @@ use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Class OperatorCheckingAdmin.
+ * Class OperatorCheckingBaseAdmin.
  *
  * @category Admin
  *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
+ * @author   Jordi Sort <jordi.sort@mirmit.com>
  */
-class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
+class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
 {
-    /**
-     * @var string
-     */
-    protected $classnameLabel = 'Revisiones';
-
-    /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operarios/revision';
-
     /**
      * Methods.
      */
-
-    /**
-     * Configure route collection.
-     */
-    protected function configureRoutes(RouteCollectionInterface $collection): void
-    {
-        parent::configureRoutes($collection);
-        $collection
-//            ->remove('delete')
-            ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
-            ->add('batch')
-        ;
-    }
-
-    public function configureBatchActions(array $actions): array
-    {
-        unset($actions['delete']);
-        $actions['downloadPdfOperatorPendingCheckings'] = [
-            'ask_confirmation' => false,
-            'label' => 'Informe revisiones',
-        ];
-
-        return $actions;
-    }
-
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
@@ -112,9 +77,7 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                 [
                     'label' => 'admin.with.operator_checking_type',
                     'required' => true,
-                    'query_builder' => $this->rm
-                        ->getOperatorCheckingTypeRepository()
-                        ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::CHECKING),
+                    'query_builder' => $this->rm->getOperatorCheckingTypeRepository()->getEnabledSortedByNameQB(),
                 ]
             )
             ->add(
@@ -189,6 +152,20 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                 ]
             )
         ;
+    }
+
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $queryBuilder = parent::configureQuery($query);
+        $queryBuilder
+            ->join($queryBuilder->getRootAliases()[0].'.operator', 'op')
+            ->andWhere('op.enterprise = :enterprise')
+            ->andWhere('op.enabled = :enabled')
+            ->setParameter('enterprise', $this->getUserLogedEnterprise())
+            ->setParameter('enabled', true)
+        ;
+
+        return $queryBuilder;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
