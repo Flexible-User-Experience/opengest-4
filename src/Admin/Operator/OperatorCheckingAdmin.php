@@ -4,16 +4,10 @@ namespace App\Admin\Operator;
 
 use App\Entity\Operator\Operator;
 use App\Enum\OperatorCheckingTypeCategoryEnum;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
-use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
@@ -34,37 +28,6 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
     /**
      * Methods.
      */
-
-    /**
-     * Configure route collection.
-     */
-    protected function configureRoutes(RouteCollectionInterface $collection): void
-    {
-        parent::configureRoutes($collection);
-        $collection
-//            ->remove('delete')
-            ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
-            ->add('batch')
-        ;
-    }
-
-    public function configureBatchActions(array $actions): array
-    {
-        unset($actions['delete']);
-        $actions['downloadPdfOperatorPendingCheckings'] = [
-            'ask_confirmation' => false,
-            'label' => 'Informe revisiones',
-        ];
-
-        return $actions;
-    }
-
-    protected function configureDefaultSortValues(array &$sortValues): void
-    {
-        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
-        $sortValues[DatagridInterface::SORT_BY] = 'end';
-    }
-
     protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getCode() === $this->getRootCode()) {
@@ -133,58 +96,6 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                 ]
             )
             ->end()
-        ;
-    }
-
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
-    {
-        $datagridMapper
-            ->add(
-                'operator',
-                null,
-                [
-                    'label' => 'admin.label.operator',
-                ]
-            )
-            ->add(
-                'type',
-                null,
-                [
-                    'label' => 'admin.with.operator_checking_type',
-                ]
-            )
-            ->add(
-                'begin',
-                DateFilter::class,
-                [
-                    'label' => 'admin.label.expedition_date',
-                    'field_type' => DatePickerType::class,
-                    'format' => 'd/m/Y',
-                    'field_options' => [
-                            'widget' => 'single_text',
-                            'format' => 'dd/MM/yyyy',
-                        ],
-                ]
-            )
-            ->add(
-                'end',
-                DateRangeFilter::class,
-                [
-                    'label' => 'admin.label.expiry_date',
-                    'field_type' => DateRangePickerType::class,
-                    'field_options' => [
-                        'field_options_start' => [
-                            'label' => 'Desde',
-                            'format' => 'dd/MM/yyyy',
-                        ],
-                        'field_options_end' => [
-                            'label' => 'Hasta',
-                            'format' => 'dd/MM/yyyy',
-                        ],
-                    ],
-                    'show_filter' => true,
-                ]
-            )
         ;
     }
 

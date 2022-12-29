@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
@@ -24,6 +25,27 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  */
 class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
 {
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection
+//            ->remove('delete')
+            ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
+            ->add('batch')
+        ;
+    }
+
+    public function configureBatchActions(array $actions): array
+    {
+        unset($actions['delete']);
+        $actions['downloadPdfOperatorPendingCheckings'] = [
+            'ask_confirmation' => false,
+            'label' => 'Informe revisiones',
+        ];
+
+        return $actions;
+    }
+
     /**
      * Methods.
      */
