@@ -32,12 +32,16 @@ class OperatorCheckingAdminController extends BaseAdminController
         return parent::editAction($request);
     }
 
-    public function downloadPdfOperatorPendingCheckingsAction(): Response
+    public function downloadPdfOperatorPendingCheckingsAction(Request $request): Response
     {
+        $category = $request->get('category');
         $operatorCheckings = $this->admin->getModelManager()->findBy(OperatorChecking::class, [
             'enabled' => true,
         ]);
-        //TODO filter by expedition date <= today plus + 1 month;
+        $operatorCheckings = array_filter($operatorCheckings, function (OperatorChecking $operatorChecking) use ($category) {
+            return $operatorChecking->getType()->getCategory() == $category;
+        });
+        // TODO filter by expedition date <= today plus + 1 month;
         if (!$operatorCheckings) {
             $this->addFlash('warning', 'No existen revisiones pendientes.');
         }
