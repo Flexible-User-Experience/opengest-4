@@ -7,6 +7,7 @@ use App\Enum\OperatorCheckingTypeCategoryEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
@@ -24,15 +25,11 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
  */
 class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
 {
-    /**
-     * @var string
-     */
     protected $classnameLabel = 'Revisiones';
 
-    /**
-     * @var string
-     */
     protected $baseRoutePattern = 'operarios/revision';
+
+    protected $baseRouteName = 'admin_app_operator_operatorchecking';
 
     /**
      * Methods.
@@ -189,6 +186,17 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                 ]
             )
         ;
+    }
+
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $queryBuilder = parent::configureQuery($query);
+        $queryBuilder
+            ->andWhere('oct.category = :category')
+            ->setParameter('category', OperatorCheckingTypeCategoryEnum::CHECKING)
+        ;
+
+        return $queryBuilder;
     }
 
     protected function configureListFields(ListMapper $listMapper): void

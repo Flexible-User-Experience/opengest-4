@@ -2,13 +2,14 @@
 
 namespace App\Admin\Operator;
 
-use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
+use App\Enum\OperatorCheckingTypeCategoryEnum;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
@@ -16,17 +17,48 @@ use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Class OperatorCheckingBaseAdmin.
+ * Class OperatorCheckingPpeAdmin.
  *
  * @category Admin
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  */
-class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
+class OperatorCheckingPpeAdmin extends OperatorCheckingBaseAdmin
 {
+    protected $classnameLabel = 'Epis';
+
+    protected $baseRoutePattern = 'operarios/epis';
+
+    protected $baseRouteName = 'admin_app_operator_operatorchecking_ppe';
+
     /**
      * Methods.
      */
+
+    /**
+     * Configure route collection.
+     */
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection
+//            ->remove('delete')
+            ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
+            ->add('batch')
+        ;
+    }
+
+    public function configureBatchActions(array $actions): array
+    {
+        unset($actions['delete']);
+        $actions['downloadPdfOperatorPendingCheckings'] = [
+            'ask_confirmation' => false,
+            'label' => 'Informe revisiones',
+        ];
+
+        return $actions;
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
@@ -77,7 +109,9 @@ class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.with.operator_checking_type',
                     'required' => true,
-                    'query_builder' => $this->rm->getOperatorCheckingTypeRepository()->getEnabledSortedByNameQB(),
+                    'query_builder' => $this->rm
+                        ->getOperatorCheckingTypeRepository()
+                        ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::PPE),
                 ]
             )
             ->add(
@@ -158,12 +192,8 @@ class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
     {
         $queryBuilder = parent::configureQuery($query);
         $queryBuilder
-            ->join($queryBuilder->getRootAliases()[0].'.operator', 'op')
-            ->join($queryBuilder->getRootAliases()[0].'.type', 'oct')
-            ->andWhere('op.enterprise = :enterprise')
-            ->andWhere('op.enabled = :enabled')
-            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-            ->setParameter('enabled', true)
+            ->andWhere('oct.category = :category')
+            ->setParameter('category', OperatorCheckingTypeCategoryEnum::PPE)
         ;
 
         return $queryBuilder;
@@ -223,7 +253,7 @@ class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'admin.with.operator_checking_type',
+                    'label' => 'admin.with.operator_checking_type_ppe',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,
