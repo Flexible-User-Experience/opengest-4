@@ -429,6 +429,16 @@ class Operator extends AbstractBase
     private $operatorCheckings;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $operatorCheckingPpes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private Collection $operatorCheckingTrainings;
+
+    /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -1589,37 +1599,35 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorCheckings()
+    public function getOperatorCheckings(): Collection
     {
         return $this->operatorCheckings
-//            ->filter(function (OperatorChecking $operatorChecking) {
-//                if (!$operatorChecking->getId()) {
-//                    return true;
-//                }
-//            return $operatorChecking->getType()?->getCategory() === OperatorCheckingTypeCategoryEnum::CHECKING;
-//        })
-            ;
+            ->filter($this->filterOperatorCheckings(OperatorCheckingTypeCategoryEnum::CHECKING))
+        ;
     }
 
-    /**
-     * @param $operatorCheckings
-     *
-     * @return $this
-     */
-    public function setOperatorCheckings($operatorCheckings)
+    public function getOperatorCheckingPpes(): Collection
+    {
+        return $this->operatorCheckingPpes
+            ->filter($this->filterOperatorCheckings(OperatorCheckingTypeCategoryEnum::PPE))
+        ;
+    }
+
+    public function getOperatorCheckingTrainings(): Collection
+    {
+        return $this->operatorCheckingPpes
+            ->filter($this->filterOperatorCheckings(OperatorCheckingTypeCategoryEnum::TRAINING))
+        ;
+    }
+
+    public function setOperatorCheckings($operatorCheckings): Operator
     {
         $this->operatorCheckings = $operatorCheckings;
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function addOperatorChecking(OperatorChecking $operatorChecking)
+    public function addOperatorChecking(OperatorChecking $operatorChecking): Operator
     {
         if (!$this->operatorCheckings->contains($operatorChecking)) {
             $this->operatorCheckings->add($operatorChecking);
@@ -1629,13 +1637,48 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function removeOperatorChecking(OperatorChecking $operatorChecking)
+    public function removeOperatorChecking(OperatorChecking $operatorChecking): Operator
     {
         if ($this->operatorCheckings->contains($operatorChecking)) {
             $this->operatorCheckings->removeElement($operatorChecking);
+        }
+
+        return $this;
+    }
+
+    public function addOperatorCheckingPpe(OperatorChecking $operatorChecking): Operator
+    {
+        if (!$this->operatorCheckingPpes->contains($operatorChecking)) {
+            $this->operatorCheckingPpes->add($operatorChecking);
+            $operatorChecking->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperatorCheckingPpe(OperatorChecking $operatorChecking): Operator
+    {
+        if ($this->operatorCheckingPpes->contains($operatorChecking)) {
+            $this->operatorCheckingPpes->removeElement($operatorChecking);
+        }
+
+        return $this;
+    }
+
+    public function addOperatorCheckingTraining(OperatorChecking $operatorChecking): Operator
+    {
+        if (!$this->operatorCheckingTrainings->contains($operatorChecking)) {
+            $this->operatorCheckingTrainings->add($operatorChecking);
+            $operatorChecking->setOperator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperatorCheckingTraining(OperatorChecking $operatorChecking): Operator
+    {
+        if ($this->operatorCheckingTrainings->contains($operatorChecking)) {
+            $this->operatorCheckingTrainings->removeElement($operatorChecking);
         }
 
         return $this;
@@ -1973,5 +2016,16 @@ class Operator extends AbstractBase
     public function __toString()
     {
         return $this->id ? (!$this->getEnabled() ? '¡Inactivo! - ' : '').$this->getFullName() : '---';
+    }
+
+    protected function filterOperatorCheckings(int $operatorCheckingCategory): \Closure
+    {
+        return function (OperatorChecking $operatorChecking) use ($operatorCheckingCategory) {
+            if (!$operatorChecking->getId()) {
+                return true;
+            }
+
+            return $operatorChecking->getType()?->getCategory() === $operatorCheckingCategory;
+        };
     }
 }

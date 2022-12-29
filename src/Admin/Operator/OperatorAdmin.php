@@ -509,6 +509,45 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'edit' => 'inline',
                         'inline' => 'table',
+                        'admin_code' => 'app.admin.operator_checking',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Epis')
+                ->with('Epis', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'operatorCheckingPpes',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'by_reference' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'admin_code' => 'app.admin.operator_checking_ppe',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Formaciones')
+                ->with('Formaciones', $this->getFormMdSuccessBoxArray(6))
+                ->add(
+                    'operatorCheckingTrainings',
+                    CollectionType::class,
+                    [
+                        'required' => false,
+                        'error_bubbling' => true,
+                        'label' => false,
+                        'by_reference' => false,
+                    ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'admin_code' => 'app.admin.operator_checking_training',
                     ]
                 )
                 ->end()
