@@ -509,7 +509,6 @@ class OperatorAdmin extends AbstractBaseAdmin
                     [
                         'edit' => 'inline',
                         'inline' => 'table',
-                        'admin_code' => 'app.admin.operator_checking',
                     ]
                 )
                 ->end()
@@ -523,12 +522,10 @@ class OperatorAdmin extends AbstractBaseAdmin
                         'required' => false,
                         'error_bubbling' => true,
                         'label' => false,
-                        'by_reference' => false,
                     ],
                     [
                         'edit' => 'inline',
                         'inline' => 'table',
-                        'admin_code' => 'app.admin.operator_checking_ppe',
                     ]
                 )
                 ->end()

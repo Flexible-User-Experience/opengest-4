@@ -419,14 +419,14 @@ class Operator extends AbstractBase
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorDigitalTachograph", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $operatorDigitalTachographs;
+    private Collection $operatorDigitalTachographs;
 
     /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $operatorCheckings;
+    private Collection $operatorCheckings;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorCheckingPpe", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -506,6 +506,8 @@ class Operator extends AbstractBase
     {
         $this->operatorDigitalTachographs = new ArrayCollection();
         $this->operatorCheckings = new ArrayCollection();
+        $this->operatorCheckingPpes = new ArrayCollection();
+        $this->operatorCheckingTrainings = new ArrayCollection();
         $this->operatorAbsences = new ArrayCollection();
         $this->saleRequests = new ArrayCollection();
         $this->operatorVariousAmount = new ArrayCollection();
@@ -1615,7 +1617,7 @@ class Operator extends AbstractBase
 
     public function getOperatorCheckingTrainings(): Collection
     {
-        return $this->operatorCheckingPpes
+        return $this->operatorCheckingTrainings
             ->filter($this->filterOperatorCheckings(OperatorCheckingTypeCategoryEnum::TRAINING))
         ;
     }
@@ -1660,7 +1662,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function addOperatorCheckingPpe(OperatorChecking $operatorChecking): Operator
+    public function addOperatorCheckingPpe(OperatorCheckingPpe $operatorChecking): Operator
     {
         if (!$this->operatorCheckingPpes->contains($operatorChecking)) {
             $this->operatorCheckingPpes->add($operatorChecking);
@@ -1670,7 +1672,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function removeOperatorCheckingPpe(OperatorChecking $operatorChecking): Operator
+    public function removeOperatorCheckingPpe(OperatorCheckingPpe $operatorChecking): Operator
     {
         if ($this->operatorCheckingPpes->contains($operatorChecking)) {
             $this->operatorCheckingPpes->removeElement($operatorChecking);
@@ -1679,7 +1681,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function addOperatorCheckingTraining(OperatorChecking $operatorChecking): Operator
+    public function addOperatorCheckingTraining(OperatorCheckingTraining $operatorChecking): Operator
     {
         if (!$this->operatorCheckingTrainings->contains($operatorChecking)) {
             $this->operatorCheckingTrainings->add($operatorChecking);
@@ -1689,7 +1691,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    public function removeOperatorCheckingTraining(OperatorChecking $operatorChecking): Operator
+    public function removeOperatorCheckingTraining(OperatorCheckingTraining $operatorChecking): Operator
     {
         if ($this->operatorCheckingTrainings->contains($operatorChecking)) {
             $this->operatorCheckingTrainings->removeElement($operatorChecking);
@@ -2034,7 +2036,7 @@ class Operator extends AbstractBase
 
     protected function filterOperatorCheckings(int $operatorCheckingCategory): \Closure
     {
-        return function (OperatorChecking $operatorChecking) use ($operatorCheckingCategory) {
+        return function (OperatorChecking|OperatorCheckingPpe|OperatorCheckingTraining $operatorChecking) use ($operatorCheckingCategory) {
             if (!$operatorChecking->getId()) {
                 return true;
             }
