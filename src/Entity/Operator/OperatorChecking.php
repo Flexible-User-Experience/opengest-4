@@ -25,26 +25,26 @@ class OperatorChecking extends OperatorCheckingBase
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckings")
      */
-    private $operator;
+    protected $operator;
 
     /**
      * @var OperatorCheckingType
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorCheckingType")
      */
-    private $type;
+    protected $type;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="date")
      */
-    private $begin;
+    protected $begin;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="date")
      */
-    private $end;
+    protected $end;
 }

@@ -429,12 +429,12 @@ class Operator extends AbstractBase
     private $operatorCheckings;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorCheckingPpe", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $operatorCheckingPpes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorCheckingTraining", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private Collection $operatorCheckingTrainings;
 
@@ -1623,6 +1623,20 @@ class Operator extends AbstractBase
     public function setOperatorCheckings($operatorCheckings): Operator
     {
         $this->operatorCheckings = $operatorCheckings;
+
+        return $this;
+    }
+
+    public function setOperatorCheckingPpes($operatorCheckings): Operator
+    {
+        $this->operatorCheckingPpes = $operatorCheckings;
+
+        return $this;
+    }
+
+    public function setOperatorCheckingTrainings($operatorCheckings): Operator
+    {
+        $this->operatorCheckingTrainings = $operatorCheckings;
 
         return $this;
     }

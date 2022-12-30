@@ -23,28 +23,28 @@ class OperatorCheckingTraining extends OperatorCheckingBase
     /**
      * @var Operator
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckingsTrainings")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckingTrainings")
      */
-    private $operator;
+    protected $operator;
 
     /**
      * @var OperatorCheckingType
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorCheckingType")
      */
-    private $type;
+    protected $type;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="date")
      */
-    private $begin;
+    protected $begin;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(type="date")
      */
-    private $end;
+    protected $end;
 }
