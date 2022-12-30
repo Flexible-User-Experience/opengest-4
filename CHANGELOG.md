@@ -1,6 +1,9 @@
 Changelog
 =========
 
+##### Version 4.1.05 (2022-12-30)
+* Added operator checking training and ppe related to operators
+
 ##### Version 4.1.04 (2022-12-01)
 * update ansible 
 * add document collection in operator vehicle and company
