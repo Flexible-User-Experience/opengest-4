@@ -258,4 +258,13 @@
         <i class="fas fa-file-invoice" aria-hidden="true"></i>
         Generar Factura-e
     </a>
+    <a href="{{ admin.generateUrl('pdf', { 'id': object.id }) }}" target="_blank" class="btn btn-success" name="btn_update">
+        <i class="fas fa-download" aria-hidden="true"></i>
+        Descargar factura en Pdf
+    </a>
+    <a href="mailto:{{ object.partner.email }}?subject=Factura {{ object.invoiceNumber }}.&body=Enviamos factura adjunta con número {{ object.invoiceNumber }} e importe total
+{{ object.total }}." class="btn btn-success">
+        <i class="fas fa-envelope" aria-hidden="true"></i>
+        Enviar factura por email
+    </a>
 {% endblock %}

@@ -23,6 +23,22 @@ services:
         calls:
             - [ setTemplate, [ list, 'admin/operator-checking/list.html.twig' ] ]
             - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator_checking_ppe:
+        class: App\Admin\Operator\OperatorCheckingPpeAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Operator\OperatorCheckingPpe, controller: App\Controller\Admin\Operator\OperatorCheckingAdminController, manager_type: orm, label: 'Epi', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ list, 'admin/operator-checking/list.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
+    app.admin.operator_checking_training:
+        class: App\Admin\Operator\OperatorCheckingTrainingAdmin
+        arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+        tags:
+            - { name: sonata.admin, code: ~, model_class: App\Entity\Operator\OperatorCheckingTraining, controller: App\Controller\Admin\Operator\OperatorCheckingAdminController, manager_type: orm, label: 'Formación', group: 'Operarios', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
+        calls:
+            - [ setTemplate, [ list, 'admin/operator-checking/list.html.twig' ] ]
+            - [ setTranslationDomain, [ 'admin' ] ]
     app.admin.operator_absence_type:
         class: App\Admin\Operator\OperatorAbsenceTypeAdmin
         arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']

@@ -3,12 +3,14 @@
 namespace App\Admin\Operator;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Enum\OperatorCheckingTypeCategoryEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
@@ -53,6 +55,14 @@ class OperatorCheckingTypeAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('admin.with.operator_checking_type', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'category',
+                ChoiceType::class,
+                [
+                    'choices' => OperatorCheckingTypeCategoryEnum::getEnumArray(),
+                    'label' => 'admin.label.group',
+                ]
+            )
             ->add(
                 'name',
                 null,
@@ -115,6 +125,14 @@ class OperatorCheckingTypeAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
+            ->add(
+                'category',
+                null,
+                [
+                    'label' => 'admin.label.group',
+                    'template' => 'admin/cells/list__cell_operator_checking_type_category.html.twig',
+                ]
+            )
             ->add(
                 'name',
                 null,

@@ -2,32 +2,59 @@
 
 namespace App\Admin\Operator;
 
+use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
-use App\Enum\OperatorCheckingTypeCategoryEnum;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Class OperatorCheckingAdmin.
+ * Class OperatorCheckingBaseAdmin.
  *
  * @category Admin
  *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
+ * @author   Jordi Sort <jordi.sort@mirmit.com>
  */
-class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
+class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
 {
-    protected $classnameLabel = 'Revisiones';
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        $collection
+//            ->remove('delete')
+            ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
+            ->add('batch')
+        ;
+    }
 
-    protected $baseRoutePattern = 'operarios/revision';
+    public function configureBatchActions(array $actions): array
+    {
+        unset($actions['delete']);
+        $actions['downloadPdfOperatorPendingCheckings'] = [
+            'ask_confirmation' => false,
+            'label' => 'Informe revisiones',
+        ];
 
-    protected $baseRouteName = 'admin_app_operator_operatorchecking';
+        return $actions;
+    }
 
     /**
      * Methods.
      */
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::SORT_BY] = 'end';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->getCode() === $this->getRootCode()) {
@@ -72,9 +99,7 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                 [
                     'label' => 'admin.with.operator_checking_type',
                     'required' => true,
-                    'query_builder' => $this->rm
-                        ->getOperatorCheckingTypeRepository()
-                        ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::CHECKING),
+                    'query_builder' => $this->rm->getOperatorCheckingTypeRepository()->getEnabledSortedByNameQB(),
                 ]
             )
             ->add(
@@ -99,12 +124,68 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
         ;
     }
 
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    {
+        $datagridMapper
+            ->add(
+                'operator',
+                null,
+                [
+                    'label' => 'admin.label.operator',
+                ]
+            )
+            ->add(
+                'type',
+                null,
+                [
+                    'label' => 'admin.with.operator_checking_type',
+                ]
+            )
+            ->add(
+                'begin',
+                DateFilter::class,
+                [
+                    'label' => 'admin.label.expedition_date',
+                    'field_type' => DatePickerType::class,
+                    'format' => 'd/m/Y',
+                    'field_options' => [
+                            'widget' => 'single_text',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                ]
+            )
+            ->add(
+                'end',
+                DateRangeFilter::class,
+                [
+                    'label' => 'admin.label.expiry_date',
+                    'field_type' => DateRangePickerType::class,
+                    'field_options' => [
+                        'field_options_start' => [
+                            'label' => 'Desde',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                        'field_options_end' => [
+                            'label' => 'Hasta',
+                            'format' => 'dd/MM/yyyy',
+                        ],
+                    ],
+                    'show_filter' => true,
+                ]
+            )
+        ;
+    }
+
     public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $queryBuilder = parent::configureQuery($query);
         $queryBuilder
-            ->andWhere('oct.category = :category')
-            ->setParameter('category', OperatorCheckingTypeCategoryEnum::CHECKING)
+            ->join($queryBuilder->getRootAliases()[0].'.operator', 'op')
+            ->join($queryBuilder->getRootAliases()[0].'.type', 'oct')
+            ->andWhere('op.enterprise = :enterprise')
+            ->andWhere('op.enabled = :enabled')
+            ->setParameter('enterprise', $this->getUserLogedEnterprise())
+            ->setParameter('enabled', true)
         ;
 
         return $queryBuilder;

@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,13 +105,16 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        /* TODO @var SaleRequestPdfManager $rps /
-        $rps = $this->container->get('app.sale_request_pdf_manager');
-        return new Response($rps->outputSingle($saleRequest), 200, array('Content-type' => 'application/pdf'));*/
+        $response = new Response($this->sipm->outputCollectionEmail([$saleInvoice]));
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'factura '.$saleInvoice->getInvoiceNumber().'.pdf'
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->setStatusCode('200');
 
-        $this->addFlash('warning', 'Aquesta acció encara NO funciona!');
-
-        return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
+        return $response;
     }
 
     /**
