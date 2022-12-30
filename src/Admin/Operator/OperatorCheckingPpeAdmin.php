@@ -11,19 +11,19 @@ use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Class OperatorCheckingAdmin.
+ * Class OperatorCheckingPpeAdmin.
  *
  * @category Admin
  *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
+ * @author   Jordi Sort <jordi.sort@mirmit.com>
  */
-class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
+class OperatorCheckingPpeAdmin extends OperatorCheckingBaseAdmin
 {
-    protected $classnameLabel = 'Revisiones';
+    protected $classnameLabel = 'Epis';
 
-    protected $baseRoutePattern = 'operarios/revision';
+    protected $baseRoutePattern = 'operarios/epis';
 
-    protected $baseRouteName = 'admin_app_operator_operatorchecking';
+    protected $baseRouteName = 'admin_app_operator_operatorchecking_ppe';
 
     /**
      * Methods.
@@ -74,7 +74,7 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                     'required' => true,
                     'query_builder' => $this->rm
                         ->getOperatorCheckingTypeRepository()
-                        ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::CHECKING),
+                        ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::PPE),
                 ]
             )
             ->add(
@@ -104,7 +104,7 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
         $queryBuilder = parent::configureQuery($query);
         $queryBuilder
             ->andWhere('oct.category = :category')
-            ->setParameter('category', OperatorCheckingTypeCategoryEnum::CHECKING)
+            ->setParameter('category', OperatorCheckingTypeCategoryEnum::PPE)
         ;
 
         return $queryBuilder;
@@ -164,7 +164,7 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                 'type',
                 null,
                 [
-                    'label' => 'admin.with.operator_checking_type',
+                    'label' => 'admin.with.operator_checking_type_ppe',
                     'editable' => false,
                     'associated_property' => 'name',
                     'sortable' => true,

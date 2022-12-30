@@ -9,21 +9,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Class OperatorChecking.
+ * Class OperatorCheckingPpe
  *
  * @category Entity
  *
- * @author   Wils Iglesias <wiglesias83@gmail.com>
+ * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorCheckingRepository")
- * @ORM\Table(name="operator_cheking")
+ * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorCheckingTrainingRepository")
+ * @ORM\Table(name="operator_cheking_training")
  */
-class OperatorChecking extends OperatorCheckingBase
+class OperatorCheckingTraining extends OperatorCheckingBase
 {
     /**
      * @var Operator
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckings")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckingTrainings")
      */
     protected $operator;
 

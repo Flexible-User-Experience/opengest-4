@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- * 
+ *
  * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorCheckingTypeRepository")
  * @ORM\Table(name="operator_checking_type")
  */
@@ -23,12 +23,25 @@ class OperatorCheckingType extends AbstractBase
     use DescriptionTrait;
 
     /**
-     * Methods.
+     * @ORM\Column(type="integer")
      */
+    private int $category = 0;
 
     /**
-     * @return string
+     * Methods.
      */
+    public function getCategory(): int
+    {
+        return $this->category;
+    }
+
+    public function setCategory(int $category): OperatorCheckingType
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->id ? $this->getName() : '---';

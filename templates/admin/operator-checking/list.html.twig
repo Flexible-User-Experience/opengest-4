@@ -2,7 +2,7 @@
 
 {% block actions %}
     <li>
-        <a class="sonata-action-element" href="{{ admin.generateUrl('downloadPdfOperatorPendingCheckings') }}">
+        <a class="sonata-action-element" href="{{ admin.generateUrl('downloadPdfOperatorPendingCheckings', {'category': 0}) }}">
             <i class="fa fa-upload" aria-hidden="true"></i>
             Descargar informe
         </a>
