@@ -763,7 +763,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'partner',
+                'partnerName',
                 null,
                 [
                     'label' => 'admin.label.partner',
