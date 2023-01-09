@@ -71,7 +71,6 @@ class SaleInvoicePdfManager
         return $pdf->Output($this->getInvoicesNumbers($saleInvoices).'.pdf', 'I');
     }
 
-
     /**
      * @param $saleInvoices
      */
@@ -84,7 +83,7 @@ class SaleInvoicePdfManager
         }
         foreach ($partnersFromSaleInvoices as $partner) {
             $width = $this->addStartPage($pdf);
-            list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, $partner, $from, $to, $width);
+            list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, $partner, $from, $to, $width, false);
             $totalBases = 0;
             $totalTotal = 0;
             $filteredSaleInvoicesByPartner = array_filter($saleInvoices, function ($x) use ($partner) {
@@ -95,7 +94,7 @@ class SaleInvoicePdfManager
             foreach ($filteredSaleInvoicesByPartner as $saleInvoice) {
                 if ($pdf->getY() > 180) {
                     $this->addStartPage($pdf);
-                    list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, $partner, $from, $to, $width);
+                    list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, $partner, $from, $to, $width, false);
                 }
                 $totalBases = $saleInvoice->getBaseTotal() + $totalBases;
                 $totalTotal = $saleInvoice->getTotal() + $totalTotal;
@@ -106,7 +105,7 @@ class SaleInvoicePdfManager
                 $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleInvoice->getDateFormatted(),
                     1, 0, 'C', false);
-                $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+                $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleInvoice->getDeliveryNotes()->first() ? ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite() ? $saleInvoice->getDeliveryNotes()->first()->getBuildingSite() : '') : '',
                     1, 0, 'L', false, '', 1);
                 $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -127,7 +126,7 @@ class SaleInvoicePdfManager
             $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
                 '',
                 0, 0, 'C', false);
-            $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
                 '',
                 0, 0, 'L', false, '', 1);
             $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -150,14 +149,14 @@ class SaleInvoicePdfManager
     public function buildInvoiceList($saleInvoices, $from, $to, TCPDF $pdf): TCPDF
     {
         $width = $this->addStartPage($pdf);
-        list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, '', $from, $to, $width);
+        list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, '', $from, $to, $width, true);
         $totalBases = 0;
         $totalTotal = 0;
         /** @var SaleInvoice $saleInvoice */
         foreach ($saleInvoices as $saleInvoice) {
             if ($pdf->getY() > 180) {
                 $this->addStartPage($pdf);
-                list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, '', $from, $to, $width);
+                list($colWidth1, $colWidth2, $colWidth3) = $this->printHeaders($pdf, '', $from, $to, $width, true);
             }
             $totalBases = $saleInvoice->getBaseTotal() + $totalBases;
             $totalTotal = $saleInvoice->getTotal() + $totalTotal;
@@ -169,6 +168,9 @@ class SaleInvoicePdfManager
                 $saleInvoice->getDateFormatted(),
                 1, 0, 'C', false);
             $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+                $saleInvoice->getPartner(),
+                1, 0, 'L', false, '', 1);
+            $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
                 $saleInvoice->getDeliveryNotes()->first() ? ($saleInvoice->getDeliveryNotes()->first()->getBuildingSite() ? $saleInvoice->getDeliveryNotes()->first()->getBuildingSite() : '') : '',
                 1, 0, 'L', false, '', 1);
             $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -190,6 +192,9 @@ class SaleInvoicePdfManager
             '',
             0, 0, 'C', false);
         $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+            '',
+            0, 0, 'L', false, '', 1);
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
             '',
             0, 0, 'L', false, '', 1);
         $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -851,13 +856,13 @@ class SaleInvoicePdfManager
      *
      * @return int[]
      */
-    private function printHeaders(TCPDF $pdf, $partner, $from, $to, int $width): array
+    private function printHeaders(TCPDF $pdf, $partner, $from, $to, int $width, $withClient): array
     {
         // header
         $this->pdfEngineService->setStyleSize('', 12);
         $pdf->SetXY(50, 20);
-        $pdf->setCellPaddings( 1, 0, 1, 0);
-        if($partner){
+        $pdf->setCellPaddings(1, 0, 1, 0);
+        if ($partner) {
             $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
                 'Listado de facturas del cliente '.$partner->getCode().'-'.$partner->getName(),
                 0, 0, 'L', false);
@@ -872,16 +877,27 @@ class SaleInvoicePdfManager
         // table headers
         $this->pdfEngineService->setStyleSize('', 8);
         $pdf->SetXY(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 50);
-        $colWidth1 = 32;
-        $colWidth2 = 82;
-        $colWidth3 = 48;
+        if (true === $withClient) {
+            $colWidth1 = 25;
+            $colWidth2 = 75;
+            $colWidth3 = 45;
+        } else {
+            $colWidth1 = 32;
+            $colWidth2 = 82;
+            $colWidth3 = 48;
+        }
         $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
             'Nº factura',
             1, 0, 'C', true);
         $pdf->Cell($colWidth1, ConstantsEnum::PDF_CELL_HEIGHT,
             'Fecha',
             1, 0, 'C', true);
-        $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+        if (true === $withClient) {
+            $pdf->Cell($colWidth2, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Cliente',
+                1, 0, 'C', true);
+        }
+        $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
             'Obra',
             1, 0, 'C', true);
         $pdf->Cell($colWidth3, ConstantsEnum::PDF_CELL_HEIGHT,
