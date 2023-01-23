@@ -450,6 +450,13 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'reference',
+                null,
+                [
+                    'label' => 'admin.label.reference',
+                ]
+            )
+            ->add(
                 'date',
                 null,
                 [
