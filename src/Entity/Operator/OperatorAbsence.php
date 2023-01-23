@@ -21,114 +21,80 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class OperatorAbsence extends AbstractBase
 {
     /**
-     * @var Operator
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorAbsences")
      */
-    private $operator;
+    private ?Operator $operator = null;
 
     /**
-     * @var OperatorAbsenceType
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorAbsenceType")
      */
-    private $type;
+    private ?OperatorAbsenceType $type = null;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(type="date")
      */
-    private $begin;
+    private ?DateTime $begin = null;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(type="date")
      */
-    private $end;
+    private ?DateTime $end = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    private $toPreviousYearCount = false;
+    private ?bool $toPreviousYearCount = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private ?bool $toNextYearCount = false;
 
     /**
      * Methods.
      */
-
-    /**
-     * @return Operator
-     */
-    public function getOperator()
+    public function getOperator(): ?Operator
     {
         return $this->operator;
     }
 
-    /**
-     * @param Operator $operator
-     *
-     * @return OperatorAbsence
-     */
-    public function setOperator($operator)
+    public function setOperator(Operator $operator): self
     {
         $this->operator = $operator;
 
         return $this;
     }
 
-    /**
-     * @return OperatorAbsenceType
-     */
-    public function getType()
+    public function getType(): ?OperatorAbsenceType
     {
         return $this->type;
     }
 
-    /**
-     * @param OperatorAbsenceType $type
-     *
-     * @return OperatorAbsence
-     */
-    public function setType($type)
+    public function setType(OperatorAbsenceType $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getBegin()
+    public function getBegin(): ?DateTime
     {
         return $this->begin;
     }
 
-    /**
-     * @return OperatorAbsence
-     */
-    public function setBegin(DateTime $begin)
+    public function setBegin(DateTime $begin): self
     {
         $this->begin = $begin;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getEnd()
+    public function getEnd(): ?DateTime
     {
         return $this->end;
     }
 
-    /**
-     * @return OperatorAbsence
-     */
-    public function setEnd(DateTime $end)
+    public function setEnd(DateTime $end): self
     {
         $this->end = $end;
 
@@ -148,6 +114,18 @@ class OperatorAbsence extends AbstractBase
     public function setToPreviousYearCount(bool $toPreviousYearCount): OperatorAbsence
     {
         $this->toPreviousYearCount = $toPreviousYearCount;
+
+        return $this;
+    }
+
+    public function isToNextYearCount(): bool
+    {
+        return $this->toNextYearCount;
+    }
+
+    public function setToNextYearCount(bool $toNextYearCount): OperatorAbsence
+    {
+        $this->toNextYearCount = $toNextYearCount;
 
         return $this;
     }
