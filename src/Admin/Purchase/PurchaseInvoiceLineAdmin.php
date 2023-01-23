@@ -6,7 +6,6 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Purchase\PurchaseInvoiceLine;
-use App\Entity\Purchase\PurchaseItem;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
@@ -17,7 +16,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -58,7 +57,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
             'saleDeliveryNote',
             'vehicle',
             'operator',
-            'costCenter'
+            'costCenter',
         ];
     }
 
@@ -68,12 +67,13 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
             ->with('admin.label.purchase_invoice_line', $this->getFormMdSuccessBoxArray(12))
             ->add(
                 'purchaseItem',
-                EntityType::class,
+                ModelAutocompleteType::class,
                 [
-                    'class' => PurchaseItem::class,
+                    'property' => 'name',
                     'label' => 'admin.label.purchase_item',
                     'required' => false,
                     'placeholder' => '---',
+                    'btn_add' => false,
                 ]
             )
             ->add(
@@ -185,7 +185,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'query_builder' => $this->rm->getCostCenterRepository()->getEnabledSortedByNameQB(),
                 ]
             )
-            ;
+        ;
         if ($this->getCode() == $this->getRootCode()) {
             $formMapper
                 ->add(
@@ -466,7 +466,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
         /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
         $purchaseInvoiceLine = $this->getSubject();
         if (!$this->id($purchaseInvoiceLine)) {
-            return $this->getSubject()->getPurchaseInvoice()->getPartner()->getDefaultIrpf();
+            return $this->getSubject()->getPurchaseInvoice()?->getPartner()->getDefaultIrpf() ?: 0;
         } else {
             return $purchaseInvoiceLine->getIrpf();
         }
@@ -477,7 +477,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
         /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
         $purchaseInvoiceLine = $this->getSubject();
         if (!$this->id($purchaseInvoiceLine)) {
-            return $this->getSubject()->getPurchaseInvoice()->getPartner()->getDefaultIva();
+            return $this->getSubject()->getPurchaseInvoice()?->getPartner()->getDefaultIva() ?: 0;
         } else {
             return $purchaseInvoiceLine->getIva();
         }
