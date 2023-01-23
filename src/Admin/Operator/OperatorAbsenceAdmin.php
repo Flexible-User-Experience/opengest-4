@@ -125,6 +125,14 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
+            ->add(
+                'toNextYearCount',
+                CheckboxType::class,
+                [
+                    'label' => 'admin.label.to_next_year_count',
+                    'required' => false,
+                ]
+            )
             ->end()
         ;
     }
