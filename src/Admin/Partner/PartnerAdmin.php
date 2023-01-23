@@ -72,14 +72,19 @@ class PartnerAdmin extends AbstractBaseAdmin
         $formMapper
             ->tab('General')
             ->with('General', $this->getFormMdSuccessBoxArray(4))
-            ->add(
-                'code',
-                null,
-                [
-                    'label' => 'admin.label.code',
-//                    'disabled' => true,
-                ]
-            )
+        ;
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->add(
+                    'code',
+                    null,
+                    [
+                        'label' => 'admin.label.code',
+                        //                    'disabled' => true,
+                    ]
+                );
+        }
+        $formMapper
             ->add(
                 'reference',
                 null,
