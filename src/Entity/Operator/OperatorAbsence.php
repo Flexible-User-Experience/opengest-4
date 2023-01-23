@@ -114,6 +114,9 @@ class OperatorAbsence extends AbstractBase
     public function setToPreviousYearCount(bool $toPreviousYearCount): OperatorAbsence
     {
         $this->toPreviousYearCount = $toPreviousYearCount;
+        if ($toPreviousYearCount) {
+            $this->setToNextYearCount(false);
+        }
 
         return $this;
     }
@@ -126,6 +129,9 @@ class OperatorAbsence extends AbstractBase
     public function setToNextYearCount(bool $toNextYearCount): OperatorAbsence
     {
         $this->toNextYearCount = $toNextYearCount;
+        if ($toNextYearCount) {
+            $this->setToPreviousYearCount(false);
+        }
 
         return $this;
     }

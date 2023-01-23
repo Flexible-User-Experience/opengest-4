@@ -37,6 +37,7 @@
                                                     <th>Tipo ausencia</th>
                                                     <th>Año anterior</th>
                                                     <th>Año actual</th>
+                                                    <th>Año próximo</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -45,6 +46,7 @@
                                                       <td>{{ operatorAbsenceType }}</td>
                                                       <td>{{ countGrouped.lastYear is defined ? countGrouped.lastYear : 0 }}</td>
                                                       <td>{{ countGrouped.currentYear is defined ? countGrouped.currentYear : 0 }}</td>
+                                                      <td>{{ countGrouped.nextYear is defined ? countGrouped.nextYear : 0 }}</td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>
