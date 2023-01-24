@@ -5,6 +5,7 @@ namespace App\Admin\Operator;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
 use App\Entity\Operator\Operator;
+use App\Enum\OperatorTypeEnum;
 use App\Enum\UserRolesEnum;
 use Doctrine\ORM\NonUniqueResultException;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -19,6 +20,7 @@ use Sonata\Form\Type\CollectionType;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
@@ -165,6 +167,14 @@ class OperatorAdmin extends AbstractBaseAdmin
                         null,
                         [
                             'label' => 'surname2',
+                        ]
+                    )
+                    ->add(
+                        'type',
+                        ChoiceType::class,
+                        [
+                            'choices' => OperatorTypeEnum::getEnumArray(),
+                            'label' => 'admin.label.type',
                         ]
                     )
                 ->end()
