@@ -4,7 +4,7 @@ namespace App\Entity\Operator;
 
 use App\Entity\AbstractBase;
 use DateTime;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -93,6 +93,30 @@ abstract class OperatorCheckingBase extends AbstractBase
     public function getStatus(): bool
     {
         return true;
+    }
+
+    public function getUploadedFile(): ?File
+    {
+        return $this->uploadedFile;
+    }
+
+    public function setUploadedFile(?File $uploadedFile): self
+    {
+        $this->uploadedFile = $uploadedFile;
+
+        return $this;
+    }
+
+    public function getUploadedFileName(): ?string
+    {
+        return $this->uploadedFileName;
+    }
+
+    public function setUploadedFileName(?string $uploadedFileName): self
+    {
+        $this->uploadedFileName = $uploadedFileName;
+
+        return $this;
     }
 
     /**
