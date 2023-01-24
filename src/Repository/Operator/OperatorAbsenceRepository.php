@@ -132,6 +132,9 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
                 $date->modify('+1 day');
             }
             $numberOfDays = $numberOfDays - $numberOfHolidays;
+            if ('1/2 día vacaciones' === $operatorAbsence->getType()->getName()) {
+                $numberOfDays = $numberOfDays * 0.5;
+            }
             if (
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear) && (!$operatorAbsence->isToPreviousYearCount()) && (!$operatorAbsence->isToNextYearCount()))
                 ||
