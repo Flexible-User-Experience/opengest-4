@@ -2,11 +2,9 @@
 
 namespace App\Entity\Operator;
 
-use App\Entity\AbstractBase;
+use App\Entity\Setting\Document;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Class OperatorChecking.
@@ -47,4 +45,21 @@ class OperatorChecking extends OperatorCheckingBase
      * @ORM\Column(type="date")
      */
     protected $end;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Setting\Document", mappedBy="operatorChecking")
+     */
+    private ?Document $document = null;
+
+    public function getDocument(): ?Document
+    {
+        return $this->document;
+    }
+
+    public function setDocument(?Document $document): self
+    {
+        $this->document = $document;
+
+        return $this;
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Entity\Setting;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
+use App\Entity\Operator\OperatorChecking;
 use App\Entity\Vehicle\Vehicle;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Class City.
+ * Class Document.
  *
  * @category Entity
  *
@@ -59,6 +60,11 @@ class Document extends AbstractBase
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="documents")
      */
     private ?Enterprise $enterprise = null;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Operator\OperatorChecking", inversedBy="document")
+     */
+    private ?OperatorChecking $operatorChecking = null;
 
     /**
      * Methods.
@@ -131,6 +137,18 @@ class Document extends AbstractBase
     public function setEnterprise(?Enterprise $enterprise): Document
     {
         $this->enterprise = $enterprise;
+
+        return $this;
+    }
+
+    public function getOperatorChecking(): ?OperatorChecking
+    {
+        return $this->operatorChecking;
+    }
+
+    public function setOperatorChecking(?OperatorChecking $operatorChecking): Document
+    {
+        $this->operatorChecking = $operatorChecking;
 
         return $this;
     }
