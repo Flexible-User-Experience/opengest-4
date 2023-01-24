@@ -97,6 +97,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoice_reference',
+                    'required' => true,
                 ]
             )
             ->add(
