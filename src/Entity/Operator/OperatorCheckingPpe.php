@@ -53,10 +53,10 @@ class OperatorCheckingPpe extends OperatorCheckingBase
      * @Vich\UploadableField(mapping="operator_checking_ppe", fileNameProperty="uploadedFileName")
      * @Assert\File(maxSize="10M")
      */
-    private ?File $uploadedFile = null;
+    protected ?File $uploadedFile = null;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $uploadedFileName = null;
+    protected ?string $uploadedFileName = null;
 }

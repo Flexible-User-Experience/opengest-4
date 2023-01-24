@@ -52,6 +52,7 @@ vich_uploader:
             uri_prefix:         /uploads/documents/vehicle
             upload_destination: '%kernel.project_dir%/var/uploads/documents/vehicle'
         digital_tachograph_operator:
+            namer: vich_uploader.namer_uniqid
             uri_prefix:         /uploads/digital_tachograph/operator
             upload_destination: '%kernel.project_dir%/var/uploads/digital_tachograph/operator'
         digital_tachograph_vehicle:

@@ -102,7 +102,7 @@ class OperatorDigitalTachographAdmin extends AbstractBaseAdmin
                     'help' => $this->getDownloadDigitalTachographButton(),
                     'help_html' => true,
                     'required' => true,
-                    'disabled' => $this->id($this->getSubject()) ? true : false,
+                    'disabled' => (bool) $this->id($this->getSubject()),
                 ]
             )
         ;

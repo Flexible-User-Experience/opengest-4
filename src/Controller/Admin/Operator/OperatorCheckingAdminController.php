@@ -8,6 +8,8 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * Class OperatorCheckingAdminController.
@@ -30,6 +32,17 @@ class OperatorCheckingAdminController extends BaseAdminController
         }
 
         return parent::editAction($request);
+    }
+
+    public function downloadAction(Request $request, DownloadHandler $downloadHandler): StreamedResponse
+    {
+        $id = $request->get($this->admin->getIdParameter());
+        $object = $this->admin->getObject($id);
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+        }
+
+        return $downloadHandler->downloadObject($object, 'uploadedFile');
     }
 
     public function downloadPdfOperatorPendingCheckingsAction(Request $request): Response

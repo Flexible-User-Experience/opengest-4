@@ -274,6 +274,17 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
         return $result;
     }
 
+    protected function getDownloadFileButton(): string
+    {
+        $result = '';
+        if ($this->getSubject() && $this->getSubject()?->getUploadedFileName()) {
+            $url = $this->getRouteGenerator()->generateUrl($this, 'download', ['id' => $this->getSubject()->getId()]);
+            $result = '<a class="btn btn-warning" role="button" href="'.$url.'"><i class="fa fa-download"></i> Descarregar arxiu</a>';
+        }
+
+        return $result;
+    }
+
     /**
      * @return Enterprise
      */
