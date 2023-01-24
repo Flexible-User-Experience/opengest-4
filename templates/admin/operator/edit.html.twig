@@ -44,9 +44,9 @@
                                                 {% for operatorAbsenceType,countGrouped in admin.operatorAbsences  %}
                                                     <tr>
                                                       <td>{{ operatorAbsenceType }}</td>
-                                                      <td>{{ countGrouped.lastYear is defined ? countGrouped.lastYear : 0 }}</td>
-                                                      <td>{{ countGrouped.currentYear is defined ? countGrouped.currentYear : 0 }}</td>
-                                                      <td>{{ countGrouped.nextYear is defined ? countGrouped.nextYear : 0 }}</td>
+                                                      <td>{{ countGrouped.lastYear is defined ? countGrouped.lastYear | number_format(1,',') : 0 }}</td>
+                                                      <td>{{ countGrouped.currentYear is defined ? countGrouped.currentYear | number_format(1,',') : 0 }}</td>
+                                                      <td>{{ countGrouped.nextYear is defined ? countGrouped.nextYear | number_format(1,',') : 0 }}</td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>
