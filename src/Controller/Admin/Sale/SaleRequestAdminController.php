@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Entity\Vehicle\Vehicle;
+use App\Enum\OperatorTypeEnum;
 use App\Manager\AvailabilityManager;
 use App\Manager\Pdf\SaleRequestPdfManager;
 use DateInterval;
@@ -166,13 +167,15 @@ class SaleRequestAdminController extends BaseAdminController
             }
             /** @var Operator $operator */
             foreach ($operators as $operator) {
-                if (AvailabilityManager::isOperatorAvailable($operator, $date)) {
-                    $availabilities[] = [
-                        'date' => $date->format('Y-m-d'),
-                        'type' => 'Operario',
-                        'id' => $operator->getId(),
-                        'name' => $operator,
-                    ];
+                if (OperatorTypeEnum::OPERATOR === $operator->getType()) {
+                    if (AvailabilityManager::isOperatorAvailable($operator, $date)) {
+                        $availabilities[] = [
+                            'date' => $date->format('Y-m-d'),
+                            'type' => 'Operario',
+                            'id' => $operator->getId(),
+                            'name' => $operator,
+                        ];
+                    }
                 }
             }
             $date = $date->add(new DateInterval('P1D'));

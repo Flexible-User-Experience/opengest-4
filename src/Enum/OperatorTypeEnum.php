@@ -9,9 +9,9 @@ namespace App\Enum;
  */
 class OperatorTypeEnum
 {
-    public const OPERATOR = '0';
-    public const OFFICE = '1';
-    public const GARAGE = '2';
+    public const OPERATOR = 0;
+    public const OFFICE = 1;
+    public const GARAGE = 2;
 
     /**
      * @return array
