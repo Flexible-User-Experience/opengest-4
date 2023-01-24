@@ -89,6 +89,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.invoice_number_long',
+                    'disabled' => true,
                 ]
             )
             ->add(
@@ -380,10 +381,10 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
     {
         $datagridMapper
             ->add(
-                'invoiceNumber',
+                'reference',
                 null,
                 [
-                    'label' => 'admin.label.invoice_number',
+                    'label' => 'admin.label.reference',
                 ]
             )
             ->add(
@@ -442,13 +443,6 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add(
-                'invoiceNumber',
-                null,
-                [
-                    'label' => 'admin.label.invoice_number',
-                ]
-            )
             ->add(
                 'reference',
                 null,
@@ -512,6 +506,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
         $this->setPartnerInformation($object);
+        $object->setInvoiceNumber($this->em->getRepository(PurchaseInvoice::class)->getMaxId() + 1);
     }
 
     /**
