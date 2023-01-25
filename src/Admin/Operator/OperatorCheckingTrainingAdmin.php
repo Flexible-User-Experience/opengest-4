@@ -6,6 +6,7 @@ use App\Enum\OperatorCheckingTypeCategoryEnum;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\Form\Type\DatePickerType;
 
 /**
  * Class OperatorCheckingTrainingAdmin.
@@ -39,6 +40,16 @@ class OperatorCheckingTrainingAdmin extends OperatorCheckingBaseAdmin
                     'query_builder' => $this->rm
                         ->getOperatorCheckingTypeRepository()
                         ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::TRAINING),
+                ]
+            )
+
+            ->add(
+                'begin',
+                DatePickerType::class,
+                [
+                    'label' => 'admin.with.operator_checking_expedition_date_training',
+                    'format' => 'd/M/y',
+                    'required' => true,
                 ]
             )
             ->end()

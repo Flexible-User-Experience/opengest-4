@@ -6,6 +6,7 @@ use App\Enum\OperatorCheckingTypeCategoryEnum;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\Form\Type\DatePickerType;
 
 /**
  * Class OperatorCheckingPpeAdmin.
@@ -30,6 +31,15 @@ class OperatorCheckingPpeAdmin extends OperatorCheckingBaseAdmin
         parent::configureFormFields($formMapper);
         $formMapper
             ->with('General', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'begin',
+                DatePickerType::class,
+                [
+                    'label' => 'admin.with.operator_checking_expedition_date_ppe',
+                    'format' => 'd/M/y',
+                    'required' => true,
+                ]
+            )
             ->add(
                 'type',
                 null,

@@ -258,6 +258,8 @@ admin:
         operator_checking_type: "Tipo de revisión"
         operator_checking_type_ppe: "Epi"
         operator_checking_type_training: "Formación"
+        operator_checking_expedition_date_ppe: "Fecha entrega"
+        operator_checking_expedition_date_training: "Fecha realización"
         operator_absence_type: "Tipo de ausencia"
         sale_tariff: "Tarifa"
         delivery_notes: "Albaranes"
