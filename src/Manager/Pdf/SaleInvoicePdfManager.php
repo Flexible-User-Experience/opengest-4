@@ -264,7 +264,7 @@ class SaleInvoicePdfManager
         // deliveryNoteInfo
         $hasIva0 = false;
         if ($withBackground) {
-            $YDim = 108;
+            $YDim = 106;
             $col1 = 32 - 6;
             $col2 = 46 - 5;
             $col3 = 122 + 2;
