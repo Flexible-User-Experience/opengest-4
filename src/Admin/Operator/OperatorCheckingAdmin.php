@@ -69,24 +69,6 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                 ]
             )
             ->add(
-                'begin',
-                'date',
-                [
-                    'label' => 'admin.label.expedition_date',
-                    'format' => 'd/m/Y',
-                    'editable' => true,
-                ]
-            )
-            ->add(
-                'end',
-                'date',
-                [
-                    'label' => 'admin.label.expiry_date',
-                    'format' => 'd/m/Y',
-                    'editable' => true,
-                ]
-            )
-            ->add(
                 'operator.profilePhotoImage',
                 null,
                 [
@@ -116,6 +98,24 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'type']],
+                ]
+            )
+            ->add(
+                'begin',
+                'date',
+                [
+                    'label' => 'admin.label.expedition_date',
+                    'format' => 'd/m/Y',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'end',
+                'date',
+                [
+                    'label' => 'admin.label.expiry_date',
+                    'format' => 'd/m/Y',
+                    'editable' => true,
                 ]
             )
             ->add(

@@ -220,24 +220,6 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'begin',
-                'date',
-                [
-                    'label' => 'admin.label.start',
-                    'format' => 'd/m/Y',
-                    'editable' => true,
-                ]
-            )
-            ->add(
-                'end',
-                'date',
-                [
-                    'label' => 'admin.label.finish',
-                    'format' => 'd/m/Y',
-                    'editable' => true,
-                ]
-            )
-            ->add(
                 'operator.profilePhotoImage',
                 null,
                 [
@@ -268,6 +250,24 @@ class OperatorAbsenceAdmin extends AbstractBaseAdmin
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'type']],
+                ]
+            )
+            ->add(
+                'begin',
+                'date',
+                [
+                    'label' => 'admin.label.start',
+                    'format' => 'd/m/Y',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'end',
+                'date',
+                [
+                    'label' => 'admin.label.finish',
+                    'format' => 'd/m/Y',
+                    'editable' => true,
                 ]
             )
             ->add(

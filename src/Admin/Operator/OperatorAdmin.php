@@ -507,7 +507,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Revisiones')
-                ->with('Revisiones', $this->getFormMdSuccessBoxArray(6))
+                ->with('Revisiones', $this->getFormMdSuccessBoxArray(8))
                 ->add(
                     'operatorCheckings',
                     CollectionType::class,
@@ -524,7 +524,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Epis')
-                ->with('Epis', $this->getFormMdSuccessBoxArray(6))
+                ->with('Epis', $this->getFormMdSuccessBoxArray(8))
                 ->add(
                     'operatorCheckingPpes',
                     CollectionType::class,
@@ -541,7 +541,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Formaciones')
-                ->with('Formaciones', $this->getFormMdSuccessBoxArray(6))
+                ->with('Formaciones', $this->getFormMdSuccessBoxArray(8))
                 ->add(
                     'operatorCheckingTrainings',
                     CollectionType::class,
