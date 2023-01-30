@@ -110,7 +110,7 @@
             right: 'dayGridMonth,dayGridWeek,dayGridDay'
           },
           eventDidMount: function(info) {
-            if (!info.event.id.includes('absence')) {
+            if (!info.event.id.includes('absence') && !info.event.id.includes('availability')) {
               tippy(info.el, {
                 content:
                   `
@@ -169,6 +169,16 @@
                 partnerId: 0
               },
             })
+        {% endfor %}
+        {% for availability in availabilities %}
+        calendar.addEvent({
+          id: 'availability-{{ availability.type }}-{{ availability.id }}',
+          title: '{{ availability.type }} - {{ availability.name }}',
+          start: '{{ availability.date}}',
+          fullDay: true,
+          color: '#aac785',
+          extendedProps: {}
+        })
         {% endfor %}
         let initialEvents = calendar.getEvents()
         calendar.render()

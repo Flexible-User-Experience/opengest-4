@@ -775,6 +775,11 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
+    public function getSaleRequests(): Collection
+    {
+        return $this->saleRequests;
+    }
+
     /**
      * @param SaleRequest $saleRequest
      *

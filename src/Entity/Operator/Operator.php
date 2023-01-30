@@ -415,6 +415,11 @@ class Operator extends AbstractBase
     private $workingDressSize;
 
     /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
+    private int $type = 0;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorDigitalTachograph", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -1548,6 +1553,18 @@ class Operator extends AbstractBase
     public function setWorkingDressSize($workingDressSize)
     {
         $this->workingDressSize = $workingDressSize;
+
+        return $this;
+    }
+
+    public function getType(): int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): Operator
+    {
+        $this->type = $type;
 
         return $this;
     }

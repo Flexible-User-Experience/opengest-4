@@ -2,14 +2,14 @@
 
 namespace App\Entity\Operator;
 
-use App\Entity\AbstractBase;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Class OperatorCheckingPpe
+ * Class OperatorCheckingPpe.
  *
  * @category Entity
  *
@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorCheckingPpeRepository")
  * @ORM\Table(name="operator_cheking_ppe")
+ * @Vich\Uploadable()
  */
 class OperatorCheckingPpe extends OperatorCheckingBase
 {
@@ -47,4 +48,15 @@ class OperatorCheckingPpe extends OperatorCheckingBase
      * @ORM\Column(type="date")
      */
     protected $end;
+
+    /**
+     * @Vich\UploadableField(mapping="operator_checking_ppe", fileNameProperty="uploadedFileName")
+     * @Assert\File(maxSize="10M")
+     */
+    protected ?File $uploadedFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected ?string $uploadedFileName = null;
 }
