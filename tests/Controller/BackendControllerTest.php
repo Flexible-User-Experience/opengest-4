@@ -192,6 +192,7 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/vendes/factura/list'],
             ['/admin/vendes/factura/1/edit'],
             ['/admin/vendes/factura/1/delete'],
+            ['/admin/vendes/peticio/calendario'],
             // SaleInvoiceDueDate
             ['/admin/ventas/vencimientos-factura/list'],
             ['/admin/ventas/vencimientos-factura/create'],

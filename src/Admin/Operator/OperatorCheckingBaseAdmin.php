@@ -15,6 +15,7 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * Class OperatorCheckingBaseAdmin.
@@ -30,6 +31,7 @@ class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
 //            ->remove('delete')
+            ->add('download', 'download')
             ->add('downloadPdfOperatorPendingCheckings', 'download-pdf-operator-pending-checkings')
             ->add('batch')
         ;
@@ -118,6 +120,16 @@ class OperatorCheckingBaseAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.expiry_date',
                     'format' => 'd/M/y',
                     'required' => true,
+                ]
+            )
+            ->add(
+                'uploadedFile',
+                FileType::class,
+                [
+                    'label' => 'admin.label.file',
+                    'help' => $this->getDownloadFileButton(),
+                    'help_html' => true,
+                    'required' => false,
                 ]
             )
             ->end()

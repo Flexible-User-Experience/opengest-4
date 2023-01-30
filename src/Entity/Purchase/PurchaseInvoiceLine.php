@@ -22,7 +22,7 @@ class PurchaseInvoiceLine extends AbstractBase
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchaseInvoice", inversedBy="purchaseInvoiceLines")
      */
-    private PurchaseInvoice $purchaseInvoice;
+    private ?PurchaseInvoice $purchaseInvoice = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchaseItem", inversedBy="purchaseInvoiceLines")
@@ -87,7 +87,7 @@ class PurchaseInvoiceLine extends AbstractBase
     /**
      * Methods.
      */
-    public function getPurchaseInvoice(): PurchaseInvoice
+    public function getPurchaseInvoice(): ?PurchaseInvoice
     {
         return $this->purchaseInvoice;
     }

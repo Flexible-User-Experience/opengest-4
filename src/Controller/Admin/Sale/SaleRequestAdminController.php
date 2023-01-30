@@ -10,6 +10,8 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Entity\Vehicle\Vehicle;
+use App\Enum\OperatorTypeEnum;
+use App\Manager\AvailabilityManager;
 use App\Manager\Pdf\SaleRequestPdfManager;
 use DateInterval;
 use DateTimeImmutable;
@@ -128,7 +130,7 @@ class SaleRequestAdminController extends BaseAdminController
         return new RedirectResponse($request->headers->get('referer'));
     }
 
-    public function calendarAction(Request $request)
+    public function calendarAction(Request $request): Response
     {
         $date = new DateTimeImmutable();
         $date = $date->sub(new DateInterval('P2M'));
@@ -148,6 +150,36 @@ class SaleRequestAdminController extends BaseAdminController
         $operators = $this->em->getRepository(Operator::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
         $vehicles = $this->em->getRepository(Vehicle::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
+        $availabilities = [];
+        $date = new DateTimeImmutable();
+        $endDate = $date->add(new DateInterval('P30D'));
+        while ($date->getTimestamp() <= $endDate->getTimestamp()) {
+            /** @var Vehicle $vehicle */
+            foreach ($vehicles as $vehicle) {
+                if (AvailabilityManager::isVehicleAvailable($vehicle, $date)) {
+                    $availabilities[] = [
+                        'date' => $date->format('Y-m-d'),
+                        'type' => 'Vehículo',
+                        'id' => $vehicle->getId(),
+                        'name' => $vehicle,
+                    ];
+                }
+            }
+            /** @var Operator $operator */
+            foreach ($operators as $operator) {
+                if (OperatorTypeEnum::OPERATOR === $operator->getType()) {
+                    if (AvailabilityManager::isOperatorAvailable($operator, $date)) {
+                        $availabilities[] = [
+                            'date' => $date->format('Y-m-d'),
+                            'type' => 'Operario',
+                            'id' => $operator->getId(),
+                            'name' => $operator,
+                        ];
+                    }
+                }
+            }
+            $date = $date->add(new DateInterval('P1D'));
+        }
 
         return $this->renderWithExtraParams(
             'admin/sale-request/calendar.html.twig',
@@ -157,14 +189,12 @@ class SaleRequestAdminController extends BaseAdminController
                 'operators' => $operators,
                 'vehicles' => $vehicles,
                 'partners' => $partners,
+                'availabilities' => $availabilities,
         ]
         );
     }
 
-    /**
-     * @return Response|RedirectResponse
-     */
-    public function batchActionGeneratepdfs(ProxyQueryInterface $selectedModelQuery)
+    public function batchActionGeneratepdfs(ProxyQueryInterface $selectedModelQuery): Response
     {
         $this->admin->checkAccess('edit');
         $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();

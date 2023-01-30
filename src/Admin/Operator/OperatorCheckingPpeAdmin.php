@@ -2,13 +2,11 @@
 
 namespace App\Admin\Operator;
 
-use App\Entity\Operator\Operator;
 use App\Enum\OperatorCheckingTypeCategoryEnum;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\DatePickerType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Class OperatorCheckingPpeAdmin.
@@ -30,69 +28,27 @@ class OperatorCheckingPpeAdmin extends OperatorCheckingBaseAdmin
      */
     protected function configureFormFields(FormMapper $formMapper): void
     {
-        if ($this->getCode() === $this->getRootCode()) {
-            $formMapper
-                ->with('General', $this->getFormMdSuccessBoxArray(6))
-                ->add(
-                    'operator',
-                    EntityType::class,
-                    [
-                        'label' => 'admin.label.operator',
-                        'required' => true,
-                        'class' => Operator::class,
-                        'choice_label' => 'fullName',
-                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                        'placeholder' => '--- seleccione una opción ---',
-                    ]
-                )
-            ;
-        } else {
-            $formMapper
-                ->with('General', $this->getFormMdSuccessBoxArray(6))
-                ->add(
-                    'operator',
-                    EntityType::class,
-                    [
-                        'label' => 'admin.label.operator',
-                        'required' => true,
-                        'class' => Operator::class,
-                        'choice_label' => 'fullName',
-                        'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
-                        'attr' => [
-                            'hidden' => 'true',
-                        ],
-                    ]
-                )
-            ;
-        }
+        parent::configureFormFields($formMapper);
         $formMapper
-            ->add(
-                'type',
-                null,
-                [
-                    'label' => 'admin.with.operator_checking_type',
-                    'required' => true,
-                    'query_builder' => $this->rm
-                        ->getOperatorCheckingTypeRepository()
-                        ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::PPE),
-                ]
-            )
+            ->with('General', $this->getFormMdSuccessBoxArray(6))
             ->add(
                 'begin',
                 DatePickerType::class,
                 [
-                    'label' => 'admin.label.expedition_date',
+                    'label' => 'admin.with.operator_checking_expedition_date_ppe',
                     'format' => 'd/M/y',
                     'required' => true,
                 ]
             )
             ->add(
-                'end',
-                DatePickerType::class,
+                'type',
+                null,
                 [
-                    'label' => 'admin.label.expiry_date',
-                    'format' => 'd/M/y',
+                    'label' => 'admin.with.operator_checking_type_ppe',
                     'required' => true,
+                    'query_builder' => $this->rm
+                        ->getOperatorCheckingTypeRepository()
+                        ->getEnabledByTypeSortedByNameQB(OperatorCheckingTypeCategoryEnum::PPE),
                 ]
             )
             ->end()
@@ -120,24 +76,6 @@ class OperatorCheckingPpeAdmin extends OperatorCheckingBaseAdmin
                     'label' => 'admin.label.status',
                     'template' => 'admin/cells/list__cell_operator_checking_status.html.twig',
                     'mapped' => false,
-                ]
-            )
-            ->add(
-                'begin',
-                'date',
-                [
-                    'label' => 'admin.label.expedition_date',
-                    'format' => 'd/m/Y',
-                    'editable' => true,
-                ]
-            )
-            ->add(
-                'end',
-                'date',
-                [
-                    'label' => 'admin.label.expiry_date',
-                    'format' => 'd/m/Y',
-                    'editable' => true,
                 ]
             )
             ->add(
@@ -170,6 +108,24 @@ class OperatorCheckingPpeAdmin extends OperatorCheckingBaseAdmin
                     'sortable' => true,
                     'sort_field_mapping' => ['fieldName' => 'name'],
                     'sort_parent_association_mappings' => [['fieldName' => 'type']],
+                ]
+            )
+            ->add(
+                'begin',
+                'date',
+                [
+                    'label' => 'admin.label.expedition_date',
+                    'format' => 'd/m/Y',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'end',
+                'date',
+                [
+                    'label' => 'admin.label.expiry_date',
+                    'format' => 'd/m/Y',
+                    'editable' => true,
                 ]
             )
             ->add(

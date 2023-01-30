@@ -5,9 +5,11 @@ namespace App\Repository\Purchase;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Purchase\PurchaseInvoice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 class PurchaseInvoiceRepository extends ServiceEntityRepository
 {
@@ -22,7 +24,7 @@ class PurchaseInvoiceRepository extends ServiceEntityRepository
             ->where('s.enabled = :enabled')
             ->setParameter('enabled', true)
             ->orderBy('s.date', 'DESC')
-            ;
+        ;
     }
 
     public function gettEnabledSortedByDateQ(): Query
@@ -41,6 +43,18 @@ class PurchaseInvoiceRepository extends ServiceEntityRepository
             ->join('s.partner', 'p')
             ->andWhere('p.enterprise = :enterprise')
             ->setParameter('enterprise', $enterprise)
-            ;
+        ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function getMaxId()
+    {
+        $qb = $this->createQueryBuilder('purchaseInvoice');
+        $qb->select('MAX(purchaseInvoice.invoiceNumber) as maxInvoiceNumber');
+
+        return $qb->getQuery()->getSingleResult()['maxInvoiceNumber'];
     }
 }
