@@ -8,70 +8,70 @@
 {# override javascript includes #}
 {% block sonata_admin_content %}
     {{ parent() }}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-success">
-                <div class="box-header with-border">
-                    <h1 class="box-title">Filtros</h1>
-                </div>
-                <div class="box-body">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label" for="operator_select">
-                                Operario
-                            </label>
-                            <select class="select2-container" style="width: 100%;" name="operator" id="operator_select">
-                                <option value="">---</option>
-                                {% for operator in operators %}
-                                    <option value="{{ operator.id }}">
-                                        {{ operator }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label" for="vehicle_select">
-                                Vehículo
-                            </label>
-                            <select class="select2-container" style="width: 100%;" name="vehicle" id="vehicle_select">
-                                <option value="">---</option>
-                                {% for vehicle in vehicles %}
-                                    <option value="{{ vehicle.id }}">
-                                        {{ vehicle }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label" for="partner_select">
-                                Cliente
-                            </label>
-                            <select class="select2-container" style="width: 100%;" name="partner" id="partner_select">
-                                <option value="">---</option>
-                                {% for partner in partners %}
-                                    <option value="{{ partner.id }}">
-                                        {{ partner }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="box-body" id="loading">
-                            <p>
-                                <i class="fa fa-spinner" aria-hidden="true"></i>
-                                Actualizando datos
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-12">#}
+{#            <div class="box box-success">#}
+{#                <div class="box-header with-border">#}
+{#                    <h1 class="box-title">Filtros</h1>#}
+{#                </div>#}
+{#                <div class="box-body">#}
+{#                    <div class="col-md-3">#}
+{#                        <div class="form-group">#}
+{#                            <label class="control-label" for="operator_select">#}
+{#                                Operario#}
+{#                            </label>#}
+{#                            <select class="select2-container" style="width: 100%;" name="operator" id="operator_select">#}
+{#                                <option value="">---</option>#}
+{#                                {% for operator in operators %}#}
+{#                                    <option value="{{ operator.id }}">#}
+{#                                        {{ operator }}#}
+{#                                    </option>#}
+{#                                {% endfor %}#}
+{#                            </select>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-md-3">#}
+{#                        <div class="form-group">#}
+{#                            <label class="control-label" for="vehicle_select">#}
+{#                                Vehículo#}
+{#                            </label>#}
+{#                            <select class="select2-container" style="width: 100%;" name="vehicle" id="vehicle_select">#}
+{#                                <option value="">---</option>#}
+{#                                {% for vehicle in vehicles %}#}
+{#                                    <option value="{{ vehicle.id }}">#}
+{#                                        {{ vehicle }}#}
+{#                                    </option>#}
+{#                                {% endfor %}#}
+{#                            </select>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-md-3">#}
+{#                        <div class="form-group">#}
+{#                            <label class="control-label" for="partner_select">#}
+{#                                Cliente#}
+{#                            </label>#}
+{#                            <select class="select2-container" style="width: 100%;" name="partner" id="partner_select">#}
+{#                                <option value="">---</option>#}
+{#                                {% for partner in partners %}#}
+{#                                    <option value="{{ partner.id }}">#}
+{#                                        {{ partner }}#}
+{#                                    </option>#}
+{#                                {% endfor %}#}
+{#                            </select>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-md-3">#}
+{#                        <div class="box-body" id="loading">#}
+{#                            <p>#}
+{#                                <i class="fa fa-spinner" aria-hidden="true"></i>#}
+{#                                Actualizando datos#}
+{#                            </p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-success">
@@ -88,14 +88,14 @@
     <script type="text/javascript">
 
       jQuery(document).ready(function() {
-        let operatorSelect = jQuery('#operator_select')
-        let vehicleSelect = jQuery('#vehicle_select')
-        let partnerSelect = jQuery('#partner_select')
-        let loadingIcon = jQuery('#loading')
-
-        operatorSelect.change(() => updateFilter())
-        vehicleSelect.change(() => updateFilter())
-        partnerSelect.change(() => updateFilter())
+        // let operatorSelect = jQuery('#operator_select')
+        // let vehicleSelect = jQuery('#vehicle_select')
+        // let partnerSelect = jQuery('#partner_select')
+        // let loadingIcon = jQuery('#loading')
+        //
+        // operatorSelect.change(() => updateFilter())
+        // vehicleSelect.change(() => updateFilter())
+        // partnerSelect.change(() => updateFilter())
 
         let calendarEl = document.getElementById('calendar')
         let calendar = new Calendar(calendarEl, {
@@ -140,7 +140,7 @@
               id: '{{ saleRequest.id }}',
               title: '{{ saleRequest.partner.code }} - {{ saleRequest.partner.name }}',
               url: '{{ path('admin_app_sale_salerequest_edit', {'id': saleRequest.id}) }}',
-              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}{% if saleRequest.serviceTime %}T{{ saleRequest.serviceTime.format('H:i:s')}} {% endif %}',
+              start: '{{ saleRequest.serviceDate.format('Y-m-d') }}',
               color: {% if (saleRequest.status == 0) %} 'green' {% else %} 'blue' {% endif %},
               extendedProps: {
                 vehicle: '{{ saleRequest.vehicle }}',
@@ -173,8 +173,9 @@
         {% for availability in availabilities %}
         calendar.addEvent({
           id: 'availability-{{ availability.type }}-{{ availability.id }}',
-          title: '{{ availability.type }} - {{ availability.name }}',
+          title: '{{ availability.type|slice(0,2) }}. {{ availability.name }}',
           start: '{{ availability.date}}',
+          end: '{{ availability.date}}',
           fullDay: true,
           color: '#aac785',
           extendedProps: {}
@@ -182,7 +183,7 @@
         {% endfor %}
         let initialEvents = calendar.getEvents()
         calendar.render()
-        loadingIcon.hide()
+        // loadingIcon.hide()
 
         function updateFilter() {
           loadingIcon.show()
