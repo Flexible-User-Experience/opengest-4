@@ -151,14 +151,14 @@ class SaleRequestAdminController extends BaseAdminController
         $vehicles = $this->em->getRepository(Vehicle::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterpriseEnabledSortedByName($this->getUser()->getDefaultEnterprise());
         $availabilities = [];
-        $date = new DateTimeImmutable();
-        $endDate = $date->add(new DateInterval('P30D'));
-        while ($date->getTimestamp() <= $endDate->getTimestamp()) {
+        $dateForAvailabilities = new DateTimeImmutable();
+        $endDate = $dateForAvailabilities->add(new DateInterval('P15D'));
+        while ($dateForAvailabilities->getTimestamp() <= $endDate->getTimestamp()) {
             /** @var Vehicle $vehicle */
             foreach ($vehicles as $vehicle) {
-                if (AvailabilityManager::isVehicleAvailable($vehicle, $date)) {
+                if (AvailabilityManager::isVehicleAvailable($vehicle, $dateForAvailabilities)) {
                     $availabilities[] = [
-                        'date' => $date->format('Y-m-d'),
+                        'date' => $dateForAvailabilities->format('Y-m-d'),
                         'type' => 'Vehículo',
                         'id' => $vehicle->getId(),
                         'name' => $vehicle,
@@ -168,9 +168,9 @@ class SaleRequestAdminController extends BaseAdminController
             /** @var Operator $operator */
             foreach ($operators as $operator) {
                 if (OperatorTypeEnum::OPERATOR === $operator->getType()) {
-                    if (AvailabilityManager::isOperatorAvailable($operator, $date)) {
+                    if (AvailabilityManager::isOperatorAvailable($operator, $dateForAvailabilities)) {
                         $availabilities[] = [
-                            'date' => $date->format('Y-m-d'),
+                            'date' => $dateForAvailabilities->format('Y-m-d'),
                             'type' => 'Operario',
                             'id' => $operator->getId(),
                             'name' => $operator,
@@ -178,7 +178,7 @@ class SaleRequestAdminController extends BaseAdminController
                     }
                 }
             }
-            $date = $date->add(new DateInterval('P1D'));
+            $dateForAvailabilities = $dateForAvailabilities->add(new DateInterval('P1D'));
         }
 
         return $this->renderWithExtraParams(
