@@ -33,8 +33,8 @@ class CostAnalyticsAdmin extends AbstractBaseAdmin
             ->remove('edit')
             ->remove('delete')
             ->remove('export')
-            ->add('imputableCosts', 'costes-imputables/{?year}/{?vehicle}/{?operator}/{?costCenter}/{?download}')
-            ->add('marginAnalysis', 'analisis-margenes/{?year}')
+            ->add('imputableCosts', 'costes-imputables')
+            ->add('marginAnalysis', 'analisis-margenes')
             ->add('downloadMarginAnalysis', 'analisis-margenes-descargar/{?year}')
         ;
     }

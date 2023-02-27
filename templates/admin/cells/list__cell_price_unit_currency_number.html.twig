@@ -1,0 +1,5 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <span class="{% if object.priceUnit < 0 %}text-danger{% else %}text-success{% endif %} pull-right">{{ object.priceUnit | number_format(4, ',', '.') }} €</span>
+{% endblock %}

@@ -310,7 +310,6 @@
             },
           {% endfor %}
         ];
-        console.log('partners', partners)
         let deliveryNoteTable = jQuery('#delivery_note_table')
         let deliveryNotesFiltered = deliveryNotes
         let previousYearDeliveryNotesFiltered = previousYearDeliveryNotes
@@ -686,7 +685,7 @@
             }
           }
           tempDeliveryNotes.reduce(function(res, deliveryNote) {
-            let month = moment(deliveryNote.date, 'DD/MM/YYYY').month();
+            let month = moment(deliveryNote.date, 'DD/MM/YYYY').month() + 1;
               totalsPerMonth[month].margin += deliveryNote.margin;
               totalsPerMonth[month].income += deliveryNote.income;
             return res;

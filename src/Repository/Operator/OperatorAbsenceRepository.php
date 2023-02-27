@@ -5,6 +5,7 @@ namespace App\Repository\Operator;
 use App\Entity\Enterprise\Enterprise;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorAbsence;
+use App\Entity\Operator\OperatorAbsenceType;
 use App\Manager\EnterpriseHolidayManager;
 use DateInterval;
 use DateTime;
@@ -132,8 +133,11 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
                 $date->modify('+1 day');
             }
             $numberOfDays = $numberOfDays - $numberOfHolidays;
+            $operatorAbsenceTypeName = $operatorAbsence->getType()->getName();
             if ('1/2 día vacaciones' === $operatorAbsence->getType()->getName()) {
                 $numberOfDays = $numberOfDays * 0.5;
+                $operatorAbsenceTypeHoliday = $this->getEntityManager()->getRepository(OperatorAbsenceType::class)->find(1);
+                $operatorAbsenceTypeName = $operatorAbsenceTypeHoliday->getName();
             }
             if (
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear) && (!$operatorAbsence->isToPreviousYearCount()) && (!$operatorAbsence->isToNextYearCount()))
@@ -142,40 +146,40 @@ class OperatorAbsenceRepository extends ServiceEntityRepository
                 ||
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear + 1) && $operatorAbsence->isToPreviousYearCount())
             ) {
-                if (isset($operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['currentYear'])) {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['currentYear'] += $numberOfDays;
+                if (isset($operatorAbsencesGrouped[$operatorAbsenceTypeName]['currentYear'])) {
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['currentYear'] += $numberOfDays;
                 } else {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['currentYear'] = $numberOfDays;
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['currentYear'] = $numberOfDays;
                 }
             } elseif (
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear - 1) && (!$operatorAbsence->isToPreviousYearCount()) && (!$operatorAbsence->isToNextYearCount()))
                 ||
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear) && $operatorAbsence->isToPreviousYearCount())
             ) {
-                if (isset($operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'])) {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'] += $numberOfDays;
+                if (isset($operatorAbsencesGrouped[$operatorAbsenceTypeName]['lastYear'])) {
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['lastYear'] += $numberOfDays;
                 } else {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'] = $numberOfDays;
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['lastYear'] = $numberOfDays;
                 }
             } elseif (
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear - 1) && (!$operatorAbsence->isToPreviousYearCount()) && (!$operatorAbsence->isToNextYearCount()))
                 ||
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear) && $operatorAbsence->isToPreviousYearCount())
             ) {
-                if (isset($operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'])) {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'] += $numberOfDays;
+                if (isset($operatorAbsencesGrouped[$operatorAbsenceTypeName]['lastYear'])) {
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['lastYear'] += $numberOfDays;
                 } else {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['lastYear'] = $numberOfDays;
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['lastYear'] = $numberOfDays;
                 }
             } elseif (
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear + 1) && (!$operatorAbsence->isToPreviousYearCount()) && (!$operatorAbsence->isToNextYearCount()))
                 ||
                 (($operatorAbsence->getBegin()->format('Y') == $currentYear) && $operatorAbsence->isToNextYearCount())
             ) {
-                if (isset($operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['nextYear'])) {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['nextYear'] += $numberOfDays;
+                if (isset($operatorAbsencesGrouped[$operatorAbsenceTypeName]['nextYear'])) {
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['nextYear'] += $numberOfDays;
                 } else {
-                    $operatorAbsencesGrouped[$operatorAbsence->getType()->getName()]['nextYear'] = $numberOfDays;
+                    $operatorAbsencesGrouped[$operatorAbsenceTypeName]['nextYear'] = $numberOfDays;
                 }
             }
         }

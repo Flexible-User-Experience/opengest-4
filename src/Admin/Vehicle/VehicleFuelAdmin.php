@@ -60,6 +60,15 @@ class VehicleFuelAdmin extends AbstractBaseAdmin
                     'label' => 'Nom',
                 ]
             )
+            ->add(
+                'priceUnit',
+                null,
+                [
+                    'label' => 'admin.label.price_unit',
+                    'required' => true,
+                    'scale' => 4,
+                ]
+            )
             ->end()
             ->with('Controls', $this->getFormMdSuccessBoxArray(6))
             ->add(
@@ -102,6 +111,14 @@ class VehicleFuelAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'Nombre',
+                ]
+            )
+            ->add(
+                'priceUnit',
+                null,
+                [
+                    'label' => 'admin.label.price_unit',
+                    'template' => 'admin/cells/list__cell_price_unit_currency_number.html.twig',
                 ]
             )
             ->add(

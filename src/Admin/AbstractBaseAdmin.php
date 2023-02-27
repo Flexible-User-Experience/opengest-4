@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Entity\Enterprise\Enterprise;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Manager\DeliveryNoteManager;
@@ -352,6 +353,33 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
                 ->andWhere($rootAlias.'.type = :partnerType')
                 ->setParameter('partnerType', 1);
+            if (is_numeric($value)) {
+                $datagrid->setValue('code', null, $value);
+            } else {
+                $queryBuilder
+                    ->andWhere($rootAlias.'.name like :codeOrReference OR '.$rootAlias.'.reference like :codeOrReference')
+                    ->setParameter('codeOrReference', '%'.$value.'%')
+                ;
+            }
+        };
+    }
+
+    protected function partnerProviderModelAutocompleteCallback(): Closure
+    {
+        return function ($admin, $property, $value) {
+            /** @var Admin $admin */
+            $datagrid = $admin->getDatagrid();
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = $datagrid->getQuery();
+            $rootAlias = $queryBuilder->getRootAliases()[0];
+            $queryBuilder
+                ->andWhere($rootAlias.'.enterprise = :enterprise')
+                ->andWhere($rootAlias.'.type = :type')
+                ->andWhere($rootAlias.'.enabled = :enabled')
+                ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 2))
+                ->setParameter('enabled', true)
+            ;
             if (is_numeric($value)) {
                 $datagrid->setValue('code', null, $value);
             } else {
