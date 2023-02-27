@@ -33,10 +33,10 @@ class VehicleConsumptionAdminController extends BaseAdminController
                 $records[] = $line;
             }
             fclose($file);
-            $em = $this->getDoctrine()->getManager();
-            $vcr = $this->getDoctrine()->getRepository(VehicleConsumption::class);
-            $vr = $this->getDoctrine()->getRepository(Vehicle::class);
-            $vf = $this->getDoctrine()->getRepository(VehicleFuel::class);
+            $em = $this->em->getManager();
+            $vcr = $em->getRepository(VehicleConsumption::class);
+            $vr = $em->getRepository(Vehicle::class);
+            $vf = $em->getRepository(VehicleFuel::class);
             foreach ($records as $record) {
                 $consumptionCode = $record[13];
                 $consumption = $vcr->findOneBy(['supplyCode' => $consumptionCode]);
@@ -44,6 +44,7 @@ class VehicleConsumptionAdminController extends BaseAdminController
                     /** @var Vehicle $vehicle */
                     $vehicle = $vr->findOneBy(['vehicleRegistrationNumber' => $record[20]]);
                     if ($vehicle) {
+                        /** @var VehicleFuel $vehicleFuel */
                         $vehicleFuel = $vf->findOneBy(['id' => 1]);
                         $consumption = new VehicleConsumption();
                         $consumption->setVehicle($vehicle);
@@ -53,11 +54,10 @@ class VehicleConsumptionAdminController extends BaseAdminController
                         $time = \DateTime::createFromFormat('H:i', $record[15]);
                         $consumption->setSupplyDate($date);
                         $consumption->setSupplyTime($time);
-                        $amount = floatval(str_replace(',', '.', str_replace('.', '', $record[21])));
-                        $consumption->setAmount($amount);
-                        // As we do not know the quantiy, we fill quantity and price unit
-                        $consumption->setQuantity(1);
-                        $consumption->setPriceUnit($amount);
+                        $quantity = floatval(str_replace(',', '.', str_replace('.', '', $record[21])));
+                        $consumption->setQuantity($quantity);
+                        $consumption->setPriceUnit($vehicleFuel->getPriceUnit());
+                        $consumption->setAmount($quantity * $vehicleFuel->getPriceUnit());
                         $em->persist($consumption);
                         $em->flush();
                     } else {
