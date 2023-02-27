@@ -6,6 +6,7 @@ use App\Entity\Operator\Operator;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
@@ -313,6 +314,16 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractSaleDeliveryNoteAdmin
             'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_NO,
         ];
+    }
+
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $queryBuilder = parent::configureQuery($query);
+        $queryBuilder
+            ->andWhere($queryBuilder->getRootAliases()[0].'.saleInvoice IS NULL')
+        ;
+
+        return $queryBuilder;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
