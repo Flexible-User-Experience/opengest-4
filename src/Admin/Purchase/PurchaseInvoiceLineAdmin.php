@@ -478,6 +478,5 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
         if ($purchaseInvoice) {
             return $this->getSubject()->getPurchaseInvoice()?->getPartner()->getDefaultIva() ?: 0;
         }
-        dd('hey');
     }
 }

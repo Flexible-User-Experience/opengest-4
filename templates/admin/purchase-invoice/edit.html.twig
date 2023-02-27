@@ -1,0 +1,15 @@
+{% extends 'admin/edit.html.twig' %}
+
+{# override javascript includes #}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+          let purchaseInvoiceLinesNode = jQuery('#field_widget_{{ form.purchaseInvoiceLines.vars.id }}');
+          purchaseInvoiceLinesNode.find("th").eq(1).attr('width','20%')
+          purchaseInvoiceLinesNode.find("th").eq(7).css('width','70px')
+        })
+    </script>
+{% endblock %}
+
