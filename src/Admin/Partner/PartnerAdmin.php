@@ -93,17 +93,33 @@ class PartnerAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->add(
-                'type',
-                EntityType::class,
-                [
-                    'class' => PartnerType::class,
-                    'label' => 'admin.label.type',
-                    'required' => true,
-                    'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
-                ]
-            )
         ;
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->add(
+                    'type',
+                    EntityType::class,
+                    [
+                        'class' => PartnerType::class,
+                        'label' => 'admin.label.type',
+                        'required' => true,
+                        'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
+                    ]
+                );
+        } else {
+            $formMapper
+                ->add(
+                    'type',
+                    EntityType::class,
+                    [
+                        'class' => PartnerType::class,
+                        'label' => 'admin.label.type',
+                        'required' => true,
+                        'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
+                        'data' => $this->rm->getPartnerTypeRepository()->findOneBy(['id' => 2]),
+                    ]
+                );
+        }
         if ($this->id($this->getSubject())) {
             $formMapper
                 ->add(
@@ -519,6 +535,13 @@ class PartnerAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
+            ->add(
                 'cifNif',
                 null,
                 [
@@ -592,7 +615,8 @@ class PartnerAdmin extends AbstractBaseAdmin
     public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterprise($this->getUserLogedEnterprise())->getCode();
+        $partnerType = $object->getType();
+        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterpriseAndType($this->getUserLogedEnterprise(), $partnerType)->getCode();
         $object->setCode($lastPartnerCode + 1);
     }
 }

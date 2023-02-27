@@ -63,7 +63,7 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
         parent::configureRoutes($collection);
         $collection
             ->add('uploadCsv', 'upload-csv')
-            ;
+        ;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
@@ -175,13 +175,6 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'amount',
-                null,
-                [
-                    'label' => 'Importe',
-                ]
-            )
-            ->add(
                 'quantity',
                 null,
                 [
@@ -193,6 +186,13 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => '€/l',
+                ]
+            )
+            ->add(
+                'amount',
+                null,
+                [
+                    'label' => 'Importe',
                 ]
             )
             ->add(
@@ -239,10 +239,10 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'amount',
+                'vehicleFuel',
                 null,
                 [
-                    'label' => 'Importe',
+                    'label' => 'Combustible',
                 ]
             )
             ->add(
@@ -257,15 +257,17 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => '€/l',
+                    'template' => 'admin/cells/list__cell_price_unit_currency_number.html.twig',
                 ]
             )
-//            ->add(
-//                'vehicleFuel',
-//                null,
-//                [
-//                    'label' => 'Combustible',
-//                ]
-//            )
+            ->add(
+                'amount',
+                null,
+                [
+                    'label' => 'Importe',
+                    'template' => 'admin/cells/list__cell_amount_currency_number.html.twig',
+                ]
+            )
             ->add(
                 '_action',
                 'actions',

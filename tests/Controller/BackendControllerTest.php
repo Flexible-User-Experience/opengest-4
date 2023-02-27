@@ -249,6 +249,9 @@ class BackendControllerTest extends AbstractBaseTest
             ['/admin/configuracion/centro_de_coste/list'],
             ['/admin/configuracion/centro_de_coste/create'],
             ['/admin/configuracion/centro_de_coste/1/edit'],
+            // CostAnalysis
+            ['/admin/analisis-de-costes/costes-imputables'],
+            ['/admin/analisis-de-costes/analisis-margenes?year=2022']
         ];
     }
 

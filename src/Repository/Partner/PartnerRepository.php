@@ -45,9 +45,24 @@ class PartnerRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getFilteredByEnterpriseAndTypeEnabledSortedByNameQB(Enterprise $enterprise, PartnerType $partnerType): QueryBuilder
+    {
+        return $this->getEnabledSortedByNameQB()
+            ->andWhere('p.enterprise = :enterprise')
+            ->andWhere('p.type = :partnerType')
+            ->setParameter('enterprise', $enterprise)
+            ->setParameter('partnerType', $partnerType)
+        ;
+    }
+
     public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise): Query
     {
         return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)->getQuery();
+    }
+
+    public function getFilteredByEnterpriseAndTypeEnabledSortedByNameQ(Enterprise $enterprise, PartnerType $partnerType): Query
+    {
+        return $this->getFilteredByEnterpriseAndTypeEnabledSortedByNameQB($enterprise, $partnerType)->getQuery();
     }
 
     public function getFilteredByEnterpriseEnabledSortedByName(Enterprise $enterprise): array
@@ -78,7 +93,7 @@ class PartnerRepository extends ServiceEntityRepository
         return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)
             ->orderBy('p.code', 'DESC')
             ->setMaxResults(1)
-            ;
+        ;
     }
 
     public function getLastPartnerIdByEnterpriseQ(Enterprise $enterprise): Query
@@ -90,6 +105,30 @@ class PartnerRepository extends ServiceEntityRepository
     {
         try {
             $result = $this->getLastPartnerIdByEnterpriseQ($enterprise)->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $result = null;
+        }
+
+        return $result;
+    }
+
+    public function getLastPartnerIdByEnterpriseAndTypeQB(Enterprise $enterprise, PartnerType $partnerType): QueryBuilder
+    {
+        return $this->getFilteredByEnterpriseAndTypeEnabledSortedByNameQB($enterprise, $partnerType)
+            ->orderBy('p.code', 'DESC')
+            ->setMaxResults(1)
+        ;
+    }
+
+    public function getLastPartnerIdByEnterpriseAndTypeQ(Enterprise $enterprise, PartnerType $partnerType): Query
+    {
+        return $this->getLastPartnerIdByEnterpriseAndTypeQB($enterprise, $partnerType)->getQuery();
+    }
+
+    public function getLastPartnerIdByEnterpriseAndType(Enterprise $enterprise, PartnerType $partnerType): ?Partner
+    {
+        try {
+            $result = $this->getLastPartnerIdByEnterpriseAndTypeQ($enterprise, $partnerType)->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
             $result = null;
         }
@@ -113,6 +152,6 @@ class PartnerRepository extends ServiceEntityRepository
             ->orderBy('p.name', 'ASC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 }
