@@ -102,6 +102,14 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'discount',
+                null,
+                [
+                    'label' => 'admin.label.discount',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'baseTotal',
                 null,
                 [

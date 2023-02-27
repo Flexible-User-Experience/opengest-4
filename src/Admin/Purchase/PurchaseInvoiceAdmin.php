@@ -514,7 +514,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
         $object->setIva21(0);
         /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
         foreach ($object->getPurchaseInvoiceLines() as $purchaseInvoiceLine) {
-            $base = $purchaseInvoiceLine->getUnits() * $purchaseInvoiceLine->getPriceUnit();
+            $base = $purchaseInvoiceLine->getUnits() * $purchaseInvoiceLine->getPriceUnit() * (1 - $purchaseInvoiceLine->getDiscount() / 100);
             $iva = $base * $purchaseInvoiceLine->getIva() / 100;
             $irpf = $base * $purchaseInvoiceLine->getIrpf() / 100;
             $purchaseInvoiceLine->setBaseTotal($base);

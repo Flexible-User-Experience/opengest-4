@@ -265,12 +265,12 @@ class PurchaseInvoiceLine extends AbstractBase
         return $this;
     }
 
-    public function getDiscount(): float|int
+    public function getDiscount(): null|float|int
     {
         return $this->discount;
     }
 
-    public function setDiscount(float|int $discount): PurchaseInvoiceLine
+    public function setDiscount(null|float|int $discount): PurchaseInvoiceLine
     {
         $this->discount = $discount;
 
