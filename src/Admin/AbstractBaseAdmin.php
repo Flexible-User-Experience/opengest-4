@@ -371,15 +371,23 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
             $datagrid = $admin->getDatagrid();
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = $datagrid->getQuery();
+            $rootAlias = $queryBuilder->getRootAliases()[0];
             $queryBuilder
-                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
-                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
+                ->andWhere($rootAlias.'.enterprise = :enterprise')
+                ->andWhere($rootAlias.'.type = :type')
+                ->andWhere($rootAlias.'.enabled = :enabled')
                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
                 ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 2))
                 ->setParameter('enabled', true)
             ;
-            $datagrid->setValue($property, null, $value);
+            if (is_numeric($value)) {
+                $datagrid->setValue('code', null, $value);
+            } else {
+                $queryBuilder
+                    ->andWhere($rootAlias.'.name like :codeOrReference OR '.$rootAlias.'.reference like :codeOrReference')
+                    ->setParameter('codeOrReference', '%'.$value.'%')
+                ;
+            }
         };
     }
 }
