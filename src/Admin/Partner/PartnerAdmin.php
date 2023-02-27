@@ -93,17 +93,33 @@ class PartnerAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-            ->add(
-                'type',
-                EntityType::class,
-                [
-                    'class' => PartnerType::class,
-                    'label' => 'admin.label.type',
-                    'required' => true,
-                    'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
-                ]
-            )
         ;
+        if ($this->id($this->getSubject())) {
+            $formMapper
+                ->add(
+                    'type',
+                    EntityType::class,
+                    [
+                        'class' => PartnerType::class,
+                        'label' => 'admin.label.type',
+                        'required' => true,
+                        'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
+                    ]
+                );
+        } else {
+            $formMapper
+                ->add(
+                    'type',
+                    EntityType::class,
+                    [
+                        'class' => PartnerType::class,
+                        'label' => 'admin.label.type',
+                        'required' => true,
+                        'query_builder' => $this->rm->getPartnerTypeRepository()->getEnabledSortedByNameQB(),
+                        'data' => $this->rm->getPartnerTypeRepository()->findOneBy(['id' => 2]),
+                    ]
+                );
+        }
         if ($this->id($this->getSubject())) {
             $formMapper
                 ->add(
