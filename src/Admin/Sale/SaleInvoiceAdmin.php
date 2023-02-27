@@ -848,11 +848,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             }
         }
         if (($originalObject['date'] !== $object->getDate()) || ($originalObject['collectionDocumentType'] !== $object->getCollectionDocumentType())) {
-            foreach ($object->getSaleInvoiceDueDates() as $dueDate) {
-                $this->em->remove($dueDate);
-                $this->em->flush();
-            }
-            $this->im->createDueDatesFromSaleInvoice($object);
+            $this->refreshDueDates($object);
         }
     }
 
@@ -861,13 +857,27 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
      */
     public function postUpdate($object): void
     {
+        /** @var SaleInvoice $originalObject */
+        $originalObject = $this->em->getUnitOfWork()->getOriginalEntityData($object);
         $this->im->calculateInvoiceImportsFromDeliveryNotes($object, $object->getDeliveryNotes());
         /** @var SaleDeliveryNote $saleDeliveryNote */
         foreach ($object->getDeliveryNotes() as $saleDeliveryNote) {
             $saleDeliveryNote->setIsInvoiced(true);
             $this->em->persist($saleDeliveryNote);
         }
+        if ($originalObject['total'] !== $object->getTotal()) {
+            $this->refreshDueDates($object);
+        }
 
         $this->em->flush();
+    }
+
+    private function refreshDueDates(SaleInvoice $saleInvoice)
+    {
+        foreach ($saleInvoice->getSaleInvoiceDueDates() as $dueDate) {
+            $this->em->remove($dueDate);
+            $this->em->flush();
+        }
+        $this->im->createDueDatesFromSaleInvoice($saleInvoice);
     }
 }
