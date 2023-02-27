@@ -673,6 +673,7 @@ class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
         $object->setBaseAmount($totalPrice * (1 - $object->getDiscount() / 100));
         $saleInvoice = $object->getSaleInvoice();
         if ($saleInvoice) {
+            $object->setIsInvoiced(true);
             $saleInvoice->setCollectionDocumentType($object->getCollectionDocument());
             // If invoiced, set same collectionTerms and collectionDocuments for all the delivery notes belonging to this invoice
             /** @var SaleDeliveryNote $deliveryNote */
