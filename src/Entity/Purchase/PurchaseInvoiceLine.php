@@ -85,6 +85,13 @@ class PurchaseInvoiceLine extends AbstractBase
     private float $irpf;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $discount = 0;
+
+    /**
      * Methods.
      */
     public function getPurchaseInvoice(): ?PurchaseInvoice
@@ -254,6 +261,18 @@ class PurchaseInvoiceLine extends AbstractBase
     public function setIrpf(float $irpf): PurchaseInvoiceLine
     {
         $this->irpf = $irpf;
+
+        return $this;
+    }
+
+    public function getDiscount(): float|int
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(float|int $discount): PurchaseInvoiceLine
+    {
+        $this->discount = $discount;
 
         return $this;
     }
