@@ -535,6 +535,13 @@ class PartnerAdmin extends AbstractBaseAdmin
     {
         $listMapper
             ->add(
+                'code',
+                null,
+                [
+                    'label' => 'admin.label.code',
+                ]
+            )
+            ->add(
                 'cifNif',
                 null,
                 [
@@ -608,7 +615,8 @@ class PartnerAdmin extends AbstractBaseAdmin
     public function prePersist($object): void
     {
         $object->setEnterprise($this->getUserLogedEnterprise());
-        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterprise($this->getUserLogedEnterprise())->getCode();
+        $partnerType = $object->getType();
+        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterpriseAndType($this->getUserLogedEnterprise(), $partnerType)->getCode();
         $object->setCode($lastPartnerCode + 1);
     }
 }
