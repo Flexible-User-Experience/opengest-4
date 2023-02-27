@@ -24,7 +24,7 @@ class VehicleFuel extends AbstractBase
     /**
      * @ORM\Column(type="float", scale=4, nullable=true)
      */
-    private float $priceUnit = 0;
+    private null|float $priceUnit = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicleFuel")
@@ -46,12 +46,12 @@ class VehicleFuel extends AbstractBase
         return $this;
     }
 
-    public function getPriceUnit(): float
+    public function getPriceUnit(): null|float
     {
         return $this->priceUnit;
     }
 
-    public function setPriceUnit(float $priceUnit): VehicleFuel
+    public function setPriceUnit(null|float $priceUnit): VehicleFuel
     {
         $this->priceUnit = $priceUnit;
 
