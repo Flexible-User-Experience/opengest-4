@@ -1,6 +1,13 @@
 Changelog
 =========
 
+##### Version 4.1.07 (WIP)
+* TODOS: 
+
+##### Version 4.1.06 (2023-02-27)
+* Added price in Vehicle fuel, and recalculated vehicle consumptions amount from this price
+* Added discounts in purchase invoice lines
+
 ##### Version 4.1.05 (2022-12-30)
 * Added operator checking training and ppe related to operators
 
