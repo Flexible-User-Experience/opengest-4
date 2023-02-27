@@ -22,6 +22,11 @@ class VehicleFuel extends AbstractBase
     use NameTrait;
 
     /**
+     * @ORM\Column(type="float", scale=4, nullable=true)
+     */
+    private float $priceUnit = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicleFuel")
      */
     private Collection $vehicleConsumptions;
@@ -37,6 +42,18 @@ class VehicleFuel extends AbstractBase
     public function setVehicleConsumptions(Collection $vehicleConsumptions): VehicleFuel
     {
         $this->vehicleConsumptions = $vehicleConsumptions;
+
+        return $this;
+    }
+
+    public function getPriceUnit(): float
+    {
+        return $this->priceUnit;
+    }
+
+    public function setPriceUnit(float $priceUnit): VehicleFuel
+    {
+        $this->priceUnit = $priceUnit;
 
         return $this;
     }
