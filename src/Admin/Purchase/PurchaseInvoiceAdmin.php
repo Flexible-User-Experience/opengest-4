@@ -4,12 +4,10 @@ namespace App\Admin\Purchase;
 
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Partner\PartnerDeliveryAddress;
-use App\Entity\Partner\PartnerType;
 use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Purchase\PurchaseInvoiceDueDate;
 use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Setting\City;
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -129,21 +127,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                 [
                     'property' => 'name',
                     'label' => 'admin.label.supplier',
-                    'callback' => function ($admin, $property, $value) {
-                        /** @var Admin $admin */
-                        $datagrid = $admin->getDatagrid();
-                        /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = $datagrid->getQuery();
-                        $queryBuilder
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
-                            ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
-                            ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                            ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 2))
-                            ->setParameter('enabled', true)
-                        ;
-                        $datagrid->setValue($property, null, $value);
-                    },
+                    'callback' => $this->partnerProviderModelAutocompleteCallback(),
                 ],
                 [
                     'admin_code' => 'app.admin.partner',
@@ -415,7 +399,7 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                         'property' => 'name',
-                        'callback' => $this->partnerModelAutocompleteCallback(),
+                        'callback' => $this->partnerProviderModelAutocompleteCallback(),
                     ],
                 ]
             )

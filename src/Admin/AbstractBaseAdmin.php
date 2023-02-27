@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use App\Entity\Enterprise\Enterprise;
+use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Manager\DeliveryNoteManager;
@@ -360,6 +361,25 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
                     ->setParameter('codeOrReference', '%'.$value.'%')
                 ;
             }
+        };
+    }
+
+    protected function partnerProviderModelAutocompleteCallback(): Closure
+    {
+        return function ($admin, $property, $value) {
+            /** @var Admin $admin */
+            $datagrid = $admin->getDatagrid();
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = $datagrid->getQuery();
+            $queryBuilder
+                ->andWhere($queryBuilder->getRootAliases()[0].'.enterprise = :enterprise')
+                ->andWhere($queryBuilder->getRootAliases()[0].'.type = :type')
+                ->andWhere($queryBuilder->getRootAliases()[0].'.enabled = :enabled')
+                ->setParameter('enterprise', $this->getUserLogedEnterprise())
+                ->setParameter('type', $this->getModelManager()->find(PartnerType::class, 2))
+                ->setParameter('enabled', true)
+            ;
+            $datagrid->setValue($property, null, $value);
         };
     }
 }
