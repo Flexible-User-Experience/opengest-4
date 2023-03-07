@@ -1,0 +1,7 @@
+{% extends "admin/edit.html.twig" %}
+
+{% block btn_delete %}
+    {% if form.vars.data.vehicleConsumptions is empty %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

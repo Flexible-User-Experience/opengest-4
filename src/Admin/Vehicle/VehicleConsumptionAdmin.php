@@ -60,10 +60,24 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        parent::configureRoutes($collection);
         $collection
             ->add('uploadCsv', 'upload-csv')
+            ->remove('show')
         ;
+    }
+
+    public function configureBatchActions(array $actions): array
+    {
+        return $actions;
+    }
+
+    public function configureActionButtons(array $buttonList, string $action, ?object $object = null): array
+    {
+        $buttonList['uploadCsv'] = [
+            'template' => 'admin/buttons/import_csv_vehicle_consumption.html.twig',
+        ];
+
+        return $buttonList;
     }
 
     protected function configureFormFields(FormMapper $formMapper): void

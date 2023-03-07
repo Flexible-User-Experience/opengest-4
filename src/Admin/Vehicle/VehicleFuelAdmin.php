@@ -6,7 +6,6 @@ use App\Admin\AbstractBaseAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 /**
@@ -39,16 +38,6 @@ class VehicleFuelAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
-
-    /**
-     * Configure route collection.
-     */
-    protected function configureRoutes(RouteCollectionInterface $collection): void
-    {
-        parent::configureRoutes($collection);
-        $collection->remove('delete');
-    }
-
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
