@@ -44,7 +44,6 @@ services:
         tags:
             - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleConsumption, controller: App\Controller\Admin\Vehicle\VehicleConsumptionAdminController, manager_type: orm, label: 'Consumos de combustible', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
-            - [ setTemplate, [ list, 'admin/vehicle-consumption/list.html.twig' ] ]
             - [ setTranslationDomain, [ 'admin' ] ]
     app.admin.vehicle_fuel:
         class: App\Admin\Vehicle\VehicleFuelAdmin

@@ -56,7 +56,8 @@ class VehicleConsumptionAdminController extends BaseAdminController
                         $consumption->setSupplyTime($time);
                         $quantity = floatval(str_replace(',', '.', str_replace('.', '', $record[21])));
                         $consumption->setQuantity($quantity);
-                        $consumption->setPriceUnit($vehicleFuel->getPriceUnit());
+                        $priceUnit = $vehicleFuel->getPriceUnit() ?? 0;
+                        $consumption->setPriceUnit($priceUnit);
                         $consumption->setAmount($quantity * $vehicleFuel->getPriceUnit());
                         $em->persist($consumption);
                         $em->flush();
