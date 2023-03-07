@@ -53,6 +53,7 @@ services:
             - { name: sonata.admin, code: ~ , model_class: App\Entity\Vehicle\VehicleFuel, controller: ~, manager_type: orm, label: 'Combustible', group: 'Vehículos', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
         calls:
             - [ setTranslationDomain, [ 'admin' ] ]
+            - [ setTemplate, [ edit, 'admin/vehicle-fuel/edit.html.twig' ] ]
     app.admin.vehicle.maintenance_task:
         class: App\Admin\Vehicle\VehicleMaintenanceTaskAdmin
         arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
