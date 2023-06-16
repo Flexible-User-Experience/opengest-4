@@ -1,8 +1,12 @@
 Changelog
 =========
 
-##### Version 4.1.07 (WIP)
-* TODOS: 
+##### Version 4.1.87 (WIP)
+* Keep wiring things
+
+##### Version 4.1.07 (2023-06-16)
+* In Sale Request and Sale Delivery Note, when filtered by partner, only related BuildingSites 
+and Orders are shown. 
 
 ##### Version 4.1.06 (2023-02-27)
 * Added price in Vehicle fuel, and recalculated vehicle consumptions amount from this price
