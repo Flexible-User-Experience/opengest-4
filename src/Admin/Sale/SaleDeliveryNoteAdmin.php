@@ -3,6 +3,8 @@
 namespace App\Admin\Sale;
 
 use App\Entity\Operator\Operator;
+use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Partner\PartnerOrder;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -166,21 +168,59 @@ class SaleDeliveryNoteAdmin extends AbstractSaleDeliveryNoteAdmin
                     'label' => 'admin.label.partner_code',
                 ]
             )
-
-            ->add(
-                'buildingSite',
-                null,
-                [
-                    'label' => 'admin.label.partner_building_site',
-                ]
-            )
-            ->add(
-                'order',
-                null,
-                [
-                    'label' => 'admin.label.order',
-                ]
-            )
+        ;
+        $filterParameters = $datagridMapper->getAdmin()->getFilterParameters();
+        $filteredPartner = null;
+        if (isset($filterParameters['partner'])) {
+            $filteredPartnerId = $filterParameters['partner']['value'];
+            $filteredPartner = $this->rm->getPartnerRepository()->find($filteredPartnerId);
+        }
+        if ($filteredPartner) {
+            $datagridMapper
+                ->add(
+                    'buildingSite',
+                    null,
+                    [
+                        'label' => 'admin.label.partner_building_site',
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerBuildingSite::class,
+                            'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledFilteredByPartnerSortedByNameQB($filteredPartner),
+                        ],
+                    ]
+                )
+                ->add(
+                    'order',
+                    null,
+                    [
+                        'label' => 'admin.label.order',
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerOrder::class,
+                            'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledFilteredByPartnerSortedByNumberQB($filteredPartner),
+                        ],
+                    ]
+                )
+            ;
+        } else {
+            $datagridMapper
+                ->add(
+                    'buildingSite',
+                    null,
+                    [
+                        'label' => 'admin.label.partner_building_site',
+                    ]
+                )
+                ->add(
+                    'order',
+                    null,
+                    [
+                        'label' => 'admin.label.order',
+                    ]
+                )
+            ;
+        }
+        $datagridMapper
             ->add(
                 'serviceDescription',
                 null,
