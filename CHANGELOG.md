@@ -3,6 +3,7 @@ Changelog
 
 ##### Version 4.1.8 (WIP)
 * Keep wiring things
+* One postal code can have two different name in City.
 
 ##### Version 4.1.07 (2023-06-16)
 * In Sale Request and Sale Delivery Note, when filtered by partner, only related BuildingSites 
