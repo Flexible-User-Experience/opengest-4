@@ -32,7 +32,7 @@
                                     <select class="select2-container" style="width: 100%;" id="order_selection">
                                         <option value="0" selected="selected">--- seleccione una opción ---</option>
                                         {% for order in orders %}
-                                            <option value="{{ order.id }}">{{ order }}</option>
+                                            <option value="{{ order.id }}" data-partner-id="{{ order.partner.id }}">{{ order }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -45,7 +45,7 @@
                                     <select class="select2-container" style="width: 100%;" id="buildingSite_selection">
                                         <option value="0" selected="selected">--- seleccione una opción ---</option>
                                         {% for buildingSite in buildingSites %}
-                                            <option value="{{ buildingSite.id }}">{{ buildingSite }}</option>
+                                            <option value="{{ buildingSite.id }}" data-partner-id="{{ buildingSite.partner.id }}">{{ buildingSite }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -146,8 +146,32 @@
 
     <script type="text/javascript">
 
-      jQuery(document).ready(function() {
+        jQuery(document).ready(function() {
             updateDeliveryNoteTable(true);
+            let orderSelection = jQuery('#order_selection');
+            let buildingSiteSelection = jQuery('#buildingSite_selection');
+            const originalOrderOptions = orderSelection.html();
+            const originalBuildingSiteOptions = buildingSiteSelection.html();
+
+            jQuery('#partner_selection').on('change', function() {
+            let selectedPartnerId = jQuery(this).val();
+            orderSelection.html(originalOrderOptions);
+            buildingSiteSelection.html(originalBuildingSiteOptions);
+            jQuery('#order_selection option').each(function() {
+              let partnerId = jQuery(this).data('partner-id');
+              if (partnerId !== parseInt(selectedPartnerId, 10) && jQuery(this).val() !== "0") {
+                jQuery(this).remove();
+              }
+            });
+            jQuery('#buildingSite_selection option').each(function() {
+              let partnerId = jQuery(this).data('partner-id');
+              if (partnerId !== parseInt(selectedPartnerId, 10) && jQuery(this).val() !== "0") {
+                jQuery(this).remove();
+              }
+            });
+            orderSelection.select2('destroy').select2();
+            buildingSiteSelection.select2('destroy').select2();
+            });
         });
 
       function updateDeliveryNoteTable(first) {
