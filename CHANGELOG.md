@@ -1,8 +1,10 @@
 Changelog
 =========
 
-##### Version 4.1.8 (WIP)
+##### Version 4.1.9 (WIP)
 * Keep wiring things
+
+##### Version 4.1.8 (WIP)
 * One postal code can have two different name in City.
 * In custom invoice generation screen, when filtered by partner, only related BuildingSites
 and Orders are shown.
