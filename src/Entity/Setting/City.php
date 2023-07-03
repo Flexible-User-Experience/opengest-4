@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\Setting\CityRepository")
  * @ORM\Table(name="city")
- * @UniqueEntity({"postalCode", "province"})
+ * @UniqueEntity({"postalCode", "name", "province"})
  */
 class City extends AbstractBase
 {

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-##### Version 4.1.87 (WIP)
+##### Version 4.1.8 (WIP)
 * Keep wiring things
 
 ##### Version 4.1.07 (2023-06-16)
