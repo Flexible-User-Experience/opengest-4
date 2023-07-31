@@ -1,10 +1,13 @@
 Changelog
 =========
 
-##### Version 4.1.9 (WIP)
+##### Version 4.1.10 (WIP)
 * Keep wiring things
 
-##### Version 4.1.8 (WIP)
+##### Version 4.1.09 (2023-07-31)
+* Fixed error with analytics, handle inactive clients
+
+##### Version 4.1.08 (2023-07-03)
 * One postal code can have two different name in City.
 * In custom invoice generation screen, when filtered by partner, only related BuildingSites
 and Orders are shown.
