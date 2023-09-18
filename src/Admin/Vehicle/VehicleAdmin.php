@@ -370,7 +370,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => false,
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itv'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itc'),
                         'help_html' => true,
                         'required' => false,
                     ]
