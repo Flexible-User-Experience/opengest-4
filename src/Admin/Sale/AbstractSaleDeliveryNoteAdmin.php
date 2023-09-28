@@ -594,6 +594,20 @@ class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
             )
             ->end()
             ->end()
+            ->tab('Facturas de compra')
+            ->with('Lineas de factura de compra', $this->getFormMdSuccessBoxArray(6))
+            ->add(
+                'invoiceLines',
+                null,
+                [
+                    'label' => 'admin.label.purchase_invoice_lines',
+                    'mapped' => false,
+                    'required' => false,
+                    'disabled' => true,
+                ]
+            )
+            ->end()
+            ->end()
         ;
     }
 
