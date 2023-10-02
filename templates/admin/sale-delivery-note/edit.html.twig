@@ -18,7 +18,6 @@
                 let buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
                 let ordersNode = jQuery('#{{ form.order.vars.id }}');
                 let projectsNode = jQuery('#{{ form.project.vars.id }}');
-                let invoiceLinesNode = jQuery('#sonata-ba-field-container-{{ form.invoiceLines.vars.id }}');
                 {% if form.saleInvoice.vars.data %}
                     jQuery(`
                       <a href="{{ path('admin_app_sale_saleinvoice_edit', { 'id': form.saleInvoice.vars.data.id }) }}">
@@ -34,6 +33,7 @@
                     `).insertAfter(partnerNode);
                 {% endif %}
           // Create table for invoice lines
+                let invoiceLinesNode = jQuery('#sonata-ba-field-container-{{ form.invoiceLines.vars.id }}');
                 jQuery(invoiceLinesNode).html(`
                     {{ component('PurchaseInvoiceLinesByCostCenter', {
                         costCenters: admin.purchaseInvoiceLinesCostCenters,
