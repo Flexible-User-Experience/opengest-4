@@ -10,14 +10,23 @@ use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerDeliveryAddress;
 use App\Entity\Partner\PartnerOrder;
 use App\Entity\Partner\PartnerProject;
+use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleDeliveryNoteLine;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\UserRolesEnum;
+use App\Manager\DeliveryNoteManager;
+use App\Manager\InvoiceManager;
+use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
+use App\Manager\YearChoicesManager;
+use App\Service\FileService;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Exception;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -30,9 +39,20 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Twig\Environment;
 
 class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
 {
+    public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
+        public array $purchaseInvoiceLinesCostCenters = []
+    )
+    {
+        parent::__construct($lis, $ycm, $im, $rm, $dnm, $vmm, $em, $fs, $tws, $ts, $acs, $passwordEncoder);
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
@@ -45,6 +65,7 @@ class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->id($this->getSubject())) { // is edit mode
+            $this->purchaseInvoiceLinesCostCenters = $this->em->getRepository(PurchaseInvoiceLine::class)->getCostCenters(saleDeliveryNote: $this->getSubject());
             $formMapper
                 ->tab('Cabecera')
                 ->with('admin.with.delivery_note', $this->getFormMdSuccessBoxArray(4))
@@ -595,7 +616,7 @@ class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
             ->end()
             ->end()
             ->tab('Facturas de compra')
-            ->with('Lineas de factura de compra', $this->getFormMdSuccessBoxArray(6))
+            ->with('Lineas de factura de compra', $this->getFormMdSuccessBoxArray(12))
             ->add(
                 'invoiceLines',
                 null,

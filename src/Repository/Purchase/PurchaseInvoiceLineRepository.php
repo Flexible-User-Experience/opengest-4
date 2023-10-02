@@ -2,7 +2,10 @@
 
 namespace App\Repository\Purchase;
 
+use App\Entity\Operator\Operator;
 use App\Entity\Purchase\PurchaseInvoiceLine;
+use App\Entity\Sale\SaleDeliveryNote;
+use App\Entity\Vehicle\Vehicle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -45,6 +48,39 @@ class PurchaseInvoiceLineRepository extends ServiceEntityRepository
     public function getFilteredByYear(int $year)
     {
         return $this->getEnabledFilteredByYearQB($year)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getCostCenters(SaleDeliveryNote $saleDeliveryNote = null, Operator $operator = null, Vehicle $vehicle = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('pil')
+            ->select('costCenter.id, costCenter.code, costCenter.name')
+            ->innerJoin('pil.costCenter', 'costCenter')
+            ->groupBy('pil.costCenter')
+        ;
+
+        if ($saleDeliveryNote) {
+            $queryBuilder
+                ->where('pil.saleDeliveryNote = :saleDeliveryNote')
+                ->setParameter('saleDeliveryNote', $saleDeliveryNote)
+            ;
+        }
+        if ($operator) {
+            $queryBuilder
+                ->where('pil.operator = :operator')
+                ->setParameter('operator', $operator)
+            ;
+        }
+        if ($vehicle) {
+            $queryBuilder
+                ->where('pil.vehicle = :vehicle')
+                ->setParameter('vehicle', $vehicle)
+            ;
+        }
+
+        return $queryBuilder
             ->getQuery()
             ->getResult()
         ;
