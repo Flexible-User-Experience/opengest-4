@@ -1,0 +1,93 @@
+{% for costCenter in costCenters %}
+    <h4>{{ costCenter.name }}</h4>
+    <table class="table table-bordered table-hover sonata-ba-list">
+        <thead>
+        <tr>
+            <th style="width:10%">Factura de compra</th>
+            <th style="width:10%">Fecha</th>
+            <th style="width:20%">Proveedor</th>
+            <th>Artículo</th>
+            <th>Descripción</th>
+            <th style="width:15%">Importe (€)</th>
+        </tr>
+        </thead>
+        <tbody id="invoiceLinesTableBody">
+        {% for invoiceLine in purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id is same as costCenter.id)  %}
+            <tr>
+                <td>
+                    <a href="{{ path('admin_app_purchase_purchaseinvoice_edit', { 'id': invoiceLine.purchaseInvoice.id }) }}">
+                        {{ invoiceLine.purchaseInvoice }}
+                    </a>
+                </td>
+                <td>{{ invoiceLine.purchaseInvoice.date | date('d/m/y') }}</td>
+                <td>
+                    <a href="{{ path('admin_app_partner_partner_edit', { 'id': invoiceLine.purchaseInvoice.partner.id }) }}">
+                        {{ invoiceLine.purchaseInvoice.partner }}
+                </td>
+                <td>
+                    {% if invoiceLine.purchaseItem %}
+                        <a href="{{ path('admin_app_purchase_purchaseitem_edit', { 'id': invoiceLine.purchaseItem.id }) }}">
+                            {{ invoiceLine.purchaseItem.id }} - {{ invoiceLine.purchaseItem }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>{{ invoiceLine.description }}</td>
+                <td>{{ invoiceLine.baseTotal|number_format(2,',','.') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">Subtotal</td>
+            <td><b>{{ purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id is same as costCenter.id) | reduce((subtotal, invoiceLine) => subtotal + invoiceLine.baseTotal)|number_format(2, ',', '.') }} €</b></td>
+        </tr>
+        </tfoot>
+    </table>
+{% endfor %}
+{% set noCostCenterLines = purchaseInvoiceLines | filter(purchaseInvoiceLine => purchaseInvoiceLine.costCenter is null) %}
+{% if noCostCenterLines|length > 0 %}
+    <h4>Sin centro de coste asignado</h4>
+    <table class="table table-bordered table-hover sonata-ba-list">
+        <thead>
+        <tr>
+            <th style="width:10%">Factura de compra</th>
+            <th style="width:10%">Fecha</th>
+            <th style="width:20%">Proveedor</th>
+            <th>Artículo</th>
+            <th>Descripción</th>
+            <th style="width:15%">Importe (€)</th>
+        </tr>
+        </thead>
+        <tbody id="invoiceLinesTableBody">
+        {% for invoiceLine in purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter is null)  %}
+            <tr>
+                <td>
+                    <a href="{{ path('admin_app_purchase_purchaseinvoice_edit', { 'id': invoiceLine.purchaseInvoice.id }) }}">
+                        {{ invoiceLine.purchaseInvoice }}
+                    </a>
+                </td>
+                <td>{{ invoiceLine.purchaseInvoice.date | date('d/m/y') }}</td>
+                <td>
+                    <a href="{{ path('admin_app_partner_partner_edit', { 'id': invoiceLine.purchaseInvoice.partner.id }) }}">
+                        {{ invoiceLine.purchaseInvoice.partner }}
+                </td>
+                <td>
+                    {% if invoiceLine.purchaseItem %}
+                        <a href="{{ path('admin_app_purchase_purchaseitem_edit', { 'id': invoiceLine.purchaseItem.id }) }}">
+                            {{ invoiceLine.purchaseItem.id }} - {{ invoiceLine.purchaseItem }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>{{ invoiceLine.description }}</td>
+                <td>{{ invoiceLine.baseTotal|number_format(2,',','.') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">Subtotal</td>
+            <td><b>{{ purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter is null) | reduce((subtotal, invoiceLine) => subtotal + invoiceLine.baseTotal)|number_format(2, ',', '.') }} €</b></td>
+        </tr>
+        </tfoot>
+    </table>
+{% endif %}
