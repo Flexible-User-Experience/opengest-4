@@ -1,5 +1,5 @@
 {% for costCenter in costCenters %}
-    <h4>{{ costCenter.name }}</h4>
+    <h3>{{ costCenter.name }}</h3>
     <table class="table table-bordered table-hover sonata-ba-list">
         <thead>
         <tr>
@@ -46,7 +46,7 @@
 {% endfor %}
 {% set noCostCenterLines = purchaseInvoiceLines | filter(purchaseInvoiceLine => purchaseInvoiceLine.costCenter is null) %}
 {% if noCostCenterLines|length > 0 %}
-    <h4>Sin centro de coste asignado</h4>
+    <h3>Sin centro de coste asignado</h3>
     <table class="table table-bordered table-hover sonata-ba-list">
         <thead>
         <tr>
