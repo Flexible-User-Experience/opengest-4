@@ -331,6 +331,20 @@ class Vehicle extends AbstractBase
     private ?string $CEDeclaration = null;
 
     /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="trafficReceipt")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     */
+    private ?File $trafficReceiptFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $trafficReceipt = null;
+
+    /**
      * @var ?SaleServiceTariff
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="vehicles")
@@ -1161,6 +1175,33 @@ class Vehicle extends AbstractBase
     public function setCEDeclaration(?string $CEDeclaration): Vehicle
     {
         $this->CEDeclaration = $CEDeclaration;
+
+        return $this;
+    }
+
+    public function getTrafficReceiptFile(): ?File
+    {
+        return $this->trafficReceiptFile;
+    }
+
+    public function setTrafficReceiptFile(?File $trafficReceiptFile): Vehicle
+    {
+        $this->trafficReceiptFile = $trafficReceiptFile;
+        if ($trafficReceiptFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getTrafficReceipt(): ?string
+    {
+        return $this->trafficReceipt;
+    }
+
+    public function setTrafficReceipt(?string $TrafficReceipt): Vehicle
+    {
+        $this->trafficReceipt = $TrafficReceipt;
 
         return $this;
     }
