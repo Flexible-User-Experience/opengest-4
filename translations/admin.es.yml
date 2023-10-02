@@ -324,6 +324,7 @@ admin:
             dimensions: "Dimensiones"
             transport_card: "Tarjeta transporte"
             traffic_insurance: "Seguro circulación"
+            traffic_receipt: "Recibo circulación"
             itv: "ITV"
             itc: "ITC"
             c_e_declaration: "Declaración CE"

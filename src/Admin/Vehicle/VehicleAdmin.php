@@ -94,6 +94,7 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add('downloadItv', $this->getRouterIdParameter().'/itv')
             ->add('downloadItc', $this->getRouterIdParameter().'/itc')
             ->add('downloadCEDeclaration', $this->getRouterIdParameter().'/declaracion-ce')
+            ->add('downloadTrafficReceipt', $this->getRouterIdParameter().'/recibo-circulacion')
             ->add('generateDocumentation', 'generate-documentation')
             ->add('batch')
             ->remove('delete');
@@ -369,6 +370,18 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'label' => false,
                         'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficInsurance', 'trafficInsurance'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+                ->end()
+                ->with('admin.with.vehicle.traffic_receipt', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'trafficReceiptFile',
+                    FileType::class,
+                    [
+                        'label' => false,
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficReceipt', 'trafficReceipt'),
                         'help_html' => true,
                         'required' => false,
                     ]
