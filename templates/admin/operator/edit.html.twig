@@ -22,11 +22,11 @@
                 {% endfor %}
                 let invoiceLinesNode = jQuery('#sonata-ba-field-container-{{ form.invoiceLines.vars.id }}');
                 jQuery(invoiceLinesNode).html(`
-                        {{ component('PurchaseInvoiceLinesByCostCenter', {
-                  costCenters: admin.purchaseInvoiceLinesCostCenters,
-                  purchaseInvoiceLines: admin.subject.purchaseInvoiceLines
-                }) }}
-                    `);
+                    {{ component('PurchaseInvoiceLinesByCostCenter', {
+                        costCenters: admin.purchaseInvoiceLinesCostCenters,
+                        purchaseInvoiceLines: admin.subject.purchaseInvoiceLines
+                    }) }}
+                `);
                 let operatorAbsencesBox = jQuery('#sonata-ba-field-container-{{ form.operatorAbsences.vars.id }}').parent().parent().parent().parent().parent();
                 operatorAbsencesBox.append(jQuery(`
                 <div class='col-md-6'>
