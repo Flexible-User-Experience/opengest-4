@@ -198,6 +198,7 @@ class AbstractSaleDeliveryNoteAdmin extends AbstractBaseAdmin
                         'label' => 'admin.label.sale_serivce_tariff',
                         'required' => true,
                         'query_builder' => $this->rm->getSaleServiceTariffRepository()->getEnabledSortedByNameQB(),
+                        'disabled' => true
                     ]
                 )
                 ->end()
