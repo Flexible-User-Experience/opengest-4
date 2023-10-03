@@ -31,6 +31,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -825,5 +826,10 @@ class OperatorAdmin extends AbstractBaseAdmin
             $payslipOperatorDefaultLine->setAmount($amount);
         }
         $this->em->flush();
+    }
+
+    public function preValidate(object $object): void
+    {
+        $object->setEnterprise($this->getUserLogedEnterprise());
     }
 }
