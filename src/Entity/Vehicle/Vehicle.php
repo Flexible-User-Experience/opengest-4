@@ -29,7 +29,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleRepository")
  * @ORM\Table(name="vehicle")
  * @Vich\Uploadable()
- * @UniqueEntity({"name", "vehicleRegistrationNumber"})
+ * @UniqueEntity(
+ *     fields={"vehicleRegistrationNumber"}
+ *     )
+ * @UniqueEntity(
+ *     fields={"name"}
+ *     )
  */
 class Vehicle extends AbstractBase
 {
