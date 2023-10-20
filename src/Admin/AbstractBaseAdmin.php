@@ -277,14 +277,18 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 
     protected function getDownloadFileButton(): string
     {
-        $result = '';
+        $result = 'No hay fichero relacionado';
         if ($this->getSubject() && $this->getSubject()?->getUploadedFileName()) {
             $url = $this->getRouteGenerator()->generateUrl($this, 'download', ['id' => $this->getSubject()->getId()]);
             $result = '
             <a class="btn btn-warning btn-xs" href="'.$url.'">
               <i class="fa fa-cloud-download"></i>
             Descargar
-            </a>'
+            </a>
+            <p>
+              '.$this->getSubject()->getUploadedFileName().'
+            </p>
+            '
             ;
         }
 

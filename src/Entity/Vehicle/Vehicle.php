@@ -29,7 +29,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleRepository")
  * @ORM\Table(name="vehicle")
  * @Vich\Uploadable()
- * @UniqueEntity({"name", "vehicleRegistrationNumber"})
+ * @UniqueEntity(
+ *     fields={"vehicleRegistrationNumber"}
+ *     )
+ * @UniqueEntity(
+ *     fields={"name"}
+ *     )
  */
 class Vehicle extends AbstractBase
 {
@@ -329,6 +334,20 @@ class Vehicle extends AbstractBase
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $CEDeclaration = null;
+
+    /**
+     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="trafficReceipt")
+     * @Assert\File(
+     *     maxSize="10M",
+     *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
+     * )
+     */
+    private ?File $trafficReceiptFile = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $trafficReceipt = null;
 
     /**
      * @var ?SaleServiceTariff
@@ -1161,6 +1180,33 @@ class Vehicle extends AbstractBase
     public function setCEDeclaration(?string $CEDeclaration): Vehicle
     {
         $this->CEDeclaration = $CEDeclaration;
+
+        return $this;
+    }
+
+    public function getTrafficReceiptFile(): ?File
+    {
+        return $this->trafficReceiptFile;
+    }
+
+    public function setTrafficReceiptFile(?File $trafficReceiptFile): Vehicle
+    {
+        $this->trafficReceiptFile = $trafficReceiptFile;
+        if ($trafficReceiptFile) {
+            $this->updatedAt = new DateTime();
+        }
+
+        return $this;
+    }
+
+    public function getTrafficReceipt(): ?string
+    {
+        return $this->trafficReceipt;
+    }
+
+    public function setTrafficReceipt(?string $TrafficReceipt): Vehicle
+    {
+        $this->trafficReceipt = $TrafficReceipt;
 
         return $this;
     }

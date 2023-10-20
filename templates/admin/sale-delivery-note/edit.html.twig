@@ -15,25 +15,33 @@
             var cifNifIcon = jQuery('#cif-nif-icon');
             var totalCountedHours = 0;
             {% if  admin.id(admin.subject) %}
-              let buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
-              let ordersNode = jQuery('#{{ form.order.vars.id }}');
-              let projectsNode = jQuery('#{{ form.project.vars.id }}');
-              {% if form.saleInvoice.vars.data %}
-                  jQuery(`
+                let buildingSitesNode = jQuery('#{{ form.buildingSite.vars.id }}');
+                let ordersNode = jQuery('#{{ form.order.vars.id }}');
+                let projectsNode = jQuery('#{{ form.project.vars.id }}');
+                {% if form.saleInvoice.vars.data %}
+                    jQuery(`
                       <a href="{{ path('admin_app_sale_saleinvoice_edit', { 'id': form.saleInvoice.vars.data.id }) }}">
                           Ir a factura
                       </a>
                   `).insertAfter(invoice);
-              {% endif %}
+                {% endif %}
                 {% if form.partner.vars.data %}
-                jQuery(`
+                    jQuery(`
                           <a href="{{ path('admin_app_partner_client_edit', { 'id': form.partner.vars.data.id }) }}">
                               Ir a cliente
                           </a>
-                      `).insertAfter(partnerNode);
+                    `).insertAfter(partnerNode);
                 {% endif %}
+          // Create table for invoice lines
+                let invoiceLinesNode = jQuery('#sonata-ba-field-container-{{ form.invoiceLines.vars.id }}');
+                jQuery(invoiceLinesNode).html(`
+                    {{ component('PurchaseInvoiceLinesByCostCenter', {
+                        costCenters: admin.purchaseInvoiceLinesCostCenters,
+                        purchaseInvoiceLines: admin.subject.purchaseInvoiceLines
+                    }) }}
+                `);
 
-            var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
+                var deliveryNoteLinesTable = jQuery('#sonata-ba-field-container-{{ form.saleDeliveryNoteLines.vars.id }}');
                 var numberOfDeliveryNoteLines = {{ form.saleDeliveryNoteLines.vars.data.count }};
                 for (let i = 0; i < numberOfDeliveryNoteLines; i++) {
                     jQuery('#{{ form.saleDeliveryNoteLines.vars.id }}_' + i + '_saleItem').change(function(event) {
@@ -124,9 +132,8 @@
                     </div>
                   `
                 }
-              jQuery($info).insertAfter(workRegistersTable);
+                jQuery($info).insertAfter(workRegistersTable);
             {% endif %}
-
             partnerNode.change(function(event) {
                 cifNifIcon.removeClass('hidden');
                 var partnerId = jQuery(event.target).val();
@@ -181,7 +188,7 @@
                 cifNif.val(partner.cifNif);
             }
 
-          function updateBuildingSites(response) {
+            function updateBuildingSites(response) {
             var partnerBuildingSitesData = jQuery.parseJSON(response);
             buildingSitesNode.empty();
             let newOption = new Option('-- elige una obra --', '', true, false);
@@ -197,7 +204,7 @@
               allowClear: true
             });
           }
-          function updateOrders(response) {
+            function updateOrders(response) {
               console.log('response orders', response);
             var partnerOrdersData = jQuery.parseJSON(response);
             ordersNode.empty();
@@ -214,7 +221,7 @@
               allowClear: true
             });
           }
-          function updateProjects(response) {
+            function updateProjects(response) {
               console.log('response orders', response);
             var partnerProjectsData = jQuery.parseJSON(response);
             projectsNode.empty();
@@ -231,7 +238,6 @@
               allowClear: true
             });
           }
-
         });
     </script>
 {% endblock %}

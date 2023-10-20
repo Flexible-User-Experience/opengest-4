@@ -97,6 +97,14 @@ class VehicleAdminController extends BaseAdminController
         return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'trafficCertificateFile', $vehicle->getTrafficCertificate());
     }
 
+    public function downloadTrafficReceiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Vehicle $operator */
+        $vehicle = $this->admin->getObject($id);
+
+        return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'trafficReceiptFile', $vehicle->getTrafficReceipt());
+    }
+
     public function downloadDimensionsAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Vehicle $operator */
