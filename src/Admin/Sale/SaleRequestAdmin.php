@@ -6,7 +6,9 @@ use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
 use App\Entity\Partner\PartnerOrder;
+use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
@@ -787,6 +789,19 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 
         if (null == $object->getInvoiceTo()) {
             $object->setInvoiceTo($object->getPartner());
+        }
+    }
+
+    /**
+     * @param SaleRequest $object
+     */
+    public function preUpdate($object): void
+    {
+        $saleServiceTariff = $object->getService();
+        $saleDeliveryNotes = $object->getSaleRequestHasDeliveryNotes();
+        /** @var SaleRequestHasDeliveryNote $deliveryNote */
+        foreach ($saleDeliveryNotes as $deliveryNote) {
+            $deliveryNote->getSaleDeliveryNote()->setSaleServiceTariff($saleServiceTariff);
         }
     }
 }

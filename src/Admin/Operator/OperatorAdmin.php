@@ -5,9 +5,18 @@ namespace App\Admin\Operator;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Enterprise\EnterpriseGroupBounty;
 use App\Entity\Operator\Operator;
+use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Enum\OperatorTypeEnum;
 use App\Enum\UserRolesEnum;
+use App\Manager\DeliveryNoteManager;
+use App\Manager\InvoiceManager;
+use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
+use App\Manager\YearChoicesManager;
+use App\Service\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -22,6 +31,11 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Twig\Environment;
 
 /**
  * Class OperatorAdmin.
@@ -39,6 +53,13 @@ class OperatorAdmin extends AbstractBaseAdmin
      * @var string
      */
     protected $baseRoutePattern = 'operaris/operari';
+
+    public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
+                                public array $purchaseInvoiceLinesCostCenters = []
+    )
+    {
+        parent::__construct($lis, $ycm, $im, $rm, $dnm, $vmm, $em, $fs, $tws, $ts, $acs, $passwordEncoder);
+    }
 
     /**
      * Methods.
@@ -371,6 +392,7 @@ class OperatorAdmin extends AbstractBaseAdmin
         ;
         if ($this->id($this->getSubject())) {
             $this->operatorAbsences = $this->rm->getOperatorAbsenceRepository()->getAbsencesFilteredByOperator($this->getSubject());
+            $this->purchaseInvoiceLinesCostCenters = $this->em->getRepository(PurchaseInvoiceLine::class)->getCostCenters(operator: $this->getSubject());
 
             $formMapper
                 ->tab('Documentación')
@@ -629,7 +651,22 @@ class OperatorAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
-                ->end();
+                ->end()
+                ->tab('Facturas de compra')
+                ->with('Lineas de factura de compra', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'invoiceLines',
+                    null,
+                    [
+                        'label' => 'admin.label.purchase_invoice_lines',
+                        'mapped' => false,
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
+                ->end()
+                ->end()
+                ;
         }
         $asd = 1;
     }
@@ -789,5 +826,10 @@ class OperatorAdmin extends AbstractBaseAdmin
             $payslipOperatorDefaultLine->setAmount($amount);
         }
         $this->em->flush();
+    }
+
+    public function preValidate(object $object): void
+    {
+        $object->setEnterprise($this->getUserLogedEnterprise());
     }
 }

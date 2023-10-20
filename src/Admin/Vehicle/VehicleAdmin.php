@@ -3,12 +3,21 @@
 namespace App\Admin\Vehicle;
 
 use App\Admin\AbstractBaseAdmin;
+use App\Entity\Purchase\PurchaseInvoiceLine;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Vehicle\Vehicle;
 use App\Entity\Vehicle\VehicleCategory;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
+use App\Manager\DeliveryNoteManager;
+use App\Manager\InvoiceManager;
+use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
+use App\Manager\YearChoicesManager;
+use App\Service\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -24,6 +33,10 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Twig\Environment;
 
 /**
  * Class VehicleAdmin.
@@ -43,6 +56,13 @@ class VehicleAdmin extends AbstractBaseAdmin
      * @var string
      */
     protected $baseRoutePattern = 'vehicles/vehicle';
+
+    public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
+                                public array $purchaseInvoiceLinesCostCenters = []
+    )
+    {
+        parent::__construct($lis, $ycm, $im, $rm, $dnm, $vmm, $em, $fs, $tws, $ts, $acs, $passwordEncoder);
+    }
 
     /**
      * Methods.
@@ -74,6 +94,7 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->add('downloadItv', $this->getRouterIdParameter().'/itv')
             ->add('downloadItc', $this->getRouterIdParameter().'/itc')
             ->add('downloadCEDeclaration', $this->getRouterIdParameter().'/declaracion-ce')
+            ->add('downloadTrafficReceipt', $this->getRouterIdParameter().'/recibo-circulacion')
             ->add('generateDocumentation', 'generate-documentation')
             ->add('batch')
             ->remove('delete');
@@ -242,6 +263,8 @@ class VehicleAdmin extends AbstractBaseAdmin
             ->end()
         ;
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
+            $this->purchaseInvoiceLinesCostCenters = $this->em->getRepository(PurchaseInvoiceLine::class)->getCostCenters(vehicle: $this->getSubject());
+
             $formMapper
                 ->tab('Documentación')
                 ->with('admin.with.vehicle.chassis_image', $this->getFormMdSuccessBoxArray(3))
@@ -352,6 +375,18 @@ class VehicleAdmin extends AbstractBaseAdmin
                     ]
                 )
                 ->end()
+                ->with('admin.with.vehicle.traffic_receipt', $this->getFormMdSuccessBoxArray(3))
+                ->add(
+                    'trafficReceiptFile',
+                    FileType::class,
+                    [
+                        'label' => false,
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadTrafficReceipt', 'trafficReceipt'),
+                        'help_html' => true,
+                        'required' => false,
+                    ]
+                )
+                ->end()
                 ->with('admin.with.vehicle.itv', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'itvFile',
@@ -370,7 +405,7 @@ class VehicleAdmin extends AbstractBaseAdmin
                     FileType::class,
                     [
                         'label' => false,
-                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itv'),
+                        'help' => $this->getDocumentHelper('admin_app_vehicle_vehicle_downloadItc', 'itc'),
                         'help_html' => true,
                         'required' => false,
                     ]
@@ -497,6 +532,20 @@ class VehicleAdmin extends AbstractBaseAdmin
                     [
                         'edit' => 'inline',
                         'inline' => 'table',
+                    ]
+                )
+                ->end()
+                ->end()
+                ->tab('Facturas de compra')
+                ->with('Lineas de factura de compra', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'invoiceLines',
+                    null,
+                    [
+                        'label' => 'admin.label.purchase_invoice_lines',
+                        'mapped' => false,
+                        'required' => false,
+                        'disabled' => true,
                     ]
                 )
                 ->end()

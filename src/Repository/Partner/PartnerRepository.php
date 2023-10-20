@@ -45,6 +45,13 @@ class PartnerRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getFilteredByEnterpriseSortedByNameQB(Enterprise $enterprise): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC')
+        ;
+    }
+
     public function getFilteredByEnterpriseAndTypeEnabledSortedByNameQB(Enterprise $enterprise, PartnerType $partnerType): QueryBuilder
     {
         return $this->getEnabledSortedByNameQB()
@@ -53,6 +60,17 @@ class PartnerRepository extends ServiceEntityRepository
             ->setParameter('enterprise', $enterprise)
             ->setParameter('partnerType', $partnerType)
         ;
+    }
+
+    public function getFilteredByEnterpriseAndTypeSortedByNameQB(Enterprise $enterprise, PartnerType $partnerType): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC')
+            ->where('p.enterprise = :enterprise')
+            ->andWhere('p.type = :partnerType')
+            ->setParameter('enterprise', $enterprise)
+            ->setParameter('partnerType', $partnerType)
+            ;
     }
 
     public function getFilteredByEnterpriseEnabledSortedByNameQ(Enterprise $enterprise): Query
@@ -90,7 +108,7 @@ class PartnerRepository extends ServiceEntityRepository
 
     public function getLastPartnerIdByEnterpriseQB(Enterprise $enterprise): QueryBuilder
     {
-        return $this->getFilteredByEnterpriseEnabledSortedByNameQB($enterprise)
+        return $this->getFilteredByEnterpriseSortedByNameQB($enterprise)
             ->orderBy('p.code', 'DESC')
             ->setMaxResults(1)
         ;
@@ -114,7 +132,7 @@ class PartnerRepository extends ServiceEntityRepository
 
     public function getLastPartnerIdByEnterpriseAndTypeQB(Enterprise $enterprise, PartnerType $partnerType): QueryBuilder
     {
-        return $this->getFilteredByEnterpriseAndTypeEnabledSortedByNameQB($enterprise, $partnerType)
+        return $this->getFilteredByEnterpriseAndTypeSortedByNameQB($enterprise, $partnerType)
             ->orderBy('p.code', 'DESC')
             ->setMaxResults(1)
         ;

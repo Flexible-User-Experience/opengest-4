@@ -5,7 +5,14 @@
     {{ parent() }}
 <script type="text/javascript">
   jQuery(document).ready(function() {
-    {% if  admin.id(admin.subject) %}
+      {% if  admin.id(admin.subject) %}
+      let invoiceLinesNode = jQuery('#sonata-ba-field-container-{{ form.invoiceLines.vars.id }}');
+      jQuery(invoiceLinesNode).html(`
+        {{ component('PurchaseInvoiceLinesByCostCenter', {
+          costCenters: admin.purchaseInvoiceLinesCostCenters,
+          purchaseInvoiceLines: admin.subject.purchaseInvoiceLines
+        }) }}
+      `);
       var vehicleMaintenance =  jQuery('#sonata-ba-field-container-{{ form.vehicleMaintenances.vars.id }}');
       var numberOfVehicleMaintenances = {{ form.vehicleMaintenances.vars.data.count }};
       for (let i = 0; i < numberOfVehicleMaintenances; i++) {

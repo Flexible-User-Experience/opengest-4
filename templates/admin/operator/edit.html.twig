@@ -20,41 +20,48 @@
                     </td>
                     `).insertAfter(payslipLine{{ key }}.parent());
                 {% endfor %}
-                      let operatorAbsencesBox = jQuery('#sonata-ba-field-container-{{ form.operatorAbsences.vars.id }}').parent().parent().parent().parent().parent();
-                      operatorAbsencesBox.append(jQuery(`
-                        <div class='col-md-6'>
-                            <div class='box box-success'>
-                                <div class="box-header">
-                                    <h4 class="box-title">
-                                        Tabla ausencias
-                                    </h4>
-                                </div>
-                                <div class="box-body">
-                                    <div class="sonata-ba-collapsed-fields">
-                                         <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tipo ausencia</th>
-                                                    <th>Año anterior</th>
-                                                    <th>Año actual</th>
-                                                    <th>Año próximo</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for operatorAbsenceType,countGrouped in admin.operatorAbsences  %}
-                                                    <tr>
-                                                      <td>{{ operatorAbsenceType }}</td>
-                                                      <td>{{ countGrouped.lastYear is defined ? countGrouped.lastYear | number_format(1,',') : 0 }}</td>
-                                                      <td>{{ countGrouped.currentYear is defined ? countGrouped.currentYear | number_format(1,',') : 0 }}</td>
-                                                      <td>{{ countGrouped.nextYear is defined ? countGrouped.nextYear | number_format(1,',') : 0 }}</td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                let invoiceLinesNode = jQuery('#sonata-ba-field-container-{{ form.invoiceLines.vars.id }}');
+                jQuery(invoiceLinesNode).html(`
+                    {{ component('PurchaseInvoiceLinesByCostCenter', {
+                        costCenters: admin.purchaseInvoiceLinesCostCenters,
+                        purchaseInvoiceLines: admin.subject.purchaseInvoiceLines
+                    }) }}
+                `);
+                let operatorAbsencesBox = jQuery('#sonata-ba-field-container-{{ form.operatorAbsences.vars.id }}').parent().parent().parent().parent().parent();
+                operatorAbsencesBox.append(jQuery(`
+                <div class='col-md-6'>
+                    <div class='box box-success'>
+                        <div class="box-header">
+                            <h4 class="box-title">
+                                Tabla ausencias
+                            </h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="sonata-ba-collapsed-fields">
+                                 <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo ausencia</th>
+                                            <th>Año anterior</th>
+                                            <th>Año actual</th>
+                                            <th>Año próximo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for operatorAbsenceType,countGrouped in admin.operatorAbsences  %}
+                                            <tr>
+                                              <td>{{ operatorAbsenceType }}</td>
+                                              <td>{{ countGrouped.lastYear is defined ? countGrouped.lastYear | number_format(1,',') : 0 }}</td>
+                                              <td>{{ countGrouped.currentYear is defined ? countGrouped.currentYear | number_format(1,',') : 0 }}</td>
+                                              <td>{{ countGrouped.nextYear is defined ? countGrouped.nextYear | number_format(1,',') : 0 }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                    </div>
+                </div>
             `));
           {% endif %}
         });
