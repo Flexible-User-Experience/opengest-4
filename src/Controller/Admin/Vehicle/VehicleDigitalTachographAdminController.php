@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * Class VehicleDigitalTachographAdminController.
@@ -19,7 +20,7 @@ class VehicleDigitalTachographAdminController extends BaseAdminController
      *
      * @return StreamedResponse
      */
-    public function downloadAction(Request $request, $id = null)
+    public function downloadAction(Request $request, $id = null, DownloadHandler $downloadHandler)
     {
         $id = $request->get($this->admin->getIdParameter());
 
@@ -28,7 +29,6 @@ class VehicleDigitalTachographAdminController extends BaseAdminController
         if (!$vehicleDigitalTachograph) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        $downloadHandler = $this->container->get('vich_uploader.download_handler');
 
         return $downloadHandler->downloadObject($vehicleDigitalTachograph, 'uploadedFile');
     }
