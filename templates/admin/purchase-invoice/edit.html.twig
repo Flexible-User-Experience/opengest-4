@@ -1,6 +1,5 @@
 {% extends 'admin/edit.html.twig' %}
 
-{# override javascript includes #}
 {% block javascripts %}
     {{ parent() }}
 
@@ -8,9 +7,12 @@
         <script type="text/javascript">
             jQuery(document).ready(function() {
               let purchaseInvoiceLinesNode = jQuery('#field_widget_{{ form.purchaseInvoiceLines.vars.id }}');
-              purchaseInvoiceLinesNode.find("th").eq(1).attr('width','10%')
-              purchaseInvoiceLinesNode.find("th").eq(5).css('width','110px')
-              purchaseInvoiceLinesNode.find("th").eq(8).css('width','70px')
+              // jQuery("<colgroup span='10'> </colgroup>" +
+              //   "<colgroup span='4' style='visibility: collapse' </colgroup>").insertBefore(purchaseInvoiceLinesNode.find('thead'))
+              // purchaseInvoiceLinesNode.find("th").eq(10).attr('display','none')
+              // purchaseInvoiceLinesNode.find("th").eq(11).attr('display','none')
+              // purchaseInvoiceLinesNode.find("th").eq(12).attr('display','none')
+              // purchaseInvoiceLinesNode.find("th").eq(13).attr('display','none')
             })
         </script>
     {% endif %}
