@@ -26,7 +26,7 @@
         "qipsius/tcpdf-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.1",
         "setasign/fpdi": "^2.0",
-        "setasign/fpdi_pdf-parser": "2.0.7",
+        "setasign/fpdi_pdf-parser": "^2.1",
         "sonata-project/admin-bundle": "^4.12",
         "sonata-project/doctrine-orm-admin-bundle": "^4.0",
         "sonata-project/exporter": "^2.9",
