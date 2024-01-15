@@ -9,10 +9,16 @@
               let purchaseInvoiceLinesNode = jQuery('#field_widget_{{ form.purchaseInvoiceLines.vars.id }}');
               // jQuery("<colgroup span='10'> </colgroup>" +
               //   "<colgroup span='4' style='visibility: collapse' </colgroup>").insertBefore(purchaseInvoiceLinesNode.find('thead'))
-              // purchaseInvoiceLinesNode.find("th").eq(10).attr('display','none')
-              // purchaseInvoiceLinesNode.find("th").eq(11).attr('display','none')
-              // purchaseInvoiceLinesNode.find("th").eq(12).attr('display','none')
-              // purchaseInvoiceLinesNode.find("th").eq(13).attr('display','none')
+              purchaseInvoiceLinesNode.find("th").eq(1).attr('style','width:12%')
+              purchaseInvoiceLinesNode.find("th").eq(2).attr('style','width:12%')
+              purchaseInvoiceLinesNode.find("th").eq(3).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(4).attr('style','width:6%')
+              purchaseInvoiceLinesNode.find("th").eq(5).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(6).attr('style','width:6%')
+              purchaseInvoiceLinesNode.find("th").eq(7).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(8).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(9).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(10).attr('style','width:6%')
             })
         </script>
     {% endif %}
