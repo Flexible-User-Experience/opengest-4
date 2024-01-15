@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "042ee1f78be64b40e8c386fcf2cf4d9a",
+    "content-hash": "0c64978d8aa17ddf983ec3d5e79676d9",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -4292,13 +4292,13 @@
         },
         {
             "name": "setasign/fpdi_pdf-parser",
-            "version": "2.0.7",
+            "version": "2.1.2",
             "dist": {
                 "type": "zip",
-                "url": "https://www.setasign.com/downloads/3358984/FPDI_PDF-Parser-2.0.7.zip"
+                "url": "https://www.setasign.com/downloads/5861469/FPDI_PDF-Parser-2.1.2.zip"
             },
             "require": {
-                "setasign/fpdi": "^2.0"
+                "setasign/fpdi": "^2.6.0"
             },
             "type": "library",
             "autoload": {
@@ -4312,7 +4312,7 @@
             "support": {
                 "email": "support@setasign.com"
             },
-            "time": "2021-12-06T00:00:00+00:00"
+            "time": "2023-12-12T00:00:00+00:00"
         },
         {
             "name": "sonata-project/admin-bundle",
