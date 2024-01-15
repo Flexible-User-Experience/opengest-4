@@ -1,8 +1,14 @@
 Changelog
 =========
 
-##### Version 4.1.10 (WIP)
+##### Version 4.1.11 (WIP)
 * Keep wiring things
+
+##### Version 4.1.10 (2024-01-15)
+* Upgraded composer packages.
+* Upgraded to php8.2.
+* Fixed error in vehicle maintenance pdf generation.
+* Improved purchase invoice lines view.
 
 ##### Version 4.1.09 (2023-07-31)
 * Fixed error with analytics, handle inactive clients
