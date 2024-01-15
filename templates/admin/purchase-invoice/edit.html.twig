@@ -1,6 +1,5 @@
 {% extends 'admin/edit.html.twig' %}
 
-{# override javascript includes #}
 {% block javascripts %}
     {{ parent() }}
 
@@ -8,9 +7,18 @@
         <script type="text/javascript">
             jQuery(document).ready(function() {
               let purchaseInvoiceLinesNode = jQuery('#field_widget_{{ form.purchaseInvoiceLines.vars.id }}');
-              purchaseInvoiceLinesNode.find("th").eq(1).attr('width','10%')
-              purchaseInvoiceLinesNode.find("th").eq(5).css('width','110px')
-              purchaseInvoiceLinesNode.find("th").eq(8).css('width','70px')
+              // jQuery("<colgroup span='10'> </colgroup>" +
+              //   "<colgroup span='4' style='visibility: collapse' </colgroup>").insertBefore(purchaseInvoiceLinesNode.find('thead'))
+              purchaseInvoiceLinesNode.find("th").eq(1).attr('style','width:12%')
+              purchaseInvoiceLinesNode.find("th").eq(2).attr('style','width:12%')
+              purchaseInvoiceLinesNode.find("th").eq(3).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(4).attr('style','width:6%')
+              purchaseInvoiceLinesNode.find("th").eq(5).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(6).attr('style','width:6%')
+              purchaseInvoiceLinesNode.find("th").eq(7).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(8).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(9).attr('style','width:5%')
+              purchaseInvoiceLinesNode.find("th").eq(10).attr('style','width:6%')
             })
         </script>
     {% endif %}

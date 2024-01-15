@@ -52,20 +52,23 @@ vich_uploader:
             uri_prefix:         /uploads/documents/vehicle
             upload_destination: '%kernel.project_dir%/var/uploads/documents/vehicle'
         digital_tachograph_operator:
-            namer: vich_uploader.namer_uniqid
+            namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/digital_tachograph/operator
             upload_destination: '%kernel.project_dir%/var/uploads/digital_tachograph/operator'
         digital_tachograph_vehicle:
+            namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/digital_tachograph/vehicle
             upload_destination: '%kernel.project_dir%/var/uploads/digital_tachograph/vehicle'
         special_permit_vehicle:
+            namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/special_permit/vehicle
             upload_destination: '%kernel.project_dir%/var/uploads/vehicle/special_permit'
         sale_request_document:
+            namer:              vich_uploader.namer_uniqid
             uri_prefix:         /uploads/sale_request_document/sale_request
             upload_destination: '%kernel.project_dir%/var/uploads/sale_request/sale_request_document'
         document:
-            namer: vich_uploader.namer_uniqid
+            namer:              vich_uploader.namer_uniqid
             uri_prefix: /uploads/documents/document
             upload_destination: '%kernel.project_dir%/var/uploads/documents/document'
 

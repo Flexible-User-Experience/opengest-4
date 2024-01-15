@@ -8,7 +8,6 @@ use App\Enum\ConstantsEnum;
 use App\Manager\RepositoriesManager;
 use App\Manager\VehicleMaintenanceManager;
 use App\Service\PdfEngineService;
-use TCPDF;
 
 /**
  * Class VehicleMaintenancePdfManager.
@@ -33,7 +32,7 @@ class VehicleMaintenancePdfManager
         $this->vehicleMaintenanceManager = $vehicleMaintenanceManager;
     }
 
-    public function buildSingle($vehicleMaintenances): TCPDF
+    public function buildSingle($vehicleMaintenances): \TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Mantenimiento vehiculos ');
         $pdf = $this->pdfEngineService->getEngine();
@@ -45,15 +44,15 @@ class VehicleMaintenancePdfManager
     {
         $pdf = $this->buildSingle($vehicleMaintenances);
 
-        return $pdf->Output('Mantenimiento vehiculos'.'.pdf', 'I');
+        return $pdf->Output('Mantenimiento vehiculos.pdf', 'I');
     }
 
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    private function buildVehicleMaintenancePdf($vehicleMaintenances, TCPDF $pdf): TCPDF
+    private function buildVehicleMaintenancePdf($vehicleMaintenances, \TCPDF $pdf): \TCPDF
     {
-        $this->addStartPage($pdf);
+        //        $this->addStartPage($pdf);
         $vehiclesFromVehicleMaintenances = [];
         /** @var VehicleMaintenance $vehicleMaintenance */
         foreach ($vehicleMaintenances as $vehicleMaintenance) {
@@ -63,10 +62,10 @@ class VehicleMaintenancePdfManager
         foreach ($vehiclesFromVehicleMaintenances as $vehicleId => $vehicleMaintenancesFromVehicle) {
             /** @var Vehicle $vehicle */
             $vehicle = $this->rm->getVehicleRepository()->find($vehicleId);
-            if ($pdf->getY() > 210) {
-                $this->addStartPage($pdf);
-            }
-            //Header
+            //            if ($pdf->getY() > 210) {
+            $this->addStartPage($pdf);
+            //            }
+            // Header
             $pdf->setXY(30, 40);
             $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
             $this->pdfEngineService->setStyleSize('b', 10);
@@ -77,7 +76,7 @@ class VehicleMaintenancePdfManager
                 'Matrícula - '.$vehicle->getVehicleRegistrationNumber(),
                 true, 0, 'L', true);
             $pdf->Ln();
-            //subheader
+            // subheader
             $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
             $this->pdfEngineService->setStyleSize('', 9);
             $pdf->Cell(60, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -96,7 +95,7 @@ class VehicleMaintenancePdfManager
                 'Fecha efectuada',
                 true, 0, 'L', true);
             $pdf->Ln();
-            //info
+            // info
             /** @var VehicleMaintenance $vehicleMaintenance */
             foreach ($vehicleMaintenances as $vehicleMaintenance) {
                 $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
@@ -116,6 +115,7 @@ class VehicleMaintenancePdfManager
                 $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
                     '',
                     true, 0, 'L', false);
+                $pdf->Ln();
             }
         }
 
@@ -125,14 +125,14 @@ class VehicleMaintenancePdfManager
     /**
      * @param int $availableHoritzontalSpace
      */
-    private function drawHoritzontalLineSeparator(TCPDF $pdf, $availableHoritzontalSpace)
+    private function drawHoritzontalLineSeparator(\TCPDF $pdf, $availableHoritzontalSpace)
     {
         $pdf->ln(4);
         $pdf->Line(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, $pdf->getY(), $availableHoritzontalSpace + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, $pdf->getY());
         $pdf->ln(4);
     }
 
-    private function addStartPage(TCPDF $pdf): void
+    private function addStartPage(\TCPDF $pdf): void
     {
         // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
