@@ -10,6 +10,7 @@
         "ext-zip": "*",
         "ext-gd": "*",
         "ext-mysqli": "*",
+        "ext-intl": "*",
         "beberlei/doctrineextensions": "^1.0",
         "beelab/recaptcha2-bundle": "^2.3",
         "doctrine/annotations": "^1.0",
