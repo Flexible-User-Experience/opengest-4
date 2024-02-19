@@ -131,6 +131,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.needs_check',
                     'required' => false,
+                    'disabled' => true,
                 ]
             )
             ->add(
