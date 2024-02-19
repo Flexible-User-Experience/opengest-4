@@ -27,12 +27,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @category
  *
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteRepository")
+ *
  * @ORM\Table(name="sale_delivery_note")
  */
 class SaleDeliveryNote extends AbstractBase
 {
     /**
-     * @var DateTime
+     * @var \DateTime
      *
      * @ORM\Column(type="datetime")
      */
@@ -49,6 +50,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var Partner
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleDeliveryNotes")
+     *
      * @Groups({"api"})
      */
     private $partner;
@@ -57,6 +59,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var PartnerBuildingSite
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite")
+     *
      * @Groups({"api"})
      */
     private $buildingSite;
@@ -72,6 +75,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var Vehicle
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleDeliveryNotes")
+     *
      * @Groups({"api"})
      */
     private $vehicle;
@@ -94,6 +98,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var PartnerOrder
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerOrder", inversedBy="saleDeliveryNotes")
+     *
      * @Groups({"api"})
      */
     private $order;
@@ -109,6 +114,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var ?string
      *
      * @ORM\Column(type="string", length=50, nullable=true)
+     *
      * @Groups({"api"})
      */
     private ?string $deliveryNoteReference;
@@ -117,6 +123,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var float
      *
      * @ORM\Column(type="float")
+     *
      * @Groups({"api"})
      */
     private $baseAmount = 0;
@@ -132,6 +139,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Groups({"api"})
      */
     private $collectionTerm;
@@ -154,6 +162,7 @@ class SaleDeliveryNote extends AbstractBase
      * @var CollectionDocumentType
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
+     *
      * @Groups({"api"})
      */
     private $collectionDocument;
@@ -206,7 +215,7 @@ class SaleDeliveryNote extends AbstractBase
     private $saleRequestHasDeliveryNotes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
      */
     private Collection $operatorWorkRegisters;
 
@@ -266,7 +275,7 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -274,7 +283,7 @@ class SaleDeliveryNote extends AbstractBase
     }
 
     /**
-     * @param DateTime $date
+     * @param \DateTime $date
      *
      * @return $this
      */
@@ -411,9 +420,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return PartnerProject
-     */
     public function getProject(): ?PartnerProject
     {
         return $this->project;
@@ -431,9 +437,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this->deliveryNoteReference;
     }
 
-    /**
-     * @param $deliveryNoteReference
-     */
     public function setDeliveryNoteReference($deliveryNoteReference): SaleDeliveryNote
     {
         $this->deliveryNoteReference = $deliveryNoteReference;
@@ -477,9 +480,6 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getCollectionTerm(): ?int
     {
         return $this->collectionTerm;
@@ -806,7 +806,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * Custom getters without property.
      */
-    public function getSaleRequestServiceDate(): ?DateTime
+    public function getSaleRequestServiceDate(): ?\DateTime
     {
         return $this->getSaleRequest() ? $this->getSaleRequest()->getServiceDate() : null;
     }

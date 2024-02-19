@@ -52,9 +52,23 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     {
         parent::configureRoutes($collection);
         $collection
+            ->add('batch')
             ->add('downloadPdfPendingMaintenance', 'download_pdf_pending_maintenance')
             ->add('checkMaintenances', 'check-maintenances')
-            ;
+        ;
+    }
+
+    public function configureBatchActions(array $actions): array
+    {
+        $newActions = [];
+        if ($this->hasRoute('edit') && $this->hasAccess('edit')) {
+            $newActions['downloadPdfPendingMaintenance'] = [
+                'label' => 'admin.action.download_report',
+                'ask_confirmation' => false,
+            ];
+        }
+
+        return array_merge($newActions, $actions);
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
@@ -117,6 +131,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.needs_check',
                     'required' => false,
+                    'disabled' => true,
                 ]
             )
             ->add(
@@ -184,6 +199,7 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.needs_check',
+                    'show_filter' => true,
                 ]
             )
             ->add(
@@ -199,6 +215,10 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['enabled'] = [
+            'type' => EqualOperatorType::TYPE_EQUAL,
+            'value' => BooleanType::TYPE_YES,
+        ];
+        $filterValues['needsCheck'] = [
             'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_YES,
         ];

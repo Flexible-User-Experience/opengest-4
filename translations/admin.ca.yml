@@ -255,6 +255,7 @@ admin:
         generate_payslip_xml_payment: "Generar XML para el pago de nóminas"
         generate_time_summary: "Generar listado plantilla de horas"
         select_option: "Seleccione opción"
+        download_report: "Descargar informe"
     actions: "Accions"
 enum:
     sale_request_status:
