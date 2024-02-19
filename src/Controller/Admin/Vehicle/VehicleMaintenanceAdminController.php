@@ -6,6 +6,7 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Manager\Pdf\VehicleMaintenancePdfManager;
 use Doctrine\ORM\NonUniqueResultException;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,5 +42,15 @@ class VehicleMaintenanceAdminController extends BaseAdminController
         }
 
         return new RedirectResponse($request->headers->get('referer'));
+    }
+
+    public function batchActionDownloadPdfPendingMaintenance(ProxyQueryInterface $selectedModelQuery, VehicleMaintenancePdfManager $vehicleMaintenancePdfManager): Response
+    {
+        $vehicleMaintenances = $selectedModelQuery->execute();
+        if (!$vehicleMaintenances) {
+            $this->addFlash('warning', 'No existen mantenimientos pendientes.');
+        }
+
+        return new Response($vehicleMaintenancePdfManager->outputSingle($vehicleMaintenances), 200, ['Content-type' => 'application/pdf']);
     }
 }

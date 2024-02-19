@@ -4,7 +4,6 @@ namespace App\Entity\Operator;
 
 use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleDeliveryNote;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +17,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
  * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorWorkRegisterRepository")
+ *
  * @ORM\Table(name="operator_work_register")
  */
 class OperatorWorkRegister extends AbstractBase
@@ -28,35 +28,40 @@ class OperatorWorkRegister extends AbstractBase
     private OperatorWorkRegisterHeader $operatorWorkRegisterHeader;
 
     /**
-     * @var ?DateTime
+     * @var ?\DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Groups({"api"})
      */
-    private ?DateTime $start;
+    private ?\DateTime $start;
 
     /**
-     * @var ?DateTime
+     * @var ?\DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Groups({"api"})
      */
-    private ?DateTime $finish;
+    private ?\DateTime $finish;
 
     /**
      * @ORM\Column(type="float")
+     *
      * @Groups({"api"})
      */
     private float $units;
 
     /**
      * @ORM\Column(type="float")
+     *
      * @Groups({"api"})
      */
     private float $priceUnit;
 
     /**
      * @ORM\Column(type="float")
+     *
      * @Groups({"api"})
      */
     private float $amount;
@@ -65,6 +70,7 @@ class OperatorWorkRegister extends AbstractBase
      * @var ?string
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Groups({"api"})
      */
     private ?string $description;
@@ -73,7 +79,9 @@ class OperatorWorkRegister extends AbstractBase
      * @var ?SaleDeliveryNote
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="operatorWorkRegisters")
-     * @ORM\JoinColumn(nullable=true)
+     *
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     *
      * @Groups({"api"})
      */
     private ?SaleDeliveryNote $saleDeliveryNote;
@@ -94,14 +102,14 @@ class OperatorWorkRegister extends AbstractBase
     }
 
     /**
-     * @return ?DateTime
+     * @return ?\DateTime
      */
-    public function getStart(): ?DateTime
+    public function getStart(): ?\DateTime
     {
         return $this->start;
     }
 
-    public function setStart(?DateTime $start): OperatorWorkRegister
+    public function setStart(?\DateTime $start): OperatorWorkRegister
     {
         $this->start = $start;
 
@@ -109,14 +117,14 @@ class OperatorWorkRegister extends AbstractBase
     }
 
     /**
-     * @return ?DateTime
+     * @return ?\DateTime
      */
-    public function getFinish(): ?DateTime
+    public function getFinish(): ?\DateTime
     {
         return $this->finish;
     }
 
-    public function setFinish(?DateTime $finish): OperatorWorkRegister
+    public function setFinish(?\DateTime $finish): OperatorWorkRegister
     {
         $this->finish = $finish;
 
@@ -192,13 +200,13 @@ class OperatorWorkRegister extends AbstractBase
      */
     public function validate(ExecutionContextInterface $context)
     {
-        //TODO
-//        if ($this->getEnd() < $this->getBegin()) {
-//            $context
-//                ->buildViolation('La data ha de ser més gran que la data d\'expedició')
-//                ->atPath('end')
-//                ->addViolation();
-//        }
+        // TODO
+        //        if ($this->getEnd() < $this->getBegin()) {
+        //            $context
+        //                ->buildViolation('La data ha de ser més gran que la data d\'expedició')
+        //                ->atPath('end')
+        //                ->addViolation();
+        //        }
     }
 
     /**

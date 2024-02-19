@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.1.11 (WIP)
+##### Version 4.1.12 (WIP)
 * Keep wiring things
+
+##### Version 4.1.11 (2024-01-30)
+* Upgraded to php8.3.
 
 ##### Version 4.1.10 (2024-01-15)
 * Upgraded composer packages.
