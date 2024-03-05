@@ -7,7 +7,6 @@ use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Form\Type\GenerateTimeSummaryFormType;
 use App\Repository\Operator\OperatorWorkRegisterHeaderRepository;
-use DateTime;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -48,7 +47,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
     public function getJsonOperatorWorkRegisterTotalsByHourTypeAction(Request $request): JsonResponse
     {
         $operatorId = $request->get('operatorId');
-        $date = DateTime::createFromFormat('d-m-Y', $request->get('date'));
+        $date = \DateTime::createFromFormat('d-m-Y', $request->get('date'));
         /** @var Operator $operator */
         $operator = $this->admin->getModelManager()->find(Operator::class, $operatorId);
         if (!$operator) {
@@ -70,6 +69,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
             $result['normalHour'] = 0;
             $result['extraHour'] = 0;
             $result['negativeHour'] = 0;
+            $result['holidayHour'] = 0;
             foreach ($resultFromRepository as $singleResult) {
                 if (str_contains($singleResult['description'], 'Hora laboral')) {
                     $result['workingHour'] += $singleResult['hours'];
@@ -82,6 +82,9 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
                 }
                 if (str_contains($singleResult['description'], 'Hora negativa')) {
                     $result['negativeHour'] += $singleResult['hours'];
+                }
+                if (str_contains($singleResult['description'], 'Hora festiva')) {
+                    $result['holidayHour'] += $singleResult['hours'];
                 }
             }
         }
@@ -104,9 +107,9 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
         $filterInfo = $this->admin->getFilterParameters();
 
         if (array_key_exists('date', $filterInfo)) {
-            //get from to filter dates
-            $from = DateTime::createFromFormat('d/m/Y', $filterInfo['date']['value']['start']);
-            $to = DateTime::createFromFormat('d/m/Y', $filterInfo['date']['value']['end']);
+            // get from to filter dates
+            $from = \DateTime::createFromFormat('d/m/Y', $filterInfo['date']['value']['start']);
+            $to = \DateTime::createFromFormat('d/m/Y', $filterInfo['date']['value']['end']);
         } else {
             $from = array_shift($owrhForDates)->getDate();
             if (!$owrhForDates) {
@@ -167,7 +170,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
         $filterInfo = $this->admin->getFilterParameters();
 
         if (array_key_exists('date', $filterInfo)) {
-            //get from to filter dates
+            // get from to filter dates
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
         } else {
