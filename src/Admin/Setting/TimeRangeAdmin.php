@@ -52,9 +52,9 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
-        $collection->remove('delete');
-        $collection->remove('edit');
-        $collection->remove('create');
+        //        $collection->remove('delete');
+        //        $collection->remove('edit');
+        //        $collection->remove('create');
     }
 
     protected function configureFormFields(FormMapper $formMapper): void
@@ -198,17 +198,20 @@ class TimeRangeAdmin extends AbstractBaseAdmin
                     'editable' => true,
                 ]
             )
-//            ->add(
-//                '_action',
-//                'actions',
-//                array(
-//                    'actions' => array(
-//                        'show' => array('template' => 'admin/buttons/list__action_show_button.html.twig'),
-//                        'edit' => array('template' => 'admin/buttons/list__action_edit_button.html.twig'),
-//                    ),
-//                    'label' => 'Accions',
-//                )
-//            )
         ;
+        if ($this->isGranted('edit')) {
+            $listMapper
+                ->add(
+                    '_action',
+                    'actions',
+                    [
+                        'actions' => [
+                            'edit' => ['template' => 'admin/buttons/list__action_edit_button.html.twig'],
+                        ],
+                        'label' => 'admin.actions',
+                    ]
+                )
+            ;
+        }
     }
 }
