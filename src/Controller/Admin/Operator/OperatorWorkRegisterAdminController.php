@@ -12,7 +12,6 @@ use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Enum\SaleRequestStatusEnum;
 use App\Repository\Operator\OperatorWorkRegisterRepository;
-use DateTime;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Exception\ModelManagerThrowable;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,7 +42,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $operatorId));
         }
         $parameters = [];
-        $date = DateTime::createFromFormat('d-m-Y', $request->query->get('custom_date'));
+        $date = \DateTime::createFromFormat('d-m-Y', $request->query->get('custom_date'));
         $isHoliday = $this->enterpriseHolidayManager->checkIfDayIsEnterpriseHoliday($date);
         $saleDeliveryNoteId = $request->query->get('custom_sale_delivery_note');
         if ('' != $saleDeliveryNoteId) {
@@ -72,8 +71,8 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
             } elseif ('hour' === $inputType) {
                 $customStart = $request->query->get('custom_start');
                 $customFinish = $request->query->get('custom_finish');
-                $start = DateTime::createFromFormat('!H:i:s', $customStart.':00');
-                $finish = DateTime::createFromFormat('!H:i:s', $customFinish.':00');
+                $start = \DateTime::createFromFormat('!H:i:s', $customStart.':00');
+                $finish = \DateTime::createFromFormat('!H:i:s', $customFinish.':00');
                 $itemId = $request->query->get('custom_description');
                 if ('' !== $itemId) {
                     $description1 = OperatorWorkRegisterTimeEnum::getReversedEnumArray()[$itemId];
@@ -107,6 +106,9 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                                 } elseif (2 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
                                     $description = 'Hora extra - '.$description1;
+                                } elseif (3 === $type) {
+                                    $price = $this->getPriceFromItem($operator, 'HOLIDAY_HOUR');
+                                    $description = 'Hora festiva - '.$description1;
                                 }
                             } else {
                                 $description = 'Hora negativa - '.$description1;
@@ -119,7 +121,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
                     }
                 } else {
-                    if (in_array($hourType, ['Laboral', 'Normal', 'Extra'])) {
+                    if (in_array($hourType, ['Laboral', 'Normal', 'Extra', 'Festiva'])) {
                         $price = 0;
                         if ('Laboral' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
@@ -127,9 +129,12 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         } elseif ('Normal' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
                             $description = 'Hora normal - '.$description1;
-                        } elseif ($hourType = 'Extra') {
+                        } elseif ('Extra' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
                             $description = 'Hora extra - '.$description1;
+                        } elseif ('Festiva' === $hourType) {
+                            $price = $this->getPriceFromItem($operator, 'HOLIDAY_HOUR');
+                            $description = 'Hora festiva - '.$description1;
                         }
                         $units = ($finish->getTimestamp() - $start->getTimestamp()) / 3600;
                         if (3 == $itemId) {
@@ -170,7 +175,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
     public function getJsonOperatorWorkRegistersByDataAndOperatorIdAction(Request $request): JsonResponse
     {
         $operatorId = $request->get('operatorId');
-        $date = DateTime::createFromFormat('d-m-Y', $request->get('date'));
+        $date = \DateTime::createFromFormat('d-m-Y', $request->get('date'));
         /** @var Operator $operator */
         $operator = $this->admin->getModelManager()->find(Operator::class, $operatorId);
         if (!$operator) {
@@ -261,7 +266,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
     {
         /** @var TimeRange[] $timeRanges */
         $timeRanges = $this->admin->getModelManager()->findBy(TimeRange::class);
-        //Order time ranges by start time in case the retrieval is not properly sorted
+        // Order time ranges by start time in case the retrieval is not properly sorted
         uasort($timeRanges, function ($tr1, $tr2) {
             if ($tr1->getStart() == $tr2->getStart()) {
                 return 0;
@@ -271,7 +276,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         });
         $splitTimeRanges = [];
         foreach ($timeRanges as $timeRange) {
-//            dd('timeRenge', $timeRange->getFinish(), 'new start', $start);
+            //            dd('timeRenge', $timeRange->getFinish(), 'new start', $start);
             if ($timeRange->getFinish() <= $start) {
                 continue;
             } else {
@@ -297,7 +302,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         return $splitTimeRanges;
     }
 
-    private function createOperatorWorkRegister(Operator $operator, DateTime $date, $description, $units, $price, ?SaleDeliveryNote $saleDeliveryNote = null, $start = null, $finish = null)
+    private function createOperatorWorkRegister(Operator $operator, \DateTime $date, $description, $units, $price, ?SaleDeliveryNote $saleDeliveryNote = null, $start = null, $finish = null)
     {
         /** @var OperatorWorkRegisterHeader $operatorWorkRegisterHeader */
         $operatorWorkRegisterHeader = $this->admin->getModelManager()->findOneBy(OperatorWorkRegisterHeader::class, [
