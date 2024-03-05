@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @author   Rubèn Hierro <info@rubenhierro.com>
  *
  * @ORM\Entity(repositoryClass="App\Repository\Enterprise\EnterpriseGroupBountyRepository")
+ *
  * @ORM\Table(name="enterprise_group_bounty")
  */
 class EnterpriseGroupBounty extends AbstractBase
@@ -60,6 +61,13 @@ class EnterpriseGroupBounty extends AbstractBase
      * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
     private $extraExtraHour = 0.0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true, options={"default"=0})
+     */
+    private $holidayHour = 0.0;
 
     /**
      * @var float
@@ -247,8 +255,6 @@ class EnterpriseGroupBounty extends AbstractBase
     }
 
     /**
-     * @param $operator
-     *
      * @return $this
      */
     public function removeOperator($operator)
@@ -316,6 +322,18 @@ class EnterpriseGroupBounty extends AbstractBase
     public function setExtraExtraHour($extraExtraHour)
     {
         $this->extraExtraHour = $extraExtraHour;
+
+        return $this;
+    }
+
+    public function getHolidayHour(): float
+    {
+        return $this->holidayHour;
+    }
+
+    public function setHolidayHour(float $holidayHour): EnterpriseGroupBounty
+    {
+        $this->holidayHour = $holidayHour;
 
         return $this;
     }
