@@ -770,21 +770,18 @@ class WorkRegisterHeaderPdfManager
      */
     private function getFinalSum(int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $negativeHourPrice, $totalNegativeHours, int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
     {
-        $finalSum =
-            $normalHourPrice * $totalNormalHours +
-            $extraHourPrice * $totalExtraHours +
-            $negativeHourPrice * $totalNegativeHours +
-            $lunchPrice * $totalLunch +
-            $dinnerPrice * $totalDinner +
-            $lunchIntPrice * $totalLunchInt +
-            $dinnerIntPrice * $totalDinnerInt +
-            $dietPrice * $totalDiet +
-            $dietIntPrice * $totalDietInt +
-            $overNightPrice * $totalOverNight +
+        return $normalHourPrice * $totalNormalHours +
+        $extraHourPrice * $totalExtraHours +
+        $negativeHourPrice * $totalNegativeHours +
+        $lunchPrice * $totalLunch +
+        $dinnerPrice * $totalDinner +
+        $lunchIntPrice * $totalLunchInt +
+        $dinnerIntPrice * $totalDinnerInt +
+        $dietPrice * $totalDiet +
+        $dietIntPrice * $totalDietInt +
+        $overNightPrice * $totalOverNight +
 //            $roadExtraPrice * $totalRoadExtra +
-            $exitExtraPrice * $totalExitExtra;
-
-        return $finalSum;
+        $exitExtraPrice * $totalExitExtra;
     }
 
     /**
@@ -792,15 +789,12 @@ class WorkRegisterHeaderPdfManager
      */
     private function getFinalDiets(int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt)
     {
-        $finalDiets =
-            $lunchPrice * $totalLunch +
-            $dinnerPrice * $totalDinner +
-            $lunchIntPrice * $totalLunchInt +
-            $dinnerIntPrice * $totalDinnerInt +
-            $dietPrice * $totalDiet +
-            $dietIntPrice * $totalDietInt;
-
-        return $finalDiets;
+        return $lunchPrice * $totalLunch +
+        $dinnerPrice * $totalDinner +
+        $lunchIntPrice * $totalLunchInt +
+        $dinnerIntPrice * $totalDinnerInt +
+        $dietPrice * $totalDiet +
+        $dietIntPrice * $totalDietInt;
     }
 
     /**
@@ -808,15 +802,12 @@ class WorkRegisterHeaderPdfManager
      */
     private function getFinalExtras(int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $holidayHourPrice, $totalHolidayHours, int $negativeHourPrice, $totalNegativeHours, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
     {
-        $finalExtra =
-            $normalHourPrice * $totalNormalHours +
-            $extraHourPrice * $totalExtraHours +
-            $holidayHourPrice * $totalHolidayHours +
-            $negativeHourPrice * $totalNegativeHours +
-            $overNightPrice * $totalOverNight +
-            $exitExtraPrice * $totalExitExtra;
-
-        return $finalExtra;
+        return $normalHourPrice * $totalNormalHours +
+        $extraHourPrice * $totalExtraHours +
+        $holidayHourPrice * $totalHolidayHours +
+        $negativeHourPrice * $totalNegativeHours +
+        $overNightPrice * $totalOverNight +
+        $exitExtraPrice * $totalExitExtra;
     }
 
     private function startPage(\TCPDF $pdf): int
