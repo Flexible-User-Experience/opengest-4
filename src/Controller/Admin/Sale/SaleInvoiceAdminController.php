@@ -180,7 +180,7 @@ class SaleInvoiceAdminController extends BaseAdminController
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
             $deliveryNote->setSaleInvoice($clonedSaleInvoice);
-//            $deliveryNote->setIsInvoiced(true);
+            //            $deliveryNote->setIsInvoiced(true);
             $em->persist($deliveryNote);
         }
         $dueDates = $saleInvoice->getSaleInvoiceDueDates();
@@ -277,10 +277,14 @@ class SaleInvoiceAdminController extends BaseAdminController
 
             return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
         } else {
+            $saleInvoiceRelated = $this->admin->getModelManager()->findOneBy(SaleInvoice::class, ['saleInvoiceGenerated' => $object]);
+            if ($saleInvoiceRelated) {
+                $saleInvoiceRelated->setSaleInvoiceGenerated(null);
+            }
             try {
                 /** @var SaleDeliveryNote $deliveryNote */
                 foreach ($object->getDeliveryNotes() as $deliveryNote) {
-                    $deliveryNote->setSaleInvoice(null);
+                    $deliveryNote->setSaleInvoice($saleInvoiceRelated ?: null);
                     $deliveryNote->setIsInvoiced(false);
                     $this->admin->getModelManager()->update($deliveryNote);
                 }
