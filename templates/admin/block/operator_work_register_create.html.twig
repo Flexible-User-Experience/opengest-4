@@ -216,6 +216,10 @@
                             <td>Horas extras</td>
                             <td id="extraHoursTotal">0</td>
                         </tr>
+                        <tr>
+                            <td>Horas festivas</td>
+                            <td id="holidayHoursTotal">0</td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -333,6 +337,7 @@
         var workingHoursTotal = jQuery('#workingHoursTotal');
         var normalHoursTotal = jQuery('#normalHoursTotal');
         var extraHoursTotal = jQuery('#extraHoursTotal');
+        var holidayHoursTotal = jQuery('#holidayHoursTotal');
 
         var submitButton = jQuery('#btn_custom_submit');
 
@@ -507,6 +512,7 @@
               workingHoursTotal.text(response.workingHour - response.negativeHour);
               normalHoursTotal.text(response.normalHour + response.negativeHour);
               extraHoursTotal.text(response.extraHour);
+              holidayHoursTotal.text(response.holidayHour);
             });
           } else {
             customTable.empty();

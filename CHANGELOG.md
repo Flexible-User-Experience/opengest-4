@@ -1,8 +1,12 @@
 Changelog
 =========
 
-##### Version 4.1.12 (WIP)
+##### Version 4.1.13 (WIP)
 * Keep wiring things
+
+##### Version 4.1.12 (2024-02-19)
+* Be able to filter vehicle maintenance when exporting to pdf.
+* Can delete sale delivery note, orphaning operator work registers and setting their delivery note to null.
 
 ##### Version 4.1.11 (2024-01-30)
 * Upgraded to php8.3.

@@ -58,9 +58,8 @@ class VehicleAdmin extends AbstractBaseAdmin
     protected $baseRoutePattern = 'vehicles/vehicle';
 
     public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
-                                public array $purchaseInvoiceLinesCostCenters = []
-    )
-    {
+        public array $purchaseInvoiceLinesCostCenters = []
+    ) {
         parent::__construct($lis, $ycm, $im, $rm, $dnm, $vmm, $em, $fs, $tws, $ts, $acs, $passwordEncoder);
     }
 
@@ -720,8 +719,8 @@ class VehicleAdmin extends AbstractBaseAdmin
         /** @var VehicleMaintenance $vehicleMaintenance */
         foreach ($vehicleMaintenances as $vehicleMaintenance) {
             $this->disablePreviousMaintenance($vehicleMaintenance);
-            if ($this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance)) {
-                $vehicleMaintenance->setNeedsCheck(true);
+            if ($this->vmm->checkIfMaintenanceNeedsCheck($vehicleMaintenance) !== $vehicleMaintenance->isNeedsCheck()) {
+                $vehicleMaintenance->setNeedsCheck(!$vehicleMaintenance->isNeedsCheck());
                 $this->em->persist($vehicleMaintenance);
                 $this->em->flush();
             }

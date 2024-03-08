@@ -24,11 +24,9 @@ class OperatorWorkRegisterHeaderManager
             'overNight' => 0,
             'exitExtra' => 0,
         ];
-        foreach($workRegisterHeaders as $workRegisterHeader)
-        {
+        foreach ($workRegisterHeaders as $workRegisterHeader) {
             $totalHoursFromWorkRegister = $this->getTotalsFromWorkRegisterHeader($workRegisterHeader);
-            foreach($detailedHours as $key => $value)
-            {
+            foreach ($detailedHours as $key => $value) {
                 $detailedHours[$key] += $totalHoursFromWorkRegister[$key];
             }
         }
@@ -36,11 +34,12 @@ class OperatorWorkRegisterHeaderManager
         return $detailedHours;
     }
 
-    public function getTotalsFromWorkRegisterHeader(OperatorWorkRegisterHeader  $workRegisterHeader): array
+    public function getTotalsFromWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader): array
     {
         $detailedHours = [
             'normalHours' => 0,
             'extraHours' => 0,
+            'holidayHours' => 0,
             'negativeHours' => 0,
             'displacement' => 0,
             'waiting' => 0,
@@ -53,11 +52,9 @@ class OperatorWorkRegisterHeaderManager
             'overNight' => 0,
             'exitExtra' => 0,
         ];
-        foreach($workRegisterHeader->getOperatorWorkRegisters() as $workRegister)
-        {
+        foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
             $detailedHoursFromWorkRegister = $this->getDetailedHoursFromWorkRegister($workRegister);
-            foreach($detailedHours as $key => $value)
-            {
+            foreach ($detailedHours as $key => $value) {
                 $detailedHours[$key] += $detailedHoursFromWorkRegister[$key];
             }
         }
@@ -66,16 +63,16 @@ class OperatorWorkRegisterHeaderManager
     }
 
     /**
-     * @param $operator
-     *
      * @return array|int[]
      */
     public function getPricesForOperator($operator): array
     {
         $bountyGroup = $operator->getEnterpriseGroupBounty();
+
         return [
             'normalHourPrice' => $bountyGroup ? $bountyGroup->getExtraNormalHour() : 0,
             'extraHourPrice' => $bountyGroup ? $bountyGroup->getExtraExtraHour() : 0,
+            'holidayHourPrice' => $bountyGroup ? $bountyGroup->getHolidayHour() : 0,
             'negativeHourPrice' => $bountyGroup ? $bountyGroup->getNegativeHour() : 0,
             'lunchPrice' => $bountyGroup ? $bountyGroup->getLunch() : 0,
             'lunchIntPrice' => $bountyGroup ? $bountyGroup->getInternationalLunch() : 0,
@@ -93,6 +90,7 @@ class OperatorWorkRegisterHeaderManager
         $detailedHours = [
             'normalHours' => 0,
             'extraHours' => 0,
+            'holidayHours' => 0,
             'negativeHours' => 0,
             'displacement' => 0,
             'waiting' => 0,
@@ -121,6 +119,8 @@ class OperatorWorkRegisterHeaderManager
             $detailedHours['normalHours'] = $workRegister->getUnits();
         } elseif (str_contains($workRegister->getDescription(), 'Hora extra')) {
             $detailedHours['extraHours'] = $workRegister->getUnits();
+        } elseif (str_contains($workRegister->getDescription(), 'Hora festiva')) {
+            $detailedHours['holidayHours'] = $workRegister->getUnits();
         } elseif (str_contains($workRegister->getDescription(), 'Comida') && !str_contains($workRegister->getDescription(), 'Comida internacional')) {
             $detailedHours['lunch'] = $workRegister->getUnits();
         } elseif (str_contains($workRegister->getDescription(), 'Cena') && !str_contains($workRegister->getDescription(), 'Cena internacional')) {
@@ -141,6 +141,4 @@ class OperatorWorkRegisterHeaderManager
 
         return $detailedHours;
     }
-
-
 }
