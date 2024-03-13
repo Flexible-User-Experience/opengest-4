@@ -25,13 +25,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category
  *
  * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleInvoiceRepository")
+ *
  * @ORM\Table(name="sale_invoice")
  */
 class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 {
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
+     *
      * @Groups({"api"})
+     *
      * @Assert\Count(
      *     min = 1,
      *     minMessage = "La factura tiene que tener un albarán como mínimo"
@@ -40,7 +43,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     private Collection $deliveryNotes;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      *
      * @ORM\Column(type="datetime")
      */
@@ -213,6 +216,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Sale\SaleInvoice")
+     *
      * @ORM\JoinColumn(nullable=true)
      */
     private SaleInvoice|null $saleInvoiceGenerated = null;
@@ -314,7 +318,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -322,7 +326,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     }
 
     /**
-     * @param DateTime $date
+     * @param \DateTime $date
      *
      * @return $this
      */

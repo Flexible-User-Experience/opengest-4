@@ -78,6 +78,14 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'holidayHour',
+                null,
+                [
+                    'label' => 'admin.label.holiday_hour',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'negativeHour',
                 null,
                 [

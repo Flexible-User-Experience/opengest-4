@@ -996,6 +996,16 @@ class SaleDeliveryNote extends AbstractBase
         return NumberFormatService::formatNumber($this->getTotalLines());
     }
 
+    public function getTotalHoursFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalHours());
+    }
+
+    public function getTotalHoursFromWorkRegistersFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalHoursFromWorkRegisters());
+    }
+
     public function getDiscountFormatted(): string
     {
         return NumberFormatService::formatNumber($this->getDiscount());
