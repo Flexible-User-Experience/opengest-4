@@ -401,9 +401,57 @@ class WorkRegisterHeaderPdfManager
             1, 0, 'C', false);
         $pdf->Ln(10);
         $whereTableEnds = $pdf->getY();
-        $finalSum = $this->getFinalSum($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
-        $finalDiets = $this->getFinalDiets($lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt);
-        $finalExtras = $this->getFinalExtras($normalHourPrice, $totalNormalHours, $holidayHourPrice, $totalHolidayHours, $extraHourPrice, $totalExtraHours, $negativeHourPrice, $totalNegativeHours, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
+        $finalSum = $this->getFinalSum(
+            normalHourPrice: $normalHourPrice,
+            totalNormalHours: $totalNormalHours,
+            extraHourPrice: $extraHourPrice,
+            totalExtraHours: $totalExtraHours,
+            holidayHourPrice: $holidayHourPrice,
+            totalHolidayHours: $totalHolidayHours,
+            negativeHourPrice: $negativeHourPrice,
+            totalNegativeHours: $totalNegativeHours,
+            lunchPrice: $lunchPrice,
+            totalLunch: $totalLunch,
+            dinnerPrice: $dinnerPrice,
+            totalDinner: $totalDinner,
+            lunchIntPrice: $lunchIntPrice,
+            totalLunchInt: $totalLunchInt,
+            dinnerIntPrice: $dinnerIntPrice,
+            totalDinnerInt: $totalDinnerInt,
+            dietPrice: $dietPrice,
+            totalDiet: $totalDiet,
+            dietIntPrice: $dietIntPrice,
+            totalDietInt: $totalDietInt,
+            overNightPrice: $overNightPrice,
+            totalOverNight: $totalOverNight,
+            exitExtraPrice: $exitExtraPrice,
+            totalExitExtra: $totalExitExtra);
+        $finalDiets = $this->getFinalDiets(
+            lunchPrice: $lunchPrice,
+            totalLunch: $totalLunch,
+            dinnerPrice: $dinnerPrice,
+            totalDinner: $totalDinner,
+            lunchIntPrice: $lunchIntPrice,
+            totalLunchInt: $totalLunchInt,
+            dinnerIntPrice: $dinnerIntPrice,
+            totalDinnerInt: $totalDinnerInt,
+            dietPrice: $dietPrice,
+            totalDiet: $totalDiet,
+            dietIntPrice: $dietIntPrice,
+            totalDietInt: $totalDietInt);
+        $finalExtras = $this->getFinalExtras(
+            normalHourPrice: $normalHourPrice,
+            totalNormalHours: $totalNormalHours,
+            extraHourPrice: $extraHourPrice,
+            totalExtraHours: $totalExtraHours,
+            holidayHourPrice: $holidayHourPrice,
+            totalHolidayHours: $totalHolidayHours,
+            negativeHourPrice: $negativeHourPrice,
+            totalNegativeHours: $totalNegativeHours,
+            overNightPrice: $overNightPrice,
+            totalOverNight: $totalOverNight,
+            exitExtraPrice: $exitExtraPrice,
+            totalExitExtra: $totalExitExtra);
         // Other imports and final totals
         $this->pdfEngineService->setStyleSize('B', 9);
         $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
@@ -582,7 +630,31 @@ class WorkRegisterHeaderPdfManager
                         $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
                         $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
 
-                $finalSum = $this->getFinalSum($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra);
+                $finalSum = $this->getFinalSum(
+                    normalHourPrice: $normalHourPrice,
+                    totalNormalHours: $totalNormalHours,
+                    extraHourPrice: $extraHourPrice,
+                    totalExtraHours: $totalExtraHours,
+                    holidayHourPrice: $holidayHourPrice,
+                    totalHolidayHours: $totalHolidayHours,
+                    negativeHourPrice: $negativeHourPrice,
+                    totalNegativeHours: $totalNegativeHours,
+                    lunchPrice: $lunchPrice,
+                    totalLunch: $totalLunch,
+                    dinnerPrice: $dinnerPrice,
+                    totalDinner: $totalDinner,
+                    lunchIntPrice: $lunchIntPrice,
+                    totalLunchInt: $totalLunchInt,
+                    dinnerIntPrice: $dinnerIntPrice,
+                    totalDinnerInt: $totalDinnerInt,
+                    dietPrice: $dietPrice,
+                    totalDiet: $totalDiet,
+                    dietIntPrice: $dietIntPrice,
+                    totalDietInt: $totalDietInt,
+                    overNightPrice: $overNightPrice,
+                    totalOverNight: $totalOverNight,
+                    exitExtraPrice: $exitExtraPrice,
+                    totalExitExtra: $totalExitExtra);
 
                 foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
                     if (
@@ -768,10 +840,11 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return float|int
      */
-    private function getFinalSum(int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $negativeHourPrice, $totalNegativeHours, int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
+    private function getFinalSum($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra)
     {
         return $normalHourPrice * $totalNormalHours +
         $extraHourPrice * $totalExtraHours +
+        $holidayHourPrice * $totalHolidayHours +
         $negativeHourPrice * $totalNegativeHours +
         $lunchPrice * $totalLunch +
         $dinnerPrice * $totalDinner +
@@ -787,7 +860,7 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return float|int
      */
-    private function getFinalDiets(int $lunchPrice, $totalLunch, int $dinnerPrice, $totalDinner, int $lunchIntPrice, $totalLunchInt, int $dinnerIntPrice, $totalDinnerInt, int $dietPrice, $totalDiet, int $dietIntPrice, $totalDietInt)
+    private function getFinalDiets($lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt)
     {
         return $lunchPrice * $totalLunch +
         $dinnerPrice * $totalDinner +
@@ -800,7 +873,7 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return float|int
      */
-    private function getFinalExtras(int $normalHourPrice, $totalNormalHours, int $extraHourPrice, $totalExtraHours, int $holidayHourPrice, $totalHolidayHours, int $negativeHourPrice, $totalNegativeHours, int $overNightPrice, $totalOverNight, int $exitExtraPrice, $totalExitExtra)
+    private function getFinalExtras($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra)
     {
         return $normalHourPrice * $totalNormalHours +
         $extraHourPrice * $totalExtraHours +
