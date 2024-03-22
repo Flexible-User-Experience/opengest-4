@@ -1,6 +1,6 @@
 - name: compile yarn assets
   shell: "chdir={{ ansistrano_release_path.stdout }}
-    SYMFONY_ENV={{ symfony_env }} yarn install && yarn encore production"
+    export PATH=/root/.nvm/versions/node/v20.11.1/bin:$PATH && yarn install && yarn encore prod"
 - name: fix symfony web directory apache ownership
   file:
     path: "{{ ansistrano_release_path.stdout }}/public"
