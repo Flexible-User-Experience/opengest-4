@@ -182,6 +182,14 @@ class CostCenterAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'showInLogBook',
+                null,
+                [
+                    'label' => 'admin.label.show_in_log_book',
+                    'editable' => true,
+                ]
+            )
+            ->add(
                 'enabled',
                 null,
                 [

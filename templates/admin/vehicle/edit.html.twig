@@ -13,6 +13,14 @@
           purchaseInvoiceLines: admin.subject.purchaseInvoiceLines
         }) }}
       `);
+      let logBookNode = jQuery('#sonata-ba-field-container-{{ form.logBook.vars.id }}');
+      jQuery(logBookNode).html(`
+        {{ component('PurchaseInvoiceLinesByCostCenter', {
+          costCenters: admin.purchaseInvoiceLinesCostCenters,
+          purchaseInvoiceLines: admin.subject.purchaseInvoiceLines,
+            logBook: true
+        }) }}
+      `);
       var vehicleMaintenance =  jQuery('#sonata-ba-field-container-{{ form.vehicleMaintenances.vars.id }}');
       var numberOfVehicleMaintenances = {{ form.vehicleMaintenances.vars.data.count }};
       for (let i = 0; i < numberOfVehicleMaintenances; i++) {

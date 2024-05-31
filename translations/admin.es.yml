@@ -249,6 +249,7 @@ admin:
         other_documents: "Otros documentos"
         show_in_log_book: "Mostrar en libro historial"
         order_in_log_book: "Orden en libro historial"
+        log_book: "Libro historial"
     with:
         general: "General"
         image: "Imagen"

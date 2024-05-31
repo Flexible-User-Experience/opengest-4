@@ -263,7 +263,6 @@ class VehicleAdmin extends AbstractBaseAdmin
         ;
         if ($this->id($this->getSubject())) { // is edit mode, disable on new subjetcs
             $this->purchaseInvoiceLinesCostCenters = $this->em->getRepository(PurchaseInvoiceLine::class)->getCostCenters(vehicle: $this->getSubject());
-
             $formMapper
                 ->tab('Documentación')
                 ->with('admin.with.vehicle.chassis_image', $this->getFormMdSuccessBoxArray(3))
@@ -476,7 +475,17 @@ class VehicleAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Libro historial')
-                ->with('Recursos', $this->getFormMdSuccessBoxArray(3))
+                ->with('admin.label.log_book', $this->getFormMdSuccessBoxArray(12))
+                ->add(
+                    'logBook',
+                    null,
+                    [
+                        'label' => 'admin.label.log_book',
+                        'mapped' => false,
+                        'required' => false,
+                        'disabled' => true,
+                    ]
+                )
                 ->end()
                 ->end()
                 ->tab('Matenimientos')
