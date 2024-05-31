@@ -53,9 +53,9 @@ class CostCenter extends AbstractBase
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", options={"default"=1})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
-    protected $showInLogBook = true;
+    protected $showInLogBook = false;
 
     /**
      * @ORM\Column(type="integer", options={"default"=1})
