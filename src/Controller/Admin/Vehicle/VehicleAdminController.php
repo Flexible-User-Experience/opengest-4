@@ -170,6 +170,13 @@ class VehicleAdminController extends BaseAdminController
         );
     }
 
+    public function downloadLogBookPdfAction(Request $request)
+    {
+        $this->addFlash('warning', 'Esta funcionalidad no está implementada todavía');
+
+        return parent::editAction($request);
+    }
+
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
         $formData = $request->request->get('app_generate_vehicle_documentation');

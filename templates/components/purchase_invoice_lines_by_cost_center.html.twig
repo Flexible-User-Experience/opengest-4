@@ -56,6 +56,12 @@
         </table>
     {% endif %}
 {% endfor %}
+{% if logBook %}
+    <a class="btn btn-success" href="{{ path('admin_app_vehicle_vehicle_downloadLogBookPdf', { 'id': vehicle.id }) }}">
+        <i class="fa fa-download" aria-hidden="true"></i>
+        Descargar informe
+    </a>
+{% endif %}
 {% set noCostCenterLines = purchaseInvoiceLines | filter(purchaseInvoiceLine => purchaseInvoiceLine.costCenter is null) %}
 {% if noCostCenterLines|length > 0  and (not logBook)%}
     <h3>Sin centro de coste asignado</h3>
