@@ -59,7 +59,7 @@
 {% if logBook %}
     <a class="btn btn-success" href="{{ path('admin_app_vehicle_vehicle_downloadLogBookPdf', { 'id': vehicle.id }) }}">
         <i class="fa fa-download" aria-hidden="true"></i>
-        Descargar informe
+        Descargar Libro Historial
     </a>
 {% endif %}
 {% set noCostCenterLines = purchaseInvoiceLines | filter(purchaseInvoiceLine => purchaseInvoiceLine.costCenter is null) %}
