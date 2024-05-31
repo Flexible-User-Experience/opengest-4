@@ -247,6 +247,8 @@ admin:
         sale_invoice_generated: "Factura generada"
         document: "Documento"
         other_documents: "Otros documentos"
+        show_in_log_book: "Mostrar en libro historial"
+        order_in_log_book: "Orden en libro historial"
     with:
         general: "General"
         image: "Imagen"
