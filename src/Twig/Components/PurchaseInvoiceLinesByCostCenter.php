@@ -10,4 +10,5 @@ class PurchaseInvoiceLinesByCostCenter
 {
     public Collection $purchaseInvoiceLines;
     public array $costCenters;
+    public bool $logBook = false;
 }
