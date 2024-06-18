@@ -75,9 +75,9 @@ class LogBookPdfManager
     {
         // add start page
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
-        $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+        $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 9);
-        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_LANDSCAPE - ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
+        $width = ConstantsEnum::PDF_PAGE_A4_WIDTH_PORTRAIT- ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT - ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT;
 
         // get the current page break margin
         $bMargin = $pdf->getBreakMargin();
@@ -94,10 +94,20 @@ class LogBookPdfManager
 
         //Heading with date and page number
 //        $this->pdfEngineService->setStyleSize('', 9);
+        $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
         $today = date('d/m/Y');
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Informe nómina general - Grúas Romaní - '.$today,
-            1, 0, 'L', true);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 11);
+        $pdf->setXY(50, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP);
+        $pdf->Cell('', ConstantsEnum::PDF_CELL_HEIGHT,
+            'Libro historial del vehículo a fecha '.$today);
+        $pdf->setXY(50, 15);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 10);
+        $pdf->Multicell($width, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Vehículo: '.$vehicle->getName(), 0, 'L', false);
+        $pdf->Multicell($width, ConstantsEnum::PDF_CELL_HEIGHT,
+            'Matrícula: '.$vehicle->getVehicleRegistrationNumber(), 0, 'L', false, 1);
+
+        $pdf->Ln(15);
 
         $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
             $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
