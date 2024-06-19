@@ -2,6 +2,7 @@
 
 namespace App\Twig\Components;
 
+use App\Entity\Vehicle\Vehicle;
 use Doctrine\Common\Collections\Collection;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
@@ -10,4 +11,6 @@ class PurchaseInvoiceLinesByCostCenter
 {
     public Collection $purchaseInvoiceLines;
     public array $costCenters;
+    public bool $logBook = false;
+    public Vehicle $vehicle;
 }

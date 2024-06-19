@@ -294,13 +294,6 @@ class SaleInvoicePdfManager
         }
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
-            if ($pdf->GetY() > 220) {
-                $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
-                $this->setNewPage($pdf, $withBackground);
-                $this->setHeading($pdf, $saleInvoice, $withBackground);
-                $YDim = 110;
-                $pdf->setXY($col1, $YDim);
-            }
             $pdf->setX($col1);
             $pdf->Cell($col2 - $col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getId(),
@@ -326,6 +319,13 @@ class SaleInvoicePdfManager
 
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
+                if ($pdf->GetY() > 235) {
+                    $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
+                    $this->setNewPage($pdf, $withBackground);
+                    $this->setHeading($pdf, $saleInvoice, $withBackground);
+                    $YDim = 110;
+                    $pdf->setXY($col1, $YDim);
+                }
                 if (0 == $deliveryNoteLine->getIva()) {
                     $hasIva0 = true;
                 }

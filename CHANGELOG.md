@@ -1,8 +1,12 @@
 Changelog
 =========
 
-##### Version 4.1.13 (WIP)
+##### Version 4.1.14 (WIP)
 * Keep wiring things
+
+##### Version 4.1.13 (2024-06-19)
+* Add logbook to vehicle
+* Fix long invoice pdf generation
 
 ##### Version 4.1.12 (2024-02-19)
 * Be able to filter vehicle maintenance when exporting to pdf.

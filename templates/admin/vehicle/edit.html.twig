@@ -9,8 +9,18 @@
       let invoiceLinesNode = jQuery('#sonata-ba-field-container-{{ form.invoiceLines.vars.id }}');
       jQuery(invoiceLinesNode).html(`
         {{ component('PurchaseInvoiceLinesByCostCenter', {
-          costCenters: admin.purchaseInvoiceLinesCostCenters,
-          purchaseInvoiceLines: admin.subject.purchaseInvoiceLines
+            costCenters: admin.purchaseInvoiceLinesCostCenters,
+            purchaseInvoiceLines: admin.subject.purchaseInvoiceLines,
+            vehicle: admin.subject
+        }) }}
+      `);
+      let logBookNode = jQuery('#sonata-ba-field-container-{{ form.logBook.vars.id }}');
+      jQuery(logBookNode).html(`
+        {{ component('PurchaseInvoiceLinesByCostCenter', {
+            costCenters: admin.purchaseInvoiceLinesCostCenters,
+            purchaseInvoiceLines: admin.subject.purchaseInvoiceLines,
+            logBook: true,
+            vehicle: admin.subject
         }) }}
       `);
       var vehicleMaintenance =  jQuery('#sonata-ba-field-container-{{ form.vehicleMaintenances.vars.id }}');
