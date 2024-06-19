@@ -56,8 +56,9 @@ class PurchaseInvoiceLineRepository extends ServiceEntityRepository
     public function getCostCenters(SaleDeliveryNote $saleDeliveryNote = null, Operator $operator = null, Vehicle $vehicle = null)
     {
         $queryBuilder = $this->createQueryBuilder('pil')
-            ->select('costCenter.id, costCenter.code, costCenter.name')
+            ->select('costCenter.id, costCenter.code, costCenter.name, costCenter.showInLogBook, costCenter.orderInLogBook')
             ->innerJoin('pil.costCenter', 'costCenter')
+            ->orderBy('costCenter.orderInLogBook', 'ASC')
             ->groupBy('pil.costCenter')
         ;
 

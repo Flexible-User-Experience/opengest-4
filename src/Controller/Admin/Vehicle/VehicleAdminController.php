@@ -9,6 +9,7 @@ use App\Entity\Vehicle\Vehicle;
 use App\Enum\EnterpriseDocumentsEnum;
 use App\Enum\VehicleDocumentsEnum;
 use App\Form\Type\Vehicle\GenerateDocumentationFormType;
+use App\Manager\Pdf\LogBookPdfManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -168,6 +169,14 @@ class VehicleAdminController extends BaseAdminController
                 'generateDocumentationForm' => $form->createView(),
             ]
         );
+    }
+
+    public function downloadLogBookPdfAction(Request $request, $id, LogBookPdfManager $logBookPdfManager)
+    {
+        $this->addFlash('success', 'Libro de historial generado correctamente');
+        $vehicle = $this->admin->getObject($id);
+
+        return $logBookPdfManager->outputSingle($vehicle);
     }
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)

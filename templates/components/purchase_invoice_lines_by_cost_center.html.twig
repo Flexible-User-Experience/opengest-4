@@ -1,51 +1,67 @@
 {% for costCenter in costCenters %}
-    <h3>{{ costCenter.name }}</h3>
-    <table class="table table-bordered table-hover sonata-ba-list">
-        <thead>
-        <tr>
-            <th style="width:10%">Factura de compra</th>
-            <th style="width:10%">Fecha</th>
-            <th style="width:20%">Proveedor</th>
-            <th>Artículo</th>
-            <th>Descripción</th>
-            <th style="width:15%">Importe (€)</th>
-        </tr>
-        </thead>
-        <tbody id="invoiceLinesTableBody">
-        {% for invoiceLine in purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id is same as costCenter.id)  %}
+    {% if costCenter.showInLogBook or (not logBook) %}
+        <h3>{{ costCenter.name }}</h3>
+        <table class="table table-bordered table-hover sonata-ba-list">
+            <thead>
             <tr>
-                <td>
-                    <a href="{{ path('admin_app_purchase_purchaseinvoice_edit', { 'id': invoiceLine.purchaseInvoice.id }) }}">
-                        {{ invoiceLine.purchaseInvoice }}
-                    </a>
-                </td>
-                <td>{{ invoiceLine.purchaseInvoice.date | date('d/m/y') }}</td>
-                <td>
-                    <a href="{{ path('admin_app_partner_partner_edit', { 'id': invoiceLine.purchaseInvoice.partner.id }) }}">
-                        {{ invoiceLine.purchaseInvoice.partner }}
-                </td>
-                <td>
-                    {% if invoiceLine.purchaseItem %}
-                        <a href="{{ path('admin_app_purchase_purchaseitem_edit', { 'id': invoiceLine.purchaseItem.id }) }}">
-                            {{ invoiceLine.purchaseItem.id }} - {{ invoiceLine.purchaseItem }}
-                        </a>
-                    {% endif %}
-                </td>
-                <td>{{ invoiceLine.description }}</td>
-                <td>{{ invoiceLine.baseTotal|number_format(2,',','.') }}</td>
+                {% if not logBook  %}<th style="width:10%">Factura de compra</th>{% endif %}
+                <th style="width:10%">Fecha</th>
+                <th style="width:20%">Proveedor</th>
+                {% if not logBook  %}<th>Artículo</th>{% endif %}
+                <th>Descripción</th>
+                {% if not logBook  %}<th style="width:15%">Importe (€)</th>{% endif %}
             </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="5">Subtotal</td>
-            <td><b>{{ purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id is same as costCenter.id) | reduce((subtotal, invoiceLine) => subtotal + invoiceLine.baseTotal)|number_format(2, ',', '.') }} €</b></td>
-        </tr>
-        </tfoot>
-    </table>
+            </thead>
+            <tbody id="invoiceLinesTableBody">
+            {% for invoiceLine in purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id is same as costCenter.id)  %}
+                <tr>
+                    {% if not logBook  %}
+                        <td>
+                            <a href="{{ path('admin_app_purchase_purchaseinvoice_edit', { 'id': invoiceLine.purchaseInvoice.id }) }}">
+                                {{ invoiceLine.purchaseInvoice }}
+                            </a>
+                        </td>
+                    {% endif %}
+                    <td>{{ invoiceLine.purchaseInvoice.date | date('d/m/y') }}</td>
+                    <td>
+                        <a href="{{ path('admin_app_partner_partner_edit', { 'id': invoiceLine.purchaseInvoice.partner.id }) }}">
+                            {{ invoiceLine.purchaseInvoice.partner }}
+                    </td>
+                    {% if not logBook  %}
+                        <td>
+                            {% if invoiceLine.purchaseItem %}
+                                <a href="{{ path('admin_app_purchase_purchaseitem_edit', { 'id': invoiceLine.purchaseItem.id }) }}">
+                                    {{ invoiceLine.purchaseItem.id }} - {{ invoiceLine.purchaseItem }}
+                                </a>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                    <td>{{ invoiceLine.description }}</td>
+                    {% if not logBook  %}
+                        <td>{{ invoiceLine.baseTotal|number_format(2,',','.') }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+            {% if not logBook  %}
+                <tfoot>
+                <tr>
+                    <td colspan="5" >Subtotal</td>
+                    <td><b>{{ purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id is same as costCenter.id) | reduce((subtotal, invoiceLine) => subtotal + invoiceLine.baseTotal)|number_format(2, ',', '.') }} €</b></td>
+                </tr>
+                </tfoot>
+            {% endif %}
+        </table>
+    {% endif %}
 {% endfor %}
+{% if logBook %}
+    <a class="btn btn-success" href="{{ path('admin_app_vehicle_vehicle_downloadLogBookPdf', { 'id': vehicle.id }) }}">
+        <i class="fa fa-download" aria-hidden="true"></i>
+        Descargar Libro Historial
+    </a>
+{% endif %}
 {% set noCostCenterLines = purchaseInvoiceLines | filter(purchaseInvoiceLine => purchaseInvoiceLine.costCenter is null) %}
-{% if noCostCenterLines|length > 0 %}
+{% if noCostCenterLines|length > 0  and (not logBook)%}
     <h3>Sin centro de coste asignado</h3>
     <table class="table table-bordered table-hover sonata-ba-list">
         <thead>

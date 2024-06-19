@@ -96,21 +96,21 @@ class VehicleMaintenancePdfManager
                 true, 0, 'L', true);
             $pdf->Ln();
             // info
-            /** @var VehicleMaintenance $vehicleMaintenance */
-            foreach ($vehicleMaintenances as $vehicleMaintenance) {
+            /** @var VehicleMaintenance $vehicleMaintenanceFromVehicle */
+            foreach ($vehicleMaintenancesFromVehicle as $vehicleMaintenanceFromVehicle) {
                 $pdf->setX(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT);
                 $this->pdfEngineService->setStyleSize('', 9);
                 $pdf->Cell(60, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $vehicleMaintenance->getVehicleMaintenanceTask(),
+                    $vehicleMaintenanceFromVehicle->getVehicleMaintenanceTask(),
                     true, 0, 'L', false, '', 1);
                 $pdf->Cell(50, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $vehicleMaintenance->getDescription(),
+                    $vehicleMaintenanceFromVehicle->getDescription(),
                     true, 0, 'L', false, '', 1);
                 $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $this->vehicleMaintenanceManager->remainingKm($vehicleMaintenance),
+                    $this->vehicleMaintenanceManager->remainingKm($vehicleMaintenanceFromVehicle),
                     true, 0, 'L', false);
                 $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $this->vehicleMaintenanceManager->remainingHours($vehicleMaintenance),
+                    $this->vehicleMaintenanceManager->remainingHours($vehicleMaintenanceFromVehicle),
                     true, 0, 'L', false);
                 $pdf->Cell(25, ConstantsEnum::PDF_CELL_HEIGHT,
                     '',
