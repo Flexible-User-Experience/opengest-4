@@ -3,6 +3,8 @@ Changelog
 
 ##### Version 4.1.14 (WIP)
 * Keep wiring things
+* Edit logbook pdf to show by cost center
+* Edit vehicle maintenance pdf to show last revision date
 
 ##### Version 4.1.13 (2024-06-19)
 * Add logbook to vehicle

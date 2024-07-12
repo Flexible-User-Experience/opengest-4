@@ -86,4 +86,15 @@ class PurchaseInvoiceLineRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function getOrderedByDateByVehicle(Vehicle $vehicle): array
+    {
+        return $this->createQueryBuilder('pil')
+            ->where('pil.vehicle = :vehicle')
+            ->setParameter('vehicle', $vehicle)
+            ->join('pil.purchaseInvoice', 'pi')
+            ->orderBy('pi.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
