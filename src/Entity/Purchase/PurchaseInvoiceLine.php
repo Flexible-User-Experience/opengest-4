@@ -296,6 +296,11 @@ class PurchaseInvoiceLine extends AbstractBase
         }
     }
 
+    public function getDate(): \DateTime
+    {
+        return $this->getPurchaseInvoice()->getDate();
+    }
+
     public function getImputedToType(): string
     {
         if ($this->getSaleDeliveryNote()) {

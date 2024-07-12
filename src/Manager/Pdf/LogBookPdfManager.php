@@ -5,8 +5,10 @@ namespace App\Manager\Pdf;
 use App\Entity\Payslip\Payslip;
 use App\Entity\Payslip\PayslipLine;
 use App\Entity\Purchase\PurchaseInvoiceLine;
+use App\Entity\Setting\CostCenter;
 use App\Entity\Vehicle\Vehicle;
 use App\Enum\ConstantsEnum;
+use App\Manager\RepositoriesManager;
 use App\Service\Format\NumberFormatService;
 use App\Service\PdfEngineService;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +26,10 @@ class LogBookPdfManager
     /**
      * Methods.
      */
-    public function __construct(PdfEngineService $pdfEngineService)
+    public function __construct(
+        PdfEngineService $pdfEngineService,
+        private readonly RepositoriesManager $rm,
+    )
     {
         $this->pdfEngineService = $pdfEngineService;
     }
@@ -94,7 +99,6 @@ class LogBookPdfManager
         $pdf->setCellPaddings(1, 1, 1, 1);
 
         //Heading with date and page number
-//        $this->pdfEngineService->setStyleSize('', 9);
         $pdf->Image($this->pdfEngineService->getSmartAssetsHelper()->getAbsoluteAssetFilePath('/build/img/logo_empresa.png'), ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, 5, 30); // TODO replace by enterprise image if defined
         $today = date('d/m/Y');
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 11);
@@ -111,53 +115,81 @@ class LogBookPdfManager
 
         $pdf->setY(50);
         $width = $width + 35;
-        $pdf->Multicell($width, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Datos del vehículo: ', 1, 'C', true, 1);
-        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Matrícula: '.$vehicle->getVehicleRegistrationNumber(), 0, 'L', false, 0);
-        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Marca chasis: '.$vehicle->getChassisBrand(), 0, 'L', false, 0);
-        $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Número bastidor: '.$vehicle->getChassisNumber(), 0, 'L', false, 1);
-        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Marca grua: '.$vehicle->getVehicleBrand(), 'B', 'L', false, 0);
-        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Modelo grua: '.$vehicle->getVehicleModel(), 'B', 'L', false, 0);
-        $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Nº Serie grua: '.$vehicle->getSerialNumber(), 'B', 'L', false, 1);
-
-        $purchaseInvoiceLines = $vehicle->getPurchaseInvoiceLines();
-        $pdf->Ln(10);
         $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 10);
         $pdf->Multicell($width, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Libro historial del vehículo', 1, 'C', true, 1);
-        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Fecha', 1, 'L', false, 0);
-        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Proveedor', 1, 'L', false, 0);
-        $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT,
-            'Descripción', 1, 'L', false, 1);
+            'DATOS DEL VEHÍCULO ', 1, 'C', true, 1);
+        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '', 10);
+        $numberOfLinesMatr = $pdf->getNumLines('Matrícula: '.$vehicle->getVehicleRegistrationNumber(), $width*3/12);
+        $numberOfLinesChasis = $pdf->getNumLines('Marca chasis: '.$vehicle->getChassisBrand(), $width*3/12);
+        $numberOfLinesBast = $pdf->getNumLines('Número bastidor: '.$vehicle->getChassisNumber(), $width*6/12);
+        $maxLines = max($numberOfLinesMatr, $numberOfLinesChasis,$numberOfLinesBast);
+        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+            'Matrícula: '.$vehicle->getVehicleRegistrationNumber(), 0, 'L', false, 0);
+        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+            'Marca chasis: '.$vehicle->getChassisBrand(), 0, 'L', false, 0);
+        $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+            'Número bastidor: '.$vehicle->getChassisNumber(), 0, 'L', false, 1);
+        $numberOfLinesMarca = $pdf->getNumLines('Marca grua: '.$vehicle->getVehicleBrand(), $width*3/12);
+        $numberOfLinesModelo = $pdf->getNumLines('Modelo grua: '.$vehicle->getVehicleModel(), $width*3/12);
+        $numberOfLinesSerie = $pdf->getNumLines('Nº Serie grua: '.$vehicle->getSerialNumber(), $width*6/12);
+        $maxLines = max($numberOfLinesMarca, $numberOfLinesModelo,$numberOfLinesSerie);
+        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+            'Marca grua: '.$vehicle->getVehicleBrand(), 'B', 'L', false, 0);
+        $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+            'Modelo grua: '.$vehicle->getVehicleModel(), 'B', 'L', false, 0);
+        $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+            'Nº Serie grua: '.$vehicle->getSerialNumber(), 'B', 'L', false, 1);
 
-        $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '0', 11);
-        /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
+        $purchaseInvoiceLines = $this->rm->getPurchaseInvoiceLineRepository()->getOrderedByDateByVehicle($vehicle);
+        $costCenters = [];
         foreach($purchaseInvoiceLines as $purchaseInvoiceLine){
-            if($purchaseInvoiceLine->getCostCenter()->isShowInLogBook()){
-                $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $purchaseInvoiceLine->getPurchaseInvoice()->getDateFormatted(), 0, 'L', false, 0);
-                $pdf->Multicell($width*3/12, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $purchaseInvoiceLine->getPurchaseInvoice()->getPartnerName(), 0, 'L', false, 0);
-                $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT,
-                    $purchaseInvoiceLine->getDescription(), 0, 'L', false, 1);
+            /** @var CostCenter $costCenter */
+            $costCenter = $purchaseInvoiceLine->getCostCenter();
+            if(!in_array($costCenter, $costCenters) && $costCenter->isShowInLogBook()){
+                $costCenters[] = $costCenter;
             }
         }
+        usort($costCenters, function(CostCenter $a, CostCenter $b){
+            return $a->getOrderInLogBook() >= $b->getOrderInLogBook();
+        });
 
-       $pdf->setY(280);
+        foreach($costCenters as $costCenter){
+            if($pdf->getY() > 210){
+                $this->drawFooter($pdf);
+                $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
+                $pdf->setY(ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP);
+            }
 
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
-            $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
-            0, 0, 'R', true);
-        $pdf->Ln(15);
-        $pdf->Ln();
+            $pdf->Ln(10);
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, 'b', 10);
+            $pdf->Multicell($width, ConstantsEnum::PDF_CELL_HEIGHT,
+                $costCenter->getName(), 1, 'C', true, 1);
+            $pdf->Multicell($width*2/12, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Fecha', 1, 'L', false, 0);
+            $pdf->Multicell($width*4/12, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Proveedor', 1, 'L', false, 0);
+            $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Descripción', 1, 'L', false, 1);
+
+            $pdf->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, '0', 10);
+            /** @var PurchaseInvoiceLine $purchaseInvoiceLine */
+            foreach($purchaseInvoiceLines as $purchaseInvoiceLine){
+                if($purchaseInvoiceLine->getCostCenter()?->getId() === $costCenter->getId()){
+                    $numberOfLinesName = $pdf->getNumLines($purchaseInvoiceLine->getPurchaseInvoice()->getPartnerName(), $width*4/12);
+                    $numberOfLinesDesc = $pdf->getNumLines($purchaseInvoiceLine->getDescription(), $width*6/12);
+                    $maxLines= max($numberOfLinesName, $numberOfLinesDesc);
+                    $pdf->Multicell($width*2/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+                        $purchaseInvoiceLine->getPurchaseInvoice()->getDateFormatted(), 1, 'L', false, 0);
+                    $pdf->Multicell($width*4/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+                        $purchaseInvoiceLine->getPurchaseInvoice()->getPartnerName(), 1, 'L', false, 0);
+                    $pdf->Multicell($width*6/12, ConstantsEnum::PDF_CELL_HEIGHT*$maxLines,
+                        $purchaseInvoiceLine->getDescription(), 1, 'L', false, 1);
+                }
+            }
+        }
+        $this->drawFooter($pdf);
+
+
 
         return $pdf;
     }
@@ -170,5 +202,13 @@ class LogBookPdfManager
         $pdf->ln(4);
         $pdf->Line(ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, $pdf->getY(), $availableHoritzontalSpace + ConstantsEnum::PDF_PAGE_A5_MARGIN_LEFT, $pdf->getY());
         $pdf->ln(4);
+    }
+
+    private function drawFooter(TCPDF $pdf){
+        $pdf->setY(280);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT,
+            $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),
+            0, 0, 'R', true);
+        $pdf->Ln(15);
     }
 }
