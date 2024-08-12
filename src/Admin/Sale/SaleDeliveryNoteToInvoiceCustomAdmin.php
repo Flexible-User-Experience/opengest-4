@@ -35,16 +35,16 @@ class SaleDeliveryNoteToInvoiceCustomAdmin extends AbstractSaleDeliveryNoteAdmin
     /**
      * @var string
      */
-    protected $baseRoutePattern = 'vendes/albaran-para-facturar';
-
-    /**
-     * @var string
-     */
     protected $baseRouteName = 'admin_app_sale_saledeliverynote_to_invoice_custom';
 
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/albaran-para-facturar';
+    }
+
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection

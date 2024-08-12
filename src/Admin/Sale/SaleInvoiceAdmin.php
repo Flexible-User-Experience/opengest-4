@@ -47,13 +47,13 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Factura';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/factura';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/factura';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PAGE] = 1;
