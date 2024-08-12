@@ -11,6 +11,7 @@ use App\Entity\Vehicle\VehicleMaintenance;
 use App\Enum\UserRolesEnum;
 use App\Manager\DeliveryNoteManager;
 use App\Manager\InvoiceManager;
+use App\Manager\PayslipManager;
 use App\Manager\RepositoriesManager;
 use App\Manager\VehicleMaintenanceManager;
 use App\Manager\YearChoicesManager;
@@ -57,10 +58,10 @@ class VehicleAdmin extends AbstractBaseAdmin
      */
     protected $baseRoutePattern = 'vehicles/vehicle';
 
-    public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
+    public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, PayslipManager $payslipManager, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
         public array $purchaseInvoiceLinesCostCenters = []
     ) {
-        parent::__construct($lis, $ycm, $im, $rm, $dnm, $vmm, $em, $fs, $tws, $ts, $acs, $passwordEncoder);
+        parent::__construct($lis, $ycm, $im, $rm, $dnm, $vmm, $payslipManager, $em, $fs, $tws, $ts, $acs, $passwordEncoder);
     }
 
     /**
