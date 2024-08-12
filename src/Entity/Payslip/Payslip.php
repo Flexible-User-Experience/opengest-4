@@ -309,6 +309,16 @@ class Payslip extends AbstractBase
         return NumberFormatService::formatNumber($this->getOtherCosts());
     }
 
+    public function getTotalAccruedFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalAccrued());
+    }
+
+    public function getTotalDeductionsFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalDeductions());
+    }
+
     public function getTotalAmountFormatted(): string
     {
         return NumberFormatService::formatNumber($this->getTotalAmount());

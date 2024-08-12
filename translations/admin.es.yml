@@ -217,6 +217,8 @@ admin:
         postal_code: "Código postal"
         prefix: "Prefijo"
         default_serie: "Série por defecto"
+        payslip_total_accrued: "Total devengado"
+        payslip_total_deductions: "Total deducciones"
         payslip_total: "Total nómina"
         commercial_name: "Nombre comercial"
         transference_bank: "Banco transferencia"

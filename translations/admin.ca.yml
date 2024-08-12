@@ -205,6 +205,8 @@ admin:
         irpf_total: "Total_Irpf"
         discount_total: "Importe descuento"
         project: "Contrato"
+        payslip_total_accrued: "Total meritat"
+        payslip_total_deductions: "Total deduccions"
         payslip_total: "Total nómina"
         commercial_name: "Nombre comercial"
         transference_bank: "Banco transferencia"
