@@ -29,11 +29,6 @@ class ServiceAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Servei';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'web/servei';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
