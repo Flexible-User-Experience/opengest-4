@@ -37,6 +37,11 @@ class PayslipLineConcept extends AbstractBase
     private Collection $payslipLines;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isDeduction = false;
+
+    /**
      * Methods.
      */
     public function getDescription(): string
@@ -133,6 +138,19 @@ class PayslipLineConcept extends AbstractBase
 
         return $this;
     }
+
+    public function isDeduction(): bool
+    {
+        return $this->isDeduction;
+    }
+
+    public function setIsDeduction(bool $isDeduction): PayslipLineConcept
+    {
+        $this->isDeduction = $isDeduction;
+
+        return $this;
+    }
+
 
     public function __toString(): string
     {
