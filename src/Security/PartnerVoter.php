@@ -19,7 +19,7 @@ class PartnerVoter extends AbstractVoter
      *
      * @return bool
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof Partner && in_array($attribute, self::ATTRIBUTES);
     }

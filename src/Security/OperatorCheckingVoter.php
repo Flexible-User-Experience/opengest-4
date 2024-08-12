@@ -19,7 +19,7 @@ class OperatorCheckingVoter extends AbstractVoter
      *
      * @return bool
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof OperatorChecking && in_array($attribute, self::ATTRIBUTES);
     }

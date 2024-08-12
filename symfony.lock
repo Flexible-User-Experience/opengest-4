@@ -183,9 +183,6 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v3.0.0"
     },
-    "krixer/google-map-form-type-bundle": {
-        "version": "v1.2"
-    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -639,9 +636,6 @@
     "symfony/polyfill-php72": {
         "version": "v1.14.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.14.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.1"
     },
@@ -692,9 +686,6 @@
         "version": "v4.4.4"
     },
     "symfony/security-csrf": {
-        "version": "v4.4.4"
-    },
-    "symfony/security-guard": {
         "version": "v4.4.4"
     },
     "symfony/security-http": {
