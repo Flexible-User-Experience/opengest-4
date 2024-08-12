@@ -303,10 +303,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Partner
-     */
-    public function getPartner(): Partner
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
@@ -415,20 +412,12 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return User
-     */
-    public function getAttendedBy(): User
+    public function getAttendedBy(): ?User
     {
         return $this->attendedBy;
     }
 
-    /**
-     * @param User $attendedBy
-     *
-     * @return $this
-     */
-    public function setAttendedBy($attendedBy): static
+    public function setAttendedBy(?User $attendedBy = null): static
     {
         $this->attendedBy = $attendedBy;
 
@@ -679,20 +668,12 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Vehicle
-     */
-    public function getSecondaryVehicle(): Vehicle
+    public function getSecondaryVehicle(): ?Vehicle
     {
         return $this->secondaryVehicle;
     }
 
-    /**
-     * @param Vehicle $secondaryVehicle
-     *
-     * @return $this
-     */
-    public function setSecondaryVehicle($secondaryVehicle): static
+    public function setSecondaryVehicle(?Vehicle $secondaryVehicle = null): static
     {
         $this->secondaryVehicle = $secondaryVehicle;
 
@@ -986,10 +967,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getMiniumHolidayHours(): float
+    public function getMiniumHolidayHours(): ?float
     {
         return $this->miniumHolidayHours;
     }
@@ -1001,10 +979,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getIncreaseForHolidays(): float
+    public function getIncreaseForHolidays(): ?float
     {
         return $this->increaseForHolidays;
     }
@@ -1016,10 +991,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getIncreaseForHolidaysPercentage(): float
+    public function getIncreaseForHolidaysPercentage(): ?float
     {
         return $this->increaseForHolidaysPercentage;
     }

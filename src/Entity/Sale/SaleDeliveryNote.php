@@ -310,10 +310,7 @@ class SaleDeliveryNote extends AbstractBase
         $this->enterprise = $enterprise;
     }
 
-    /**
-     * @return Partner
-     */
-    public function getPartner(): Partner
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
@@ -516,36 +513,24 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return CollectionDocumentType
-     */
-    public function getCollectionDocument(): CollectionDocumentType
+    public function getCollectionDocument(): ?CollectionDocumentType
     {
         return $this->collectionDocument;
     }
 
-    /**
-     * @param CollectionDocumentType $collectionDocument
-     */
-    public function setCollectionDocument($collectionDocument): SaleDeliveryNote
+    public function setCollectionDocument(?CollectionDocumentType $collectionDocument): SaleDeliveryNote
     {
         $this->collectionDocument = $collectionDocument;
 
         return $this;
     }
 
-    /**
-     * @return ActivityLine
-     */
-    public function getActivityLine(): ActivityLine
+    public function getActivityLine(): ?ActivityLine
     {
         return $this->activityLine;
     }
 
-    /**
-     * @param ActivityLine $activityLine
-     */
-    public function setActivityLine($activityLine): SaleDeliveryNote
+    public function setActivityLine(?ActivityLine $activityLine): SaleDeliveryNote
     {
         $this->activityLine = $activityLine;
 

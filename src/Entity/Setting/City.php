@@ -87,10 +87,7 @@ class City extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return Province
-     */
-    public function getProvince(): Province
+    public function getProvince(): ?Province
     {
         return $this->province;
     }

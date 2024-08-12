@@ -168,10 +168,7 @@ class Service extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return VehicleCategory
-     */
-    public function getVehicleCategory(): VehicleCategory
+    public function getVehicleCategory(): ?VehicleCategory
     {
         return $this->vehicleCategory;
     }

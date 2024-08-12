@@ -134,12 +134,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
         $this->enterprises = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     *
-     * @return int $id
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -186,10 +181,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
-    /**
-     * @return Enterprise
-     */
-    public function getDefaultEnterprise(): Enterprise
+    public function getDefaultEnterprise(): ?Enterprise
     {
         return $this->defaultEnterprise;
     }

@@ -158,11 +158,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return SaleRequest
-     */
-    public function getSaleRequest(): SaleRequest
+    public function getSaleRequest(): ?SaleRequest
     {
         return $this->saleRequest;
     }
@@ -179,10 +175,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return SaleDeliveryNote
-     */
-    public function getSaleDeliveryNote(): SaleDeliveryNote
+    public function getSaleDeliveryNote(): ?SaleDeliveryNote
     {
         return $this->saleDeliveryNote;
     }
