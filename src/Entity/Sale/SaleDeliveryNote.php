@@ -323,17 +323,11 @@ class SaleDeliveryNote extends AbstractBase
         $this->partner = $partner;
     }
 
-    /**
-     * @return PartnerBuildingSite
-     */
-    public function getBuildingSite(): PartnerBuildingSite
+    public function getBuildingSite(): ?PartnerBuildingSite
     {
         return $this->buildingSite;
     }
 
-    /**
-     * @param PartnerBuildingSite $buildingSite
-     */
     public function setBuildingSite($buildingSite): void
     {
         $this->buildingSite = $buildingSite;
@@ -399,10 +393,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return PartnerOrder
-     */
-    public function getOrder(): PartnerOrder
+    public function getOrder(): ?PartnerOrder
     {
         return $this->order;
     }

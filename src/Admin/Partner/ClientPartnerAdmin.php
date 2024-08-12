@@ -622,7 +622,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'Email',
+                'email',
                 null,
                 [
                     'label' => 'admin.label.email',
@@ -717,7 +717,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'Email',
+                'email',
                 null,
                 [
                     'label' => 'admin.label.email',

@@ -568,10 +568,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getObservations(): string
+    public function getObservations(): ?string
     {
         return $this->observations;
     }
@@ -708,10 +705,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getServiceTime(): DateTime
+    public function getServiceTime(): ?DateTime
     {
         return $this->serviceTime;
     }

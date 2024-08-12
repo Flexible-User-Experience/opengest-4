@@ -101,10 +101,7 @@ class PartnerOrder extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProviderReference(): string
+    public function getProviderReference(): ?string
     {
         return $this->providerReference;
     }

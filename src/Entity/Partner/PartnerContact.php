@@ -123,19 +123,11 @@ class PartnerContact extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCare(): string
+    public function getCare(): ?string
     {
         return $this->care;
     }
 
-    /**
-     * @param string $care
-     *
-     * @return $this
-     */
     public function setCare($care): static
     {
         $this->care = $care;
@@ -143,19 +135,11 @@ class PartnerContact extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    /**
-     * @param string $phone
-     *
-     * @return $this
-     */
     public function setPhone($phone): static
     {
         $this->phone = $phone;
@@ -163,19 +147,11 @@ class PartnerContact extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMobile(): string
+    public function getMobile(): ?string
     {
         return $this->mobile;
     }
 
-    /**
-     * @param string $mobile
-     *
-     * @return $this
-     */
     public function setMobile($mobile): static
     {
         $this->mobile = $mobile;
@@ -203,19 +179,11 @@ class PartnerContact extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return $this
-     */
     public function setEmail($email): static
     {
         $this->email = $email;

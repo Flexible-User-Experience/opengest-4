@@ -164,7 +164,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return string
      */
-    public function getMainImage(): string
+    public function getMainImage(): ?string
     {
         return $this->mainImage;
     }

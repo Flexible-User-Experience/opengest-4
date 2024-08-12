@@ -23,23 +23,13 @@ trait DescriptionTrait
     /**
      * Methods.
      */
-
-    /**
-     * @param string $description
-     *
-     * @return $this
-     */
     public function setDescription($description): static
     {
         $this->description = $description;
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

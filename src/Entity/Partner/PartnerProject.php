@@ -104,19 +104,11 @@ class PartnerProject extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProviderReference(): string
+    public function getProviderReference(): ?string
     {
         return $this->providerReference;
     }
 
-    /**
-     * @param string $providerReference
-     *
-     * @return $this
-     */
     public function setProviderReference($providerReference): static
     {
         $this->providerReference = $providerReference;

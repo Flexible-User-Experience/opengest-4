@@ -114,19 +114,11 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getNumber(): string
+    public function getNumber(): ?string
     {
         return $this->number;
     }
 
-    /**
-     * @param string $number
-     *
-     * @return $this
-     */
     public function setNumber($number): static
     {
         $this->number = $number;
@@ -134,19 +126,11 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    /**
-     * @param string $address
-     *
-     * @return $this
-     */
     public function setAddress($address): static
     {
         $this->address = $address;
@@ -154,19 +138,11 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    /**
-     * @param string $phone
-     *
-     * @return $this
-     */
     public function setPhone($phone): static
     {
         $this->phone = $phone;

@@ -680,10 +680,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhoneNumber1(): string
+    public function getPhoneNumber1(): ?string
     {
         return $this->phoneNumber1;
     }
@@ -820,19 +817,11 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return $this
-     */
     public function setEmail($email): static
     {
         $this->email = $email;
@@ -880,10 +869,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getCode(): int
+    public function getCode(): ?int
     {
         return $this->code;
     }

@@ -763,19 +763,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEnterpriseMobile(): string
+    public function getEnterpriseMobile(): ?string
     {
         return $this->enterpriseMobile;
     }
 
-    /**
-     * @param string $enterpriseMobile
-     *
-     * @return Operator
-     */
     public function setEnterpriseMobile($enterpriseMobile): Operator
     {
         $this->enterpriseMobile = $enterpriseMobile;
