@@ -24,7 +24,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleItem", inversedBy="saleDeliveryNoteLines")
      */
-    private SaleItem $saleItem;
+    private ?SaleItem $saleItem = null;
 
     /**
      * @var float
@@ -99,7 +99,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this;
     }
 
-    public function getSaleItem(): SaleItem
+    public function getSaleItem(): ?SaleItem
     {
         return $this->saleItem;
     }
