@@ -881,10 +881,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLogo(): string
+    public function getLogo(): ?string
     {
         return $this->logo;
     }

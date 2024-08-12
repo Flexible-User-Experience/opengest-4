@@ -70,7 +70,7 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * @return File
      */
-    public function getUploadedFile(): File
+    public function getUploadedFile(): ?File
     {
         return $this->uploadedFile;
     }

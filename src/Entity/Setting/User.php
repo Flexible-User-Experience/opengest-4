@@ -143,10 +143,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
         return $this->id;
     }
 
-    /**
-     * @return File|UploadedFile
-     */
-    public function getMainImageFile(): File|UploadedFile
+    public function getMainImageFile(): null|File|UploadedFile
     {
         return $this->mainImageFile;
     }
