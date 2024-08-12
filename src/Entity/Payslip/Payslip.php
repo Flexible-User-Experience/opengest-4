@@ -64,12 +64,12 @@ class Payslip extends AbstractBase
 
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", options={"default": 0})
      */
     private float $totalAccrued = 0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", options={"default": 0})
      */
     private float $totalDeductions = 0;
 

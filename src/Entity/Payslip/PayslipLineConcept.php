@@ -37,7 +37,7 @@ class PayslipLineConcept extends AbstractBase
     private Collection $payslipLines;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default": false})
      */
     private bool $isDeduction = false;
 
