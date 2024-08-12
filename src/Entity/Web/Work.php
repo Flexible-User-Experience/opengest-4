@@ -103,10 +103,7 @@ class Work extends AbstractBase
         $this->images = new ArrayCollection();
     }
 
-    /**
-     * @return Service
-     */
-    public function getService(): Service
+    public function getService(): ?Service
     {
         return $this->service;
     }
@@ -210,7 +207,7 @@ class Work extends AbstractBase
     /**
      * @return string
      */
-    public function getMainImage(): string
+    public function getMainImage(): ?string
     {
         return $this->mainImage;
     }

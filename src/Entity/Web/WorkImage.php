@@ -62,11 +62,7 @@ class WorkImage extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Work
-     */
-    public function getWork(): Work
+    public function getWork(): ?Work
     {
         return $this->work;
     }
@@ -123,10 +119,7 @@ class WorkImage extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->image;
     }

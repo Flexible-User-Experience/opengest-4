@@ -13,11 +13,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Operator
-     */
-    public function getOperator(): Operator
+    public function getOperator(): ?Operator
     {
         return $this->operator;
     }
@@ -34,10 +30,7 @@ abstract class OperatorCheckingBase extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return OperatorCheckingType
-     */
-    public function getType(): OperatorCheckingType
+    public function getType(): ?OperatorCheckingType
     {
         return $this->type;
     }

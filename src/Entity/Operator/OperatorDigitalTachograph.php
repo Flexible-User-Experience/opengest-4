@@ -46,11 +46,7 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Operator
-     */
-    public function getOperator(): Operator
+    public function getOperator(): ?Operator
     {
         return $this->operator;
     }
@@ -90,7 +86,7 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * @return string
      */
-    public function getUploadedFileName(): string
+    public function getUploadedFileName(): ?string
     {
         return $this->uploadedFileName;
     }

@@ -111,10 +111,7 @@ class Service extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMainImage(): string
+    public function getMainImage(): ?string
     {
         return $this->mainImage;
     }

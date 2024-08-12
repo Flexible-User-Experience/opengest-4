@@ -726,10 +726,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return City
-     */
-    public function getCity(): City
+    public function getCity(): ?City
     {
         return $this->city;
     }
@@ -888,7 +885,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getProfilePhotoImage(): string
+    public function getProfilePhotoImage(): ?string
     {
         return $this->profilePhotoImage;
     }
@@ -931,7 +928,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getTaxIdentificationNumberImage(): string
+    public function getTaxIdentificationNumberImage(): ?string
     {
         return $this->taxIdentificationNumberImage;
     }
@@ -974,7 +971,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getDrivingLicenseImage(): string
+    public function getDrivingLicenseImage(): ?string
     {
         return $this->drivingLicenseImage;
     }
@@ -1017,7 +1014,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getCranesOperatorLicenseImage(): string
+    public function getCranesOperatorLicenseImage(): ?string
     {
         return $this->cranesOperatorLicenseImage;
     }
@@ -1060,7 +1057,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getMedicalCheckImage(): string
+    public function getMedicalCheckImage(): ?string
     {
         return $this->medicalCheckImage;
     }
@@ -1103,7 +1100,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getEpisImage(): string
+    public function getEpisImage(): ?string
     {
         return $this->episImage;
     }
@@ -1146,7 +1143,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getTrainingDocumentImage(): string
+    public function getTrainingDocumentImage(): ?string
     {
         return $this->trainingDocumentImage;
     }
@@ -1189,7 +1186,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getInformationImage(): string
+    public function getInformationImage(): ?string
     {
         return $this->informationImage;
     }
@@ -1232,7 +1229,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getUseOfMachineryAuthorizationImage(): string
+    public function getUseOfMachineryAuthorizationImage(): ?string
     {
         return $this->useOfMachineryAuthorizationImage;
     }
@@ -1275,7 +1272,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getDischargeSocialSecurityImage(): string
+    public function getDischargeSocialSecurityImage(): ?string
     {
         return $this->dischargeSocialSecurityImage;
     }
@@ -1318,7 +1315,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getEmploymentContractImage(): string
+    public function getEmploymentContractImage(): ?string
     {
         return $this->employmentContractImage;
     }
@@ -1768,7 +1765,7 @@ class Operator extends AbstractBase
     /**
      * @return EnterpriseGroupBounty
      */
-    public function getEnterpriseGroupBounty(): EnterpriseGroupBounty
+    public function getEnterpriseGroupBounty(): ?EnterpriseGroupBounty
     {
         return $this->enterpriseGroupBounty;
     }
