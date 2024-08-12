@@ -28,13 +28,13 @@ class PurchaseItemAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Articulos de compra';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'compras/articulos';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'compras/articulos';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PAGE] = 1;

@@ -26,11 +26,6 @@ class PayslipLineAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'PayslipLineAdmin';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'nominas/lineas';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -41,6 +36,10 @@ class PayslipLineAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'nominas/lineas';
+    }
 
     /**
      * @throws Exception

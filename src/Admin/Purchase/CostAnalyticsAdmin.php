@@ -19,10 +19,10 @@ class CostAnalyticsAdmin extends AbstractBaseAdmin
      */
     protected $classnameLabel = 'Análisis de costes y márgenes';
 
-    /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'analisis-de-costes';
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'analisis-de-costes';
+    }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {

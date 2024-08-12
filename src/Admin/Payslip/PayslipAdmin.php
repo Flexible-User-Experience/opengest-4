@@ -36,13 +36,13 @@ class PayslipAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Payslip';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'nominas/nominas';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'nominas/nominas';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PER_PAGE] = 50;

@@ -30,13 +30,13 @@ class PartnerDeliveryAddressAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Direcciones envio cliente';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'terceros/direccion-envio';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'terceros/direccion-envio';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
