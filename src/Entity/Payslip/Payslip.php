@@ -62,6 +62,17 @@ class Payslip extends AbstractBase
      */
     private float $otherCosts = 0;
 
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private float $totalAccrued = 0;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private float $totalDeductions = 0;
+
     /**
      * @ORM\Column(type="float")
      */
@@ -133,45 +144,30 @@ class Payslip extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getExpenses(): float
     {
         return $this->expenses;
     }
 
-    /**
-     * @param float|int $expenses
-     */
-    public function setExpenses($expenses): Payslip
+    public function setExpenses(float $expenses): Payslip
     {
         $this->expenses = $expenses;
 
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getSocialSecurityCost(): float
     {
         return $this->socialSecurityCost;
     }
 
-    /**
-     * @param float|int $socialSecurityCost
-     */
-    public function setSocialSecurityCost($socialSecurityCost): Payslip
+    public function setSocialSecurityCost(float $socialSecurityCost): Payslip
     {
         $this->socialSecurityCost = $socialSecurityCost;
 
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getExtraPay(): float
     {
         $this->setExtraPay(0);
@@ -179,10 +175,7 @@ class Payslip extends AbstractBase
         return $this->extraPay;
     }
 
-    /**
-     * @param float|int $extraPay
-     */
-    public function setExtraPay($extraPay): Payslip
+    public function setExtraPay(float $extraPay): Payslip
     {
         $extraPay = 0;
         $payslipLineExtraPays = $this->getPayslipLines()->filter(function (PayslipLine $payslipLine) {
@@ -197,36 +190,49 @@ class Payslip extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getOtherCosts(): float
     {
         return $this->otherCosts;
     }
 
-    /**
-     * @param float|int $otherCosts
-     */
-    public function setOtherCosts($otherCosts): Payslip
+    public function setOtherCosts(float $otherCosts): Payslip
     {
         $this->otherCosts = $otherCosts;
 
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
+
+    public function getTotalAccrued(): float
+    {
+        return $this->totalAccrued;
+    }
+
+    public function setTotalAccrued(float $totalAccrued): Payslip
+    {
+        $this->totalAccrued = $totalAccrued;
+
+        return $this;
+    }
+
+    public function getTotalDeductions(): float
+    {
+        return $this->totalDeductions;
+    }
+
+    public function setTotalDeductions(float $totalDeductions): Payslip
+    {
+        $this->totalDeductions = $totalDeductions;
+
+        return $this;
+    }
+
     public function getTotalAmount(): float
     {
         return $this->totalAmount;
     }
 
-    /**
-     * @param float|int $totalAmount
-     */
-    public function setTotalAmount($totalAmount): Payslip
+    public function setTotalAmount(float $totalAmount): Payslip
     {
         $this->totalAmount = $totalAmount;
 
