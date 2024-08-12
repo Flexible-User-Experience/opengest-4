@@ -26,5 +26,7 @@ class PayslipManager
         $payslip->setTotalAccrued($totalAccrued);
         $payslip->setTotalDeductions($totalDeductions);
         $payslip->setTotalAmount($totalAmount);
+
+        return $payslip;
     }
 }
