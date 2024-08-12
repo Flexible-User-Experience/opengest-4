@@ -2469,7 +2469,19 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
 
     public function unserialize($data)
     {
-        list(
-            $this->id) = unserialize($data);
+        list($this->id) = unserialize($data);
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'logo' => $this->logo,
+        ];
+    }
+
+    public function __unserialize($data)
+    {
+        list($this->id) = $data['id'];
     }
 }
