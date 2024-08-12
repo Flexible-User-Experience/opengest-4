@@ -86,8 +86,8 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         $units = ($splitTimeRange['finish']->getTimestamp() - $splitTimeRange['start']->getTimestamp()) / 3600;
                         $description = '';
                         if ($isHoliday) {
-                            $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
-                            $description = 'Hora extra - '.$description1;
+                            $price = $this->getPriceFromItem($operator, 'HOLIDAY_HOUR');
+                            $description = 'Hora festiva - '.$description1;
                             if (3 == $itemId) {
                                 $price = $this->getPriceFromItem($operator, 'NEGATIVE_HOUR');
                                 $units = $units * (-1);
