@@ -44,21 +44,12 @@ class PartnerUnableDays extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Partner
-     */
-    public function getPartner(): Partner
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
 
-    /**
-     * @param Partner $partner
-     *
-     * @return $this
-     */
-    public function setPartner($partner): static
+    public function setPartner(Partner $partner): static
     {
         $this->partner = $partner;
 

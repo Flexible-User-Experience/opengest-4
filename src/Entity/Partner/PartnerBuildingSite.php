@@ -77,11 +77,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Partner
-     */
-    public function getPartner(): Partner
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }

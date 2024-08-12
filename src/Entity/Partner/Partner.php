@@ -523,10 +523,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return PartnerClass
-     */
-    public function getClass(): PartnerClass
+    public function getClass(): ?PartnerClass
     {
         return $this->class;
     }
@@ -543,10 +540,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return PartnerType
-     */
-    public function getType(): PartnerType
+    public function getType(): ?PartnerType
     {
         return $this->type;
     }
@@ -563,10 +557,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return EnterpriseTransferAccount
-     */
-    public function getTransferAccount(): EnterpriseTransferAccount
+    public function getTransferAccount(): ?EnterpriseTransferAccount
     {
         return $this->transferAccount;
     }
@@ -623,10 +614,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return City
-     */
-    public function getMainCity(): City
+    public function getMainCity(): ?City
     {
         return $this->mainCity;
     }

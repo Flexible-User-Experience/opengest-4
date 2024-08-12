@@ -46,11 +46,7 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Vehicle
-     */
-    public function getVehicle(): Vehicle
+    public function getVehicle(): ?Vehicle
     {
         return $this->vehicle;
     }
@@ -87,10 +83,7 @@ class VehicleDigitalTachograph extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUploadedFileName(): string
+    public function getUploadedFileName(): ?string
     {
         return $this->uploadedFileName;
     }

@@ -921,7 +921,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getDeedOfIncorporation(): string
+    public function getDeedOfIncorporation(): ?string
     {
         return $this->deedOfIncorporation;
     }
@@ -961,7 +961,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getTaxIdentificationNumberCard(): string
+    public function getTaxIdentificationNumberCard(): ?string
     {
         return $this->taxIdentificationNumberCard;
     }
@@ -998,10 +998,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTc1Receipt(): string
+    public function getTc1Receipt(): ?string
     {
         return $this->tc1Receipt;
     }
@@ -1039,7 +1036,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getTc2Receipt(): string
+    public function getTc2Receipt(): ?string
     {
         return $this->tc2Receipt;
     }
@@ -1074,7 +1071,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getSsRegistration(): string
+    public function getSsRegistration(): ?string
     {
         return $this->ssRegistration;
     }
@@ -1106,7 +1103,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getSsPaymentCertificate(): string
+    public function getSsPaymentCertificate(): ?string
     {
         return $this->ssPaymentCertificate;
     }
@@ -1138,7 +1135,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getRc1Insurance(): string
+    public function getRc1Insurance(): ?string
     {
         return $this->rc1Insurance;
     }
@@ -1170,7 +1167,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getRc2Insurance(): string
+    public function getRc2Insurance(): ?string
     {
         return $this->rc2Insurance;
     }
@@ -1202,7 +1199,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getRcReceipt(): string
+    public function getRcReceipt(): ?string
     {
         return $this->rcReceipt;
     }
@@ -1234,7 +1231,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getPreventionServiceContract(): string
+    public function getPreventionServiceContract(): ?string
     {
         return $this->preventionServiceContract;
     }
@@ -1266,7 +1263,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getPreventionServiceInvoice(): string
+    public function getPreventionServiceInvoice(): ?string
     {
         return $this->preventionServiceInvoice;
     }
@@ -1298,7 +1295,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getPreventionServiceReceipt(): string
+    public function getPreventionServiceReceipt(): ?string
     {
         return $this->preventionServiceReceipt;
     }
@@ -1330,7 +1327,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getOccupationalAccidentsInsurance(): string
+    public function getOccupationalAccidentsInsurance(): ?string
     {
         return $this->occupationalAccidentsInsurance;
     }
@@ -1362,7 +1359,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getOccupationalReceipt(): string
+    public function getOccupationalReceipt(): ?string
     {
         return $this->occupationalReceipt;
     }
@@ -1394,7 +1391,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getLaborRiskAssessment(): string
+    public function getLaborRiskAssessment(): ?string
     {
         return $this->laborRiskAssessment;
     }
@@ -1426,7 +1423,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getSecurityPlan(): string
+    public function getSecurityPlan(): ?string
     {
         return $this->securityPlan;
     }
@@ -1458,7 +1455,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getReaCertificate(): string
+    public function getReaCertificate(): ?string
     {
         return $this->reaCertificate;
     }
@@ -1490,7 +1487,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getOilCertificate(): string
+    public function getOilCertificate(): ?string
     {
         return $this->oilCertificate;
     }
@@ -1522,7 +1519,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getGencatPaymentCertificate(): string
+    public function getGencatPaymentCertificate(): ?string
     {
         return $this->gencatPaymentCertificate;
     }
@@ -1554,7 +1551,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getDeedsOfPowers(): string
+    public function getDeedsOfPowers(): ?string
     {
         return $this->deedsOfPowers;
     }
@@ -1586,7 +1583,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getIaeRegistration(): string
+    public function getIaeRegistration(): ?string
     {
         return $this->iaeRegistration;
     }
@@ -1650,7 +1647,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getMutualPartnership(): string
+    public function getMutualPartnership(): ?string
     {
         return $this->mutualPartnership;
     }

@@ -64,10 +64,7 @@ class PartnerOrder extends AbstractBase
         $this->saleDeliveryNotes = new ArrayCollection();
     }
 
-    /**
-     * @return Partner
-     */
-    public function getPartner(): Partner
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }

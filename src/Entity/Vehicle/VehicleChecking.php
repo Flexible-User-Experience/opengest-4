@@ -52,10 +52,7 @@ class VehicleChecking extends AbstractBase
      */
     private $end;
 
-    /**
-     * @return Vehicle
-     */
-    public function getVehicle(): Vehicle
+    public function getVehicle(): ?Vehicle
     {
         return $this->vehicle;
     }
@@ -72,10 +69,7 @@ class VehicleChecking extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return VehicleCheckingType
-     */
-    public function getType(): VehicleCheckingType
+    public function getType(): ?VehicleCheckingType
     {
         return $this->type;
     }
