@@ -251,9 +251,6 @@
     "phpoffice/phpspreadsheet": {
         "version": "1.23.0"
     },
-    "phpspec/prophecy": {
-        "version": "1.13.0"
-    },
     "phpstan/phpdoc-parser": {
         "version": "0.4.12"
     },
@@ -590,12 +587,12 @@
         "version": "v5.4.0"
     },
     "symfony/phpunit-bridge": {
-        "version": "6.1",
+        "version": "6.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "5.3",
-            "ref": "97cb3dc7b0f39c7cfc4b7553504c9d7b7795de96"
+            "version": "6.3",
+            "ref": "a411a0480041243d97382cac7984f7dce7813c08"
         },
         "files": [
             ".env.test",
