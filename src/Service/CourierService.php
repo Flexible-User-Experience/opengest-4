@@ -42,7 +42,7 @@ class CourierService
      * @return void
      * @throws TransportExceptionInterface
      */
-    public function sendEmail($from, $to, $subject, $body, $replyAddress = null)
+    public function sendEmail($from, $to, $subject, $body, $replyAddress = null): void
     {
         $email = new Email();
         $email

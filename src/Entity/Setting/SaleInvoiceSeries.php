@@ -43,7 +43,7 @@ class SaleInvoiceSeries extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -53,7 +53,7 @@ class SaleInvoiceSeries extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -63,7 +63,7 @@ class SaleInvoiceSeries extends AbstractBase
     /**
      * @return string
      */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
@@ -73,7 +73,7 @@ class SaleInvoiceSeries extends AbstractBase
      *
      * @return $this
      */
-    public function setPrefix($prefix)
+    public function setPrefix($prefix): static
     {
         $this->prefix = $prefix;
 
@@ -83,7 +83,7 @@ class SaleInvoiceSeries extends AbstractBase
     /**
      * @return bool
      */
-    public function isDefault()
+    public function isDefault(): bool
     {
         return $this->isDefault;
     }
@@ -93,7 +93,7 @@ class SaleInvoiceSeries extends AbstractBase
      *
      * @return $this
      */
-    public function setIsDefault($isDefault)
+    public function setIsDefault($isDefault): static
     {
         $this->isDefault = $isDefault;
 
@@ -103,7 +103,7 @@ class SaleInvoiceSeries extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName().' · '.$this->getPrefix() : '---';
     }

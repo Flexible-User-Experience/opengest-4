@@ -90,7 +90,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -100,7 +100,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -110,7 +110,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -120,7 +120,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -130,7 +130,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getCare()
+    public function getCare(): string
     {
         return $this->care;
     }
@@ -140,7 +140,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setCare($care)
+    public function setCare($care): static
     {
         $this->care = $care;
 
@@ -150,7 +150,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
@@ -160,7 +160,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setPhone($phone)
+    public function setPhone($phone): static
     {
         $this->phone = $phone;
 
@@ -170,7 +170,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getMobile()
+    public function getMobile(): string
     {
         return $this->mobile;
     }
@@ -180,7 +180,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setMobile($mobile)
+    public function setMobile($mobile): static
     {
         $this->mobile = $mobile;
 
@@ -190,7 +190,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getFax()
+    public function getFax(): string
     {
         return $this->fax;
     }
@@ -200,7 +200,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setFax($fax)
+    public function setFax($fax): static
     {
         $this->fax = $fax;
 
@@ -210,7 +210,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -220,7 +220,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setEmail($email)
+    public function setEmail($email): static
     {
         $this->email = $email;
 
@@ -230,7 +230,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getNotes()
+    public function getNotes(): string
     {
         return $this->notes;
     }
@@ -240,7 +240,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes($notes): static
     {
         $this->notes = $notes;
 
@@ -252,7 +252,7 @@ class PartnerContact extends AbstractBase
      *
      * @return string
      */
-    public function getPublicPhone()
+    public function getPublicPhone(): string
     {
         if ($this->getPhone() or $this->getMobile()) {
             if ($this->getMobile()) {
@@ -270,7 +270,7 @@ class PartnerContact extends AbstractBase
      *
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->name.' - '.$this->getPublicPhone();
     }
@@ -278,7 +278,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '???';
     }

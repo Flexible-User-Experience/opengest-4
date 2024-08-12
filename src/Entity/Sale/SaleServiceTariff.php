@@ -64,7 +64,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -79,7 +79,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getSaleTariffs()
+    public function getSaleTariffs(): ArrayCollection
     {
         return $this->saleTariffs;
     }
@@ -107,7 +107,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleTariff(SaleTariff $saleTariff)
+    public function removeSaleTariff(SaleTariff $saleTariff): static
     {
         if ($this->saleTariffs->contains($saleTariff)) {
             $this->saleTariffs->removeElement($saleTariff);
@@ -119,7 +119,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getSaleRequests()
+    public function getSaleRequests(): ArrayCollection
     {
         return $this->saleRequests;
     }
@@ -147,7 +147,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleRequest(SaleRequest $saleRequest)
+    public function removeSaleRequest(SaleRequest $saleRequest): static
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);

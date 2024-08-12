@@ -64,7 +64,7 @@ abstract class AbstractBaseCommand extends Command
      *
      * @throws Exception
      */
-    protected function readColumn($index, $row)
+    protected function readColumn($index, $row): string|object|null
     {
         if (!array_key_exists($index, $row)) {
             throw new Exception('Column index '.$index.' doesn\'t exists');
@@ -80,7 +80,7 @@ abstract class AbstractBaseCommand extends Command
      *
      * @return array
      */
-    protected function readRow($fr)
+    protected function readRow($fr): array
     {
         return fgetcsv($fr, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE);
     }
@@ -92,7 +92,7 @@ abstract class AbstractBaseCommand extends Command
      *
      * @throws Exception
      */
-    protected function getTimestampString()
+    protected function getTimestampString(): string
     {
         $cm = new DateTimeImmutable();
 

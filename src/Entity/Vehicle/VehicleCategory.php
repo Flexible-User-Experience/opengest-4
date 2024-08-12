@@ -70,7 +70,7 @@ class VehicleCategory extends AbstractBase
      *
      * @return $this
      */
-    public function setVehicles($vehicles): VehicleCategory
+    public function setVehicles($vehicles): static
     {
         $this->vehicles = $vehicles;
 
@@ -80,7 +80,7 @@ class VehicleCategory extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicle(Vehicle $vehicle): VehicleCategory
+    public function addVehicle(Vehicle $vehicle): static
     {
         $this->vehicles->add($vehicle);
 
@@ -90,7 +90,7 @@ class VehicleCategory extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicle(Vehicle $vehicle): VehicleCategory
+    public function removeVehicle(Vehicle $vehicle): static
     {
         $this->vehicles->removeElement($vehicle);
 

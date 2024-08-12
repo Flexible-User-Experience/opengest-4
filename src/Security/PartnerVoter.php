@@ -30,7 +30,7 @@ class PartnerVoter extends AbstractVoter
      *
      * @return bool
      */
-    private function isOwner(?User $user, Partner $partner)
+    private function isOwner(?User $user, Partner $partner): bool
     {
         if (!$user) {
             return false;

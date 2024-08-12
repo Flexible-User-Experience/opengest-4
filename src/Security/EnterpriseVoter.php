@@ -30,7 +30,7 @@ class EnterpriseVoter extends AbstractVoter
      *
      * @return bool
      */
-    private function isOwner(?User $user, Enterprise $enterprise)
+    private function isOwner(?User $user, Enterprise $enterprise): bool
     {
         if (!$user) {
             return false;

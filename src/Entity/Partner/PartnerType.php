@@ -61,7 +61,7 @@ class PartnerType extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -71,7 +71,7 @@ class PartnerType extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -81,7 +81,7 @@ class PartnerType extends AbstractBase
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -91,7 +91,7 @@ class PartnerType extends AbstractBase
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
@@ -101,7 +101,7 @@ class PartnerType extends AbstractBase
     /**
      * @return string
      */
-    public function getAccount()
+    public function getAccount(): string
     {
         return $this->account;
     }
@@ -111,7 +111,7 @@ class PartnerType extends AbstractBase
      *
      * @return $this
      */
-    public function setAccount($account)
+    public function setAccount($account): static
     {
         $this->account = $account;
 
@@ -121,7 +121,7 @@ class PartnerType extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getPartners()
+    public function getPartners(): ArrayCollection
     {
         return $this->partners;
     }
@@ -131,7 +131,7 @@ class PartnerType extends AbstractBase
      *
      * @return $this
      */
-    public function setPartners($partners)
+    public function setPartners($partners): static
     {
         $this->partners = $partners;
 
@@ -143,7 +143,7 @@ class PartnerType extends AbstractBase
      *
      * @return $this
      */
-    public function addPartner($partner)
+    public function addPartner($partner): static
     {
         if (!$this->partners->contains($partner)) {
             $this->partners->add($partner);
@@ -158,7 +158,7 @@ class PartnerType extends AbstractBase
      *
      * @return $this
      */
-    public function removePartner($partner)
+    public function removePartner($partner): static
     {
         if ($this->partners->contains($partner)) {
             $this->partners->removeElement($partner);
@@ -170,7 +170,7 @@ class PartnerType extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

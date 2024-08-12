@@ -29,7 +29,7 @@ trait DescriptionTrait
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
@@ -39,7 +39,7 @@ trait DescriptionTrait
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }

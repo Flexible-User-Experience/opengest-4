@@ -119,7 +119,7 @@ abstract class BaseAdminController extends Controller
     /**
      * @return Request
      */
-    protected function resolveRequest(Request $request = null)
+    protected function resolveRequest(Request $request = null): Request
     {
         return $request;
     }

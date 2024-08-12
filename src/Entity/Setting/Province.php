@@ -50,7 +50,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -60,7 +60,7 @@ class Province extends AbstractBase
      *
      * @return Province
      */
-    public function setCode($code)
+    public function setCode($code): Province
     {
         $this->code = $code;
 
@@ -70,7 +70,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -80,7 +80,7 @@ class Province extends AbstractBase
      *
      * @return Province
      */
-    public function setName($name)
+    public function setName($name): Province
     {
         $this->name = $name;
 
@@ -90,7 +90,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getCountry()
+    public function getCountry(): string
     {
         return $this->country;
     }
@@ -100,7 +100,7 @@ class Province extends AbstractBase
      *
      * @return Province
      */
-    public function setCountry($country)
+    public function setCountry($country): Province
     {
         $this->country = $country;
 
@@ -110,7 +110,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getCountryName()
+    public function getCountryName(): string
     {
         Countries::getName($this->country);
 
@@ -120,7 +120,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

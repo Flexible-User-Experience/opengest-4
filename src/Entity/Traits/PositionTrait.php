@@ -27,7 +27,7 @@ trait PositionTrait
     /**
      * @return int
      */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -37,7 +37,7 @@ trait PositionTrait
      *
      * @return $this
      */
-    public function setPosition($position)
+    public function setPosition($position): static
     {
         $this->position = $position;
 

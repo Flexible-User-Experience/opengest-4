@@ -105,7 +105,7 @@ class Work extends AbstractBase
     /**
      * @return Service
      */
-    public function getService()
+    public function getService(): Service
     {
         return $this->service;
     }
@@ -115,7 +115,7 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function setService($service)
+    public function setService($service): static
     {
         $this->service = $service;
 
@@ -125,7 +125,7 @@ class Work extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getDate()
+    public function getDate(): DateTime
     {
         return $this->date;
     }
@@ -135,7 +135,7 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function setDate(DateTime $date)
+    public function setDate(DateTime $date): static
     {
         $this->date = $date;
 
@@ -145,7 +145,7 @@ class Work extends AbstractBase
     /**
      * @return string
      */
-    public function getShortDescription()
+    public function getShortDescription(): string
     {
         return $this->shortDescription;
     }
@@ -155,7 +155,7 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function setShortDescription($shortDescription)
+    public function setShortDescription($shortDescription): static
     {
         $this->shortDescription = $shortDescription;
 
@@ -165,7 +165,7 @@ class Work extends AbstractBase
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -175,17 +175,14 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getMainImageFile()
+    public function getMainImageFile(): ?File
     {
         return $this->mainImageFile;
     }
@@ -197,7 +194,7 @@ class Work extends AbstractBase
      *
      * @throws \Exception
      */
-    public function setMainImageFile(File $mainImageFile = null)
+    public function setMainImageFile(File $mainImageFile = null): Work
     {
         $this->mainImageFile = $mainImageFile;
         if ($mainImageFile) {
@@ -212,7 +209,7 @@ class Work extends AbstractBase
     /**
      * @return string
      */
-    public function getMainImage()
+    public function getMainImage(): string
     {
         return $this->mainImage;
     }
@@ -222,7 +219,7 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function setMainImage($mainImage)
+    public function setMainImage($mainImage): static
     {
         $this->mainImage = $mainImage;
 
@@ -232,7 +229,7 @@ class Work extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getImages()
+    public function getImages(): ArrayCollection
     {
         return $this->images;
     }
@@ -242,7 +239,7 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function setImages($images)
+    public function setImages($images): static
     {
         $this->images = $images;
 
@@ -254,7 +251,7 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function addImage(WorkImage $workImage)
+    public function addImage(WorkImage $workImage): static
     {
         if (!$this->images->contains($workImage)) {
             $workImage->setWork($this);
@@ -269,7 +266,7 @@ class Work extends AbstractBase
      *
      * @return $this
      */
-    public function removeImage(WorkImage $workImage)
+    public function removeImage(WorkImage $workImage): static
     {
         if ($this->images->contains($workImage)) {
             $this->images->removeElement($workImage);
@@ -281,7 +278,7 @@ class Work extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getDate()->format('d/m/Y').' · '.$this->getName() : '---';
     }

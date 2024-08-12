@@ -30,7 +30,7 @@ class OperatorVoter extends AbstractVoter
      *
      * @return bool
      */
-    private function isOwner(?User $user, Operator $operator)
+    private function isOwner(?User $user, Operator $operator): bool
     {
         if (!$user) {
             return false;

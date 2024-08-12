@@ -50,7 +50,7 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * @return Vehicle
      */
-    public function getVehicle()
+    public function getVehicle(): Vehicle
     {
         return $this->vehicle;
     }
@@ -60,7 +60,7 @@ class VehicleDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setVehicle($vehicle)
+    public function setVehicle($vehicle): static
     {
         $this->vehicle = $vehicle;
 
@@ -70,7 +70,7 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * @return File
      */
-    public function getUploadedFile()
+    public function getUploadedFile(): File
     {
         return $this->uploadedFile;
     }
@@ -80,7 +80,7 @@ class VehicleDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setUploadedFile($uploadedFile)
+    public function setUploadedFile($uploadedFile): static
     {
         $this->uploadedFile = $uploadedFile;
 
@@ -90,7 +90,7 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * @return string
      */
-    public function getUploadedFileName()
+    public function getUploadedFileName(): string
     {
         return $this->uploadedFileName;
     }
@@ -100,7 +100,7 @@ class VehicleDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setUploadedFileName($uploadedFileName)
+    public function setUploadedFileName($uploadedFileName): static
     {
         $this->uploadedFileName = $uploadedFileName;
 
@@ -115,7 +115,7 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getCreatedAt()->format('d/m/Y').' · '.$this->getVehicle() : '---';
     }

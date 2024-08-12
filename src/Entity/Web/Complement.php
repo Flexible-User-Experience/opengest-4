@@ -73,7 +73,7 @@ class Complement extends AbstractBase
     /**
      * @return string
      */
-    public function getShortDescription()
+    public function getShortDescription(): string
     {
         return $this->shortDescription;
     }
@@ -83,28 +83,22 @@ class Complement extends AbstractBase
      *
      * @return Complement
      */
-    public function setShortDescription($shortDescription)
+    public function setShortDescription($shortDescription): Complement
     {
         $this->shortDescription = $shortDescription;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getMainImageFile()
+    public function getMainImageFile(): ?File
     {
         return $this->mainImageFile;
     }
 
     /**
-     * @param File|null $mainImageFile
-     *
-     * @return Complement
      * @throws \Exception
      */
-    public function setMainImageFile(File $mainImageFile = null)
+    public function setMainImageFile(?File $mainImageFile = null): Complement
     {
         $this->mainImageFile = $mainImageFile;
         if ($mainImageFile) {
@@ -119,7 +113,7 @@ class Complement extends AbstractBase
     /**
      * @return string
      */
-    public function getMainImage()
+    public function getMainImage(): string
     {
         return $this->mainImage;
     }
@@ -129,7 +123,7 @@ class Complement extends AbstractBase
      *
      * @return Complement
      */
-    public function setMainImage($mainImage)
+    public function setMainImage($mainImage): Complement
     {
         $this->mainImage = $mainImage;
 
@@ -139,7 +133,7 @@ class Complement extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

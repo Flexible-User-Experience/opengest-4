@@ -37,7 +37,7 @@ class SaleRequestPdfManager
      *
      * @return TCPDF
      */
-    public function buildSingle(SaleRequest $saleRequest)
+    public function buildSingle(SaleRequest $saleRequest): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Petición de servicio '.$saleRequest);
         $pdf = $this->pdfEngineService->getEngine();
@@ -50,7 +50,7 @@ class SaleRequestPdfManager
      *
      * @return string
      */
-    public function outputSingle(SaleRequest $saleRequest)
+    public function outputSingle(SaleRequest $saleRequest): string
     {
         $pdf = $this->buildSingle($saleRequest);
 
@@ -62,7 +62,7 @@ class SaleRequestPdfManager
      *
      * @return TCPDF
      */
-    public function buildCollection($saleRequests)
+    public function buildCollection($saleRequests): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de peticiones de servicio');
         $pdf = $this->pdfEngineService->getEngine();
@@ -79,7 +79,7 @@ class SaleRequestPdfManager
      *
      * @return string
      */
-    public function outputCollection($saleRequests)
+    public function outputCollection($saleRequests): string
     {
         $pdf = $this->buildCollection($saleRequests);
 
@@ -92,7 +92,7 @@ class SaleRequestPdfManager
      *
      * @return TCPDF
      */
-    private function buildOneSaleRequestPerPage(SaleRequest $saleRequest, TCPDF $pdf)
+    private function buildOneSaleRequestPerPage(SaleRequest $saleRequest, TCPDF $pdf): TCPDF
     {
         // add start page
         $pdf->AddPage(ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A5);

@@ -66,7 +66,7 @@ class WorkImage extends AbstractBase
     /**
      * @return Work
      */
-    public function getWork()
+    public function getWork(): Work
     {
         return $this->work;
     }
@@ -76,7 +76,7 @@ class WorkImage extends AbstractBase
      *
      * @return $this
      */
-    public function setWork($work)
+    public function setWork($work): static
     {
         $this->work = $work;
 
@@ -86,7 +86,7 @@ class WorkImage extends AbstractBase
     /**
      * @return string
      */
-    public function getAlt()
+    public function getAlt(): string
     {
         return $this->alt;
     }
@@ -96,29 +96,22 @@ class WorkImage extends AbstractBase
      *
      * @return WorkImage
      */
-    public function setAlt($alt)
+    public function setAlt($alt): WorkImage
     {
         $this->alt = $alt;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getImageFile()
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
 
     /**
-     * @param File|null $imageFile
-     *
-     * @return WorkImage
-     *
      * @throws \Exception
      */
-    public function setImageFile(File $imageFile = null)
+    public function setImageFile(?File $imageFile = null): WorkImage
     {
         $this->imageFile = $imageFile;
         if ($imageFile) {
@@ -133,7 +126,7 @@ class WorkImage extends AbstractBase
     /**
      * @return string
      */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }
@@ -143,7 +136,7 @@ class WorkImage extends AbstractBase
      *
      * @return $this
      */
-    public function setImage($image)
+    public function setImage($image): static
     {
         $this->image = $image;
 

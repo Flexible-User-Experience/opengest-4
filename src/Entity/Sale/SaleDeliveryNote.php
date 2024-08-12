@@ -277,7 +277,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return \DateTime
      */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -287,7 +287,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setDate($date)
+    public function setDate($date): static
     {
         $this->date = $date;
 
@@ -297,7 +297,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -313,7 +313,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -329,7 +329,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return PartnerBuildingSite
      */
-    public function getBuildingSite()
+    public function getBuildingSite(): PartnerBuildingSite
     {
         return $this->buildingSite;
     }
@@ -405,7 +405,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return PartnerOrder
      */
-    public function getOrder()
+    public function getOrder(): PartnerOrder
     {
         return $this->order;
     }
@@ -447,7 +447,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getBaseAmount()
+    public function getBaseAmount(): float
     {
         return $this->baseAmount;
     }
@@ -465,7 +465,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getDiscount()
+    public function getDiscount(): float
     {
         return $this->discount;
     }
@@ -519,7 +519,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return CollectionDocumentType
      */
-    public function getCollectionDocument()
+    public function getCollectionDocument(): CollectionDocumentType
     {
         return $this->collectionDocument;
     }
@@ -537,7 +537,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return ActivityLine
      */
-    public function getActivityLine()
+    public function getActivityLine(): ActivityLine
     {
         return $this->activityLine;
     }
@@ -562,7 +562,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setWontBeInvoiced($wontBeInvoiced): SaleDeliveryNote
+    public function setWontBeInvoiced($wontBeInvoiced): static
     {
         $this->wontBeInvoiced = $wontBeInvoiced;
 
@@ -593,7 +593,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getSaleDeliveryNoteLines()
+    public function getSaleDeliveryNoteLines(): ArrayCollection
     {
         return $this->saleDeliveryNoteLines;
     }
@@ -603,7 +603,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleDeliveryNoteLines($SaleDeliveryNoteLines)
+    public function setSaleDeliveryNoteLines($SaleDeliveryNoteLines): static
     {
         $this->saleDeliveryNoteLines = $SaleDeliveryNoteLines;
 
@@ -613,7 +613,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function addSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
+    public function addSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine): static
     {
         if (!$this->saleDeliveryNoteLines->contains($saleDeliveryNoteLine)) {
             $this->saleDeliveryNoteLines->add($saleDeliveryNoteLine);
@@ -626,7 +626,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
+    public function removeSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine): static
     {
         if ($this->saleDeliveryNoteLines->contains($saleDeliveryNoteLine)) {
             $this->saleDeliveryNoteLines->removeElement($saleDeliveryNoteLine);
@@ -638,7 +638,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getSaleRequestHasDeliveryNotes()
+    public function getSaleRequestHasDeliveryNotes(): ArrayCollection
     {
         return $this->saleRequestHasDeliveryNotes;
     }
@@ -648,7 +648,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleRequestHasDeliveryNotes($saleRequestHasDeliveryNotes)
+    public function setSaleRequestHasDeliveryNotes($saleRequestHasDeliveryNotes): static
     {
         $this->saleRequestHasDeliveryNotes = $saleRequestHasDeliveryNotes;
 
@@ -660,7 +660,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes)
+    public function addSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes): static
     {
         if (!$this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->add($saleRequestHasDeliveryNotes);
@@ -675,7 +675,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function removeRequestHasDeliveryNote($saleRequestHasDeliveryNotes)
+    public function removeRequestHasDeliveryNote($saleRequestHasDeliveryNotes): static
     {
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
@@ -692,7 +692,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters): SaleDeliveryNote
+    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters): static
     {
         $this->operatorWorkRegisters = $operatorWorkRegisters;
 
@@ -702,7 +702,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): static
     {
         if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->add($operatorWorkRegister);
@@ -715,7 +715,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
+    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): static
     {
         if ($this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->removeElement($operatorWorkRegister);
@@ -798,7 +798,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return string
      */
-    public function getDateToString()
+    public function getDateToString(): string
     {
         return $this->getDate()->format('d/m/Y');
     }
@@ -1024,7 +1024,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getId() ?: '---';
     }

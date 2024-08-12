@@ -130,7 +130,7 @@ class VehicleConsumption extends AbstractBase
     /**
      * @return float
      */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
@@ -145,7 +145,7 @@ class VehicleConsumption extends AbstractBase
     /**
      * @return float
      */
-    public function getQuantity()
+    public function getQuantity(): float
     {
         return $this->quantity;
     }
@@ -160,7 +160,7 @@ class VehicleConsumption extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceUnit()
+    public function getPriceUnit(): float
     {
         return $this->priceUnit;
     }
@@ -187,7 +187,7 @@ class VehicleConsumption extends AbstractBase
     /**
      * @return VehicleFuel
      */
-    public function getVehicleFuel(): ?VehicleFuel
+    public function getVehicleFuel(): VehicleFuel
     {
         return $this->vehicleFuel;
     }

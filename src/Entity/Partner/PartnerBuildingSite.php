@@ -80,7 +80,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -90,7 +90,7 @@ class PartnerBuildingSite extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -100,7 +100,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -110,7 +110,7 @@ class PartnerBuildingSite extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -120,7 +120,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return string
      */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
@@ -130,7 +130,7 @@ class PartnerBuildingSite extends AbstractBase
      *
      * @return $this
      */
-    public function setNumber($number)
+    public function setNumber($number): static
     {
         $this->number = $number;
 
@@ -140,7 +140,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return string
      */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -150,7 +150,7 @@ class PartnerBuildingSite extends AbstractBase
      *
      * @return $this
      */
-    public function setAddress($address)
+    public function setAddress($address): static
     {
         $this->address = $address;
 
@@ -160,7 +160,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
@@ -170,7 +170,7 @@ class PartnerBuildingSite extends AbstractBase
      *
      * @return $this
      */
-    public function setPhone($phone)
+    public function setPhone($phone): static
     {
         $this->phone = $phone;
 
@@ -202,7 +202,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleTariff(SaleTariff $saleTariff)
+    public function removeSaleTariff(SaleTariff $saleTariff): static
     {
         if ($this->saleTariffs->contains($saleTariff)) {
             $this->saleTariffs->removeElement($saleTariff);
@@ -237,7 +237,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleRequests(SaleRequest $saleRequests)
+    public function removeSaleRequests(SaleRequest $saleRequests): static
     {
         if ($this->saleRequests->contains($saleRequests)) {
             $this->saleRequests->removeElement($saleRequests);
@@ -252,7 +252,7 @@ class PartnerBuildingSite extends AbstractBase
      *
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->name;
     }
@@ -260,7 +260,7 @@ class PartnerBuildingSite extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

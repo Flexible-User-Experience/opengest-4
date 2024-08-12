@@ -88,10 +88,7 @@ class Service extends AbstractBase
         $this->works = new ArrayCollection();
     }
 
-    /**
-     * @return File
-     */
-    public function getMainImageFile()
+    public function getMainImageFile(): ?File
     {
         return $this->mainImageFile;
     }
@@ -101,7 +98,7 @@ class Service extends AbstractBase
      *
      * @throws \Exception
      */
-    public function setMainImageFile(File $mainImageFile = null)
+    public function setMainImageFile(File $mainImageFile = null): static
     {
         $this->mainImageFile = $mainImageFile;
         if ($mainImageFile) {
@@ -116,7 +113,7 @@ class Service extends AbstractBase
     /**
      * @return string
      */
-    public function getMainImage()
+    public function getMainImage(): string
     {
         return $this->mainImage;
     }
@@ -126,7 +123,7 @@ class Service extends AbstractBase
      *
      * @return $this
      */
-    public function setMainImage($mainImage)
+    public function setMainImage($mainImage): static
     {
         $this->mainImage = $mainImage;
 
@@ -136,7 +133,7 @@ class Service extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getWorks()
+    public function getWorks(): ArrayCollection
     {
         return $this->works;
     }
@@ -146,7 +143,7 @@ class Service extends AbstractBase
      *
      * @return $this
      */
-    public function setWorks($works)
+    public function setWorks($works): static
     {
         $this->works = $works;
 
@@ -156,7 +153,7 @@ class Service extends AbstractBase
     /**
      * @return $this
      */
-    public function addWork(Work $work)
+    public function addWork(Work $work): static
     {
         $this->works->add($work);
 
@@ -166,7 +163,7 @@ class Service extends AbstractBase
     /**
      * @return $this
      */
-    public function removeWork(Work $work)
+    public function removeWork(Work $work): static
     {
         $this->works->removeElement($work);
 
@@ -176,7 +173,7 @@ class Service extends AbstractBase
     /**
      * @return VehicleCategory
      */
-    public function getVehicleCategory()
+    public function getVehicleCategory(): VehicleCategory
     {
         return $this->vehicleCategory;
     }
@@ -186,7 +183,7 @@ class Service extends AbstractBase
      *
      * @return Service
      */
-    public function setVehicleCategory($vehicleCategory)
+    public function setVehicleCategory($vehicleCategory): Service
     {
         $this->vehicleCategory = $vehicleCategory;
 
@@ -201,7 +198,7 @@ class Service extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

@@ -214,7 +214,7 @@ class PurchaseInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function setPurchaseInvoiceLines(ArrayCollection $purchaseInvoiceLines): PurchaseInvoice
+    public function setPurchaseInvoiceLines(ArrayCollection $purchaseInvoiceLines): static
     {
         $this->purchaseInvoiceLines = $purchaseInvoiceLines;
 
@@ -224,7 +224,7 @@ class PurchaseInvoice extends AbstractBase
     /**
      * @return $this
      */
-    public function addPurchaseInvoiceLine(PurchaseInvoiceLine $purchaseInvoiceLine): PurchaseInvoice
+    public function addPurchaseInvoiceLine(PurchaseInvoiceLine $purchaseInvoiceLine): static
     {
         if (!$this->purchaseInvoiceLines->contains($purchaseInvoiceLine)) {
             $this->purchaseInvoiceLines->add($purchaseInvoiceLine);
@@ -237,7 +237,7 @@ class PurchaseInvoice extends AbstractBase
     /**
      * @return $this
      */
-    public function removePurchaseInvoiceLine(PurchaseInvoiceLine $purchaseInvoiceLine): PurchaseInvoice
+    public function removePurchaseInvoiceLine(PurchaseInvoiceLine $purchaseInvoiceLine): static
     {
         if ($this->purchaseInvoiceLines->contains($purchaseInvoiceLine)) {
             $this->purchaseInvoiceLines->removeElement($purchaseInvoiceLine);
@@ -259,7 +259,7 @@ class PurchaseInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function setPurchaseInvoiceDueDates(ArrayCollection $purchaseInvoiceDueDates): PurchaseInvoice
+    public function setPurchaseInvoiceDueDates(ArrayCollection $purchaseInvoiceDueDates): static
     {
         $this->purchaseInvoiceDueDates = $purchaseInvoiceDueDates;
 
@@ -269,7 +269,7 @@ class PurchaseInvoice extends AbstractBase
     /**
      * @return $this
      */
-    public function addPurchaseInvoiceDueDate(PurchaseInvoiceDueDate $purchaseInvoiceDueDate): PurchaseInvoice
+    public function addPurchaseInvoiceDueDate(PurchaseInvoiceDueDate $purchaseInvoiceDueDate): static
     {
         if (!$this->purchaseInvoiceDueDates->contains($purchaseInvoiceDueDate)) {
             $this->purchaseInvoiceDueDates->add($purchaseInvoiceDueDate);
@@ -282,7 +282,7 @@ class PurchaseInvoice extends AbstractBase
     /**
      * @return $this
      */
-    public function removePurchaseInvoiceDueDate(PurchaseInvoiceDueDate $purchaseInvoiceDueDate): PurchaseInvoice
+    public function removePurchaseInvoiceDueDate(PurchaseInvoiceDueDate $purchaseInvoiceDueDate): static
     {
         if ($this->purchaseInvoiceDueDates->contains($purchaseInvoiceDueDate)) {
             $this->purchaseInvoiceDueDates->removeElement($purchaseInvoiceDueDate);
@@ -304,7 +304,7 @@ class PurchaseInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function setDate(DateTime $date): PurchaseInvoice
+    public function setDate(DateTime $date): static
     {
         $this->date = $date;
 
@@ -324,7 +324,7 @@ class PurchaseInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner(Partner $partner): PurchaseInvoice
+    public function setPartner(Partner $partner): static
     {
         $this->partner = $partner;
 
@@ -364,7 +364,7 @@ class PurchaseInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function setInvoiceNumber(int $invoiceNumber): PurchaseInvoice
+    public function setInvoiceNumber(int $invoiceNumber): static
     {
         $this->invoiceNumber = $invoiceNumber;
 
@@ -384,7 +384,7 @@ class PurchaseInvoice extends AbstractBase
      *
      * @return $this
      */
-    public function setTotal(float $total): PurchaseInvoice
+    public function setTotal(float $total): static
     {
         $this->total = $total;
 
@@ -666,7 +666,7 @@ class PurchaseInvoice extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getInvoiceNumber().'' : '---';
     }

@@ -82,7 +82,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return SaleDeliveryNote
      */
-    public function getDeliveryNote()
+    public function getDeliveryNote(): SaleDeliveryNote
     {
         return $this->deliveryNote;
     }
@@ -92,7 +92,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setDeliveryNote($deliveryNote)
+    public function setDeliveryNote($deliveryNote): static
     {
         $this->deliveryNote = $deliveryNote;
 
@@ -114,7 +114,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getUnits()
+    public function getUnits(): float
     {
         return $this->units;
     }
@@ -124,7 +124,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setUnits($units)
+    public function setUnits($units): static
     {
         $this->units = $units;
 
@@ -134,7 +134,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getPriceUnit()
+    public function getPriceUnit(): float
     {
         return $this->priceUnit;
     }
@@ -144,7 +144,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setPriceUnit($priceUnit)
+    public function setPriceUnit($priceUnit): static
     {
         $this->priceUnit = $priceUnit;
 
@@ -154,7 +154,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getTotal()
+    public function getTotal(): float
     {
         return $this->total;
     }
@@ -164,7 +164,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setTotal($total)
+    public function setTotal($total): static
     {
         $this->total = $total;
 
@@ -174,7 +174,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getDiscount()
+    public function getDiscount(): float
     {
         return $this->discount;
     }
@@ -184,7 +184,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setDiscount($discount)
+    public function setDiscount($discount): static
     {
         $this->discount = $discount;
 
@@ -194,7 +194,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -204,7 +204,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
@@ -214,7 +214,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getIva()
+    public function getIva(): float
     {
         return $this->iva;
     }
@@ -224,7 +224,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setIva($iva)
+    public function setIva($iva): static
     {
         $this->iva = $iva;
 
@@ -234,7 +234,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getIrpf()
+    public function getIrpf(): float
     {
         return $this->irpf;
     }
@@ -244,7 +244,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setIrpf($irpf)
+    public function setIrpf($irpf): static
     {
         $this->irpf = $irpf;
 

@@ -59,7 +59,7 @@ class SaleRequestDocument extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleRequest($saleRequest): SaleRequestDocument
+    public function setSaleRequest($saleRequest): static
     {
         $this->saleRequest = $saleRequest;
 

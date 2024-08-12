@@ -128,7 +128,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return string
      */
-    public function getEnterprise()
+    public function getEnterprise(): string
     {
         return $this->enterprise;
     }
@@ -138,7 +138,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -148,7 +148,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return int
      */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
@@ -158,7 +158,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setYear($year)
+    public function setYear($year): static
     {
         $this->year = $year;
 
@@ -168,7 +168,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return string
      */
-    public function getTonnage()
+    public function getTonnage(): string
     {
         return $this->tonnage;
     }
@@ -178,7 +178,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setTonnage($tonnage)
+    public function setTonnage($tonnage): static
     {
         $this->tonnage = $tonnage;
 
@@ -188,7 +188,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceHour()
+    public function getPriceHour(): float
     {
         return $this->priceHour;
     }
@@ -198,7 +198,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setPriceHour($priceHour)
+    public function setPriceHour($priceHour): static
     {
         $this->priceHour = $priceHour;
 
@@ -208,7 +208,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return float
      */
-    public function getMiniumHours()
+    public function getMiniumHours(): float
     {
         return $this->miniumHours;
     }
@@ -218,7 +218,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setMiniumHours($miniumHours)
+    public function setMiniumHours($miniumHours): static
     {
         $this->miniumHours = $miniumHours;
 
@@ -228,7 +228,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return float
      */
-    public function getMiniumHolidayHours()
+    public function getMiniumHolidayHours(): float
     {
         return $this->miniumHolidayHours;
     }
@@ -238,7 +238,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setMiniumHolidayHours($miniumHolidayHours)
+    public function setMiniumHolidayHours($miniumHolidayHours): static
     {
         $this->miniumHolidayHours = $miniumHolidayHours;
 
@@ -248,7 +248,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return float
      */
-    public function getDisplacement()
+    public function getDisplacement(): float
     {
         return $this->displacement;
     }
@@ -258,7 +258,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setDisplacement($displacement)
+    public function setDisplacement($displacement): static
     {
         $this->displacement = $displacement;
 
@@ -268,7 +268,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return float
      */
-    public function getIncreaseForHolidays()
+    public function getIncreaseForHolidays(): float
     {
         return $this->increaseForHolidays;
     }
@@ -278,7 +278,7 @@ class SaleTariff extends AbstractBase
      *
      * @return $this
      */
-    public function setIncreaseForHolidays($increaseForHolidays)
+    public function setIncreaseForHolidays($increaseForHolidays): static
     {
         $this->increaseForHolidays = $increaseForHolidays;
 
@@ -321,7 +321,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return ?SaleServiceTariff
      */
-    public function getSaleServiceTariff(): ?SaleServiceTariff //TODO cannot return null, it is a compulsory field
+    public function getSaleServiceTariff(): ?SaleServiceTariff
     {
         return $this->saleServiceTariff;
     }
@@ -387,7 +387,7 @@ class SaleTariff extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getSaleServiceTariff().' · '.($this->getDate() ? $this->getDate()->format('d/m/y') : '') : '---';
     }

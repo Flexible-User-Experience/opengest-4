@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\UnicodeString;
 use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -277,7 +278,7 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     /**
      * @return Enterprise
      */
-    protected function getUserLogedEnterprise()
+    protected function getUserLogedEnterprise(): Enterprise
     {
         return $this->getUser()->getLoggedEnterprise();
     }
@@ -285,15 +286,12 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     /**
      * @return int
      */
-    protected function getUserLogedId()
+    protected function getUserLogedId(): int
     {
         return $this->getUser()->getId();
     }
 
-    /**
-     * @return User|object
-     */
-    protected function getUser()
+    protected function getUser(): UserInterface
     {
         return $this->ts->getToken()->getUser();
     }

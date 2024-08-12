@@ -51,7 +51,7 @@ class PartnerDeliveryAddress extends AbstractBase
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -61,7 +61,7 @@ class PartnerDeliveryAddress extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -95,7 +95,7 @@ class PartnerDeliveryAddress extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getAddress().' - '.($this->getCity() ? $this->getCity() : '') : '???';
     }

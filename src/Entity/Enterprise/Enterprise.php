@@ -644,7 +644,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -654,7 +654,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setName($name)
+    public function setName($name): Enterprise
     {
         $this->name = $name;
 
@@ -664,7 +664,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getTaxIdentificationNumber()
+    public function getTaxIdentificationNumber(): string
     {
         return $this->taxIdentificationNumber;
     }
@@ -674,7 +674,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setTaxIdentificationNumber($taxIdentificationNumber)
+    public function setTaxIdentificationNumber($taxIdentificationNumber): Enterprise
     {
         $this->taxIdentificationNumber = $taxIdentificationNumber;
 
@@ -684,7 +684,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getBusinessName()
+    public function getBusinessName(): string
     {
         return $this->businessName;
     }
@@ -694,7 +694,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setBusinessName($businessName)
+    public function setBusinessName($businessName): Enterprise
     {
         $this->businessName = $businessName;
 
@@ -704,7 +704,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -714,7 +714,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setAddress($address)
+    public function setAddress($address): Enterprise
     {
         $this->address = $address;
 
@@ -724,7 +724,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return City
      */
-    public function getCity()
+    public function getCity(): City
     {
         return $this->city;
     }
@@ -734,7 +734,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setCity($city)
+    public function setCity($city): Enterprise
     {
         $this->city = $city;
 
@@ -744,7 +744,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getPhone1()
+    public function getPhone1(): string
     {
         return $this->phone1;
     }
@@ -754,7 +754,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setPhone1($phone1)
+    public function setPhone1($phone1): Enterprise
     {
         $this->phone1 = $phone1;
 
@@ -764,7 +764,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getPhone2()
+    public function getPhone2(): string
     {
         return $this->phone2;
     }
@@ -774,7 +774,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setPhone2($phone2)
+    public function setPhone2($phone2): Enterprise
     {
         $this->phone2 = $phone2;
 
@@ -784,7 +784,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getPhone3()
+    public function getPhone3(): string
     {
         return $this->phone3;
     }
@@ -794,7 +794,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setPhone3($phone3)
+    public function setPhone3($phone3): Enterprise
     {
         $this->phone3 = $phone3;
 
@@ -804,7 +804,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getFax()
+    public function getFax(): string
     {
         return $this->fax;
     }
@@ -814,7 +814,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setFax($fax)
+    public function setFax($fax): Enterprise
     {
         $this->fax = $fax;
 
@@ -824,7 +824,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -834,7 +834,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setEmail($email)
+    public function setEmail($email): Enterprise
     {
         $this->email = $email;
 
@@ -844,7 +844,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getWww()
+    public function getWww(): string
     {
         return $this->www;
     }
@@ -854,27 +854,22 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setWww($www)
+    public function setWww($www): Enterprise
     {
         $this->www = $www;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getLogoFile()
+    public function getLogoFile(): ?File
     {
         return $this->logoFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setLogoFile(File $logoFile = null)
+    public function setLogoFile(?File $logoFile = null): Enterprise
     {
         $this->logoFile = $logoFile;
         if ($logoFile) {
@@ -889,7 +884,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getLogo()
+    public function getLogo(): string
     {
         return $this->logo;
     }
@@ -899,27 +894,22 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setLogo($logo)
+    public function setLogo($logo): Enterprise
     {
         $this->logo = $logo;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getDeedOfIncorporationFile()
+    public function getDeedOfIncorporationFile(): ?File
     {
         return $this->deedOfIncorporationFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setDeedOfIncorporationFile(File $deedOfIncorporationFile = null)
+    public function setDeedOfIncorporationFile(?File $deedOfIncorporationFile = null): Enterprise
     {
         $this->deedOfIncorporationFile = $deedOfIncorporationFile;
         if ($deedOfIncorporationFile) {
@@ -934,7 +924,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getDeedOfIncorporation()
+    public function getDeedOfIncorporation(): string
     {
         return $this->deedOfIncorporation;
     }
@@ -944,27 +934,22 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setDeedOfIncorporation($deedOfIncorporation)
+    public function setDeedOfIncorporation($deedOfIncorporation): Enterprise
     {
         $this->deedOfIncorporation = $deedOfIncorporation;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getTaxIdentificationNumberCardFile()
+    public function getTaxIdentificationNumberCardFile(): ?File
     {
         return $this->taxIdentificationNumberCardFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setTaxIdentificationNumberCardFile(File $taxIdentificationNumberCardFile = null)
+    public function setTaxIdentificationNumberCardFile(?File $taxIdentificationNumberCardFile = null): Enterprise
     {
         $this->taxIdentificationNumberCardFile = $taxIdentificationNumberCardFile;
         if ($taxIdentificationNumberCardFile) {
@@ -979,7 +964,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getTaxIdentificationNumberCard()
+    public function getTaxIdentificationNumberCard(): string
     {
         return $this->taxIdentificationNumberCard;
     }
@@ -989,27 +974,22 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return Enterprise
      */
-    public function setTaxIdentificationNumberCard($taxIdentificationNumberCard)
+    public function setTaxIdentificationNumberCard($taxIdentificationNumberCard): Enterprise
     {
         $this->taxIdentificationNumberCard = $taxIdentificationNumberCard;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getTc1ReceiptFile()
+    public function getTc1ReceiptFile(): ?File
     {
         return $this->tc1ReceiptFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setTc1ReceiptFile(File $tc1ReceiptFile = null)
+    public function setTc1ReceiptFile(?File $tc1ReceiptFile = null): Enterprise
     {
         $this->tc1ReceiptFile = $tc1ReceiptFile;
         if ($tc1ReceiptFile) {
@@ -1024,37 +1004,30 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getTc1Receipt()
+    public function getTc1Receipt(): string
     {
         return $this->tc1Receipt;
     }
 
     /**
-     * @param string $tc1Receipt
-     *
      * @return Enterprise
      */
-    public function setTc1Receipt($tc1Receipt)
+    public function setTc1Receipt(string $tc1Receipt): Enterprise
     {
         $this->tc1Receipt = $tc1Receipt;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getTc2ReceiptFile()
+    public function getTc2ReceiptFile(): ?File
     {
         return $this->tc2ReceiptFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setTc2ReceiptFile(File $tc2ReceiptFile = null)
+    public function setTc2ReceiptFile(?File $tc2ReceiptFile = null): Enterprise
     {
         $this->tc2ReceiptFile = $tc2ReceiptFile;
         if ($tc2ReceiptFile) {
@@ -1069,37 +1042,30 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function getTc2Receipt()
+    public function getTc2Receipt(): string
     {
         return $this->tc2Receipt;
     }
 
     /**
-     * @param string $tc2Receipt
-     *
      * @return Enterprise
      */
-    public function setTc2Receipt($tc2Receipt)
+    public function setTc2Receipt(string $tc2Receipt): Enterprise
     {
         $this->tc2Receipt = $tc2Receipt;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getSsRegistrationFile()
+    public function getSsRegistrationFile(): ?File
     {
         return $this->ssRegistrationFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setSsRegistrationFile(File $ssRegistrationFile = null)
+    public function setSsRegistrationFile(?File $ssRegistrationFile = null): Enterprise
     {
         $this->ssRegistrationFile = $ssRegistrationFile;
         if ($ssRegistrationFile) {
@@ -1111,40 +1077,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSsRegistration()
+    public function getSsRegistration(): string
     {
         return $this->ssRegistration;
     }
 
-    /**
-     * @param string $ssRegistration
-     *
-     * @return Enterprise
-     */
-    public function setSsRegistration($ssRegistration)
+    public function setSsRegistration(string $ssRegistration): Enterprise
     {
         $this->ssRegistration = $ssRegistration;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getSsPaymentCertificateFile()
+    public function getSsPaymentCertificateFile(): ?File
     {
         return $this->ssPaymentCertificateFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setSsPaymentCertificateFile(File $ssPaymentCertificateFile = null)
+    public function setSsPaymentCertificateFile(?File $ssPaymentCertificateFile = null): Enterprise
     {
         $this->ssPaymentCertificateFile = $ssPaymentCertificateFile;
         if ($ssPaymentCertificateFile) {
@@ -1156,40 +1109,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSsPaymentCertificate()
+    public function getSsPaymentCertificate(): string
     {
         return $this->ssPaymentCertificate;
     }
 
-    /**
-     * @param string $ssPaymentCertificate
-     *
-     * @return Enterprise
-     */
-    public function setSsPaymentCertificate($ssPaymentCertificate)
+    public function setSsPaymentCertificate(string $ssPaymentCertificate): Enterprise
     {
         $this->ssPaymentCertificate = $ssPaymentCertificate;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getRc1InsuranceFile()
+    public function getRc1InsuranceFile(): ?File
     {
         return $this->rc1InsuranceFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setRc1InsuranceFile(File $rc1InsuranceFile = null)
+    public function setRc1InsuranceFile(?File $rc1InsuranceFile = null): Enterprise
     {
         $this->rc1InsuranceFile = $rc1InsuranceFile;
         if ($rc1InsuranceFile) {
@@ -1201,40 +1141,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRc1Insurance()
+    public function getRc1Insurance(): string
     {
         return $this->rc1Insurance;
     }
 
-    /**
-     * @param string $rc1Insurance
-     *
-     * @return Enterprise
-     */
-    public function setRc1Insurance($rc1Insurance)
+    public function setRc1Insurance(string $rc1Insurance): Enterprise
     {
         $this->rc1Insurance = $rc1Insurance;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getRc2InsuranceFile()
+    public function getRc2InsuranceFile(): ?File
     {
         return $this->rc2InsuranceFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setRc2InsuranceFile(File $rc2InsuranceFile = null)
+    public function setRc2InsuranceFile(?File $rc2InsuranceFile = null): Enterprise
     {
         $this->rc2InsuranceFile = $rc2InsuranceFile;
         if ($rc2InsuranceFile) {
@@ -1246,40 +1173,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRc2Insurance()
+    public function getRc2Insurance(): string
     {
         return $this->rc2Insurance;
     }
 
-    /**
-     * @param string $rc2Insurance
-     *
-     * @return Enterprise
-     */
-    public function setRc2Insurance($rc2Insurance)
+    public function setRc2Insurance(string $rc2Insurance): Enterprise
     {
         $this->rc2Insurance = $rc2Insurance;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getRcReceiptFile()
+    public function getRcReceiptFile(): ?File
     {
         return $this->rcReceiptFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setRcReceiptFile(File $rcReceiptFile = null)
+    public function setRcReceiptFile(?File $rcReceiptFile = null): Enterprise
     {
         $this->rcReceiptFile = $rcReceiptFile;
         if ($rcReceiptFile) {
@@ -1291,40 +1205,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRcReceipt()
+    public function getRcReceipt(): string
     {
         return $this->rcReceipt;
     }
 
-    /**
-     * @param string $rcReceipt
-     *
-     * @return Enterprise
-     */
-    public function setRcReceipt($rcReceipt)
+    public function setRcReceipt(string $rcReceipt): Enterprise
     {
         $this->rcReceipt = $rcReceipt;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getPreventionServiceContractFile()
+    public function getPreventionServiceContractFile(): ?File
     {
         return $this->preventionServiceContractFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setPreventionServiceContractFile(File $preventionServiceContractFile = null)
+    public function setPreventionServiceContractFile(?File $preventionServiceContractFile = null): Enterprise
     {
         $this->preventionServiceContractFile = $preventionServiceContractFile;
         if ($preventionServiceContractFile) {
@@ -1336,40 +1237,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPreventionServiceContract()
+    public function getPreventionServiceContract(): string
     {
         return $this->preventionServiceContract;
     }
 
-    /**
-     * @param string $preventionServiceContract
-     *
-     * @return Enterprise
-     */
-    public function setPreventionServiceContract($preventionServiceContract)
+    public function setPreventionServiceContract(string $preventionServiceContract): Enterprise
     {
         $this->preventionServiceContract = $preventionServiceContract;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getPreventionServiceInvoiceFile()
+    public function getPreventionServiceInvoiceFile(): ?File
     {
         return $this->preventionServiceInvoiceFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setPreventionServiceInvoiceFile(File $preventionServiceInvoiceFile = null)
+    public function setPreventionServiceInvoiceFile(?File $preventionServiceInvoiceFile = null): Enterprise
     {
         $this->preventionServiceInvoiceFile = $preventionServiceInvoiceFile;
         if ($preventionServiceInvoiceFile) {
@@ -1381,40 +1269,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPreventionServiceInvoice()
+    public function getPreventionServiceInvoice(): string
     {
         return $this->preventionServiceInvoice;
     }
 
-    /**
-     * @param string $preventionServiceInvoice
-     *
-     * @return Enterprise
-     */
-    public function setPreventionServiceInvoice($preventionServiceInvoice)
+    public function setPreventionServiceInvoice(string $preventionServiceInvoice): Enterprise
     {
         $this->preventionServiceInvoice = $preventionServiceInvoice;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getPreventionServiceReceiptFile()
+    public function getPreventionServiceReceiptFile(): ?File
     {
         return $this->preventionServiceReceiptFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setPreventionServiceReceiptFile(File $preventionServiceReceiptFile = null)
+    public function setPreventionServiceReceiptFile(?File $preventionServiceReceiptFile = null): Enterprise
     {
         $this->preventionServiceReceiptFile = $preventionServiceReceiptFile;
         if ($this->preventionServiceReceiptFile) {
@@ -1426,40 +1301,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPreventionServiceReceipt()
+    public function getPreventionServiceReceipt(): string
     {
         return $this->preventionServiceReceipt;
     }
 
-    /**
-     * @param string $preventionServiceReceipt
-     *
-     * @return Enterprise
-     */
-    public function setPreventionServiceReceipt($preventionServiceReceipt)
+    public function setPreventionServiceReceipt(string $preventionServiceReceipt): Enterprise
     {
         $this->preventionServiceReceipt = $preventionServiceReceipt;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getOccupationalAccidentsInsuranceFile()
+    public function getOccupationalAccidentsInsuranceFile(): ?File
     {
         return $this->occupationalAccidentsInsuranceFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setOccupationalAccidentsInsuranceFile(File $occupationalAccidentsInsuranceFile = null)
+    public function setOccupationalAccidentsInsuranceFile(?File $occupationalAccidentsInsuranceFile = null): Enterprise
     {
         $this->occupationalAccidentsInsuranceFile = $occupationalAccidentsInsuranceFile;
         if ($occupationalAccidentsInsuranceFile) {
@@ -1471,40 +1333,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOccupationalAccidentsInsurance()
+    public function getOccupationalAccidentsInsurance(): string
     {
         return $this->occupationalAccidentsInsurance;
     }
 
-    /**
-     * @param string $occupationalAccidentsInsurance
-     *
-     * @return Enterprise
-     */
-    public function setOccupationalAccidentsInsurance($occupationalAccidentsInsurance)
+    public function setOccupationalAccidentsInsurance(string $occupationalAccidentsInsurance): Enterprise
     {
         $this->occupationalAccidentsInsurance = $occupationalAccidentsInsurance;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getOccupationalReceiptFile()
+    public function getOccupationalReceiptFile(): ?File
     {
         return $this->occupationalReceiptFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setOccupationalReceiptFile(File $occupationalReceiptFile = null)
+    public function setOccupationalReceiptFile(?File $occupationalReceiptFile = null): Enterprise
     {
         $this->occupationalReceiptFile = $occupationalReceiptFile;
         if ($this->occupationalReceiptFile) {
@@ -1516,40 +1365,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOccupationalReceipt()
+    public function getOccupationalReceipt(): string
     {
         return $this->occupationalReceipt;
     }
 
-    /**
-     * @param string $occupationalReceipt
-     *
-     * @return Enterprise
-     */
-    public function setOccupationalReceipt($occupationalReceipt)
+    public function setOccupationalReceipt(string $occupationalReceipt): Enterprise
     {
         $this->occupationalReceipt = $occupationalReceipt;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getLaborRiskAssessmentFile()
+    public function getLaborRiskAssessmentFile(): ?File
     {
         return $this->laborRiskAssessmentFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setLaborRiskAssessmentFile(File $laborRiskAssessmentFile = null)
+    public function setLaborRiskAssessmentFile(?File $laborRiskAssessmentFile = null): Enterprise
     {
         $this->laborRiskAssessmentFile = $laborRiskAssessmentFile;
         if ($laborRiskAssessmentFile) {
@@ -1561,40 +1397,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLaborRiskAssessment()
+    public function getLaborRiskAssessment(): string
     {
         return $this->laborRiskAssessment;
     }
 
-    /**
-     * @param string $laborRiskAssessment
-     *
-     * @return Enterprise
-     */
-    public function setLaborRiskAssessment($laborRiskAssessment)
+    public function setLaborRiskAssessment(string $laborRiskAssessment): Enterprise
     {
         $this->laborRiskAssessment = $laborRiskAssessment;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getSecurityPlanFile()
+    public function getSecurityPlanFile(): ?File
     {
         return $this->securityPlanFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setSecurityPlanFile(File $securityPlanFile = null)
+    public function setSecurityPlanFile(?File $securityPlanFile = null): Enterprise
     {
         $this->securityPlanFile = $securityPlanFile;
         if ($securityPlanFile) {
@@ -1606,40 +1429,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSecurityPlan()
+    public function getSecurityPlan(): string
     {
         return $this->securityPlan;
     }
 
-    /**
-     * @param string $securityPlan
-     *
-     * @return Enterprise
-     */
-    public function setSecurityPlan($securityPlan)
+    public function setSecurityPlan(string $securityPlan): Enterprise
     {
         $this->securityPlan = $securityPlan;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getReaCertificateFile()
+    public function getReaCertificateFile(): ?File
     {
         return $this->reaCertificateFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setReaCertificateFile(File $reaCertificateFile = null)
+    public function setReaCertificateFile(?File $reaCertificateFile = null): Enterprise
     {
         $this->reaCertificateFile = $reaCertificateFile;
         if ($reaCertificateFile) {
@@ -1651,40 +1461,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getReaCertificate()
+    public function getReaCertificate(): string
     {
         return $this->reaCertificate;
     }
 
-    /**
-     * @param string $reaCertificate
-     *
-     * @return Enterprise
-     */
-    public function setReaCertificate($reaCertificate)
+    public function setReaCertificate(string $reaCertificate): Enterprise
     {
         $this->reaCertificate = $reaCertificate;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getOilCertificateFile()
+    public function getOilCertificateFile(): ?File
     {
         return $this->oilCertificateFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setOilCertificateFile(File $oilCertificateFile = null)
+    public function setOilCertificateFile(?File $oilCertificateFile = null): Enterprise
     {
         $this->oilCertificateFile = $oilCertificateFile;
         if ($oilCertificateFile) {
@@ -1696,40 +1493,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOilCertificate()
+    public function getOilCertificate(): string
     {
         return $this->oilCertificate;
     }
 
-    /**
-     * @param string $oilCertificate
-     *
-     * @return Enterprise
-     */
-    public function setOilCertificate($oilCertificate)
+    public function setOilCertificate(string $oilCertificate): Enterprise
     {
         $this->oilCertificate = $oilCertificate;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getGencatPaymentCertificateFile()
+    public function getGencatPaymentCertificateFile(): ?File
     {
         return $this->gencatPaymentCertificateFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setGencatPaymentCertificateFile(File $gencatPaymentCertificateFile = null)
+    public function setGencatPaymentCertificateFile(?File $gencatPaymentCertificateFile = null): Enterprise
     {
         $this->gencatPaymentCertificateFile = $gencatPaymentCertificateFile;
         if ($gencatPaymentCertificateFile) {
@@ -1741,40 +1525,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getGencatPaymentCertificate()
+    public function getGencatPaymentCertificate(): string
     {
         return $this->gencatPaymentCertificate;
     }
 
-    /**
-     * @param string $gencatPaymentCertificate
-     *
-     * @return Enterprise
-     */
-    public function setGencatPaymentCertificate($gencatPaymentCertificate)
+    public function setGencatPaymentCertificate(string $gencatPaymentCertificate): Enterprise
     {
         $this->gencatPaymentCertificate = $gencatPaymentCertificate;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getDeedsOfPowersFile()
+    public function getDeedsOfPowersFile(): ?File
     {
         return $this->deedsOfPowersFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setDeedsOfPowersFile(File $deedsOfPowersFile = null)
+    public function setDeedsOfPowersFile(?File $deedsOfPowersFile = null): Enterprise
     {
         $this->deedsOfPowersFile = $deedsOfPowersFile;
         if ($deedsOfPowersFile) {
@@ -1786,42 +1557,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDeedsOfPowers()
+    public function getDeedsOfPowers(): string
     {
         return $this->deedsOfPowers;
     }
 
-    /**
-     * @param string $deedsOfPowers
-     *
-     * @return Enterprise
-     */
-    public function setDeedsOfPowers($deedsOfPowers)
+    public function setDeedsOfPowers(string $deedsOfPowers): Enterprise
     {
         $this->deedsOfPowers = $deedsOfPowers;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getIaeRegistrationFile()
+    public function getIaeRegistrationFile(): ?File
     {
         return $this->iaeRegistrationFile;
     }
 
     /**
-     * @param File|null $iaeRegistrationFile
-     *
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setIaeRegistrationFile($iaeRegistrationFile)
+    public function setIaeRegistrationFile(?File $iaeRegistrationFile = null): Enterprise
     {
         $this->iaeRegistrationFile = $iaeRegistrationFile;
         if ($iaeRegistrationFile) {
@@ -1833,40 +1589,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIaeRegistration()
+    public function getIaeRegistration(): string
     {
         return $this->iaeRegistration;
     }
 
-    /**
-     * @param string $iaeRegistration
-     *
-     * @return Enterprise
-     */
-    public function setIaeRegistration($iaeRegistration)
+    public function setIaeRegistration(string $iaeRegistration): Enterprise
     {
         $this->iaeRegistration = $iaeRegistration;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getIaeReceiptFile()
+    public function getIaeReceiptFile(): ?File
     {
         return $this->iaeReceiptFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setIaeReceiptFile(File $iaeReceiptFile = null)
+    public function setIaeReceiptFile(?File $iaeReceiptFile = null): Enterprise
     {
         $this->iaeReceiptFile = $iaeReceiptFile;
         if ($this->iaeReceiptFile) {
@@ -1878,40 +1621,27 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIaeReceipt()
+    public function getIaeReceipt(): mixed
     {
         return $this->iaeReceipt;
     }
 
-    /**
-     * @param mixed $iaeReceipt
-     *
-     * @return Enterprise
-     */
-    public function setIaeReceipt($iaeReceipt)
+    public function setIaeReceipt(mixed $iaeReceipt): Enterprise
     {
         $this->iaeReceipt = $iaeReceipt;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getMutualPartnershipFile()
+    public function getMutualPartnershipFile(): ?File
     {
         return $this->mutualPartnershipFile;
     }
 
     /**
-     * @return Enterprise
-     *
      * @throws Exception
      */
-    public function setMutualPartnershipFile(File $mutualPartnershipFile = null)
+    public function setMutualPartnershipFile(?File $mutualPartnershipFile = null): Enterprise
     {
         $this->mutualPartnershipFile = $mutualPartnershipFile;
         if ($mutualPartnershipFile) {
@@ -1923,40 +1653,24 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMutualPartnership()
+    public function getMutualPartnership(): string
     {
         return $this->mutualPartnership;
     }
 
-    /**
-     * @param string $mutualPartnership
-     *
-     * @return Enterprise
-     */
-    public function setMutualPartnership($mutualPartnership)
+    public function setMutualPartnership(string $mutualPartnership): Enterprise
     {
         $this->mutualPartnership = $mutualPartnership;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getUsers()
+    public function getUsers(): ArrayCollection
     {
         return $this->users;
     }
 
-    /**
-     * @param ArrayCollection $users
-     *
-     * @return Enterprise
-     */
-    public function setUsers($users)
+    public function setUsers($users): Enterprise
     {
         $this->users = $users;
 
@@ -1966,7 +1680,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return $this
      */
-    public function addUser(User $user)
+    public function addUser(User $user): static
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -1979,7 +1693,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return $this
      */
-    public function removeUser(User $user)
+    public function removeUser(User $user): static
     {
         $user->removeEnterprise($this);
         $this->users->removeElement($user);
@@ -1990,7 +1704,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getEnterpriseGroupBounties()
+    public function getEnterpriseGroupBounties(): ArrayCollection
     {
         return $this->enterpriseGroupBounties;
     }
@@ -2000,7 +1714,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function setEnterpriseGroupBounties($enterpriseGroupBounties)
+    public function setEnterpriseGroupBounties($enterpriseGroupBounties): static
     {
         $this->enterpriseGroupBounties = $enterpriseGroupBounties;
 
@@ -2010,7 +1724,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return $this
      */
-    public function addEnterpriseGroupBounty(EnterpriseGroupBounty $enterpriseGroupBounty)
+    public function addEnterpriseGroupBounty(EnterpriseGroupBounty $enterpriseGroupBounty): static
     {
         if (!$this->enterpriseGroupBounties->contains($enterpriseGroupBounty)) {
             $this->enterpriseGroupBounties->add($enterpriseGroupBounty);
@@ -2023,7 +1737,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return $this
      */
-    public function removeEnterpriseGroupBounty(EnterpriseGroupBounty $enterpriseGroupBounty)
+    public function removeEnterpriseGroupBounty(EnterpriseGroupBounty $enterpriseGroupBounty): static
     {
         if ($this->enterpriseGroupBounties->contains($enterpriseGroupBounty)) {
             $this->enterpriseGroupBounties->removeElement($enterpriseGroupBounty);
@@ -2035,7 +1749,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getEnterpriseTransferAccounts()
+    public function getEnterpriseTransferAccounts(): ArrayCollection
     {
         return $this->enterpriseTransferAccounts;
     }
@@ -2045,7 +1759,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function setEnterpriseTransferAccounts($enterpriseTransferAccounts)
+    public function setEnterpriseTransferAccounts($enterpriseTransferAccounts): static
     {
         $this->enterpriseTransferAccounts = $enterpriseTransferAccounts;
 
@@ -2057,7 +1771,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function addEnterpriseTransferAccount($enterpriseTransferAccount)
+    public function addEnterpriseTransferAccount($enterpriseTransferAccount): static
     {
         if (!$this->enterpriseTransferAccounts->contains($enterpriseTransferAccount)) {
             $this->enterpriseTransferAccounts->add($enterpriseTransferAccount);
@@ -2072,7 +1786,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function removeEnterpriseTransferAccount($enterpriseTransferAccount)
+    public function removeEnterpriseTransferAccount($enterpriseTransferAccount): static
     {
         if ($this->enterpriseTransferAccounts->contains($enterpriseTransferAccount)) {
             $this->enterpriseTransferAccounts->removeElement($enterpriseTransferAccount);
@@ -2084,7 +1798,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getPartners()
+    public function getPartners(): ArrayCollection
     {
         return $this->partners;
     }
@@ -2094,7 +1808,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function setPartners($partners)
+    public function setPartners($partners): static
     {
         $this->partners = $partners;
 
@@ -2106,7 +1820,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function addPartner($partner)
+    public function addPartner($partner): static
     {
         if (!$this->partners->contains($partner)) {
             $this->partners->add($partner);
@@ -2121,7 +1835,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function removePartner($partner)
+    public function removePartner($partner): static
     {
         if ($this->partners->contains($partner)) {
             $this->partners->removeElement($partner);
@@ -2133,7 +1847,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getEnterpriseHolidays()
+    public function getEnterpriseHolidays(): ArrayCollection
     {
         return $this->enterpriseHolidays;
     }
@@ -2143,7 +1857,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function setEnterpriseHolidays($enterpriseHolidays)
+    public function setEnterpriseHolidays($enterpriseHolidays): static
     {
         $this->enterpriseHolidays = $enterpriseHolidays;
 
@@ -2155,7 +1869,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function addEnterpriseHoliday($enterpriseHoliday)
+    public function addEnterpriseHoliday($enterpriseHoliday): static
     {
         if (!$this->enterpriseHolidays->contains($enterpriseHoliday)) {
             $this->enterpriseHolidays->add($enterpriseHoliday);
@@ -2170,7 +1884,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function removeEnterpriseHoliday($enterpriseHoliday)
+    public function removeEnterpriseHoliday($enterpriseHoliday): static
     {
         if ($this->enterpriseHolidays->contains($enterpriseHoliday)) {
             $this->enterpriseHolidays->removeElement($enterpriseHoliday);
@@ -2182,7 +1896,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getSaleTariffs()
+    public function getSaleTariffs(): ArrayCollection
     {
         return $this->saleTariffs;
     }
@@ -2192,7 +1906,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function setSaleTariffs($saleTariffs)
+    public function setSaleTariffs($saleTariffs): static
     {
         $this->saleTariffs = $saleTariffs;
 
@@ -2204,7 +1918,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function addSaleTariff($saleTariff)
+    public function addSaleTariff($saleTariff): static
     {
         if (!$this->saleTariffs->contains($saleTariff)) {
             $this->saleTariffs->add($saleTariff);
@@ -2219,7 +1933,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function removeSaleTariff($saleTariff)
+    public function removeSaleTariff($saleTariff): static
     {
         if ($this->saleTariffs->contains($saleTariff)) {
             $this->saleTariffs->removeElement($saleTariff);
@@ -2231,7 +1945,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getSaleRequests()
+    public function getSaleRequests(): ArrayCollection
     {
         return $this->saleRequests;
     }
@@ -2241,7 +1955,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function setSaleRequests($saleRequests)
+    public function setSaleRequests($saleRequests): static
     {
         $this->saleRequests = $saleRequests;
 
@@ -2253,7 +1967,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function addSaleRequest($saleRequest)
+    public function addSaleRequest($saleRequest): static
     {
         if (!$this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->add($saleRequest);
@@ -2268,7 +1982,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function removeSaleRequest($saleRequest)
+    public function removeSaleRequest($saleRequest): static
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
@@ -2280,7 +1994,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getActivityLines()
+    public function getActivityLines(): ArrayCollection
     {
         return $this->activityLines;
     }
@@ -2298,7 +2012,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function addActivityLine($activityLine)
+    public function addActivityLine($activityLine): static
     {
         if (!$this->activityLines->contains($activityLine)) {
             $this->activityLines->add($activityLine);
@@ -2313,7 +2027,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function removeActivityLine($activityLine)
+    public function removeActivityLine($activityLine): static
     {
         if ($this->activityLines->contains($activityLine)) {
             $this->activityLines->removeElement($activityLine);
@@ -2325,7 +2039,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getCollectionDocumentTypes()
+    public function getCollectionDocumentTypes(): ArrayCollection
     {
         return $this->collectionDocumentTypes;
     }
@@ -2343,7 +2057,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
      *
      * @return $this
      */
-    public function addCollectionDocumentType($collectionDocumentType)
+    public function addCollectionDocumentType($collectionDocumentType): static
     {
         if (!$this->collectionDocumentTypes->contains($collectionDocumentType)) {
             $this->collectionDocumentTypes->add($collectionDocumentType);
@@ -2454,7 +2168,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName().' · '.$this->getTaxIdentificationNumber() : '---';
     }

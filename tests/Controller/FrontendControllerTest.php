@@ -31,7 +31,7 @@ class FrontendControllerTest extends AbstractBaseTest
      *
      * @return array
      */
-    public function provideSuccessfulUrls()
+    public function provideSuccessfulUrls(): array
     {
         return [
             ['/'],
@@ -71,7 +71,7 @@ class FrontendControllerTest extends AbstractBaseTest
      *
      * @return array
      */
-    public function provideNotFoundUrls()
+    public function provideNotFoundUrls(): array
     {
         return [
             ['/ca/pagina-trenacada'],
@@ -100,7 +100,7 @@ class FrontendControllerTest extends AbstractBaseTest
      *
      * @return array
      */
-    public function provideRedirectedUrls()
+    public function provideRedirectedUrls(): array
     {
         return [
             ['/servicios'],

@@ -138,7 +138,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return int $id
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -146,7 +146,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return File|UploadedFile
      */
-    public function getMainImageFile()
+    public function getMainImageFile(): File|UploadedFile
     {
         return $this->mainImageFile;
     }
@@ -156,7 +156,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @throws \Exception
      */
-    public function setMainImageFile(File $mainImageFile = null)
+    public function setMainImageFile(File $mainImageFile = null): User
     {
         $this->mainImageFile = $mainImageFile;
         if ($mainImageFile) {
@@ -171,7 +171,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return string
      */
-    public function getMainImage()
+    public function getMainImage(): string
     {
         return $this->mainImage;
     }
@@ -181,7 +181,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setMainImage($mainImage)
+    public function setMainImage($mainImage): User
     {
         $this->mainImage = $mainImage;
 
@@ -191,7 +191,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return Enterprise
      */
-    public function getDefaultEnterprise()
+    public function getDefaultEnterprise(): Enterprise
     {
         return $this->defaultEnterprise;
     }
@@ -201,7 +201,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return Enterprise
      */
-    public function getLoggedEnterprise()
+    public function getLoggedEnterprise(): Enterprise
     {
         return $this->defaultEnterprise;
     }
@@ -211,7 +211,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setDefaultEnterprise($defaultEnterprise)
+    public function setDefaultEnterprise($defaultEnterprise): User
     {
         $this->defaultEnterprise = $defaultEnterprise;
 
@@ -221,7 +221,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return array
      */
-    public function getEnterprises()
+    public function getEnterprises(): array
     {
         return $this->enterprises;
     }
@@ -231,7 +231,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setEnterprises($enterprises)
+    public function setEnterprises($enterprises): User
     {
         $this->enterprises = $enterprises;
 
@@ -241,7 +241,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return $this
      */
-    public function addEnterprise(Enterprise $enterprise)
+    public function addEnterprise(Enterprise $enterprise): static
     {
         $this->enterprises->add($enterprise);
 
@@ -251,7 +251,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return $this
      */
-    public function removeEnterprise(Enterprise $enterprise)
+    public function removeEnterprise(Enterprise $enterprise): static
     {
         $this->enterprises->removeElement($enterprise);
 
@@ -261,7 +261,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getEmailCanonical()
+    public function getEmailCanonical(): mixed
     {
         return $this->emailCanonical;
     }
@@ -271,7 +271,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setEmailCanonical($emailCanonical)
+    public function setEmailCanonical($emailCanonical): User
     {
         $this->emailCanonical = $emailCanonical;
 
@@ -281,7 +281,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getUsernameCanonical()
+    public function getUsernameCanonical(): mixed
     {
         return $this->usernameCanonical;
     }
@@ -291,7 +291,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setUsernameCanonical($usernameCanonical)
+    public function setUsernameCanonical($usernameCanonical): User
     {
         $this->usernameCanonical = $usernameCanonical;
 
@@ -301,7 +301,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getFirstname()
+    public function getFirstname(): mixed
     {
         return $this->firstname;
     }
@@ -311,7 +311,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setFirstname($firstname)
+    public function setFirstname($firstname): User
     {
         $this->firstname = $firstname;
 
@@ -321,7 +321,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getLastname()
+    public function getLastname(): mixed
     {
         return $this->lastname;
     }
@@ -331,7 +331,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setLastname($lastname)
+    public function setLastname($lastname): User
     {
         $this->lastname = $lastname;
 
@@ -341,7 +341,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return string
      */
-    public function getFullname()
+    public function getFullname(): string
     {
         return $this->getLastname().', '.$this->getFirstname();
     }
@@ -349,7 +349,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return string
      */
-    public function getNaturalName()
+    public function getNaturalName(): string
     {
         return $this->getFirstname().' '.$this->getLastname();
     }

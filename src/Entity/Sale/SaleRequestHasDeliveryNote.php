@@ -162,7 +162,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return SaleRequest
      */
-    public function getSaleRequest()
+    public function getSaleRequest(): SaleRequest
     {
         return $this->saleRequest;
     }
@@ -172,7 +172,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleRequest($saleRequest)
+    public function setSaleRequest($saleRequest): static
     {
         $this->saleRequest = $saleRequest;
 
@@ -182,7 +182,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return SaleDeliveryNote
      */
-    public function getSaleDeliveryNote()
+    public function getSaleDeliveryNote(): SaleDeliveryNote
     {
         return $this->saleDeliveryNote;
     }
@@ -192,7 +192,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleDeliveryNote($saleDeliveryNote)
+    public function setSaleDeliveryNote($saleDeliveryNote): static
     {
         $this->saleDeliveryNote = $saleDeliveryNote;
 
@@ -202,7 +202,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return string
      */
-    public function getReference()
+    public function getReference(): string
     {
         return $this->reference;
     }
@@ -212,7 +212,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setReference($reference)
+    public function setReference($reference): static
     {
         $this->reference = $reference;
 
@@ -222,7 +222,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getTotalHoursMorning()
+    public function getTotalHoursMorning(): float
     {
         return $this->totalHoursMorning;
     }
@@ -232,7 +232,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setTotalHoursMorning($totalHoursMorning)
+    public function setTotalHoursMorning($totalHoursMorning): static
     {
         $this->totalHoursMorning = $totalHoursMorning;
 
@@ -242,7 +242,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceHourMorning()
+    public function getPriceHourMorning(): float
     {
         return $this->priceHourMorning;
     }
@@ -252,7 +252,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setPriceHourMorning($priceHourMorning)
+    public function setPriceHourMorning($priceHourMorning): static
     {
         $this->priceHourMorning = $priceHourMorning;
 
@@ -262,7 +262,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getAmountMorning()
+    public function getAmountMorning(): float
     {
         return $this->amountMorning;
     }
@@ -272,7 +272,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setAmountMorning($amountMorning)
+    public function setAmountMorning($amountMorning): static
     {
         $this->amountMorning = $amountMorning;
 
@@ -282,7 +282,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getTotalHoursAfternoon()
+    public function getTotalHoursAfternoon(): float
     {
         return $this->totalHoursAfternoon;
     }
@@ -292,7 +292,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setTotalHoursAfternoon($totalHoursAfternoon)
+    public function setTotalHoursAfternoon($totalHoursAfternoon): static
     {
         $this->totalHoursAfternoon = $totalHoursAfternoon;
 
@@ -302,7 +302,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceHourAfternoon()
+    public function getPriceHourAfternoon(): float
     {
         return $this->priceHourAfternoon;
     }
@@ -312,7 +312,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setPriceHourAfternoon($priceHourAfternoon)
+    public function setPriceHourAfternoon($priceHourAfternoon): static
     {
         $this->priceHourAfternoon = $priceHourAfternoon;
 
@@ -322,7 +322,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getAmountAfternoon()
+    public function getAmountAfternoon(): float
     {
         return $this->amountAfternoon;
     }
@@ -332,7 +332,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setAmountAfternoon($amountAfternoon)
+    public function setAmountAfternoon($amountAfternoon): static
     {
         $this->amountAfternoon = $amountAfternoon;
 
@@ -342,7 +342,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getTotalHoursNight()
+    public function getTotalHoursNight(): float
     {
         return $this->totalHoursNight;
     }
@@ -352,7 +352,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setTotalHoursNight($totalHoursNight)
+    public function setTotalHoursNight($totalHoursNight): static
     {
         $this->totalHoursNight = $totalHoursNight;
 
@@ -362,7 +362,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceHourNight()
+    public function getPriceHourNight(): float
     {
         return $this->priceHourNight;
     }
@@ -372,7 +372,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setPriceHourNight($priceHourNight)
+    public function setPriceHourNight($priceHourNight): static
     {
         $this->priceHourNight = $priceHourNight;
 
@@ -382,7 +382,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getAmountNight()
+    public function getAmountNight(): float
     {
         return $this->amountNight;
     }
@@ -392,7 +392,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setAmountNight($amountNight)
+    public function setAmountNight($amountNight): static
     {
         $this->amountNight = $amountNight;
 
@@ -402,7 +402,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getTotalHoursEarlyMorning()
+    public function getTotalHoursEarlyMorning(): float
     {
         return $this->totalHoursEarlyMorning;
     }
@@ -412,7 +412,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setTotalHoursEarlyMorning($totalHoursEarlyMorning)
+    public function setTotalHoursEarlyMorning($totalHoursEarlyMorning): static
     {
         $this->totalHoursEarlyMorning = $totalHoursEarlyMorning;
 
@@ -422,7 +422,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceHourEarlyMorning()
+    public function getPriceHourEarlyMorning(): float
     {
         return $this->priceHourEarlyMorning;
     }
@@ -432,7 +432,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setPriceHourEarlyMorning($priceHourEarlyMorning)
+    public function setPriceHourEarlyMorning($priceHourEarlyMorning): static
     {
         $this->priceHourEarlyMorning = $priceHourEarlyMorning;
 
@@ -442,7 +442,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getAmountEarlyMorning()
+    public function getAmountEarlyMorning(): float
     {
         return $this->amountEarlyMorning;
     }
@@ -452,7 +452,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setAmountEarlyMorning($amountEarlyMorning)
+    public function setAmountEarlyMorning($amountEarlyMorning): static
     {
         $this->amountEarlyMorning = $amountEarlyMorning;
 
@@ -462,7 +462,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getTotalHoursDisplacement()
+    public function getTotalHoursDisplacement(): float
     {
         return $this->totalHoursDisplacement;
     }
@@ -472,7 +472,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setTotalHoursDisplacement($totalHoursDisplacement)
+    public function setTotalHoursDisplacement($totalHoursDisplacement): static
     {
         $this->totalHoursDisplacement = $totalHoursDisplacement;
 
@@ -482,7 +482,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceHourDisplacement()
+    public function getPriceHourDisplacement(): float
     {
         return $this->priceHourDisplacement;
     }
@@ -492,7 +492,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setPriceHourDisplacement($priceHourDisplacement)
+    public function setPriceHourDisplacement($priceHourDisplacement): static
     {
         $this->priceHourDisplacement = $priceHourDisplacement;
 
@@ -502,7 +502,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getAmountDisplacement()
+    public function getAmountDisplacement(): float
     {
         return $this->amountDisplacement;
     }
@@ -512,7 +512,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setAmountDisplacement($amountDisplacement)
+    public function setAmountDisplacement($amountDisplacement): static
     {
         $this->amountDisplacement = $amountDisplacement;
 
@@ -522,7 +522,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getIvaType()
+    public function getIvaType(): float
     {
         return $this->ivaType;
     }
@@ -532,7 +532,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setIvaType($ivaType)
+    public function setIvaType($ivaType): static
     {
         $this->ivaType = $ivaType;
 
@@ -542,7 +542,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getRetentionType()
+    public function getRetentionType(): float
     {
         return $this->retentionType;
     }
@@ -552,7 +552,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setRetentionType($retentionType)
+    public function setRetentionType($retentionType): static
     {
         $this->retentionType = $retentionType;
 
@@ -562,7 +562,7 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getSaleRequest()->getId().' - '.$this->getSaleDeliveryNote()->getId() : '---';
     }

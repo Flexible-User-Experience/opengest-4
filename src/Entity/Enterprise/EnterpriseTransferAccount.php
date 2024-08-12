@@ -116,7 +116,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -126,7 +126,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -136,7 +136,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -146,7 +146,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -156,7 +156,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getIban()
+    public function getIban(): string
     {
         return $this->iban;
     }
@@ -166,7 +166,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setIban($iban)
+    public function setIban($iban): static
     {
         $this->iban = $iban;
 
@@ -176,7 +176,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getSwift()
+    public function getSwift(): string
     {
         return $this->swift;
     }
@@ -186,7 +186,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setSwift($swift)
+    public function setSwift($swift): static
     {
         $this->swift = $swift;
 
@@ -196,7 +196,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getBankCode()
+    public function getBankCode(): string
     {
         return $this->bankCode;
     }
@@ -206,7 +206,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setBankCode($bankCode)
+    public function setBankCode($bankCode): static
     {
         $this->bankCode = $bankCode;
 
@@ -216,7 +216,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getOfficeNumber()
+    public function getOfficeNumber(): string
     {
         return $this->officeNumber;
     }
@@ -226,7 +226,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setOfficeNumber($officeNumber)
+    public function setOfficeNumber($officeNumber): static
     {
         $this->officeNumber = $officeNumber;
 
@@ -236,7 +236,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getControlDigit()
+    public function getControlDigit(): string
     {
         return $this->controlDigit;
     }
@@ -246,7 +246,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setControlDigit($controlDigit)
+    public function setControlDigit($controlDigit): static
     {
         $this->controlDigit = $controlDigit;
 
@@ -256,7 +256,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getAccountNumber()
+    public function getAccountNumber(): string
     {
         return $this->accountNumber;
     }
@@ -266,7 +266,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setAccountNumber($accountNumber)
+    public function setAccountNumber($accountNumber): static
     {
         $this->accountNumber = $accountNumber;
 
@@ -276,7 +276,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getPartners()
+    public function getPartners(): ArrayCollection
     {
         return $this->partners;
     }
@@ -286,7 +286,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setPartners($partners)
+    public function setPartners($partners): static
     {
         $this->partners = $partners;
 
@@ -298,7 +298,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function addPartner($partner)
+    public function addPartner($partner): static
     {
         if (!$this->partners->contains($partner)) {
             $this->partners->add($partner);
@@ -313,7 +313,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function removePartner($partner)
+    public function removePartner($partner): static
     {
         if ($this->partners->contains($partner)) {
             $this->partners->removeElement($partner);
@@ -337,7 +337,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

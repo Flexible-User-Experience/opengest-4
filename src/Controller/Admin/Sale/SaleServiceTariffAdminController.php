@@ -20,7 +20,7 @@ class SaleServiceTariffAdminController extends BaseAdminController
      *
      * @return JsonResponse
      */
-    public function getJsonSaleTariffByIdAction($id, $partnerId = null)
+    public function getJsonSaleTariffByIdAction($id, $partnerId = null): JsonResponse
     {
         /** @var SaleServiceTariff $saleServiceTariff */
         $saleServiceTariff = $this->admin->getObject($id);

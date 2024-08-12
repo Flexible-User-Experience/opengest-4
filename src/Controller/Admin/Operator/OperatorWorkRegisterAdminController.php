@@ -30,7 +30,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
      *
      * @throws \Exception
      */
-    public function createCustomWorkRegisterAction(Request $request)
+    public function createCustomWorkRegisterAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $inputType = $request->query->get('select_input_type');
@@ -205,7 +205,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
      *
      * @throws \Exception
      */
-    public function customDeleteAction(Request $request)
+    public function customDeleteAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $operatorWorkRegisterId = $request->query->get('id');

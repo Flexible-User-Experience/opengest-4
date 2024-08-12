@@ -95,7 +95,7 @@ class SitemapListener implements EventSubscriberInterface
      *
      * @throws Exception
      */
-    private function makeUrlConcrete($url, $priority = 1, ?DateTimeInterface $date = null)
+    private function makeUrlConcrete($url, $priority = 1, ?DateTimeInterface $date = null): UrlConcrete
     {
         return new UrlConcrete(
             $url,

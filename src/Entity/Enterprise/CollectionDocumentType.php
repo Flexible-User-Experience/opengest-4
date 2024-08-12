@@ -62,7 +62,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -72,7 +72,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -82,7 +82,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -92,7 +92,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -102,7 +102,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -112,7 +112,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
@@ -122,7 +122,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string|null
      */
-    public function getSitReference()
+    public function getSitReference(): ?string
     {
         return $this->sitReference;
     }
@@ -132,7 +132,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setSitReference($sitReference)
+    public function setSitReference($sitReference): static
     {
         $this->sitReference = $sitReference;
 
@@ -142,7 +142,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

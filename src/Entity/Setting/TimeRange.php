@@ -137,7 +137,7 @@ class TimeRange extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getDescription().' · '.$this->getStart()->format('H:i:s') : '---';
     }

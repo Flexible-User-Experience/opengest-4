@@ -54,7 +54,7 @@ class LogBookPdfManager
      *
      * @return TCPDF
      */
-    public function buildCollection($vehicles)
+    public function buildCollection($vehicles): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Libro historial vehículo');
         $pdf = $this->pdfEngineService->getEngine();
@@ -70,7 +70,7 @@ class LogBookPdfManager
      *
      * @return string
      */
-    public function outputCollection($vehicles)
+    public function outputCollection($vehicles): string
     {
         $pdf = $this->buildCollection($vehicles);
 

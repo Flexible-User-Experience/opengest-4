@@ -75,7 +75,7 @@ class GenerateTimeSummaryFormType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_generate_time_summary';
     }

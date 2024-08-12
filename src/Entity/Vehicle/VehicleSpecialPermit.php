@@ -330,7 +330,7 @@ class VehicleSpecialPermit extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getVehicle().' - '.$this->getExpedientNumber().' - '.$this->getExpeditionDate()->format('d/m/y') : '---';
     }

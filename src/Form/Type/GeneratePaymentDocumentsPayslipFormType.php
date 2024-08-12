@@ -92,7 +92,7 @@ class GeneratePaymentDocumentsPayslipFormType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_generate_payslip_payment_document';
     }

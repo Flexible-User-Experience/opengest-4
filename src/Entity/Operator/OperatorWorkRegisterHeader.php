@@ -73,7 +73,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getOperatorWorkRegisters()
+    public function getOperatorWorkRegisters(): ArrayCollection
     {
         return $this->operatorWorkRegisters;
     }
@@ -105,7 +105,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function setOperatorWorkRegisters(ArrayCollection $operatorWorkRegisters): OperatorWorkRegisterHeader
+    public function setOperatorWorkRegisters(ArrayCollection $operatorWorkRegisters): static
     {
         $this->operatorWorkRegisters = $operatorWorkRegisters;
 
@@ -115,7 +115,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): OperatorWorkRegisterHeader
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): static
     {
         if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->add($operatorWorkRegister);
@@ -128,7 +128,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function removeOperatorWorkRegister(OperatorWorkRegister $workRegister): OperatorWorkRegisterHeader
+    public function removeOperatorWorkRegister(OperatorWorkRegister $workRegister): static
     {
         if ($this->operatorWorkRegisters->contains($workRegister)) {
             $this->operatorWorkRegisters->removeElement($workRegister);
@@ -148,7 +148,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getDate()->format('d/m/Y').' · '.$this->getOperator() : '---';
     }

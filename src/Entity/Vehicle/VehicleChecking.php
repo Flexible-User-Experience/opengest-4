@@ -55,7 +55,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @return Vehicle
      */
-    public function getVehicle()
+    public function getVehicle(): Vehicle
     {
         return $this->vehicle;
     }
@@ -65,7 +65,7 @@ class VehicleChecking extends AbstractBase
      *
      * @return VehicleChecking
      */
-    public function setVehicle($vehicle)
+    public function setVehicle($vehicle): VehicleChecking
     {
         $this->vehicle = $vehicle;
 
@@ -75,7 +75,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @return VehicleCheckingType
      */
-    public function getType()
+    public function getType(): VehicleCheckingType
     {
         return $this->type;
     }
@@ -85,7 +85,7 @@ class VehicleChecking extends AbstractBase
      *
      * @return VehicleChecking
      */
-    public function setType($type)
+    public function setType($type): VehicleChecking
     {
         $this->type = $type;
 
@@ -95,7 +95,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getBegin()
+    public function getBegin(): DateTime
     {
         return $this->begin;
     }
@@ -103,7 +103,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @return VehicleChecking
      */
-    public function setBegin(DateTime $begin)
+    public function setBegin(DateTime $begin): VehicleChecking
     {
         $this->begin = $begin;
 
@@ -113,7 +113,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getEnd()
+    public function getEnd(): DateTime
     {
         return $this->end;
     }
@@ -121,7 +121,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @return VehicleChecking
      */
-    public function setEnd(DateTime $end)
+    public function setEnd(DateTime $end): VehicleChecking
     {
         $this->end = $end;
 
@@ -149,7 +149,7 @@ class VehicleChecking extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getBegin()->format('d/m/Y').' · '.$this->getType().' · '.$this->getVehicle() : '---';
     }

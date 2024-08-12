@@ -182,7 +182,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -192,7 +192,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -202,7 +202,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return string
      */
-    public function getGroup()
+    public function getGroup(): string
     {
         return $this->group;
     }
@@ -212,7 +212,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setGroup($group)
+    public function setGroup($group): static
     {
         $this->group = $group;
 
@@ -222,7 +222,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getOperators()
+    public function getOperators(): ArrayCollection
     {
         return $this->operators;
     }
@@ -232,7 +232,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setOperators($operators)
+    public function setOperators($operators): static
     {
         $this->operators = $operators;
 
@@ -244,7 +244,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function addOperator($operator)
+    public function addOperator($operator): static
     {
         if (!$this->operators->contains($operator)) {
             $this->operators->add($operator);
@@ -257,7 +257,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return $this
      */
-    public function removeOperator($operator)
+    public function removeOperator($operator): static
     {
         if ($this->operators->contains($operator)) {
             $this->operators->removeElement($operator);
@@ -269,7 +269,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getNormalHour()
+    public function getNormalHour(): float
     {
         return $this->normalHour;
     }
@@ -279,7 +279,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setNormalHour($normalHour)
+    public function setNormalHour($normalHour): static
     {
         $this->normalHour = $normalHour;
 
@@ -289,7 +289,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getExtraNormalHour()
+    public function getExtraNormalHour(): float
     {
         return $this->extraNormalHour;
     }
@@ -299,7 +299,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setExtraNormalHour($extraNormalHour)
+    public function setExtraNormalHour($extraNormalHour): static
     {
         $this->extraNormalHour = $extraNormalHour;
 
@@ -309,7 +309,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getExtraExtraHour()
+    public function getExtraExtraHour(): float
     {
         return $this->extraExtraHour;
     }
@@ -319,7 +319,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setExtraExtraHour($extraExtraHour)
+    public function setExtraExtraHour($extraExtraHour): static
     {
         $this->extraExtraHour = $extraExtraHour;
 
@@ -341,7 +341,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getRoadNormalHour()
+    public function getRoadNormalHour(): float
     {
         return $this->roadNormalHour;
     }
@@ -351,7 +351,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setRoadNormalHour($roadNormalHour)
+    public function setRoadNormalHour($roadNormalHour): static
     {
         $this->roadNormalHour = $roadNormalHour;
 
@@ -361,7 +361,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getRoadExtraHour()
+    public function getRoadExtraHour(): float
     {
         return $this->roadExtraHour;
     }
@@ -371,7 +371,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setRoadExtraHour($roadExtraHour)
+    public function setRoadExtraHour($roadExtraHour): static
     {
         $this->roadExtraHour = $roadExtraHour;
 
@@ -381,7 +381,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getAwaitingHour()
+    public function getAwaitingHour(): float
     {
         return $this->awaitingHour;
     }
@@ -391,7 +391,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setAwaitingHour($awaitingHour)
+    public function setAwaitingHour($awaitingHour): static
     {
         $this->awaitingHour = $awaitingHour;
 
@@ -401,7 +401,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getNegativeHour()
+    public function getNegativeHour(): float
     {
         return $this->negativeHour;
     }
@@ -411,7 +411,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setNegativeHour($negativeHour)
+    public function setNegativeHour($negativeHour): static
     {
         $this->negativeHour = $negativeHour;
 
@@ -421,7 +421,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getTransferHour()
+    public function getTransferHour(): float
     {
         return $this->transferHour;
     }
@@ -431,7 +431,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setTransferHour($transferHour)
+    public function setTransferHour($transferHour): static
     {
         $this->transferHour = $transferHour;
 
@@ -441,7 +441,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getLunch()
+    public function getLunch(): float
     {
         return $this->lunch;
     }
@@ -451,7 +451,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setLunch($lunch)
+    public function setLunch($lunch): static
     {
         $this->lunch = $lunch;
 
@@ -461,7 +461,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getDinner()
+    public function getDinner(): float
     {
         return $this->dinner;
     }
@@ -471,7 +471,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setDinner($dinner)
+    public function setDinner($dinner): static
     {
         $this->dinner = $dinner;
 
@@ -481,7 +481,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getOverNight()
+    public function getOverNight(): float
     {
         return $this->overNight;
     }
@@ -491,7 +491,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setOverNight($overNight)
+    public function setOverNight($overNight): static
     {
         $this->overNight = $overNight;
 
@@ -501,7 +501,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getExtraNight()
+    public function getExtraNight(): float
     {
         return $this->extraNight;
     }
@@ -511,7 +511,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setExtraNight($extraNight)
+    public function setExtraNight($extraNight): static
     {
         $this->extraNight = $extraNight;
 
@@ -521,7 +521,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getDiet()
+    public function getDiet(): float
     {
         return $this->diet;
     }
@@ -531,7 +531,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setDiet($diet)
+    public function setDiet($diet): static
     {
         $this->diet = $diet;
 
@@ -541,7 +541,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getInternationalLunch()
+    public function getInternationalLunch(): float
     {
         return $this->internationalLunch;
     }
@@ -551,7 +551,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setInternationalLunch($internationalLunch)
+    public function setInternationalLunch($internationalLunch): static
     {
         $this->internationalLunch = $internationalLunch;
 
@@ -561,7 +561,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getInternationalDinner()
+    public function getInternationalDinner(): float
     {
         return $this->internationalDinner;
     }
@@ -571,7 +571,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setInternationalDinner($internationalDinner)
+    public function setInternationalDinner($internationalDinner): static
     {
         $this->internationalDinner = $internationalDinner;
 
@@ -581,7 +581,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getTruckOutput()
+    public function getTruckOutput(): float
     {
         return $this->truckOutput;
     }
@@ -591,7 +591,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setTruckOutput($truckOutput)
+    public function setTruckOutput($truckOutput): static
     {
         $this->truckOutput = $truckOutput;
 
@@ -601,7 +601,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return float
      */
-    public function getCarOutput()
+    public function getCarOutput(): float
     {
         return $this->carOutput;
     }
@@ -611,7 +611,7 @@ class EnterpriseGroupBounty extends AbstractBase
      *
      * @return $this
      */
-    public function setCarOutput($carOutput)
+    public function setCarOutput($carOutput): static
     {
         $this->carOutput = $carOutput;
 
@@ -621,7 +621,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getGroup() : '---';
     }

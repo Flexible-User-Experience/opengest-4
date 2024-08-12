@@ -50,7 +50,7 @@ class City extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -60,7 +60,7 @@ class City extends AbstractBase
      *
      * @return City
      */
-    public function setName($name)
+    public function setName($name): City
     {
         $this->name = $name;
 
@@ -70,7 +70,7 @@ class City extends AbstractBase
     /**
      * @return string
      */
-    public function getPostalCode()
+    public function getPostalCode(): string
     {
         return $this->postalCode;
     }
@@ -80,7 +80,7 @@ class City extends AbstractBase
      *
      * @return City
      */
-    public function setPostalCode($postalCode)
+    public function setPostalCode($postalCode): City
     {
         $this->postalCode = $postalCode;
 
@@ -90,7 +90,7 @@ class City extends AbstractBase
     /**
      * @return Province
      */
-    public function getProvince()
+    public function getProvince(): Province
     {
         return $this->province;
     }
@@ -100,7 +100,7 @@ class City extends AbstractBase
      *
      * @return City
      */
-    public function setProvince($province)
+    public function setProvince($province): City
     {
         $this->province = $province;
 
@@ -110,7 +110,7 @@ class City extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getPostalCode().' · '.$this->getName() : '---';
     }

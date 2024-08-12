@@ -80,7 +80,7 @@ class VehicleMaintenanceTask extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): VehicleMaintenanceTask
+    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): static
     {
         if (!$this->vehicleMaintenances->contains($vehicleMaintenance)) {
             $this->vehicleMaintenances->add($vehicleMaintenance);
@@ -93,7 +93,7 @@ class VehicleMaintenanceTask extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): VehicleMaintenanceTask
+    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): static
     {
         if ($this->vehicleMaintenances->contains($vehicleMaintenance)) {
             $this->vehicleMaintenances->removeElement($vehicleMaintenance);

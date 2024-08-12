@@ -50,7 +50,7 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * @return Operator
      */
-    public function getOperator()
+    public function getOperator(): Operator
     {
         return $this->operator;
     }
@@ -60,7 +60,7 @@ class OperatorDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setOperator($operator)
+    public function setOperator($operator): static
     {
         $this->operator = $operator;
 
@@ -70,7 +70,7 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * @return File
      */
-    public function getUploadedFile()
+    public function getUploadedFile(): File
     {
         return $this->uploadedFile;
     }
@@ -80,7 +80,7 @@ class OperatorDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setUploadedFile($uploadedFile)
+    public function setUploadedFile($uploadedFile): static
     {
         $this->uploadedFile = $uploadedFile;
 
@@ -90,7 +90,7 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * @return string
      */
-    public function getUploadedFileName()
+    public function getUploadedFileName(): string
     {
         return $this->uploadedFileName;
     }
@@ -100,7 +100,7 @@ class OperatorDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setUploadedFileName($uploadedFileName)
+    public function setUploadedFileName($uploadedFileName): static
     {
         $this->uploadedFileName = $uploadedFileName;
 
@@ -110,7 +110,7 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getCreatedAt()->format('d/m/Y').' · '.$this->getOperator() : '---';
     }

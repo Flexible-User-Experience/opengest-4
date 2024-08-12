@@ -30,7 +30,7 @@ class VehicleVoter extends AbstractVoter
      *
      * @return bool
      */
-    private function isOwner(?User $user, Vehicle $vehicle)
+    private function isOwner(?User $user, Vehicle $vehicle): bool
     {
         if (!$user) {
             return false;

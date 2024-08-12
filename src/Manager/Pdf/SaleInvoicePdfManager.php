@@ -32,7 +32,7 @@ class SaleInvoicePdfManager
     /**
      * @return TCPDF
      */
-    public function buildSingleListByClient($saleInvoices, $from, $to)
+    public function buildSingleListByClient($saleInvoices, $from, $to): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('FacturasCliente');
         $pdf = $this->pdfEngineService->getEngine();
@@ -43,7 +43,7 @@ class SaleInvoicePdfManager
     /**
      * @return string
      */
-    public function outputSingleListByClient($saleInvoices, $from, $to)
+    public function outputSingleListByClient($saleInvoices, $from, $to): string
     {
         $pdf = $this->buildSingleListByClient($saleInvoices, $from, $to);
 
@@ -53,7 +53,7 @@ class SaleInvoicePdfManager
     /**
      * @return TCPDF
      */
-    public function buildSingleList($saleInvoices, $from, $to)
+    public function buildSingleList($saleInvoices, $from, $to): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Facturas');
         $pdf = $this->pdfEngineService->getEngine();
@@ -64,7 +64,7 @@ class SaleInvoicePdfManager
     /**
      * @return string
      */
-    public function outputSingleList($saleInvoices, $from, $to)
+    public function outputSingleList($saleInvoices, $from, $to): string
     {
         $pdf = $this->buildSingleList($saleInvoices, $from, $to);
 
@@ -215,7 +215,7 @@ class SaleInvoicePdfManager
      *
      * @return TCPDF
      */
-    public function buildCollection($saleInvoices, $withBackground)
+    public function buildCollection($saleInvoices, $withBackground): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Facturas');
         $pdf = $this->pdfEngineService->getEngine();
@@ -232,7 +232,7 @@ class SaleInvoicePdfManager
      *
      * @return string
      */
-    public function outputCollectionEmail($saleInvoices)
+    public function outputCollectionEmail($saleInvoices): string
     {
         $pdf = $this->buildCollection($saleInvoices, true);
 
@@ -244,7 +244,7 @@ class SaleInvoicePdfManager
      *
      * @return string
      */
-    public function outputCollectionPrint($saleInvoices)
+    public function outputCollectionPrint($saleInvoices): string
     {
         $pdf = $this->buildCollection($saleInvoices, false);
 
@@ -254,7 +254,7 @@ class SaleInvoicePdfManager
     /**
      * @return TCPDF
      */
-    private function buildOneSaleInvoicePerPage(SaleInvoice $saleInvoice, $withBackground, TCPDF $pdf)
+    private function buildOneSaleInvoicePerPage(SaleInvoice $saleInvoice, $withBackground, TCPDF $pdf): TCPDF
     {
         // add start page
         $pdf->startPageGroup();

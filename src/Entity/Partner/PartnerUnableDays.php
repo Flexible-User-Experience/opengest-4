@@ -48,7 +48,7 @@ class PartnerUnableDays extends AbstractBase
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -58,7 +58,7 @@ class PartnerUnableDays extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -68,7 +68,7 @@ class PartnerUnableDays extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getBegin()
+    public function getBegin(): DateTime
     {
         return $this->begin;
     }
@@ -78,7 +78,7 @@ class PartnerUnableDays extends AbstractBase
      *
      * @return $this
      */
-    public function setBegin($begin)
+    public function setBegin($begin): static
     {
         $this->begin = $begin;
 
@@ -88,7 +88,7 @@ class PartnerUnableDays extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getEnd()
+    public function getEnd(): DateTime
     {
         return $this->end;
     }
@@ -98,7 +98,7 @@ class PartnerUnableDays extends AbstractBase
      *
      * @return $this
      */
-    public function setEnd($end)
+    public function setEnd($end): static
     {
         $this->end = $end;
 
@@ -123,7 +123,7 @@ class PartnerUnableDays extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getPartner()->getName().' : '.$this->getBegin()->format('d/m/Y') : '---';
     }

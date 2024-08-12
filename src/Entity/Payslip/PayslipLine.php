@@ -84,7 +84,7 @@ class PayslipLine extends AbstractBase
     /**
      * @return float|int
      */
-    public function getPriceUnit()
+    public function getPriceUnit(): float|int
     {
         return $this->priceUnit;
     }
@@ -102,7 +102,7 @@ class PayslipLine extends AbstractBase
     /**
      * @return float|int
      */
-    public function getAmount(): float
+    public function getAmount(): float|int
     {
         return $this->amount;
     }

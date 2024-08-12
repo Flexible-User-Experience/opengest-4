@@ -51,7 +51,7 @@ class PdfEngineService
      *
      * @return TCPDF
      */
-    public function initPageEngine($title, $orientation = ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, $units = ConstantsEnum::PDF_PAGE_UNITS)
+    public function initPageEngine($title, $orientation = ConstantsEnum::PDF_PORTRAIT_PAGE_ORIENTATION, $units = ConstantsEnum::PDF_PAGE_UNITS): TCPDF
     {
         // page settings
         $this->engine->setPageOrientation($orientation);
@@ -105,7 +105,7 @@ class PdfEngineService
      *
      * @return TCPDF
      */
-    public function initDefaultPageEngineWithTitle($title)
+    public function initDefaultPageEngineWithTitle($title): TCPDF
     {
         $this->initPageEngine($title);
 
@@ -118,7 +118,7 @@ class PdfEngineService
      *
      * @return TCPDF
      */
-    public function setStyleSize($style = '', $size = 8)
+    public function setStyleSize($style = '', $size = 8): TCPDF
     {
         $this->engine->SetFont(ConstantsEnum::PDF_DEFAULT_FONT, $style, $size);
 

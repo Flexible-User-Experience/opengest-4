@@ -61,7 +61,7 @@ class ContactMessageAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function answerAction(Request $request = null)
+    public function answerAction(Request $request = null): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());

@@ -40,7 +40,7 @@ class LinkVehicleEnterpriseCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome
         $output->writeln('<info>Welcome to "'.$this->getDescription().'" command.</info>');

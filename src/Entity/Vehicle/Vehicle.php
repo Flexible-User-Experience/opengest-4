@@ -491,7 +491,7 @@ class Vehicle extends AbstractBase
      *
      * @return Vehicle
      */
-    public function setSerialNumber(?string $serialNumber): ?Vehicle
+    public function setSerialNumber(?string $serialNumber): Vehicle
     {
         $this->serialNumber = $serialNumber;
 
@@ -508,7 +508,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function setLink($link): Vehicle
+    public function setLink($link): static
     {
         $this->link = $link;
 
@@ -542,7 +542,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function setAttatchmentPDF($attatchmentPDF): Vehicle
+    public function setAttatchmentPDF($attatchmentPDF): static
     {
         $this->attatchmentPDF = $attatchmentPDF;
 
@@ -576,7 +576,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function setMainImage($mainImage): Vehicle
+    public function setMainImage($mainImage): static
     {
         $this->mainImage = $mainImage;
 
@@ -608,7 +608,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function setVehicleDigitalTachographs($vehicleDigitalTachographs): Vehicle
+    public function setVehicleDigitalTachographs($vehicleDigitalTachographs): static
     {
         $this->vehicleDigitalTachographs = $vehicleDigitalTachographs;
 
@@ -618,7 +618,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph): Vehicle
+    public function addVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph): static
     {
         if (!$this->vehicleDigitalTachographs->contains($digitalTachograph)) {
             $this->vehicleDigitalTachographs->add($digitalTachograph);
@@ -631,7 +631,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph): Vehicle
+    public function removeVehicleDigitalTachograph(VehicleDigitalTachograph $digitalTachograph): static
     {
         if ($this->vehicleDigitalTachographs->contains($digitalTachograph)) {
             $this->vehicleDigitalTachographs->removeElement($digitalTachograph);
@@ -648,7 +648,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function setVehicleConsumptions(Collection $vehicleConsumptions): Vehicle
+    public function setVehicleConsumptions(Collection $vehicleConsumptions): static
     {
         $this->vehicleConsumptions = $vehicleConsumptions;
 
@@ -658,7 +658,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleConsumption(VehicleConsumption $vehicleConsumption): Vehicle
+    public function addVehicleConsumption(VehicleConsumption $vehicleConsumption): static
     {
         if (!$this->vehicleConsumptions->contains($vehicleConsumption)) {
             $this->vehicleConsumptions->add($vehicleConsumption);
@@ -671,7 +671,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleConsumption(VehicleConsumption $vehicleConsumption): Vehicle
+    public function removeVehicleConsumption(VehicleConsumption $vehicleConsumption): static
     {
         if ($this->vehicleConsumptions->contains($vehicleConsumption)) {
             $this->vehicleConsumptions->removeElement($vehicleConsumption);
@@ -688,7 +688,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function setVehicleCheckings(Collection $vehicleCheckings): Vehicle
+    public function setVehicleCheckings(Collection $vehicleCheckings): static
     {
         $this->vehicleCheckings = $vehicleCheckings;
 
@@ -698,7 +698,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleChecking(VehicleChecking $vehicleChecking): Vehicle
+    public function addVehicleChecking(VehicleChecking $vehicleChecking): static
     {
         if (!$this->vehicleCheckings->contains($vehicleChecking)) {
             $this->vehicleCheckings->add($vehicleChecking);
@@ -711,7 +711,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleChecking(VehicleChecking $vehicleChecking): Vehicle
+    public function removeVehicleChecking(VehicleChecking $vehicleChecking): static
     {
         if ($this->vehicleCheckings->contains($vehicleChecking)) {
             $this->vehicleCheckings->removeElement($vehicleChecking);
@@ -735,7 +735,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): Vehicle
+    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): static
     {
         if (!$this->vehicleMaintenances->contains($vehicleMaintenance)) {
             $this->vehicleMaintenances->add($vehicleMaintenance);
@@ -748,7 +748,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): Vehicle
+    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): static
     {
         if ($this->vehicleMaintenances->contains($vehicleMaintenance)) {
             $this->vehicleMaintenances->removeElement($vehicleMaintenance);
@@ -772,7 +772,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleSpecialPermit(VehicleSpecialPermit $vehicleSpecialPermit): Vehicle
+    public function addVehicleSpecialPermit(VehicleSpecialPermit $vehicleSpecialPermit): static
     {
         if (!$this->vehicleSpecialPermits->contains($vehicleSpecialPermit)) {
             $this->vehicleSpecialPermits->add($vehicleSpecialPermit);
@@ -785,7 +785,7 @@ class Vehicle extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleSpecialPermit(VehicleSpecialPermit $vehicleSpecialPermit): Vehicle
+    public function removeVehicleSpecialPermit(VehicleSpecialPermit $vehicleSpecialPermit): static
     {
         if ($this->vehicleSpecialPermits->contains($vehicleSpecialPermit)) {
             $this->vehicleSpecialPermits->removeElement($vehicleSpecialPermit);
@@ -804,7 +804,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleRequest($saleRequest): Vehicle
+    public function addSaleRequest($saleRequest): static
     {
         if (!$this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->add($saleRequest);
@@ -819,7 +819,7 @@ class Vehicle extends AbstractBase
      *
      * @return $this
      */
-    public function removeSaleRequest($saleRequest): Vehicle
+    public function removeSaleRequest($saleRequest): static
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
@@ -831,7 +831,7 @@ class Vehicle extends AbstractBase
     /**
      * @return ArrayCollection|Collection
      */
-    public function getSaleDeliveryNotes()
+    public function getSaleDeliveryNotes(): ArrayCollection|Collection
     {
         return $this->saleDeliveryNotes;
     }

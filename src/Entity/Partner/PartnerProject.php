@@ -66,7 +66,7 @@ class PartnerProject extends AbstractBase
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -76,7 +76,7 @@ class PartnerProject extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -86,7 +86,7 @@ class PartnerProject extends AbstractBase
     /**
      * @return string
      */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
@@ -96,7 +96,7 @@ class PartnerProject extends AbstractBase
      *
      * @return $this
      */
-    public function setNumber($number)
+    public function setNumber($number): static
     {
         $this->number = $number;
 
@@ -106,7 +106,7 @@ class PartnerProject extends AbstractBase
     /**
      * @return string
      */
-    public function getProviderReference()
+    public function getProviderReference(): string
     {
         return $this->providerReference;
     }
@@ -116,7 +116,7 @@ class PartnerProject extends AbstractBase
      *
      * @return $this
      */
-    public function setProviderReference($providerReference)
+    public function setProviderReference($providerReference): static
     {
         $this->providerReference = $providerReference;
 
@@ -126,7 +126,7 @@ class PartnerProject extends AbstractBase
     /**
      * @return ArrayCollection
      */
-    public function getSaleDeliveryNotes()
+    public function getSaleDeliveryNotes(): ArrayCollection
     {
         return $this->saleDeliveryNotes;
     }
@@ -136,7 +136,7 @@ class PartnerProject extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleDeliveryNotes($saleDeliveryNotes)
+    public function setSaleDeliveryNotes($saleDeliveryNotes): static
     {
         $this->saleDeliveryNotes = $saleDeliveryNotes;
 
@@ -148,7 +148,7 @@ class PartnerProject extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleDeliveryNote($saleDeliveryNote)
+    public function addSaleDeliveryNote($saleDeliveryNote): static
     {
         if (!$this->saleDeliveryNotes->contains($saleDeliveryNote)) {
             $this->saleDeliveryNotes->add($saleDeliveryNote);
@@ -163,7 +163,7 @@ class PartnerProject extends AbstractBase
      *
      * @return $this
      */
-    public function removeSaleDeliveryNote($saleDeliveryNote)
+    public function removeSaleDeliveryNote($saleDeliveryNote): static
     {
         if ($this->saleDeliveryNotes->contains($saleDeliveryNote)) {
             $this->saleDeliveryNotes->removeElement($saleDeliveryNote);
@@ -175,7 +175,7 @@ class PartnerProject extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getNumber() : '---';
     }

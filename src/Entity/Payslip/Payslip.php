@@ -247,7 +247,7 @@ class Payslip extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslipLines(Collection $payslipLines): Payslip
+    public function setPayslipLines(Collection $payslipLines): static
     {
         $this->payslipLines = $payslipLines;
 
@@ -257,7 +257,7 @@ class Payslip extends AbstractBase
     /**
      * @return $this
      */
-    public function addPayslipLine(PayslipLine $payslipLine): Payslip
+    public function addPayslipLine(PayslipLine $payslipLine): static
     {
         if (!$this->payslipLines->contains($payslipLine)) {
             $this->payslipLines->add($payslipLine);
@@ -270,7 +270,7 @@ class Payslip extends AbstractBase
     /**
      * @return $this
      */
-    public function removePayslipLine(PayslipLine $payslipLine): Payslip
+    public function removePayslipLine(PayslipLine $payslipLine): static
     {
         if ($this->payslipLines->contains($payslipLine)) {
             $this->payslipLines->removeElement($payslipLine);

@@ -29,7 +29,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
 
@@ -95,7 +95,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return RedirectResponse|Response
      */
-    public function pdfAction(Request $request)
+    public function pdfAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -120,7 +120,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return RedirectResponse|Response
      */
-    public function pdfWithBackgroundAction(Request $request)
+    public function pdfWithBackgroundAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -139,7 +139,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return RedirectResponse|Response
      */
-    public function countAction(Request $request)
+    public function countAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -160,7 +160,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws NonUniqueResultException
      */
-    public function cloneAction(Request $request, EntityManagerInterface $em)
+    public function cloneAction(Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -206,7 +206,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws ModelManagerException
      */
-    public function setHasNotBeenCountedAction(Request $request)
+    public function setHasNotBeenCountedAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -302,7 +302,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws NonUniqueResultException
      */
-    public function getJsonNextInvoiceNumberForSeriesIdAndInvoiceAction(Request $request, int $id)
+    public function getJsonNextInvoiceNumberForSeriesIdAndInvoiceAction(Request $request, int $id): JsonResponse
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
@@ -321,7 +321,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws NonUniqueResultException
      */
-    public function getJsonAvailableInvoiceNumbersForSeriesAction(Request $request, int $id)
+    public function getJsonAvailableInvoiceNumbersForSeriesAction(Request $request, int $id): JsonResponse
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);

@@ -21,7 +21,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
     /**
      * @return Response|RedirectResponse
      */
-    public function batchActionGenerateWorkRegisterReportPdf(ProxyQueryInterface $selectedModelQuery): Response
+    public function batchActionGenerateWorkRegisterReportPdf(ProxyQueryInterface $selectedModelQuery): Response|RedirectResponse
     {
         $this->admin->checkAccess('edit');
         list($operatorWorkRegisterHeaders, $from, $to) = $this->commonDocumentGenerationParameters($selectedModelQuery);
@@ -32,7 +32,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
     /**
      * @return Response|RedirectResponse
      */
-    public function batchActionGenerateWorkRegisterReportXls(ProxyQueryInterface $selectedModelQuery): Response
+    public function batchActionGenerateWorkRegisterReportXls(ProxyQueryInterface $selectedModelQuery): Response|RedirectResponse
     {
         $this->admin->checkAccess('edit');
         list($operatorWorkRegisterHeaders, $from, $to) = $this->commonDocumentGenerationParameters($selectedModelQuery);
