@@ -52,6 +52,13 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 ]
             )
+            ->add(
+                'isDeduction',
+                CheckboxType::class,
+                [
+                    'required' => false,
+                ]
+            )
 //            ->add(
 //                'enabled',
 //                CheckboxType::class,
@@ -81,13 +88,9 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 ]
             )
-//            ->add(
-//                'enabled',
-//                null,
-//                [
-//                    'label' => 'Actiu',
-//                ]
-//            )
+            ->add(
+                'isDeduction'
+            )
         ;
     }
 
@@ -106,6 +109,13 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
+                ]
+            )
+            ->add(
+                'isDeduction',
+                null,
+                [
+                    'editable' => true,
                 ]
             )
 //            ->add(
