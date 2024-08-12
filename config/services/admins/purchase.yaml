@@ -1,14 +1,14 @@
 services:
   app.admin.purchase_item:
     class: App\Admin\Purchase\PurchaseItemAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseItem, controller: ~, manager_type: orm, label: 'Artículos', group: 'Compras', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
       - [ setTranslationDomain, [ 'admin' ] ]
   app.admin.purchase_invoice:
     class: App\Admin\Purchase\PurchaseInvoiceAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseInvoice, controller: ~, manager_type: orm, label: 'Factura de compra', group: 'Compras', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
@@ -16,7 +16,7 @@ services:
       - [ setTemplate, [ edit, 'admin/purchase-invoice/edit.html.twig' ] ]
   app.admin.purchase_invoice_due_date:
     class: App\Admin\Purchase\PurchaseInvoiceDueDateAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseInvoiceDueDate, controller: ~, manager_type: orm, label: 'Vencimientos de compra', group: 'Cartera', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
@@ -24,14 +24,14 @@ services:
       - [ setTemplate, [ list, 'admin/due-date/list.html.twig' ] ]
   app.admin.purchase_invoice_line:
     class: App\Admin\Purchase\PurchaseInvoiceLineAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseInvoiceLine, controller: ~, default: true, manager_type: orm, label: 'Lineas de factura de compra', group: 'Compras', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
       - [ setTranslationDomain, [ 'admin' ] ]
   app.admin.cost_analytics:
     class: App\Admin\Purchase\CostAnalyticsAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Purchase\PurchaseInvoiceLine, controller: App\Controller\Admin\Purchase\CostAnalyticsAdminController, manager_type: orm, label: 'Costes imputables', group: 'Analítica', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:

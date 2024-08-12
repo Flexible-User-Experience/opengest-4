@@ -8,6 +8,7 @@ use App\Entity\Setting\User;
 use App\Entity\Vehicle\VehicleMaintenance;
 use App\Manager\DeliveryNoteManager;
 use App\Manager\InvoiceManager;
+use App\Manager\PayslipManager;
 use App\Manager\RepositoriesManager;
 use App\Manager\VehicleMaintenanceManager;
 use App\Manager\YearChoicesManager;
@@ -35,30 +36,6 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
 {
     private UploaderHelper $vus;
 
-    private CacheManager $lis;
-
-    protected YearChoicesManager $ycm;
-
-    protected InvoiceManager $im;
-
-    protected RepositoriesManager $rm;
-
-    protected DeliveryNoteManager $dnm;
-
-    protected VehicleMaintenanceManager $vmm;
-
-    protected EntityManagerInterface $em;
-
-    protected FileService $fs;
-
-    private Environment $tws;
-
-    protected TokenStorageInterface $ts;
-
-    protected AuthorizationCheckerInterface $acs;
-
-    protected UserPasswordHasherInterface $passwordEncoder;
-
     /**
      * @var array
      */
@@ -72,22 +49,24 @@ abstract class AbstractBaseAdmin extends AbstractAdmin
     /**
      * Methods.
      */
-    public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(
+        private readonly CacheManager $lis,
+        protected readonly YearChoicesManager $ycm,
+        protected readonly InvoiceManager $im,
+        protected readonly RepositoriesManager $rm,
+        protected readonly DeliveryNoteManager $dnm,
+        protected readonly VehicleMaintenanceManager $vmm,
+        protected readonly PayslipManager $payslipManager,
+        protected readonly EntityManagerInterface $em,
+        protected readonly FileService $fs,
+        private readonly Environment $tws,
+        protected readonly TokenStorageInterface $ts,
+        protected readonly AuthorizationCheckerInterface $acs,
+        protected readonly UserPasswordHasherInterface $passwordEncoder
+    )
     {
         parent::__construct();
         $this->vus = $fs->getUhs();
-        $this->lis = $lis;
-        $this->ycm = $ycm;
-        $this->im = $im;
-        $this->rm = $rm;
-        $this->dnm = $dnm;
-        $this->vmm = $vmm;
-        $this->em = $em;
-        $this->fs = $fs;
-        $this->tws = $tws;
-        $this->ts = $ts;
-        $this->acs = $acs;
-        $this->passwordEncoder = $passwordEncoder;
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void

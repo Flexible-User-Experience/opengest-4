@@ -2,28 +2,28 @@
 services:
   app.admin.payslip:
     class: App\Admin\Payslip\PayslipAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Payslip\Payslip, controller: App\Controller\Admin\Payslip\PayslipAdminController, manager_type: orm, label: 'Nóminas', group: 'Nóminas', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
       - [ setTranslationDomain, [ 'admin' ] ]
   app.admin.payslip_line:
     class: App\Admin\Payslip\PayslipLineAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Payslip\PayslipLine, controller: ~, manager_type: orm, label: 'Líneas', group: 'Nóminas', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
       - [ setTranslationDomain, [ 'admin' ] ]
   app.admin.payslip_line_concept:
     class: App\Admin\Payslip\PayslipLineConceptAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Payslip\PayslipLineConcept, controller: ~, manager_type: orm, label: 'Conceptos de línia', group: 'Nóminas', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
       - [ setTranslationDomain, [ 'admin' ] ]
   app.admin.payslip_operator_default_line:
     class: App\Admin\Payslip\PayslipOperatorDefaultLineAdmin
-    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
+    arguments: [ '@liip_imagine.cache.manager', '@App\Manager\YearChoicesManager', '@App\Manager\InvoiceManager', '@App\Manager\RepositoriesManager', '@App\Manager\DeliveryNoteManager','@App\Manager\VehicleMaintenanceManager', '@App\Manager\PayslipManager', '@doctrine.orm.entity_manager', '@App\Service\FileService', '@twig', '@security.token_storage', '@security.authorization_checker','@security.user_password_hasher']
     tags:
       - { name: sonata.admin, code: ~, model_class: App\Entity\Payslip\PayslipOperatorDefaultLine, controller: ~, manager_type: orm, label: 'Conceptos de línia - operario por defecto', group: 'Nóminas', label_translator_strategy: 'sonata.admin.label.strategy.noop' }
     calls:
