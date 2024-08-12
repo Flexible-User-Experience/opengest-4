@@ -50,11 +50,10 @@ class OperatorAdmin extends AbstractBaseAdmin
      */
     protected $classnameLabel = 'Operadors';
 
-    /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operaris/operari';
 
+    /**
+     * Methods.
+     */
     public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, PayslipManager $payslipManager, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
                                 public array $purchaseInvoiceLinesCostCenters = []
     )
@@ -62,9 +61,11 @@ class OperatorAdmin extends AbstractBaseAdmin
         parent::__construct($lis, $ycm, $im, $rm, $dnm, $vmm, $payslipManager, $em, $fs, $tws, $ts, $acs, $passwordEncoder);
     }
 
-    /**
-     * Methods.
-     */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operaris/operari';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';

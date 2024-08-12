@@ -26,11 +26,6 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tipus absència';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operaris/tipus-absencia';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -41,6 +36,10 @@ class OperatorAbsenceTypeAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operaris/tipus-absencia';
+    }
 
     /**
      * Configure route collection.

@@ -33,11 +33,6 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'operator_work_register';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operaris/partes-trabajo-cabecera';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -48,6 +43,11 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operaris/partes-trabajo-cabecera';
+    }
+
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection

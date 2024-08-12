@@ -31,11 +31,6 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Partes de trabajo líneas';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operaris/partes-trabajo';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -46,6 +41,11 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operaris/partes-trabajo';
+    }
+
     public function configureExportFields(): array
     {
         return [

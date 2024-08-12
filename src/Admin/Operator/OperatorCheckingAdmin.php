@@ -18,13 +18,16 @@ class OperatorCheckingAdmin extends OperatorCheckingBaseAdmin
 {
     protected $classnameLabel = 'Revisiones';
 
-    protected $baseRoutePattern = 'operarios/revision';
-
     protected $baseRouteName = 'admin_app_operator_operatorchecking';
 
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operarios/revision';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         parent::configureFormFields($formMapper);

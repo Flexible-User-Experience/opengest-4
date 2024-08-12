@@ -29,11 +29,6 @@ class OperatorDigitalTachographAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tacògrafs';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operaris/tacograf';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -44,6 +39,10 @@ class OperatorDigitalTachographAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operaris/tacograf';
+    }
 
     /**
      * Configure route collection.
