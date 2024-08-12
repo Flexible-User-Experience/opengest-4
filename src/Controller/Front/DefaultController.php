@@ -8,7 +8,6 @@ use App\Form\Type\ContactMessageFormType;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Web\ServiceRepository;
 use App\Service\NotificationService;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
