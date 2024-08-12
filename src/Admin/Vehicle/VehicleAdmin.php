@@ -53,11 +53,6 @@ class VehicleAdmin extends AbstractBaseAdmin
      */
     protected $classnameLabel = 'Vehicles';
 
-    /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehicles/vehicle';
-
     public function __construct(CacheManager $lis, YearChoicesManager $ycm, InvoiceManager $im, RepositoriesManager $rm, DeliveryNoteManager $dnm, VehicleMaintenanceManager $vmm, PayslipManager $payslipManager, EntityManagerInterface $em, FileService $fs, Environment $tws, TokenStorageInterface $ts, AuthorizationCheckerInterface $acs, UserPasswordHasherInterface $passwordEncoder,
         public array $purchaseInvoiceLinesCostCenters = []
     ) {
@@ -67,6 +62,11 @@ class VehicleAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehicles/vehicle';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';

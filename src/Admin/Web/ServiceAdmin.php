@@ -44,6 +44,10 @@ class ServiceAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'web/servei';
+    }
 
     /**
      * @param RouteCollection $collection

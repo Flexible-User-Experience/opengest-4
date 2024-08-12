@@ -26,11 +26,6 @@ class ProvinceAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Província';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracio/provincia';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -41,6 +36,10 @@ class ProvinceAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracio/provincia';
+    }
 
     /**
      * Configure route collection.
