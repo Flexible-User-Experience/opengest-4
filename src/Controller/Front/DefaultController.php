@@ -23,12 +23,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/", name="front_homepage")
-     *
-     * @return Response
-     */
-    public function indexAction(ServiceRepository $sr)
+    #[Route('/', name: 'front_homepage')]
+    public function indexAction(ServiceRepository $sr): Response
     {
         /** @var Service|null $serviceGC */
         $serviceGC = $sr->findOneBy(['slug' => 'gruas-de-celosia']);
@@ -44,13 +40,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/empresa", name="front_company")
-     *
-     * @return Response
-     *
-     * @throws TransportExceptionInterface
-     */
+    #[Route('/empresa', name: 'front_company')]
     public function companyAction(Request $request, NotificationService $ns)
     {
         $contactMessage = new ContactMessage();
@@ -82,38 +72,25 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/sobre-este-sitio", name="front_about")
-     */
+    #[Route('/sobre-este-sitio', name: 'front_about')]
     public function aboutAction()
     {
         return $this->render('frontend/about.html.twig');
     }
 
-    /**
-     * @Route("/privacidad", name="front_privacy")
-     */
+    #[Route('/privacidad', name: 'front_privacy')]
     public function privacyAction()
     {
         return $this->render('frontend/privacy.html.twig');
     }
 
-    /**
-     * @Route("/mapa-del-web", name="front_sitemap")
-     */
+    #[Route('/mapa-del-web', name: 'front_sitemap')]
     public function sitemapAction()
     {
         return $this->render('frontend/sitemap.html.twig');
     }
 
-    /**
-     * @Route("/test-email", name="front_test_email")
-     *
-     * @return Response
-     *
-     * @throws HttpException
-     * @throws Exception
-     */
+    #[Route('/test-email', name: 'front_test_email')]
     public function testEmailAction(VehicleCheckingRepository $vcr)
     {
         if ('prod' == $this->get('kernel')->getEnvironment()) {
