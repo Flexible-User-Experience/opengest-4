@@ -29,11 +29,6 @@ class EnterpriseAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Empresa';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'empreses/empresa';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -44,6 +39,10 @@ class EnterpriseAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'empreses/empresa';
+    }
 
     /**
      * Configure route collection.
