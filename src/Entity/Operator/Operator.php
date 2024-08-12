@@ -862,10 +862,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getProfilePhotoImageFile(): File
+
+    public function getProfilePhotoImageFile(): ?File
     {
         return $this->profilePhotoImageFile;
     }
@@ -907,10 +905,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getTaxIdentificationNumberImageFile(): File
+
+    public function getTaxIdentificationNumberImageFile(): ?File
     {
         return $this->taxIdentificationNumberImageFile;
     }
@@ -952,10 +948,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getDrivingLicenseImageFile(): File
+
+    public function getDrivingLicenseImageFile(): ?File
     {
         return $this->drivingLicenseImageFile;
     }
@@ -997,10 +991,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getCranesOperatorLicenseImageFile(): File
+
+    public function getCranesOperatorLicenseImageFile(): ?File
     {
         return $this->cranesOperatorLicenseImageFile;
     }
@@ -1042,10 +1034,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getMedicalCheckImageFile(): File
+
+    public function getMedicalCheckImageFile(): ?File
     {
         return $this->medicalCheckImageFile;
     }
@@ -1087,10 +1077,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getEpisImageFile(): File
+
+    public function getEpisImageFile(): ?File
     {
         return $this->episImageFile;
     }
@@ -1132,10 +1120,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getTrainingDocumentImageFile(): File
+
+    public function getTrainingDocumentImageFile(): ?File
     {
         return $this->trainingDocumentImageFile;
     }
@@ -1177,10 +1163,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getInformationImageFile(): File
+
+    public function getInformationImageFile(): ?File
     {
         return $this->informationImageFile;
     }
@@ -1222,10 +1206,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getUseOfMachineryAuthorizationImageFile(): File
+
+    public function getUseOfMachineryAuthorizationImageFile(): ?File
     {
         return $this->useOfMachineryAuthorizationImageFile;
     }
@@ -1267,10 +1249,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getDischargeSocialSecurityImageFile(): File
+
+    public function getDischargeSocialSecurityImageFile(): ?File
     {
         return $this->dischargeSocialSecurityImageFile;
     }
@@ -1312,10 +1292,8 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getEmploymentContractImageFile(): File
+
+    public function getEmploymentContractImageFile(): ?File
     {
         return $this->employmentContractImageFile;
     }
