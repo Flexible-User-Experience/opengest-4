@@ -473,15 +473,7 @@ class PayslipAdmin extends AbstractBaseAdmin
      */
     public function preUpdate($object): void
     {
-        $payslipLines = $object->getPayslipLines();
-        $totalAmount = 0;
-        /** @var PayslipLine $payslipLine */
-        foreach ($payslipLines as $payslipLine) {
-            $amount = $payslipLine->getUnits() * $payslipLine->getPriceUnit();
-            $payslipLine->setAmount($amount);
-            $totalAmount += $amount;
-        }
-        $object->setTotalAmount($totalAmount);
+        $this->payslipManager->updatePayslipTotals($object);
         $this->em->flush();
     }
 }

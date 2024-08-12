@@ -12,6 +12,7 @@ use App\Enum\EnterpriseDocumentsEnum;
 use App\Enum\OperatorDocumentsEnum;
 use App\Form\Type\Operator\GenerateDocumentationFormType;
 use App\Form\Type\Operator\GeneratePayslipsFormType;
+use App\Manager\PayslipManager;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -168,7 +169,7 @@ class OperatorAdminController extends BaseAdminController
         );
     }
 
-    public function generatePayslipsAction(Request $request)
+    public function generatePayslipsAction(Request $request, PayslipManager $payslipManager)
     {
         $formData = $request->request->get('app_generate_payslips');
         try {
@@ -186,16 +187,14 @@ class OperatorAdminController extends BaseAdminController
                 $payslip->setFromDate($fromDate);
                 $payslip->setToDate($toDate);
                 $em->persist($payslip);
-                $totalAmount = 0;
                 $operatorDefaultLines = $operator->getPayslipOperatorDefaultLines();
                 if ($operatorDefaultLines) {
                     foreach ($operator->getPayslipOperatorDefaultLines() as $defaultLine) {
                         $payslipLine = $this->makePayslipLineFromDefaultPayslipLine($defaultLine);
                         $payslip->addPayslipLine($payslipLine);
-                        $totalAmount += $payslipLine->getAmount();
                     }
                 }
-                $payslip->setTotalAmount($totalAmount);
+                $payslipManager->updatePayslipTotals($payslip);
                 $em->persist($payslip);
                 $em->flush();
                 ++$i;
