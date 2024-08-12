@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -215,10 +216,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getEnterprises(): array
+    public function getEnterprises(): Collection
     {
         return $this->enterprises;
     }
