@@ -15,12 +15,7 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 class VehicleDigitalTachographAdminController extends BaseAdminController
 {
-    /**
-     * @param int|null $id
-     *
-     * @return StreamedResponse
-     */
-    public function downloadAction(Request $request, $id = null, DownloadHandler $downloadHandler)
+    public function downloadAction(Request $request, DownloadHandler $downloadHandler): StreamedResponse
     {
         $id = $request->get($this->admin->getIdParameter());
 
