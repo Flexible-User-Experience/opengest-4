@@ -631,10 +631,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this->mainCity;
     }
 
-    /**
-     * @return string
-     */
-    public function getMainCityName(): string
+    public function getMainCityName(): ?string
     {
         if ($this->mainCity) {
             return $this->getMainCity()->getName();
@@ -1095,10 +1092,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOrders(): ArrayCollection
+    public function getOrders(): Collection
     {
         return $this->orders;
     }
@@ -1182,10 +1176,8 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getBuildingSites(): ArrayCollection
+
+    public function getBuildingSites(): Collection
     {
         return $this->buildingSites;
     }
@@ -1227,10 +1219,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getContacts(): ArrayCollection
+    public function getContacts(): Collection
     {
         return $this->contacts;
     }
@@ -1332,7 +1321,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return ArrayCollection
      */
-    public function getSaleRequests(): ArrayCollection
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }
@@ -1381,7 +1370,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return ArrayCollection
      */
-    public function getPartnerUnableDays(): ArrayCollection
+    public function getPartnerUnableDays(): Collection
     {
         return $this->partnerUnableDays;
     }
@@ -1421,7 +1410,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return ArrayCollection
      */
-    public function getSaleDeliveryNotes(): ArrayCollection
+    public function getSaleDeliveryNotes(): Collection
     {
         return $this->saleDeliveryNotes;
     }
@@ -1467,7 +1456,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    public function getSaleTariffs(): ArrayCollection
+    public function getSaleTariffs(): Collection
     {
         return $this->saleTariffs;
     }

@@ -8,6 +8,7 @@ use App\Entity\Traits\NameTrait;
 use App\Entity\Traits\SlugTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -226,10 +227,7 @@ class Work extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getImages(): ArrayCollection
+    public function getImages(): Collection
     {
         return $this->images;
     }

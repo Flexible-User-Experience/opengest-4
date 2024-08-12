@@ -273,10 +273,7 @@ class EnterpriseTransferAccount extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getPartners(): ArrayCollection
+    public function getPartners(): Collection
     {
         return $this->partners;
     }

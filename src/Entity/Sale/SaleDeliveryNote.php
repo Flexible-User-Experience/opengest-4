@@ -590,10 +590,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleDeliveryNoteLines(): ArrayCollection
+    public function getSaleDeliveryNoteLines(): Collection
     {
         return $this->saleDeliveryNoteLines;
     }
@@ -635,10 +632,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequestHasDeliveryNotes(): ArrayCollection
+    public function getSaleRequestHasDeliveryNotes(): Collection
     {
         return $this->saleRequestHasDeliveryNotes;
     }

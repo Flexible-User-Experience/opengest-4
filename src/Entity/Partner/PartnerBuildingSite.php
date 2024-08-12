@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -177,7 +178,7 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    public function getSaleTariffs(): ArrayCollection
+    public function getSaleTariffs(): Collection
     {
         return $this->saleTariffs;
     }
@@ -212,7 +213,7 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    public function getSaleRequests(): ArrayCollection
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }

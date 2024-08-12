@@ -97,7 +97,7 @@ class VehicleCategory extends AbstractBase
         return $this;
     }
 
-    public function getServices(): ArrayCollection
+    public function getServices(): Collection
     {
         return $this->services;
     }

@@ -1547,10 +1547,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorDigitalTachographs(): ArrayCollection
+    public function getOperatorDigitalTachographs(): Collection
     {
         $lastId = $this->operatorDigitalTachographs->last() ? $this->operatorDigitalTachographs->last()->getId() : null;
 
@@ -1695,10 +1692,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorAbsences(): ArrayCollection
+    public function getOperatorAbsences(): Collection
     {
         return $this->operatorAbsences;
     }
@@ -1791,10 +1785,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequests(): ArrayCollection
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }
@@ -1920,10 +1911,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorVariousAmount(): ArrayCollection
+    public function getOperatorVariousAmount(): Collection
     {
         return $this->operatorVariousAmount;
     }

@@ -828,10 +828,7 @@ class Vehicle extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection|Collection
-     */
-    public function getSaleDeliveryNotes(): ArrayCollection|Collection
+    public function getSaleDeliveryNotes(): Collection
     {
         return $this->saleDeliveryNotes;
     }

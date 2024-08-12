@@ -738,7 +738,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getServiceTimeString(): string
+    public function getServiceTimeString(): ?string
     {
         if ($this->getServiceTime()) {
             return $this->getServiceTime()->format('H:i');
@@ -874,10 +874,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequestHasDeliveryNotes(): ArrayCollection
+    public function getSaleRequestHasDeliveryNotes(): Collection
     {
         return $this->saleRequestHasDeliveryNotes;
     }

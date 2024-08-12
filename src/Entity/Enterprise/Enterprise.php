@@ -1662,7 +1662,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         return $this;
     }
 
-    public function getUsers(): ArrayCollection
+    public function getUsers(): Collection
     {
         return $this->users;
     }
@@ -1701,7 +1701,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getEnterpriseGroupBounties(): ArrayCollection
+    public function getEnterpriseGroupBounties(): Collection
     {
         return $this->enterpriseGroupBounties;
     }
@@ -1746,7 +1746,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getEnterpriseTransferAccounts(): ArrayCollection
+    public function getEnterpriseTransferAccounts(): Collection
     {
         return $this->enterpriseTransferAccounts;
     }
@@ -1795,7 +1795,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getPartners(): ArrayCollection
+    public function getPartners(): Collection
     {
         return $this->partners;
     }
@@ -1844,7 +1844,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getEnterpriseHolidays(): ArrayCollection
+    public function getEnterpriseHolidays(): Collection
     {
         return $this->enterpriseHolidays;
     }
@@ -1893,7 +1893,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getSaleTariffs(): ArrayCollection
+    public function getSaleTariffs(): Collection
     {
         return $this->saleTariffs;
     }
@@ -1942,7 +1942,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getSaleRequests(): ArrayCollection
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }
@@ -1991,7 +1991,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getActivityLines(): ArrayCollection
+    public function getActivityLines(): Collection
     {
         return $this->activityLines;
     }
@@ -2036,7 +2036,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     /**
      * @return ArrayCollection
      */
-    public function getCollectionDocumentTypes(): ArrayCollection
+    public function getCollectionDocumentTypes(): Collection
     {
         return $this->collectionDocumentTypes;
     }

@@ -5,6 +5,7 @@ namespace App\Entity\Operator;
 use App\Entity\AbstractBase;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -70,10 +71,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorWorkRegisters(): ArrayCollection
+    public function getOperatorWorkRegisters(): Collection
     {
         return $this->operatorWorkRegisters;
     }

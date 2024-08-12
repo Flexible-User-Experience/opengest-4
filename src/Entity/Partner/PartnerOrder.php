@@ -5,6 +5,7 @@ namespace App\Entity\Partner;
 use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -123,10 +124,7 @@ class PartnerOrder extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleDeliveryNotes(): ArrayCollection
+    public function getSaleDeliveryNotes(): Collection
     {
         return $this->saleDeliveryNotes;
     }

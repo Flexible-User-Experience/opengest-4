@@ -10,6 +10,7 @@ use App\Entity\Traits\SlugTrait;
 use App\Entity\Vehicle\VehicleCategory;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -130,10 +131,7 @@ class Service extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getWorks(): ArrayCollection
+    public function getWorks(): Collection
     {
         return $this->works;
     }

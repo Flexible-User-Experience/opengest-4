@@ -4,6 +4,7 @@ namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -118,10 +119,7 @@ class PartnerType extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getPartners(): ArrayCollection
+    public function getPartners(): Collection
     {
         return $this->partners;
     }

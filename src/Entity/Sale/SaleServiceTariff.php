@@ -5,6 +5,7 @@ namespace App\Entity\Sale;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\ActivityLine;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -76,10 +77,7 @@ class SaleServiceTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleTariffs(): ArrayCollection
+    public function getSaleTariffs(): Collection
     {
         return $this->saleTariffs;
     }
@@ -116,10 +114,7 @@ class SaleServiceTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequests(): ArrayCollection
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }
@@ -156,7 +151,7 @@ class SaleServiceTariff extends AbstractBase
         return $this;
     }
 
-    public function getVehicles(): ArrayCollection
+    public function getVehicles(): Collection
     {
         return $this->vehicles;
     }

@@ -201,10 +201,7 @@ class PurchaseInvoice extends AbstractBase
         $this->purchaseInvoiceDueDates = new ArrayCollection();
     }
 
-    /**
-     * @return ArrayCollection|Collection
-     */
-    public function getPurchaseInvoiceLines(): ArrayCollection|Collection
+    public function getPurchaseInvoiceLines(): Collection
     {
         return $this->purchaseInvoiceLines;
     }
@@ -246,10 +243,7 @@ class PurchaseInvoice extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection|Collection
-     */
-    public function getPurchaseInvoiceDueDates(): ArrayCollection|Collection
+    public function getPurchaseInvoiceDueDates(): Collection
     {
         return $this->purchaseInvoiceDueDates;
     }

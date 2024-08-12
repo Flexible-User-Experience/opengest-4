@@ -5,6 +5,7 @@ namespace App\Entity\Enterprise;
 use App\Entity\AbstractBase;
 use App\Entity\Operator\Operator;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -219,10 +220,7 @@ class EnterpriseGroupBounty extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperators(): ArrayCollection
+    public function getOperators(): Collection
     {
         return $this->operators;
     }
