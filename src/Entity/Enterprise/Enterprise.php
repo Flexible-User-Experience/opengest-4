@@ -33,7 +33,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable()
  * @UniqueEntity({"taxIdentificationNumber"})
  */
-class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEInterface
+class Enterprise extends AbstractBase implements SellerFacturaEInterface
 {
     public const GRUAS_ROMANI_TIN = 'A43030287';
 
@@ -641,10 +641,7 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
         $this->documents = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -2165,31 +2162,5 @@ class Enterprise extends AbstractBase implements \Serializable, SellerFacturaEIn
     public function __toString(): string
     {
         return $this->id ? $this->getName().' · '.$this->getTaxIdentificationNumber() : '---';
-    }
-
-    public function serialize()
-    {
-        return serialize([
-            $this->id,
-            $this->logo,
-        ]);
-    }
-
-    public function unserialize($data)
-    {
-        list($this->id) = unserialize($data);
-    }
-
-    public function __serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'logo' => $this->logo,
-        ];
-    }
-
-    public function __unserialize($data)
-    {
-        list($this->id) = $data['id'];
     }
 }
