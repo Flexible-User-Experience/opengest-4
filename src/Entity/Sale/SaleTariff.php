@@ -68,40 +68,48 @@ class SaleTariff extends AbstractBase
 
     /**
      * @var float    #[Groups('apiSaleTariff')]
+     */
+    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $priceHour;
 
     /**
-     * @var float    #[Groups('apiSaleTariff')]
+     * @var float
+     */
+    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHours;
 
     /**
-     * @var float    #[Groups('apiSaleTariff')]
+     * @var float
+     */
+    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHolidayHours;
 
     /**
-     * @var float    #[Groups('apiSaleTariff')]
+     * @var float
+     */
+    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $displacement;
 
     /**
-     * @var float    #[Groups('apiSaleTariff')]
+     * @var float
+     */
+    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidays;
 
     /**
-     * @var float    #[Groups('apiSaleTariff')]
+     * @var float
+     */
+    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidaysPercentage;
 
     /**
      * Methods.
-     */
-
-    /**
-     * @return string
      */
     public function getEnterprise(): string
     {
