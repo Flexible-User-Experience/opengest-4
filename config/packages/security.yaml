@@ -1,5 +1,4 @@
 security:
-    enable_authenticator_manager: true
     role_hierarchy:
         ROLE_SONATA_CMS:
             - ROLE_APP_ADMIN_SERVICE_ALL
