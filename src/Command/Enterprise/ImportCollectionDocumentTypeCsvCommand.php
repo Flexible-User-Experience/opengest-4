@@ -25,7 +25,7 @@ class ImportCollectionDocumentTypeCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:enterprise:collection:document:type');
         $this->setDescription('Import enterprise collection document types from CSV file');

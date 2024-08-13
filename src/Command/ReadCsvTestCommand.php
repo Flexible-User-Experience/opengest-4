@@ -17,7 +17,7 @@ class ReadCsvTestCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:read-csv-test');
         $this->setDescription('Read a CSV file');

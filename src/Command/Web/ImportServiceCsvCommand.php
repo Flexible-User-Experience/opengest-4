@@ -19,7 +19,7 @@ class ImportServiceCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:service');
         $this->setDescription('Import service from CSV file');

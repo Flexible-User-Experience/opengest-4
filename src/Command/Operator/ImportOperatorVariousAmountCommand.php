@@ -26,7 +26,7 @@ class ImportOperatorVariousAmountCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:operator:various:amount');
         $this->setDescription('Import operator various amounts from CSV file');

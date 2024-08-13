@@ -26,7 +26,7 @@ class ImportSaleTariffCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:sale:tariff');
         $this->setDescription('Import sale tariff from CSV file');

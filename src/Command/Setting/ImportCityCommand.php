@@ -25,7 +25,7 @@ class ImportCityCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:city');
         $this->setDescription('Import city from CSV file by index');

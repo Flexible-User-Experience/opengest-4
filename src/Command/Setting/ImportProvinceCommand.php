@@ -24,7 +24,7 @@ class ImportProvinceCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:province');
         $this->setDescription('Import province from CSV file by index');

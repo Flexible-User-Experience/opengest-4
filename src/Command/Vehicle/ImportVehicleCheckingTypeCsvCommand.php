@@ -20,7 +20,7 @@ class ImportVehicleCheckingTypeCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:vehicle_checking:type');
         $this->setDescription('Import vehicle checking types from CSV file');

@@ -23,7 +23,7 @@ class CreatePayslipLineConceptsCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:create:payslip:line:concepts');
         $this->setDescription('Create default payslip line concepts');

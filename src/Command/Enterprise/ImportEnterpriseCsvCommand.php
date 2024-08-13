@@ -25,7 +25,7 @@ class ImportEnterpriseCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:enterprise');
         $this->setDescription('Import enterprise from CSV file');

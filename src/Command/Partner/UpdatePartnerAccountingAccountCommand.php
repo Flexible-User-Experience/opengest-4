@@ -22,7 +22,7 @@ class UpdatePartnerAccountingAccountCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:update:partner:accounting_account');
         $this->setDescription('Update partner accounting account to match 10 digits criteria.');

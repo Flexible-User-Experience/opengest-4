@@ -25,7 +25,7 @@ class ImportEnterpriseTransferAccountCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:enterprise:transfer:account');
         $this->setDescription('Import enterprise transfer accounts from CSV file');

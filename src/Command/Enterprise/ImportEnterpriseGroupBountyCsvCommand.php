@@ -25,7 +25,7 @@ class ImportEnterpriseGroupBountyCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:enterprise:group:bounty');
         $this->setDescription('Import enterprise group bountys from CSV file');

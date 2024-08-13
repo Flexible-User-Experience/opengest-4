@@ -24,7 +24,7 @@ class ImportOperatorAbsenceTypeCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:operator:absence:type');
         $this->setDescription('Import operator absence type from CSV file');

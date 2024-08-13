@@ -23,7 +23,7 @@ class SetActivityLineToSaleServiceTariffCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:set:sale:tariff:activity_line');
         $this->setDescription('Set activity line for sale tariffs');

@@ -24,7 +24,7 @@ class ImportOperatorCheckingTypeCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:operator:checking:type');
         $this->setDescription('Import operator checking type from CSV file');

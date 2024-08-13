@@ -26,7 +26,7 @@ class ImportPartnerBuildingSiteCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:partner:building:site');
         $this->setDescription('Import partner building sites from CSV file');

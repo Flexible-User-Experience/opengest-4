@@ -24,7 +24,7 @@ class ImportPartnerTypeCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:partner:type');
         $this->setDescription('Import partner class from CSV file');

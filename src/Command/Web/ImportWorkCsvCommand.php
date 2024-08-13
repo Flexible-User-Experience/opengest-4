@@ -19,7 +19,7 @@ class ImportWorkCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:work');
         $this->setDescription('Import work from CSV file');

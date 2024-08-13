@@ -16,7 +16,7 @@ class NotificationOperatorCheckingCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:notification:operator-checking');
         $this->setDescription('Send operator checking notification before to be invalid');

@@ -20,7 +20,7 @@ class CheckVehicleMaintenanceCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:vehicle:check_maintenance');
         $this->setDescription('Check vehicle maintenances');

@@ -25,7 +25,7 @@ class ImportActivityLineCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:enterprise:activity:line');
         $this->setDescription('Import enterprise activity lines from CSV file');

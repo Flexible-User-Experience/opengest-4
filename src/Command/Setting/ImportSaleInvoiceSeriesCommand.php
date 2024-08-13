@@ -24,7 +24,7 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:setting:sale:invoice:series');
         $this->setDescription('Import setting sale invoice serires from CSV');

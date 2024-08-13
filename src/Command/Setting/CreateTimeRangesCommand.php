@@ -24,7 +24,7 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:create:time:ranges');
         $this->setDescription('Create default time ranges');

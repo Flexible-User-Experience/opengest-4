@@ -23,7 +23,7 @@ class LinkVehicleEnterpriseCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:link:vehicle:enterprise');
         $this->setDescription('Link vehicle and enterprise');

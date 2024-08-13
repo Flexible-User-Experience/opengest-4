@@ -17,7 +17,7 @@ class LinkUserEnterpriseCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:link:user:enterprise');
         $this->setDescription('Link user and enterprise');

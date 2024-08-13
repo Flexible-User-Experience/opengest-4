@@ -23,7 +23,7 @@ class CreateVehicleFuelsCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:create:vehicle:fuels');
         $this->setDescription('Create default vehicle fuels');

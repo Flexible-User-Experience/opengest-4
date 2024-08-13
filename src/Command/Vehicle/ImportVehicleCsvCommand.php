@@ -21,7 +21,7 @@ class ImportVehicleCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:vehicle');
         $this->setDescription('Import vehicle from CSV file');

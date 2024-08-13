@@ -26,7 +26,7 @@ class ImportPartnerUnableDaysCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:partner:unable:days');
         $this->setDescription('Import partner unable days from CSV file');

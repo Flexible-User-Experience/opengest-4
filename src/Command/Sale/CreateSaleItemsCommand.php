@@ -23,7 +23,7 @@ class CreateSaleItemsCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:create:sale:items');
         $this->setDescription('Create default sale items');

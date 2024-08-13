@@ -26,7 +26,7 @@ class ImportOperatorDigitalTachographCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:operator:digital:tachograph');
         $this->setDescription('Import operator digital tachographs from CSV file');

@@ -30,7 +30,7 @@ class RemoveUnusedEnterprisesCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         // Unused method, prefering not to import those enterprises in the first place
         $this->setName('app:remove:unused:enterprises');
