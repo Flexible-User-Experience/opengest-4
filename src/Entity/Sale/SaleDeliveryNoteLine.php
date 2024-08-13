@@ -159,10 +159,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getDiscount(): float
+    public function getDiscount(): ?float
     {
         return $this->discount;
     }
@@ -179,10 +176,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

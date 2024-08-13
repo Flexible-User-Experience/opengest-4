@@ -841,10 +841,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProviderReference(): string
+    public function getProviderReference(): ?string
     {
         return $this->providerReference;
     }
@@ -864,7 +861,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->reference;
     }
