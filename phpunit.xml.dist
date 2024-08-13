@@ -33,8 +33,7 @@
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
-    <!-- Uncomment when adding extensions
+
     <extensions>
     </extensions>
--->
 </phpunit>
