@@ -13,9 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @category Entity
  *
  * @author Wils Iglesias <wiglesias83@gmail.com>
- *
- * @Gedmo\SoftDeleteable(fieldName="removedAt", timeAware=false)
  */
+#[Gedmo\SoftDeleteable(fieldName: 'removedAt', timeAware: false)]
 abstract class AbstractBase
 {
     /**
@@ -38,17 +37,15 @@ abstract class AbstractBase
 
     /**
      * @var DateTime
-     *
-     * @Gedmo\Timestampable(on="create")
      */
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
     protected $createdAt;
 
     /**
      * @var DateTime
-     *
-     * @Gedmo\Timestampable(on="update")
      */
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: 'datetime', nullable: true)]
     protected $updatedAt;
 

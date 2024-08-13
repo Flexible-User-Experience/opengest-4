@@ -41,9 +41,7 @@ class Vehicle extends AbstractBase
     use NameTrait;
     use SlugTrait;
 
-    /**
-     * @Gedmo\Slug(fields={"name"})
-     */
+    #[Gedmo\Slug(fields: ['name'])]
     #[ORM\Column(type: 'string', length: 255)]
     private string $slug;
 

@@ -18,9 +18,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @UniqueEntity({"name"})
  */
+#[UniqueEntity('name')]
 #[ORM\Table(name: 'vehicle_category')]
 #[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleCategoryRepository::class)]
 class VehicleCategory extends AbstractBase
@@ -29,9 +28,7 @@ class VehicleCategory extends AbstractBase
     use PositionTrait;
     use SlugTrait;
 
-    /**
-     * @Gedmo\Slug(fields={"name"})
-     */
+    #[Gedmo\Slug(fields: ['name'])]
     #[ORM\Column(type: 'string', length: 255)]
     private string $slug;
 

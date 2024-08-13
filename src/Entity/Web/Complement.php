@@ -34,9 +34,9 @@ class Complement extends AbstractBase
 
     /**
      * @var string
-     *
-     * @Gedmo\Slug(fields={"name"})
      */
+
+    #[Gedmo\Slug(fields: ['name'])]
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 

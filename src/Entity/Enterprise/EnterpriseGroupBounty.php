@@ -4,6 +4,7 @@ namespace App\Entity\Enterprise;
 
 use App\Entity\AbstractBase;
 use App\Entity\Operator\Operator;
+use App\Repository\Enterprise\EnterpriseGroupBountyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,13 +19,13 @@ use Doctrine\ORM\Mapping as ORM;
  *
  */
 #[ORM\Table(name: 'enterprise_group_bounty')]
-#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\EnterpriseGroupBountyRepository::class)]
+#[ORM\Entity(repositoryClass: EnterpriseGroupBountyRepository::class)]
 class EnterpriseGroupBounty extends AbstractBase
 {
     /**
      * @var Enterprise
      */
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'enterpriseGroupBounties')]
+    #[ORM\ManyToOne(targetEntity: Enterprise::class, inversedBy: 'enterpriseGroupBounties')]
     private $enterprise;
 
     /**
@@ -36,7 +37,7 @@ class EnterpriseGroupBounty extends AbstractBase
     /**
      * @var ArrayCollection
      */
-    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\Operator::class, mappedBy: 'enterpriseGroupBounty')]
+    #[ORM\OneToMany(targetEntity: Operator::class, mappedBy: 'enterpriseGroupBounty')]
     private $operators;
 
     /**
