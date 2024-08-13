@@ -13,11 +13,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Operator
-     */
-    public function getOperator()
+    public function getOperator(): ?Operator
     {
         return $this->operator;
     }
@@ -27,17 +23,14 @@ abstract class OperatorCheckingBase extends AbstractBase
      *
      * @return OperatorChecking
      */
-    public function setOperator($operator)
+    public function setOperator($operator): OperatorChecking
     {
         $this->operator = $operator;
 
         return $this;
     }
 
-    /**
-     * @return OperatorCheckingType
-     */
-    public function getType()
+    public function getType(): ?OperatorCheckingType
     {
         return $this->type;
     }
@@ -47,7 +40,7 @@ abstract class OperatorCheckingBase extends AbstractBase
      *
      * @return OperatorChecking
      */
-    public function setType($type)
+    public function setType($type): OperatorChecking
     {
         $this->type = $type;
 
@@ -57,7 +50,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getBegin()
+    public function getBegin(): DateTime
     {
         return $this->begin;
     }
@@ -65,7 +58,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * @return OperatorChecking
      */
-    public function setBegin(DateTime $begin)
+    public function setBegin(DateTime $begin): OperatorChecking
     {
         $this->begin = $begin;
 
@@ -75,7 +68,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getEnd()
+    public function getEnd(): DateTime
     {
         return $this->end;
     }
@@ -83,7 +76,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * @return OperatorChecking
      */
-    public function setEnd(DateTime $end)
+    public function setEnd(DateTime $end): OperatorChecking
     {
         $this->end = $end;
 
@@ -140,7 +133,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getBegin()->format('d/m/Y').' · '.$this->getType().' · '.$this->getOperator() : '---';
     }

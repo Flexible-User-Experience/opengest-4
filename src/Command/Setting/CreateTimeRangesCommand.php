@@ -24,7 +24,7 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:create:time:ranges');
         $this->setDescription('Create default time ranges');
@@ -39,7 +39,7 @@ class CreateTimeRangesCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Set counters
         $beginTimestamp = new DateTimeImmutable();

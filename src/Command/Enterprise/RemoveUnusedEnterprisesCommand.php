@@ -30,7 +30,7 @@ class RemoveUnusedEnterprisesCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         // Unused method, prefering not to import those enterprises in the first place
         $this->setName('app:remove:unused:enterprises');
@@ -46,7 +46,7 @@ class RemoveUnusedEnterprisesCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Set counters
         $beginTimestamp = new DateTimeImmutable();

@@ -31,13 +31,13 @@ class PurchaseInvoiceDueDateAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Vencimientos de factura de compra';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'compras/vencimientos-factura';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'compras/vencimientos-factura';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection

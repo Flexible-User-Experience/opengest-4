@@ -13,46 +13,40 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\CollectionDocumentTypeRepository")
- * @ORM\Table(name="collection_document_type")
  */
+#[ORM\Table(name: 'collection_document_type')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\CollectionDocumentTypeRepository::class)]
 class CollectionDocumentType extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="collectionDocumentTypes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'collectionDocumentTypes')]
     private $enterprise;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string")
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $description;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $sitReference;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Partner", mappedBy="collectionDocumentType")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\Partner::class, mappedBy: 'collectionDocumentType')]
     private $partners;
 
     /**
@@ -62,7 +56,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -72,7 +66,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -82,7 +76,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -92,7 +86,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -102,7 +96,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -112,7 +106,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
@@ -122,7 +116,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string|null
      */
-    public function getSitReference()
+    public function getSitReference(): ?string
     {
         return $this->sitReference;
     }
@@ -132,7 +126,7 @@ class CollectionDocumentType extends AbstractBase
      *
      * @return $this
      */
-    public function setSitReference($sitReference)
+    public function setSitReference($sitReference): static
     {
         $this->sitReference = $sitReference;
 
@@ -142,7 +136,7 @@ class CollectionDocumentType extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

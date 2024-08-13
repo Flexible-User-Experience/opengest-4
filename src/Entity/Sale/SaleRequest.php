@@ -18,256 +18,219 @@ use Doctrine\ORM\Mapping as ORM;
  * Class SaleRequest.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleRequestRepository")
- * @ORM\Table(name="sale_request")
  */
+#[ORM\Table(name: 'sale_request')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleRequestRepository::class)]
 class SaleRequest extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="saleRequests")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'saleRequests')]
     private $enterprise;
 
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleRequests")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleRequests')]
     private $partner;
 
     /**
      * @var ?PartnerBuildingSite
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleRequests")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class, inversedBy: 'saleRequests')]
     private ?PartnerBuildingSite $buildingSite;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $contactPersonName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $contactPersonPhone;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $contactPersonEmail;
 
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class)]
     private $invoiceTo;
 
     /**
      * @var ?Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleRequests")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'saleRequests')]
     private ?Vehicle $vehicle;
 
     /**
      * @var ?Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="saleRequests")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'saleRequests')]
     private ?Operator $operator;
 
     /**
      * @var ?SaleTariff
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleTariff")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleTariff::class)]
     private ?SaleTariff $tariff;
 
     /**
      * @var ?SaleServiceTariff
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleRequests")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleServiceTariff::class, inversedBy: 'saleRequests')]
     private ?SaleServiceTariff $service;
 
     /**
      * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\User")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\User::class)]
     private $attendedBy;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text")
      */
+    #[ORM\Column(type: 'text')]
     private $serviceDescription;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $height;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $distance;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $weight;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $place;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $utensils;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $observations;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $requestDate;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="time")
      */
+    #[ORM\Column(type: 'time')]
     private $requestTime;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $serviceDate;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
      */
+    #[ORM\Column(type: 'time', nullable: true)]
     private $serviceTime;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
      */
+    #[ORM\Column(type: 'time', nullable: true)]
     private $endServiceTime;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $hourPrice;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHours;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $displacement;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHolidayHours;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidays;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidaysPercentage;
 
     /**
      * @var Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class)]
     private $secondaryVehicle;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasBeenPrinted = false;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestHasDeliveryNote", mappedBy="saleRequest")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequestHasDeliveryNote::class, mappedBy: 'saleRequest')]
     private $saleRequestHasDeliveryNotes;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestDocument", mappedBy="saleRequest", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequestDocument::class, mappedBy: 'saleRequest', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $documents;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $status = 0;
 
     /**
@@ -286,7 +249,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -296,17 +259,14 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
         return $this;
     }
 
-    /**
-     * @return Partner
-     */
-    public function getPartner()
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
@@ -316,7 +276,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -338,7 +298,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return Partner
      */
-    public function getInvoiceTo()
+    public function getInvoiceTo(): Partner
     {
         return $this->invoiceTo;
     }
@@ -348,7 +308,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setInvoiceTo($invoiceTo)
+    public function setInvoiceTo($invoiceTo): static
     {
         $this->invoiceTo = $invoiceTo;
 
@@ -358,7 +318,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return ?Vehicle
      */
-    public function getVehicle()
+    public function getVehicle(): ?Vehicle
     {
         return $this->vehicle;
     }
@@ -368,7 +328,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setVehicle($vehicle)
+    public function setVehicle($vehicle): static
     {
         $this->vehicle = $vehicle;
 
@@ -378,7 +338,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return ?Operator
      */
-    public function getOperator()
+    public function getOperator(): ?Operator
     {
         return $this->operator;
     }
@@ -388,7 +348,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setOperator($operator)
+    public function setOperator($operator): static
     {
         $this->operator = $operator;
 
@@ -398,7 +358,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return SaleTariff
      */
-    public function getTariff(): ?SaleTariff
+    public function getTariff(): SaleTariff
     {
         return $this->tariff;
     }
@@ -408,27 +368,19 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setTariff(?SaleTariff $tariff = null)
+    public function setTariff(?SaleTariff $tariff = null): static
     {
         $this->tariff = $tariff;
 
         return $this;
     }
 
-    /**
-     * @return User
-     */
-    public function getAttendedBy()
+    public function getAttendedBy(): ?User
     {
         return $this->attendedBy;
     }
 
-    /**
-     * @param User $attendedBy
-     *
-     * @return $this
-     */
-    public function setAttendedBy($attendedBy)
+    public function setAttendedBy(?User $attendedBy = null): static
     {
         $this->attendedBy = $attendedBy;
 
@@ -438,7 +390,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getServiceDescription()
+    public function getServiceDescription(): string
     {
         return $this->serviceDescription;
     }
@@ -448,7 +400,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setServiceDescription($serviceDescription)
+    public function setServiceDescription($serviceDescription): static
     {
         $this->serviceDescription = $serviceDescription;
 
@@ -458,7 +410,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return int
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
@@ -466,7 +418,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return int
      */
-    public function getHeightString()
+    public function getHeightString(): int
     {
         return number_format($this->getHeight(), 0, ',', '.').' m';
     }
@@ -476,7 +428,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setHeight($height)
+    public function setHeight($height): static
     {
         $this->height = $height;
 
@@ -486,7 +438,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return int
      */
-    public function getDistance()
+    public function getDistance(): int
     {
         return $this->distance;
     }
@@ -494,7 +446,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return int
      */
-    public function getDistanceString()
+    public function getDistanceString(): int
     {
         return number_format($this->getDistance(), 0, ',', '.').' m';
     }
@@ -504,7 +456,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setDistance($distance)
+    public function setDistance($distance): static
     {
         $this->distance = $distance;
 
@@ -514,7 +466,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getWeight()
+    public function getWeight(): float
     {
         return $this->weight;
     }
@@ -522,7 +474,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getWeightString()
+    public function getWeightString(): float
     {
         return number_format($this->getWeight(), 0, ',', '.').' kg';
     }
@@ -532,7 +484,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setWeight($weight)
+    public function setWeight($weight): static
     {
         $this->weight = $weight;
 
@@ -542,7 +494,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getPlace()
+    public function getPlace(): string
     {
         return $this->place;
     }
@@ -552,7 +504,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setPlace($place)
+    public function setPlace($place): static
     {
         $this->place = $place;
 
@@ -562,7 +514,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getUtensils()
+    public function getUtensils(): string
     {
         return $this->utensils;
     }
@@ -572,17 +524,14 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setUtensils($utensils)
+    public function setUtensils($utensils): static
     {
         $this->utensils = $utensils;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getObservations()
+    public function getObservations(): ?string
     {
         return $this->observations;
     }
@@ -592,7 +541,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setObservations($observations)
+    public function setObservations($observations): static
     {
         $this->observations = $observations;
 
@@ -602,7 +551,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getRequestDate()
+    public function getRequestDate(): DateTime
     {
         return $this->requestDate;
     }
@@ -612,7 +561,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setRequestDate($requestDate)
+    public function setRequestDate($requestDate): static
     {
         $this->requestDate = $requestDate;
 
@@ -622,7 +571,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getHourPrice()
+    public function getHourPrice(): float
     {
         return $this->hourPrice;
     }
@@ -632,7 +581,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setHourPrice($hourPrice)
+    public function setHourPrice($hourPrice): static
     {
         $this->hourPrice = $hourPrice;
 
@@ -642,7 +591,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getMiniumHours()
+    public function getMiniumHours(): float
     {
         return $this->miniumHours;
     }
@@ -652,7 +601,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setMiniumHours($miniumHours)
+    public function setMiniumHours($miniumHours): static
     {
         $this->miniumHours = $miniumHours;
 
@@ -662,7 +611,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getDisplacement()
+    public function getDisplacement(): float
     {
         return $this->displacement;
     }
@@ -672,27 +621,19 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setDisplacement($displacement)
+    public function setDisplacement($displacement): static
     {
         $this->displacement = $displacement;
 
         return $this;
     }
 
-    /**
-     * @return Vehicle
-     */
-    public function getSecondaryVehicle()
+    public function getSecondaryVehicle(): ?Vehicle
     {
         return $this->secondaryVehicle;
     }
 
-    /**
-     * @param Vehicle $secondaryVehicle
-     *
-     * @return $this
-     */
-    public function setSecondaryVehicle($secondaryVehicle)
+    public function setSecondaryVehicle(?Vehicle $secondaryVehicle = null): static
     {
         $this->secondaryVehicle = $secondaryVehicle;
 
@@ -702,7 +643,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getServiceDate()
+    public function getServiceDate(): DateTime
     {
         return $this->serviceDate;
     }
@@ -710,7 +651,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getServiceDateString()
+    public function getServiceDateString(): string
     {
         return $this->getServiceDate()->format('d/m/Y');
     }
@@ -720,17 +661,14 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setServiceDate($serviceDate)
+    public function setServiceDate($serviceDate): static
     {
         $this->serviceDate = $serviceDate;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getServiceTime()
+    public function getServiceTime(): ?DateTime
     {
         return $this->serviceTime;
     }
@@ -738,7 +676,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getServiceTimeString()
+    public function getServiceTimeString(): ?string
     {
         if ($this->getServiceTime()) {
             return $this->getServiceTime()->format('H:i');
@@ -752,7 +690,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setServiceTime($serviceTime)
+    public function setServiceTime($serviceTime): static
     {
         $this->serviceTime = $serviceTime;
 
@@ -762,7 +700,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getRequestTime()
+    public function getRequestTime(): DateTime
     {
         return $this->requestTime;
     }
@@ -772,27 +710,22 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setRequestTime($requestTime)
+    public function setRequestTime($requestTime): static
     {
         $this->requestTime = $requestTime;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getContactPersonName()
+    public function getContactPersonName(): ?string
     {
         return $this->contactPersonName;
     }
 
     /**
      * @param string $contactPersonName
-     *
-     * @return $this
      */
-    public function setContactPersonName($contactPersonName)
+    public function setContactPersonName($contactPersonName): static
     {
         $this->contactPersonName = $contactPersonName;
 
@@ -802,7 +735,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getContactPersonPhone()
+    public function getContactPersonPhone(): string
     {
         return $this->contactPersonPhone;
     }
@@ -812,7 +745,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setContactPersonPhone($contactPersonPhone): SaleRequest
+    public function setContactPersonPhone($contactPersonPhone): static
     {
         $this->contactPersonPhone = $contactPersonPhone;
 
@@ -837,7 +770,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return bool
      */
-    public function isHasBeenPrinted()
+    public function isHasBeenPrinted(): bool
     {
         return $this->hasBeenPrinted;
     }
@@ -847,7 +780,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setHasBeenPrinted($hasBeenPrinted)
+    public function setHasBeenPrinted($hasBeenPrinted): static
     {
         $this->hasBeenPrinted = $hasBeenPrinted;
 
@@ -857,7 +790,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getEndServiceTime()
+    public function getEndServiceTime(): DateTime
     {
         return $this->endServiceTime;
     }
@@ -867,17 +800,14 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setEndServiceTime($endServiceTime)
+    public function setEndServiceTime($endServiceTime): static
     {
         $this->endServiceTime = $endServiceTime;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequestHasDeliveryNotes()
+    public function getSaleRequestHasDeliveryNotes(): Collection
     {
         return $this->saleRequestHasDeliveryNotes;
     }
@@ -887,7 +817,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleRequestHasDeliveryNotes($saleRequestHasDeliveryNotes)
+    public function setSaleRequestHasDeliveryNotes($saleRequestHasDeliveryNotes): static
     {
         $this->saleRequestHasDeliveryNotes = $saleRequestHasDeliveryNotes;
 
@@ -899,7 +829,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes)
+    public function addSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes): static
     {
         if (!$this->$saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->add($saleRequestHasDeliveryNotes);
@@ -914,7 +844,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function removeSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes)
+    public function removeSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes): static
     {
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
@@ -933,7 +863,7 @@ class SaleRequest extends AbstractBase
      *
      * @return $this
      */
-    public function setDocuments($documents): SaleRequest
+    public function setDocuments($documents): static
     {
         $this->documents = $documents;
 
@@ -943,7 +873,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return $this
      */
-    public function addDocument(SaleRequestDocument $document): SaleRequest
+    public function addDocument(SaleRequestDocument $document): static
     {
         if (!$this->documents->contains($document)) {
             $this->documents->add($document);
@@ -956,7 +886,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return $this
      */
-    public function removeDocument(SaleRequestDocument $document): SaleRequest
+    public function removeDocument(SaleRequestDocument $document): static
     {
         if ($this->documents->contains($document)) {
             $this->documents->removeElement($document);
@@ -989,10 +919,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getMiniumHolidayHours()
+    public function getMiniumHolidayHours(): ?float
     {
         return $this->miniumHolidayHours;
     }
@@ -1004,10 +931,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getIncreaseForHolidays()
+    public function getIncreaseForHolidays(): ?float
     {
         return $this->increaseForHolidays;
     }
@@ -1019,10 +943,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getIncreaseForHolidaysPercentage()
+    public function getIncreaseForHolidaysPercentage(): ?float
     {
         return $this->increaseForHolidaysPercentage;
     }
@@ -1056,7 +977,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getId().'' : '---';
     }

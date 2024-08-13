@@ -24,7 +24,7 @@ class ImportOperatorAbsenceTypeCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:operator:absence:type');
         $this->setDescription('Import operator absence type from CSV file');
@@ -40,7 +40,7 @@ class ImportOperatorAbsenceTypeCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $fr = $this->initialValidation($input, $output);

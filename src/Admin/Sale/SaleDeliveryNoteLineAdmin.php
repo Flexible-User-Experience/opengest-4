@@ -30,11 +30,6 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Albarà línia';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/albara-linia';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -45,6 +40,11 @@ class SaleDeliveryNoteLineAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/albara-linia';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

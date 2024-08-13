@@ -27,11 +27,6 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Consumos de combustible';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehiculos/consumos-combustible';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -42,6 +37,11 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehiculos/consumos-combustible';
+    }
+
     public function configureExportFields(): array
     {
         return [

@@ -22,11 +22,6 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'PayslipLineConcept';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'nominas/conceptos_linea';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -37,6 +32,10 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'nominas/conceptos_linea';
+    }
 
     /**
      * @throws Exception
@@ -50,6 +49,13 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
+                ]
+            )
+            ->add(
+                'isDeduction',
+                CheckboxType::class,
+                [
+                    'required' => false,
                 ]
             )
 //            ->add(
@@ -81,13 +87,9 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.description',
                 ]
             )
-//            ->add(
-//                'enabled',
-//                null,
-//                [
-//                    'label' => 'Actiu',
-//                ]
-//            )
+            ->add(
+                'isDeduction'
+            )
         ;
     }
 
@@ -106,6 +108,13 @@ class PayslipLineConceptAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
+                ]
+            )
+            ->add(
+                'isDeduction',
+                null,
+                [
+                    'editable' => true,
                 ]
             )
 //            ->add(

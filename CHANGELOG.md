@@ -1,8 +1,16 @@
 Changelog
 =========
 
-##### Version 4.1.14 (WIP)
+##### Version 4.1.15 (WIP)
 * Keep wiring things
+* Upgrade to Symfony 6.4 LTS.
+* Set hour to holiday hour in operatorWorkRegisters if it is a weekend or holiday.
+* Split totals in payslip: total accrued, total deductions and total amount (as total liquid). Changed this total
+calculations based on if payslip lines is deduction or not.
+
+##### Version 4.1.14 (2024-07-12)
+* Edit logbook pdf to show by cost center
+* Edit vehicle maintenance pdf to show last revision date
 
 ##### Version 4.1.13 (2024-06-19)
 * Add logbook to vehicle

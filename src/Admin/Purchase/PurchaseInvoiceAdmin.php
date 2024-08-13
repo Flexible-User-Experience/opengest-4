@@ -37,13 +37,13 @@ class PurchaseInvoiceAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Facturas de compra';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'compras/facturas';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'compras/facturas';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PAGE] = 1;

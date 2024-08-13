@@ -21,11 +21,6 @@ class WorkImageAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Imatge Treball';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'web/imatge-treball';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -36,6 +31,11 @@ class WorkImageAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'web/imatge-treball';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

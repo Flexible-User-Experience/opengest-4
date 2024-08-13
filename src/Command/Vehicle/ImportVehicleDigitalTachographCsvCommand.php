@@ -21,7 +21,7 @@ class ImportVehicleDigitalTachographCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:vehicle_digital_tachograph');
         $this->setDescription('Import vehicle digital tachograph from CSV file');
@@ -36,7 +36,7 @@ class ImportVehicleDigitalTachographCsvCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $fr = $this->initialValidation($input, $output);

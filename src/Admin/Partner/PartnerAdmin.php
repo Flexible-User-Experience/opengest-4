@@ -34,16 +34,6 @@ class PartnerAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tercers';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'tercers/tercer';
-
-    /**
-     * @var string
-     */
-    protected $baseRouteName = 'admin_app_partner_partner';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -54,6 +44,17 @@ class PartnerAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'tercers/tercer';
+    }
+
+
+    public function generateBaseRouteName(bool $isChildAdmin = false): string
+    {
+        return 'admin_app_partner_partner';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);

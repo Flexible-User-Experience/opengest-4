@@ -53,7 +53,7 @@ class AppExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('randomErrorText', [$this, 'randomErrorTextFunction']),
@@ -66,7 +66,7 @@ class AppExtension extends AbstractExtension
      *
      * @return string
      */
-    public function randomErrorTextFunction($length = 1024)
+    public function randomErrorTextFunction($length = 1024): string
     {
         // character List to Pick from
         $chrList = '012 3456 789 abcdef ghij klmno pqrs tuvwxyz ABCD EFGHIJK LMN OPQ RSTU VWXYZ';
@@ -82,7 +82,7 @@ class AppExtension extends AbstractExtension
      *
      * @throws \Exception
      */
-    public function showUnreadMessages()
+    public function showUnreadMessages(): string
     {
         $result = '';
         if ($this->cmrs->getReadPendingMessagesAmount() > 0) {
@@ -99,7 +99,7 @@ class AppExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('draw_operator_image_src', [$this, 'drawOperatorImageSrc']),
@@ -115,7 +115,7 @@ class AppExtension extends AbstractExtension
      *
      * @return string
      */
-    public function drawOperatorImageSrc(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60')
+    public function drawOperatorImageSrc(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60'): string
     {
         if ($operator->getProfilePhotoImage()) {
             $result = $this->rs->generate('admin_app_operator_operator_downloadProfilePhotoImage ', ['id' => $operator->getId()]);
@@ -132,7 +132,7 @@ class AppExtension extends AbstractExtension
      *
      * @return string
      */
-    public function drawOperatorImage(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60')
+    public function drawOperatorImage(Operator $operator, $mapping = 'profilePhotoImageFile', $filter = '60x60'): string
     {
         if ($operator->getProfilePhotoImage()) {
             $result = '<img src="'.
@@ -153,7 +153,7 @@ class AppExtension extends AbstractExtension
      *
      * @return string
      */
-    public function drawRoleSpan($object)
+    public function drawRoleSpan($object): string
     {
         $span = '';
         if ($object instanceof User && count($object->getRoles()) > 0) {
@@ -181,7 +181,7 @@ class AppExtension extends AbstractExtension
      *
      * @throws Exception
      */
-    public function ageCalculate(DateTimeInterface $birthday)
+    public function ageCalculate(DateTimeInterface $birthday): int
     {
         $now = new DateTime();
         $interval = $now->diff($birthday);
@@ -192,7 +192,7 @@ class AppExtension extends AbstractExtension
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'app_extension';
     }

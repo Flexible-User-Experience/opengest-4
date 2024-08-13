@@ -13,82 +13,54 @@ use Doctrine\ORM\Mapping as ORM;
  * Class PurchaseInvoiceLine.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Purchase\PurchaseInvoiceLineRepository")
- * @ORM\Table(name="purchase_invoice_line")
  */
+#[ORM\Table(name: 'purchase_invoice_line')]
+#[ORM\Entity(repositoryClass: \App\Repository\Purchase\PurchaseInvoiceLineRepository::class)]
 class PurchaseInvoiceLine extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchaseInvoice", inversedBy="purchaseInvoiceLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Purchase\PurchaseInvoice::class, inversedBy: 'purchaseInvoiceLines')]
     private ?PurchaseInvoice $purchaseInvoice = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchaseItem", inversedBy="purchaseInvoiceLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Purchase\PurchaseItem::class, inversedBy: 'purchaseInvoiceLines')]
     private ?PurchaseItem $purchaseItem;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="purchaseInvoiceLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'purchaseInvoiceLines')]
     private ?Operator $operator;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="purchaseInvoiceLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'purchaseInvoiceLines')]
     private ?Vehicle $vehicle;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="purchaseInvoiceLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, inversedBy: 'purchaseInvoiceLines')]
     private ?SaleDeliveryNote $saleDeliveryNote;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\CostCenter", inversedBy="purchaseInvoiceLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\CostCenter::class, inversedBy: 'purchaseInvoiceLines')]
     private ?CostCenter $costCenter;
 
-    /**
-     * @ORM\Column(type="float", nullable=true, scale=4)
-     */
+    #[ORM\Column(type: 'float', nullable: true, scale: 4)]
     private ?float $units = 0;
 
-    /**
-     * @ORM\Column(type="float", scale=4)
-     */
+    #[ORM\Column(type: 'float', scale: 4)]
     private float $priceUnit = 0;
 
-    /**
-     * @ORM\Column(type="float", nullable=true, scale=4)
-     */
+    #[ORM\Column(type: 'float', nullable: true, scale: 4)]
     private ?float $total;
 
-    /**
-     * @ORM\Column(type="float", nullable=true, scale=4)
-     */
+    #[ORM\Column(type: 'float', nullable: true, scale: 4)]
     private ?float $baseTotal;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $iva;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $irpf;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount = 0;
 
     /**
@@ -294,6 +266,11 @@ class PurchaseInvoiceLine extends AbstractBase
         if ($this->getCostCenter()) {
             return $this->getCostCenter();
         }
+    }
+
+    public function getDate(): \DateTime
+    {
+        return $this->getPurchaseInvoice()->getDate();
     }
 
     public function getImputedToType(): string

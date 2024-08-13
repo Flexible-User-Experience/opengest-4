@@ -16,9 +16,8 @@ trait DateTrait
 {
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $date;
 
     /**

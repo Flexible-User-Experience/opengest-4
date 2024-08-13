@@ -16,51 +16,46 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\CostCenterRepository")
- * @ORM\Table(name="cost_center")
  * @UniqueEntity({"code"})
  */
+#[ORM\Table(name: 'cost_center')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\CostCenterRepository::class)]
 class CostCenter extends AbstractBase
 {
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="costCenter", cascade={"persist"})
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'costCenter', cascade: ['persist'])]
     private Collection $purchaseInvoiceLines;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private string $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private string $code;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string", nullable = true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description = null;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean", options={"default"=0})
      */
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected $showInLogBook = false;
 
     /**
-     * @ORM\Column(type="integer", options={"default"=1})
      * @Assert\GreaterThanOrEqual(1)
      */
+    #[ORM\Column(type: 'integer', options: ['default' => 1])]
     private int $orderInLogBook = 1;
 
     /**

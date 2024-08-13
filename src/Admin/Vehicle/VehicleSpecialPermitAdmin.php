@@ -31,13 +31,13 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Permisos especiales';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehiculos/permisos-especiales';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehiculos/permisos-especiales';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';

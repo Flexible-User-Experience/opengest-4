@@ -16,7 +16,7 @@ class NotificationOperatorCheckingCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:notification:operator-checking');
         $this->setDescription('Send operator checking notification before to be invalid');
@@ -31,7 +31,7 @@ class NotificationOperatorCheckingCommand extends AbstractBaseCommand
      * @throws TransportExceptionInterface
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome
         $output->writeln('<info>Welcome to "'.$this->getName().'" command.</info>');

@@ -24,7 +24,7 @@ class ImportOperatorCheckingTypeCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:operator:checking:type');
         $this->setDescription('Import operator checking type from CSV file');
@@ -40,7 +40,7 @@ class ImportOperatorCheckingTypeCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $fr = $this->initialValidation($input, $output);

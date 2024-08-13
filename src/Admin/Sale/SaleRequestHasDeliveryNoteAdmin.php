@@ -28,11 +28,6 @@ class SaleRequestHasDeliveryNoteAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Valoració petició-albarà';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/valoracio-peticio-albara';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -43,6 +38,11 @@ class SaleRequestHasDeliveryNoteAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/valoracio-peticio-albara';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

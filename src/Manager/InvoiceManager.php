@@ -37,7 +37,7 @@ class InvoiceManager
      *
      * @throws NonUniqueResultException
      */
-    public function getLastInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise)
+    public function getLastInvoiceNumberBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise): int
     {
         $lastSaleInvoice = $this->saleInvoiceRepository->getLastInvoiceBySerieAndEnterprise($serie, $enterprise);
         $firstInvoiceNumber = $this->getFirstInvoiceNumberBySerieAndEnterprise($serie);

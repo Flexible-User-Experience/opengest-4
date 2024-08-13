@@ -41,7 +41,7 @@ class GuardService
      *
      * @return bool
      */
-    public function isOwnOperator(Operator $operator)
+    public function isOwnOperator(Operator $operator): bool
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             return true;
@@ -55,7 +55,7 @@ class GuardService
      *
      * @return bool
      */
-    public function isOwnOperatorCheking(OperatorChecking $oc)
+    public function isOwnOperatorCheking(OperatorChecking $oc): bool
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             return true;
@@ -69,7 +69,7 @@ class GuardService
      *
      * @return bool
      */
-    public function isOwnEnterprise(Enterprise $enterprise)
+    public function isOwnEnterprise(Enterprise $enterprise): bool
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             return true;
@@ -83,7 +83,7 @@ class GuardService
      *
      * @return bool
      */
-    public function isOwnVehicle(Vehicle $vehicle)
+    public function isOwnVehicle(Vehicle $vehicle): bool
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             return true;
@@ -97,7 +97,7 @@ class GuardService
      *
      * @return bool
      */
-    public function isOwnVehicleChecking(VehicleChecking $vc)
+    public function isOwnVehicleChecking(VehicleChecking $vc): bool
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             return true;
@@ -111,7 +111,7 @@ class GuardService
      *
      * @return bool
      */
-    public function isOwnPartner(Partner $partner)
+    public function isOwnPartner(Partner $partner): bool
     {
         if ($this->acs->isGranted(UserRolesEnum::ROLE_ADMIN)) {
             return true;

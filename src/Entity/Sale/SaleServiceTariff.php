@@ -5,6 +5,7 @@ namespace App\Entity\Sale;
 use App\Entity\AbstractBase;
 use App\Entity\Enterprise\ActivityLine;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -15,46 +16,41 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @author   Jordi Sort
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleServiceTariffRepository")
- * @ORM\Table(name="sale_service_tariff")
  * @UniqueEntity({"description"})
  */
+#[ORM\Table(name: 'sale_service_tariff')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleServiceTariffRepository::class)]
 class SaleServiceTariff extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $description;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="saleServiceTariff")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleTariff::class, mappedBy: 'saleServiceTariff')]
     private $saleTariffs;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="service")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'service')]
     private $saleRequests;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="tonnage")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\Vehicle::class, mappedBy: 'tonnage')]
     private $vehicles;
 
     /**
      * @var ?ActivityLine
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\ActivityLine", inversedBy="saleServiceTariffs")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\ActivityLine::class, inversedBy: 'saleServiceTariffs')]
     private ?ActivityLine $activityLine;
 
     /**
@@ -64,7 +60,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return string
      */
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -76,10 +72,7 @@ class SaleServiceTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleTariffs()
+    public function getSaleTariffs(): Collection
     {
         return $this->saleTariffs;
     }
@@ -107,7 +100,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleTariff(SaleTariff $saleTariff)
+    public function removeSaleTariff(SaleTariff $saleTariff): static
     {
         if ($this->saleTariffs->contains($saleTariff)) {
             $this->saleTariffs->removeElement($saleTariff);
@@ -116,10 +109,7 @@ class SaleServiceTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequests()
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }
@@ -147,7 +137,7 @@ class SaleServiceTariff extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleRequest(SaleRequest $saleRequest)
+    public function removeSaleRequest(SaleRequest $saleRequest): static
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
@@ -156,7 +146,7 @@ class SaleServiceTariff extends AbstractBase
         return $this;
     }
 
-    public function getVehicles(): ArrayCollection
+    public function getVehicles(): Collection
     {
         return $this->vehicles;
     }

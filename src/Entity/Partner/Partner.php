@@ -26,420 +26,370 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerRepository")
- * @ORM\Table(name="partner")
  * @UniqueEntity(
  *     fields={"code", "enterprise", "type"}
  * )
  */
+#[ORM\Table(name: 'partner')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerRepository::class)]
 class Partner extends AbstractBase implements BuyerFacturaEInterface
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string')]
     private $cifNif;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'partners')]
     private $enterprise;
 
     /**
      * @var PartnerClass
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerClass", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerClass::class, inversedBy: 'partners')]
     private $class;
 
     /**
      * @var PartnerType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerType", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerType::class, inversedBy: 'partners')]
     private $type;
 
     /**
      * @var EnterpriseTransferAccount
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\EnterpriseTransferAccount::class, inversedBy: 'partners')]
     private $transferAccount;
 
     /**
      * @var CollectionDocumentType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class, inversedBy: 'partners')]
     private $collectionDocumentType;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleTariff::class, mappedBy: 'partner')]
     private $saleTariffs;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=4000, nullable=true)
      */
+    #[ORM\Column(type: 'text', length: 4000, nullable: true)]
     private $notes;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $mainAddress;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $mainCity;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $secondaryAddress;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $secondaryCity;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber2;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber3;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber4;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber5;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $faxNumber1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $faxNumber2;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $www;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $code;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $providerReference;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $reference;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean", nullable=true)
      */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $ivaTaxFree;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Iban()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $iban;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Bic()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $swift;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $bankCode;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $officeNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $controlDigit;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $accountNumber;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerOrder", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerOrder::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $orders;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerProject", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerProject::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $projects;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $buildingSites;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerContact", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerContact::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $contacts;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerDeliveryAddress::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $partnerDeliveryAddresses;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'partner')]
     private $saleRequests;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner", cascade={"persist"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerUnableDays::class, mappedBy: 'partner', cascade: ['persist'], orphanRemoval: true)]
     private $partnerUnableDays;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'partner')]
     private $saleDeliveryNotes;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoice", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleInvoice::class, mappedBy: 'partner')]
     private $saleInvoices;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoice", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoice::class, mappedBy: 'partner')]
     private Collection $purchaseInvoices;
 
     /**
      * @var ?string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $invoiceEmail = null;
 
     /**
      * @var ?integer
      *
-     * @ORM\Column(type="bigint", nullable=true)
      * @Assert\Length(
      *     min = 10,
      *     max=10
      *     )
      */
+    #[ORM\Column(type: 'bigint', nullable: true)]
     private ?int $accountingAccount = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $costAccountingAccount = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $collectionTerm1 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $collectionTerm2 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $collectionTerm3 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $payDay1 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $payDay2 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $payDay3 = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $invoiceCopiesNumber = null;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $defaultIva = null;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $defaultIrpf = null;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default" : false})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $blocked = false;
 
     /**
@@ -466,7 +416,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getCifNif()
+    public function getCifNif(): string
     {
         return $this->cifNif;
     }
@@ -476,7 +426,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setCifNif($cifNif)
+    public function setCifNif($cifNif): static
     {
         $this->cifNif = $cifNif;
 
@@ -486,7 +436,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -496,7 +446,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -506,7 +456,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -516,17 +466,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
         return $this;
     }
 
-    /**
-     * @return PartnerClass
-     */
-    public function getClass()
+    public function getClass(): ?PartnerClass
     {
         return $this->class;
     }
@@ -536,17 +483,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setClass($class)
+    public function setClass($class): static
     {
         $this->class = $class;
 
         return $this;
     }
 
-    /**
-     * @return PartnerType
-     */
-    public function getType()
+    public function getType(): ?PartnerType
     {
         return $this->type;
     }
@@ -556,17 +500,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * @return EnterpriseTransferAccount
-     */
-    public function getTransferAccount()
+    public function getTransferAccount(): ?EnterpriseTransferAccount
     {
         return $this->transferAccount;
     }
@@ -576,7 +517,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setTransferAccount($transferAccount)
+    public function setTransferAccount($transferAccount): static
     {
         $this->transferAccount = $transferAccount;
 
@@ -586,7 +527,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getNotes()
+    public function getNotes(): string
     {
         return $this->notes;
     }
@@ -596,7 +537,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes($notes): static
     {
         $this->notes = $notes;
 
@@ -606,7 +547,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getMainAddress()
+    public function getMainAddress(): string
     {
         return $this->mainAddress;
     }
@@ -616,25 +557,19 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setMainAddress($mainAddress)
+    public function setMainAddress($mainAddress): static
     {
         $this->mainAddress = $mainAddress;
 
         return $this;
     }
 
-    /**
-     * @return City
-     */
-    public function getMainCity()
+    public function getMainCity(): ?City
     {
         return $this->mainCity;
     }
 
-    /**
-     * @return string
-     */
-    public function getMainCityName()
+    public function getMainCityName(): ?string
     {
         if ($this->mainCity) {
             return $this->getMainCity()->getName();
@@ -648,7 +583,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setMainCity($mainCity)
+    public function setMainCity($mainCity): static
     {
         $this->mainCity = $mainCity;
 
@@ -658,7 +593,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getSecondaryAddress()
+    public function getSecondaryAddress(): string
     {
         return $this->secondaryAddress;
     }
@@ -668,7 +603,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setSecondaryAddress($secondaryAddress)
+    public function setSecondaryAddress($secondaryAddress): static
     {
         $this->secondaryAddress = $secondaryAddress;
 
@@ -678,7 +613,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return City
      */
-    public function getSecondaryCity()
+    public function getSecondaryCity(): City
     {
         return $this->secondaryCity;
     }
@@ -688,17 +623,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setSecondaryCity($secondaryCity)
+    public function setSecondaryCity($secondaryCity): static
     {
         $this->secondaryCity = $secondaryCity;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhoneNumber1()
+    public function getPhoneNumber1(): ?string
     {
         return $this->phoneNumber1;
     }
@@ -708,7 +640,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setPhoneNumber1($phoneNumber1)
+    public function setPhoneNumber1($phoneNumber1): static
     {
         $this->phoneNumber1 = $phoneNumber1;
 
@@ -718,7 +650,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getPhoneNumber2()
+    public function getPhoneNumber2(): string
     {
         return $this->phoneNumber2;
     }
@@ -728,7 +660,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setPhoneNumber2($phoneNumber2)
+    public function setPhoneNumber2($phoneNumber2): static
     {
         $this->phoneNumber2 = $phoneNumber2;
 
@@ -738,7 +670,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getPhoneNumber3()
+    public function getPhoneNumber3(): string
     {
         return $this->phoneNumber3;
     }
@@ -748,7 +680,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setPhoneNumber3($phoneNumber3)
+    public function setPhoneNumber3($phoneNumber3): static
     {
         $this->phoneNumber3 = $phoneNumber3;
 
@@ -758,7 +690,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getPhoneNumber4()
+    public function getPhoneNumber4(): string
     {
         return $this->phoneNumber4;
     }
@@ -768,7 +700,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setPhoneNumber4($phoneNumber4)
+    public function setPhoneNumber4($phoneNumber4): static
     {
         $this->phoneNumber4 = $phoneNumber4;
 
@@ -778,7 +710,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getPhoneNumber5()
+    public function getPhoneNumber5(): string
     {
         return $this->phoneNumber5;
     }
@@ -788,7 +720,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setPhoneNumber5($phoneNumber5)
+    public function setPhoneNumber5($phoneNumber5): static
     {
         $this->phoneNumber5 = $phoneNumber5;
 
@@ -798,7 +730,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getFaxNumber1()
+    public function getFaxNumber1(): string
     {
         return $this->faxNumber1;
     }
@@ -808,7 +740,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setFaxNumber1($faxNumber1)
+    public function setFaxNumber1($faxNumber1): static
     {
         $this->faxNumber1 = $faxNumber1;
 
@@ -818,7 +750,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getFaxNumber2()
+    public function getFaxNumber2(): string
     {
         return $this->faxNumber2;
     }
@@ -828,27 +760,19 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setFaxNumber2($faxNumber2)
+    public function setFaxNumber2($faxNumber2): static
     {
         $this->faxNumber2 = $faxNumber2;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return $this
-     */
-    public function setEmail($email)
+    public function setEmail($email): static
     {
         $this->email = $email;
 
@@ -858,7 +782,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getWww()
+    public function getWww(): string
     {
         return $this->www;
     }
@@ -868,7 +792,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setWww($www)
+    public function setWww($www): static
     {
         $this->www = $www;
 
@@ -878,7 +802,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return float
      */
-    public function getDiscount()
+    public function getDiscount(): float
     {
         return $this->discount;
     }
@@ -888,17 +812,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setDiscount($discount)
+    public function setDiscount($discount): static
     {
         $this->discount = $discount;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getCode()
+    public function getCode(): ?int
     {
         return $this->code;
     }
@@ -908,17 +829,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setCode($code)
+    public function setCode($code): static
     {
         $this->code = $code;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProviderReference()
+    public function getProviderReference(): ?string
     {
         return $this->providerReference;
     }
@@ -928,7 +846,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setProviderReference($providerReference)
+    public function setProviderReference($providerReference): static
     {
         $this->providerReference = $providerReference;
 
@@ -938,7 +856,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getReference()
+    public function getReference(): ?string
     {
         return $this->reference;
     }
@@ -948,7 +866,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setReference($reference)
+    public function setReference($reference): static
     {
         $this->reference = $reference;
 
@@ -958,7 +876,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return bool
      */
-    public function isIvaTaxFree()
+    public function isIvaTaxFree(): bool
     {
         return $this->ivaTaxFree;
     }
@@ -968,17 +886,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setIvaTaxFree($ivaTaxFree)
+    public function setIvaTaxFree($ivaTaxFree): static
     {
         $this->ivaTaxFree = $ivaTaxFree;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIban()
+    public function getIban(): ?string
     {
         return $this->iban;
     }
@@ -988,7 +903,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setIban($iban)
+    public function setIban($iban): static
     {
         $this->iban = $iban;
 
@@ -998,7 +913,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getSwift()
+    public function getSwift(): ?string
     {
         return $this->swift;
     }
@@ -1008,7 +923,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setSwift($swift)
+    public function setSwift($swift): static
     {
         $this->swift = $swift;
 
@@ -1018,7 +933,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getBankCode()
+    public function getBankCode(): string
     {
         return $this->bankCode;
     }
@@ -1028,7 +943,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setBankCode($bankCode)
+    public function setBankCode($bankCode): static
     {
         $this->bankCode = $bankCode;
 
@@ -1038,7 +953,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getOfficeNumber()
+    public function getOfficeNumber(): string
     {
         return $this->officeNumber;
     }
@@ -1048,7 +963,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setOfficeNumber($officeNumber)
+    public function setOfficeNumber($officeNumber): static
     {
         $this->officeNumber = $officeNumber;
 
@@ -1058,7 +973,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getControlDigit()
+    public function getControlDigit(): string
     {
         return $this->controlDigit;
     }
@@ -1068,7 +983,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setControlDigit($controlDigit)
+    public function setControlDigit($controlDigit): static
     {
         $this->controlDigit = $controlDigit;
 
@@ -1078,7 +993,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getAccountNumber()
+    public function getAccountNumber(): string
     {
         return $this->accountNumber;
     }
@@ -1088,17 +1003,14 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setAccountNumber($accountNumber)
+    public function setAccountNumber($accountNumber): static
     {
         $this->accountNumber = $accountNumber;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOrders()
+    public function getOrders(): Collection
     {
         return $this->orders;
     }
@@ -1108,7 +1020,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setOrders($orders)
+    public function setOrders($orders): static
     {
         $this->orders = $orders;
 
@@ -1118,7 +1030,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function addOrder(PartnerOrder $order)
+    public function addOrder(PartnerOrder $order): static
     {
         if (!$this->orders->contains($order)) {
             $this->orders->add($order);
@@ -1131,7 +1043,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function removeOrder(PartnerOrder $order)
+    public function removeOrder(PartnerOrder $order): static
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);
@@ -1150,7 +1062,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setProjects($projects): Partner
+    public function setProjects($projects): static
     {
         $this->projects = $projects;
 
@@ -1160,7 +1072,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function addProject(PartnerProject $project): Partner
+    public function addProject(PartnerProject $project): static
     {
         if (!$this->projects->contains($project)) {
             $this->projects->add($project);
@@ -1173,7 +1085,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function removeProject(PartnerProject $project): Partner
+    public function removeProject(PartnerProject $project): static
     {
         if ($this->projects->contains($project)) {
             $this->projects->removeElement($project);
@@ -1182,10 +1094,8 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getBuildingSites()
+
+    public function getBuildingSites(): Collection
     {
         return $this->buildingSites;
     }
@@ -1195,7 +1105,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setBuildingSites($buildingSites)
+    public function setBuildingSites($buildingSites): static
     {
         $this->buildingSites = $buildingSites;
 
@@ -1205,7 +1115,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function addBuildingSite(PartnerBuildingSite $buildingSite)
+    public function addBuildingSite(PartnerBuildingSite $buildingSite): static
     {
         if (!$this->buildingSites->contains($buildingSite)) {
             $this->buildingSites->add($buildingSite);
@@ -1218,7 +1128,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function removeBuildingSite(PartnerBuildingSite $buildingSite)
+    public function removeBuildingSite(PartnerBuildingSite $buildingSite): static
     {
         if ($this->buildingSites->contains($buildingSite)) {
             $this->buildingSites->removeElement($buildingSite);
@@ -1227,10 +1137,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getContacts()
+    public function getContacts(): Collection
     {
         return $this->contacts;
     }
@@ -1238,7 +1145,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getMainContactName()
+    public function getMainContactName(): string
     {
         $result = '';
         if (count($this->getContacts()) > 0) {
@@ -1253,7 +1160,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setContacts($contacts)
+    public function setContacts($contacts): static
     {
         $this->contacts = $contacts;
 
@@ -1265,7 +1172,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function addContact($contact)
+    public function addContact($contact): static
     {
         if (!$this->contacts->contains($contact)) {
             $this->contacts->add($contact);
@@ -1280,7 +1187,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function removeContact($contact)
+    public function removeContact($contact): static
     {
         if ($this->contacts->contains($contact)) {
             $this->contacts->removeElement($contact);
@@ -1297,7 +1204,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function setPartnerDeliveryAddresses(ArrayCollection $partnerDeliveryAddresses): Partner
+    public function setPartnerDeliveryAddresses(ArrayCollection $partnerDeliveryAddresses): static
     {
         $this->partnerDeliveryAddresses = $partnerDeliveryAddresses;
 
@@ -1307,7 +1214,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function addPartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    public function addPartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): static
     {
         if (!$this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
             $this->partnerDeliveryAddresses->add($partnerDeliveryAddress);
@@ -1320,7 +1227,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function removePartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): Partner
+    public function removePartnerDeliveryAddress(PartnerDeliveryAddress $partnerDeliveryAddress): static
     {
         if ($this->partnerDeliveryAddresses->contains($partnerDeliveryAddress)) {
             $this->partnerDeliveryAddresses->removeElement($partnerDeliveryAddress);
@@ -1332,7 +1239,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return ArrayCollection
      */
-    public function getSaleRequests()
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }
@@ -1342,7 +1249,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setSaleRequests($saleRequests)
+    public function setSaleRequests($saleRequests): static
     {
         $this->saleRequests = $saleRequests;
 
@@ -1354,7 +1261,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function addSaleRequest($saleRequest)
+    public function addSaleRequest($saleRequest): static
     {
         if (!$this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->add($saleRequest);
@@ -1369,7 +1276,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function removeSaleRequest($saleRequest)
+    public function removeSaleRequest($saleRequest): static
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
@@ -1381,7 +1288,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return ArrayCollection
      */
-    public function getPartnerUnableDays()
+    public function getPartnerUnableDays(): Collection
     {
         return $this->partnerUnableDays;
     }
@@ -1399,7 +1306,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function addPartnerUnableDay($partnerUnableDays)
+    public function addPartnerUnableDay($partnerUnableDays): static
     {
         if (!$this->partnerUnableDays->contains($partnerUnableDays)) {
             $this->partnerUnableDays->add($partnerUnableDays);
@@ -1421,7 +1328,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return ArrayCollection
      */
-    public function getSaleDeliveryNotes()
+    public function getSaleDeliveryNotes(): Collection
     {
         return $this->saleDeliveryNotes;
     }
@@ -1431,7 +1338,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function setSaleDeliveryNotes($saleDeliveryNotes)
+    public function setSaleDeliveryNotes($saleDeliveryNotes): static
     {
         $this->saleDeliveryNotes = $saleDeliveryNotes;
 
@@ -1443,7 +1350,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function addSaleDeliveryNote($saleDeliveryNote)
+    public function addSaleDeliveryNote($saleDeliveryNote): static
     {
         if (!$this->saleDeliveryNotes->contains($saleDeliveryNote)) {
             $this->saleDeliveryNotes->add($saleDeliveryNote);
@@ -1458,7 +1365,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      *
      * @return $this
      */
-    public function removeSaleDeliverynote($saleDeliveryNote)
+    public function removeSaleDeliverynote($saleDeliveryNote): static
     {
         if ($this->saleDeliveryNotes->contains($saleDeliveryNote)) {
             $this->saleDeliveryNotes->removeElement($saleDeliveryNote);
@@ -1467,7 +1374,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    public function getSaleTariffs(): ArrayCollection
+    public function getSaleTariffs(): Collection
     {
         return $this->saleTariffs;
     }
@@ -1492,7 +1399,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return $this
      */
-    public function removeSaleTariff(SaleTariff $saleTariff)
+    public function removeSaleTariff(SaleTariff $saleTariff): static
     {
         if ($this->saleTariffs->contains($saleTariff)) {
             $this->saleTariffs->removeElement($saleTariff);
@@ -1777,7 +1684,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getCode().' - '.$this->getName() : '---';
     }

@@ -25,11 +25,6 @@ class VehicleCheckingTypeAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tipus revisió';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehicles/tipus-revisio';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -40,6 +35,10 @@ class VehicleCheckingTypeAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehicles/tipus-revisio';
+    }
 
     /**
      * Configure route collection.

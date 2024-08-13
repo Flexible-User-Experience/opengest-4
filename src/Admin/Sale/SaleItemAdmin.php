@@ -24,11 +24,6 @@ class SaleItemAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Items';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/items';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -39,6 +34,10 @@ class SaleItemAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/items';
+    }
 
     /**
      * @throws Exception

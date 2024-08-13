@@ -22,7 +22,7 @@ class DatesTransformer
      *
      * @throws Exception
      */
-    public function convertStringWithDayAndMonthToDateTime(string $dateCode)
+    public function convertStringWithDayAndMonthToDateTime(string $dateCode): DateTime
     {
         $date = explode('/', $dateCode);
         if (2 != count($date)) {

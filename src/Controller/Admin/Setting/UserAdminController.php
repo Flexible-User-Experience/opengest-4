@@ -29,7 +29,7 @@ class UserAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function profileAction(Request $request = null)
+    public function profileAction(Request $request = null): Response
     {
         $request = $this->resolveRequest($request);
 

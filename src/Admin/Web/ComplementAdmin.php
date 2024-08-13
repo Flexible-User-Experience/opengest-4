@@ -25,11 +25,6 @@ class ComplementAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Accesori';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'web/accesori';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -40,6 +35,10 @@ class ComplementAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'web/accesori';
+    }
 
     /**
      * @param RouteCollection $collection

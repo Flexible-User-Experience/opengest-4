@@ -26,7 +26,7 @@ class ImportPartnerBuildingSiteCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:partner:building:site');
         $this->setDescription('Import partner building sites from CSV file');
@@ -42,7 +42,7 @@ class ImportPartnerBuildingSiteCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $fr = $this->initialValidation($input, $output);

@@ -31,11 +31,6 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tercers dies inhàbils';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'tercers/dies-inhabils';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -46,6 +41,10 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'tercers/dies-inhabils';
+    }
 
     /**
      * @throws Exception

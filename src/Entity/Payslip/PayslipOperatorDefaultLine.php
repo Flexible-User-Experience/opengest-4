@@ -12,36 +12,25 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Jordi Sort
- *
- * @ORM\Entity(repositoryClass="App\Repository\Payslip\PayslipOperatorDefaultLineRepository")
- * @ORM\Table(name="payslip_operator_default_line")
  */
+#[ORM\Table(name: 'payslip_operator_default_line')]
+#[ORM\Entity(repositoryClass: \App\Repository\Payslip\PayslipOperatorDefaultLineRepository::class)]
 class PayslipOperatorDefaultLine extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="payslipOperatorDefaultLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'payslipOperatorDefaultLines')]
     private Operator $operator;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Payslip\PayslipLineConcept", inversedBy="payslipOperatorDefaultLines")
-     * @ORM\JoinColumn(name="payslip_line_concept_id", referencedColumnName="id", nullable=false)
-     */
+    #[ORM\JoinColumn(name: 'payslip_line_concept_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Payslip\PayslipLineConcept::class, inversedBy: 'payslipOperatorDefaultLines')]
     private PayslipLineConcept $payslipLineConcept;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $units = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $priceUnit = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $amount = 0;
 
     /**

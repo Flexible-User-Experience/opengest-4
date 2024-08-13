@@ -9,7 +9,9 @@ use Exception;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\TemplateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 /**
  * Class PayslipOperatorDefaultLineAdmin.
@@ -24,11 +26,6 @@ class PayslipLineAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'PayslipLineAdmin';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'nominas/lineas';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -39,6 +36,10 @@ class PayslipLineAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'nominas/lineas';
+    }
 
     /**
      * @throws Exception
@@ -66,6 +67,15 @@ class PayslipLineAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.payslip_line_concept',
                     'required' => true,
                     'query_builder' => $this->rm->getPayslipLineConceptRepository()->getPayslipLineConceptsEnabledSortedByNameQB(),
+                ]
+            )
+            ->add(
+                'payslipLineConcept.isDeduction',
+                TemplateType::class,
+                [
+                    'label' => 'isDeduction',
+                    'disabled' => true,
+                    'template' => 'admin/cells/form__cell_payslip_line_concept_is_deduction.html.twig',
                 ]
             )
             ->add(

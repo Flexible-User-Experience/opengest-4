@@ -21,7 +21,7 @@ class VehicleConsumptionAdminController extends BaseAdminController
      *
      * @return Response
      */
-    public function uploadCsvAction(Request $request, $id = null)
+    public function uploadCsvAction(Request $request, $id = null): Response
     {
         $form = $this->createForm(UploadCsvFormType::class);
         $form->handleRequest($request);

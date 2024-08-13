@@ -28,7 +28,7 @@ class PayslipXmlManager
      *
      * @return string
      */
-    public function buildSingle($payslips, $diets, $date)
+    public function buildSingle($payslips, $diets, $date): string
     {
         return $this->buildPayslipXml($payslips, $diets, $date);
     }
@@ -38,7 +38,7 @@ class PayslipXmlManager
      *
      * @return string
      */
-    public function outputSingle($payslips, $diets, $date)
+    public function outputSingle($payslips, $diets, $date): string
     {
         $xmlDoc = $this->buildSingle($payslips, $diets, $date);
 
@@ -50,7 +50,7 @@ class PayslipXmlManager
      *
      * @return string
      */
-    private function buildPayslipXml($payslips, $diets, $paymentDate)
+    private function buildPayslipXml($payslips, $diets, $paymentDate): string
     {
         $date = new DateTime();
 //        $today = date('Y/m/d');

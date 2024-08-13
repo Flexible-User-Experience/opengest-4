@@ -27,12 +27,12 @@ class SaleRequestDocumentAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Documentos de petición';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'ventas/documentos_de_peticion';
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'ventas/documentos_de_peticion';
+    }
 
     /**
      * Configure route collection.

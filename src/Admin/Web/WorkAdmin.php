@@ -30,11 +30,6 @@ class WorkAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Treball';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'web/treball';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -45,6 +40,10 @@ class WorkAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'web/treball';
+    }
 
     /**
      * @param RouteCollection $collection
