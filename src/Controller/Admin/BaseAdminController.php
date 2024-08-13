@@ -116,9 +116,6 @@ abstract class BaseAdminController extends Controller
         $this->EFacturaService = $EFacturaService;
     }
 
-    /**
-     * @return Request
-     */
     protected function resolveRequest(Request $request = null): Request
     {
         return $request;
