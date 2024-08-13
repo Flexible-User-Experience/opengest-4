@@ -11,30 +11,27 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @category
  **
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\EnterpriseHolidaysRepository")
- * @ORM\Table(name="enterprise_holidays")
  */
+#[ORM\Table(name: 'enterprise_holidays')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\EnterpriseHolidaysRepository::class)]
 class EnterpriseHolidays extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="enterpriseHolidays")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'enterpriseHolidays')]
     private $enterprise;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private $day;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $name;
 
     /**

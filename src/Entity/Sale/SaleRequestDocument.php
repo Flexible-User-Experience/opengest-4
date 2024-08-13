@@ -18,16 +18,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleRequestDocumentRepository")
- * @ORM\Table(name="sale_request_document")
  * @UniqueEntity({"document"})
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'sale_request_document')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleRequestDocumentRepository::class)]
 class SaleRequestDocument extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleRequest", inversedBy="documents")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleRequest::class, inversedBy: 'documents')]
     private SaleRequest $saleRequest;
 
     /**
@@ -41,9 +39,7 @@ class SaleRequestDocument extends AbstractBase
      */
     private ?File $documentFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+    #[ORM\Column(type: 'string', nullable: false)]
     private ?string $document = '';
 
     /**

@@ -9,150 +9,129 @@ use Doctrine\ORM\Mapping as ORM;
  * Class SaleRequestHasDeliveryNote.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleRequestHasDeliveryNoteRepository")
- * @ORM\Table(name="sale_request_has_delivery_note")
  */
+#[ORM\Table(name: 'sale_request_has_delivery_note')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleRequestHasDeliveryNoteRepository::class)]
 class SaleRequestHasDeliveryNote extends AbstractBase
 {
     /**
      * @var SaleRequest
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleRequest", inversedBy="saleRequestHasDeliveryNotes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleRequest::class, inversedBy: 'saleRequestHasDeliveryNotes')]
     private $saleRequest;
 
     /**
      * @var SaleDeliveryNote
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleRequestHasDeliveryNotes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, inversedBy: 'saleRequestHasDeliveryNotes')]
     private $saleDeliveryNote;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $reference;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $totalHoursMorning;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceHourMorning;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $amountMorning;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $totalHoursAfternoon;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceHourAfternoon;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $amountAfternoon;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $totalHoursNight;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceHourNight;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $amountNight;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $totalHoursEarlyMorning;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceHourEarlyMorning;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $amountEarlyMorning;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $totalHoursDisplacement;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceHourDisplacement;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $amountDisplacement;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $ivaType;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $retentionType;
 
     /**

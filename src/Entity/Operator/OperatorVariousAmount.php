@@ -12,45 +12,39 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorVariousAmountRepository")
- * @ORM\Table(name="operator_various_amount")
  */
+#[ORM\Table(name: 'operator_various_amount')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorVariousAmountRepository::class)]
 class OperatorVariousAmount extends AbstractBase
 {
     /**
      * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorVariousAmount")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'operatorVariousAmount')]
     private $operator;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $date;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $units;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $description;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceUnit;
 
     /**

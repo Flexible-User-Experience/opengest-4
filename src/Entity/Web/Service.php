@@ -23,11 +23,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @category Entity
  *
- * @ORM\Entity(repositoryClass="App\Repository\Web\ServiceRepository")
- * @ORM\Table(name="service")
  * @Vich\Uploadable
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'service')]
+#[ORM\Entity(repositoryClass: \App\Repository\Web\ServiceRepository::class)]
 class Service extends AbstractBase
 {
     use SlugTrait;
@@ -38,9 +38,9 @@ class Service extends AbstractBase
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
     /**
@@ -57,24 +57,21 @@ class Service extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $mainImage;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Web\Work", mappedBy="service")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Web\Work::class, mappedBy: 'service')]
     private $works;
 
     /**
      * @var VehicleCategory
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleCategory", inversedBy="services")
-     * @ORM\JoinColumn(name="vehicle_category_id", referencedColumnName="id")
      */
+    #[ORM\JoinColumn(name: 'vehicle_category_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\VehicleCategory::class, inversedBy: 'services')]
     private $vehicleCategory;
 
     /**

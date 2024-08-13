@@ -24,201 +24,173 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleInvoiceRepository")
  *
- * @ORM\Table(name="sale_invoice")
  */
+#[ORM\Table(name: 'sale_invoice')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleInvoiceRepository::class)]
 class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
      *
      * @Groups({"api"})
-     *
      * @Assert\Count(
      *     min = 1,
      *     minMessage = "La factura tiene que tener un albarán como mínimo"
      * )
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'saleInvoice')]
     private Collection $deliveryNotes;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private $date;
 
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner",inversedBy="saleInvoices")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleInvoices')]
     private $partner;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private $invoiceNumber;
 
     /**
      * @var SaleInvoiceSeries
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\SaleInvoiceSeries")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\SaleInvoiceSeries::class)]
     private $series;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private $type;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $total;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $baseTotal;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva21 = 0;
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva10 = 0;
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva4 = 0;
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva0 = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $irpf = 0;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasBeenCounted = false;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount = 0;
 
     /**
      * @var ?PartnerDeliveryAddress
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerDeliveryAddress::class)]
     private $deliveryAddress;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="saleInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleInvoiceDueDate::class, mappedBy: 'saleInvoice', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $saleInvoiceDueDates;
 
     /**
      * @var ?CollectionDocumentType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class)]
     private $collectionDocumentType;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $observations;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $partnerName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $partnerCifNif;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $partnerMainAddress;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $partnerMainCity;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $partnerIban;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $partnerSwift;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Sale\SaleInvoice")
-     *
-     * @ORM\JoinColumn(nullable=true)
-     */
+    
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\OneToOne(targetEntity: \App\Entity\Sale\SaleInvoice::class)]
     private SaleInvoice|null $saleInvoiceGenerated = null;
 
     /**

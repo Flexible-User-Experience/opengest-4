@@ -22,10 +22,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\UserRepository")
- * @ORM\Table(name="admin_user")
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'admin_user')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\UserRepository::class)]
 class User extends AbstractBase implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const DEFAULT_ROLE = 'ROLE_USER';
@@ -45,81 +45,57 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $mainImage;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private $defaultEnterprise;
 
     /**
      * @var array
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="users")
-     * @ORM\JoinTable(name="enterprises_users")
      */
+    #[ORM\JoinTable(name: 'enterprises_users')]
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'users')]
     private $enterprises;
 
-    /**
-     * @ORM\Column(name="email", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'email', type: 'string', unique: true)]
     private $email;
 
-    /**
-     * @ORM\Column(name="email_canonical", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'email_canonical', type: 'string', unique: true)]
     private $emailCanonical;
 
-    /**
-     * @ORM\Column(name="username", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'username', type: 'string', unique: true)]
     private $username;
 
-    /**
-     * @ORM\Column(name="username_canonical", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'username_canonical', type: 'string', unique: true)]
     private $usernameCanonical;
 
-    /**
-     * @ORM\Column(name="password", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'password', type: 'string', nullable: true)]
     private $password;
 
-    /**
-     * @ORM\Column(name="plain_password", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'plain_password', type: 'string', nullable: true)]
     private $plainPassword;
 
-    /**
-     * @ORM\Column(name="salt", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'salt', type: 'string', nullable: true)]
     private $salt;
 
-    /**
-     * @ORM\Column(name="roles", type="json", nullable=true)
-     */
+    #[ORM\Column(name: 'roles', type: 'json', nullable: true)]
     private $roles = [self::DEFAULT_ROLE];
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_login", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
     private $lastLogin;
 
-    /**
-     * @ORM\Column(name="firstname", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'firstname', type: 'string', nullable: true)]
     private $firstname;
 
-    /**
-     * @ORM\Column(name="lastname", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'lastname', type: 'string', nullable: true)]
     private $lastname;
 
     /**

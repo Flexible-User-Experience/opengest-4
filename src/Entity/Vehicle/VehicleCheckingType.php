@@ -12,10 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleCheckingTypeRepository")
- * @ORM\Table(name="vehicle_checking_type")
  */
+#[ORM\Table(name: 'vehicle_checking_type')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleCheckingTypeRepository::class)]
 class VehicleCheckingType extends AbstractBase
 {
     use NameTrait;

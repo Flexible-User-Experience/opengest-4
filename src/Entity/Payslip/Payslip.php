@@ -16,71 +16,46 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Jordi Sort
- *
- * @ORM\Entity(repositoryClass="App\Repository\Payslip\PayslipRepository")
- * @ORM\Table(name="payslip")
  */
+#[ORM\Table(name: 'payslip')]
+#[ORM\Entity(repositoryClass: \App\Repository\Payslip\PayslipRepository::class)]
 class Payslip extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="payslips")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'payslips')]
     private Operator $operator;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $fromDate;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $toDate;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $year;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $expenses = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $socialSecurityCost = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $extraPay = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $otherCosts = 0;
 
 
-    /**
-     * @ORM\Column(type="float", options={"default": 0})
-     */
+    #[ORM\Column(type: 'float', options: ['default' => 0])]
     private float $totalAccrued = 0;
 
-    /**
-     * @ORM\Column(type="float", options={"default": 0})
-     */
+    #[ORM\Column(type: 'float', options: ['default' => 0])]
     private float $totalDeductions = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $totalAmount = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslip", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipLine::class, mappedBy: 'payslip', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $payslipLines;
 
     /**

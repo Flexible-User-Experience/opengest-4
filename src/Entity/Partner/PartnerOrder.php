@@ -16,40 +16,36 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerOrderRepository")
- * @ORM\Table(name="partner_order")
  */
+#[ORM\Table(name: 'partner_order')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerOrderRepository::class)]
 class PartnerOrder extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="orders")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'orders')]
     private $partner;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $number;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $providerReference;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="order")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'order')]
     private $saleDeliveryNotes;
 
     /**

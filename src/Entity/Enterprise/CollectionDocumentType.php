@@ -13,46 +13,41 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\CollectionDocumentTypeRepository")
- * @ORM\Table(name="collection_document_type")
  */
+#[ORM\Table(name: 'collection_document_type')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\CollectionDocumentTypeRepository::class)]
 class CollectionDocumentType extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="collectionDocumentTypes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'collectionDocumentTypes')]
     private $enterprise;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(type="string")
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $description;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $sitReference;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Partner", mappedBy="collectionDocumentType")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\Partner::class, mappedBy: 'collectionDocumentType')]
     private $partners;
 
     /**

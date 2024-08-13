@@ -17,9 +17,9 @@ trait NameTrait
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $name;
 
     /**

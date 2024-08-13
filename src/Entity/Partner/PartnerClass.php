@@ -13,24 +13,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerClassRepository")
- * @ORM\Table(name="partner_class")
  */
+#[ORM\Table(name: 'partner_class')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerClassRepository::class)]
 class PartnerClass extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Partner", mappedBy="class")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\Partner::class, mappedBy: 'class')]
     private $partners;
 
     /**

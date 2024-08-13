@@ -14,31 +14,27 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerUnableDaysRepository")
- * @ORM\Table(name="partner_unable_days")
  */
+#[ORM\Table(name: 'partner_unable_days')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerUnableDaysRepository::class)]
 class PartnerUnableDays extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="partnerUnableDays")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'partnerUnableDays')]
     private $partner;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $begin;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $end;
 
     /**

@@ -15,17 +15,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author Rubèn Hierro <info@rubenhierro.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleDigitalTachographRepository")
- * @ORM\Table(name="vehicle_digital_tachograph")
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'vehicle_digital_tachograph')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleDigitalTachographRepository::class)]
 class VehicleDigitalTachograph extends AbstractBase
 {
     /**
      * @var Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleDigitalTachographs")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'vehicleDigitalTachographs')]
     private $vehicle;
 
     /**
@@ -38,9 +37,8 @@ class VehicleDigitalTachograph extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $uploadedFileName;
 
     /**

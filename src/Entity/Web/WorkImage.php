@@ -17,27 +17,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Web\WorkImageRepository")
- * @ORM\Table(name="work_image")
  * @Vich\Uploadable
  */
+#[ORM\Table(name: 'work_image')]
+#[ORM\Entity(repositoryClass: \App\Repository\Web\WorkImageRepository::class)]
 class WorkImage extends AbstractBase
 {
     use PositionTrait;
 
     /**
      * @var Work
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Web\Work", inversedBy="images")
-     * @ORM\JoinColumn(name="work_id", referencedColumnName="id")
      */
+    #[ORM\JoinColumn(name: 'work_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Web\Work::class, inversedBy: 'images')]
     private $work;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $alt;
 
     /**
@@ -54,9 +52,8 @@ class WorkImage extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $image;
 
     /**

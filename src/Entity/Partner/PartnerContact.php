@@ -13,74 +13,69 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerContactRepository")
- * @ORM\Table(name="partner_contact")
  */
+#[ORM\Table(name: 'partner_contact')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerContactRepository::class)]
 class PartnerContact extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="contacts")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'contacts')]
     private $partner;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $care;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phone;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $mobile;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $fax;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=4000, nullable=true)
      */
+    #[ORM\Column(type: 'text', length: 4000, nullable: true)]
     private $notes;
 
     /**

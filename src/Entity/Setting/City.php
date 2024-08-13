@@ -14,33 +14,32 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\CityRepository")
- * @ORM\Table(name="city")
  * @UniqueEntity({"postalCode", "name", "province"})
  */
+#[ORM\Table(name: 'city')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\CityRepository::class)]
 class City extends AbstractBase
 {
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $postalCode;
 
     /**
      * @var Province
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\Province")
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\Province::class)]
     private $province;
 
     /**

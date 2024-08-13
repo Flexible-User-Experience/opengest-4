@@ -15,157 +15,136 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\EnterpriseGroupBountyRepository")
  *
- * @ORM\Table(name="enterprise_group_bounty")
  */
+#[ORM\Table(name: 'enterprise_group_bounty')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\EnterpriseGroupBountyRepository::class)]
 class EnterpriseGroupBounty extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="enterpriseGroupBounties")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'enterpriseGroupBounties')]
     private $enterprise;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", name="group_name")
      */
+    #[ORM\Column(type: 'string', name: 'group_name')]
     private $group;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\Operator", mappedBy="enterpriseGroupBounty")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\Operator::class, mappedBy: 'enterpriseGroupBounty')]
     private $operators;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $normalHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $extraNormalHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $extraExtraHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $holidayHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $roadNormalHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $roadExtraHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $awaitingHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $negativeHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $transferHour = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $lunch = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $dinner = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $overNight = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $extraNight = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $diet = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $internationalLunch = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $internationalDinner = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $truckOutput = 0.0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, options={"default"=0})
      */
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
     private $carOutput = 0.0;
 
     /**

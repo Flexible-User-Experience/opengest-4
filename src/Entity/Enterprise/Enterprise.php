@@ -28,93 +28,83 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author      Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\EnterpriseRepository")
- * @ORM\Table(name="enterprise")
  * @Vich\Uploadable()
  * @UniqueEntity({"taxIdentificationNumber"})
  */
+#[ORM\Table(name: 'enterprise')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\EnterpriseRepository::class)]
 class Enterprise extends AbstractBase implements SellerFacturaEInterface
 {
     public const GRUAS_ROMANI_TIN = 'A43030287';
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $taxIdentificationNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $businessName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $address;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $city;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phone1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phone2;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phone3;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $fax;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string')]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $www;
 
     /**
@@ -131,9 +121,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $logo;
 
     /**
@@ -149,9 +138,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $deedOfIncorporation;
 
     /**
@@ -167,9 +155,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $taxIdentificationNumberCard;
 
     /**
@@ -185,9 +172,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true, name="tc1receipt")
      */
+    #[ORM\Column(type: 'string', nullable: true, name: 'tc1receipt')]
     private $tc1Receipt;
 
     /**
@@ -203,9 +189,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true, name="tc2receipt")
      */
+    #[ORM\Column(type: 'string', nullable: true, name: 'tc2receipt')]
     private $tc2Receipt;
 
     /**
@@ -221,9 +206,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $ssRegistration;
 
     /**
@@ -239,9 +223,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $ssPaymentCertificate;
 
     /**
@@ -257,9 +240,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $rc1Insurance;
 
     /**
@@ -275,9 +257,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $rc2Insurance;
 
     /**
@@ -293,9 +274,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $rcReceipt;
 
     /**
@@ -311,9 +291,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $preventionServiceContract;
 
     /**
@@ -329,9 +308,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $preventionServiceInvoice;
 
     /**
@@ -347,9 +325,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $preventionServiceReceipt;
 
     /**
@@ -365,9 +342,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $occupationalAccidentsInsurance;
 
     /**
@@ -383,9 +359,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $occupationalReceipt;
 
     /**
@@ -401,9 +376,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $laborRiskAssessment;
 
     /**
@@ -419,9 +393,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $securityPlan;
 
     /**
@@ -437,9 +410,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $reaCertificate;
 
     /**
@@ -455,9 +427,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $oilCertificate;
 
     /**
@@ -473,9 +444,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $gencatPaymentCertificate;
 
     /**
@@ -491,9 +461,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $deedsOfPowers;
 
     /**
@@ -509,9 +478,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $iaeRegistration;
 
     /**
@@ -527,9 +495,8 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $iaeReceipt;
 
     /**
@@ -545,79 +512,67 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $mutualPartnership;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Setting\User", mappedBy="enterprises")
-     * @ORM\JoinTable(name="enterprises_users")
      */
+    #[ORM\JoinTable(name: 'enterprises_users')]
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Setting\User::class, mappedBy: 'enterprises')]
     private $users;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Enterprise\EnterpriseGroupBounty", mappedBy="enterprise", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Enterprise\EnterpriseGroupBounty::class, mappedBy: 'enterprise', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $enterpriseGroupBounties;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", mappedBy="enterprise", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Enterprise\EnterpriseTransferAccount::class, mappedBy: 'enterprise', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $enterpriseTransferAccounts;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Partner", mappedBy="enterprise")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\Partner::class, mappedBy: 'enterprise')]
     private $partners;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Enterprise\EnterpriseHolidays", mappedBy="enterprise", cascade={"persist", "remove"}, orphanRemoval=true )
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Enterprise\EnterpriseHolidays::class, mappedBy: 'enterprise', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $enterpriseHolidays;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="enterprise", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleTariff::class, mappedBy: 'enterprise', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $saleTariffs;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="enterprise")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'enterprise')]
     private $saleRequests;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Enterprise\ActivityLine", mappedBy="enterprise")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Enterprise\ActivityLine::class, mappedBy: 'enterprise')]
     private $activityLines;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Enterprise\CollectionDocumentType", mappedBy="enterprise")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class, mappedBy: 'enterprise')]
     private $collectionDocumentTypes;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="enterprise", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"description" = "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Setting\Document::class, mappedBy: 'enterprise', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['description' => 'ASC'])]
     private ?Collection $documents = null;
 
     /**

@@ -26,230 +26,205 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteRepository")
  *
- * @ORM\Table(name="sale_delivery_note")
  */
+#[ORM\Table(name: 'sale_delivery_note')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleDeliveryNoteRepository::class)]
 class SaleDeliveryNote extends AbstractBase
 {
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private $date;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private $enterprise;
 
     /**
      * @var Partner
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleDeliveryNotes")
      *
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleDeliveryNotes')]
     private $partner;
 
     /**
      * @var PartnerBuildingSite
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite")
      *
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class)]
     private $buildingSite;
 
     /**
      * @var SaleServiceTariff
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleServiceTariff::class)]
     private $saleServiceTariff;
 
     /**
      * @var Vehicle
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleDeliveryNotes")
      *
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'saleDeliveryNotes')]
     private $vehicle;
 
     /**
      * @var Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class)]
     private $secondaryVehicle;
 
     /**
      * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class)]
     private $operator;
 
     /**
      * @var PartnerOrder
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerOrder", inversedBy="saleDeliveryNotes")
      *
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerOrder::class, inversedBy: 'saleDeliveryNotes')]
     private $order;
 
     /**
      * @var PartnerProject
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerProject", inversedBy="saleDeliveryNotes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerProject::class, inversedBy: 'saleDeliveryNotes')]
     private $project;
 
     /**
      * @var ?string
      *
-     * @ORM\Column(type="string", length=50, nullable=true)
      *
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private ?string $deliveryNoteReference;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float")
      *
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'float')]
     private $baseAmount = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
      *
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $collectionTerm;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $collectionTerm2;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $collectionTerm3;
 
     /**
      * @var CollectionDocumentType
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
      *
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class)]
     private $collectionDocument;
 
     /**
      * @var ActivityLine
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\ActivityLine")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\ActivityLine::class)]
     private $activityLine;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $wontBeInvoiced = false;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $isInvoiced = false;
 
     /**
      * @var ?SaleInvoice
-     *
-     * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleInvoice::class, inversedBy: 'deliveryNotes')]
     private ?SaleInvoice $saleInvoice;
 
     /**
      * @var ?PartnerDeliveryAddress
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerDeliveryAddress::class)]
     private $deliveryAddress;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNoteLine", mappedBy="deliveryNote", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNoteLine::class, mappedBy: 'deliveryNote', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $saleDeliveryNoteLines;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestHasDeliveryNote", mappedBy="saleDeliveryNote", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequestHasDeliveryNote::class, mappedBy: 'saleDeliveryNote', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $saleRequestHasDeliveryNotes;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorWorkRegister::class, mappedBy: 'saleDeliveryNote', cascade: ['persist'])]
     private Collection $operatorWorkRegisters;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="saleDeliveryNote")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'saleDeliveryNote')]
     private Collection $purchaseInvoiceLines;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $serviceDescription;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $place;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $observations;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $printed = false;
 
     /**

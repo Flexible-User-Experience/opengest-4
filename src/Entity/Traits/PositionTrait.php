@@ -15,9 +15,8 @@ trait PositionTrait
 {
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", options={"default"=1})
      */
+    #[ORM\Column(type: 'integer', options: ['default' => 1])]
     private $position = 1;
 
     /**

@@ -10,69 +10,57 @@ use Mirmit\EFacturaBundle\Interfaces\LineFacturaEInterface;
  * Class SaleDeliveryNoteLine.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteLineRepository")
- * @ORM\Table(name="sale_delivery_note_line")
  */
+#[ORM\Table(name: 'sale_delivery_note_line')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleDeliveryNoteLineRepository::class)]
 class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleDeliveryNoteLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, inversedBy: 'saleDeliveryNoteLines')]
     private SaleDeliveryNote $deliveryNote;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleItem", inversedBy="saleDeliveryNoteLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleItem::class, inversedBy: 'saleDeliveryNoteLines')]
     private ?SaleItem $saleItem = null;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, scale=4)
      */
+    #[ORM\Column(type: 'float', nullable: true, scale: 4)]
     private $units;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", scale=4)
      */
+    #[ORM\Column(type: 'float', scale: 4)]
     private $priceUnit;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, scale=4)
      */
+    #[ORM\Column(type: 'float', nullable: true, scale: 4)]
     private $total;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $description;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
      */
+    #[ORM\Column(type: 'float')]
     private $iva;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
      */
+    #[ORM\Column(type: 'float')]
     private $irpf;
 
     /**

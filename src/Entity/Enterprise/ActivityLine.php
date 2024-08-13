@@ -14,31 +14,27 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\ActivityLineRepository")
- * @ORM\Table(name="activity_line")
  */
+#[ORM\Table(name: 'activity_line')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\ActivityLineRepository::class)]
 class ActivityLine extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="activityLines")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'activityLines')]
     private $enterprise;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleServiceTariff", mappedBy="activityLine")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleServiceTariff::class, mappedBy: 'activityLine')]
     private $saleServiceTariffs;
 
     /**

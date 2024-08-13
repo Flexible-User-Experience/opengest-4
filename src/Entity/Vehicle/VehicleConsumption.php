@@ -12,68 +12,55 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Jordi Sort
- *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleConsumptionRepository")
- * @ORM\Table(name="vehicle_consumption")
  */
+#[ORM\Table(name: 'vehicle_consumption')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleConsumptionRepository::class)]
 class VehicleConsumption extends AbstractBase
 {
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $supplyDate;
 
     /**
      * @var ?DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
      */
+    #[ORM\Column(type: 'time', nullable: true)]
     private ?DateTime $supplyTime;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $supplyCode;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleConsumptions")
-     * @ORM\JoinColumn(name="vehicle_id", referencedColumnName="id", nullable=false)
-     */
+    #[ORM\JoinColumn(name: 'vehicle_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'vehicleConsumptions')]
     private Vehicle $vehicle;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleFuel", inversedBy="vehicleConsumptions")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\VehicleFuel::class, inversedBy: 'vehicleConsumptions')]
     private ?VehicleFuel $vehicleFuel;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
      */
+    #[ORM\Column(type: 'float')]
     private $amount = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $quantity = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceUnit = 0;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $fuelType;
 
     /**

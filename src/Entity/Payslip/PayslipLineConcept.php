@@ -15,30 +15,22 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @author   Jordi Sort
  *
- * @ORM\Entity(repositoryClass="App\Repository\Payslip\PayslipLineConceptRepository")
- * @ORM\Table(name="payslip_line_concept")
  * @UniqueEntity({"description"})
  */
+#[ORM\Table(name: 'payslip_line_concept')]
+#[ORM\Entity(repositoryClass: \App\Repository\Payslip\PayslipLineConceptRepository::class)]
 class PayslipLineConcept extends AbstractBase
 {
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $description;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="payslipLineConcept")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipOperatorDefaultLine::class, mappedBy: 'payslipLineConcept')]
     private Collection $payslipOperatorDefaultLines;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslipLineConcept")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipLine::class, mappedBy: 'payslipLineConcept')]
     private Collection $payslipLines;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $isDeduction = false;
 
     /**

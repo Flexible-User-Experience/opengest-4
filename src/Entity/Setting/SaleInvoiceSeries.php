@@ -9,31 +9,27 @@ use Doctrine\ORM\Mapping as ORM;
  * Class SaleInvoiceSeries.
  *
  * @category Entity
- *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\SaleInvoiceSeriesRepository")
- * @ORM\Table(name="sale_invoice_series")
  */
+#[ORM\Table(name: 'sale_invoice_series')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\SaleInvoiceSeriesRepository::class)]
 class SaleInvoiceSeries extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $prefix;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $isDefault = false;
 
     /**

@@ -16,46 +16,41 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @author   Jordi Sort
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleServiceTariffRepository")
- * @ORM\Table(name="sale_service_tariff")
  * @UniqueEntity({"description"})
  */
+#[ORM\Table(name: 'sale_service_tariff')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleServiceTariffRepository::class)]
 class SaleServiceTariff extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $description;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="saleServiceTariff")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleTariff::class, mappedBy: 'saleServiceTariff')]
     private $saleTariffs;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="service")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'service')]
     private $saleRequests;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="tonnage")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\Vehicle::class, mappedBy: 'tonnage')]
     private $vehicles;
 
     /**
      * @var ?ActivityLine
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\ActivityLine", inversedBy="saleServiceTariffs")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\ActivityLine::class, inversedBy: 'saleServiceTariffs')]
     private ?ActivityLine $activityLine;
 
     /**

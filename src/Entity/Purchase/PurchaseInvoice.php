@@ -19,177 +19,152 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class PurchaseInvoice.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Purchase\PurchaseInvoiceRepository")
- * @ORM\Table(name="purchase_invoice")
  */
+#[ORM\Table(name: 'purchase_invoice')]
+#[ORM\Entity(repositoryClass: \App\Repository\Purchase\PurchaseInvoiceRepository::class)]
 class PurchaseInvoice extends AbstractBase
 {
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $date;
 
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner",inversedBy="purchaseInvoices")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'purchaseInvoices')]
     private Partner $partner;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private Enterprise $enterprise;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="purchaseInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'purchaseInvoice', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $purchaseInvoiceLines;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceDueDate", mappedBy="purchaseInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceDueDate::class, mappedBy: 'purchaseInvoice', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $purchaseInvoiceDueDates;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private int $invoiceNumber;
 
     /**
      * @var string|null
-     *
-     * @ORM\Column(type="string", nullable = true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $reference;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $total;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $baseTotal;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $iva = 0;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $iva21 = 0;
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $iva10 = 0;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $iva4 = 0;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $iva0 = 0;
 
     /**
      * @var float|null
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $irpf = 0;
 
     /**
      * @var ?PartnerDeliveryAddress
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerDeliveryAddress::class)]
     private ?PartnerDeliveryAddress $deliveryAddress;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $observations;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $partnerName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private string $partnerCifNif;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $partnerMainAddress;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private City $partnerMainCity;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $partnerIban;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $partnerSwift;
 
     /**
      * @var ?int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $accountingAccount;
 
     /**

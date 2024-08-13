@@ -14,40 +14,36 @@ use DateTime;
  *
  * @author Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\TimeRangeRepository")
- * @ORM\Table(name="time_range")
  * @UniqueEntity({"description"})
  */
+#[ORM\Table(name: 'time_range')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\TimeRangeRepository::class)]
 class TimeRange extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private string $description;
 
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="time")
      */
+    #[ORM\Column(type: 'time')]
     private DateTime $start;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="time")
      */
+    #[ORM\Column(type: 'time')]
     private DateTime $finish;
 
 
     /**
      * @var integer
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private int $type = 0;
 
     /**

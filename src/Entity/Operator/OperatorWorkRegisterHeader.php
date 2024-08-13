@@ -15,28 +15,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @category Entity
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorWorkRegisterHeaderRepository")
- * @ORM\Table(name="operator_work_register_header")
  */
+#[ORM\Table(name: 'operator_work_register_header')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorWorkRegisterHeaderRepository::class)]
 class OperatorWorkRegisterHeader extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="workRegisterHeaders")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'workRegisterHeaders')]
     private Operator $operator;
 
     /**
-     * @ORM\Column(type="date")
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'date')]
     private DateTime $date;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operatorWorkRegisterHeader", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorWorkRegister::class, mappedBy: 'operatorWorkRegisterHeader', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $operatorWorkRegisters;
 
     /**

@@ -15,17 +15,16 @@ use Symfony\Component\HttpFoundation\File\File;
  *
  * @author Rubèn Hierro <info@rubenhierro.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorDigitalTachographRepository")
- * @ORM\Table(name="operator_digital_tachograph")
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'operator_digital_tachograph')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorDigitalTachographRepository::class)]
 class OperatorDigitalTachograph extends AbstractBase
 {
     /**
      * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorDigitalTachographs")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'operatorDigitalTachographs')]
     private $operator;
 
     /**
@@ -38,9 +37,8 @@ class OperatorDigitalTachograph extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $uploadedFileName;
 
     /**

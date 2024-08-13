@@ -15,110 +15,103 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleTariffRepository")
- * @ORM\Table(name="sale_tariff")
  * @UniqueEntity({"enterprise", "year", "tonnage"})
  */
+#[ORM\Table(name: 'sale_tariff')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleTariffRepository::class)]
 class SaleTariff extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="saleTariffs")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'saleTariffs')]
     private $enterprise;
 
     /**
      * @var ?SaleServiceTariff
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="saleTariffs")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleServiceTariff::class, inversedBy: 'saleTariffs')]
     private ?SaleServiceTariff $saleServiceTariff;
 
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleTariffs")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleTariffs')]
     private ?Partner $partner;
 
     /**
      * @var ?PartnerBuildingSite
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite", inversedBy="saleTariffs")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class, inversedBy: 'saleTariffs')]
     private ?PartnerBuildingSite $partnerBuildingSite;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private $year;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date", nullable=true) //TODO change to false once migrations include this field
      */
+    #[ORM\Column(type: 'date', nullable: true)] // //TODO change to false once migrations include this field
     private $date;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $tonnage;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
      * @Groups({"apiSaleTariff"})
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceHour;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
      * @Groups({"apiSaleTariff"})
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHours;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
      * @Groups({"apiSaleTariff"})
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHolidayHours;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
      * @Groups({"apiSaleTariff"})
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $displacement;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
      * @Groups({"apiSaleTariff"})
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidays;
 
     /**
      * @var float
      *
-     * @ORM\Column(type="float", nullable=true)
      * @Groups({"apiSaleTariff"})
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidaysPercentage;
 
     /**

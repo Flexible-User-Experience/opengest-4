@@ -15,27 +15,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @author   Jordi Sort
  *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleMaintenanceTaskRepository")
- * @ORM\Table(name="vehicle_manteinance_task")
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'vehicle_manteinance_task')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleMaintenanceTaskRepository::class)]
 class VehicleMaintenanceTask extends AbstractBase
 {
     use NameTrait;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private int $hours = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private int $km = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicleMaintenanceTask", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleMaintenance::class, mappedBy: 'vehicleMaintenanceTask', cascade: ['persist', 'remove'])]
     private Collection $vehicleMaintenances;
 
     /**

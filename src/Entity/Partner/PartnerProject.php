@@ -16,40 +16,36 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerProjectRepository")
- * @ORM\Table(name="partner_project")
  */
+#[ORM\Table(name: 'partner_project')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerProjectRepository::class)]
 class PartnerProject extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="projects")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'projects')]
     private $partner;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $number;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $providerReference;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="project")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'project')]
     private $saleDeliveryNotes;
 
     /**

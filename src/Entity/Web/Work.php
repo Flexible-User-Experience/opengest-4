@@ -23,11 +23,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Web\WorkRepository")
- * @ORM\Table(name="work")
  * @Vich\Uploadable()
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'work')]
+#[ORM\Entity(repositoryClass: \App\Repository\Web\WorkRepository::class)]
 class Work extends AbstractBase
 {
     use SlugTrait;
@@ -36,32 +36,29 @@ class Work extends AbstractBase
 
     /**
      * @var Service
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Web\Service", inversedBy="works")
-     * @ORM\JoinColumn(name="service_id", referencedColumnName="id")
      */
+    #[ORM\JoinColumn(name: 'service_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Web\Service::class, inversedBy: 'works')]
     private $service;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $date;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $shortDescription;
 
     /**
@@ -78,17 +75,15 @@ class Work extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $mainImage;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Web\WorkImage", mappedBy="work", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Web\WorkImage::class, mappedBy: 'work', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private $images;
 
     /**

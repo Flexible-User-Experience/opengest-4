@@ -26,8 +26,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleRepository")
- * @ORM\Table(name="vehicle")
  * @Vich\Uploadable()
  * @UniqueEntity(
  *     fields={"vehicleRegistrationNumber"}
@@ -36,61 +34,49 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     fields={"name"}
  *     )
  */
+#[ORM\Table(name: 'vehicle')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleRepository::class)]
 class Vehicle extends AbstractBase
 {
     use NameTrait;
     use SlugTrait;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private string $slug;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $vehicleRegistrationNumber;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleCategory", inversedBy="vehicles")
-     * @ORM\JoinColumn(name="vehicle_category_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'vehicle_category_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\VehicleCategory::class, inversedBy: 'vehicles')]
     private VehicleCategory $category;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $chassisBrand;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $chassisNumber = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $vehicleBrand = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $vehicleModel = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $serialNumber = null;
 
     /**
      * @var ?string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Url(
      *     message = "'{{ value }}' no es una url válida",
      * )
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $link;
 
     /**
@@ -102,9 +88,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $attatchmentPDFFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $attatchmentPDF = null;
 
     /**
@@ -117,54 +101,34 @@ class Vehicle extends AbstractBase
      */
     private ?File $mainImageFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $mainImage = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private Enterprise $enterprise;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleDigitalTachograph", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleDigitalTachograph::class, mappedBy: 'vehicle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $vehicleDigitalTachographs;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleConsumption::class, mappedBy: 'vehicle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $vehicleConsumptions;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleChecking", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleChecking::class, mappedBy: 'vehicle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $vehicleCheckings;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleMaintenance::class, mappedBy: 'vehicle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Collection $vehicleMaintenances;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleSpecialPermit", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleSpecialPermit::class, mappedBy: 'vehicle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Collection $vehicleSpecialPermits;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="vehicle")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'vehicle')]
     private Collection $saleRequests;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="vehicle")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'vehicle')]
     private Collection $saleDeliveryNotes;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $mileage = 0;
 
     /**
@@ -176,9 +140,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $chassisImageFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $chassisImage = null;
 
     /**
@@ -190,9 +152,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $technicalDatasheet1File = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $technicalDatasheet1 = null;
 
     /**
@@ -204,9 +164,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $technicalDatasheet2File = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $technicalDatasheet2 = null;
 
     /**
@@ -218,9 +176,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $loadTableFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $loadTable = null;
 
     /**
@@ -232,9 +188,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $reachDiagramFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $reachDiagram = null;
 
     /**
@@ -246,9 +200,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $trafficCertificateFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $trafficCertificate = null;
 
     /**
@@ -260,9 +212,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $dimensionsFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $dimensions = null;
 
     /**
@@ -274,9 +224,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $transportCardFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $transportCard = null;
 
     /**
@@ -288,9 +236,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $trafficInsuranceFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $trafficInsurance = null;
 
     /**
@@ -302,9 +248,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $itvFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $itv = null;
 
     /**
@@ -316,9 +260,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $itcFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $itc = null;
 
     /**
@@ -330,9 +272,7 @@ class Vehicle extends AbstractBase
      */
     private ?File $CEDeclarationFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $CEDeclaration = null;
 
     /**
@@ -344,30 +284,24 @@ class Vehicle extends AbstractBase
      */
     private ?File $trafficReceiptFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $trafficReceipt = null;
 
     /**
      * @var ?SaleServiceTariff
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff", inversedBy="vehicles")
-     * @ORM\JoinColumn(nullable=true)
      */
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleServiceTariff::class, inversedBy: 'vehicles')]
     private ?SaleServiceTariff $tonnage;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="vehicle")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'vehicle')]
     private Collection $purchaseInvoiceLines;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="vehicle", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"description" = "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Setting\Document::class, mappedBy: 'vehicle', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['description' => 'ASC'])]
     private ?Collection $documents = null;
 
     /**

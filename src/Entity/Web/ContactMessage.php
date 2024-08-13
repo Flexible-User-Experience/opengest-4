@@ -12,62 +12,55 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   David Romaní <david@flux.cat>
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\Web\ContactMessageRepository")
  */
+#[ORM\Table]
+#[ORM\Entity(repositoryClass: \App\Repository\Web\ContactMessageRepository::class)]
 class ContactMessage extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answer;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $phone;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=4000)
      */
+    #[ORM\Column(type: 'text', length: 4000)]
     private $message;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $checked = false;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $answered = false;
 
     /**

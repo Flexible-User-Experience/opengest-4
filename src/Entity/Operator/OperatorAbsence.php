@@ -14,40 +14,27 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorAbsenceRepository")
- * @ORM\Table(name="operator_absence")
  */
+#[ORM\Table(name: 'operator_absence')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorAbsenceRepository::class)]
 class OperatorAbsence extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorAbsences")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'operatorAbsences')]
     private ?Operator $operator = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorAbsenceType")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\OperatorAbsenceType::class)]
     private ?OperatorAbsenceType $type = null;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+    #[ORM\Column(type: 'date')]
     private ?DateTime $begin = null;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+    #[ORM\Column(type: 'date')]
     private ?DateTime $end = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private ?bool $toPreviousYearCount = false;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private ?bool $toNextYearCount = false;
 
     /**

@@ -13,10 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorAbsenceTypeRepository")
- * @ORM\Table(name="operator_absence_type")
  */
+#[ORM\Table(name: 'operator_absence_type')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorAbsenceTypeRepository::class)]
 class OperatorAbsenceType extends AbstractBase
 {
     use NameTrait;

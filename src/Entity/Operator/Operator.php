@@ -24,126 +24,111 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Class Operator.
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorRepository")
- * @ORM\Table(name="operator")
  * @Vich\Uploadable()
  * @UniqueEntity({"enterprise", "taxIdentificationNumber"})
  */
+#[ORM\Table(name: 'operator')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorRepository::class)]
 class Operator extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $taxIdentificationNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $bancAccountNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $socialSecurityNumber;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $hourCost;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $surname1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $surname2;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $address;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private $enterprise;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $city;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $enterpriseMobile;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $ownPhone;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $ownMobile;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $brithDate;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $registrationDate;
 
     /**
@@ -159,9 +144,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $profilePhotoImage;
 
     /**
@@ -177,9 +161,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $taxIdentificationNumberImage;
 
     /**
@@ -195,9 +178,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $drivingLicenseImage;
 
     /**
@@ -213,9 +195,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $cranesOperatorLicenseImage;
 
     /**
@@ -231,9 +212,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $medicalCheckImage;
 
     /**
@@ -249,9 +229,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $episImage;
 
     /**
@@ -267,9 +246,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $trainingDocumentImage;
 
     /**
@@ -285,9 +263,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $informationImage;
 
     /**
@@ -303,9 +280,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $useOfMachineryAuthorizationImage;
 
     /**
@@ -321,9 +297,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $dischargeSocialSecurityImage;
 
     /**
@@ -339,169 +314,139 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $employmentContractImage;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasCarDrivingLicense = true;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasLorryDrivingLicense = true;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasTowingDrivingLicense = false;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasCraneDrivingLicense = false;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $shoeSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $jerseytSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $jacketSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $tShirtSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $pantSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $workingDressSize;
 
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $type = 0;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorDigitalTachograph", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorDigitalTachograph::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorDigitalTachographs;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorChecking::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorCheckings;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorCheckingPpe", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorCheckingPpe::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorCheckingPpes;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorCheckingTraining", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorCheckingTraining::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorCheckingTrainings;
 
     /**
      * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"begin" = "DESC"})
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorAbsence::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['begin' => 'DESC'])]
     private $operatorAbsences;
 
     /**
      * @var EnterpriseGroupBounty
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseGroupBounty", inversedBy="operators")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\EnterpriseGroupBounty::class, inversedBy: 'operators')]
     private $enterpriseGroupBounty;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'operator')]
     private $saleRequests;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorWorkRegisterHeader::class, mappedBy: 'operator')]
     private $workRegisterHeaders;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\Payslip", mappedBy="operator", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\Payslip::class, mappedBy: 'operator', cascade: ['persist', 'remove'])]
     private Collection $payslips;
 
     /**
      * @var ?Collection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipOperatorDefaultLine::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Collection $payslipOperatorDefaultLines;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorVariousAmount", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorVariousAmount::class, mappedBy: 'operator')]
     private $operatorVariousAmount;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'operator')]
     private Collection $purchaseInvoiceLines;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"description" = "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Setting\Document::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['description' => 'ASC'])]
     private ?Collection $documents = null;
 
     /**

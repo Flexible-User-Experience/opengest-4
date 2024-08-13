@@ -14,34 +14,32 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerDeliveryAddressRepository")
- * @ORM\Table(name="partner_delivery_address")
  */
+#[ORM\Table(name: 'partner_delivery_address')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerDeliveryAddressRepository::class)]
 class PartnerDeliveryAddress extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="partnerDeliveryAddresses")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'partnerDeliveryAddresses')]
     private $partner;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Groups({"api"})
      * @Assert\NotBlank()
      */
+    #[ORM\Column(type: 'string')]
     private $address;
 
     /**
      * @var City
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $city;
 
     /**

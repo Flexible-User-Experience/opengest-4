@@ -19,10 +19,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleCategoryRepository")
- * @ORM\Table(name="vehicle_category")
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'vehicle_category')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleCategoryRepository::class)]
 class VehicleCategory extends AbstractBase
 {
     use NameTrait;
@@ -30,21 +30,18 @@ class VehicleCategory extends AbstractBase
     use SlugTrait;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private string $slug;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="category")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\Vehicle::class, mappedBy: 'category')]
     private Collection $vehicles;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Web\Service", mappedBy="vehicleCategory")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Web\Service::class, mappedBy: 'vehicleCategory')]
     private $services;
 
     /**

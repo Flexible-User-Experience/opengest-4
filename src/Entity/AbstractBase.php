@@ -21,36 +21,35 @@ abstract class AbstractBase
     /**
      * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @ORM\Column(type="integer")
      * @Groups({"api"})
      * @Groups({"apiSaleTariff"})
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected $id;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $enabled = true;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
+    #[ORM\Column(type: 'datetime')]
     protected $createdAt;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update")
      */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected $updatedAt;
 
     /**

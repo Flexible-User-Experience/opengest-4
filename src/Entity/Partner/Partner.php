@@ -26,420 +26,375 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerRepository")
- * @ORM\Table(name="partner")
  * @UniqueEntity(
  *     fields={"code", "enterprise", "type"}
  * )
  */
+#[ORM\Table(name: 'partner')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerRepository::class)]
 class Partner extends AbstractBase implements BuyerFacturaEInterface
 {
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $cifNif;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'partners')]
     private $enterprise;
 
     /**
      * @var PartnerClass
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerClass", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerClass::class, inversedBy: 'partners')]
     private $class;
 
     /**
      * @var PartnerType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerType", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerType::class, inversedBy: 'partners')]
     private $type;
 
     /**
      * @var EnterpriseTransferAccount
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\EnterpriseTransferAccount::class, inversedBy: 'partners')]
     private $transferAccount;
 
     /**
      * @var CollectionDocumentType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType", inversedBy="partners")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class, inversedBy: 'partners')]
     private $collectionDocumentType;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleTariff", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleTariff::class, mappedBy: 'partner')]
     private $saleTariffs;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=4000, nullable=true)
      */
+    #[ORM\Column(type: 'text', length: 4000, nullable: true)]
     private $notes;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $mainAddress;
 
     /**
      * @var City
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      * @Groups({"api"})
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $mainCity;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $secondaryAddress;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $secondaryCity;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber2;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber3;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber4;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phoneNumber5;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $faxNumber1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $faxNumber2;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $www;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $code;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $providerReference;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $reference;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean", nullable=true)
      */
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $ivaTaxFree;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Iban()
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $iban;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Bic()
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $swift;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $bankCode;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $officeNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $controlDigit;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $accountNumber;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerOrder", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerOrder::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $orders;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerProject", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerProject::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $projects;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerBuildingSite", mappedBy="partner", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $buildingSites;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerContact", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerContact::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $contacts;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerDeliveryAddress", mappedBy="partner", cascade={"persist","remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerDeliveryAddress::class, mappedBy: 'partner', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $partnerDeliveryAddresses;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'partner')]
     private $saleRequests;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\PartnerUnableDays", mappedBy="partner", cascade={"persist"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\PartnerUnableDays::class, mappedBy: 'partner', cascade: ['persist'], orphanRemoval: true)]
     private $partnerUnableDays;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'partner')]
     private $saleDeliveryNotes;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoice", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleInvoice::class, mappedBy: 'partner')]
     private $saleInvoices;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoice", mappedBy="partner")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoice::class, mappedBy: 'partner')]
     private Collection $purchaseInvoices;
 
     /**
      * @var ?string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $invoiceEmail = null;
 
     /**
      * @var ?integer
      *
-     * @ORM\Column(type="bigint", nullable=true)
      * @Assert\Length(
      *     min = 10,
      *     max=10
      *     )
      */
+    #[ORM\Column(type: 'bigint', nullable: true)]
     private ?int $accountingAccount = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $costAccountingAccount = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $collectionTerm1 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $collectionTerm2 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $collectionTerm3 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $payDay1 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $payDay2 = null;
 
     /**
      * @var ?integer
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $payDay3 = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $invoiceCopiesNumber = null;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $defaultIva = null;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $defaultIrpf = null;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default" : false})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $blocked = false;
 
     /**

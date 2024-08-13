@@ -15,32 +15,30 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @author Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\ProvinceRepository")
- * @ORM\Table(name="province")
  * @UniqueEntity({"code", "country"})
  */
+#[ORM\Table(name: 'province')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\ProvinceRepository::class)]
 class Province extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $code;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Groups({"api"})
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $country;
 
     /**

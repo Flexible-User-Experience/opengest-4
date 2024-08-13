@@ -14,42 +14,36 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleCheckingRepository")
- * @ORM\Table(name="vehicle_checking")
  */
+#[ORM\Table(name: 'vehicle_checking')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleCheckingRepository::class)]
 class VehicleChecking extends AbstractBase
 {
     /**
      * @var Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleCheckings")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'vehicleCheckings')]
     private $vehicle;
 
     /**
      * @var VehicleCheckingType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleCheckingType")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\VehicleCheckingType::class)]
     private $type;
 
     /**
      * Methods.
      */
-
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $begin;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $end;
 
     public function getVehicle(): ?Vehicle

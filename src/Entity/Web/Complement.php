@@ -21,11 +21,11 @@ use Symfony\Component\HttpFoundation\File\File;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Web\ComplementRepository")
- * @ORM\Table(name="complement")
  * @Vich\Uploadable()
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'complement')]
+#[ORM\Entity(repositoryClass: \App\Repository\Web\ComplementRepository::class)]
 class Complement extends AbstractBase
 {
     use NameTrait;
@@ -35,16 +35,15 @@ class Complement extends AbstractBase
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"name"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $shortDescription;
 
     /**
@@ -61,9 +60,8 @@ class Complement extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $mainImage;
 
     /**
