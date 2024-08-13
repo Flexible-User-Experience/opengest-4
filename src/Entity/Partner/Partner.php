@@ -893,10 +893,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIban(): string
+    public function getIban(): ?string
     {
         return $this->iban;
     }
@@ -916,7 +913,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     /**
      * @return string
      */
-    public function getSwift(): string
+    public function getSwift(): ?string
     {
         return $this->swift;
     }
