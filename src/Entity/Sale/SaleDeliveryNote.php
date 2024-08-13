@@ -46,19 +46,15 @@ class SaleDeliveryNote extends AbstractBase
 
     /**
      * @var Partner
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleDeliveryNotes')]
     private $partner;
 
     /**
      * @var PartnerBuildingSite
-     *
-     *
-     * @Groups({"api"})
-     */
+     * */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class)]
     private $buildingSite;
 
@@ -70,10 +66,8 @@ class SaleDeliveryNote extends AbstractBase
 
     /**
      * @var Vehicle
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'saleDeliveryNotes')]
     private $vehicle;
 
@@ -91,10 +85,8 @@ class SaleDeliveryNote extends AbstractBase
 
     /**
      * @var PartnerOrder
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerOrder::class, inversedBy: 'saleDeliveryNotes')]
     private $order;
 
@@ -106,19 +98,15 @@ class SaleDeliveryNote extends AbstractBase
 
     /**
      * @var ?string
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private ?string $deliveryNoteReference;
 
     /**
      * @var float
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'float')]
     private $baseAmount = 0;
 
@@ -130,10 +118,8 @@ class SaleDeliveryNote extends AbstractBase
 
     /**
      * @var int
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'integer', nullable: true)]
     private $collectionTerm;
 
@@ -151,10 +137,8 @@ class SaleDeliveryNote extends AbstractBase
 
     /**
      * @var CollectionDocumentType
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class)]
     private $collectionDocument;
 
@@ -738,11 +722,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @Groups({"api"})
-     *
-     * @return string
-     */
+    #[Groups('api')]
     public function getDateToString(): string
     {
         return $this->getDate()->format('d/m/Y');
@@ -846,9 +826,7 @@ class SaleDeliveryNote extends AbstractBase
         return $finalTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups('api')]
     public function getBaseTotalWithDiscounts(): float
     {
         $baseTotalWithDiscounts = 0;
@@ -861,9 +839,7 @@ class SaleDeliveryNote extends AbstractBase
         return $baseTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups('api')]
     public function getBaseTotalWithDiscountsFormatted(): string
     {
         return NumberFormatService::formatNumber($this->getBaseTotalWithDiscounts(), true);

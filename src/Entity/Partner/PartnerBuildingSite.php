@@ -32,8 +32,8 @@ class PartnerBuildingSite extends AbstractBase
      * @var string
      *
      * @Assert\NotBlank()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $name;
 
@@ -213,11 +213,7 @@ class PartnerBuildingSite extends AbstractBase
         return $this;
     }
 
-    /**
-     * @Groups({"api"})
-     *
-     * @return string
-     */
+    #[Groups('api')]
     public function getText(): string
     {
         return $this->name;

@@ -19,11 +19,8 @@ abstract class AbstractBase
 {
     /**
      * @var int
-     *
-     *
-     * @Groups({"api"})
-     * @Groups({"apiSaleTariff"})
      */
+    #[Groups(['api', 'apiSaleTariff'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]

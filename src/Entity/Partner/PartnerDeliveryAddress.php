@@ -27,18 +27,16 @@ class PartnerDeliveryAddress extends AbstractBase
 
     /**
      * @var string
-     *
-     * @Groups({"api"})
      * @Assert\NotBlank()
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $address;
 
     /**
      * @var City
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $city;
 

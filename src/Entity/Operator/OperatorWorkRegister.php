@@ -27,56 +27,41 @@ class OperatorWorkRegister extends AbstractBase
 
     /**
      * @var ?\DateTime
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
     #[ORM\Column(type: 'time', nullable: true)]
     private ?\DateTime $start;
 
     /**
      * @var ?\DateTime
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
     #[ORM\Column(type: 'time', nullable: true)]
     private ?\DateTime $finish;
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
     #[ORM\Column(type: 'float')]
     private float $units;
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
     #[ORM\Column(type: 'float')]
     private float $priceUnit;
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
     #[ORM\Column(type: 'float')]
     private float $amount;
 
     /**
      * @var ?string
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description;
 
     /**
      * @var ?SaleDeliveryNote
-     *
-     *
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, inversedBy: 'operatorWorkRegisters')]
     private ?SaleDeliveryNote $saleDeliveryNote;

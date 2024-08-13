@@ -29,9 +29,8 @@ class Province extends AbstractBase
 
     /**
      * @var string
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $name;
 

@@ -26,9 +26,8 @@ class CollectionDocumentType extends AbstractBase
 
     /**
      * @var string|null
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
     #[ORM\Column(type: 'string')]
     private $name;
 

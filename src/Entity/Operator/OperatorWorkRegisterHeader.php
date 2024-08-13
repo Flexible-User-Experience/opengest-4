@@ -23,9 +23,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'workRegisterHeaders')]
     private Operator $operator;
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups('api')]
     #[ORM\Column(type: 'date')]
     private DateTime $date;
 

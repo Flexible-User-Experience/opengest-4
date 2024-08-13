@@ -22,9 +22,8 @@ class City extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $name;
 
@@ -36,9 +35,8 @@ class City extends AbstractBase
 
     /**
      * @var Province
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\Province::class)]
     private $province;
 

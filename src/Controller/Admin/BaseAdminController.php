@@ -14,6 +14,7 @@ use App\Manager\Pdf\SaleDeliveryNotePdfManager;
 use App\Manager\Pdf\SaleInvoicePdfManager;
 use App\Manager\Pdf\VehicleCheckingPdfManager;
 use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
+use App\Manager\RepositoriesManager;
 use App\Manager\VehicleMaintenanceManager;
 use App\Manager\Xls\ImputableCostXlsManager;
 use App\Manager\Xls\MarginAnalysisXlsManager;
@@ -37,83 +38,28 @@ use Vich\UploaderBundle\Handler\DownloadHandler;
  */
 abstract class BaseAdminController extends Controller
 {
-    protected InvoiceManager $im;
-
-    protected CostManager $costManager;
-
-    protected DeliveryNoteManager $deliveryNoteManager;
-
-    protected ImputableCostXlsManager $imputableCostXlsManager;
-
-    protected MarginAnalysisXlsManager $marginAnalysisXlsManager;
-
-    protected SaleDeliveryNotePdfManager $sdnpm;
-
-    protected SaleInvoicePdfManager $sipm;
-
-    protected WorkRegisterHeaderPdfManager $wrhpm;
-
-    protected OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager;
-
-    protected PayslipPdfManager $ppm;
-
-    protected PayslipXmlManager $pxm;
-
-    protected PaymentReceiptPdfManager $paymentReceiptPdfManager;
-
-    protected OperatorCheckingPdfManager $operatorCheckingPdfManager;
-
-    protected DocumentationPdfManager $documentationPdfManager;
-
-    protected VehicleCheckingPdfManager $vehicleCheckingPdfManager;
-
-    protected VehicleMaintenanceManager $vehicleMaintenanceManager;
-
-    protected EnterpriseHolidayManager $enterpriseHolidayManager;
-
-    protected ManagerRegistry $em;
-
-    protected EFacturaService $EFacturaService;
-
-    public function __construct(InvoiceManager $invoiceManager,
-        CostManager $costManager,
-        DeliveryNoteManager $deliveryNoteManager,
-        ImputableCostXlsManager $imputableCostXlsManager,
-        MarginAnalysisXlsManager $marginAnalysisXlsManager,
-        SaleDeliveryNotePdfManager $sdnpm,
-        SaleInvoicePdfManager $sipm,
-        WorkRegisterHeaderPdfManager $wrhpm,
-        OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
-        PayslipPdfManager $ppm,
-        PayslipXmlManager $pxm,
-        OperatorCheckingPdfManager $operatorCheckingPdfManager,
-        DocumentationPdfManager $documentationPdfManager,
-        VehicleCheckingPdfManager $vehicleCheckingPdfManager,
-        VehicleMaintenanceManager $vehicleMaintenanceManager,
-        ManagerRegistry $managerRegistry,
-        EnterpriseHolidayManager $enterpriseHolidayManager,
-        PaymentReceiptPdfManager $paymentReceiptPdfManager,
-        EFacturaService $EFacturaService
+    public function __construct(
+        protected readonly InvoiceManager $im,
+        protected readonly CostManager $costManager,
+        protected readonly DeliveryNoteManager $deliveryNoteManager,
+        protected readonly ImputableCostXlsManager $imputableCostXlsManager,
+        protected readonly MarginAnalysisXlsManager $marginAnalysisXlsManager,
+        protected readonly SaleDeliveryNotePdfManager $sdnpm,
+        protected readonly SaleInvoicePdfManager $sipm,
+        protected readonly WorkRegisterHeaderPdfManager $wrhpm,
+        protected readonly OperatorWorkRegisterHeaderXlsManager $operatorWorkRegisterHeaderXlsManager,
+        protected readonly PayslipPdfManager $ppm,
+        protected readonly PayslipXmlManager $pxm,
+        protected readonly OperatorCheckingPdfManager $operatorCheckingPdfManager,
+        protected readonly DocumentationPdfManager $documentationPdfManager,
+        protected readonly VehicleCheckingPdfManager $vehicleCheckingPdfManager,
+        protected readonly VehicleMaintenanceManager $vehicleMaintenanceManager,
+        protected readonly ManagerRegistry $em,
+        protected readonly EnterpriseHolidayManager $enterpriseHolidayManager,
+        protected readonly PaymentReceiptPdfManager $paymentReceiptPdfManager,
+        protected readonly EFacturaService $EFacturaService,
+        protected readonly RepositoriesManager $repositoriesManager
     ) {
-        $this->im = $invoiceManager;
-        $this->costManager = $costManager;
-        $this->deliveryNoteManager = $deliveryNoteManager;
-        $this->imputableCostXlsManager = $imputableCostXlsManager;
-        $this->marginAnalysisXlsManager = $marginAnalysisXlsManager;
-        $this->sdnpm = $sdnpm;
-        $this->sipm = $sipm;
-        $this->wrhpm = $wrhpm;
-        $this->operatorWorkRegisterHeaderXlsManager = $operatorWorkRegisterHeaderXlsManager;
-        $this->ppm = $ppm;
-        $this->pxm = $pxm;
-        $this->operatorCheckingPdfManager = $operatorCheckingPdfManager;
-        $this->documentationPdfManager = $documentationPdfManager;
-        $this->vehicleCheckingPdfManager = $vehicleCheckingPdfManager;
-        $this->vehicleMaintenanceManager = $vehicleMaintenanceManager;
-        $this->em = $managerRegistry;
-        $this->enterpriseHolidayManager = $enterpriseHolidayManager;
-        $this->paymentReceiptPdfManager = $paymentReceiptPdfManager;
-        $this->EFacturaService = $EFacturaService;
     }
 
     protected function resolveRequest(Request $request = null): Request

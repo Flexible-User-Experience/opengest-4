@@ -36,17 +36,15 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 {
     /**
      * @var string
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $cifNif;
 
     /**
      * @var string
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $name;
 
@@ -94,17 +92,15 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 
     /**
      * @var string
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string', nullable: true)]
     private $mainAddress;
 
     /**
      * @var City
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $mainCity;
 
@@ -186,9 +182,8 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 
     /**
      * @var int
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'integer', nullable: true)]
     private $code;
 
@@ -214,8 +209,8 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      * @var string
      *
      * @Assert\Iban()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string', nullable: true)]
     private $iban;
 
@@ -223,8 +218,8 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
      * @var string
      *
      * @Assert\Bic()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string', nullable: true)]
     private $swift;
 

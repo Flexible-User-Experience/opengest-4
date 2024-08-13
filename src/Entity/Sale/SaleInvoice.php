@@ -31,13 +31,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 {
     /**
-     *
-     * @Groups({"api"})
      * @Assert\Count(
      *     min = 1,
      *     minMessage = "La factura tiene que tener un albarán como mínimo"
      * )
      */
+    #[Groups('api')]
     #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'saleInvoice')]
     private Collection $deliveryNotes;
 

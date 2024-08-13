@@ -28,8 +28,8 @@ class PartnerContact extends AbstractBase
      * @var string
      *
      * @Assert\NotBlank()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $name;
 
@@ -41,17 +41,15 @@ class PartnerContact extends AbstractBase
 
     /**
      * @var string
-     *
-     * @Groups({"api"})
-     */
+     * */
+    #[Groups('api')]
     #[ORM\Column(type: 'string', nullable: true)]
     private $phone;
 
     /**
      * @var string
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string', nullable: true)]
     private $mobile;
 
@@ -67,8 +65,8 @@ class PartnerContact extends AbstractBase
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string', nullable: true)]
     private $email;
 
@@ -206,11 +204,7 @@ class PartnerContact extends AbstractBase
         return $this;
     }
 
-    /**
-     * @Groups({"api"})
-     *
-     * @return string
-     */
+    #[Groups('api')]
     public function getPublicPhone(): string
     {
         if ($this->getPhone() or $this->getMobile()) {
@@ -224,11 +218,7 @@ class PartnerContact extends AbstractBase
         return '---';
     }
 
-    /**
-     * @Groups({"api"})
-     *
-     * @return string
-     */
+    #[Groups('api')]
     public function getText(): string
     {
         return $this->name.' - '.$this->getPublicPhone();

@@ -6,7 +6,27 @@ use App\Controller\Admin\BaseAdminController;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Form\Type\GenerateTimeSummaryFormType;
+use App\Manager\CostManager;
+use App\Manager\DeliveryNoteManager;
+use App\Manager\EnterpriseHolidayManager;
+use App\Manager\InvoiceManager;
+use App\Manager\Pdf\DocumentationPdfManager;
+use App\Manager\Pdf\OperatorCheckingPdfManager;
+use App\Manager\Pdf\PaymentReceiptPdfManager;
+use App\Manager\Pdf\PayslipPdfManager;
+use App\Manager\Pdf\SaleDeliveryNotePdfManager;
+use App\Manager\Pdf\SaleInvoicePdfManager;
+use App\Manager\Pdf\VehicleCheckingPdfManager;
+use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
+use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
+use App\Manager\Xls\ImputableCostXlsManager;
+use App\Manager\Xls\MarginAnalysisXlsManager;
+use App\Manager\Xls\OperatorWorkRegisterHeaderXlsManager;
+use App\Manager\Xml\PayslipXmlManager;
 use App\Repository\Operator\OperatorWorkRegisterHeaderRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Mirmit\EFacturaBundle\Service\EFacturaService;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,9 +38,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
 {
-    /**
-     * @return Response|RedirectResponse
-     */
     public function batchActionGenerateWorkRegisterReportPdf(ProxyQueryInterface $selectedModelQuery): Response|RedirectResponse
     {
         $this->admin->checkAccess('edit');
@@ -29,9 +46,6 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
         return new Response($this->wrhpm->outputCollection($operatorWorkRegisterHeaders, $from, $to), 200, ['Content-type' => 'application/pdf']);
     }
 
-    /**
-     * @return Response|RedirectResponse
-     */
     public function batchActionGenerateWorkRegisterReportXls(ProxyQueryInterface $selectedModelQuery): Response|RedirectResponse
     {
         $this->admin->checkAccess('edit');
@@ -58,18 +72,15 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
             'operator' => $operator,
             'date' => $date,
         ]);
-        if (!$operatorWorkRegisterHeader) {
-            $result = [];
-        } else {
-            /** @var OperatorWorkRegisterHeaderRepository $operatorWorkRegisterHeaderRepository */
-            $operatorWorkRegisterHeaderRepository = $this->container->get('doctrine')->getRepository(OperatorWorkRegisterHeader::class);
+        $result = [];
+        $result['workingHour'] = 0;
+        $result['normalHour'] = 0;
+        $result['extraHour'] = 0;
+        $result['negativeHour'] = 0;
+        $result['holidayHour'] = 0;
+        if ($operatorWorkRegisterHeader) {
+            $operatorWorkRegisterHeaderRepository = $this->repositoriesManager->getOperatorWorkRegisterHeaderRepository();
             $resultFromRepository = $operatorWorkRegisterHeaderRepository->getHoursFromOperatorWorkRegistersWithHoursFromDeliveryNotesAndDateQB($operatorWorkRegisterHeader);
-            $result = [];
-            $result['workingHour'] = 0;
-            $result['normalHour'] = 0;
-            $result['extraHour'] = 0;
-            $result['negativeHour'] = 0;
-            $result['holidayHour'] = 0;
             foreach ($resultFromRepository as $singleResult) {
                 if (str_contains($singleResult['description'], 'Hora laboral')) {
                     $result['workingHour'] += $singleResult['hours'];

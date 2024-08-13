@@ -11,7 +11,26 @@ use App\Entity\Setting\TimeRange;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Enum\SaleRequestStatusEnum;
-use App\Repository\Operator\OperatorWorkRegisterRepository;
+use App\Manager\CostManager;
+use App\Manager\DeliveryNoteManager;
+use App\Manager\EnterpriseHolidayManager;
+use App\Manager\InvoiceManager;
+use App\Manager\Pdf\DocumentationPdfManager;
+use App\Manager\Pdf\OperatorCheckingPdfManager;
+use App\Manager\Pdf\PaymentReceiptPdfManager;
+use App\Manager\Pdf\PayslipPdfManager;
+use App\Manager\Pdf\SaleDeliveryNotePdfManager;
+use App\Manager\Pdf\SaleInvoicePdfManager;
+use App\Manager\Pdf\VehicleCheckingPdfManager;
+use App\Manager\Pdf\WorkRegisterHeaderPdfManager;
+use App\Manager\RepositoriesManager;
+use App\Manager\VehicleMaintenanceManager;
+use App\Manager\Xls\ImputableCostXlsManager;
+use App\Manager\Xls\MarginAnalysisXlsManager;
+use App\Manager\Xls\OperatorWorkRegisterHeaderXlsManager;
+use App\Manager\Xml\PayslipXmlManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Mirmit\EFacturaBundle\Service\EFacturaService;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Sonata\AdminBundle\Exception\ModelManagerThrowable;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,11 +44,6 @@ use Symfony\Component\String\UnicodeString;
  */
 class OperatorWorkRegisterAdminController extends BaseAdminController
 {
-    /**
-     * @return RedirectResponse|Response
-     *
-     * @throws \Exception
-     */
     public function createCustomWorkRegisterAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
@@ -169,9 +183,6 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         return new RedirectResponse($this->generateUrl('admin_app_operator_operatorworkregisterheader_create', $parameters));
     }
 
-    /**
-     * @throws \Exception
-     */
     public function getJsonOperatorWorkRegistersByDataAndOperatorIdAction(Request $request): JsonResponse
     {
         $operatorId = $request->get('operatorId');
@@ -189,11 +200,9 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
         if (!$operatorWorkRegisterHeader) {
             $operatorWorkRegisters = [];
         } else {
-            /** @var OperatorWorkRegisterRepository $operatorWorkRegisterRepository */
-            $operatorWorkRegisterRepository = $this->container->get('doctrine')->getRepository(OperatorWorkRegister::class);
+            $operatorWorkRegisterRepository = $this->repositoriesManager->getOperatorWorkRegisterRepository();
             $operatorWorkRegisters = $operatorWorkRegisterRepository->getFilteredByOperatorWorkRegisterHeaderOrderedByStart($operatorWorkRegisterHeader);
         }
-
         $serializer = $this->container->get('serializer');
         $serializedOperatorWorkRegisters = $serializer->serialize($operatorWorkRegisters, 'json', ['groups' => ['api']]);
 

@@ -31,8 +31,8 @@ class PartnerOrder extends AbstractBase
      * @var string
      *
      * @Assert\NotBlank()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
     #[ORM\Column(type: 'string')]
     private $number;
 

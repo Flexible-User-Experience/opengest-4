@@ -67,50 +67,32 @@ class SaleTariff extends AbstractBase
     private $tonnage;
 
     /**
-     * @var float
-     *
-     * @Groups({"apiSaleTariff"})
-     */
+     * @var float    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $priceHour;
 
     /**
-     * @var float
-     *
-     * @Groups({"apiSaleTariff"})
-     */
+     * @var float    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHours;
 
     /**
-     * @var float
-     *
-     * @Groups({"apiSaleTariff"})
-     */
+     * @var float    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $miniumHolidayHours;
 
     /**
-     * @var float
-     *
-     * @Groups({"apiSaleTariff"})
-     */
+     * @var float    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $displacement;
 
     /**
-     * @var float
-     *
-     * @Groups({"apiSaleTariff"})
-     */
+     * @var float    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidays;
 
     /**
-     * @var float
-     *
-     * @Groups({"apiSaleTariff"})
-     */
+     * @var float    #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
     private $increaseForHolidaysPercentage;
 
@@ -363,9 +345,7 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @Groups({"apiSaleTariff"})
-     */
+    #[Groups('apiSaleTariff')]
     public function getText()
     {
         if ($this->id) {
