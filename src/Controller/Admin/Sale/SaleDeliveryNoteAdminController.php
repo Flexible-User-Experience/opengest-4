@@ -98,11 +98,11 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
         } else {
-            $from = array_shift($sdnforDates)->getDateToString();
+            $from = array_shift($sdnforDates)?->getDateToString();
             if (!$sdnforDates) {
                 $to = $from;
             } else {
-                $to = array_pop($sdnforDates)->getDateToString();
+                $to = array_pop($sdnforDates)?->getDateToString();
             }
         }
 
@@ -218,12 +218,14 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     {
 //        $this->admin->checkAccess('edit');
 //        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
-        $formData = $request->request->get('app_generate_sale_invoices');
+
+        $form = $this->createForm(GenerateSaleInvoicesFormType::class);
+        $form->handleRequest($request);
+        $formData = $form->getData();
         /** @var SaleDeliveryNote $operators */
         $selectedModels = $formData['saleDeliveryNotes'];
-        $date = DateTime::createFromFormat('d/m/Y', $formData['date']);
-        /** @var SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository */
-        $saleInvoiceSeriesRepository = $this->container->get('doctrine')->getRepository(SaleInvoiceSeries::class);
+        $date = $formData['date'];
+        $saleInvoiceSeriesRepository = $this->repositoriesManager->getSaleInvoiceSeriesRepository();
         $saleInvoiceSeries = $saleInvoiceSeriesRepository->find($formData['series']);
         $saleDeliveryNotes = [];
         $em = $this->em;

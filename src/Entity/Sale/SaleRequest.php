@@ -717,18 +717,13 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getContactPersonName(): string
+    public function getContactPersonName(): ?string
     {
         return $this->contactPersonName;
     }
 
     /**
      * @param string $contactPersonName
-     *
-     * @return $this
      */
     public function setContactPersonName($contactPersonName): static
     {
