@@ -144,7 +144,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
 
     public function createTimeSummaryAction(Request $request)
     {
-        $formData = $request->request->get('app_generate_time_summary');
+        $formData = $request->request->all('app_generate_time_summary');
         try {
             $em = $this->getDoctrine()->getManager();
 

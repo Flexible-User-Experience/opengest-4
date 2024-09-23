@@ -181,7 +181,7 @@ class VehicleAdminController extends BaseAdminController
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
-        $formData = $request->request->get('app_generate_vehicle_documentation');
+        $formData = $request->request->all('app_generate_vehicle_documentation');
         $documentation = [];
         $vehicleIds = $formData['vehicles'];
         if (!$vehicleIds) {
