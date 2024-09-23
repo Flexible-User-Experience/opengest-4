@@ -171,7 +171,7 @@ class OperatorAdminController extends BaseAdminController
 
     public function generatePayslipsAction(Request $request, PayslipManager $payslipManager)
     {
-        $formData = $request->request->get('app_generate_payslips');
+        $formData = $request->request->all('app_generate_payslips');
         try {
             $em = $this->em->getManager();
             $i = 0;
@@ -218,7 +218,7 @@ class OperatorAdminController extends BaseAdminController
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
-        $formData = $request->request->get('app_generate_operator_documentation');
+        $formData = $request->request->all('app_generate_operator_documentation');
         $documentation = [];
         $operatorIds = $formData['operators'];
         if (!$operatorIds) {
