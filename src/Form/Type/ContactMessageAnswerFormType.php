@@ -19,7 +19,7 @@ class ContactMessageAnswerFormType extends ContactMessageFormType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -51,7 +51,7 @@ class ContactMessageAnswerFormType extends ContactMessageFormType
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'contact_message_answer';
     }

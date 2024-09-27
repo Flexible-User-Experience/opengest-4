@@ -19,7 +19,7 @@ class PartnerVoter extends AbstractVoter
      *
      * @return bool
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof Partner && in_array($attribute, self::ATTRIBUTES);
     }
@@ -30,7 +30,7 @@ class PartnerVoter extends AbstractVoter
      *
      * @return bool
      */
-    private function isOwner(?User $user, Partner $partner)
+    private function isOwner(?User $user, Partner $partner): bool
     {
         if (!$user) {
             return false;

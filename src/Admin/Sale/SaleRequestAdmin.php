@@ -50,13 +50,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'sale_request';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/peticio';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/peticio';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';

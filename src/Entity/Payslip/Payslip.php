@@ -16,60 +16,46 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Jordi Sort
- *
- * @ORM\Entity(repositoryClass="App\Repository\Payslip\PayslipRepository")
- * @ORM\Table(name="payslip")
  */
+#[ORM\Table(name: 'payslip')]
+#[ORM\Entity(repositoryClass: \App\Repository\Payslip\PayslipRepository::class)]
 class Payslip extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="payslips")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'payslips')]
     private Operator $operator;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $fromDate;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $toDate;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $year;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $expenses = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $socialSecurityCost = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $extraPay = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $otherCosts = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+
+    #[ORM\Column(type: 'float', options: ['default' => 0])]
+    private float $totalAccrued = 0;
+
+    #[ORM\Column(type: 'float', options: ['default' => 0])]
+    private float $totalDeductions = 0;
+
+    #[ORM\Column(type: 'float')]
     private float $totalAmount = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslip", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipLine::class, mappedBy: 'payslip', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $payslipLines;
 
     /**
@@ -133,45 +119,30 @@ class Payslip extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getExpenses(): float
     {
         return $this->expenses;
     }
 
-    /**
-     * @param float|int $expenses
-     */
-    public function setExpenses($expenses): Payslip
+    public function setExpenses(float $expenses): Payslip
     {
         $this->expenses = $expenses;
 
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getSocialSecurityCost(): float
     {
         return $this->socialSecurityCost;
     }
 
-    /**
-     * @param float|int $socialSecurityCost
-     */
-    public function setSocialSecurityCost($socialSecurityCost): Payslip
+    public function setSocialSecurityCost(float $socialSecurityCost): Payslip
     {
         $this->socialSecurityCost = $socialSecurityCost;
 
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getExtraPay(): float
     {
         $this->setExtraPay(0);
@@ -179,10 +150,7 @@ class Payslip extends AbstractBase
         return $this->extraPay;
     }
 
-    /**
-     * @param float|int $extraPay
-     */
-    public function setExtraPay($extraPay): Payslip
+    public function setExtraPay(float $extraPay): Payslip
     {
         $extraPay = 0;
         $payslipLineExtraPays = $this->getPayslipLines()->filter(function (PayslipLine $payslipLine) {
@@ -197,36 +165,49 @@ class Payslip extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
     public function getOtherCosts(): float
     {
         return $this->otherCosts;
     }
 
-    /**
-     * @param float|int $otherCosts
-     */
-    public function setOtherCosts($otherCosts): Payslip
+    public function setOtherCosts(float $otherCosts): Payslip
     {
         $this->otherCosts = $otherCosts;
 
         return $this;
     }
 
-    /**
-     * @return float|int
-     */
+
+    public function getTotalAccrued(): float
+    {
+        return $this->totalAccrued;
+    }
+
+    public function setTotalAccrued(float $totalAccrued): Payslip
+    {
+        $this->totalAccrued = $totalAccrued;
+
+        return $this;
+    }
+
+    public function getTotalDeductions(): float
+    {
+        return $this->totalDeductions;
+    }
+
+    public function setTotalDeductions(float $totalDeductions): Payslip
+    {
+        $this->totalDeductions = $totalDeductions;
+
+        return $this;
+    }
+
     public function getTotalAmount(): float
     {
         return $this->totalAmount;
     }
 
-    /**
-     * @param float|int $totalAmount
-     */
-    public function setTotalAmount($totalAmount): Payslip
+    public function setTotalAmount(float $totalAmount): Payslip
     {
         $this->totalAmount = $totalAmount;
 
@@ -241,7 +222,7 @@ class Payslip extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslipLines(Collection $payslipLines): Payslip
+    public function setPayslipLines(Collection $payslipLines): static
     {
         $this->payslipLines = $payslipLines;
 
@@ -251,7 +232,7 @@ class Payslip extends AbstractBase
     /**
      * @return $this
      */
-    public function addPayslipLine(PayslipLine $payslipLine): Payslip
+    public function addPayslipLine(PayslipLine $payslipLine): static
     {
         if (!$this->payslipLines->contains($payslipLine)) {
             $this->payslipLines->add($payslipLine);
@@ -264,7 +245,7 @@ class Payslip extends AbstractBase
     /**
      * @return $this
      */
-    public function removePayslipLine(PayslipLine $payslipLine): Payslip
+    public function removePayslipLine(PayslipLine $payslipLine): static
     {
         if ($this->payslipLines->contains($payslipLine)) {
             $this->payslipLines->removeElement($payslipLine);
@@ -301,6 +282,16 @@ class Payslip extends AbstractBase
     public function getOtherCostsFormatted(): string
     {
         return NumberFormatService::formatNumber($this->getOtherCosts());
+    }
+
+    public function getTotalAccruedFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalAccrued());
+    }
+
+    public function getTotalDeductionsFormatted(): string
+    {
+        return NumberFormatService::formatNumber($this->getTotalDeductions());
     }
 
     public function getTotalAmountFormatted(): string

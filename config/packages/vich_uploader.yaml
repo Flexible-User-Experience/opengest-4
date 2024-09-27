@@ -71,4 +71,3 @@ vich_uploader:
             namer:              vich_uploader.namer_uniqid
             uri_prefix: /uploads/documents/document
             upload_destination: '%kernel.project_dir%/var/uploads/documents/document'
-

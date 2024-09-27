@@ -11,30 +11,27 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @category
  **
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\EnterpriseHolidaysRepository")
- * @ORM\Table(name="enterprise_holidays")
  */
+#[ORM\Table(name: 'enterprise_holidays')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\EnterpriseHolidaysRepository::class)]
 class EnterpriseHolidays extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="enterpriseHolidays")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'enterpriseHolidays')]
     private $enterprise;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private $day;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $name;
 
     /**
@@ -44,7 +41,7 @@ class EnterpriseHolidays extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -54,7 +51,7 @@ class EnterpriseHolidays extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -64,7 +61,7 @@ class EnterpriseHolidays extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getDay()
+    public function getDay(): DateTime
     {
         return $this->day;
     }
@@ -74,7 +71,7 @@ class EnterpriseHolidays extends AbstractBase
      *
      * @return $this
      */
-    public function setDay($day)
+    public function setDay($day): static
     {
         $this->day = $day;
 
@@ -84,7 +81,7 @@ class EnterpriseHolidays extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -94,7 +91,7 @@ class EnterpriseHolidays extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -104,7 +101,7 @@ class EnterpriseHolidays extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getDay()->format('d/m/Y').' · '.$this->getName() : '---';
     }

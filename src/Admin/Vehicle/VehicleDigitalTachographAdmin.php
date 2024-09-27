@@ -30,11 +30,6 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tacògrafs';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehicles/tacograf';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -45,6 +40,10 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehicles/tacograf';
+    }
 
     /**
      * Configure route collection.

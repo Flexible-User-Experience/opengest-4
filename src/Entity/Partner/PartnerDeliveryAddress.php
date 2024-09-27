@@ -14,34 +14,30 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerDeliveryAddressRepository")
- * @ORM\Table(name="partner_delivery_address")
  */
+#[ORM\Table(name: 'partner_delivery_address')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerDeliveryAddressRepository::class)]
 class PartnerDeliveryAddress extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="partnerDeliveryAddresses")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'partnerDeliveryAddresses')]
     private $partner;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Groups({"api"})
      * @Assert\NotBlank()
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string')]
     private $address;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $city;
 
     /**
@@ -51,7 +47,7 @@ class PartnerDeliveryAddress extends AbstractBase
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -61,7 +57,7 @@ class PartnerDeliveryAddress extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -95,7 +91,7 @@ class PartnerDeliveryAddress extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getAddress().' - '.($this->getCity() ? $this->getCity() : '') : '???';
     }

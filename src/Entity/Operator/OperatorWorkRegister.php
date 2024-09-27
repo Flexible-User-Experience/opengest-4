@@ -16,74 +16,54 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorWorkRegisterRepository")
  *
- * @ORM\Table(name="operator_work_register")
  */
+#[ORM\Table(name: 'operator_work_register')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorWorkRegisterRepository::class)]
 class OperatorWorkRegister extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", inversedBy="operatorWorkRegisters")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\OperatorWorkRegisterHeader::class, inversedBy: 'operatorWorkRegisters')]
     private OperatorWorkRegisterHeader $operatorWorkRegisterHeader;
 
     /**
      * @var ?\DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'time', nullable: true)]
     private ?\DateTime $start;
 
     /**
      * @var ?\DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'time', nullable: true)]
     private ?\DateTime $finish;
 
-    /**
-     * @ORM\Column(type="float")
-     *
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'float')]
     private float $units;
 
-    /**
-     * @ORM\Column(type="float")
-     *
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'float')]
     private float $priceUnit;
 
-    /**
-     * @ORM\Column(type="float")
-     *
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'float')]
     private float $amount;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description;
 
     /**
      * @var ?SaleDeliveryNote
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="operatorWorkRegisters")
-     *
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     *
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, inversedBy: 'operatorWorkRegisters')]
     private ?SaleDeliveryNote $saleDeliveryNote;
 
     /**
@@ -212,7 +192,7 @@ class OperatorWorkRegister extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getOperatorWorkRegisterHeader()->getOperator().' · '.$this->getOperatorWorkRegisterHeader()->getDate()->format('d/m/Y').' · '.$this->getDescription() : '---';
     }

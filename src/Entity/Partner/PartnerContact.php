@@ -13,84 +13,73 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerContactRepository")
- * @ORM\Table(name="partner_contact")
  */
+#[ORM\Table(name: 'partner_contact')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerContactRepository::class)]
 class PartnerContact extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="contacts")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'contacts')]
     private $partner;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $care;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     * @Groups({"api"})
-     */
+     * */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $phone;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $mobile;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $fax;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=4000, nullable=true)
      */
+    #[ORM\Column(type: 'text', length: 4000, nullable: true)]
     private $notes;
 
     /**
      * Methods.
      */
-
-    /**
-     * @return Partner
-     */
-    public function getPartner()
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
@@ -100,7 +89,7 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -110,7 +99,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -120,67 +109,43 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCare()
+    public function getCare(): ?string
     {
         return $this->care;
     }
 
-    /**
-     * @param string $care
-     *
-     * @return $this
-     */
-    public function setCare($care)
+    public function setCare($care): static
     {
         $this->care = $care;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone()
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    /**
-     * @param string $phone
-     *
-     * @return $this
-     */
-    public function setPhone($phone)
+    public function setPhone($phone): static
     {
         $this->phone = $phone;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMobile()
+    public function getMobile(): ?string
     {
         return $this->mobile;
     }
 
-    /**
-     * @param string $mobile
-     *
-     * @return $this
-     */
-    public function setMobile($mobile)
+    public function setMobile($mobile): static
     {
         $this->mobile = $mobile;
 
@@ -190,7 +155,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getFax()
+    public function getFax(): string
     {
         return $this->fax;
     }
@@ -200,27 +165,19 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setFax($fax)
+    public function setFax($fax): static
     {
         $this->fax = $fax;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return $this
-     */
-    public function setEmail($email)
+    public function setEmail($email): static
     {
         $this->email = $email;
 
@@ -230,7 +187,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function getNotes()
+    public function getNotes(): string
     {
         return $this->notes;
     }
@@ -240,19 +197,15 @@ class PartnerContact extends AbstractBase
      *
      * @return $this
      */
-    public function setNotes($notes)
+    public function setNotes($notes): static
     {
         $this->notes = $notes;
 
         return $this;
     }
 
-    /**
-     * @Groups({"api"})
-     *
-     * @return string
-     */
-    public function getPublicPhone()
+    #[Groups('api')]
+    public function getPublicPhone(): string
     {
         if ($this->getPhone() or $this->getMobile()) {
             if ($this->getMobile()) {
@@ -265,12 +218,8 @@ class PartnerContact extends AbstractBase
         return '---';
     }
 
-    /**
-     * @Groups({"api"})
-     *
-     * @return string
-     */
-    public function getText()
+    #[Groups('api')]
+    public function getText(): string
     {
         return $this->name.' - '.$this->getPublicPhone();
     }
@@ -278,7 +227,7 @@ class PartnerContact extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '???';
     }

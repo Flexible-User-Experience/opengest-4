@@ -10,19 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\GroupRepository")
- * @ORM\Table(name="admin_group")
  */
+#[ORM\Table(name: 'admin_group')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\GroupRepository::class)]
 class Group
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected $id;
 
     /**
@@ -34,7 +32,7 @@ class Group
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

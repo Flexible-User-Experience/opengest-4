@@ -16,10 +16,9 @@ trait NameTrait
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $name;
 
     /**
@@ -29,7 +28,7 @@ trait NameTrait
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -39,7 +38,7 @@ trait NameTrait
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 

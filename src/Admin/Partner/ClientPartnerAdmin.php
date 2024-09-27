@@ -33,16 +33,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Clientes';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'clientes/cliente';
-
-    /**
-     * @var string
-     */
-    protected $baseRouteName = 'admin_app_partner_client';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -53,6 +43,16 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'clientes/cliente';
+    }
+
+    public function generateBaseRouteName(bool $isChildAdmin = false): string
+    {
+        return 'admin_app_partner_client';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
@@ -622,7 +622,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'Email',
+                'email',
                 null,
                 [
                     'label' => 'admin.label.email',
@@ -717,7 +717,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'Email',
+                'email',
                 null,
                 [
                     'label' => 'admin.label.email',

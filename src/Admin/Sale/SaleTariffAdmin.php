@@ -37,13 +37,13 @@ class SaleTariffAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tarifa';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/tarifa';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/tarifa';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';

@@ -1,5 +1,4 @@
 security:
-    enable_authenticator_manager: true
     role_hierarchy:
         ROLE_SONATA_CMS:
             - ROLE_APP_ADMIN_SERVICE_ALL
@@ -120,6 +119,7 @@ security:
             - ROLE_ALLOWED_TO_SWITCH
     access_decision_manager:
         strategy: unanimous
+# https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
 #        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         App\Entity\Setting\User: bcrypt
@@ -161,10 +161,10 @@ security:
 #            context:   user
             lazy: true
     access_control:
-        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login$, role: PUBLIC_ACCESS }
+        - { path: ^/admin/resetting, role: PUBLIC_ACCESS }
         - { path: ^/admin/, role: ROLE_USER }
-        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/.*, role: PUBLIC_ACCESS }
 
 when@test:
     security:

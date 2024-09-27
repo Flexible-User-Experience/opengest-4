@@ -20,7 +20,7 @@ class ImportVehicleCheckingTypeCsvCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:vehicle_checking:type');
         $this->setDescription('Import vehicle checking types from CSV file');
@@ -35,7 +35,7 @@ class ImportVehicleCheckingTypeCsvCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $fr = $this->initialValidation($input, $output);

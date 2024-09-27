@@ -33,13 +33,13 @@ class SaleDeliveryNoteAdmin extends AbstractSaleDeliveryNoteAdmin
     protected $classnameLabel = 'Albarà';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/albara';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/albara';
+    }
+
     public function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection

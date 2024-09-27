@@ -35,13 +35,13 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Mantenimientos de vehículo';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehiculos/mantenimientos';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehiculos/mantenimientos';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';

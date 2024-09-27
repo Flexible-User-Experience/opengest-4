@@ -10,69 +10,57 @@ use Mirmit\EFacturaBundle\Interfaces\LineFacturaEInterface;
  * Class SaleDeliveryNoteLine.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteLineRepository")
- * @ORM\Table(name="sale_delivery_note_line")
  */
+#[ORM\Table(name: 'sale_delivery_note_line')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleDeliveryNoteLineRepository::class)]
 class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="saleDeliveryNoteLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, inversedBy: 'saleDeliveryNoteLines')]
     private SaleDeliveryNote $deliveryNote;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleItem", inversedBy="saleDeliveryNoteLines")
-     */
-    private SaleItem $saleItem;
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleItem::class, inversedBy: 'saleDeliveryNoteLines')]
+    private ?SaleItem $saleItem = null;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, scale=4)
      */
+    #[ORM\Column(type: 'float', nullable: true, scale: 4)]
     private $units;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", scale=4)
      */
+    #[ORM\Column(type: 'float', scale: 4)]
     private $priceUnit;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true, scale=4)
      */
+    #[ORM\Column(type: 'float', nullable: true, scale: 4)]
     private $total;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $description;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
      */
+    #[ORM\Column(type: 'float')]
     private $iva;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
      */
+    #[ORM\Column(type: 'float')]
     private $irpf;
 
     /**
@@ -82,7 +70,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return SaleDeliveryNote
      */
-    public function getDeliveryNote()
+    public function getDeliveryNote(): SaleDeliveryNote
     {
         return $this->deliveryNote;
     }
@@ -92,14 +80,14 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setDeliveryNote($deliveryNote)
+    public function setDeliveryNote($deliveryNote): static
     {
         $this->deliveryNote = $deliveryNote;
 
         return $this;
     }
 
-    public function getSaleItem(): SaleItem
+    public function getSaleItem(): ?SaleItem
     {
         return $this->saleItem;
     }
@@ -114,7 +102,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getUnits()
+    public function getUnits(): float
     {
         return $this->units;
     }
@@ -124,7 +112,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setUnits($units)
+    public function setUnits($units): static
     {
         $this->units = $units;
 
@@ -134,7 +122,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getPriceUnit()
+    public function getPriceUnit(): float
     {
         return $this->priceUnit;
     }
@@ -144,7 +132,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setPriceUnit($priceUnit)
+    public function setPriceUnit($priceUnit): static
     {
         $this->priceUnit = $priceUnit;
 
@@ -154,7 +142,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getTotal()
+    public function getTotal(): float
     {
         return $this->total;
     }
@@ -164,17 +152,14 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setTotal($total)
+    public function setTotal($total): static
     {
         $this->total = $total;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getDiscount()
+    public function getDiscount(): ?float
     {
         return $this->discount;
     }
@@ -184,17 +169,14 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setDiscount($discount)
+    public function setDiscount($discount): static
     {
         $this->discount = $discount;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -204,7 +186,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
@@ -214,7 +196,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getIva()
+    public function getIva(): float
     {
         return $this->iva;
     }
@@ -224,7 +206,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setIva($iva)
+    public function setIva($iva): static
     {
         $this->iva = $iva;
 
@@ -234,7 +216,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getIrpf()
+    public function getIrpf(): float
     {
         return $this->irpf;
     }
@@ -244,7 +226,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      *
      * @return $this
      */
-    public function setIrpf($irpf)
+    public function setIrpf($irpf): static
     {
         $this->irpf = $irpf;
 

@@ -25,7 +25,7 @@ class ImportCityCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:city');
         $this->setDescription('Import city from CSV file by index');
@@ -45,7 +45,7 @@ class ImportCityCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $fr = $this->initialValidation($input, $output);

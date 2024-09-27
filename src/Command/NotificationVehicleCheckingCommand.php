@@ -20,7 +20,7 @@ class NotificationVehicleCheckingCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:notification:vehicle-checking');
         $this->setDescription('Send vehicle checking notification before to be invalid');
@@ -35,7 +35,7 @@ class NotificationVehicleCheckingCommand extends AbstractBaseCommand
      * @throws TransportExceptionInterface;
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome
         $output->writeln('<info>Welcome to "'.$this->getName().'" command.</info>');

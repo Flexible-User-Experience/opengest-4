@@ -24,11 +24,6 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Prima';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'empreses/grup-prima';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -39,6 +34,11 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'empreses/grup-prima';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

@@ -28,13 +28,13 @@ class EnterpriseHolidaysAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Dies festius';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'empreses/dies-festius';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'empreses/dies-festius';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);

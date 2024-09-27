@@ -5,6 +5,7 @@ namespace App\Entity\Operator;
 use App\Entity\AbstractBase;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -14,28 +15,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @category Entity
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorWorkRegisterHeaderRepository")
- * @ORM\Table(name="operator_work_register_header")
  */
+#[ORM\Table(name: 'operator_work_register_header')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorWorkRegisterHeaderRepository::class)]
 class OperatorWorkRegisterHeader extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="workRegisterHeaders")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'workRegisterHeaders')]
     private Operator $operator;
 
-    /**
-     * @ORM\Column(type="date")
-     * @Groups({"api"})
-     */
+    #[Groups('api')]
+    #[ORM\Column(type: 'date')]
     private DateTime $date;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="operatorWorkRegisterHeader", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorWorkRegister::class, mappedBy: 'operatorWorkRegisterHeader', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $operatorWorkRegisters;
 
     /**
@@ -70,10 +65,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorWorkRegisters()
+    public function getOperatorWorkRegisters(): Collection
     {
         return $this->operatorWorkRegisters;
     }
@@ -105,7 +97,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function setOperatorWorkRegisters(ArrayCollection $operatorWorkRegisters): OperatorWorkRegisterHeader
+    public function setOperatorWorkRegisters(ArrayCollection $operatorWorkRegisters): static
     {
         $this->operatorWorkRegisters = $operatorWorkRegisters;
 
@@ -115,7 +107,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): OperatorWorkRegisterHeader
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): static
     {
         if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->add($operatorWorkRegister);
@@ -128,7 +120,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return $this
      */
-    public function removeOperatorWorkRegister(OperatorWorkRegister $workRegister): OperatorWorkRegisterHeader
+    public function removeOperatorWorkRegister(OperatorWorkRegister $workRegister): static
     {
         if ($this->operatorWorkRegisters->contains($workRegister)) {
             $this->operatorWorkRegisters->removeElement($workRegister);
@@ -148,7 +140,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getDate()->format('d/m/Y').' · '.$this->getOperator() : '---';
     }

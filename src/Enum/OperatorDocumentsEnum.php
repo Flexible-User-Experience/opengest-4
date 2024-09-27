@@ -23,7 +23,7 @@ class OperatorDocumentsEnum
     /**
      * @return array
      */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
@@ -31,7 +31,7 @@ class OperatorDocumentsEnum
     /**
      * @return array
      */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
         return [
             self::taxIdentificationNumber => 'admin.with.operator.tax_identification_number',

@@ -68,7 +68,7 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return \TCPDF
      */
-    public function buildCollection($workRegisterHeaders, $from, $to)
+    public function buildCollection($workRegisterHeaders, $from, $to): \TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de nóminas detalladas');
         $pdf = $this->pdfEngineService->getEngine();
@@ -92,7 +92,7 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return string
      */
-    public function outputCollection($workRegisterHeaders, $from, $to)
+    public function outputCollection($workRegisterHeaders, $from, $to): string
     {
         $pdf = $this->buildCollection($workRegisterHeaders, $from, $to);
 
@@ -840,7 +840,7 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return float|int
      */
-    private function getFinalSum($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra)
+    private function getFinalSum($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra): float|int
     {
         return $normalHourPrice * $totalNormalHours +
         $extraHourPrice * $totalExtraHours +
@@ -860,7 +860,7 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return float|int
      */
-    private function getFinalDiets($lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt)
+    private function getFinalDiets($lunchPrice, $totalLunch, $dinnerPrice, $totalDinner, $lunchIntPrice, $totalLunchInt, $dinnerIntPrice, $totalDinnerInt, $dietPrice, $totalDiet, $dietIntPrice, $totalDietInt): float|int
     {
         return $lunchPrice * $totalLunch +
         $dinnerPrice * $totalDinner +
@@ -873,7 +873,7 @@ class WorkRegisterHeaderPdfManager
     /**
      * @return float|int
      */
-    private function getFinalExtras($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra)
+    private function getFinalExtras($normalHourPrice, $totalNormalHours, $extraHourPrice, $totalExtraHours, $holidayHourPrice, $totalHolidayHours, $negativeHourPrice, $totalNegativeHours, $overNightPrice, $totalOverNight, $exitExtraPrice, $totalExitExtra): float|int
     {
         return $normalHourPrice * $totalNormalHours +
         $extraHourPrice * $totalExtraHours +

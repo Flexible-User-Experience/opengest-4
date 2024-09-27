@@ -27,11 +27,6 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tercers comandes';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'tercers/comandes';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -42,6 +37,11 @@ class PartnerOrderAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'tercers/comandes';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

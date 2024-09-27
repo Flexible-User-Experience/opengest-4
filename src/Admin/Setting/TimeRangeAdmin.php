@@ -28,11 +28,6 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Franjas horarias';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracion/franjas_horarias';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -43,6 +38,10 @@ class TimeRangeAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracion/franjas_horarias';
+    }
 
     /**
      * Configure route collection.

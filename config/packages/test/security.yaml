@@ -2,6 +2,6 @@ security:
     firewalls:
         admin:
             http_basic:  ~
-    encoders:
+    password_hashers:
         App\Entity\Setting\User:
             algorithm: plaintext

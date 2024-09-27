@@ -91,7 +91,7 @@ class VehicleSpecialPermitPdfManager
      * @param TCPDF $pdf
      * @return int
      */
-    private function startPage(TCPDF $pdf)
+    private function startPage(TCPDF $pdf): int
     {
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);

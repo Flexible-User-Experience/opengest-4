@@ -23,11 +23,6 @@ class VehicleFuelAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Combustibles';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehiculos/combustible';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -38,6 +33,11 @@ class VehicleFuelAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehiculos/combustible';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

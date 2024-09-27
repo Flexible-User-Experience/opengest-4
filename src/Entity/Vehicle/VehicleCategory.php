@@ -18,33 +18,27 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleCategoryRepository")
- * @ORM\Table(name="vehicle_category")
- * @UniqueEntity({"name"})
  */
+#[UniqueEntity('name')]
+#[ORM\Table(name: 'vehicle_category')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleCategoryRepository::class)]
 class VehicleCategory extends AbstractBase
 {
     use NameTrait;
     use PositionTrait;
     use SlugTrait;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"name"})
-     */
+    #[Gedmo\Slug(fields: ['name'])]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $slug;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\Vehicle", mappedBy="category")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\Vehicle::class, mappedBy: 'category')]
     private Collection $vehicles;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Web\Service", mappedBy="vehicleCategory")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Web\Service::class, mappedBy: 'vehicleCategory')]
     private $services;
 
     /**
@@ -70,7 +64,7 @@ class VehicleCategory extends AbstractBase
      *
      * @return $this
      */
-    public function setVehicles($vehicles): VehicleCategory
+    public function setVehicles($vehicles): static
     {
         $this->vehicles = $vehicles;
 
@@ -80,7 +74,7 @@ class VehicleCategory extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicle(Vehicle $vehicle): VehicleCategory
+    public function addVehicle(Vehicle $vehicle): static
     {
         $this->vehicles->add($vehicle);
 
@@ -90,14 +84,14 @@ class VehicleCategory extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicle(Vehicle $vehicle): VehicleCategory
+    public function removeVehicle(Vehicle $vehicle): static
     {
         $this->vehicles->removeElement($vehicle);
 
         return $this;
     }
 
-    public function getServices(): ArrayCollection
+    public function getServices(): Collection
     {
         return $this->services;
     }

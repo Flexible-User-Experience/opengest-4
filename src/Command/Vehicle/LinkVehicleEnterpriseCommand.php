@@ -23,7 +23,7 @@ class LinkVehicleEnterpriseCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:link:vehicle:enterprise');
         $this->setDescription('Link vehicle and enterprise');
@@ -40,7 +40,7 @@ class LinkVehicleEnterpriseCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome
         $output->writeln('<info>Welcome to "'.$this->getDescription().'" command.</info>');

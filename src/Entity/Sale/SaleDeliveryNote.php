@@ -26,230 +26,189 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleDeliveryNoteRepository")
  *
- * @ORM\Table(name="sale_delivery_note")
  */
+#[ORM\Table(name: 'sale_delivery_note')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleDeliveryNoteRepository::class)]
 class SaleDeliveryNote extends AbstractBase
 {
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private $date;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private $enterprise;
 
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="saleDeliveryNotes")
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleDeliveryNotes')]
     private $partner;
 
     /**
      * @var PartnerBuildingSite
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerBuildingSite")
-     *
-     * @Groups({"api"})
-     */
+     * */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class)]
     private $buildingSite;
 
     /**
      * @var SaleServiceTariff
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleServiceTariff")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleServiceTariff::class)]
     private $saleServiceTariff;
 
     /**
      * @var Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="saleDeliveryNotes")
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'saleDeliveryNotes')]
     private $vehicle;
 
     /**
      * @var Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class)]
     private $secondaryVehicle;
 
     /**
      * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class)]
     private $operator;
 
     /**
      * @var PartnerOrder
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerOrder", inversedBy="saleDeliveryNotes")
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerOrder::class, inversedBy: 'saleDeliveryNotes')]
     private $order;
 
     /**
      * @var PartnerProject
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerProject", inversedBy="saleDeliveryNotes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerProject::class, inversedBy: 'saleDeliveryNotes')]
     private $project;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", length=50, nullable=true)
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private ?string $deliveryNoteReference;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float")
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'float')]
     private $baseAmount = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount = 0;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $collectionTerm;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $collectionTerm2;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $collectionTerm3;
 
     /**
      * @var CollectionDocumentType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
-     *
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class)]
     private $collectionDocument;
 
     /**
      * @var ActivityLine
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\ActivityLine")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\ActivityLine::class)]
     private $activityLine;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $wontBeInvoiced = false;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $isInvoiced = false;
 
     /**
      * @var ?SaleInvoice
-     *
-     * @ORM\ManyToOne (targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="deliveryNotes")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleInvoice::class, inversedBy: 'deliveryNotes')]
     private ?SaleInvoice $saleInvoice;
 
     /**
      * @var ?PartnerDeliveryAddress
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerDeliveryAddress::class)]
     private $deliveryAddress;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNoteLine", mappedBy="deliveryNote", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNoteLine::class, mappedBy: 'deliveryNote', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $saleDeliveryNoteLines;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequestHasDeliveryNote", mappedBy="saleDeliveryNote", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequestHasDeliveryNote::class, mappedBy: 'saleDeliveryNote', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $saleRequestHasDeliveryNotes;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegister", mappedBy="saleDeliveryNote", cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorWorkRegister::class, mappedBy: 'saleDeliveryNote', cascade: ['persist'])]
     private Collection $operatorWorkRegisters;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="saleDeliveryNote")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'saleDeliveryNote')]
     private Collection $purchaseInvoiceLines;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $serviceDescription;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $place;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $observations;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $printed = false;
 
     /**
@@ -277,7 +236,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return \DateTime
      */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -287,7 +246,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setDate($date)
+    public function setDate($date): static
     {
         $this->date = $date;
 
@@ -297,7 +256,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -310,10 +269,7 @@ class SaleDeliveryNote extends AbstractBase
         $this->enterprise = $enterprise;
     }
 
-    /**
-     * @return Partner
-     */
-    public function getPartner()
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
@@ -326,17 +282,11 @@ class SaleDeliveryNote extends AbstractBase
         $this->partner = $partner;
     }
 
-    /**
-     * @return PartnerBuildingSite
-     */
-    public function getBuildingSite()
+    public function getBuildingSite(): ?PartnerBuildingSite
     {
         return $this->buildingSite;
     }
 
-    /**
-     * @param PartnerBuildingSite $buildingSite
-     */
     public function setBuildingSite($buildingSite): void
     {
         $this->buildingSite = $buildingSite;
@@ -402,10 +352,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return PartnerOrder
-     */
-    public function getOrder()
+    public function getOrder(): ?PartnerOrder
     {
         return $this->order;
     }
@@ -447,7 +394,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getBaseAmount()
+    public function getBaseAmount(): float
     {
         return $this->baseAmount;
     }
@@ -465,7 +412,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return float
      */
-    public function getDiscount()
+    public function getDiscount(): float
     {
         return $this->discount;
     }
@@ -516,36 +463,24 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return CollectionDocumentType
-     */
-    public function getCollectionDocument()
+    public function getCollectionDocument(): ?CollectionDocumentType
     {
         return $this->collectionDocument;
     }
 
-    /**
-     * @param CollectionDocumentType $collectionDocument
-     */
-    public function setCollectionDocument($collectionDocument): SaleDeliveryNote
+    public function setCollectionDocument(?CollectionDocumentType $collectionDocument): SaleDeliveryNote
     {
         $this->collectionDocument = $collectionDocument;
 
         return $this;
     }
 
-    /**
-     * @return ActivityLine
-     */
-    public function getActivityLine()
+    public function getActivityLine(): ?ActivityLine
     {
         return $this->activityLine;
     }
 
-    /**
-     * @param ActivityLine $activityLine
-     */
-    public function setActivityLine($activityLine): SaleDeliveryNote
+    public function setActivityLine(?ActivityLine $activityLine): SaleDeliveryNote
     {
         $this->activityLine = $activityLine;
 
@@ -562,7 +497,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setWontBeInvoiced($wontBeInvoiced): SaleDeliveryNote
+    public function setWontBeInvoiced($wontBeInvoiced): static
     {
         $this->wontBeInvoiced = $wontBeInvoiced;
 
@@ -590,10 +525,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleDeliveryNoteLines()
+    public function getSaleDeliveryNoteLines(): Collection
     {
         return $this->saleDeliveryNoteLines;
     }
@@ -603,7 +535,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleDeliveryNoteLines($SaleDeliveryNoteLines)
+    public function setSaleDeliveryNoteLines($SaleDeliveryNoteLines): static
     {
         $this->saleDeliveryNoteLines = $SaleDeliveryNoteLines;
 
@@ -613,7 +545,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function addSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
+    public function addSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine): static
     {
         if (!$this->saleDeliveryNoteLines->contains($saleDeliveryNoteLine)) {
             $this->saleDeliveryNoteLines->add($saleDeliveryNoteLine);
@@ -626,7 +558,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function removeSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine)
+    public function removeSaleDeliveryNoteLine(SaleDeliveryNoteLine $saleDeliveryNoteLine): static
     {
         if ($this->saleDeliveryNoteLines->contains($saleDeliveryNoteLine)) {
             $this->saleDeliveryNoteLines->removeElement($saleDeliveryNoteLine);
@@ -635,10 +567,7 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequestHasDeliveryNotes()
+    public function getSaleRequestHasDeliveryNotes(): Collection
     {
         return $this->saleRequestHasDeliveryNotes;
     }
@@ -648,7 +577,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleRequestHasDeliveryNotes($saleRequestHasDeliveryNotes)
+    public function setSaleRequestHasDeliveryNotes($saleRequestHasDeliveryNotes): static
     {
         $this->saleRequestHasDeliveryNotes = $saleRequestHasDeliveryNotes;
 
@@ -660,7 +589,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes)
+    public function addSaleRequestHasDeliveryNote($saleRequestHasDeliveryNotes): static
     {
         if (!$this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->add($saleRequestHasDeliveryNotes);
@@ -675,7 +604,7 @@ class SaleDeliveryNote extends AbstractBase
      *
      * @return $this
      */
-    public function removeRequestHasDeliveryNote($saleRequestHasDeliveryNotes)
+    public function removeRequestHasDeliveryNote($saleRequestHasDeliveryNotes): static
     {
         if ($this->saleRequestHasDeliveryNotes->contains($saleRequestHasDeliveryNotes)) {
             $this->saleRequestHasDeliveryNotes->removeElement($saleRequestHasDeliveryNotes);
@@ -692,7 +621,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters): SaleDeliveryNote
+    public function setOperatorWorkRegisters(Collection $operatorWorkRegisters): static
     {
         $this->operatorWorkRegisters = $operatorWorkRegisters;
 
@@ -702,7 +631,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
+    public function addOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): static
     {
         if (!$this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->add($operatorWorkRegister);
@@ -715,7 +644,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return $this
      */
-    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): SaleDeliveryNote
+    public function removeOperatorWorkRegister(OperatorWorkRegister $operatorWorkRegister): static
     {
         if ($this->operatorWorkRegisters->contains($operatorWorkRegister)) {
             $this->operatorWorkRegisters->removeElement($operatorWorkRegister);
@@ -793,12 +722,8 @@ class SaleDeliveryNote extends AbstractBase
         return $this;
     }
 
-    /**
-     * @Groups({"api"})
-     *
-     * @return string
-     */
-    public function getDateToString()
+    #[Groups('api')]
+    public function getDateToString(): string
     {
         return $this->getDate()->format('d/m/Y');
     }
@@ -901,9 +826,7 @@ class SaleDeliveryNote extends AbstractBase
         return $finalTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups('api')]
     public function getBaseTotalWithDiscounts(): float
     {
         $baseTotalWithDiscounts = 0;
@@ -916,9 +839,7 @@ class SaleDeliveryNote extends AbstractBase
         return $baseTotalWithDiscounts * (1 - $this->getDiscount() / 100) * (1 - ($this->getSaleInvoice() ? $this->getSaleInvoice()->getDiscount() : 0) / 100);
     }
 
-    /**
-     * @Groups({"api"})
-     */
+    #[Groups('api')]
     public function getBaseTotalWithDiscountsFormatted(): string
     {
         return NumberFormatService::formatNumber($this->getBaseTotalWithDiscounts(), true);
@@ -1024,7 +945,7 @@ class SaleDeliveryNote extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getId() ?: '---';
     }

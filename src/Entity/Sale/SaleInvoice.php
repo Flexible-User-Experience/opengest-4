@@ -24,201 +24,172 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleInvoiceRepository")
  *
- * @ORM\Table(name="sale_invoice")
  */
+#[ORM\Table(name: 'sale_invoice')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleInvoiceRepository::class)]
 class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="saleInvoice")
-     *
-     * @Groups({"api"})
-     *
      * @Assert\Count(
      *     min = 1,
      *     minMessage = "La factura tiene que tener un albarán como mínimo"
      * )
      */
+    #[Groups('api')]
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'saleInvoice')]
     private Collection $deliveryNotes;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private $date;
 
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner",inversedBy="saleInvoices")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleInvoices')]
     private $partner;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private $invoiceNumber;
 
     /**
      * @var SaleInvoiceSeries
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\SaleInvoiceSeries")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\SaleInvoiceSeries::class)]
     private $series;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private $type;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $total;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $baseTotal;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva21 = 0;
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva10 = 0;
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva4 = 0;
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $iva0 = 0;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $irpf = 0;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasBeenCounted = false;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $discount = 0;
 
     /**
      * @var ?PartnerDeliveryAddress
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\PartnerDeliveryAddress")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerDeliveryAddress::class)]
     private $deliveryAddress;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="saleInvoice", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleInvoiceDueDate::class, mappedBy: 'saleInvoice', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $saleInvoiceDueDates;
 
     /**
      * @var ?CollectionDocumentType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\CollectionDocumentType")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\CollectionDocumentType::class)]
     private $collectionDocumentType;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $observations;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $partnerName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $partnerCifNif;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $partnerMainAddress;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $partnerMainCity;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $partnerIban;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $partnerSwift;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Sale\SaleInvoice")
-     *
-     * @ORM\JoinColumn(nullable=true)
-     */
+    
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\OneToOne(targetEntity: \App\Entity\Sale\SaleInvoice::class)]
     private SaleInvoice|null $saleInvoiceGenerated = null;
 
     /**
@@ -242,7 +213,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return $this
      */
-    public function setDeliveryNotes(Collection $deliveryNotes): SaleInvoice
+    public function setDeliveryNotes(Collection $deliveryNotes): static
     {
         $this->deliveryNotes = $deliveryNotes;
 
@@ -252,7 +223,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return $this
      */
-    public function addDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
+    public function addDeliveryNote(SaleDeliveryNote $deliveryNote): static
     {
         if (!$this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->add($deliveryNote);
@@ -265,7 +236,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return $this
      */
-    public function removeDeliveryNote(SaleDeliveryNote $deliveryNote): SaleInvoice
+    public function removeDeliveryNote(SaleDeliveryNote $deliveryNote): static
     {
         if ($this->deliveryNotes->contains($deliveryNote)) {
             $this->deliveryNotes->removeElement($deliveryNote);
@@ -284,7 +255,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return $this
      */
-    public function setSaleInvoiceDueDates(Collection $saleInvoiceDueDates): SaleInvoice
+    public function setSaleInvoiceDueDates(Collection $saleInvoiceDueDates): static
     {
         $this->saleInvoiceDueDates = $saleInvoiceDueDates;
 
@@ -294,7 +265,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return $this
      */
-    public function addSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    public function addSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): static
     {
         if (!$this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
             $this->saleInvoiceDueDates->add($saleInvoiceDueDate);
@@ -307,7 +278,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return $this
      */
-    public function removeSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): SaleInvoice
+    public function removeSaleInvoiceDueDate(SaleInvoiceDueDate $saleInvoiceDueDate): static
     {
         if ($this->saleInvoiceDueDates->contains($saleInvoiceDueDate)) {
             $this->saleInvoiceDueDates->removeElement($saleInvoiceDueDate);
@@ -320,7 +291,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return \DateTime
      */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -330,7 +301,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return $this
      */
-    public function setDate($date)
+    public function setDate($date): static
     {
         $this->date = $date;
 
@@ -340,7 +311,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return Partner
      */
-    public function getPartner()
+    public function getPartner(): Partner
     {
         return $this->partner;
     }
@@ -350,7 +321,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -360,7 +331,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return int
      */
-    public function getInvoiceNumber()
+    public function getInvoiceNumber(): int
     {
         return $this->invoiceNumber;
     }
@@ -370,7 +341,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return $this
      */
-    public function setInvoiceNumber($invoiceNumber)
+    public function setInvoiceNumber($invoiceNumber): static
     {
         $this->invoiceNumber = $invoiceNumber;
 
@@ -380,7 +351,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return string
      */
-    public function getFullInvoiceNumber()
+    public function getFullInvoiceNumber(): string
     {
         return ($this->getSeries() ? $this->getSeries()->getPrefix() : '???').'/'.$this->getInvoiceNumber();
     }
@@ -388,7 +359,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return SaleInvoiceSeries
      */
-    public function getSeries()
+    public function getSeries(): SaleInvoiceSeries
     {
         return $this->series;
     }
@@ -398,7 +369,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return $this
      */
-    public function setSeries($series)
+    public function setSeries($series): static
     {
         $this->series = $series;
 
@@ -408,7 +379,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return int
      */
-    public function getType()
+    public function getType(): int
     {
         return $this->type;
     }
@@ -418,7 +389,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return $this
      */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
@@ -428,7 +399,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return float
      */
-    public function getTotal()
+    public function getTotal(): float
     {
         return $this->total;
     }
@@ -438,7 +409,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return $this
      */
-    public function setTotal($total)
+    public function setTotal($total): static
     {
         $this->total = $total;
 
@@ -472,7 +443,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return float
      */
-    public function getIva21()
+    public function getIva21(): float
     {
         return $this->iva21;
     }
@@ -482,7 +453,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return SaleInvoice
      */
-    public function setIva21($iva21)
+    public function setIva21($iva21): SaleInvoice
     {
         $this->iva21 = $iva21;
 
@@ -492,7 +463,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return float
      */
-    public function getIva10()
+    public function getIva10(): float
     {
         return $this->iva10;
     }
@@ -507,7 +478,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return float
      */
-    public function getIva4()
+    public function getIva4(): float
     {
         return $this->iva4;
     }
@@ -522,7 +493,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return float
      */
-    public function getIva0()
+    public function getIva0(): float
     {
         return $this->iva0;
     }
@@ -549,7 +520,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return bool
      */
-    public function isHasBeenCounted()
+    public function isHasBeenCounted(): bool
     {
         return $this->hasBeenCounted;
     }
@@ -557,7 +528,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return bool
      */
-    public function getHasBeenCounted()
+    public function getHasBeenCounted(): bool
     {
         return $this->isHasBeenCounted();
     }
@@ -565,7 +536,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return bool
      */
-    public function hasBeenCounted()
+    public function hasBeenCounted(): bool
     {
         return $this->isHasBeenCounted();
     }
@@ -575,7 +546,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
      *
      * @return $this
      */
-    public function setHasBeenCounted($hasBeenCounted)
+    public function setHasBeenCounted($hasBeenCounted): static
     {
         $this->hasBeenCounted = $hasBeenCounted;
 
@@ -585,7 +556,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
     /**
      * @return float
      */
-    public function getDiscount()
+    public function getDiscount(): float
     {
         return $this->discount;
     }

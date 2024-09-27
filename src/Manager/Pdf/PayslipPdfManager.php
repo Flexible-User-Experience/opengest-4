@@ -46,7 +46,7 @@ class PayslipPdfManager
      *
      * @return TCPDF
      */
-    public function buildCollection($payslips)
+    public function buildCollection($payslips): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de nóminas');
         $pdf = $this->pdfEngineService->getEngine();
@@ -63,7 +63,7 @@ class PayslipPdfManager
      *
      * @return string
      */
-    public function outputCollection($payslips)
+    public function outputCollection($payslips): string
     {
         $pdf = $this->buildCollection($payslips);
 

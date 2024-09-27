@@ -22,7 +22,7 @@ class UpdatePartnerAccountingAccountCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:update:partner:accounting_account');
         $this->setDescription('Update partner accounting account to match 10 digits criteria.');
@@ -36,7 +36,7 @@ class UpdatePartnerAccountingAccountCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $output->writeln('<info>Welcome to update partner accounting accounts command.</info>');

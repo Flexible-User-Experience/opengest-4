@@ -14,31 +14,27 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\ActivityLineRepository")
- * @ORM\Table(name="activity_line")
  */
+#[ORM\Table(name: 'activity_line')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\ActivityLineRepository::class)]
 class ActivityLine extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="activityLines")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'activityLines')]
     private $enterprise;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleServiceTariff", mappedBy="activityLine")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleServiceTariff::class, mappedBy: 'activityLine')]
     private $saleServiceTariffs;
 
     /**
@@ -48,7 +44,7 @@ class ActivityLine extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -58,7 +54,7 @@ class ActivityLine extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -68,7 +64,7 @@ class ActivityLine extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -78,7 +74,7 @@ class ActivityLine extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -119,7 +115,7 @@ class ActivityLine extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

@@ -15,38 +15,34 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorCheckingRepository")
- * @ORM\Table(name="operator_cheking")
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'operator_cheking')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorCheckingRepository::class)]
 class OperatorChecking extends OperatorCheckingBase
 {
     /**
      * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckings")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'operatorCheckings')]
     protected $operator;
 
     /**
      * @var OperatorCheckingType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorCheckingType")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\OperatorCheckingType::class)]
     protected $type;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     protected $begin;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     protected $end;
 
     /**
@@ -55,8 +51,6 @@ class OperatorChecking extends OperatorCheckingBase
      */
     protected ?File $uploadedFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $uploadedFileName = null;
 }

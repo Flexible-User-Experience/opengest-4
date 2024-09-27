@@ -18,7 +18,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function countryToCode(?string $country)
+    public function countryToCode(?string $country): string
     {
         if ('ALEMANIA' == $country || 'GERMANY' == $country) {
             $result = 'DE';
@@ -52,7 +52,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function codeToCountry(?string $code)
+    public function codeToCountry(?string $code): string
     {
         $code = strtoupper($code);
         if ('DE' == $code) {
@@ -87,7 +87,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function countryNameCleaner(?string $countryName)
+    public function countryNameCleaner(?string $countryName): string
     {
         return $this->commonNameCleaner($countryName);
     }
@@ -97,7 +97,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function provinceNameCleaner(?string $name)
+    public function provinceNameCleaner(?string $name): string
     {
         if (strlen($name) > 0) {
             // remove first blank character from string
@@ -129,7 +129,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function cityNameCleaner(?string $name)
+    public function cityNameCleaner(?string $name): string
     {
         return $this->commonNameCleaner($name);
     }
@@ -139,7 +139,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function postalCodeCleaner(?string $postalCode)
+    public function postalCodeCleaner(?string $postalCode): string
     {
         return $this->commonNameCleaner($postalCode);
     }
@@ -149,7 +149,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function taxIdentificationNumberCleaner(?string $taxIdentificationNumber)
+    public function taxIdentificationNumberCleaner(?string $taxIdentificationNumber): string
     {
         return $this->commonNameCleaner($taxIdentificationNumber);
     }
@@ -159,7 +159,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    public function nameCleaner(?string $name)
+    public function nameCleaner(?string $name): string
     {
         return $this->commonNameCleaner($name);
     }
@@ -169,7 +169,7 @@ class LocationsTransformer
      *
      * @return string
      */
-    private function commonNameCleaner(?string $name)
+    private function commonNameCleaner(?string $name): string
     {
         if (strlen($name) > 0) {
             // remove first blank character from string

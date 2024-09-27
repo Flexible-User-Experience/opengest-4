@@ -11,35 +11,24 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Jordi Sort
- *
- * @ORM\Entity(repositoryClass="App\Repository\Payslip\PayslipLineRepository")
- * @ORM\Table(name="payslip_line")
  */
+#[ORM\Table(name: 'payslip_line')]
+#[ORM\Entity(repositoryClass: \App\Repository\Payslip\PayslipLineRepository::class)]
 class PayslipLine extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Payslip\Payslip", inversedBy="payslipLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Payslip\Payslip::class, inversedBy: 'payslipLines')]
     private Payslip $payslip;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Payslip\PayslipLineConcept", inversedBy="payslipLines")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Payslip\PayslipLineConcept::class, inversedBy: 'payslipLines')]
     private PayslipLineConcept $payslipLineConcept;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $units = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $priceUnit = 0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private float $amount = 0;
 
     /**
@@ -84,7 +73,7 @@ class PayslipLine extends AbstractBase
     /**
      * @return float|int
      */
-    public function getPriceUnit()
+    public function getPriceUnit(): float|int
     {
         return $this->priceUnit;
     }
@@ -102,7 +91,7 @@ class PayslipLine extends AbstractBase
     /**
      * @return float|int
      */
-    public function getAmount(): float
+    public function getAmount(): float|int
     {
         return $this->amount;
     }

@@ -14,33 +14,30 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\CityRepository")
- * @ORM\Table(name="city")
  * @UniqueEntity({"postalCode", "name", "province"})
  */
+#[ORM\Table(name: 'city')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\CityRepository::class)]
 class City extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $postalCode;
 
     /**
      * @var Province
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\Province")
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\Province::class)]
     private $province;
 
     /**
@@ -50,7 +47,7 @@ class City extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -60,7 +57,7 @@ class City extends AbstractBase
      *
      * @return City
      */
-    public function setName($name)
+    public function setName($name): City
     {
         $this->name = $name;
 
@@ -70,7 +67,7 @@ class City extends AbstractBase
     /**
      * @return string
      */
-    public function getPostalCode()
+    public function getPostalCode(): string
     {
         return $this->postalCode;
     }
@@ -80,17 +77,14 @@ class City extends AbstractBase
      *
      * @return City
      */
-    public function setPostalCode($postalCode)
+    public function setPostalCode($postalCode): City
     {
         $this->postalCode = $postalCode;
 
         return $this;
     }
 
-    /**
-     * @return Province
-     */
-    public function getProvince()
+    public function getProvince(): ?Province
     {
         return $this->province;
     }
@@ -100,7 +94,7 @@ class City extends AbstractBase
      *
      * @return City
      */
-    public function setProvince($province)
+    public function setProvince($province): City
     {
         $this->province = $province;
 
@@ -110,7 +104,7 @@ class City extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getPostalCode().' · '.$this->getName() : '---';
     }

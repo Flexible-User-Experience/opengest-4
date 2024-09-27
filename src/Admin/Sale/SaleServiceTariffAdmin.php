@@ -25,11 +25,6 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'admin.label.tonnages';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/serveis_tarifa';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -40,6 +35,11 @@ class SaleServiceTariffAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/serveis_tarifa';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);

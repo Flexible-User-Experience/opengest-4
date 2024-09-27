@@ -40,7 +40,7 @@ class CreateUserCommand extends Command
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:create:user');
         $this->setDescription('Create user');

@@ -28,13 +28,13 @@ class CostCenterAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Centro de coste';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracion/centro_de_coste';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracion/centro_de_coste';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
