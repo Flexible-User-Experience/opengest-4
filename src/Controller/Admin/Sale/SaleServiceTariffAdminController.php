@@ -28,8 +28,7 @@ class SaleServiceTariffAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
         $serializer = $this->container->get('serializer');
-        /** @var SaleTariffRepository $saleTariffRepository */
-        $saleTariffRepository = $this->container->get('doctrine')->getRepository(SaleTariff::class);
+        $saleTariffRepository = $this->repositoriesManager->getSaleTariffRepository();
         $saleTariffs = $saleTariffRepository->getFilteredBySaleServiceTariffWithoutPartnerSortedByDate($saleServiceTariff);
         if ($partnerId) {
             $partner = $this->admin->getModelManager()->find(Partner::class, $partnerId);
