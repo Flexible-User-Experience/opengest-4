@@ -568,10 +568,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getHourPrice(): float
+    public function getHourPrice(): ?float
     {
         return $this->hourPrice;
     }
@@ -588,10 +585,7 @@ class SaleRequest extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getMiniumHours(): float
+    public function getMiniumHours(): ?float
     {
         return $this->miniumHours;
     }
@@ -611,7 +605,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return float
      */
-    public function getDisplacement(): float
+    public function getDisplacement(): ?float
     {
         return $this->displacement;
     }
