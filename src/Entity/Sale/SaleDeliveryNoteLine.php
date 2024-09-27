@@ -102,7 +102,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getUnits(): float
+    public function getUnits(): ?float
     {
         return $this->units;
     }
@@ -122,7 +122,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     /**
      * @return float
      */
-    public function getPriceUnit(): float
+    public function getPriceUnit(): ?float
     {
         return $this->priceUnit;
     }
@@ -139,10 +139,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getTotal(): float
+    public function getTotal(): ?float
     {
         return $this->total;
     }
@@ -193,10 +190,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getIva(): float
+    public function getIva(): ?float
     {
         return $this->iva;
     }
@@ -213,10 +207,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getIrpf(): float
+    public function getIrpf(): ?float
     {
         return $this->irpf;
     }
@@ -233,7 +224,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this;
     }
 
-    public function getTotalWithAllDiscounts(): float
+    public function getTotalWithAllDiscounts(): ?float
     {
         $saleInvoice = $this->getDeliveryNote()->getSaleInvoice();
         $totalWithDeliveryNoteDiscount = $this->getTotal() * (1 - $this->getDeliveryNote()->getDiscount() / 100);
@@ -246,12 +237,12 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $totalWithAllDiscounts;
     }
 
-    public function getIvaAmount(): float
+    public function getIvaAmount(): ?float
     {
         return $this->getTotalWithAllDiscounts() * ($this->getIva() / 100);
     }
 
-    public function getIrpfAmount(): float
+    public function getIrpfAmount(): ?float
     {
         return $this->getTotalWithAllDiscounts() * ($this->getIrpf() / 100);
     }

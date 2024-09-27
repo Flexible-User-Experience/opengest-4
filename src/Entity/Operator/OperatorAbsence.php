@@ -69,7 +69,7 @@ class OperatorAbsence extends AbstractBase
         return $this->begin;
     }
 
-    public function setBegin(DateTime $begin): self
+    public function setBegin(?DateTime $begin): self
     {
         $this->begin = $begin;
 
@@ -81,7 +81,7 @@ class OperatorAbsence extends AbstractBase
         return $this->end;
     }
 
-    public function setEnd(DateTime $end): self
+    public function setEnd(?DateTime $end): self
     {
         $this->end = $end;
 
