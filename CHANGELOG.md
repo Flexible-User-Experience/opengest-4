@@ -1,8 +1,10 @@
 Changelog
 =========
 
-##### Version 4.1.15 (WIP)
+##### Version 4.1.16 (WIP)
 * Keep wiring things
+
+##### Version 4.1.15 (2024-09-27)
 * Upgrade to Symfony 6.4 LTS.
 * Set hour to holiday hour in operatorWorkRegisters if it is a weekend or holiday.
 * Split totals in payslip: total accrued, total deductions and total amount (as total liquid). Changed this total
