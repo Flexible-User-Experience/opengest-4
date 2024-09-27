@@ -735,7 +735,7 @@ class SaleRequest extends AbstractBase
     /**
      * @return string
      */
-    public function getContactPersonPhone(): string
+    public function getContactPersonPhone(): ?string
     {
         return $this->contactPersonPhone;
     }
