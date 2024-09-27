@@ -653,19 +653,11 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    /**
-     * @param string $address
-     *
-     * @return Enterprise
-     */
     public function setAddress($address): Enterprise
     {
         $this->address = $address;
@@ -673,140 +665,84 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return City
-     */
     public function getCity(): City
     {
         return $this->city;
     }
 
-    /**
-     * @param City $city
-     *
-     * @return Enterprise
-     */
-    public function setCity($city): Enterprise
+    public function setCity(City $city): Enterprise
     {
         $this->city = $city;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone1(): string
+    public function getPhone1(): ?string
     {
         return $this->phone1;
     }
 
-    /**
-     * @param string $phone1
-     *
-     * @return Enterprise
-     */
-    public function setPhone1($phone1): Enterprise
+    public function setPhone1(?string $phone1): Enterprise
     {
         $this->phone1 = $phone1;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone2(): string
+    public function getPhone2(): ?string
     {
         return $this->phone2;
     }
 
-    /**
-     * @param string $phone2
-     *
-     * @return Enterprise
-     */
-    public function setPhone2($phone2): Enterprise
+    public function setPhone2(?string $phone2): Enterprise
     {
         $this->phone2 = $phone2;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPhone3(): string
+    public function getPhone3(): ?string
     {
         return $this->phone3;
     }
 
-    /**
-     * @param string $phone3
-     *
-     * @return Enterprise
-     */
-    public function setPhone3($phone3): Enterprise
+    public function setPhone3(?string $phone3): Enterprise
     {
         $this->phone3 = $phone3;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFax(): string
+    public function getFax(): ?string
     {
         return $this->fax;
     }
 
-    /**
-     * @param string $fax
-     *
-     * @return Enterprise
-     */
-    public function setFax($fax): Enterprise
+    public function setFax(?string $fax): Enterprise
     {
         $this->fax = $fax;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return Enterprise
-     */
-    public function setEmail($email): Enterprise
+    public function setEmail(string $email): Enterprise
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getWww(): string
+    public function getWww(): ?string
     {
         return $this->www;
     }
 
-    /**
-     * @param string $www
-     *
-     * @return Enterprise
-     */
-    public function setWww($www): Enterprise
+    public function setWww(?string $www): Enterprise
     {
         $this->www = $www;
 
