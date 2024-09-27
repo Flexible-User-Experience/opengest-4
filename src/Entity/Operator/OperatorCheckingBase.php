@@ -18,12 +18,7 @@ abstract class OperatorCheckingBase extends AbstractBase
         return $this->operator;
     }
 
-    /**
-     * @param Operator $operator
-     *
-     * @return OperatorChecking
-     */
-    public function setOperator($operator): OperatorChecking
+    public function setOperator($operator): static
     {
         $this->operator = $operator;
 
@@ -35,48 +30,31 @@ abstract class OperatorCheckingBase extends AbstractBase
         return $this->type;
     }
 
-    /**
-     * @param OperatorCheckingType $type
-     *
-     * @return OperatorChecking
-     */
-    public function setType($type): OperatorChecking
+    public function setType($type): static
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getBegin(): DateTime
+    public function getBegin(): ?DateTime
     {
         return $this->begin;
     }
 
-    /**
-     * @return OperatorChecking
-     */
-    public function setBegin(DateTime $begin): OperatorChecking
+    public function setBegin(?DateTime $begin): static
     {
         $this->begin = $begin;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getEnd(): DateTime
+    public function getEnd(): ?DateTime
     {
         return $this->end;
     }
 
-    /**
-     * @return OperatorChecking
-     */
-    public function setEnd(DateTime $end): OperatorChecking
+    public function setEnd(?DateTime $end): static
     {
         $this->end = $end;
 
