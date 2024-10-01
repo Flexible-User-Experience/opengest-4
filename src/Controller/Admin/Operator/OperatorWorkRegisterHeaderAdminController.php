@@ -146,8 +146,6 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
     {
         $formData = $request->request->all('app_generate_time_summary');
         try {
-            $em = $this->getDoctrine()->getManager();
-
             /** @var Operator $operators */
             $operatorWorkRegisterHeaders = $formData['operatorWorkRegisterHeaders'];
             $fromDate = $formData['fromDate'];
@@ -156,7 +154,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
             $newOperatorWorkRegisterHeaders = [];
             /* @var Operator $operator */
             foreach ($operatorWorkRegisterHeaders as $operatorWorkRegisterHeader) {
-                $newOperatorWorkRegisterHeaders[] = $em->getRepository(OperatorWorkRegisterHeader::class)->find($operatorWorkRegisterHeader);
+                $newOperatorWorkRegisterHeaders[] = $this->em->getRepository(OperatorWorkRegisterHeader::class)->find($operatorWorkRegisterHeader);
             }
 
             return new Response($this->wrhpm->outputSingleTimeSum($newOperatorWorkRegisterHeaders, $fromDate, $toDate, $percentage), 200, ['Content-type' => 'application/pdf']);
