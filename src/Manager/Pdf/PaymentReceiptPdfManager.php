@@ -33,7 +33,7 @@ class PaymentReceiptPdfManager
      *
      * @return string
      */
-    public function buildSingle($payslips, $diets, $date): string
+    public function buildSingle($payslips, $diets, $date): TCPDF|null
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Listado recibos');
         $pdf = $this->pdfEngineService->getEngine();
@@ -58,7 +58,7 @@ class PaymentReceiptPdfManager
      *
      * @return string
      */
-    private function buildPayslipReceipts($payslips, $diets, $date, $pdf): string
+    private function buildPayslipReceipts($payslips, $diets, $date, $pdf): TCPDF|null
     {
 
         usort($payslips, function (Payslip $a, Payslip $b) {
