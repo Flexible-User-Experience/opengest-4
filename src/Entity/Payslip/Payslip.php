@@ -154,7 +154,7 @@ class Payslip extends AbstractBase
     {
         $extraPay = 0;
         $payslipLineExtraPays = $this->getPayslipLines()->filter(function (PayslipLine $payslipLine) {
-            return 5 == $payslipLine->getPayslipLineConcept()->getId();
+            return 5 == $payslipLine->getPayslipLineConcept()?->getId();
         });
         /** @var PayslipLine $lineExtraPay */
         foreach ($payslipLineExtraPays as $lineExtraPay) {
