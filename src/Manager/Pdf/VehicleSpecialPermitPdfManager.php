@@ -77,9 +77,6 @@ class VehicleSpecialPermitPdfManager
         return $pdf;
     }
 
-    /**
-     * @param int $availableHoritzontalSpace
-     */
     private function drawHoritzontalLineSeparator(TCPDF $pdf, $availableHoritzontalSpace)
     {
         $pdf->ln(4);
@@ -87,11 +84,7 @@ class VehicleSpecialPermitPdfManager
         $pdf->ln(4);
     }
 
-    /**
-     * @param TCPDF $pdf
-     * @return int
-     */
-    private function startPage(TCPDF $pdf): int
+    private function startPage(TCPDF $pdf): void
     {
         $pdf->setMargins(ConstantsEnum::PDF_PAGE_A4_MARGIN_LEFT, ConstantsEnum::PDF_PAGE_A4_MARGIN_TOP, ConstantsEnum::PDF_PAGE_A4_MARGIN_RIGHT, true);
         $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
