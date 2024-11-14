@@ -144,7 +144,8 @@
                 <button class="btn btn-light" type="button" onclick="showVehicleConsumptions()"> Suministros</button>
             </div>
         </div>
-        <div class="col-md-12" id="PurchaseInvoices">
+        {% if purchaseInvoiceLines|length > 0 %}
+            <div class="col-md-12" id="PurchaseInvoices">
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
@@ -216,8 +217,9 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         {% if operatorWorkRegisters|length > 0 %}
-            <div class="col-md-12" id="WorkRegisters" hidden>
+            <div class="col-md-12" id="WorkRegisters">
                 <div class="box box-success">
                     <div class="box-header">
                         <h4 class="box-title">
@@ -292,7 +294,7 @@
             </div>
         {% endif %}
         {% if vehicleConsumptions %}
-            <div class="col-md-12" id="VehicleConsumptions" hidden>
+            <div class="col-md-12" id="VehicleConsumptions">
                 <div class="box box-success">
                     <div class="box-header">
                         <h4 class="box-title">
