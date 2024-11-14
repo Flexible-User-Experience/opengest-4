@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineExtensions\Query\Mysql\Date;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -567,9 +568,6 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSurname1(): string
     {
         return $this->surname1;
@@ -631,20 +629,12 @@ class Operator extends AbstractBase
         return strtoupper(substr($this->name, 0, 1).substr($this->surname1, 0, 1));
     }
 
-    /**
-     * @return string
-     */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    /**
-     * @param string $address
-     *
-     * @return Operator
-     */
-    public function setAddress($address): Operator
+    public function setAddress(?string $address): Operator
     {
         $this->address = $address;
 
@@ -688,20 +678,12 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return Operator
-     */
-    public function setEmail($email): Operator
+    public function setEmail(?string $email): Operator
     {
         $this->email = $email;
 
@@ -720,57 +702,35 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOwnPhone(): string
+    public function getOwnPhone(): ?string
     {
         return $this->ownPhone;
     }
 
-    /**
-     * @param string $ownPhone
-     *
-     * @return Operator
-     */
-    public function setOwnPhone($ownPhone): Operator
+    public function setOwnPhone(?string $ownPhone): Operator
     {
         $this->ownPhone = $ownPhone;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOwnMobile(): string
+    public function getOwnMobile(): ?string
     {
         return $this->ownMobile;
     }
 
-    /**
-     * @param string $ownMobile
-     *
-     * @return Operator
-     */
-    public function setOwnMobile($ownMobile): Operator
+    public function setOwnMobile(?string $ownMobile): Operator
     {
         $this->ownMobile = $ownMobile;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getBrithDate(): DateTime
     {
         return $this->brithDate;
     }
 
-    /**
-     * @return Operator
-     */
     public function setBrithDate(DateTime $brithDate): Operator
     {
         $this->brithDate = $brithDate;
@@ -778,17 +738,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getRegistrationDate(): DateTime
     {
         return $this->registrationDate;
     }
 
-    /**
-     * @return Operator
-     */
     public function setRegistrationDate(DateTime $registrationDate): Operator
     {
         $this->registrationDate = $registrationDate;
@@ -802,11 +756,6 @@ class Operator extends AbstractBase
         return $this->profilePhotoImageFile;
     }
 
-    /**
-     * @return Operator
-     *
-     * @throws \Exception
-     */
     public function setProfilePhotoImageFile(File $profilePhotoImageFile = null): Operator
     {
         $this->profilePhotoImageFile = $profilePhotoImageFile;
@@ -819,20 +768,12 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getProfilePhotoImage(): ?string
     {
         return $this->profilePhotoImage;
     }
 
-    /**
-     * @param string $profilePhotoImage
-     *
-     * @return Operator
-     */
-    public function setProfilePhotoImage($profilePhotoImage): Operator
+    public function setProfilePhotoImage(?string $profilePhotoImage): Operator
     {
         $this->profilePhotoImage = $profilePhotoImage;
 
@@ -846,9 +787,7 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setTaxIdentificationNumberImageFile(File $taxIdentificationNumberImageFile = null): Operator
     {
@@ -862,19 +801,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTaxIdentificationNumberImage(): ?string
     {
         return $this->taxIdentificationNumberImage;
     }
 
-    /**
-     * @param string $taxIdentificationNumberImage
-     *
-     * @return Operator
-     */
     public function setTaxIdentificationNumberImage($taxIdentificationNumberImage): Operator
     {
         $this->taxIdentificationNumberImage = $taxIdentificationNumberImage;
@@ -889,9 +820,7 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setDrivingLicenseImageFile(File $drivingLicenseImageFile = null): Operator
     {
@@ -905,19 +834,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDrivingLicenseImage(): ?string
     {
         return $this->drivingLicenseImage;
     }
 
-    /**
-     * @param string $drivingLicenseImage
-     *
-     * @return Operator
-     */
     public function setDrivingLicenseImage($drivingLicenseImage): Operator
     {
         $this->drivingLicenseImage = $drivingLicenseImage;
@@ -931,11 +852,6 @@ class Operator extends AbstractBase
         return $this->cranesOperatorLicenseImageFile;
     }
 
-    /**
-     * @return Operator
-     *
-     * @throws \Exception
-     */
     public function setCranesOperatorLicenseImageFile(File $cranesOperatorLicenseImageFile = null): Operator
     {
         $this->cranesOperatorLicenseImageFile = $cranesOperatorLicenseImageFile;
@@ -948,19 +864,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getCranesOperatorLicenseImage(): ?string
     {
         return $this->cranesOperatorLicenseImage;
     }
 
-    /**
-     * @param string $cranesOperatorLicenseImage
-     *
-     * @return Operator
-     */
     public function setCranesOperatorLicenseImage($cranesOperatorLicenseImage): Operator
     {
         $this->cranesOperatorLicenseImage = $cranesOperatorLicenseImage;
@@ -974,11 +882,6 @@ class Operator extends AbstractBase
         return $this->medicalCheckImageFile;
     }
 
-    /**
-     * @return Operator
-     *
-     * @throws \Exception
-     */
     public function setMedicalCheckImageFile(File $medicalCheckImageFile = null): Operator
     {
         $this->medicalCheckImageFile = $medicalCheckImageFile;
@@ -991,19 +894,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMedicalCheckImage(): ?string
     {
         return $this->medicalCheckImage;
     }
 
-    /**
-     * @param string $medicalCheckImage
-     *
-     * @return Operator
-     */
     public function setMedicalCheckImage($medicalCheckImage): Operator
     {
         $this->medicalCheckImage = $medicalCheckImage;
@@ -1011,16 +906,13 @@ class Operator extends AbstractBase
         return $this;
     }
 
-
     public function getEpisImageFile(): ?File
     {
         return $this->episImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setEpisImageFile(File $episImageFile = null): Operator
     {
@@ -1034,19 +926,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getEpisImage(): ?string
     {
         return $this->episImage;
     }
 
-    /**
-     * @param string $episImage
-     *
-     * @return Operator
-     */
     public function setEpisImage($episImage): Operator
     {
         $this->episImage = $episImage;
@@ -1061,9 +945,7 @@ class Operator extends AbstractBase
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setTrainingDocumentImageFile(File $trainingDocumentImageFile = null): Operator
     {
@@ -1077,19 +959,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTrainingDocumentImage(): ?string
     {
         return $this->trainingDocumentImage;
     }
 
-    /**
-     * @param string $trainingDocumentImage
-     *
-     * @return Operator
-     */
     public function setTrainingDocumentImage($trainingDocumentImage): Operator
     {
         $this->trainingDocumentImage = $trainingDocumentImage;
@@ -1097,16 +971,13 @@ class Operator extends AbstractBase
         return $this;
     }
 
-
     public function getInformationImageFile(): ?File
     {
         return $this->informationImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setInformationImageFile(File $informationImageFile = null): Operator
     {
@@ -1120,19 +991,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getInformationImage(): ?string
     {
         return $this->informationImage;
     }
 
-    /**
-     * @param string $informationImage
-     *
-     * @return Operator
-     */
     public function setInformationImage($informationImage): Operator
     {
         $this->informationImage = $informationImage;
@@ -1140,16 +1003,13 @@ class Operator extends AbstractBase
         return $this;
     }
 
-
     public function getUseOfMachineryAuthorizationImageFile(): ?File
     {
         return $this->useOfMachineryAuthorizationImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setUseOfMachineryAuthorizationImageFile(File $useOfMachineryAuthorizationImageFile = null): Operator
     {
@@ -1163,19 +1023,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getUseOfMachineryAuthorizationImage(): ?string
     {
         return $this->useOfMachineryAuthorizationImage;
     }
 
-    /**
-     * @param string $useOfMachineryAuthorizationImage
-     *
-     * @return Operator
-     */
     public function setUseOfMachineryAuthorizationImage($useOfMachineryAuthorizationImage): Operator
     {
         $this->useOfMachineryAuthorizationImage = $useOfMachineryAuthorizationImage;
@@ -1183,16 +1035,13 @@ class Operator extends AbstractBase
         return $this;
     }
 
-
     public function getDischargeSocialSecurityImageFile(): ?File
     {
         return $this->dischargeSocialSecurityImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setDischargeSocialSecurityImageFile(File $dischargeSocialSecurityImageFile = null): Operator
     {
@@ -1206,19 +1055,11 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDischargeSocialSecurityImage(): ?string
     {
         return $this->dischargeSocialSecurityImage;
     }
 
-    /**
-     * @param string $dischargeSocialSecurityImage
-     *
-     * @return Operator
-     */
     public function setDischargeSocialSecurityImage($dischargeSocialSecurityImage): Operator
     {
         $this->dischargeSocialSecurityImage = $dischargeSocialSecurityImage;
@@ -1226,16 +1067,13 @@ class Operator extends AbstractBase
         return $this;
     }
 
-
     public function getEmploymentContractImageFile(): ?File
     {
         return $this->employmentContractImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function setEmploymentContractImageFile(File $employmentContractImageFile = null): Operator
     {
@@ -1249,9 +1087,6 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getEmploymentContractImage(): ?string
     {
         return $this->employmentContractImage;
@@ -1269,200 +1104,120 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isHasCarDrivingLicense(): bool
     {
         return $this->hasCarDrivingLicense;
     }
 
-    /**
-     * @param bool $hasCarDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasCarDrivingLicense($hasCarDrivingLicense): Operator
+    public function setHasCarDrivingLicense(bool $hasCarDrivingLicense): Operator
     {
         $this->hasCarDrivingLicense = $hasCarDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isHasLorryDrivingLicense(): bool
     {
         return $this->hasLorryDrivingLicense;
     }
 
-    /**
-     * @param bool $hasLorryDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasLorryDrivingLicense($hasLorryDrivingLicense): Operator
+    public function setHasLorryDrivingLicense(bool $hasLorryDrivingLicense): Operator
     {
         $this->hasLorryDrivingLicense = $hasLorryDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isHasTowingDrivingLicense(): bool
     {
         return $this->hasTowingDrivingLicense;
     }
 
-    /**
-     * @param bool $hasTowingDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasTowingDrivingLicense($hasTowingDrivingLicense): Operator
+    public function setHasTowingDrivingLicense(bool $hasTowingDrivingLicense): Operator
     {
         $this->hasTowingDrivingLicense = $hasTowingDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isHasCraneDrivingLicense(): bool
     {
         return $this->hasCraneDrivingLicense;
     }
 
-    /**
-     * @param bool $hasCraneDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasCraneDrivingLicense($hasCraneDrivingLicense): Operator
+    public function setHasCraneDrivingLicense(bool $hasCraneDrivingLicense): Operator
     {
         $this->hasCraneDrivingLicense = $hasCraneDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getShoeSize(): string
+    public function getShoeSize(): ?string
     {
         return $this->shoeSize;
     }
 
-    /**
-     * @param string $shoeSize
-     *
-     * @return Operator
-     */
-    public function setShoeSize($shoeSize): Operator
+    public function setShoeSize(?string $shoeSize): Operator
     {
         $this->shoeSize = $shoeSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getJerseytSize(): string
+    public function getJerseytSize(): ?string
     {
         return $this->jerseytSize;
     }
 
-    /**
-     * @param string $jerseytSize
-     *
-     * @return Operator
-     */
-    public function setJerseytSize($jerseytSize): Operator
+    public function setJerseytSize(?string $jerseytSize): Operator
     {
         $this->jerseytSize = $jerseytSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getJacketSize(): string
+    public function getJacketSize(): ?string
     {
         return $this->jacketSize;
     }
 
-    /**
-     * @param string $jacketSize
-     *
-     * @return Operator
-     */
-    public function setJacketSize($jacketSize): Operator
+    public function setJacketSize(?string $jacketSize): Operator
     {
         $this->jacketSize = $jacketSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTShirtSize(): string
+    public function getTShirtSize(): ?string
     {
         return $this->tShirtSize;
     }
 
-    /**
-     * @param string $tShirtSize
-     *
-     * @return Operator
-     */
-    public function setTShirtSize($tShirtSize): Operator
+    public function setTShirtSize(?string $tShirtSize): Operator
     {
         $this->tShirtSize = $tShirtSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPantSize(): string
+    public function getPantSize(): ?string
     {
         return $this->pantSize;
     }
 
-    /**
-     * @param string $pantSize
-     *
-     * @return Operator
-     */
-    public function setPantSize($pantSize): Operator
+    public function setPantSize(?string $pantSize): Operator
     {
         $this->pantSize = $pantSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getWorkingDressSize(): string
+    public function getWorkingDressSize(): ?string
     {
         return $this->workingDressSize;
     }
 
-    /**
-     * @param string $workingDressSize
-     *
-     * @return Operator
-     */
-    public function setWorkingDressSize($workingDressSize): Operator
+    public function setWorkingDressSize(?string $workingDressSize): Operator
     {
         $this->workingDressSize = $workingDressSize;
 
