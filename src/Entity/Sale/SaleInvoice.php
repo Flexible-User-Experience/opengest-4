@@ -722,7 +722,7 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
 
     public function getBatchFacturaE(): string
     {
-        return $this->getSeries()->getPrefix();
+        return $this->getSeries()->getName();
     }
 
     public function getDateFacturaE(): string
