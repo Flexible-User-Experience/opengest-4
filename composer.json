@@ -114,7 +114,7 @@
         },
         "post-install-cmd": [
             "@auto-scripts",
-            "local-php-security-checker-installer && local-php-security-checker"
+            "composer audit"
         ]
     },
     "conflict": {
