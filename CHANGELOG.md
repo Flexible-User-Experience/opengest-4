@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.1.16 (WIP)
+##### Version 4.1.17 (WIP)
 * Keep wiring things
+
+##### Version 4.1.16 (2025-01-23)
+* Changes in eFactura service to integrate with external e-invoice service.
 
 ##### Version 4.1.15 (2024-09-27)
 * Upgrade to Symfony 6.4 LTS.
