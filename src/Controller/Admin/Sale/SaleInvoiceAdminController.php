@@ -345,7 +345,10 @@ class SaleInvoiceAdminController extends BaseAdminController
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
 
-        $xml = $this->EFacturaService->createEFactura($saleInvoice);
+        $xml = $this->EFacturaService->createEFactura(
+            $saleInvoice,
+            billingPeriodStart: $saleInvoice->getDate(),
+            billingPeriodEnd: $saleInvoice->getDate());
         $response = new Response($xml);
         $response->headers->set('Content-type', 'text/xml');
         $response->headers->set('Content-Disposition', 'attachment; filename="factura-e-'.$saleInvoice->getInvoiceNumber().'.xml"');
