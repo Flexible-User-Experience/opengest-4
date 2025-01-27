@@ -5,6 +5,7 @@ namespace App\Repository\Operator;
 use App\Entity\Operator\Operator;
 use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
+use App\Entity\Sale\SaleDeliveryNote;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
@@ -88,5 +89,15 @@ class OperatorWorkRegisterRepository extends ServiceEntityRepository
         }
 
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getFilteredByDeliveryNote(SaleDeliveryNote $saleDeliveryNote): array
+    {
+        return $this->createQueryBuilder('owr')
+            ->where('owr.saleDeliveryNote = :saleDeliveryNote')
+            ->setParameter('saleDeliveryNote', $saleDeliveryNote)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

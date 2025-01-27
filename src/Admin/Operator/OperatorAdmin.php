@@ -565,7 +565,7 @@ class OperatorAdmin extends AbstractBaseAdmin
                 ->end()
                 ->end()
                 ->tab('Formaciones')
-                ->with('Formaciones', $this->getFormMdSuccessBoxArray(8))
+                ->with('Formaciones', $this->getFormMdSuccessBoxArray(12))
                 ->add(
                     'operatorCheckingTrainings',
                     CollectionType::class,

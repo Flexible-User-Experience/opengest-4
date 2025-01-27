@@ -47,3 +47,5 @@ yarn-error.log
 ###> php_cs_fixer ###
 .php_cs.cache
 ###<php_cs_fixer ###
+
+auth.json

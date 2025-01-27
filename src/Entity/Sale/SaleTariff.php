@@ -3,8 +3,10 @@
 namespace App\Entity\Sale;
 
 use App\Entity\AbstractBase;
+use App\Entity\Enterprise\Enterprise;
 use App\Entity\Partner\Partner;
 use App\Entity\Partner\PartnerBuildingSite;
+use App\Repository\Sale\SaleTariffRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -18,39 +20,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @UniqueEntity({"enterprise", "year", "tonnage"})
  */
 #[ORM\Table(name: 'sale_tariff')]
-#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleTariffRepository::class)]
+#[ORM\Entity(repositoryClass: SaleTariffRepository::class)]
 class SaleTariff extends AbstractBase
 {
-    /**
-     * @var string
-     */
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'saleTariffs')]
+    #[ORM\ManyToOne(targetEntity: Enterprise::class, inversedBy: 'saleTariffs')]
     private $enterprise;
 
-    /**
-     * @var ?SaleServiceTariff
-     */
     #[ORM\JoinColumn(nullable: true)]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleServiceTariff::class, inversedBy: 'saleTariffs')]
+    #[ORM\ManyToOne(targetEntity: SaleServiceTariff::class, inversedBy: 'saleTariffs')]
     private ?SaleServiceTariff $saleServiceTariff;
 
-    /**
-     * @var Partner
-     */
     #[ORM\JoinColumn(nullable: true)]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'saleTariffs')]
+    #[ORM\ManyToOne(targetEntity: Partner::class, inversedBy: 'saleTariffs')]
     private ?Partner $partner;
 
-    /**
-     * @var ?PartnerBuildingSite
-     */
     #[ORM\JoinColumn(nullable: true)]
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\PartnerBuildingSite::class, inversedBy: 'saleTariffs')]
+    #[ORM\ManyToOne(targetEntity: PartnerBuildingSite::class, inversedBy: 'saleTariffs')]
     private ?PartnerBuildingSite $partnerBuildingSite;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(type: 'integer')]
     private $year;
 
@@ -60,53 +47,32 @@ class SaleTariff extends AbstractBase
     #[ORM\Column(type: 'date', nullable: true)] // //TODO change to false once migrations include this field
     private $date;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', nullable: true)]
-    private $tonnage;
+    private ?string $tonnage  = null;
 
-    /**
-     * @var float    #[Groups('apiSaleTariff')]
-     */
     #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
-    private $priceHour;
+    private ?float $priceHour  = null;
 
-    /**
-     * @var float
-     */
     #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
-    private $miniumHours;
+    private ?float $miniumHours = null;
 
-    /**
-     * @var float
-     */
     #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
-    private $miniumHolidayHours;
+    private ?float $miniumHolidayHours = null;
 
-    /**
-     * @var float
-     */
     #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
-    private $displacement;
+    private ?float $displacement = null;
 
-    /**
-     * @var float
-     */
     #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
-    private $increaseForHolidays;
+    private ?float $increaseForHolidays = null;
 
-    /**
-     * @var float
-     */
     #[Groups('apiSaleTariff')]
     #[ORM\Column(type: 'float', nullable: true)]
-    private $increaseForHolidaysPercentage;
+    private ?float $increaseForHolidaysPercentage = null;
 
     /**
      * Methods.
@@ -116,11 +82,6 @@ class SaleTariff extends AbstractBase
         return $this->enterprise;
     }
 
-    /**
-     * @param string $enterprise
-     *
-     * @return $this
-     */
     public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
@@ -128,19 +89,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getYear(): int
     {
         return $this->year;
     }
 
-    /**
-     * @param int $year
-     *
-     * @return $this
-     */
     public function setYear($year): static
     {
         $this->year = $year;
@@ -148,19 +101,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTonnage(): string
+    public function getTonnage(): ?string
     {
         return $this->tonnage;
     }
 
-    /**
-     * @param string $tonnage
-     *
-     * @return $this
-     */
     public function setTonnage($tonnage): static
     {
         $this->tonnage = $tonnage;
@@ -168,19 +113,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getPriceHour(): float
+    public function getPriceHour(): ?float
     {
         return $this->priceHour;
     }
 
-    /**
-     * @param float $priceHour
-     *
-     * @return $this
-     */
     public function setPriceHour($priceHour): static
     {
         $this->priceHour = $priceHour;
@@ -188,19 +125,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getMiniumHours(): float
+    public function getMiniumHours(): ?float
     {
         return $this->miniumHours;
     }
 
-    /**
-     * @param float $miniumHours
-     *
-     * @return $this
-     */
     public function setMiniumHours($miniumHours): static
     {
         $this->miniumHours = $miniumHours;
@@ -208,19 +137,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getMiniumHolidayHours(): float
+    public function getMiniumHolidayHours(): ?float
     {
         return $this->miniumHolidayHours;
     }
 
-    /**
-     * @param float $miniumHolidayHours
-     *
-     * @return $this
-     */
     public function setMiniumHolidayHours($miniumHolidayHours): static
     {
         $this->miniumHolidayHours = $miniumHolidayHours;
@@ -228,19 +149,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getDisplacement(): float
+    public function getDisplacement(): ?float
     {
         return $this->displacement;
     }
 
-    /**
-     * @param float $displacement
-     *
-     * @return $this
-     */
     public function setDisplacement($displacement): static
     {
         $this->displacement = $displacement;
@@ -248,19 +161,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getIncreaseForHolidays(): float
+    public function getIncreaseForHolidays(): ?float
     {
         return $this->increaseForHolidays;
     }
 
-    /**
-     * @param float $increaseForHolidays
-     *
-     * @return $this
-     */
     public function setIncreaseForHolidays($increaseForHolidays): static
     {
         $this->increaseForHolidays = $increaseForHolidays;
@@ -268,9 +173,6 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ?DateTime
-     */
     public function getDate(): ?DateTime
     {
         return $this->date;
@@ -283,17 +185,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ?float
-     */
     public function getIncreaseForHolidaysPercentage(): ?float
     {
         return $this->increaseForHolidaysPercentage;
     }
 
-    /**
-     * @param ?float $increaseForHolidaysPercentage
-     */
     public function setIncreaseForHolidaysPercentage(?float $increaseForHolidaysPercentage): SaleTariff
     {
         $this->increaseForHolidaysPercentage = $increaseForHolidaysPercentage;
@@ -301,9 +197,6 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ?SaleServiceTariff
-     */
     public function getSaleServiceTariff(): ?SaleServiceTariff
     {
         return $this->saleServiceTariff;
@@ -316,17 +209,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ?Partner
-     */
     public function getPartner(): ?Partner
     {
         return $this->partner;
     }
 
-    /**
-     * @param ?Partner $partner
-     */
     public function setPartner(?Partner $partner = null): SaleTariff
     {
         $this->partner = $partner;
@@ -334,17 +221,11 @@ class SaleTariff extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ?PartnerBuildingSite
-     */
     public function getPartnerBuildingSite(): ?PartnerBuildingSite
     {
         return $this->partnerBuildingSite;
     }
 
-    /**
-     * @param ?PartnerBuildingSite $partnerBuildingSite
-     */
     public function setPartnerBuildingSite(?PartnerBuildingSite $partnerBuildingSite = null): SaleTariff
     {
         $this->partnerBuildingSite = $partnerBuildingSite;
@@ -365,9 +246,6 @@ class SaleTariff extends AbstractBase
         return $this->id ? $partner.' · '.$partnerBuildingSite.' · '.$date : '---';
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->id ? $this->getSaleServiceTariff().' · '.($this->getDate() ? $this->getDate()->format('d/m/y') : '') : '---';
