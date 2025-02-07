@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0dbbbcdf72363bc8b45bc33690dbe58",
+    "content-hash": "fc9382d693469f79205b58ab4692ac98",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -3128,16 +3128,16 @@
         },
         {
             "name": "mirmit/e-factura-bundle",
-            "version": "v0.0.18-alpha",
+            "version": "v0.0.19-alpha",
             "source": {
                 "type": "git",
                 "url": "git@github.com:Mirmit/EFacturaBundle.git",
-                "reference": "dc75cc5d2a95989eb31c322b3d855c4cad217ea8"
+                "reference": "6578be5f695be071b6a3f42ed3c2b36d8fde5467"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Mirmit/EFacturaBundle/zipball/dc75cc5d2a95989eb31c322b3d855c4cad217ea8",
-                "reference": "dc75cc5d2a95989eb31c322b3d855c4cad217ea8",
+                "url": "https://api.github.com/repos/Mirmit/EFacturaBundle/zipball/6578be5f695be071b6a3f42ed3c2b36d8fde5467",
+                "reference": "6578be5f695be071b6a3f42ed3c2b36d8fde5467",
                 "shasum": ""
             },
             "require": {
@@ -3162,10 +3162,10 @@
             ],
             "description": "Generate an xml from an invoice in the Factura-e format",
             "support": {
-                "source": "https://github.com/Mirmit/EFacturaBundle/tree/v0.0.18-alpha",
+                "source": "https://github.com/Mirmit/EFacturaBundle/tree/v0.0.19-alpha",
                 "issues": "https://github.com/Mirmit/EFacturaBundle/issues"
             },
-            "time": "2025-02-07T11:11:23+00:00"
+            "time": "2025-02-07T11:37:08+00:00"
         },
         {
             "name": "monolog/monolog",
