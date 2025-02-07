@@ -3,6 +3,7 @@ Changelog
 
 ##### Version 4.1.19 (WIP)
 * Keep wiring things
+* Set correct quantity to eFactura invoice lines.
 
 ##### Version 4.1.18 (2025-02-07)
 * Added payment method if exists in eFactura generation.
