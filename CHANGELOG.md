@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.1.17 (WIP)
+##### Version 4.1.18 (WIP)
 * Keep wiring things
+
+##### Version 4.1.17 (2025-01-27)
+* Added billing period in eFactura generation (currently same as invoice date).
 
 ##### Version 4.1.16 (2025-01-23)
 * Changes in eFactura service to integrate with external e-invoice service.
