@@ -262,7 +262,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
 
     public function getQuantityFacturaE(): float
     {
-        return 1;
+        return $this->getUnits();
     }
 
     public function getUnitPriceFacturaE(): float
