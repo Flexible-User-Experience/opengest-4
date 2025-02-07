@@ -344,7 +344,6 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-
         $xml = $this->EFacturaService->createEFactura(
             $saleInvoice,
             billingPeriodStart: $saleInvoice->getDate(),
