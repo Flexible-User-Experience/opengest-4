@@ -1,9 +1,13 @@
 Changelog
 =========
 
-##### Version 4.1.19 (WIP)
+##### Version 4.1.20 (WIP)
 * Keep wiring things
+
+##### Version 4.1.19 (2025-02-10)
 * Set correct quantity to eFactura invoice lines.
+* Save e-invoice xml document to specified environment folder parameter when sale invoice has been
+counted.
 
 ##### Version 4.1.18 (2025-02-07)
 * Added payment method if exists in eFactura generation.
