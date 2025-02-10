@@ -264,6 +264,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.has_been_counted_long',
                     'required' => false,
+                    'disabled' => $this->getSubject()?->isHasBeenCounted(),
                 ]
             )
             ->end()
