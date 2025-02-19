@@ -267,7 +267,7 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
 
     public function getUnitPriceFacturaE(): float
     {
-        return $this->getTotalWithAllDiscounts();
+        return $this->getTotalWithAllDiscounts()/$this->getUnits();
     }
 
     public function getIvaFacturaE(): int
