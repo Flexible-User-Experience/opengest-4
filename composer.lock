@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc9382d693469f79205b58ab4692ac98",
+    "content-hash": "5de3bb552a4f9c49ccda1705257ed7e9",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -1866,16 +1866,16 @@
         },
         {
             "name": "friendsofsymfony/ckeditor-bundle",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle.git",
-                "reference": "9d4cd4f2db4d800164b9c3051e4bfdee21acb27f"
+                "reference": "dc0f0dc1ba328e0adf5df0a37f1676b6072f46de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCKEditorBundle/zipball/9d4cd4f2db4d800164b9c3051e4bfdee21acb27f",
-                "reference": "9d4cd4f2db4d800164b9c3051e4bfdee21acb27f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCKEditorBundle/zipball/dc0f0dc1ba328e0adf5df0a37f1676b6072f46de",
+                "reference": "dc0f0dc1ba328e0adf5df0a37f1676b6072f46de",
                 "shasum": ""
             },
             "require": {
@@ -1903,6 +1903,7 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.41",
                 "matthiasnoback/symfony-dependency-injection-test": "^4.0 || ^5.0",
+                "phpunit/phpunit": "^9.6",
                 "symfony/console": "^5.4 || ^6.0 || ^7.0",
                 "symfony/phpunit-bridge": "^5.4 || ^6.0 || ^7.0",
                 "symfony/yaml": "^5.4 || ^6.0 || ^7.0"
@@ -1941,9 +1942,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle/issues",
-                "source": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle/tree/2.5.0"
+                "source": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle/tree/2.6.0"
             },
-            "time": "2024-01-23T15:35:55+00:00"
+            "time": "2025-01-13T15:11:41+00:00"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -2322,16 +2323,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "3.32.2",
+            "version": "3.32.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "fa7ab39504c24d76107ba16c00aafa5da3605971"
+                "reference": "033c9beab9eb708509a3d400e9f0ffeb2d440e71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/fa7ab39504c24d76107ba16c00aafa5da3605971",
-                "reference": "fa7ab39504c24d76107ba16c00aafa5da3605971",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/033c9beab9eb708509a3d400e9f0ffeb2d440e71",
+                "reference": "033c9beab9eb708509a3d400e9f0ffeb2d440e71",
                 "shasum": ""
             },
             "require": {
@@ -2408,7 +2409,7 @@
             ],
             "support": {
                 "issues": "https://github.com/schmittjoh/serializer/issues",
-                "source": "https://github.com/schmittjoh/serializer/tree/3.32.2"
+                "source": "https://github.com/schmittjoh/serializer/tree/3.32.3"
             },
             "funding": [
                 {
@@ -2416,7 +2417,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-03T22:43:29+00:00"
+            "time": "2025-02-11T23:16:25+00:00"
         },
         {
             "name": "josemmo/facturae-php",
@@ -3128,16 +3129,16 @@
         },
         {
             "name": "mirmit/e-factura-bundle",
-            "version": "v0.0.19-alpha",
+            "version": "v0.0.21-alpha",
             "source": {
                 "type": "git",
                 "url": "git@github.com:Mirmit/EFacturaBundle.git",
-                "reference": "6578be5f695be071b6a3f42ed3c2b36d8fde5467"
+                "reference": "ac91f0c6b17ac726fafc619bacd99460d4dca185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Mirmit/EFacturaBundle/zipball/6578be5f695be071b6a3f42ed3c2b36d8fde5467",
-                "reference": "6578be5f695be071b6a3f42ed3c2b36d8fde5467",
+                "url": "https://api.github.com/repos/Mirmit/EFacturaBundle/zipball/ac91f0c6b17ac726fafc619bacd99460d4dca185",
+                "reference": "ac91f0c6b17ac726fafc619bacd99460d4dca185",
                 "shasum": ""
             },
             "require": {
@@ -3162,10 +3163,10 @@
             ],
             "description": "Generate an xml from an invoice in the Factura-e format",
             "support": {
-                "source": "https://github.com/Mirmit/EFacturaBundle/tree/v0.0.19-alpha",
+                "source": "https://github.com/Mirmit/EFacturaBundle/tree/v0.0.21-alpha",
                 "issues": "https://github.com/Mirmit/EFacturaBundle/issues"
             },
-            "time": "2025-02-07T11:37:08+00:00"
+            "time": "2025-02-21T11:47:47+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3447,20 +3448,20 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.29.9",
+            "version": "1.29.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "ffb47b639649fc9c8a6fa67977a27b756592ed85"
+                "reference": "c80041b1628c4f18030407134fe88303661d4e4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/ffb47b639649fc9c8a6fa67977a27b756592ed85",
-                "reference": "ffb47b639649fc9c8a6fa67977a27b756592ed85",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/c80041b1628c4f18030407134fe88303661d4e4e",
+                "reference": "c80041b1628c4f18030407134fe88303661d4e4e",
                 "shasum": ""
             },
             "require": {
-                "composer/pcre": "^3.3",
+                "composer/pcre": "^1||^2||^3",
                 "ext-ctype": "*",
                 "ext-dom": "*",
                 "ext-fileinfo": "*",
@@ -3547,22 +3548,22 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.9"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.10"
             },
-            "time": "2025-01-26T04:55:00+00:00"
+            "time": "2025-02-08T02:56:14+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "c00d78fb6b29658347f9d37ebe104bffadf36299"
+                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/c00d78fb6b29658347f9d37ebe104bffadf36299",
-                "reference": "c00d78fb6b29658347f9d37ebe104bffadf36299",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
+                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
                 "shasum": ""
             },
             "require": {
@@ -3594,9 +3595,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.0.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.1.0"
             },
-            "time": "2024-10-13T11:29:49+00:00"
+            "time": "2025-02-19T13:28:12+00:00"
         },
         {
             "name": "presta/sitemap-bundle",
@@ -11469,16 +11470,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.12.1",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845"
+                "reference": "024473a478be9df5fdaca2c793f2232fe788e414"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/123267b2c49fbf30d78a7b2d333f6be754b94845",
-                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/024473a478be9df5fdaca2c793f2232fe788e414",
+                "reference": "024473a478be9df5fdaca2c793f2232fe788e414",
                 "shasum": ""
             },
             "require": {
@@ -11517,7 +11518,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.12.1"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.0"
             },
             "funding": [
                 {
@@ -11525,7 +11526,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-08T17:47:46+00:00"
+            "time": "2025-02-12T12:17:51+00:00"
         },
         {
             "name": "nelmio/alice",

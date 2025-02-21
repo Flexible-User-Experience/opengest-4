@@ -789,6 +789,11 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         }
     }
 
+    public function getSaleInvoiceDiscountFacturaE(): float
+    {
+        return $this->getDiscount() ?: 0;
+    }
+
     public function __toString(): string
     {
         return $this->id ? $this->getInvoiceNumber().'' : '---';
