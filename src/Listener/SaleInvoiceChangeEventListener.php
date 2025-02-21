@@ -22,13 +22,13 @@ class SaleInvoiceChangeEventListener
     public function preUpdate(SaleInvoice $saleInvoice, PreUpdateEventArgs $event): void
     {
         if($event->hasChangedField('hasBeenCounted') && $saleInvoice->getHasBeenCounted()) {
-            $xml = $this->eFacturaService->createEFactura(
-                $saleInvoice,
-                billingPeriodStart: $saleInvoice->getDate(),
-                billingPeriodEnd: $saleInvoice->getDate());
-            $filesystem = new Filesystem();
-            $newFileFullPath = $this->einvoiceFolderPath.$saleInvoice->getInvoiceNumber().'_'.$saleInvoice->getSeries()->getName().'.xml';
-            $filesystem->dumpFile($newFileFullPath, $xml);
+//            $xml = $this->eFacturaService->createEFactura(
+//                $saleInvoice,
+//                billingPeriodStart: $saleInvoice->getDate(),
+//                billingPeriodEnd: $saleInvoice->getDate());
+//            $filesystem = new Filesystem();
+//            $newFileFullPath = $this->einvoiceFolderPath.$saleInvoice->getInvoiceNumber().'_'.$saleInvoice->getSeries()->getName().'.xml';
+//            $filesystem->dumpFile($newFileFullPath, $xml);
         }
     }
 }
