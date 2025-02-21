@@ -1629,7 +1629,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         if ($this->getIsLegalEntityFacturaE()) {
             return $this->getName();
         } else {
-            return explode($this->getName(), ' ', 2)[0];
+            return explode(' ',$this->getName(), 2)[0] ?? '';
         }
     }
 
@@ -1668,7 +1668,8 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         if ($this->getIsLegalEntityFacturaE()) {
             return '';
         } else {
-            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[0];
+
+            return explode(' ', $this->getName(),3)[1] ?? '';
         }
     }
 
@@ -1677,7 +1678,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         if ($this->getIsLegalEntityFacturaE()) {
             return '';
         } else {
-            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[1];
+            return explode(' ', $this->getName(),3)[2] ?? '';
         }
     }
 

@@ -258,6 +258,7 @@ admin:
         generate_time_summary: "Generar listado plantilla de horas"
         select_option: "Seleccione opción"
         download_report: "Descargar informe"
+        has_been_counted: "Comptabilitzar"
     actions: "Accions"
 enum:
     sale_request_status:

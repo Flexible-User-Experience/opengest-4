@@ -362,6 +362,7 @@ admin:
         select_option: "Seleccione opción"
         generate_work_register_report_xls: "Generar Excel de horas"
         download_report: "Descargar informe"
+        has_been_counted: "Contabilizar"
     actions: "Acciones"
 enum:
     sale_request_status:
