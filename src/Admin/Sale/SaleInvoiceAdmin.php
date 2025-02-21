@@ -103,6 +103,10 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                 'label' => 'admin.action.generate_invoice_list',
                 'ask_confirmation' => false,
             ];
+            $newActions['hasBeenCounted'] = [
+                'label' => 'admin.action.has_been_counted',
+                'ask_confirmation' => false,
+            ];
         }
 
         return array_merge($newActions, $actions);

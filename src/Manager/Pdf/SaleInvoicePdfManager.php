@@ -559,6 +559,13 @@ class SaleInvoicePdfManager
         }
         $cellWidth = 38;
         $pdf->setXY($xVar3, $yVarStart - 3);
+        if ($saleInvoice->getDiscount()) {
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Descuento: '.NumberFormatService::formatNumber($saleInvoice->getDiscount()).'%',
+                0, 0, 'R', false);
+            $pdf->Ln(4);
+        }
+        $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);

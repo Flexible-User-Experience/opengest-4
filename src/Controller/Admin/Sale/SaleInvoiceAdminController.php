@@ -266,6 +266,22 @@ class SaleInvoiceAdminController extends BaseAdminController
         return parent::batchActionDelete($query);
     }
 
+    public function batchActionHasBeenCounted(ProxyQueryInterface $query): Response
+    {
+        $saleInvoices = $query->execute();
+        try {
+            /** @var SaleInvoice $saleInvoice */
+            foreach ($saleInvoices as $saleInvoice) {
+                $saleInvoice->setHasBeenCounted(true);
+                    $this->admin->getModelManager()->update($saleInvoice);
+            }
+        } catch (\Throwable $ex) {
+            $this->addFlash('warning', 'No se pudo realizar la acción. Error: ' . $ex->getMessage().' Trace: ' . $ex->getTraceAsString());
+        }
+
+        return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
+    }
+
     /**
      * @throws ModelManagerException
      * @throws \Sonata\AdminBundle\Exception\ModelManagerThrowable
