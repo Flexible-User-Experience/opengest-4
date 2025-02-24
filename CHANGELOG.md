@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.1.20 (WIP)
+##### Version 4.1.21 (WIP)
 * Keep wiring things
+
+##### Version 4.1.20 (2025-02-24)
+* Specify due dates in eFactura generation and detail discounts.
 
 ##### Version 4.1.19 (2025-02-10)
 * Set correct quantity to eFactura invoice lines.
