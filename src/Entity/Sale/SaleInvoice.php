@@ -745,6 +745,16 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         return $lines;
     }
 
+    public function getDueDatesFacturaE(): array
+    {
+        $dueDates = [];
+        foreach ($this->getSaleInvoiceDueDates() as $saleInvoiceDueDate) {
+            $dueDates[] = $saleInvoiceDueDate;
+        }
+
+        return $dueDates;
+    }
+
     public function getBuyerFacturaE(): BuyerFacturaEInterface
     {
         return $this->getPartner();

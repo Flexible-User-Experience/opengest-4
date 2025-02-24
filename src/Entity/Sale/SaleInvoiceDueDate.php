@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Mirmit\EFacturaBundle\Interfaces\DueDateFacturaEInterface;
 
 /**
  * Class SaleInvoiceDueDate.
@@ -14,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 #[ORM\Table(name: 'sale_invoice_due_date')]
 #[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleInvoiceDueDateRepository::class)]
-class SaleInvoiceDueDate extends AbstractBase
+class SaleInvoiceDueDate extends AbstractBase implements DueDateFacturaEInterface
 {
     #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleInvoice::class, inversedBy: 'saleInvoiceDueDates', cascade: ['persist'])]
     private SaleInvoice $saleInvoice;
@@ -115,7 +116,18 @@ class SaleInvoiceDueDate extends AbstractBase
         return $this;
     }
 
-    public function __toString()
+    public function getAmountFacturaE(): float
+    {
+        return $this->getAmount();
+    }
+
+    public function getDateFacturaE(): string
+    {
+        return $this->getDate()->format('Y-m-d');
+    }
+
+
+    public function __toString(): string
     {
         return $this->getDate()->format('d/m/Y').' - '.$this->getAmount();
     }
