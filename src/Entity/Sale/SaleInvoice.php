@@ -777,23 +777,26 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
             return FacturaePayment::TYPE_CASH;
         } elseif (
             $docType === 'TRANSFERENCIA' ||
-            $docType === 'Confirming per transferencia' ||
-            $docType === 'CONFIRMING' ||
             $docType === 'INGRESO FACTURA EN BANCO'
         ) {
             return FacturaePayment::TYPE_TRANSFER;
         } elseif ($docType === 'RECIBO') {
-            return FacturaePayment::TYPE_RECEIPT;
+            return FacturaePayment::TYPE_DEBIT;
         } elseif ($docType === 'LETRA') {
-            return FacturaePayment::TYPE_BILL_OF_EXCHANGE;
+            return FacturaePayment::TYPE_ACCEPTED_BILL_OF_EXCHANGE;
         } elseif ($docType === 'TALON') {
             return FacturaePayment::TYPE_CHEQUE;
         } elseif ($docType === 'PAGARE') {
-            return FacturaePayment::TYPE_IOU;
+            return FacturaePayment::TYPE_CHEQUE;
         } elseif ($docType === 'GIRO POSTAL') {
             return FacturaePayment::TYPE_POSTGIRO;
         } elseif ($docType === '******* ABONO *******') {
             return FacturaePayment::TYPE_REIMBURSEMENT;
+        } elseif (
+            $docType === 'Confirming per transferencia' ||
+            $docType === 'CONFIRMING'
+        ) {
+            return 20;
         } else {
             return null;
         }
