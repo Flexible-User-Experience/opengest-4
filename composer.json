@@ -21,7 +21,7 @@
         "friendsofsymfony/jsrouting-bundle": "^3.0",
         "knplabs/knp-paginator-bundle": "^5.0",
         "liip/imagine-bundle": "^2.1",
-        "mirmit/e-factura-bundle": "v0.0.22-alpha",
+        "mirmit/e-factura-bundle": "v0.0.23-alpha",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^1.23",
         "presta/sitemap-bundle": "^4.0",

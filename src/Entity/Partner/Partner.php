@@ -1679,6 +1679,16 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         }
     }
 
+    public function getIbanFacturaE(): ?string
+    {
+        return $this->getIban() ?? null;
+    }
+
+    public function getBicFacturaE(): ?string
+    {
+        return $this->getSwift() ?? null;
+    }
+
     /**
      * @return string
      */

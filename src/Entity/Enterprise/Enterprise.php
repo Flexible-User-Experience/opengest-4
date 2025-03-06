@@ -2047,6 +2047,16 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
         return '';
     }
 
+    public function getIbanFacturaE(): ?string
+    {
+        return null;
+    }
+
+    public function getBicFacturaE(): ?string
+    {
+        return null;
+    }
+
     /**
      * @return string
      */
