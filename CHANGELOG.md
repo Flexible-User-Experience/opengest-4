@@ -1,8 +1,12 @@
 Changelog
 =========
 
-##### Version 4.1.21 (WIP)
+##### Version 4.1.22 (WIP)
 * Keep wiring things
+
+##### Version 4.1.21 (2025-03-06)
+* Add iban and bic in eInvoice payment generation.
+* Add PartyIdentification to buyer in eInvoice.
 
 ##### Version 4.1.20 (2025-02-24)
 * Specify due dates in eFactura generation and detail discounts.
