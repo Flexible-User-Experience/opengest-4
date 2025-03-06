@@ -990,10 +990,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAccountNumber(): string
+    public function getAccountNumber(): ?string
     {
         return $this->accountNumber;
     }
