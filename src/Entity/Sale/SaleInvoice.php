@@ -775,25 +775,22 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         $docType = $this->getCollectionDocumentType()->getName();
         if ($docType === 'CONTADO') {
             return FacturaePayment::TYPE_CASH;
-        } elseif (
-            $docType === 'TRANSFERENCIA' ||
-            $docType === 'INGRESO FACTURA EN BANCO'
-        ) {
+        } elseif ($docType === 'TRANSFERENCIA') {
             return FacturaePayment::TYPE_TRANSFER;
-        } elseif ($docType === 'RECIBO') {
+        } elseif ($docType === 'Domiciliacion Bancaria') {
             return FacturaePayment::TYPE_DEBIT;
         } elseif ($docType === 'LETRA') {
             return FacturaePayment::TYPE_ACCEPTED_BILL_OF_EXCHANGE;
         } elseif ($docType === 'TALON') {
-            return FacturaePayment::TYPE_CHEQUE;
+            return FacturaePayment::TYPE_IOU;
         } elseif ($docType === 'PAGARE') {
-            return FacturaePayment::TYPE_CHEQUE;
+            return FacturaePayment::TYPE_IOU;
         } elseif ($docType === 'GIRO POSTAL') {
             return FacturaePayment::TYPE_POSTGIRO;
         } elseif ($docType === '******* ABONO *******') {
             return FacturaePayment::TYPE_REIMBURSEMENT;
         } elseif (
-            $docType === 'Confirming per transferencia' ||
+            $docType === 'Confirming por transferencia' ||
             $docType === 'CONFIRMING'
         ) {
             return 20;
