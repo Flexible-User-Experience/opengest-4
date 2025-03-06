@@ -990,10 +990,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAccountNumber(): string
+    public function getAccountNumber(): ?string
     {
         return $this->accountNumber;
     }
@@ -1680,6 +1677,16 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         } else {
             return explode(' ', $this->getName(),3)[2] ?? '';
         }
+    }
+
+    public function getIbanFacturaE(): ?string
+    {
+        return $this->getIban() ?? null;
+    }
+
+    public function getBicFacturaE(): ?string
+    {
+        return $this->getSwift() ?? null;
     }
 
     /**

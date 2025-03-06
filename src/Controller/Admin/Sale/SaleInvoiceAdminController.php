@@ -364,6 +364,11 @@ class SaleInvoiceAdminController extends BaseAdminController
             $saleInvoice,
             billingPeriodStart: $saleInvoice->getDate(),
             billingPeriodEnd: $saleInvoice->getDate());
+        if ($saleInvoice->getPartner()?->getAccountingAccount()) {
+            $shortAccountedAccount = substr($saleInvoice->getPartner()->getAccountingAccount(), 3) * 1;
+            $buyerPartyIdentification = '<PartyIdentification>'.$shortAccountedAccount.'</PartyIdentification>';
+            $xml = str_replace('</BuyerParty>', $buyerPartyIdentification.'</BuyerParty>',$xml);
+        }
         $response = new Response($xml);
         $response->headers->set('Content-type', 'text/xml');
         $response->headers->set('Content-Disposition', 'attachment; filename="factura-e-'.$saleInvoice->getInvoiceNumber().'.xml"');
