@@ -11,6 +11,7 @@ use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
 use App\Entity\Setting\Province;
 use App\Enum\IvaEnum;
+use App\Enum\TaxTypeEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -20,6 +21,7 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 /**
  * Class PartnerAdmin.
@@ -427,6 +429,15 @@ class PartnerAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.invoice_copies_number',
                     'required' => false,
+                ]
+            )
+            ->add(
+                'taxType',
+                EnumType::class,
+                [
+                    'label' => 'admin.label.tax_type',
+                    'required' => false,
+                    'class' => TaxTypeEnum::class,
                 ]
             )
             ->end()

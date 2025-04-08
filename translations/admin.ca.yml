@@ -218,6 +218,7 @@ admin:
         password: "Contraseña"
         role: "Rol"
         main_company: "Empresa principal"
+        tax_type: 'Tipus Iva'
     with:
         general: "General"
         image: "Imatge"

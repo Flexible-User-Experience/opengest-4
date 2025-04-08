@@ -252,6 +252,7 @@ admin:
         show_in_log_book: "Mostrar en libro historial"
         order_in_log_book: "Orden en libro historial"
         log_book: "Libro historial"
+        tax_type: 'Tipo Iva'
     with:
         general: "General"
         image: "Imagen"
