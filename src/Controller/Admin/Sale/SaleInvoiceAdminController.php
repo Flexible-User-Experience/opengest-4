@@ -360,15 +360,7 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-        $xml = $this->EFacturaService->createEFactura(
-            $saleInvoice,
-            billingPeriodStart: $saleInvoice->getDate(),
-            billingPeriodEnd: $saleInvoice->getDate());
-        if ($saleInvoice->getPartner()?->getAccountingAccount()) {
-            $shortAccountedAccount = substr($saleInvoice->getPartner()->getAccountingAccount(), 3) * 1;
-            $buyerPartyIdentification = '<PartyIdentification>'.$shortAccountedAccount.'</PartyIdentification>';
-            $xml = str_replace('</BuyerParty>', $buyerPartyIdentification.'</BuyerParty>',$xml);
-        }
+        $xml = $this->im->createEInvoice($saleInvoice);
         $response = new Response($xml);
         $response->headers->set('Content-type', 'text/xml');
         $response->headers->set('Content-Disposition', 'attachment; filename="factura-e-'.$saleInvoice->getInvoiceNumber().'.xml"');

@@ -14,6 +14,7 @@ use App\Repository\Sale\SaleInvoiceRepository;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\NonUniqueResultException;
+use Mirmit\EFacturaBundle\Service\EFacturaService;
 
 /**
  * Class InvoiceManager.
@@ -27,7 +28,10 @@ class InvoiceManager
     /**
      * Methods.
      */
-    public function __construct(SaleInvoiceRepository $saleInvoiceRepository)
+    public function __construct(
+        SaleInvoiceRepository $saleInvoiceRepository,
+        private readonly EFacturaService $eFacturaService
+    )
     {
         $this->saleInvoiceRepository = $saleInvoiceRepository;
     }
@@ -161,6 +165,26 @@ class InvoiceManager
                 $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate3);
             }
         }
+    }
+
+    public function createEInvoice(SaleInvoice $saleInvoice): int|string
+    {
+        $xml = $this->eFacturaService->createEFactura(
+            $saleInvoice,
+            billingPeriodStart: $saleInvoice->getDate(),
+            billingPeriodEnd: $saleInvoice->getDate());
+        $accountingAccount = $saleInvoice->getPartner()?->getAccountingAccount();
+        if ($accountingAccount) {
+            $shortAccountedAccount = substr($accountingAccount, 3) * 1;
+            $buyerPartyIdentification = '<PartyIdentification>'.$shortAccountedAccount.'</PartyIdentification>';
+            $xml = str_replace('</BuyerParty>', $buyerPartyIdentification.'</BuyerParty>',$xml);
+        }
+        $taxType = $saleInvoice->getPartner()?->getTaxType();
+        if ($taxType) {
+            $xml = str_replace('<TaxTypeCode>01</TaxTypeCode>', '<TaxTypeCode>'.$taxType->value.'</TaxTypeCode>', $xml);
+        }
+
+        return $xml;
     }
 
     private function generateDueDateWithAmountPayDayCollectionTerm(DateTime $invoiceDate, float $amount, int $payDay1, int $payDay2, int $payDay3, int $collectionTerm, Partner $partner): SaleInvoiceDueDate
