@@ -1657,7 +1657,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 
     public function getEmailFacturaE(): string
     {
-        return $this->getEmail() ?? '';
+        return $this->getInvoiceEmail() ?? '';
     }
 
     public function getFirstSurnameFacturaE(): string
