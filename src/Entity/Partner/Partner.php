@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\City;
+use App\Enum\TaxTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -391,6 +392,9 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $blocked = false;
+
+    #[ORM\Column(type: 'string', nullable: true, enumType: TaxTypeEnum::class)]
+    private ?TaxTypeEnum $taxType = null;
 
     /**
      * Methods.
@@ -1606,6 +1610,18 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
     public function setBlocked(bool $blocked): void
     {
         $this->blocked = $blocked;
+    }
+
+    public function getTaxType(): ?TaxTypeEnum
+    {
+        return $this->taxType;
+    }
+
+    public function setTaxType(?TaxTypeEnum $taxType): Partner
+    {
+        $this->taxType = $taxType;
+
+        return $this;
     }
 
     /**
