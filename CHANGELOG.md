@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.1.22 (WIP)
+##### Version 4.1.23 (WIP)
 * Keep wiring things
+
+##### Version 4.1.22 (2025-04-08)
+* Added tax type to partner and included in eInvoice if partner has it set.
 
 ##### Version 4.1.21 (2025-03-06)
 * Add iban and bic in eInvoice payment generation.
