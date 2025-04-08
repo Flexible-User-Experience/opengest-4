@@ -3,17 +3,17 @@
 namespace App\Listener;
 
 use App\Entity\Sale\SaleInvoice;
+use App\Manager\InvoiceManager;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
-use Mirmit\EFacturaBundle\Service\EFacturaService;
 use Symfony\Component\Filesystem\Filesystem;
 
 #[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: SaleInvoice::class)]
 class SaleInvoiceChangeEventListener
 {
     public function __construct(
-        private readonly EFacturaService $eFacturaService,
+        private readonly InvoiceManager $invoiceManager,
         private readonly string $einvoiceFolderPath
     ) {
 
@@ -22,15 +22,7 @@ class SaleInvoiceChangeEventListener
     public function preUpdate(SaleInvoice $saleInvoice, PreUpdateEventArgs $event): void
     {
         if($event->hasChangedField('hasBeenCounted') && $saleInvoice->getHasBeenCounted()) {
-            $xml = $this->eFacturaService->createEFactura(
-                $saleInvoice,
-                billingPeriodStart: $saleInvoice->getDate(),
-                billingPeriodEnd: $saleInvoice->getDate());
-            if ($saleInvoice->getPartner()?->getAccountingAccount()) {
-                $shortAccountedAccount = substr($saleInvoice->getPartner()->getAccountingAccount(), 3) * 1;
-                $buyerPartyIdentification = '<PartyIdentification>'.$shortAccountedAccount.'</PartyIdentification>';
-                $xml = str_replace('</BuyerParty>', $buyerPartyIdentification.'</BuyerParty>',$xml);
-            }
+            $xml = $this->invoiceManager->createEInvoice($saleInvoice);
             $filesystem = new Filesystem();
             $newFileFullPath = $this->einvoiceFolderPath.$saleInvoice->getInvoiceNumber().'_'.$saleInvoice->getSeries()->getName().'.xml';
             $filesystem->dumpFile($newFileFullPath, $xml);

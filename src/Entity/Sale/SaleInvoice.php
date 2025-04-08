@@ -804,6 +804,17 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         return $this->getDiscount() ?: 0;
     }
 
+    public function getBuyerOrderReferenceFacturaE(): ?string
+    {
+        return $this->getDeliveryNotes()->first()->getOrder() ?? '';
+    }
+
+    public function getBuyerContractReferenceFacturaE(): ?string
+    {
+        return $this->getDeliveryNotes()->first()->getProject() ?? '';
+    }
+
+
     public function __toString(): string
     {
         return $this->id ? $this->getInvoiceNumber().'' : '---';
