@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.1.23 (WIP)
+##### Version 4.1.24 (WIP)
 * Keep wiring things
+
+##### Version 4.1.23 (2025-04-28)
+* Hotfix: Prevent invoice pdf overlapping.
 
 ##### Version 4.1.22 (2025-04-08)
 * Added tax type to partner and included in eInvoice if partner has it set.
