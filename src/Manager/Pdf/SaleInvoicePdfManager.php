@@ -319,7 +319,7 @@ class SaleInvoicePdfManager
 
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-                if ($pdf->GetY() > 235) {
+                if ($pdf->GetY() > 232) {
                     $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
                     $this->setNewPage($pdf, $withBackground);
                     $this->setHeading($pdf, $saleInvoice, $withBackground);
