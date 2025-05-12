@@ -141,7 +141,7 @@ class WorkRegisterHeaderPdfManager
         $pdf->Ln();
 
         // Start table
-        $cellWidth = $width / 11;
+        $cellWidth = $width / 12;
         $pdf->Cell($cellWidth * 1, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             '',
             0, 0, 'L', false);
@@ -152,7 +152,7 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth * 6, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'DIETAS',
             1, 0, 'C', false);
-        $pdf->Cell($cellWidth * 2, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+        $pdf->Cell($cellWidth * 3, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'EXTRAS',
             1, 0, 'C', false);
         $pdf->Ln();
@@ -198,6 +198,9 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'SALIDA',
             1, 0, 'L', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            'PRIMA',
+            1, 0, 'L', false);
         $pdf->ln();
 
         list($normalHourPrice, $extraHourPrice, $holidayHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice,
@@ -218,18 +221,20 @@ class WorkRegisterHeaderPdfManager
         $totalOverNight = 0;
         //        $totalRoadExtra = 0;
         $totalExitExtra = 0;
+        $totalBounty = 0;
+        $totalBountyAmount = 0;
         usort($workRegisterHeaders, function ($a, $b) {
             return $a->getDate()->getTimestamp() - $b->getDate()->getTimestamp();
         });
         /** @var OperatorWorkRegisterHeader $workRegisterHeader */
         foreach ($workRegisterHeaders as $workRegisterHeader) {
             list($normalHours, $extraHours, $holidayHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet,
-                $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours,
+                $dietInt, $overNight, $exitExtra, $bounty, $bountyAmount, $workRegister, $totalNormalHours,
                 $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
-                $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra) =
+                $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra, $totalBounty, $totalBountyAmount) =
                 $this->getTotalsWorkRegisterHeader($workRegisterHeader, $totalNormalHours,
                     $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
-                    $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
+                    $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra, $totalBounty, $totalBountyAmount);
             // Draw each line, as every workReagister header refers to a date
             $this->pdfEngineService->setStyleSize('', 9);
             $pdf->setCellPaddings(1, 0, 1, 0);
@@ -273,6 +278,9 @@ class WorkRegisterHeaderPdfManager
             $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
                 NumberFormatService::formatNumber($exitExtra),
                 1, 0, 'C', false);
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+                NumberFormatService::formatNumber($bountyAmount),
+                1, 0, 'C', false);
             $pdf->Ln();
         }
         // Draw sum per concept
@@ -314,6 +322,9 @@ class WorkRegisterHeaderPdfManager
         //            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             NumberFormatService::formatNumber($totalExitExtra),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            NumberFormatService::formatNumber($totalBountyAmount),
             1, 0, 'C', false);
         $pdf->Ln();
 
@@ -357,6 +368,9 @@ class WorkRegisterHeaderPdfManager
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             NumberFormatService::formatNumber($exitExtraPrice),
             1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            '---',
+            1, 0, 'C', false);
         $pdf->Ln();
 
         // Draw total per concept
@@ -398,6 +412,9 @@ class WorkRegisterHeaderPdfManager
         //            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             NumberFormatService::formatNumber($exitExtraPrice * $totalExitExtra),
+            1, 0, 'C', false);
+        $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
+            NumberFormatService::formatNumber($totalBountyAmount),
             1, 0, 'C', false);
         $pdf->Ln(10);
         $whereTableEnds = $pdf->getY();
@@ -487,7 +504,22 @@ class WorkRegisterHeaderPdfManager
                     && !str_contains($workRegister->getDescription(), 'Dieta internacional')
                     && !str_contains($workRegister->getDescription(), 'Pernoctación')
                     && !str_contains($workRegister->getDescription(), 'Plus carretera')
-                    && !str_contains($workRegister->getDescription(), 'Salida')
+                    && !str_contains($workRegister->getDescription(), 'Salida') && !(
+                    str_contains($workRegister->getDescription(), 'Transp.') ||
+                    str_contains($workRegister->getDescription(), 'Cp40') ||
+                    str_contains($workRegister->getDescription(), 'Cp+40') ||
+                    str_contains($workRegister->getDescription(), 'Grua40') ||
+                    str_contains($workRegister->getDescription(), 'Grua50') ||
+                    str_contains($workRegister->getDescription(), 'Grua60') ||
+                    str_contains($workRegister->getDescription(), 'Grua80') ||
+                    str_contains($workRegister->getDescription(), 'Grua100') ||
+                    str_contains($workRegister->getDescription(), 'Grua120') ||
+                    str_contains($workRegister->getDescription(), 'Grua200') ||
+                    str_contains($workRegister->getDescription(), 'Grua250-300') ||
+                    str_contains($workRegister->getDescription(), 'Plataforma40') ||
+                    str_contains($workRegister->getDescription(), 'Plataforma50') ||
+                    str_contains($workRegister->getDescription(), 'Plataforma60') ||
+                    str_contains($workRegister->getDescription(), 'Plataforma70'))
                 ) {
                     $this->pdfEngineService->setStyleSize('', 9);
 
@@ -521,7 +553,7 @@ class WorkRegisterHeaderPdfManager
             'Extras:',
             0, 0, 'R', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            NumberFormatService::formatNumber($finalExtras).' €',
+            NumberFormatService::formatNumber($finalExtras + $totalBountyAmount).' €',
             0, 0, 'R', false);
         $pdf->Ln();
         $pdf->SetX(230);
@@ -538,7 +570,7 @@ class WorkRegisterHeaderPdfManager
             'Total (€)',
             'T', 0, 'R', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            NumberFormatService::formatNumber($totalOtherAmounts + $finalSum).' €',
+            NumberFormatService::formatNumber($totalOtherAmounts + $finalSum + $totalBountyAmount).' €',
             'T', 0, 'R', false);
 
         return $pdf;
@@ -615,6 +647,8 @@ class WorkRegisterHeaderPdfManager
             //        $totalRoadExtra = 0;
             $totalExitExtra = 0;
             $totalOtherAmounts = 0;
+            $totalBounty = 0;
+            $totalBountyAmount = 0;
             $filteredWorkRegisterHedadersByOperator = array_filter($workRegisterHeaders, function ($x) use ($operator) {
                 return $x->getOperator() == $operator;
             }, ARRAY_FILTER_USE_BOTH);
@@ -623,12 +657,12 @@ class WorkRegisterHeaderPdfManager
             foreach ($filteredWorkRegisterHedadersByOperator as $workRegisterHeader) {
                 $otherAmounts = 0;
                 list($normalHours, $extraHours, $holidayHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet,
-                    $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours,
+                    $dietInt, $overNight, $exitExtra, $bounty, $bountyAmount, $workRegister, $totalNormalHours,
                     $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
                     $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra) =
                     $this->getTotalsWorkRegisterHeader($workRegisterHeader, $totalNormalHours,
                         $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner,
-                        $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra);
+                        $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra, $totalBounty, $totalBountyAmount);
 
                 $finalSum = $this->getFinalSum(
                     normalHourPrice: $normalHourPrice,
@@ -795,7 +829,7 @@ class WorkRegisterHeaderPdfManager
         return [$normalHourPrice, $extraHourPrice, $holidayHourPrice, $negativeHourPrice, $lunchPrice, $lunchIntPrice, $dinnerPrice, $dinnerIntPrice, $dietPrice, $dietIntPrice, $overNightPrice, $exitExtraPrice];
     }
 
-    private function getTotalsWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader, $totalNormalHours, $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra): array
+    private function getTotalsWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader, $totalNormalHours, $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra, $totalBounty, $totalBountyAmount): array
     {
         $workRegisters = $workRegisterHeader->getOperatorWorkRegisters();
         $normalHours = 0;
@@ -811,6 +845,8 @@ class WorkRegisterHeaderPdfManager
         $overNight = 0;
         //            $roadExtra = 0;
         $exitExtra = 0;
+        $bounty = 0;
+        $bountyAmount = 0;
         $workRegister = null;
         /** @var OperatorWorkRegister $workRegister */
         foreach ($workRegisters as $workRegister) {
@@ -819,6 +855,26 @@ class WorkRegisterHeaderPdfManager
                 $this->getDetailedUnits($workRegister, $normalHours,
                     $extraHours, $holidayHours, $negativeHours, $lunch, $dinner, $lunchInt, $dinnerInt,
                     $diet, $dietInt, $overNight, $exitExtra);
+            if (
+                str_contains($workRegister->getDescription(), 'Transp.') ||
+                str_contains($workRegister->getDescription(), 'Cp40') ||
+                str_contains($workRegister->getDescription(), 'Cp+40') ||
+                str_contains($workRegister->getDescription(), 'Grua40') ||
+                str_contains($workRegister->getDescription(), 'Grua50') ||
+                str_contains($workRegister->getDescription(), 'Grua60') ||
+                str_contains($workRegister->getDescription(), 'Grua80') ||
+                str_contains($workRegister->getDescription(), 'Grua100') ||
+                str_contains($workRegister->getDescription(), 'Grua120') ||
+                str_contains($workRegister->getDescription(), 'Grua200') ||
+                str_contains($workRegister->getDescription(), 'Grua250-300') ||
+                str_contains($workRegister->getDescription(), 'Plataforma40') ||
+                str_contains($workRegister->getDescription(), 'Plataforma50') ||
+                str_contains($workRegister->getDescription(), 'Plataforma60') ||
+                str_contains($workRegister->getDescription(), 'Plataforma70')
+            ) {
+                $bounty += $workRegister->getUnits();
+                $bountyAmount += $workRegister->getAmount();;
+            }
         }
         $totalNormalHours += $normalHours;
         $totalExtraHours += $extraHours;
@@ -833,8 +889,10 @@ class WorkRegisterHeaderPdfManager
         $totalOverNight += $overNight;
         //            $totalRoadExtra += $roadExtra;
         $totalExitExtra += $exitExtra;
+        $totalBounty += $bounty;
+        $totalBountyAmount += $bountyAmount;
 
-        return [$normalHours, $extraHours, $holidayHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra, $workRegister, $totalNormalHours, $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra];
+        return [$normalHours, $extraHours, $holidayHours, $negativeHours, $lunch, $lunchInt, $dinner, $dinnerInt, $diet, $dietInt, $overNight, $exitExtra, $bounty, $bountyAmount, $workRegister, $totalNormalHours, $totalExtraHours, $totalHolidayHours, $totalNegativeHours, $totalLunch, $totalLunchInt, $totalDinner, $totalDinnerInt, $totalDiet, $totalDietInt, $totalOverNight, $totalExitExtra, $totalBounty, $totalBountyAmount];
     }
 
     /**
