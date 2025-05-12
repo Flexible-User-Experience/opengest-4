@@ -253,6 +253,22 @@ admin:
         order_in_log_book: "Orden en libro historial"
         log_book: "Libro historial"
         tax_type: 'Tipo Iva'
+        bounty:
+            transp: "Transp."
+            cp40: "Cp40"
+            cpPlus40: "Cp+40"
+            crane40: "Grua40"
+            crane50: "Grua50"
+            crane60: "Grua60"
+            crane80: "Grua80"
+            crane100: "Grua100"
+            crane120: "Grua120"
+            crane200: "Grua200"
+            crane250300: "Grua250-300"
+            platform40: "Plataforma40"
+            platform50: "Plataforma50"
+            platform60: "Plataforma60"
+            platform70: "Plataforma70"
     with:
         general: "General"
         image: "Imagen"
