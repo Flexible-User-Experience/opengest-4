@@ -109,6 +109,7 @@
                                 <select class="select2-container" style="width: 100%;" id="select_input_type" name="select_input_type">
                                     <option value="hour">Horas</option>
                                     <option value="unit">Items</option>
+                                    <option value="bounty">Primas</option>
                                     <option value="other">Otros</option>
                                 </select>
                             </div>
@@ -169,6 +170,19 @@
                                     <option value="">---selecione un item---</option>
                                     {% for id,item in content.items %}
                                         <option value="{{ id }}">{{ item }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sonata-ba-field-container-bounty">
+                            <label class="control-label required" for="bounty">
+                                Item
+                            </label>
+                            <div class="sonata-ba-field sonata-ba-field-standard-natural" style="width: 100%;">
+                                <select class="select2-container" style="width: 100%;" name="custom_bounty" id="custom_bounty">
+                                    <option value="">---selecione una prima---</option>
+                                    {% for id,bounty in content.bounties %}
+                                        <option value="{{ id }}">{{ bounty | trans }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -319,6 +333,7 @@
         var selectInputType = jQuery('#select_input_type');
         var selectOperator = jQuery('#custom_operator');
         var selectItem = jQuery('#custom_item');
+        var selectBounty = jQuery('#custom_bounty');
         var selectDate = jQuery('#custom_date');
         var eventSelectDate = jQuery('#dp_custom_date');
         var customTextDescriptionInput = jQuery('#custom_text_description');
@@ -333,6 +348,7 @@
         var customTextDescription = jQuery('#sonata-ba-field-container-text-description');
         var amount = jQuery('#sonata-ba-field-container-amount');
         var item = jQuery('#sonata-ba-field-container-item');
+        var bounty = jQuery('#sonata-ba-field-container-bounty');
         var labelCheckFinishIsBeforeStart = jQuery('#label_warning_finish_before_start');
         var workingHoursTotal = jQuery('#workingHoursTotal');
         var normalHoursTotal = jQuery('#normalHoursTotal');
@@ -342,6 +358,7 @@
         var submitButton = jQuery('#btn_custom_submit');
 
         item.addClass('hidden');
+        bounty.addClass('hidden');
         customTextDescription.addClass('hidden');
         amount.addClass('hidden');
         submitButton.addClass('disabled').attr('disabled', 'disabled');
@@ -375,7 +392,17 @@
             customTextDescription.addClass('hidden');
             customHourType.addClass('hidden');
             amount.addClass('hidden');
+            bounty.addClass('hidden');
             item.removeClass('hidden');
+          } else if (type === "bounty") {
+              customStart.addClass('hidden');
+              customFinish.addClass('hidden');
+              customDescription.addClass('hidden');
+              customTextDescription.addClass('hidden');
+              customHourType.addClass('hidden');
+              amount.addClass('hidden');
+              item.addClass('hidden');
+              bounty.removeClass('hidden');
           } else if (type === "hour") {
             customStart.removeClass('hidden');
             customFinish.removeClass('hidden');
@@ -384,6 +411,7 @@
             customHourType.removeClass('hidden');
             amount.addClass('hidden');
             item.addClass('hidden');
+            bounty.addClass('hidden');
           } else if (type === "other") {
             customStart.addClass('hidden');
             customFinish.addClass('hidden');
@@ -392,6 +420,7 @@
             customTextDescription.removeClass('hidden');
             amount.removeClass('hidden');
             customHourType.addClass('hidden');
+            bounty.addClass('hidden');
           }
           enableDisableSubmitButton();
         });
@@ -406,6 +435,10 @@
         });
 
         selectItem.change(function (event) {
+          enableDisableSubmitButton();
+        });
+
+        selectBounty.change(function (event) {
           enableDisableSubmitButton();
         });
 
@@ -435,6 +468,11 @@
 
               return false;
             }
+          } else if (selectInputType.val() === 'bounty') {
+              if (selectBounty.val() === '') {
+
+                  return false;
+              }
           } else if(selectInputType.val() === 'other') {
             var amountTrans = amountInput.val().replace(',','.');
             if (customTextDescriptionInput.val() === '') {

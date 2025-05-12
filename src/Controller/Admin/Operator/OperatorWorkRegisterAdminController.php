@@ -8,6 +8,7 @@ use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\TimeRange;
+use App\Enum\OperatorWorkRegisterBountyEnum;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Enum\SaleRequestStatusEnum;
@@ -71,6 +72,15 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $item = OperatorWorkRegisterUnitEnum::getCodeFromId($itemId);
                 $description = OperatorWorkRegisterUnitEnum::getReversedEnumArray()[$itemId];
                 $price = $this->getPriceFromItem($operator, $item);
+                $units = 1;
+                $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
+                $this->admin->getModelManager()->create($operatorWorkRegister);
+                $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
+            } elseif ('bounty' === $inputType) {
+                $bountyId = $request->query->get('custom_bounty');
+                $bountyCode = OperatorWorkRegisterBountyEnum::getCodeFromId($bountyId);
+                $description = $this->trans(OperatorWorkRegisterBountyEnum::getReversedEnumArray()[$bountyId]);
+                $price = $this->getPriceFromBounty($operator, $bountyCode);
                 $units = 1;
                 $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
                 $this->admin->getModelManager()->create($operatorWorkRegister);
@@ -263,6 +273,18 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
     {
         $bounty = $operator->getEnterpriseGroupBounty();
         $method = new UnicodeString('GET_'.$item);
+
+        if ($bounty) {
+            return call_user_func([$bounty, $method->lower()->camel()->toString()]);
+        } else {
+            return 0;
+        }
+    }
+
+    private function getPriceFromBounty(Operator $operator, $bountyCode)
+    {
+        $bounty = $operator->getEnterpriseGroupBounty();
+        $method = new UnicodeString('GET_'.$bountyCode);
 
         if ($bounty) {
             return call_user_func([$bounty, $method->lower()->camel()->toString()]);
