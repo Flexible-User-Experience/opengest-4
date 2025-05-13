@@ -115,7 +115,7 @@ class OperatorWorkRegisterHeaderManager
         if (str_contains($workRegister->getDescription(), 'PRIMA')) {
             $detailedHours['prima'] = $workRegister->getUnits();
         }
-        if (str_contains($workRegister->getDescription(), 'Hora normal')) {
+        if (str_contains($workRegister->getDescription(), 'Hora extra')) {
             $detailedHours['normalHours'] = $workRegister->getUnits();
         } elseif (str_contains($workRegister->getDescription(), 'Hora nocturna')) {
             $detailedHours['extraHours'] = $workRegister->getUnits();

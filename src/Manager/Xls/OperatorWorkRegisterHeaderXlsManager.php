@@ -122,7 +122,7 @@ class OperatorWorkRegisterHeaderXlsManager
                 foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
                     if (
                         !str_contains($workRegister->getDescription(), 'Hora laboral')
-                        && !str_contains($workRegister->getDescription(), 'Hora normal')
+                        && !str_contains($workRegister->getDescription(), 'Hora extra')
                         && !str_contains($workRegister->getDescription(), 'Hora nocturna')
                         && !str_contains($workRegister->getDescription(), 'Hora festiva')
                         && !str_contains($workRegister->getDescription(), 'Hora negativa')

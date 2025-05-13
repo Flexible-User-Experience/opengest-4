@@ -85,7 +85,7 @@ class OperatorWorkRegisterHeaderAdminController extends BaseAdminController
                 if (str_contains($singleResult['description'], 'Hora laboral')) {
                     $result['workingHour'] += $singleResult['hours'];
                 }
-                if (str_contains($singleResult['description'], 'Hora normal')) {
+                if (str_contains($singleResult['description'], 'Hora extra')) {
                     $result['normalHour'] += $singleResult['hours'];
                 }
                 if (str_contains($singleResult['description'], 'Hora nocturna')) {

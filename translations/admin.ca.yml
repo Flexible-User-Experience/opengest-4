@@ -149,7 +149,7 @@ admin:
         route_image: "Imagen ruta"
         notes: "Notas"
         normal_hour: "Hora laboral"
-        extra_normal_hour: "Hora normal"
+        extra_normal_hour: "Hora extra"
         extra_extra_hour: "Hora nocturna"
         negative_hour: "Hora negativa"
         road_normal_hour: "Plus carretera"
@@ -271,7 +271,7 @@ enum:
         to_settle_on: "Per concretar"
     time_range_type:
         working: "Laboral"
-        normal: "Normal"
+        normal: "Extra"
         extra: "Nocturna"
 Servei_list: "Serveis"
 Servei_create: "Crear"

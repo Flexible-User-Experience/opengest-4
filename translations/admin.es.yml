@@ -152,7 +152,7 @@ admin:
         route_image: "Imagen ruta"
         notes: "Notas"
         normal_hour: "Hora laboral"
-        extra_normal_hour: "Hora normal"
+        extra_normal_hour: "Hora extra"
         extra_extra_hour: "Hora nocturna"
         holiday_hour: "Hora festiva"
         negative_hour: "Hora negativa"
@@ -391,7 +391,7 @@ enum:
         to_settle_on: "Por concretar"
     time_range_type:
         working: "Laboral"
-        normal: "Normal"
+        normal: "Extra"
         extra: "Nocturna"
     operator_checking_type_group:
         checking: "Revisión"

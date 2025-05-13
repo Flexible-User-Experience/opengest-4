@@ -126,7 +126,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                                     $description = 'Hora laboral - '.$description1;
                                 } elseif (1 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
-                                    $description = 'Hora normal - '.$description1;
+                                    $description = 'Hora extra - '.$description1;
                                 } elseif (2 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
                                     $description = 'Hora nocturna - '.$description1;
@@ -145,14 +145,14 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
                     }
                 } else {
-                    if (in_array($hourType, ['Laboral', 'Normal', 'Nocturna', 'Festiva'])) {
+                    if (in_array($hourType, ['Laboral', 'Extra', 'Nocturna', 'Festiva'])) {
                         $price = 0;
                         if ('Laboral' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
                             $description = 'Hora laboral - '.$description1;
-                        } elseif ('Normal' === $hourType) {
+                        } elseif ('Extra' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
-                            $description = 'Hora normal - '.$description1;
+                            $description = 'Hora extra - '.$description1;
                         } elseif ('Nocturna' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
                             $description = 'Hora nocturna - '.$description1;

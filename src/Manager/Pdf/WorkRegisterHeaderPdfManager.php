@@ -492,7 +492,7 @@ class WorkRegisterHeaderPdfManager
             foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
                 if (
                     !str_contains($workRegister->getDescription(), 'Hora laboral')
-                    && !str_contains($workRegister->getDescription(), 'Hora normal')
+                    && !str_contains($workRegister->getDescription(), 'Hora extra')
                     && !str_contains($workRegister->getDescription(), 'Hora nocturna')
                     && !str_contains($workRegister->getDescription(), 'Hora festiva')
                     && !str_contains($workRegister->getDescription(), 'Hora negativa')
@@ -693,7 +693,7 @@ class WorkRegisterHeaderPdfManager
                 foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
                     if (
                         !str_contains($workRegister->getDescription(), 'Hora laboral')
-                        && !str_contains($workRegister->getDescription(), 'Hora normal')
+                        && !str_contains($workRegister->getDescription(), 'Hora extra')
                         && !str_contains($workRegister->getDescription(), 'Hora nocturna')
                         && !str_contains($workRegister->getDescription(), 'Hora festiva')
                         && !str_contains($workRegister->getDescription(), 'Hora negativa')
@@ -763,7 +763,7 @@ class WorkRegisterHeaderPdfManager
      */
     private function getDetailedUnits(OperatorWorkRegister $workRegister, float $normalHours, float $extraHours, float $holidayHours, float $negativeHours, float $lunch, float $dinner, float $lunchInt, float $dinnerInt, float $diet, float $dietInt, float $overNight, float $exitExtra): array
     {
-        if (str_contains($workRegister->getDescription(), 'Hora normal')) {
+        if (str_contains($workRegister->getDescription(), 'Hora extra')) {
             $normalHours += $workRegister->getUnits();
         }
         if (str_contains($workRegister->getDescription(), 'Hora nocturna')) {
