@@ -40,160 +40,131 @@ class EnterpriseGroupBounty extends AbstractBase
     #[ORM\OneToMany(targetEntity: Operator::class, mappedBy: 'enterpriseGroupBounty')]
     private $operators;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $normalHour = 0.0;
+    private float $normalHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $extraNormalHour = 0.0;
+    private float $extraNormalHour = 0.0;
 
-    /**
-     * @var float
-     */
-    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $extraExtraHour = 0.0;
+     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $extraExtraHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $holidayHour = 0.0;
+    private float $holidayHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $roadNormalHour = 0.0;
+    private float $roadNormalHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $roadExtraHour = 0.0;
+    private float $roadExtraHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $awaitingHour = 0.0;
+    private float $awaitingHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $negativeHour = 0.0;
+    private float $negativeHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $transferHour = 0.0;
+    private float $transferHour = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $lunch = 0.0;
+    private float $lunch = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $dinner = 0.0;
+    private float $dinner = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $overNight = 0.0;
+    private float $overNight = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $extraNight = 0.0;
+    private float $extraNight = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $diet = 0.0;
+    private float $diet = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $internationalLunch = 0.0;
+    private float $internationalLunch = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $internationalDinner = 0.0;
+    private float $internationalDinner = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $truckOutput = 0.0;
+    private float $truckOutput = 0.0;
 
-    /**
-     * @var float
-     */
     #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
-    private $carOutput = 0.0;
+    private float $carOutput = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $transp = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $cp40 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $cpPlus40 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane40 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane50 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane60 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane80 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane100 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane120 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane200 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $crane250300 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $platform40 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $platform50 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $platform60 = 0.0;
+
+    #[ORM\Column(type: 'float', nullable: true, options: ['default' => 0])]
+    private float $platform70 = 0.0;
 
     /**
      * Methods.
-     */
-
-    /**
-     * EnterpriseGroupBounty constructor.
      */
     public function __construct()
     {
         $this->operators = new ArrayCollection();
     }
 
-    /**
-     * @return Enterprise
-     */
     public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
 
-    /**
-     * @param Enterprise $enterprise
-     *
-     * @return $this
-     */
-    public function setEnterprise($enterprise): static
+    public function setEnterprise(?Enterprise $enterprise): static
     {
         $this->enterprise = $enterprise;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getGroup(): string
     {
         return $this->group;
     }
 
-    /**
-     * @param string $group
-     *
-     * @return $this
-     */
-    public function setGroup($group): static
+    public function setGroup(?string $group): static
     {
         $this->group = $group;
 
@@ -207,8 +178,6 @@ class EnterpriseGroupBounty extends AbstractBase
 
     /**
      * @param ArrayCollection $operators
-     *
-     * @return $this
      */
     public function setOperators($operators): static
     {
@@ -217,12 +186,7 @@ class EnterpriseGroupBounty extends AbstractBase
         return $this;
     }
 
-    /**
-     * @param Operator $operator
-     *
-     * @return $this
-     */
-    public function addOperator($operator): static
+    public function addOperator(Operator $operator): static
     {
         if (!$this->operators->contains($operator)) {
             $this->operators->add($operator);
@@ -232,9 +196,6 @@ class EnterpriseGroupBounty extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function removeOperator($operator): static
     {
         if ($this->operators->contains($operator)) {
@@ -244,60 +205,36 @@ class EnterpriseGroupBounty extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getNormalHour(): float
     {
         return $this->normalHour;
     }
 
-    /**
-     * @param float $normalHour
-     *
-     * @return $this
-     */
-    public function setNormalHour($normalHour): static
+    public function setNormalHour(float $normalHour): static
     {
         $this->normalHour = $normalHour;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getExtraNormalHour(): float
     {
         return $this->extraNormalHour;
     }
 
-    /**
-     * @param float $extraNormalHour
-     *
-     * @return $this
-     */
-    public function setExtraNormalHour($extraNormalHour): static
+    public function setExtraNormalHour(float $extraNormalHour): static
     {
         $this->extraNormalHour = $extraNormalHour;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getExtraExtraHour(): float
     {
         return $this->extraExtraHour;
     }
 
-    /**
-     * @param float $extraExtraHour
-     *
-     * @return $this
-     */
-    public function setExtraExtraHour($extraExtraHour): static
+    public function setExtraExtraHour(float $extraExtraHour): static
     {
         $this->extraExtraHour = $extraExtraHour;
 
@@ -316,289 +253,339 @@ class EnterpriseGroupBounty extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getRoadNormalHour(): float
     {
         return $this->roadNormalHour;
     }
 
-    /**
-     * @param float $roadNormalHour
-     *
-     * @return $this
-     */
-    public function setRoadNormalHour($roadNormalHour): static
+    public function setRoadNormalHour(float $roadNormalHour): static
     {
         $this->roadNormalHour = $roadNormalHour;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getRoadExtraHour(): float
     {
         return $this->roadExtraHour;
     }
 
-    /**
-     * @param float $roadExtraHour
-     *
-     * @return $this
-     */
-    public function setRoadExtraHour($roadExtraHour): static
+    public function setRoadExtraHour(float $roadExtraHour): static
     {
         $this->roadExtraHour = $roadExtraHour;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getAwaitingHour(): float
     {
         return $this->awaitingHour;
     }
 
-    /**
-     * @param float $awaitingHour
-     *
-     * @return $this
-     */
-    public function setAwaitingHour($awaitingHour): static
+    public function setAwaitingHour(float $awaitingHour): static
     {
         $this->awaitingHour = $awaitingHour;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getNegativeHour(): float
     {
         return $this->negativeHour;
     }
 
-    /**
-     * @param float $negativeHour
-     *
-     * @return $this
-     */
-    public function setNegativeHour($negativeHour): static
+    public function setNegativeHour(float $negativeHour): static
     {
         $this->negativeHour = $negativeHour;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getTransferHour(): float
     {
         return $this->transferHour;
     }
 
-    /**
-     * @param float $transferHour
-     *
-     * @return $this
-     */
-    public function setTransferHour($transferHour): static
+    public function setTransferHour(float $transferHour): static
     {
         $this->transferHour = $transferHour;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getLunch(): float
     {
         return $this->lunch;
     }
 
-    /**
-     * @param float $lunch
-     *
-     * @return $this
-     */
-    public function setLunch($lunch): static
+    public function setLunch(float $lunch): static
     {
         $this->lunch = $lunch;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getDinner(): float
     {
         return $this->dinner;
     }
 
-    /**
-     * @param float $dinner
-     *
-     * @return $this
-     */
-    public function setDinner($dinner): static
+    public function setDinner(float $dinner): static
     {
         $this->dinner = $dinner;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getOverNight(): float
     {
         return $this->overNight;
     }
 
-    /**
-     * @param float $overNight
-     *
-     * @return $this
-     */
-    public function setOverNight($overNight): static
+    public function setOverNight(float $overNight): static
     {
         $this->overNight = $overNight;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getExtraNight(): float
     {
         return $this->extraNight;
     }
 
-    /**
-     * @param float $extraNight
-     *
-     * @return $this
-     */
-    public function setExtraNight($extraNight): static
+    public function setExtraNight(float $extraNight): static
     {
         $this->extraNight = $extraNight;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getDiet(): float
     {
         return $this->diet;
     }
 
-    /**
-     * @param float $diet
-     *
-     * @return $this
-     */
-    public function setDiet($diet): static
+    public function setDiet(float $diet): static
     {
         $this->diet = $diet;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getInternationalLunch(): float
     {
         return $this->internationalLunch;
     }
 
-    /**
-     * @param float $internationalLunch
-     *
-     * @return $this
-     */
-    public function setInternationalLunch($internationalLunch): static
+    public function setInternationalLunch(float $internationalLunch): static
     {
         $this->internationalLunch = $internationalLunch;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getInternationalDinner(): float
     {
         return $this->internationalDinner;
     }
 
-    /**
-     * @param float $internationalDinner
-     *
-     * @return $this
-     */
-    public function setInternationalDinner($internationalDinner): static
+    public function setInternationalDinner(float $internationalDinner): static
     {
         $this->internationalDinner = $internationalDinner;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getTruckOutput(): float
     {
         return $this->truckOutput;
     }
 
-    /**
-     * @param float $truckOutput
-     *
-     * @return $this
-     */
-    public function setTruckOutput($truckOutput): static
+    public function setTruckOutput(float $truckOutput): static
     {
         $this->truckOutput = $truckOutput;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getCarOutput(): float
     {
         return $this->carOutput;
     }
 
-    /**
-     * @param float $carOutput
-     *
-     * @return $this
-     */
-    public function setCarOutput($carOutput): static
+    public function setCarOutput(float $carOutput): static
     {
         $this->carOutput = $carOutput;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
+    public function getTransp(): float
+    {
+        return $this->transp;
+    }
+
+    public function setTransp(float $transp): EnterpriseGroupBounty
+    {
+        $this->transp = $transp;
+        return $this;
+    }
+
+    public function getCp40(): float
+    {
+        return $this->cp40;
+    }
+
+    public function setCp40(float $cp40): EnterpriseGroupBounty
+    {
+        $this->cp40 = $cp40;
+        return $this;
+    }
+
+    public function getCpPlus40(): float
+    {
+        return $this->cpPlus40;
+    }
+
+    public function setCpPlus40(float $cpPlus40): EnterpriseGroupBounty
+    {
+        $this->cpPlus40 = $cpPlus40;
+        return $this;
+    }
+
+    public function getCrane40(): float
+    {
+        return $this->crane40;
+    }
+
+    public function setCrane40(float $crane40): EnterpriseGroupBounty
+    {
+        $this->crane40 = $crane40;
+        return $this;
+    }
+
+    public function getCrane50(): float
+    {
+        return $this->crane50;
+    }
+
+    public function setCrane50(float $crane50): EnterpriseGroupBounty
+    {
+        $this->crane50 = $crane50;
+        return $this;
+    }
+
+    public function getCrane60(): float
+    {
+        return $this->crane60;
+    }
+
+    public function setCrane60(float $crane60): EnterpriseGroupBounty
+    {
+        $this->crane60 = $crane60;
+        return $this;
+    }
+
+    public function getCrane80(): float
+    {
+        return $this->crane80;
+    }
+
+    public function setCrane80(float $crane80): EnterpriseGroupBounty
+    {
+        $this->crane80 = $crane80;
+        return $this;
+    }
+
+    public function getCrane100(): float
+    {
+        return $this->crane100;
+    }
+
+    public function setCrane100(float $crane100): EnterpriseGroupBounty
+    {
+        $this->crane100 = $crane100;
+        return $this;
+    }
+
+    public function getCrane120(): float
+    {
+        return $this->crane120;
+    }
+
+    public function setCrane120(float $crane120): EnterpriseGroupBounty
+    {
+        $this->crane120 = $crane120;
+        return $this;
+    }
+
+    public function getCrane200(): float
+    {
+        return $this->crane200;
+    }
+
+    public function setCrane200(float $crane200): EnterpriseGroupBounty
+    {
+        $this->crane200 = $crane200;
+        return $this;
+    }
+
+    public function getCrane250300(): float
+    {
+        return $this->crane250300;
+    }
+
+    public function setCrane250300(float $crane250300): EnterpriseGroupBounty
+    {
+        $this->crane250300 = $crane250300;
+        return $this;
+    }
+
+    public function getPlatform40(): float
+    {
+        return $this->platform40;
+    }
+
+    public function setPlatform40(float $platform40): EnterpriseGroupBounty
+    {
+        $this->platform40 = $platform40;
+        return $this;
+    }
+
+    public function getPlatform50(): float
+    {
+        return $this->platform50;
+    }
+
+    public function setPlatform50(float $platform50): EnterpriseGroupBounty
+    {
+        $this->platform50 = $platform50;
+        return $this;
+    }
+
+    public function getPlatform60(): float
+    {
+        return $this->platform60;
+    }
+
+    public function setPlatform60(float $platform60): EnterpriseGroupBounty
+    {
+        $this->platform60 = $platform60;
+        return $this;
+    }
+
+    public function getPlatform70(): float
+    {
+        return $this->platform70;
+    }
+
+    public function setPlatform70(float $platform70): EnterpriseGroupBounty
+    {
+        $this->platform70 = $platform70;
+        return $this;
+    }
+
     public function __toString(): string
     {
         return $this->id ? $this->getGroup() : '---';

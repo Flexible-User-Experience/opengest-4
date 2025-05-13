@@ -8,6 +8,7 @@ use App\Entity\Operator\OperatorWorkRegister;
 use App\Entity\Operator\OperatorWorkRegisterHeader;
 use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Setting\TimeRange;
+use App\Enum\OperatorWorkRegisterBountyEnum;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Enum\SaleRequestStatusEnum;
@@ -75,6 +76,15 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                 $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
                 $this->admin->getModelManager()->create($operatorWorkRegister);
                 $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
+            } elseif ('bounty' === $inputType) {
+                $bountyId = $request->query->get('custom_bounty');
+                $bountyCode = OperatorWorkRegisterBountyEnum::getCodeFromId($bountyId);
+                $description = $this->trans(OperatorWorkRegisterBountyEnum::getReversedEnumArray()[$bountyId]);
+                $price = $this->getPriceFromBounty($operator, $bountyCode);
+                $units = 1;
+                $operatorWorkRegister = $this->createOperatorWorkRegister($operator, $date, $description, $units, $price, $saleDeliveryNote);
+                $this->admin->getModelManager()->create($operatorWorkRegister);
+                $this->addFlash('success', 'Parte de trabajo con id '.$operatorWorkRegister->getId().' creado');
             } elseif ('other' === $inputType) {
                 $description = $request->query->get('custom_text_description');
                 $price = $request->query->get('amount') * 1;
@@ -116,10 +126,10 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                                     $description = 'Hora laboral - '.$description1;
                                 } elseif (1 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
-                                    $description = 'Hora normal - '.$description1;
+                                    $description = 'Hora extra - '.$description1;
                                 } elseif (2 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
-                                    $description = 'Hora extra - '.$description1;
+                                    $description = 'Hora nocturna - '.$description1;
                                 } elseif (3 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'HOLIDAY_HOUR');
                                     $description = 'Hora festiva - '.$description1;
@@ -135,17 +145,17 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
                     }
                 } else {
-                    if (in_array($hourType, ['Laboral', 'Normal', 'Extra', 'Festiva'])) {
+                    if (in_array($hourType, ['Laboral', 'Extra', 'Nocturna', 'Festiva'])) {
                         $price = 0;
                         if ('Laboral' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
                             $description = 'Hora laboral - '.$description1;
-                        } elseif ('Normal' === $hourType) {
-                            $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
-                            $description = 'Hora normal - '.$description1;
                         } elseif ('Extra' === $hourType) {
-                            $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
                             $description = 'Hora extra - '.$description1;
+                        } elseif ('Nocturna' === $hourType) {
+                            $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
+                            $description = 'Hora nocturna - '.$description1;
                         } elseif ('Festiva' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'HOLIDAY_HOUR');
                             $description = 'Hora festiva - '.$description1;
@@ -263,6 +273,18 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
     {
         $bounty = $operator->getEnterpriseGroupBounty();
         $method = new UnicodeString('GET_'.$item);
+
+        if ($bounty) {
+            return call_user_func([$bounty, $method->lower()->camel()->toString()]);
+        } else {
+            return 0;
+        }
+    }
+
+    private function getPriceFromBounty(Operator $operator, $bountyCode)
+    {
+        $bounty = $operator->getEnterpriseGroupBounty();
+        $method = new UnicodeString('GET_'.$bountyCode);
 
         if ($bounty) {
             return call_user_func([$bounty, $method->lower()->camel()->toString()]);
