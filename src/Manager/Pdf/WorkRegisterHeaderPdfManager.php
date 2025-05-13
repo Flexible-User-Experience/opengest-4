@@ -163,7 +163,7 @@ class WorkRegisterHeaderPdfManager
         //            'LAB.',
         //            1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            'NORM.',
+            'EXTRA',
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'NOCTURNA',

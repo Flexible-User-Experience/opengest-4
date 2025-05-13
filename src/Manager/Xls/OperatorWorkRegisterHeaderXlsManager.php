@@ -83,9 +83,9 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('K5', 'DIETA')
                 ->setCellValue('L5', 'DINAR/SOPAR I')
                 ->setCellValue('M5', 'DIETA I')
-                ->setCellValue('N5', 'H.Norm')
+                ->setCellValue('N5', 'H.Extra')
                 ->setCellValue('O5', 'H.Neg')
-                ->setCellValue('P5', 'H.Norm - H.Neg')
+                ->setCellValue('P5', 'H.Extra - H.Neg')
                 ->setCellValue('Q5', 'H.Nocturna')
                 ->setCellValue('R5', 'H.Festiva');
 
