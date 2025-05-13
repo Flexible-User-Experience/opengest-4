@@ -86,7 +86,7 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('N5', 'H.Norm')
                 ->setCellValue('O5', 'H.Neg')
                 ->setCellValue('P5', 'H.Norm - H.Neg')
-                ->setCellValue('Q5', 'H.Extra')
+                ->setCellValue('Q5', 'H.Nocturna')
                 ->setCellValue('R5', 'H.Festiva');
 
             usort($workRegisterHeaders, function ($a, $b) {
@@ -123,7 +123,7 @@ class OperatorWorkRegisterHeaderXlsManager
                     if (
                         !str_contains($workRegister->getDescription(), 'Hora laboral')
                         && !str_contains($workRegister->getDescription(), 'Hora normal')
-                        && !str_contains($workRegister->getDescription(), 'Hora extra')
+                        && !str_contains($workRegister->getDescription(), 'Hora nocturna')
                         && !str_contains($workRegister->getDescription(), 'Hora festiva')
                         && !str_contains($workRegister->getDescription(), 'Hora negativa')
                         && !str_contains($workRegister->getDescription(), 'Comida')

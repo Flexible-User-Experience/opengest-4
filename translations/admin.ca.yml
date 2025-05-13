@@ -150,7 +150,7 @@ admin:
         notes: "Notas"
         normal_hour: "Hora laboral"
         extra_normal_hour: "Hora normal"
-        extra_extra_hour: "Hora extra"
+        extra_extra_hour: "Hora nocturna"
         negative_hour: "Hora negativa"
         road_normal_hour: "Plus carretera"
         car_output: "Salida"
@@ -272,7 +272,7 @@ enum:
     time_range_type:
         working: "Laboral"
         normal: "Normal"
-        extra: "Extra"
+        extra: "Nocturna"
 Servei_list: "Serveis"
 Servei_create: "Crear"
 Servei_delete: "Esborrar"

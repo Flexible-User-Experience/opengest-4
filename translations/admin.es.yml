@@ -153,7 +153,7 @@ admin:
         notes: "Notas"
         normal_hour: "Hora laboral"
         extra_normal_hour: "Hora normal"
-        extra_extra_hour: "Hora extra"
+        extra_extra_hour: "Hora nocturna"
         holiday_hour: "Hora festiva"
         negative_hour: "Hora negativa"
         road_normal_hour:  "Plus carretera"
@@ -392,7 +392,7 @@ enum:
     time_range_type:
         working: "Laboral"
         normal: "Normal"
-        extra: "Extra"
+        extra: "Nocturna"
     operator_checking_type_group:
         checking: "Revisión"
         ppe: "EPI"

@@ -129,7 +129,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                                     $description = 'Hora normal - '.$description1;
                                 } elseif (2 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
-                                    $description = 'Hora extra - '.$description1;
+                                    $description = 'Hora nocturna - '.$description1;
                                 } elseif (3 === $type) {
                                     $price = $this->getPriceFromItem($operator, 'HOLIDAY_HOUR');
                                     $description = 'Hora festiva - '.$description1;
@@ -145,7 +145,7 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         $operatorWorkRegisterIds[] = $operatorWorkRegister->getId();
                     }
                 } else {
-                    if (in_array($hourType, ['Laboral', 'Normal', 'Extra', 'Festiva'])) {
+                    if (in_array($hourType, ['Laboral', 'Normal', 'Nocturna', 'Festiva'])) {
                         $price = 0;
                         if ('Laboral' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'NORMAL_HOUR');
@@ -153,9 +153,9 @@ class OperatorWorkRegisterAdminController extends BaseAdminController
                         } elseif ('Normal' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_NORMAL_HOUR');
                             $description = 'Hora normal - '.$description1;
-                        } elseif ('Extra' === $hourType) {
+                        } elseif ('Nocturna' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'EXTRA_EXTRA_HOUR');
-                            $description = 'Hora extra - '.$description1;
+                            $description = 'Hora nocturna - '.$description1;
                         } elseif ('Festiva' === $hourType) {
                             $price = $this->getPriceFromItem($operator, 'HOLIDAY_HOUR');
                             $description = 'Hora festiva - '.$description1;
