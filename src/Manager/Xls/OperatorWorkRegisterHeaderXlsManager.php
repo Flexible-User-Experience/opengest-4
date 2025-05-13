@@ -77,7 +77,7 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('E5', 'PLUS PERNOCTA (Extras Pernoctación)')
                 ->setCellValue('F5', 'PRIMA NITS (Extras Salida)')
                 ->setCellValue('G5', 'PLUS CARRETERA (??)')
-                ->setCellValue('H5', 'H.EXTRA')
+                ->setCellValue('H5', 'H.NOCTURNA')
                 ->setCellValue('I5', 'H.FESTIVA')
                 ->setCellValue('J5', 'DINAR/SOPAR')
                 ->setCellValue('K5', 'DIETA')
@@ -262,7 +262,7 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('B'.$i, '=G36');
             ++$i;
             $activeSheet
-                ->setCellValue('A'.$i, 'EXTRA')
+                ->setCellValue('A'.$i, 'NOCTURNA')
                 ->setCellValue('B'.$i, '=H36');
             ++$i;
             $activeSheet

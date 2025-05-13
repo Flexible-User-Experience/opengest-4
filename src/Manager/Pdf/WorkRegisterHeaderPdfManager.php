@@ -166,7 +166,7 @@ class WorkRegisterHeaderPdfManager
             'NORM.',
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
-            'EXTRA',
+            'NOCTURNA',
             1, 0, 'L', false);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT_SM,
             'FESTIVA',
