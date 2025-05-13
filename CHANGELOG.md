@@ -1,8 +1,13 @@
 Changelog
 =========
 
-##### Version 4.1.24 (WIP)
+##### Version 4.1.25 (WIP)
 * Keep wiring things
+
+##### Version 4.1.24 (2025-05-13)
+* Added enterprise group bounty types.
+* Changed labels and descriptions of normal extra hour (from 'Hora normal' to 'Hora extra') and extra
+extra hour (from 'Hora extra' to 'Hora nocturna')
 
 ##### Version 4.1.23 (2025-04-28)
 * Hotfix: Prevent invoice pdf overlapping.
