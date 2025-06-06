@@ -294,6 +294,13 @@ class SaleInvoicePdfManager
         }
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
+            if ($pdf->GetY() > 232) {
+                $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
+                $this->setNewPage($pdf, $withBackground);
+                $this->setHeading($pdf, $saleInvoice, $withBackground);
+                $YDim = 110;
+                $pdf->setXY($col1, $YDim);
+            }
             $pdf->setX($col1);
             $pdf->Cell($col2 - $col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getId(),
