@@ -1,8 +1,11 @@
 Changelog
 =========
 
-##### Version 4.1.25 (WIP)
+##### Version 4.1.26 (WIP)
 * Keep wiring things
+
+##### Version 4.1.25 (2025-06-06)
+* Fix sale invoice overlapping
 
 ##### Version 4.1.24 (2025-05-13)
 * Added enterprise group bounty types.
