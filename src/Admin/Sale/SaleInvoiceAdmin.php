@@ -533,7 +533,10 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                             'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseAndPartnerSortedByNameQB(
                                 $this->getUserLogedEnterprise(),
                                 $this->getSubject()->getPartner()
-                            ),
+                            )
+                            ->andWhere('s.saleInvoice is NULL OR s.saleInvoice = :saleInvoice')
+                            ->setParameter('saleInvoice', $this->getSubject())
+                            ,
                             'by_reference' => false,
                         ]
                     )
