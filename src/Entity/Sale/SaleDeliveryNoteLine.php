@@ -252,12 +252,12 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      */
     public function getNameFacturaE(): string
     {
-        return $this->getSaleItem()->getDescription();
+        return $this->getSaleItem()?->getDescription() ?? '';
     }
 
     public function getDescriptionFacturaE(): string
     {
-        return $this->getSaleItem()->getDescription();
+        return $this->getSaleItem()?->getDescription() ?? '';
     }
 
     public function getQuantityFacturaE(): float
