@@ -1,8 +1,13 @@
 Changelog
 =========
 
-##### Version 4.1.26 (WIP)
+##### Version 4.1.27 (WIP)
 * Keep wiring things
+
+##### Version 4.1.26 (2025-07-14)
+* Only be able to assign delivery note to invoice if not already assigned (previously the former invoce was
+left orphan).
+* Update composer dependencies.
 
 ##### Version 4.1.25 (2025-06-06)
 * Fix sale invoice overlapping
