@@ -462,4 +462,14 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         }
     }
+
+    protected function preDelete(Request $request, object $object): ?Response
+    {
+        if ($object->getSaleInvoice()) {
+            $this->addFlash('warning', 'Este albarán no se puede borrar, está asociado a la factura '.$object->getSaleInvoice()->getInvoiceNumber().'.');
+
+            return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        }
+        return null;
+    }
 }
