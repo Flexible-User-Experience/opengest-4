@@ -12,7 +12,7 @@ twig:
         google_analytics_account: '%google_analytics_account%'
         main_brand_title:         '%project_web_title%'
         admin_brand_title:        '%project_admin_title%'
-        admin_tag_version:        'v4.1.26'
+        admin_tag_version:        'v4.1.27'
         cookieExpiryTime:         90 # days
     file_name_pattern: '*.twig'
 
