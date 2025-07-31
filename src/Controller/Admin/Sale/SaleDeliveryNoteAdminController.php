@@ -465,7 +465,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
     protected function preDelete(Request $request, object $object): ?Response
     {
-        if ($object->getSaleInvoice()) {
+        if ($object->getSaleInvoice()?->getId() !== null) {
             $this->addFlash('warning', 'Este albarán no se puede borrar, está asociado a la factura '.$object->getSaleInvoice()->getInvoiceNumber().'.');
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
