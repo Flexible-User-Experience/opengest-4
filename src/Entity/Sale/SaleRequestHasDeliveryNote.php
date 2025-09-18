@@ -172,9 +172,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->reference;
     }
@@ -192,9 +192,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getTotalHoursMorning(): float
+    public function getTotalHoursMorning(): ?float
     {
         return $this->totalHoursMorning;
     }
@@ -212,9 +212,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getPriceHourMorning(): float
+    public function getPriceHourMorning(): ?float
     {
         return $this->priceHourMorning;
     }
@@ -232,9 +232,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getAmountMorning(): float
+    public function getAmountMorning(): ?float
     {
         return $this->amountMorning;
     }
@@ -252,9 +252,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getTotalHoursAfternoon(): float
+    public function getTotalHoursAfternoon(): ?float
     {
         return $this->totalHoursAfternoon;
     }
@@ -272,9 +272,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getPriceHourAfternoon(): float
+    public function getPriceHourAfternoon(): ?float
     {
         return $this->priceHourAfternoon;
     }
@@ -292,9 +292,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getAmountAfternoon(): float
+    public function getAmountAfternoon(): ?float
     {
         return $this->amountAfternoon;
     }
@@ -312,9 +312,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getTotalHoursNight(): float
+    public function getTotalHoursNight(): ?float
     {
         return $this->totalHoursNight;
     }
@@ -332,9 +332,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getPriceHourNight(): float
+    public function getPriceHourNight(): ?float
     {
         return $this->priceHourNight;
     }
@@ -352,9 +352,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getAmountNight(): float
+    public function getAmountNight(): ?float
     {
         return $this->amountNight;
     }
@@ -372,9 +372,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getTotalHoursEarlyMorning(): float
+    public function getTotalHoursEarlyMorning(): ?float
     {
         return $this->totalHoursEarlyMorning;
     }
@@ -392,9 +392,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getPriceHourEarlyMorning(): float
+    public function getPriceHourEarlyMorning(): ?float
     {
         return $this->priceHourEarlyMorning;
     }
@@ -412,9 +412,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getAmountEarlyMorning(): float
+    public function getAmountEarlyMorning(): ?float
     {
         return $this->amountEarlyMorning;
     }
@@ -432,9 +432,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getTotalHoursDisplacement(): float
+    public function getTotalHoursDisplacement(): ?float
     {
         return $this->totalHoursDisplacement;
     }
@@ -452,9 +452,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getPriceHourDisplacement(): float
+    public function getPriceHourDisplacement(): ?float
     {
         return $this->priceHourDisplacement;
     }
@@ -472,9 +472,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getAmountDisplacement(): float
+    public function getAmountDisplacement(): ?float
     {
         return $this->amountDisplacement;
     }
@@ -492,9 +492,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getIvaType(): float
+    public function getIvaType(): ?float
     {
         return $this->ivaType;
     }
@@ -512,9 +512,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getRetentionType(): float
+    public function getRetentionType(): ?float
     {
         return $this->retentionType;
     }
