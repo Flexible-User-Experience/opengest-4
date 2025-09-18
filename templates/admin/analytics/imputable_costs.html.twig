@@ -145,7 +145,7 @@
             </div>
         </div>
         {% if purchaseInvoiceLines|length > 0 %}
-            <div class="col-md-12" id="PurchaseInvoices">
+            <div class="col-md-12" id="PurchaseInvoices" hidden>
             <div class="box box-success">
                 <div class="box-header">
                     <h4 class="box-title">
@@ -219,7 +219,7 @@
         </div>
         {% endif %}
         {% if operatorWorkRegisters|length > 0 %}
-            <div class="col-md-12" id="WorkRegisters">
+            <div class="col-md-12" id="WorkRegisters" hidden>
                 <div class="box box-success">
                     <div class="box-header">
                         <h4 class="box-title">
@@ -294,7 +294,7 @@
             </div>
         {% endif %}
         {% if vehicleConsumptions %}
-            <div class="col-md-12" id="VehicleConsumptions">
+            <div class="col-md-12" id="VehicleConsumptions" hidden>
                 <div class="box box-success">
                     <div class="box-header">
                         <h4 class="box-title">
