@@ -1,8 +1,11 @@
 Changelog
 =========
-
-##### Version 4.1.28 (WIP)
+##### Version 4.1.29 (WIP)
 * Keep wiring things
+
+##### Version 4.1.28 (2025-09-18)
+* Hotfix: Remove unused packages from full calendar.
+* Hotfix: Enable null values in specific view.
 
 ##### Version 4.1.27 (2025-07-31)
 * Not be able to delete delivery note if it is assigned to invoice.
