@@ -172,9 +172,9 @@ class SaleRequestHasDeliveryNote extends AbstractBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->reference;
     }
