@@ -4,6 +4,6 @@
     {% if object.mainImage %}
         <img src="{{ path('admin_app_vehicle_vehicle_downloadMainImage', {'id': object.id}) }}" alt="thumbnail" style="height: 60px">
     {% else %}
-        <img src="https://via.placeholder.com/60x60.png?text=?" alt="thumbnail">
+        <img src="https://placehold.co/60x60.png?text=?" alt="thumbnail">
     {% endif %}
 {% endblock %}
