@@ -1,7 +1,11 @@
 Changelog
 =========
-##### Version 4.1.29 (WIP)
+
+##### Version 4.1.30 (WIP)
 * Keep wiring things
+
+##### Version 4.1.29 (2025-09-21)
+* Replace via.placeholder.com for placeholder.com.
 
 ##### Version 4.1.28 (2025-09-18)
 * Hotfix: Remove unused packages from full calendar.
