@@ -46,7 +46,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     {
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
         usort($saleInvoices, function (SaleInvoice $a, SaleInvoice $b) {
-            return $a->getDateFormatted() > $b->getDateFormatted();
+            return $a->getDate() <=> $b->getDate();
         });
         $siforDates = $saleInvoices;
         $filterInfo = $this->admin->getFilterParameters();
@@ -71,7 +71,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     {
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
         usort($saleInvoices, function (SaleInvoice $a, SaleInvoice $b) {
-            return $a->getDateFormatted() > $b->getDateFormatted();
+            return $a->getDate() <=> $b->getDate();
         });
         $siforDates = $saleInvoices;
         $filterInfo = $this->admin->getFilterParameters();
