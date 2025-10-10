@@ -148,19 +148,6 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'invoiceTo',
-                ModelAutocompleteType::class,
-                [
-                    'property' => 'name',
-                    'label' => 'admin.label.invoice_to',
-                    'required' => false,
-                    'callback' => $this->partnerModelAutocompleteCallback(),
-                ],
-                [
-                    'admin_code' => 'app.admin.partner',
-                ]
-            )
-            ->add(
                 'cifNif',
                 TextType::class,
                 [
