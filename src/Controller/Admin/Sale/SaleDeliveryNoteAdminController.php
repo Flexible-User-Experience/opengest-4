@@ -197,8 +197,8 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $enterprise = $this->em->getRepository(Enterprise::class)->find(1);
         $partnerType = $this->em->getRepository(PartnerType::class)->find(1);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($enterprise, $partnerType);
-        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledSortedByNumber();
-        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledSortedByName();
+        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledWithPendingInvoicesSortedByNumber();
+        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledWithPendingInvoicesSortedByName();
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
