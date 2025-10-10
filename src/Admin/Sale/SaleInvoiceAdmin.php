@@ -666,51 +666,108 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.has_been_counted',
                 ]
             )
-            ->add('order',
-                CallbackFilter::class,
-                [
-                    'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
-                        if (!$data->hasValue()) {
-                            return false;
-                        }
-                        $query
-                            ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn')
-                            ->andWhere('dn.order = :order')
-                            ->setParameter('order', $data->getValue());
-
-                        return true;
-                    },
-                    'field_type' => EntityType::class,
-                    'field_options' => [
-                        'class' => PartnerOrder::class,
-                        'choice_label' => 'number',
-                        'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
-                    ],
-                ]
-            )
-            ->add('buildingSite',
-                CallbackFilter::class,
-                [
-                    'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
-                        if (!$data->hasValue()) {
-                            return false;
-                        }
-                        $query
-                            ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn2')
-                            ->andWhere('dn2.buildingSite = :buildingSite')
-                            ->setParameter('buildingSite', $data->getValue());
-
-                        return true;
-                    },
-                    'field_type' => EntityType::class,
-                    'field_options' => [
-                        'class' => PartnerBuildingSite::class,
-                        'choice_label' => 'name',
-                        'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
-                    ],
-                ]
-            )
         ;
+        $filterParameters = $filter->getAdmin()->getFilterParameters();
+        $filteredPartner = null;
+        if (isset($filterParameters['partner'])) {
+            $filteredPartnerId = $filterParameters['partner']['value'];
+            $filteredPartner = $this->rm->getPartnerRepository()->find($filteredPartnerId);
+        }
+        if ($filteredPartner) {
+            $filter
+                ->add('order',
+                    CallbackFilter::class,
+                    [
+                        'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
+                            if (!$data->hasValue()) {
+                                return false;
+                            }
+                            $query
+                                ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn')
+                                ->andWhere('dn.order = :order')
+                                ->setParameter('order', $data->getValue());
+
+                            return true;
+                        },
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerOrder::class,
+                            'choice_label' => 'number',
+                            'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledFilteredByPartnerSortedByNumberQB($filteredPartner),
+                        ],
+                    ]
+                )
+                ->add('buildingSite',
+                    CallbackFilter::class,
+                    [
+                        'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
+                            if (!$data->hasValue()) {
+                                return false;
+                            }
+                            $query
+                                ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn2')
+                                ->andWhere('dn2.buildingSite = :buildingSite')
+                                ->setParameter('buildingSite', $data->getValue());
+
+                            return true;
+                        },
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerBuildingSite::class,
+                            'choice_label' => 'name',
+                            'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledFilteredByPartnerSortedByNameQB($filteredPartner),
+                        ],
+                    ]
+                )
+            ;
+        } else {
+            $filter
+                ->add('order',
+                    CallbackFilter::class,
+                    [
+                        'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
+                            if (!$data->hasValue()) {
+                                return false;
+                            }
+                            $query
+                                ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn')
+                                ->andWhere('dn.order = :order')
+                                ->setParameter('order', $data->getValue());
+
+                            return true;
+                        },
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerOrder::class,
+                            'choice_label' => 'number',
+                            'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledSortedByNumberQB(),
+                        ],
+                    ]
+                )
+                ->add('buildingSite',
+                    CallbackFilter::class,
+                    [
+                        'callback' => static function (ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool {
+                            if (!$data->hasValue()) {
+                                return false;
+                            }
+                            $query
+                                ->leftJoin(sprintf('%s.deliveryNotes', $alias), 'dn2')
+                                ->andWhere('dn2.buildingSite = :buildingSite')
+                                ->setParameter('buildingSite', $data->getValue());
+
+                            return true;
+                        },
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerBuildingSite::class,
+                            'choice_label' => 'name',
+                            'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledSortedByNameQB(),
+                        ],
+                    ]
+                )
+            ;
+        }
     }
 
     protected function configureDefaultFilterValues(array &$filterValues): void
