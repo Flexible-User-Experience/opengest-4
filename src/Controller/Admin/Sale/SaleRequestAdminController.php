@@ -252,17 +252,17 @@ class SaleRequestAdminController extends BaseAdminController
     private function generateDeliveryNoteFromSaleRequest(SaleRequest $saleRequest): SaleDeliveryNote
     {
         $deliveryNote = new SaleDeliveryNote();
-        $availableIds = $this->deliveryNoteManager->getAvailableIdsByEnterprise($saleRequest->getInvoiceTo()->getEnterprise());
+        $availableIds = $this->deliveryNoteManager->getAvailableIdsByEnterprise($saleRequest->getPartner()->getEnterprise());
         if (count($availableIds) > 0) {
             $metadata = $this->em->getManagerForClass(SaleDeliveryNote::class)->getClassMetadata(SaleDeliveryNote::class);
             $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
             $deliveryNote->setId(array_values($availableIds)[0]);
         }
         $deliveryNote->setDate($saleRequest->getServiceDate());
-        $deliveryNote->setPartner($saleRequest->getInvoiceTo());
+        $deliveryNote->setPartner($saleRequest->getPartner());
         $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
 //        $deliveryNote->setDeliveryNoteReference('P-'.$saleRequest->getId());
-        $partner = $saleRequest->getInvoiceTo();
+        $partner = $saleRequest->getPartner();
         if ($partner) {
             $deliveryNote->setCollectionTerm($partner->getCollectionTerm1());
             $deliveryNote->setCollectionDocument($partner->getCollectionDocumentType());

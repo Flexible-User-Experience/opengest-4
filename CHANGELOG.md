@@ -1,7 +1,8 @@
 Changelog
 =========
 ##### Version 4.1.31 (WIP)
-* Keep wiring things
+* Hotfix: Generate delivery note use partner instead of invoiceTo.
+* Keep wiring things.
 
 ##### Version 4.1.30 (2025-10-10)
 * Fix sale invice list pdf generation.
