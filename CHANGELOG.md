@@ -1,8 +1,13 @@
 Changelog
 =========
-
-##### Version 4.1.30 (WIP)
+##### Version 4.1.31 (WIP)
 * Keep wiring things
+
+##### Version 4.1.30 (2025-10-10)
+* Fix sale invice list pdf generation.
+* Show invoice to in sale request.
+* Filter by client order and building site in invoice list.
+* Filter by client order and building site in generate invoice process.
 
 ##### Version 4.1.29 (2025-09-21)
 * Replace via.placeholder.com for placeholder.com.
