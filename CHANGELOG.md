@@ -1,8 +1,10 @@
 Changelog
 =========
-
-##### Version 4.1.32 (WIP)
+##### Version 4.1.33 (WIP)
 * Keep wiring things.
+
+##### Version 4.1.32 (2025-11-21)
+* Added new information to invoice XML.
 
 ##### Version 4.1.31 (2025-10-10)
 * Hotfix: Generate delivery note using partner instead of invoiceTo.
