@@ -814,6 +814,14 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         return $this->getDeliveryNotes()->first()->getProject() ?? '';
     }
 
+    public function getAdditionalInformationFacturaE(): ?string
+    {
+        $firstDeliveryNote = $this->getDeliveryNotes()->first();
+        if ($firstDeliveryNote && $firstDeliveryNote->getBuildingSite()) {
+            return 'Obra: '.$firstDeliveryNote->getBuildingSite()->getName();
+        }
+        return null;
+    }
 
     public function __toString(): string
     {

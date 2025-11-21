@@ -260,6 +260,20 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
         return $this->getSaleItem()?->getDescription() ?? '';
     }
 
+    public function getFullDescriptionFacturaE(): string
+    {
+        $deliveryNoteCode = $this->getDeliveryNote()->getId();
+        $reference = $this->getDeliveryNote()->getDeliveryNoteReference();
+        $date = $this->getDeliveryNote()->getDate()->format('d/m/Y');
+        $serviceDescription = $this->getDeliveryNote()->getServiceDescription() ?? '';
+        if ($reference){
+            $textToReturn = " Albarán: {$deliveryNoteCode} * Fecha: {$date} * Referencia: {$reference} - \n". $serviceDescription;
+        } else {
+            $textToReturn = " Albarán: {$deliveryNoteCode} * Fecha: {$date} - \n". $serviceDescription;
+        }
+        return $textToReturn;
+    }
+
     public function getQuantityFacturaE(): float
     {
         return $this->getUnits();
