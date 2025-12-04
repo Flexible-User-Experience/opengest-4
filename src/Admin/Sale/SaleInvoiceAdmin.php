@@ -906,7 +906,7 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
             ($object->getInvoiceNumber() != $originalObject['invoiceNumber'])
             ||
             ($object->getSeries() != $originalObject['series'])) {
-            if (!$this->im->checkIfNumberIsAllowedBySerieAndEnterprise($object->getSeries(), $object->getPartner()->getEnterprise(), $object->getInvoiceNumber())) {
+            if (!$this->im->checkIfNumberIsAllowedBySerieAndEnterprise($object->getSeries(), $object->getPartner()->getEnterprise(), $object->getInvoiceNumber(), $object->getId())) {
                 $this->getRequest()->getSession()->getFlashBag()->add('warning', 'No se ha modificado el numero y/o serie de factura porque el '.$object->getInvoiceNumber().' no está permitido');
                 $object->setInvoiceNumber($originalObject['invoiceNumber']);
                 $object->setSeries($originalObject['series']);

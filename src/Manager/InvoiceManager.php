@@ -112,10 +112,20 @@ class InvoiceManager
     /**
      * @throws NonUniqueResultException
      */
-    public function checkIfNumberIsAllowedBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise, $invoiceNumber): bool
+    public function checkIfNumberIsAllowedBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise, $invoiceNumber, ?int $invoiceId = null): bool
     {
-        if (0 == count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber]))) {
-            $firstInvoiceNumber = $this->getFirstInvoiceNumberBySerieAndEnterprise($serie, $enterprise);
+        // Busca facturas con el mismo número Y la misma serie
+        $invoicesWithNumber = $this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber, 'series' => $serie]);
+
+        // Si estamos editando una factura, la excluimos de la verificación
+        if ($invoiceId !== null && count($invoicesWithNumber) > 0) {
+            $invoicesWithNumber = array_filter($invoicesWithNumber, function($invoice) use ($invoiceId) {
+                return $invoice->getId() !== $invoiceId;
+            });
+        }
+
+        if (0 == count($invoicesWithNumber)) {
+            $firstInvoiceNumber = $this->getFirstInvoiceNumberBySerieAndEnterprise($serie);
             $lastInvoiceNumber = $this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise);
             if ($firstInvoiceNumber <= $invoiceNumber && $lastInvoiceNumber >= $invoiceNumber) {
                 return true;
