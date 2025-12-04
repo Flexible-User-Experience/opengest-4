@@ -1,7 +1,10 @@
 Changelog
 =========
-##### Version 4.1.34 (WIP)
+##### Version 4.1.35 (WIP)
 * Keep wiring things.
+
+##### Version 4.1.34 (2025-12-04)
+* Hotfix: Check if number is allowed when edit invoice checks by series.
 
 ##### Version 4.1.33 (2025-12-04)
 * Hotfix: Error in invoice manager. Cannot find collectionTerm3.
