@@ -1,7 +1,10 @@
 Changelog
 =========
-##### Version 4.1.33 (WIP)
+##### Version 4.1.34 (WIP)
 * Keep wiring things.
+
+##### Version 4.1.33 (2025-12-04)
+* Hotfix: Error in invoice manager. Cannot find collectionTerm3.
 
 ##### Version 4.1.32 (2025-11-21)
 * Added new information to invoice XML.
