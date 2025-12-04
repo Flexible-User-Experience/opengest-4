@@ -143,9 +143,11 @@ class InvoiceManager
         $deliveryNote = $saleInvoice->getDeliveryNotes()->first();
         $invoiceDate = $saleInvoice->getDate();
         $numberOfCollectionTerms = 1;
-        if ($deliveryNote->getCollectionTerm3() > 0) {
+        $collectionTerm3 = $deliveryNote->getCollectionTerm3();
+        $collectionTerm2 = $deliveryNote->getCollectionTerm2();
+        if ( $collectionTerm3 && $deliveryNote->getCollectionTerm3() > 0) {
             $numberOfCollectionTerms = 3;
-        } elseif ($deliveryNote->getCollectionTerm2() > 0) {
+        } elseif ($collectionTerm2 && $deliveryNote->getCollectionTerm2() > 0) {
             $numberOfCollectionTerms = 2;
         }
         $amountSplit = $saleInvoice->getTotal() / $numberOfCollectionTerms;
