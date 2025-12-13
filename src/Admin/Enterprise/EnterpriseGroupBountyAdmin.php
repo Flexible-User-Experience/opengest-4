@@ -39,10 +39,10 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
         return 'empreses/grup-prima';
     }
 
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
-            ->with('Grupo', $this->getFormMdSuccessBoxArray(4))
+        $form
+            ->with('Grupo', $this->getFormMdSuccessBoxArray(3))
                 ->add(
                     'group',
                     null,
@@ -52,7 +52,7 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
                     ]
                 )
             ->end()
-            ->with('Horas', $this->getFormMdSuccessBoxArray(4))
+            ->with('Horas', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'normalHour',
                 null,
@@ -93,32 +93,8 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-//            ->add(
-//                'transferHour',
-//                null,
-//                array(
-//                    'label' => 'Hora de transfer',
-//                    'required' => false,
-//                )
-//            )
-//            ->add(
-//                'roadExtraHour',
-//                null,
-//                array(
-//                    'label' => 'Ctra. extra',
-//                    'required' => false,
-//                )
-//            )
-//            ->add(
-//                'awaitingHour',
-//                null,
-//                array(
-//                    'label' => 'Espera',
-//                    'required' => false,
-//                )
-//            )
             ->end()
-            ->with('Otros', $this->getFormMdSuccessBoxArray(4))
+            ->with('Otros', $this->getFormMdSuccessBoxArray(3))
             ->add(
                 'lunch',
                 null,
@@ -175,14 +151,6 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-//            ->add(
-//                'roadNormalHour',
-//                null,
-//                [
-//                    'label' => 'admin.label.road_normal_hour',
-//                    'required' => false,
-//                ]
-//            )
             ->add(
                 'carOutput',
                 null,
@@ -191,21 +159,135 @@ class EnterpriseGroupBountyAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
-//            ->add(
-//                'truckOutput',
-//                null,
-//                array(
-//                    'label' => 'Sortida camió',
-//                    'required' => false,
-//                )
-//            )
+            ->end()
+            ->with('Primas', $this->getFormMdSuccessBoxArray(3))
+            ->add(
+                'transp',
+                null,
+                [
+                    'label' => 'admin.label.bounty.transp',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'cp40',
+                null,
+                [
+                    'label' => 'admin.label.bounty.cp40',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'cpPlus40',
+                null,
+                [
+                    'label' => 'admin.label.bounty.cpPlus40',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane40',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane40',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane50',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane50',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane60',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane60',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane80',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane80',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane100',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane100',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane120',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane120',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane200',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane200',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'crane250300',
+                null,
+                [
+                    'label' => 'admin.label.bounty.crane250300',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'platform40',
+                null,
+                [
+                    'label' => 'admin.label.bounty.platform40',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'platform50',
+                null,
+                [
+                    'label' => 'admin.label.bounty.platform50',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'platform60',
+                null,
+                [
+                    'label' => 'admin.label.bounty.platform60',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'platform70',
+                null,
+                [
+                    'label' => 'admin.label.bounty.platform70',
+                    'required' => false,
+                ]
+            )
             ->end()
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add(
                 'group',
                 null,

@@ -197,8 +197,8 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $enterprise = $this->em->getRepository(Enterprise::class)->find(1);
         $partnerType = $this->em->getRepository(PartnerType::class)->find(1);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($enterprise, $partnerType);
-        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledSortedByNumber();
-        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledSortedByName();
+        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledWithPendingInvoicesSortedByNumber();
+        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledWithPendingInvoicesSortedByName();
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
@@ -461,5 +461,15 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         }
+    }
+
+    protected function preDelete(Request $request, object $object): ?Response
+    {
+        if ($object->getSaleInvoice()?->getId() !== null) {
+            $this->addFlash('warning', 'Este albarán no se puede borrar, está asociado a la factura '.$object->getSaleInvoice()->getInvoiceNumber().'.');
+
+            return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        }
+        return null;
     }
 }

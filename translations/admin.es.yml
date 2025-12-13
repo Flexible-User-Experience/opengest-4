@@ -152,8 +152,8 @@ admin:
         route_image: "Imagen ruta"
         notes: "Notas"
         normal_hour: "Hora laboral"
-        extra_normal_hour: "Hora normal"
-        extra_extra_hour: "Hora extra"
+        extra_normal_hour: "Hora extra"
+        extra_extra_hour: "Hora nocturna"
         holiday_hour: "Hora festiva"
         negative_hour: "Hora negativa"
         road_normal_hour:  "Plus carretera"
@@ -252,6 +252,23 @@ admin:
         show_in_log_book: "Mostrar en libro historial"
         order_in_log_book: "Orden en libro historial"
         log_book: "Libro historial"
+        tax_type: 'Tipo Iva'
+        bounty:
+            transp: "Transp."
+            cp40: "Cp40"
+            cpPlus40: "Cp+40"
+            crane40: "Grua40"
+            crane50: "Grua50"
+            crane60: "Grua60"
+            crane80: "Grua80"
+            crane100: "Grua100"
+            crane120: "Grua120"
+            crane200: "Grua200"
+            crane250300: "Grua250-300"
+            platform40: "Plataforma40"
+            platform50: "Plataforma50"
+            platform60: "Plataforma60"
+            platform70: "Plataforma70"
     with:
         general: "General"
         image: "Imagen"
@@ -362,6 +379,7 @@ admin:
         select_option: "Seleccione opción"
         generate_work_register_report_xls: "Generar Excel de horas"
         download_report: "Descargar informe"
+        has_been_counted: "Contabilizar"
     actions: "Acciones"
 enum:
     sale_request_status:
@@ -373,8 +391,8 @@ enum:
         to_settle_on: "Por concretar"
     time_range_type:
         working: "Laboral"
-        normal: "Normal"
-        extra: "Extra"
+        normal: "Extra"
+        extra: "Nocturna"
     operator_checking_type_group:
         checking: "Revisión"
         ppe: "EPI"

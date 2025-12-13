@@ -14,9 +14,6 @@
             "config/packages/beelab_recaptcha2.yaml"
         ]
     },
-    "behat/transliterator": {
-        "version": "v1.3.0"
-    },
     "doctrine/annotations": {
         "version": "1.14",
         "recipe": {

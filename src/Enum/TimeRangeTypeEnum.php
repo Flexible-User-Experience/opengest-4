@@ -29,8 +29,8 @@ class TimeRangeTypeEnum
     {
         return [
             self::WORKING => 'Laboral',
-            self::NORMAL => 'Normal',
-            self::EXTRA => 'Extra',
+            self::NORMAL => 'Extra',
+            self::EXTRA => 'Nocturna',
             self::HOLIDAY => 'Festiva',
         ];
     }

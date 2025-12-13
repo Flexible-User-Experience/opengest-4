@@ -1,8 +1,69 @@
 Changelog
 =========
+##### Version 4.1.35 (WIP)
+* Keep wiring things.
 
-##### Version 4.1.18 (WIP)
-* Keep wiring things
+##### Version 4.1.34 (2025-12-04)
+* Hotfix: Check if number is allowed when edit invoice checks by series.
+
+##### Version 4.1.33 (2025-12-04)
+* Hotfix: Error in invoice manager. Cannot find collectionTerm3.
+
+##### Version 4.1.32 (2025-11-21)
+* Added new information to invoice XML.
+
+##### Version 4.1.31 (2025-10-10)
+* Hotfix: Generate delivery note using partner instead of invoiceTo.
+
+##### Version 4.1.30 (2025-10-10)
+* Fix sale invice list pdf generation.
+* Show invoice to in sale request.
+* Filter by client order and building site in invoice list.
+* Filter by client order and building site in generate invoice process.
+
+##### Version 4.1.29 (2025-09-21)
+* Replace via.placeholder.com for placeholder.com.
+
+##### Version 4.1.28 (2025-09-18)
+* Hotfix: Remove unused packages from full calendar.
+* Hotfix: Enable null values in specific view.
+
+##### Version 4.1.27 (2025-07-31)
+* Not be able to delete delivery note if it is assigned to invoice.
+
+##### Version 4.1.26 (2025-07-14)
+* Only be able to assign delivery note to invoice if not already assigned (previously the former invoce was
+left orphan).
+* Update composer dependencies.
+
+##### Version 4.1.25 (2025-06-06)
+* Fix sale invoice overlapping
+
+##### Version 4.1.24 (2025-05-13)
+* Added enterprise group bounty types.
+* Changed labels and descriptions of normal extra hour (from 'Hora normal' to 'Hora extra') and extra
+extra hour (from 'Hora extra' to 'Hora nocturna')
+
+##### Version 4.1.23 (2025-04-28)
+* Hotfix: Prevent invoice pdf overlapping.
+
+##### Version 4.1.22 (2025-04-08)
+* Added tax type to partner and included in eInvoice if partner has it set.
+
+##### Version 4.1.21 (2025-03-06)
+* Add iban and bic in eInvoice payment generation.
+* Add PartyIdentification to buyer in eInvoice.
+
+##### Version 4.1.20 (2025-02-24)
+* Specify due dates in eFactura generation and detail discounts.
+
+##### Version 4.1.19 (2025-02-10)
+* Set correct quantity to eFactura invoice lines.
+* Save e-invoice xml document to specified environment folder parameter when sale invoice has been
+counted.
+
+##### Version 4.1.18 (2025-02-07)
+* Added payment method if exists in eFactura generation.
 
 ##### Version 4.1.17 (2025-01-27)
 * Added billing period in eFactura generation (currently same as invoice date).

@@ -294,6 +294,13 @@ class SaleInvoicePdfManager
         }
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($saleInvoice->getDeliveryNotes() as $deliveryNote) {
+            if ($pdf->GetY() > 232) {
+                $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
+                $this->setNewPage($pdf, $withBackground);
+                $this->setHeading($pdf, $saleInvoice, $withBackground);
+                $YDim = 110;
+                $pdf->setXY($col1, $YDim);
+            }
             $pdf->setX($col1);
             $pdf->Cell($col2 - $col1, ConstantsEnum::PDF_CELL_HEIGHT,
                 $deliveryNote->getId(),
@@ -319,7 +326,7 @@ class SaleInvoicePdfManager
 
             /** @var SaleDeliveryNoteLine $deliveryNoteLine */
             foreach ($deliveryNote->getSaleDeliveryNoteLines() as $deliveryNoteLine) {
-                if ($pdf->GetY() > 235) {
+                if ($pdf->GetY() > 232) {
                     $this->setParcialFooter($pdf, $saleInvoice, $withBackground);
                     $this->setNewPage($pdf, $withBackground);
                     $this->setHeading($pdf, $saleInvoice, $withBackground);
@@ -523,7 +530,7 @@ class SaleInvoicePdfManager
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
                     $saleInvoice->getPartner()->getTransferAccount()->getSwift(),
                     0, 0, 'L', false);
-            } elseif (str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()), 'recibo')) {
+            } elseif (str_contains(strtolower($saleInvoice->getCollectionDocumentType()->getName()), 'domiciliacion bancaria')) {
                 $pdf->Ln(5);
                 $pdf->setX($xVar2);
                 $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
@@ -559,6 +566,13 @@ class SaleInvoicePdfManager
         }
         $cellWidth = 38;
         $pdf->setXY($xVar3, $yVarStart - 3);
+        if ($saleInvoice->getDiscount()) {
+            $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
+                'Descuento: '.NumberFormatService::formatNumber($saleInvoice->getDiscount()).'%',
+                0, 0, 'R', false);
+            $pdf->Ln(4);
+        }
+        $pdf->setX($xVar3);
         $pdf->Cell($cellWidth, ConstantsEnum::PDF_CELL_HEIGHT,
             'Base imponible: '.number_format($saleInvoice->getBaseTotal(), 2, ',', '.').' €',
             0, 0, 'R', false);

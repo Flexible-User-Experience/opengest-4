@@ -13,6 +13,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use josemmo\Facturae\FacturaePayment;
 use Mirmit\EFacturaBundle\Interfaces\BuyerFacturaEInterface;
 use Mirmit\EFacturaBundle\Interfaces\InvoiceFacturaEInterface;
 use Mirmit\EFacturaBundle\Interfaces\SellerFacturaEInterface;
@@ -744,6 +745,16 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         return $lines;
     }
 
+    public function getDueDatesFacturaE(): array
+    {
+        $dueDates = [];
+        foreach ($this->getSaleInvoiceDueDates() as $saleInvoiceDueDate) {
+            $dueDates[] = $saleInvoiceDueDate;
+        }
+
+        return $dueDates;
+    }
+
     public function getBuyerFacturaE(): BuyerFacturaEInterface
     {
         return $this->getPartner();
@@ -759,7 +770,60 @@ class SaleInvoice extends AbstractBase implements InvoiceFacturaEInterface
         return $this->getTotal();
     }
 
-    public function __toString()
+    public function getPaymentMethodFacturaE(): string|int|null
+    {
+        $docType = $this->getCollectionDocumentType()->getName();
+        if ($docType === 'CONTADO') {
+            return FacturaePayment::TYPE_CASH;
+        } elseif ($docType === 'TRANSFERENCIA') {
+            return FacturaePayment::TYPE_TRANSFER;
+        } elseif ($docType === 'Domiciliacion Bancaria') {
+            return FacturaePayment::TYPE_DEBIT;
+        } elseif ($docType === 'LETRA') {
+            return FacturaePayment::TYPE_ACCEPTED_BILL_OF_EXCHANGE;
+        } elseif ($docType === 'TALON') {
+            return FacturaePayment::TYPE_IOU;
+        } elseif ($docType === 'PAGARE') {
+            return FacturaePayment::TYPE_IOU;
+        } elseif ($docType === 'GIRO POSTAL') {
+            return FacturaePayment::TYPE_POSTGIRO;
+        } elseif ($docType === '******* ABONO *******') {
+            return FacturaePayment::TYPE_REIMBURSEMENT;
+        } elseif (
+            $docType === 'Confirming por transferencia' ||
+            $docType === 'CONFIRMING'
+        ) {
+            return 20;
+        } else {
+            return null;
+        }
+    }
+
+    public function getSaleInvoiceDiscountFacturaE(): float
+    {
+        return $this->getDiscount() ?: 0;
+    }
+
+    public function getBuyerOrderReferenceFacturaE(): ?string
+    {
+        return $this->getDeliveryNotes()->first()->getOrder() ?? '';
+    }
+
+    public function getBuyerContractReferenceFacturaE(): ?string
+    {
+        return $this->getDeliveryNotes()->first()->getProject() ?? '';
+    }
+
+    public function getAdditionalInformationFacturaE(): ?string
+    {
+        $firstDeliveryNote = $this->getDeliveryNotes()->first();
+        if ($firstDeliveryNote && $firstDeliveryNote->getBuildingSite()) {
+            return 'Obra: '.$firstDeliveryNote->getBuildingSite()->getName();
+        }
+        return null;
+    }
+
+    public function __toString(): string
     {
         return $this->id ? $this->getInvoiceNumber().'' : '---';
     }

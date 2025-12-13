@@ -10,6 +10,7 @@ use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
 use App\Entity\Sale\SaleTariff;
 use App\Entity\Setting\City;
+use App\Enum\TaxTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -391,6 +392,9 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $blocked = false;
+
+    #[ORM\Column(type: 'string', nullable: true, enumType: TaxTypeEnum::class)]
+    private ?TaxTypeEnum $taxType = null;
 
     /**
      * Methods.
@@ -990,10 +994,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAccountNumber(): string
+    public function getAccountNumber(): ?string
     {
         return $this->accountNumber;
     }
@@ -1611,6 +1612,18 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         $this->blocked = $blocked;
     }
 
+    public function getTaxType(): ?TaxTypeEnum
+    {
+        return $this->taxType;
+    }
+
+    public function setTaxType(?TaxTypeEnum $taxType): Partner
+    {
+        $this->taxType = $taxType;
+
+        return $this;
+    }
+
     /**
      * FacturaE Methods.
      */
@@ -1629,7 +1642,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         if ($this->getIsLegalEntityFacturaE()) {
             return $this->getName();
         } else {
-            return explode($this->getName(), ' ', 2)[0];
+            return explode(' ',$this->getName(), 2)[0] ?? '';
         }
     }
 
@@ -1660,7 +1673,7 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
 
     public function getEmailFacturaE(): string
     {
-        return $this->getEmail() ?? '';
+        return $this->getInvoiceEmail() ?? '';
     }
 
     public function getFirstSurnameFacturaE(): string
@@ -1668,7 +1681,8 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         if ($this->getIsLegalEntityFacturaE()) {
             return '';
         } else {
-            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[0];
+
+            return explode(' ', $this->getName(),3)[1] ?? '';
         }
     }
 
@@ -1677,8 +1691,18 @@ class Partner extends AbstractBase implements BuyerFacturaEInterface
         if ($this->getIsLegalEntityFacturaE()) {
             return '';
         } else {
-            return explode(explode($this->getName(), ' ', 2)[1], ' ', 2)[1];
+            return explode(' ', $this->getName(),3)[2] ?? '';
         }
+    }
+
+    public function getIbanFacturaE(): ?string
+    {
+        return $this->getIban() ?? null;
+    }
+
+    public function getBicFacturaE(): ?string
+    {
+        return $this->getSwift() ?? null;
     }
 
     /**

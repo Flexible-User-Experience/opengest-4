@@ -252,22 +252,36 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
      */
     public function getNameFacturaE(): string
     {
-        return $this->getSaleItem()->getDescription();
+        return $this->getSaleItem()?->getDescription() ?? '';
     }
 
     public function getDescriptionFacturaE(): string
     {
-        return $this->getSaleItem()->getDescription();
+        return $this->getSaleItem()?->getDescription() ?? '';
+    }
+
+    public function getFullDescriptionFacturaE(): string
+    {
+        $deliveryNoteCode = $this->getDeliveryNote()->getId();
+        $reference = $this->getDeliveryNote()->getDeliveryNoteReference();
+        $date = $this->getDeliveryNote()->getDate()->format('d/m/Y');
+        $serviceDescription = $this->getDeliveryNote()->getServiceDescription() ?? '';
+        if ($reference){
+            $textToReturn = " Albarán: {$deliveryNoteCode} * Fecha: {$date} * Referencia: {$reference} - \n". $serviceDescription;
+        } else {
+            $textToReturn = " Albarán: {$deliveryNoteCode} * Fecha: {$date} - \n". $serviceDescription;
+        }
+        return $textToReturn;
     }
 
     public function getQuantityFacturaE(): float
     {
-        return 1;
+        return $this->getUnits();
     }
 
     public function getUnitPriceFacturaE(): float
     {
-        return $this->getTotalWithAllDiscounts();
+        return $this->getPriceUnit();
     }
 
     public function getIvaFacturaE(): int
@@ -278,5 +292,10 @@ class SaleDeliveryNoteLine extends AbstractBase implements LineFacturaEInterface
     public function getIrpfFacturaE(): int
     {
         return $this->getIrpf();
+    }
+
+    public function getDeliveryNoteLineDiscountFacturaE(): float
+    {
+        return $this->getDiscount() ?: 0;
     }
 }

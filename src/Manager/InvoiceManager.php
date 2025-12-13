@@ -14,6 +14,7 @@ use App\Repository\Sale\SaleInvoiceRepository;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\NonUniqueResultException;
+use Mirmit\EFacturaBundle\Service\EFacturaService;
 
 /**
  * Class InvoiceManager.
@@ -27,7 +28,10 @@ class InvoiceManager
     /**
      * Methods.
      */
-    public function __construct(SaleInvoiceRepository $saleInvoiceRepository)
+    public function __construct(
+        SaleInvoiceRepository $saleInvoiceRepository,
+        private readonly EFacturaService $eFacturaService
+    )
     {
         $this->saleInvoiceRepository = $saleInvoiceRepository;
     }
@@ -108,10 +112,20 @@ class InvoiceManager
     /**
      * @throws NonUniqueResultException
      */
-    public function checkIfNumberIsAllowedBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise, $invoiceNumber): bool
+    public function checkIfNumberIsAllowedBySerieAndEnterprise(SaleInvoiceSeries $serie, Enterprise $enterprise, $invoiceNumber, ?int $invoiceId = null): bool
     {
-        if (0 == count($this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber]))) {
-            $firstInvoiceNumber = $this->getFirstInvoiceNumberBySerieAndEnterprise($serie, $enterprise);
+        // Busca facturas con el mismo número Y la misma serie
+        $invoicesWithNumber = $this->saleInvoiceRepository->findBy(['invoiceNumber' => $invoiceNumber, 'series' => $serie]);
+
+        // Si estamos editando una factura, la excluimos de la verificación
+        if ($invoiceId !== null && count($invoicesWithNumber) > 0) {
+            $invoicesWithNumber = array_filter($invoicesWithNumber, function($invoice) use ($invoiceId) {
+                return $invoice->getId() !== $invoiceId;
+            });
+        }
+
+        if (0 == count($invoicesWithNumber)) {
+            $firstInvoiceNumber = $this->getFirstInvoiceNumberBySerieAndEnterprise($serie);
             $lastInvoiceNumber = $this->getLastInvoiceNumberBySerieAndEnterprise($serie, $enterprise);
             if ($firstInvoiceNumber <= $invoiceNumber && $lastInvoiceNumber >= $invoiceNumber) {
                 return true;
@@ -139,9 +153,11 @@ class InvoiceManager
         $deliveryNote = $saleInvoice->getDeliveryNotes()->first();
         $invoiceDate = $saleInvoice->getDate();
         $numberOfCollectionTerms = 1;
-        if ($deliveryNote->getCollectionTerm3() > 0) {
+        $collectionTerm3 = $deliveryNote->getCollectionTerm3();
+        $collectionTerm2 = $deliveryNote->getCollectionTerm2();
+        if ( $collectionTerm3 && $deliveryNote->getCollectionTerm3() > 0) {
             $numberOfCollectionTerms = 3;
-        } elseif ($deliveryNote->getCollectionTerm2() > 0) {
+        } elseif ($collectionTerm2 && $deliveryNote->getCollectionTerm2() > 0) {
             $numberOfCollectionTerms = 2;
         }
         $amountSplit = $saleInvoice->getTotal() / $numberOfCollectionTerms;
@@ -161,6 +177,26 @@ class InvoiceManager
                 $saleInvoice->addSaleInvoiceDueDate($saleInvoiceDueDate3);
             }
         }
+    }
+
+    public function createEInvoice(SaleInvoice $saleInvoice): int|string
+    {
+        $xml = $this->eFacturaService->createEFactura(
+            $saleInvoice,
+            billingPeriodStart: $saleInvoice->getDate(),
+            billingPeriodEnd: $saleInvoice->getDate());
+        $accountingAccount = $saleInvoice->getPartner()?->getAccountingAccount();
+        if ($accountingAccount) {
+            $shortAccountedAccount = substr($accountingAccount, 3) * 1;
+            $buyerPartyIdentification = '<PartyIdentification>'.$shortAccountedAccount.'</PartyIdentification>';
+            $xml = str_replace('</BuyerParty>', $buyerPartyIdentification.'</BuyerParty>',$xml);
+        }
+        $taxType = $saleInvoice->getPartner()?->getTaxType();
+        if ($taxType) {
+            $xml = str_replace('<TaxTypeCode>01</TaxTypeCode>', '<TaxTypeCode>'.$taxType->value.'</TaxTypeCode>', $xml);
+        }
+
+        return $xml;
     }
 
     private function generateDueDateWithAmountPayDayCollectionTerm(DateTime $invoiceDate, float $amount, int $payDay1, int $payDay2, int $payDay3, int $collectionTerm, Partner $partner): SaleInvoiceDueDate

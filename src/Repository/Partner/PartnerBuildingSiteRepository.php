@@ -59,4 +59,22 @@ class PartnerBuildingSiteRepository extends ServiceEntityRepository
             ->setParameter('partner', $partner)
             ;
     }
+
+    public function getEnabledWithPendingInvoicesSortedByNameQB(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->join('App\Entity\Sale\SaleDeliveryNote', 'sdn', 'WITH', 'sdn.buildingSite = p.id')
+            ->where('p.enabled = :enabled')
+            ->andWhere('sdn.isInvoiced = :isInvoiced')
+            ->setParameter('enabled', true)
+            ->setParameter('isInvoiced', false)
+            ->groupBy('p.id')
+            ->orderBy('p.name', 'ASC')
+        ;
+    }
+
+    public function getEnabledWithPendingInvoicesSortedByName(): array
+    {
+        return $this->getEnabledWithPendingInvoicesSortedByNameQB()->getQuery()->getResult();
+    }
 }

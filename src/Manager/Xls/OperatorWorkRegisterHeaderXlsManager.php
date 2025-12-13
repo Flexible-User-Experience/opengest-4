@@ -77,16 +77,16 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('E5', 'PLUS PERNOCTA (Extras Pernoctación)')
                 ->setCellValue('F5', 'PRIMA NITS (Extras Salida)')
                 ->setCellValue('G5', 'PLUS CARRETERA (??)')
-                ->setCellValue('H5', 'H.EXTRA')
+                ->setCellValue('H5', 'H.NOCTURNA')
                 ->setCellValue('I5', 'H.FESTIVA')
                 ->setCellValue('J5', 'DINAR/SOPAR')
                 ->setCellValue('K5', 'DIETA')
                 ->setCellValue('L5', 'DINAR/SOPAR I')
                 ->setCellValue('M5', 'DIETA I')
-                ->setCellValue('N5', 'H.Norm')
+                ->setCellValue('N5', 'H.Extra')
                 ->setCellValue('O5', 'H.Neg')
-                ->setCellValue('P5', 'H.Norm - H.Neg')
-                ->setCellValue('Q5', 'H.Extra')
+                ->setCellValue('P5', 'H.Extra - H.Neg')
+                ->setCellValue('Q5', 'H.Nocturna')
                 ->setCellValue('R5', 'H.Festiva');
 
             usort($workRegisterHeaders, function ($a, $b) {
@@ -122,8 +122,8 @@ class OperatorWorkRegisterHeaderXlsManager
                 foreach ($workRegisterHeader->getOperatorWorkRegisters() as $workRegister) {
                     if (
                         !str_contains($workRegister->getDescription(), 'Hora laboral')
-                        && !str_contains($workRegister->getDescription(), 'Hora normal')
                         && !str_contains($workRegister->getDescription(), 'Hora extra')
+                        && !str_contains($workRegister->getDescription(), 'Hora nocturna')
                         && !str_contains($workRegister->getDescription(), 'Hora festiva')
                         && !str_contains($workRegister->getDescription(), 'Hora negativa')
                         && !str_contains($workRegister->getDescription(), 'Comida')
@@ -262,7 +262,7 @@ class OperatorWorkRegisterHeaderXlsManager
                 ->setCellValue('B'.$i, '=G36');
             ++$i;
             $activeSheet
-                ->setCellValue('A'.$i, 'EXTRA')
+                ->setCellValue('A'.$i, 'NOCTURNA')
                 ->setCellValue('B'.$i, '=H36');
             ++$i;
             $activeSheet

@@ -105,3 +105,12 @@ Valoració petició-albarà_create: Crear
 Valoració petició-albarà_delete: Esborrar
 Yes: Sí
 No: No
+INTERNAL_OPERATIONS: 'Operacions Interiors'
+INTRACOMMUNITY_ACQUISITIONS: 'Adquisions intracomunitaries'
+INTRACOMMUNITY_SUPPLIES: 'Entregues intracomunitaries'
+IMPORTS: 'Importacions'
+EXPORTS: 'Exportacions'
+REVERSE_CHARGE: 'ISP Inversió del Subjecte Passiu'
+INTRACOMMUNITY_SERVICE_PROVISION: 'Prestació Serveis intracomunitaris'
+INTRACOMMUNITY_SERVICE_ACQUISITION: 'Adquisició intracomunitaria de serveis'
+VAT_NOT_SUBJECT: 'Iva no subjecte'

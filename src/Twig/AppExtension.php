@@ -120,7 +120,7 @@ class AppExtension extends AbstractExtension
         if ($operator->getProfilePhotoImage()) {
             $result = $this->rs->generate('admin_app_operator_operator_downloadProfilePhotoImage ', ['id' => $operator->getId()]);
         } else {
-            $result = 'https://via.placeholder.com/60x60.png?text='.$operator->getUppercaseNameInitials();
+            $result = 'https://placehold.co/60x60.png?text='.$operator->getUppercaseNameInitials();
         }
 
         return $result;
@@ -142,7 +142,7 @@ class AppExtension extends AbstractExtension
                 )
                 .'" alt="'.$operator->getFullName().' thumbnail" style="height: 60px">';
         } else {
-            $result = '<img src="https://via.placeholder.com/60x60.png?text='.$operator->getUppercaseNameInitials().'" alt="'.$operator->getFullName().' thumbnail">';
+            $result = '<img src="https://placehold.co/60x60.png?text='.$operator->getUppercaseNameInitials().'" alt="'.$operator->getFullName().' thumbnail">';
         }
 
         return $result;

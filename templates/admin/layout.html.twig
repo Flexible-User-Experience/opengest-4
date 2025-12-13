@@ -30,7 +30,7 @@
                         <img src="{{ path('admin_app_enterprise_enterprise_downloadLogoImage', {id: app.user.defaultEnterprise.id}) }}" alt="{{ app.user.defaultEnterprise.name }}" height="40">
 {#                        <img src="{{ vich_uploader_asset(app.user.defaultEnterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ app.user.defaultEnterprise.name }}">#}
                     {% else %}
-                        <img src="//via.placeholder.com/140x40?text={{ app.user.defaultEnterprise.name }}" alt="logo">
+                        <img src="https://placehold.co/140x40?text={{ app.user.defaultEnterprise.name }}" alt="logo">
                     {% endif %}
                 </a>
                 <ul class="dropdown-menu">
@@ -43,7 +43,7 @@
                                             <img src="{{ path('admin_app_enterprise_enterprise_downloadLogoImage', {id: enterprise.id}) }}" alt="{{ enterprise.name }}" height="40">
 {#                                            <img src="{{ vich_uploader_asset(enterprise, 'logoFile') | imagine_filter('140x40') }}" alt="{{ enterprise.name }}">#}
                                         {% else %}
-                                            <img src="//via.placeholder.com/140x40?text={{ enterprise.name }}" alt="logo">
+                                            <img src="https://placehold.co/140x40?text={{ enterprise.name }}" alt="logo">
                                         {% endif %}
                                     </a>
                                 </li>
@@ -64,7 +64,7 @@
                         {% if app.user.mainImage %}
                             <img src="{{ vich_uploader_asset(app.user, 'mainImageFile') | imagine_filter('160x160') }}" class="img-circle" alt="User Image">
                         {% else %}
-                            <img src="//via.placeholder.com/160x160?text=?" class="img-circle" alt="User Image">
+                            <img src="https://placehold.co/160x160?text=?" class="img-circle" alt="User Image">
                         {% endif %}
                         <p>
                             {{ app.user.naturalName }}
