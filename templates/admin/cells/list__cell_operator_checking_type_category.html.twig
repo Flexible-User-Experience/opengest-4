@@ -3,7 +3,7 @@
 {% trans_default_domain 'admin' %}
 
 {% block field %}
-    {% if object.category === 0 %}
+    {% if object.category == 0 %}
         <span class="label label-warning" style="margin-right:10px">{{ 'enum.operator_checking_type_group.checking' | trans }}</span>
     {% elseif object.category == 1 %}
         <span class="label label-info" style="margin-right:10px">{{ 'enum.operator_checking_type_group.ppe' | trans }}</span>

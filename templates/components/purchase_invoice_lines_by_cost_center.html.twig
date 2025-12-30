@@ -13,7 +13,7 @@
             </tr>
             </thead>
             <tbody id="invoiceLinesTableBody">
-            {% for invoiceLine in purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id === costCenter.id)  %}
+            {% for invoiceLine in purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id == costCenter.id)  %}
                 <tr>
                     {% if not logBook  %}
                         <td>
@@ -47,7 +47,7 @@
                 <tfoot>
                 <tr>
                     <td colspan="5" >Subtotal</td>
-                    <td><b>{{ purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id === costCenter.id) | reduce((subtotal, invoiceLine) => subtotal + invoiceLine.baseTotal)|number_format(2, ',', '.') }} €</b></td>
+                    <td><b>{{ purchaseInvoiceLines | filter (purchaseInvoiceLine => purchaseInvoiceLine.costCenter ? purchaseInvoiceLine.costCenter.id == costCenter.id) | reduce((subtotal, invoiceLine) => subtotal + invoiceLine.baseTotal)|number_format(2, ',', '.') }} €</b></td>
                 </tr>
                 </tfoot>
             {% endif %}
