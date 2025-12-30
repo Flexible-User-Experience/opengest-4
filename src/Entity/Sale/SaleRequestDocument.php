@@ -19,8 +19,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @author Jordi Sort <jordi.sort@mirmit.com>
  *
  * @UniqueEntity({"document"})
- * @Vich\Uploadable()
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'sale_request_document')]
 #[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleRequestDocumentRepository::class)]
 class SaleRequestDocument extends AbstractBase
@@ -31,12 +31,12 @@ class SaleRequestDocument extends AbstractBase
     /**
      * @var ?File
      *
-     * @Vich\UploadableField(mapping="sale_request_document", fileNameProperty="document")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "sale_request_document", fileNameProperty: "document")]
     private ?File $documentFile = null;
 
     #[ORM\Column(type: 'string', nullable: false)]

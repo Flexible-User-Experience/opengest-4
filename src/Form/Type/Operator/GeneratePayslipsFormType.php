@@ -36,7 +36,7 @@ class GeneratePayslipsFormType extends AbstractType
                     'label' => 'Desde',
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('01/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('01/m/Y')],
                 ]
             )
             ->add(
@@ -46,7 +46,7 @@ class GeneratePayslipsFormType extends AbstractType
                     'label' => 'Hasta',
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('t/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('t/m/Y')],
                 ]
             )
             ->add(

@@ -68,7 +68,7 @@ class OperatorVariousAmountAdmin extends AbstractBaseAdmin
                     'label' => 'Data',
                     'required' => true,
                     'format' => 'd/M/y',
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                 ]
             )
             ->add(

@@ -242,7 +242,7 @@
     {% else %}
         {{ parent() }}
     {% endif %}
-    {% if form.vars.data.series.name is same as('PROFORMA') %}
+    {% if form.vars.data.series.name === 'PROFORMA' %}
         {% if not form.vars.data.saleInvoiceGenerated %}
             <br>
             <br>

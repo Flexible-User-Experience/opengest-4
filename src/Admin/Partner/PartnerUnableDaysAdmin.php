@@ -87,7 +87,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.begin',
                     'required' => true,
                     'format' => 'd/M',
-                    'dp_default_date' => (new \DateTime())->format('d/m'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m')],
                 ]
             )
             ->add(
@@ -97,7 +97,7 @@ class PartnerUnableDaysAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.end',
                     'format' => 'd/M',
                     'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m')],
                 ]
             )
             ->end()

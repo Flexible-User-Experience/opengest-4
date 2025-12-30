@@ -28,9 +28,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author      Wils Iglesias <wiglesias83@gmail.com>
  *
- * @Vich\Uploadable()
+ 
  * @UniqueEntity({"taxIdentificationNumber"})
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'enterprise')]
 #[ORM\Entity(repositoryClass: \App\Repository\Enterprise\EnterpriseRepository::class)]
 class Enterprise extends AbstractBase implements SellerFacturaEInterface
@@ -110,13 +111,13 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="logo")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      * @Assert\Image(minWidth=100)
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "logo")]
     private $logoFile;
 
     /**
@@ -128,12 +129,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="deedOfIncorporation")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "deedOfIncorporation")]
     private $deedOfIncorporationFile;
 
     /**
@@ -145,12 +146,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="taxIdentificationNumberCard")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "taxIdentificationNumberCard")]
     private $taxIdentificationNumberCardFile;
 
     /**
@@ -162,12 +163,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="tc1Receipt")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "tc1Receipt")]
     private $tc1ReceiptFile;
 
     /**
@@ -179,12 +180,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="tc2Receipt")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "tc2Receipt")]
     private $tc2ReceiptFile;
 
     /**
@@ -196,12 +197,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="ssRegistration")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "ssRegistration")]
     private $ssRegistrationFile;
 
     /**
@@ -213,12 +214,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="ssPaymentCertificate")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "ssPaymentCertificate")]
     private $ssPaymentCertificateFile;
 
     /**
@@ -230,12 +231,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="rc1Insurance")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "rc1Insurance")]
     private $rc1InsuranceFile;
 
     /**
@@ -247,12 +248,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="rc2Insurance")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "rc2Insurance")]
     private $rc2InsuranceFile;
 
     /**
@@ -264,12 +265,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="rcReceipt")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "rcReceipt")]
     private $rcReceiptFile;
 
     /**
@@ -281,12 +282,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="preventionServiceContract")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "preventionServiceContract")]
     private $preventionServiceContractFile;
 
     /**
@@ -298,12 +299,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="preventionServiceInvoice")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "preventionServiceInvoice")]
     private $preventionServiceInvoiceFile;
 
     /**
@@ -315,12 +316,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="preventionServiceReceipt")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "preventionServiceReceipt")]
     private $preventionServiceReceiptFile;
 
     /**
@@ -332,12 +333,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="occupationalAccidentsInsurance")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "occupationalAccidentsInsurance")]
     private $occupationalAccidentsInsuranceFile;
 
     /**
@@ -349,12 +350,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="occupationalReceipt")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "occupationalReceipt")]
     private $occupationalReceiptFile;
 
     /**
@@ -366,12 +367,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="laborRiskAssessment")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "laborRiskAssessment")]
     private $laborRiskAssessmentFile;
 
     /**
@@ -383,12 +384,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="securityPlan")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "securityPlan")]
     private $securityPlanFile;
 
     /**
@@ -400,12 +401,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="reaCertificate")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "reaCertificate")]
     private $reaCertificateFile;
 
     /**
@@ -417,12 +418,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="oilCertificate")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "oilCertificate")]
     private $oilCertificateFile;
 
     /**
@@ -434,12 +435,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="gencatPaymentCertificate")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "gencatPaymentCertificate")]
     private $gencatPaymentCertificateFile;
 
     /**
@@ -451,12 +452,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="deedsOfPowers")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "deedsOfPowers")]
     private $deedsOfPowersFile;
 
     /**
@@ -468,12 +469,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="iaeRegistration")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "iaeRegistration")]
     private $iaeRegistrationFile;
 
     /**
@@ -485,12 +486,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="iaeReceipt")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "iaeReceipt")]
     private $iaeReceiptFile;
 
     /**
@@ -502,12 +503,12 @@ class Enterprise extends AbstractBase implements SellerFacturaEInterface
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="enterprise", fileNameProperty="mutualPartnership")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "enterprise", fileNameProperty: "mutualPartnership")]
     private $mutualPartnershipFile;
 
     /**

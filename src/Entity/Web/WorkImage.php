@@ -16,9 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author Wils Iglesias <wiglesias83@gmail.com>
- *
- * @Vich\Uploadable
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'work_image')]
 #[ORM\Entity(repositoryClass: \App\Repository\Web\WorkImageRepository::class)]
 class WorkImage extends AbstractBase
@@ -41,13 +40,13 @@ class WorkImage extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="work_image", fileNameProperty="image")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
      * )
      * @Assert\Image(minWidth=1200)
      */
+    #[Vich\UploadableField(mapping: "work_image", fileNameProperty: "image")]
     private $imageFile;
 
     /**

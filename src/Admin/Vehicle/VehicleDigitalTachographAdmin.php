@@ -100,7 +100,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                     'label' => 'Fecha importación',
                     'format' => 'dd/MM/yyyy',
                     'disabled' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                 ]
             )
             ->add(
