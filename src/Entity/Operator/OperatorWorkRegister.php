@@ -4,7 +4,6 @@ namespace App\Entity\Operator;
 
 use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleDeliveryNote;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,65 +16,54 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorWorkRegisterRepository")
- * @ORM\Table(name="operator_work_register")
+ *
  */
+#[ORM\Table(name: 'operator_work_register')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorWorkRegisterRepository::class)]
 class OperatorWorkRegister extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", inversedBy="operatorWorkRegisters")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\OperatorWorkRegisterHeader::class, inversedBy: 'operatorWorkRegisters')]
     private OperatorWorkRegisterHeader $operatorWorkRegisterHeader;
 
     /**
-     * @var ?DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
-     * @Groups({"api"})
+     * @var ?\DateTime
      */
-    private ?DateTime $start;
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'time', nullable: true)]
+    private ?\DateTime $start;
 
     /**
-     * @var ?DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
-     * @Groups({"api"})
+     * @var ?\DateTime
      */
-    private ?DateTime $finish;
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'time', nullable: true)]
+    private ?\DateTime $finish;
 
-    /**
-     * @ORM\Column(type="float")
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'float')]
     private float $units;
 
-    /**
-     * @ORM\Column(type="float")
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'float')]
     private float $priceUnit;
 
-    /**
-     * @ORM\Column(type="float")
-     * @Groups({"api"})
-     */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'float')]
     private float $amount;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description;
 
     /**
      * @var ?SaleDeliveryNote
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleDeliveryNote", inversedBy="operatorWorkRegisters")
-     * @ORM\JoinColumn(nullable=true)
-     * @Groups({"api"})
      */
+    #[Groups(['api'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, inversedBy: 'operatorWorkRegisters')]
     private ?SaleDeliveryNote $saleDeliveryNote;
 
     /**
@@ -94,14 +82,14 @@ class OperatorWorkRegister extends AbstractBase
     }
 
     /**
-     * @return ?DateTime
+     * @return ?\DateTime
      */
-    public function getStart(): ?DateTime
+    public function getStart(): ?\DateTime
     {
         return $this->start;
     }
 
-    public function setStart(?DateTime $start): OperatorWorkRegister
+    public function setStart(?\DateTime $start): OperatorWorkRegister
     {
         $this->start = $start;
 
@@ -109,14 +97,14 @@ class OperatorWorkRegister extends AbstractBase
     }
 
     /**
-     * @return ?DateTime
+     * @return ?\DateTime
      */
-    public function getFinish(): ?DateTime
+    public function getFinish(): ?\DateTime
     {
         return $this->finish;
     }
 
-    public function setFinish(?DateTime $finish): OperatorWorkRegister
+    public function setFinish(?\DateTime $finish): OperatorWorkRegister
     {
         $this->finish = $finish;
 
@@ -192,19 +180,19 @@ class OperatorWorkRegister extends AbstractBase
      */
     public function validate(ExecutionContextInterface $context)
     {
-        //TODO
-//        if ($this->getEnd() < $this->getBegin()) {
-//            $context
-//                ->buildViolation('La data ha de ser més gran que la data d\'expedició')
-//                ->atPath('end')
-//                ->addViolation();
-//        }
+        // TODO
+        //        if ($this->getEnd() < $this->getBegin()) {
+        //            $context
+        //                ->buildViolation('La data ha de ser més gran que la data d\'expedició')
+        //                ->atPath('end')
+        //                ->addViolation();
+        //        }
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getOperatorWorkRegisterHeader()->getOperator().' · '.$this->getOperatorWorkRegisterHeader()->getDate()->format('d/m/Y').' · '.$this->getDescription() : '---';
     }

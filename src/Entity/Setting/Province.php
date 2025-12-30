@@ -15,32 +15,29 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @author Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\ProvinceRepository")
- * @ORM\Table(name="province")
  * @UniqueEntity({"code", "country"})
  */
+#[ORM\Table(name: 'province')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\ProvinceRepository::class)]
 class Province extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $code;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $country;
 
     /**
@@ -50,7 +47,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -60,7 +57,7 @@ class Province extends AbstractBase
      *
      * @return Province
      */
-    public function setCode($code)
+    public function setCode($code): Province
     {
         $this->code = $code;
 
@@ -70,7 +67,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -80,7 +77,7 @@ class Province extends AbstractBase
      *
      * @return Province
      */
-    public function setName($name)
+    public function setName($name): Province
     {
         $this->name = $name;
 
@@ -90,7 +87,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getCountry()
+    public function getCountry(): string
     {
         return $this->country;
     }
@@ -100,7 +97,7 @@ class Province extends AbstractBase
      *
      * @return Province
      */
-    public function setCountry($country)
+    public function setCountry($country): Province
     {
         $this->country = $country;
 
@@ -110,7 +107,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function getCountryName()
+    public function getCountryName(): string
     {
         Countries::getName($this->country);
 
@@ -120,7 +117,7 @@ class Province extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

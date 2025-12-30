@@ -10,6 +10,7 @@ use App\Entity\Partner\PartnerClass;
 use App\Entity\Partner\PartnerType;
 use App\Entity\Setting\City;
 use App\Entity\Setting\Province;
+use App\Enum\TaxTypeEnum;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -18,6 +19,8 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
@@ -33,16 +36,6 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Clientes';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'clientes/cliente';
-
-    /**
-     * @var string
-     */
-    protected $baseRouteName = 'admin_app_partner_client';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -53,6 +46,16 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'clientes/cliente';
+    }
+
+    public function generateBaseRouteName(bool $isChildAdmin = false): string
+    {
+        return 'admin_app_partner_client';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         parent::configureRoutes($collection);
@@ -461,6 +464,15 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
+            ->add(
+                'taxType',
+                EnumType::class,
+                [
+                    'label' => 'admin.label.tax_type',
+                    'required' => false,
+                    'class' => TaxTypeEnum::class,
+                ]
+            )
             ->end()
             ->end()
             ->tab('Contactos')
@@ -622,7 +634,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'Email',
+                'email',
                 null,
                 [
                     'label' => 'admin.label.email',
@@ -717,7 +729,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
-                'Email',
+                'email',
                 null,
                 [
                     'label' => 'admin.label.email',
@@ -756,7 +768,7 @@ class ClientPartnerAdmin extends AbstractBaseAdmin
         /** @var PartnerType $partnerType */
         $partnerType = $this->rm->getPartnerTypeRepository()->find(1);
         $object->setType($partnerType);
-        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterprise($this->getUserLogedEnterprise())->getCode();
+        $lastPartnerCode = $this->rm->getPartnerRepository()->getLastPartnerIdByEnterpriseAndType($this->getUserLogedEnterprise(), $partnerType)->getCode();
         $object->setCode($lastPartnerCode + 1);
         $object->setAccountingAccount(4300000000 + $object->getCode());
     }

@@ -29,11 +29,6 @@ class ServiceAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Servei';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'web/servei';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -44,6 +39,10 @@ class ServiceAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'web/servei';
+    }
 
     /**
      * @param RouteCollection $collection

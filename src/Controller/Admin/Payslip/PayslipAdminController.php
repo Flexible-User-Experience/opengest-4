@@ -22,9 +22,8 @@ class PayslipAdminController extends BaseAdminController
     {
         $this->admin->checkAccess('edit');
         $form = $this->createForm(GeneratePaymentDocumentsPayslipFormType::class);
-        $form->handleRequest($request);
         /** @var Payslip[] $payslips */
-        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
+        $payslips = $selectedModelQuery->getQuery()->getResult();
         $form->get('payslips')->setData($payslips);
 
         return $this->renderWithExtraParams(
@@ -35,15 +34,17 @@ class PayslipAdminController extends BaseAdminController
         );
     }
 
-    public function generatePaymentDocumentsAction(Request $request)
+    public function generatePaymentDocumentsAction(Request $request): RedirectResponse|Response
     {
-        $formData = $request->request->get('app_generate_payslip_payment_document');
+        $form = $this->createForm(GeneratePaymentDocumentsPayslipFormType::class);
+        $form->handleRequest($request);
+        $formData = $form->getData();
         $em = $this->em;
         /** @var Payslip[] $selectedModels */
         $selectedModels = $formData['payslips'];
         $documentType = $formData['type'];
         // $enterpriseBankAccount = $em->getRepository(EnterpriseTransferAccount::class)->find($formData['enterpriseTransferAccount']);
-        $date = DateTime::createFromFormat('d/m/Y', $formData['date']);
+        $date = $formData['date'];
         $payslips = [];
         foreach ($selectedModels as $payslip) {
             $payslips[] = $em->getRepository(Payslip::class)->find($payslip);
@@ -95,7 +96,7 @@ class PayslipAdminController extends BaseAdminController
      */
     public function batchActionGeneratePayslip(ProxyQueryInterface $selectedModelQuery): Response
     {
-        $payslips = $selectedModelQuery->execute()->getQuery()->getResult();
+        $payslips = $selectedModelQuery->getQuery()->getResult();
 
         if (!$payslips) {
             $this->addFlash('warning', 'No existen nóminas en esta selección');

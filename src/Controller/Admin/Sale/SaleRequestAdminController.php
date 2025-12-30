@@ -35,7 +35,7 @@ class SaleRequestAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
 
@@ -56,7 +56,7 @@ class SaleRequestAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function pdfAction(Request $request, SaleRequestPdfManager $rps)
+    public function pdfAction(Request $request, SaleRequestPdfManager $rps): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -78,7 +78,7 @@ class SaleRequestAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function cloneAction(Request $request, EntityManagerInterface $em)
+    public function cloneAction(Request $request, EntityManagerInterface $em): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -106,7 +106,7 @@ class SaleRequestAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function generateDeliveryNoteFromSaleRequestAction(Request $request)
+    public function generateDeliveryNoteFromSaleRequestAction(Request $request): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -208,7 +208,7 @@ class SaleRequestAdminController extends BaseAdminController
     /**
      * @return Response|RedirectResponse
      */
-    public function batchActionGeneratedeliverynotefromsalerequests(ProxyQueryInterface $selectedModelQuery)
+    public function batchActionGeneratedeliverynotefromsalerequests(ProxyQueryInterface $selectedModelQuery): Response|RedirectResponse
     {
         $this->admin->checkAccess('edit');
         $selectedModels = $selectedModelQuery->execute();
@@ -249,20 +249,20 @@ class SaleRequestAdminController extends BaseAdminController
      *
      * @throws ModelManagerException
      */
-    private function generateDeliveryNoteFromSaleRequest(SaleRequest $saleRequest)
+    private function generateDeliveryNoteFromSaleRequest(SaleRequest $saleRequest): SaleDeliveryNote
     {
         $deliveryNote = new SaleDeliveryNote();
-        $availableIds = $this->deliveryNoteManager->getAvailableIdsByEnterprise($saleRequest->getInvoiceTo()->getEnterprise());
+        $availableIds = $this->deliveryNoteManager->getAvailableIdsByEnterprise($saleRequest->getPartner()->getEnterprise());
         if (count($availableIds) > 0) {
             $metadata = $this->em->getManagerForClass(SaleDeliveryNote::class)->getClassMetadata(SaleDeliveryNote::class);
             $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
             $deliveryNote->setId(array_values($availableIds)[0]);
         }
         $deliveryNote->setDate($saleRequest->getServiceDate());
-        $deliveryNote->setPartner($saleRequest->getInvoiceTo());
+        $deliveryNote->setPartner($saleRequest->getPartner());
         $deliveryNote->setBuildingSite($saleRequest->getBuildingSite());
 //        $deliveryNote->setDeliveryNoteReference('P-'.$saleRequest->getId());
-        $partner = $saleRequest->getInvoiceTo();
+        $partner = $saleRequest->getPartner();
         if ($partner) {
             $deliveryNote->setCollectionTerm($partner->getCollectionTerm1());
             $deliveryNote->setCollectionDocument($partner->getCollectionDocumentType());

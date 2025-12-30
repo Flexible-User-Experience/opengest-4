@@ -22,12 +22,6 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
      * @var string
      */
     protected $classnameLabel = 'Formas de pago';
-
-    /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'empreses/tipus-document-cobrament';
-
     /**
      * @var array
      */
@@ -39,6 +33,12 @@ class CollectionDocumentTypeAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'empreses/tipus-document-cobrament';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

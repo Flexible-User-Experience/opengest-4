@@ -5,7 +5,10 @@ namespace App\Admin\Sale;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Operator\Operator;
 use App\Entity\Partner\PartnerBuildingSite;
+use App\Entity\Partner\PartnerOrder;
+use App\Entity\Sale\SaleDeliveryNote;
 use App\Entity\Sale\SaleRequest;
+use App\Entity\Sale\SaleRequestHasDeliveryNote;
 use App\Entity\Sale\SaleServiceTariff;
 use App\Entity\Setting\User;
 use App\Entity\Vehicle\Vehicle;
@@ -47,13 +50,13 @@ class SaleRequestAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'sale_request';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vendes/peticio';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vendes/peticio';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
@@ -467,6 +470,59 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                         ],
                 ]
             )
+        ;
+        $filterParameters = $datagridMapper->getAdmin()->getFilterParameters();
+        $filteredPartner = null;
+        if (isset($filterParameters['partner'])) {
+            $filteredPartnerId = $filterParameters['partner']['value'];
+            $filteredPartner = $this->rm->getPartnerRepository()->find($filteredPartnerId);
+        }
+        if ($filteredPartner) {
+            $datagridMapper
+                ->add(
+                    'buildingSite',
+                    null,
+                    [
+                        'label' => 'admin.label.partner_building_site',
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerBuildingSite::class,
+                            'query_builder' => $this->rm->getPartnerBuildingSiteRepository()->getEnabledFilteredByPartnerSortedByNameQB($filteredPartner),
+                        ],
+                    ]
+                )
+                ->add(
+                    'order',
+                    null,
+                    [
+                        'label' => 'admin.label.order',
+                        'field_type' => EntityType::class,
+                        'field_options' => [
+                            'class' => PartnerOrder::class,
+                            'query_builder' => $this->rm->getPartnerOrderRepository()->getEnabledFilteredByPartnerSortedByNumberQB($filteredPartner),
+                        ],
+                    ]
+                )
+            ;
+        } else {
+            $datagridMapper
+                ->add(
+                    'buildingSite',
+                    null,
+                    [
+                        'label' => 'admin.label.partner_building_site',
+                    ]
+                )
+                ->add(
+                    'order',
+                    null,
+                    [
+                        'label' => 'admin.label.order',
+                    ]
+                )
+            ;
+        }
+        $datagridMapper
             ->add(
                 'invoiceTo',
                 ModelFilter::class,
@@ -733,6 +789,19 @@ class SaleRequestAdmin extends AbstractBaseAdmin
 
         if (null == $object->getInvoiceTo()) {
             $object->setInvoiceTo($object->getPartner());
+        }
+    }
+
+    /**
+     * @param SaleRequest $object
+     */
+    public function preUpdate($object): void
+    {
+        $saleServiceTariff = $object->getService();
+        $saleDeliveryNotes = $object->getSaleRequestHasDeliveryNotes();
+        /** @var SaleRequestHasDeliveryNote $deliveryNote */
+        foreach ($saleDeliveryNotes as $deliveryNote) {
+            $deliveryNote->getSaleDeliveryNote()->setSaleServiceTariff($saleServiceTariff);
         }
     }
 }

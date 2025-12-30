@@ -26,11 +26,6 @@ class OperatorCheckingTypeAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tipus revisió';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operaris/tipus-revisio';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -41,6 +36,10 @@ class OperatorCheckingTypeAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operaris/tipus-revisio';
+    }
 
     /**
      * @param RouteCollection $collection

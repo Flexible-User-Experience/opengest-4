@@ -13,77 +13,48 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * Methods.
      */
-
-    /**
-     * @return Operator
-     */
-    public function getOperator()
+    public function getOperator(): ?Operator
     {
         return $this->operator;
     }
 
-    /**
-     * @param Operator $operator
-     *
-     * @return OperatorChecking
-     */
-    public function setOperator($operator)
+    public function setOperator($operator): static
     {
         $this->operator = $operator;
 
         return $this;
     }
 
-    /**
-     * @return OperatorCheckingType
-     */
-    public function getType()
+    public function getType(): ?OperatorCheckingType
     {
         return $this->type;
     }
 
-    /**
-     * @param OperatorCheckingType $type
-     *
-     * @return OperatorChecking
-     */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getBegin()
+    public function getBegin(): ?DateTime
     {
         return $this->begin;
     }
 
-    /**
-     * @return OperatorChecking
-     */
-    public function setBegin(DateTime $begin)
+    public function setBegin(?DateTime $begin): static
     {
         $this->begin = $begin;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getEnd()
+    public function getEnd(): ?DateTime
     {
         return $this->end;
     }
 
-    /**
-     * @return OperatorChecking
-     */
-    public function setEnd(DateTime $end)
+    public function setEnd(?DateTime $end): static
     {
         $this->end = $end;
 
@@ -140,7 +111,7 @@ abstract class OperatorCheckingBase extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getBegin()->format('d/m/Y').' · '.$this->getType().' · '.$this->getOperator() : '---';
     }

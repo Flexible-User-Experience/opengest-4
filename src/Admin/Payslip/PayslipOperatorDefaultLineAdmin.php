@@ -24,11 +24,6 @@ class PayslipOperatorDefaultLineAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'PayslipOperatorDefaultLine';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'nominas/conceptos_linea_operario_por_defecto';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -39,6 +34,10 @@ class PayslipOperatorDefaultLineAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'nominas/conceptos_linea_operario_por_defecto';
+    }
 
     /**
      * @throws Exception

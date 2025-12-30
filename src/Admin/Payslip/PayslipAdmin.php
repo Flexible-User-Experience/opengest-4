@@ -36,13 +36,13 @@ class PayslipAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Payslip';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'nominas/nominas';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'nominas/nominas';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PER_PAGE] = 50;
@@ -185,6 +185,22 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'totalAccrued',
+                NumberType::class,
+                [
+                    'label' => 'admin.label.payslip_total_accrued',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'totalDeductions',
+                NumberType::class,
+                [
+                    'label' => 'admin.label.payslip_total_deductions',
+                    'required' => false,
+                ]
+            )
+            ->add(
                 'totalAmount',
                 NumberType::class,
                 [
@@ -311,6 +327,20 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'totalAccrued',
+                null,
+                [
+                    'label' => 'admin.label.payslip_total_accrued',
+                ]
+            )
+            ->add(
+                'totalDeductions',
+                null,
+                [
+                    'label' => 'admin.label.payslip_total_deductions',
+                ]
+            )
+            ->add(
                 'totalAmount',
                 null,
                 [
@@ -401,6 +431,20 @@ class PayslipAdmin extends AbstractBaseAdmin
                 ]
             )
             ->add(
+                'totalAccruedFormatted',
+                null,
+                [
+                    'label' => 'admin.label.payslip_total_accrued',
+                ]
+            )
+            ->add(
+                'totalDeductionsFormatted',
+                null,
+                [
+                    'label' => 'admin.label.payslip_total_deductions',
+                ]
+            )
+            ->add(
                 'totalAmountFormatted',
                 null,
                 [
@@ -429,15 +473,7 @@ class PayslipAdmin extends AbstractBaseAdmin
      */
     public function preUpdate($object): void
     {
-        $payslipLines = $object->getPayslipLines();
-        $totalAmount = 0;
-        /** @var PayslipLine $payslipLine */
-        foreach ($payslipLines as $payslipLine) {
-            $amount = $payslipLine->getUnits() * $payslipLine->getPriceUnit();
-            $payslipLine->setAmount($amount);
-            $totalAmount += $amount;
-        }
-        $object->setTotalAmount($totalAmount);
+        $this->payslipManager->updatePayslipTotals($object);
         $this->em->flush();
     }
 }

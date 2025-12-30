@@ -24,7 +24,7 @@ class OperatorWorkRegisterUnitEnum
     /**
      * @return array
      */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
@@ -32,7 +32,7 @@ class OperatorWorkRegisterUnitEnum
     /**
      * @return array
      */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
         return [
             self::LUNCH => 'Comida',

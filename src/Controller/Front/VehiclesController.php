@@ -13,7 +13,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class VehiclesController.
@@ -22,14 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VehiclesController extends AbstractController
 {
-    /**
-     * @Route("/vehiculos", name="front_vehicles")
-     *
-     * @param VehicleCategoryRepository $vcr
-     *
-     * @return RedirectResponse|Response
-     */
-    public function vehiclesAction(VehicleCategoryRepository $vcr)
+    #[Route('/vehiculos', name: 'front_vehicles')]
+    public function vehiclesAction(VehicleCategoryRepository $vcr): RedirectResponse|Response
     {
         $categories = $vcr->findEnabledSortedByNameForWeb();
         if (0 == count($categories)) {
@@ -44,16 +38,10 @@ class VehiclesController extends AbstractController
     }
 
     /**
-     * @Route("/vehiculo/{category_slug}/{slug}", name="front_vehicle_detail")
-     *
-     * @param VehicleRepository $vr
-     * @param string            $slug
-     *
-     * @return Response
-     *
      * @throws EntityNotFoundException
      */
-    public function vehicleDetailAction(VehicleRepository $vr, $slug)
+    #[Route('/vehiculo/{category_slug}/{slug}', name: 'front_vehicle_detail')]
+    public function vehicleDetailAction(VehicleRepository $vr, $slug): Response
     {
         /** @var Vehicle|null $vehicle */
         $vehicle = $vr->findOneBy(['slug' => $slug]);
@@ -70,19 +58,10 @@ class VehiclesController extends AbstractController
     }
 
     /**
-     * @Route("/vehiculos/categoria/{slug}/{page}", name="front_vehicles_category")
-     *
-     * @param PaginatorInterface        $paginator
-     * @param VehicleCategoryRepository $vcr
-     * @param VehicleRepository         $vr
-     * @param string                    $slug
-     * @param int                       $page
-     *
-     * @return Response
-     *
      * @throws EntityNotFoundException
      */
-    public function vehiclesCategoryAction(PaginatorInterface $paginator, VehicleCategoryRepository $vcr, VehicleRepository $vr, $slug, $page = 1)
+    #[Route('/vehiculos/categoria/{slug}/{page}', name: 'front_vehicles_category')]
+    public function vehiclesCategoryAction(PaginatorInterface $paginator, VehicleCategoryRepository $vcr, VehicleRepository $vr, $slug, $page = 1): Response
     {
         /** @var VehicleCategory|null $category */
         $category = $vcr->findOneBy(['slug' => $slug]);

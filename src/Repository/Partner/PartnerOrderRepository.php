@@ -43,4 +43,22 @@ class PartnerOrderRepository extends ServiceEntityRepository
             ->orderBy('p.number')
             ;
     }
+
+    public function getEnabledWithPendingInvoicesSortedByNumberQB(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->join('App\Entity\Sale\SaleDeliveryNote', 'sdn', 'WITH', 'sdn.order = p.id')
+            ->where('p.enabled = :enabled')
+            ->andWhere('sdn.isInvoiced = :isInvoiced')
+            ->setParameter('enabled', true)
+            ->setParameter('isInvoiced', false)
+            ->groupBy('p.id')
+            ->orderBy('p.number', 'DESC')
+        ;
+    }
+
+    public function getEnabledWithPendingInvoicesSortedByNumber(): array
+    {
+        return $this->getEnabledWithPendingInvoicesSortedByNumberQB()->getQuery()->getResult();
+    }
 }

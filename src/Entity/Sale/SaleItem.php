@@ -14,39 +14,35 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleItemRepository")
- * @ORM\Table(name="sale_item")
  * @UniqueEntity({"description"})
  */
+#[ORM\Table(name: 'sale_item')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleItemRepository::class)]
 class SaleItem extends AbstractBase
 {
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private ?string $description;
 
     /**
      * @var ?float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $unitPrice;
 
 
     /**
      * @var integer
-     *
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     private int $type = 0;
 
     /**
      * @var ?Collection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNoteLine", mappedBy="saleItem")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNoteLine::class, mappedBy: 'saleItem')]
     private ?Collection $saleDeliveryNoteLines;
 
     /**

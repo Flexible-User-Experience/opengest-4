@@ -4,6 +4,7 @@ namespace App\Entity\Partner;
 
 use App\Entity\AbstractBase;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,24 +13,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerClassRepository")
- * @ORM\Table(name="partner_class")
  */
+#[ORM\Table(name: 'partner_class')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerClassRepository::class)]
 class PartnerClass extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Partner", mappedBy="class")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\Partner::class, mappedBy: 'class')]
     private $partners;
 
     /**
@@ -47,7 +45,7 @@ class PartnerClass extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -57,17 +55,14 @@ class PartnerClass extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getPartners()
+    public function getPartners(): Collection
     {
         return $this->partners;
     }
@@ -77,7 +72,7 @@ class PartnerClass extends AbstractBase
      *
      * @return $this
      */
-    public function setPartners($partners)
+    public function setPartners($partners): static
     {
         $this->partners = $partners;
 
@@ -89,7 +84,7 @@ class PartnerClass extends AbstractBase
      *
      * @return $this
      */
-    public function addPartner($partner)
+    public function addPartner($partner): static
     {
         if (!$this->partners->contains($partner)) {
             $this->partners->add($partner);
@@ -104,7 +99,7 @@ class PartnerClass extends AbstractBase
      *
      * @return $this
      */
-    public function removePartner($partner)
+    public function removePartner($partner): static
     {
         if ($this->partners->contains($partner)) {
             $this->partners->removeElement($partner);
@@ -116,7 +111,7 @@ class PartnerClass extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

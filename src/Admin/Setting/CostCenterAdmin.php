@@ -28,13 +28,13 @@ class CostCenterAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Centro de coste';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracion/centro_de_coste';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracion/centro_de_coste';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
@@ -87,6 +87,27 @@ class CostCenterAdmin extends AbstractBaseAdmin
                     'required' => false,
                 ]
             )
+            ->add(
+                'showInLogBook',
+                CheckboxType::class,
+                [
+                    'label' => 'admin.label.show_in_log_book',
+                    'required' => false,
+                ]
+            )
+            ;
+            if ($this->getSubject()?->isShowInLogBook()) {
+                $formMapper
+                    ->add(
+                        'orderInLogBook',
+                        null,
+                        [
+                            'label' => 'admin.label.order_in_log_book',
+                        ]
+                    )
+                ;
+            }
+        $formMapper
             ->end()
         ;
     }
@@ -157,6 +178,14 @@ class CostCenterAdmin extends AbstractBaseAdmin
                 null,
                 [
                     'label' => 'admin.label.description',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'showInLogBook',
+                null,
+                [
+                    'label' => 'admin.label.show_in_log_book',
                     'editable' => true,
                 ]
             )

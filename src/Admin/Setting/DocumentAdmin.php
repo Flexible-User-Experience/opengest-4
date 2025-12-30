@@ -30,13 +30,13 @@ class DocumentAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Documentos';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracion/documentos';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracion/documentos';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::PAGE] = 1;

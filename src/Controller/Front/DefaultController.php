@@ -8,13 +8,11 @@ use App\Form\Type\ContactMessageFormType;
 use App\Repository\Vehicle\VehicleCheckingRepository;
 use App\Repository\Web\ServiceRepository;
 use App\Service\NotificationService;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class DefaultController.
@@ -23,12 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/", name="front_homepage")
-     *
-     * @return Response
-     */
-    public function indexAction(ServiceRepository $sr)
+    #[Route('/', name: 'front_homepage')]
+    public function indexAction(ServiceRepository $sr): Response
     {
         /** @var Service|null $serviceGC */
         $serviceGC = $sr->findOneBy(['slug' => 'gruas-de-celosia']);
@@ -44,14 +38,8 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/empresa", name="front_company")
-     *
-     * @return Response
-     *
-     * @throws TransportExceptionInterface
-     */
-    public function companyAction(Request $request, NotificationService $ns)
+    #[Route('/empresa', name: 'front_company')]
+    public function companyAction(Request $request, NotificationService $ns): Response
     {
         $contactMessage = new ContactMessage();
         $form = $this->createForm(ContactMessageFormType::class, $contactMessage);
@@ -82,39 +70,26 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/sobre-este-sitio", name="front_about")
-     */
-    public function aboutAction()
+    #[Route('/sobre-este-sitio', name: 'front_about')]
+    public function aboutAction(): Response
     {
         return $this->render('frontend/about.html.twig');
     }
 
-    /**
-     * @Route("/privacidad", name="front_privacy")
-     */
-    public function privacyAction()
+    #[Route('/privacidad', name: 'front_privacy')]
+    public function privacyAction(): Response
     {
         return $this->render('frontend/privacy.html.twig');
     }
 
-    /**
-     * @Route("/mapa-del-web", name="front_sitemap")
-     */
-    public function sitemapAction()
+    #[Route('/mapa-del-web', name: 'front_sitemap')]
+    public function sitemapAction(): Response
     {
         return $this->render('frontend/sitemap.html.twig');
     }
 
-    /**
-     * @Route("/test-email", name="front_test_email")
-     *
-     * @return Response
-     *
-     * @throws HttpException
-     * @throws Exception
-     */
-    public function testEmailAction(VehicleCheckingRepository $vcr)
+    #[Route('/test-email', name: 'front_test_email')]
+    public function testEmailAction(VehicleCheckingRepository $vcr): Response
     {
         if ('prod' == $this->get('kernel')->getEnvironment()) {
             throw new HttpException(403);

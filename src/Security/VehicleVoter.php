@@ -19,7 +19,7 @@ class VehicleVoter extends AbstractVoter
      *
      * @return bool
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof Vehicle && in_array($attribute, self::ATTRIBUTES);
     }
@@ -30,7 +30,7 @@ class VehicleVoter extends AbstractVoter
      *
      * @return bool
      */
-    private function isOwner(?User $user, Vehicle $vehicle)
+    private function isOwner(?User $user, Vehicle $vehicle): bool
     {
         if (!$user) {
             return false;

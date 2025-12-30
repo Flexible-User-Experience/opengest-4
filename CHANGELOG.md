@@ -1,8 +1,114 @@
 Changelog
 =========
+##### Version 4.1.35 (WIP)
+* Keep wiring things.
 
-##### Version 4.1.07 (WIP)
-* TODOS: 
+##### Version 4.1.34 (2025-12-04)
+* Hotfix: Check if number is allowed when edit invoice checks by series.
+
+##### Version 4.1.33 (2025-12-04)
+* Hotfix: Error in invoice manager. Cannot find collectionTerm3.
+
+##### Version 4.1.32 (2025-11-21)
+* Added new information to invoice XML.
+
+##### Version 4.1.31 (2025-10-10)
+* Hotfix: Generate delivery note using partner instead of invoiceTo.
+
+##### Version 4.1.30 (2025-10-10)
+* Fix sale invice list pdf generation.
+* Show invoice to in sale request.
+* Filter by client order and building site in invoice list.
+* Filter by client order and building site in generate invoice process.
+
+##### Version 4.1.29 (2025-09-21)
+* Replace via.placeholder.com for placeholder.com.
+
+##### Version 4.1.28 (2025-09-18)
+* Hotfix: Remove unused packages from full calendar.
+* Hotfix: Enable null values in specific view.
+
+##### Version 4.1.27 (2025-07-31)
+* Not be able to delete delivery note if it is assigned to invoice.
+
+##### Version 4.1.26 (2025-07-14)
+* Only be able to assign delivery note to invoice if not already assigned (previously the former invoce was
+left orphan).
+* Update composer dependencies.
+
+##### Version 4.1.25 (2025-06-06)
+* Fix sale invoice overlapping
+
+##### Version 4.1.24 (2025-05-13)
+* Added enterprise group bounty types.
+* Changed labels and descriptions of normal extra hour (from 'Hora normal' to 'Hora extra') and extra
+extra hour (from 'Hora extra' to 'Hora nocturna')
+
+##### Version 4.1.23 (2025-04-28)
+* Hotfix: Prevent invoice pdf overlapping.
+
+##### Version 4.1.22 (2025-04-08)
+* Added tax type to partner and included in eInvoice if partner has it set.
+
+##### Version 4.1.21 (2025-03-06)
+* Add iban and bic in eInvoice payment generation.
+* Add PartyIdentification to buyer in eInvoice.
+
+##### Version 4.1.20 (2025-02-24)
+* Specify due dates in eFactura generation and detail discounts.
+
+##### Version 4.1.19 (2025-02-10)
+* Set correct quantity to eFactura invoice lines.
+* Save e-invoice xml document to specified environment folder parameter when sale invoice has been
+counted.
+
+##### Version 4.1.18 (2025-02-07)
+* Added payment method if exists in eFactura generation.
+
+##### Version 4.1.17 (2025-01-27)
+* Added billing period in eFactura generation (currently same as invoice date).
+
+##### Version 4.1.16 (2025-01-23)
+* Changes in eFactura service to integrate with external e-invoice service.
+
+##### Version 4.1.15 (2024-09-27)
+* Upgrade to Symfony 6.4 LTS.
+* Set hour to holiday hour in operatorWorkRegisters if it is a weekend or holiday.
+* Split totals in payslip: total accrued, total deductions and total amount (as total liquid). Changed this total
+calculations based on if payslip lines is deduction or not.
+
+##### Version 4.1.14 (2024-07-12)
+* Edit logbook pdf to show by cost center
+* Edit vehicle maintenance pdf to show last revision date
+
+##### Version 4.1.13 (2024-06-19)
+* Add logbook to vehicle
+* Fix long invoice pdf generation
+
+##### Version 4.1.12 (2024-02-19)
+* Be able to filter vehicle maintenance when exporting to pdf.
+* Can delete sale delivery note, orphaning operator work registers and setting their delivery note to null.
+
+##### Version 4.1.11 (2024-01-30)
+* Upgraded to php8.3.
+
+##### Version 4.1.10 (2024-01-15)
+* Upgraded composer packages.
+* Upgraded to php8.2.
+* Fixed error in vehicle maintenance pdf generation.
+* Improved purchase invoice lines view.
+
+##### Version 4.1.09 (2023-07-31)
+* Fixed error with analytics, handle inactive clients
+
+##### Version 4.1.08 (2023-07-03)
+* One postal code can have two different name in City.
+* In custom invoice generation screen, when filtered by partner, only related BuildingSites
+and Orders are shown.
+
+##### Version 4.1.07 (2023-06-16)
+* In Sale Request and Sale Delivery Note, when filtered by partner, only related BuildingSites 
+and Orders are shown. 
 
 ##### Version 4.1.06 (2023-02-27)
 * Added price in Vehicle fuel, and recalculated vehicle consumptions amount from this price

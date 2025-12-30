@@ -3,6 +3,7 @@
 namespace App\Block;
 
 use App\Enum\ConstantsEnum;
+use App\Enum\OperatorWorkRegisterBountyEnum;
 use App\Enum\OperatorWorkRegisterTimeEnum;
 use App\Enum\OperatorWorkRegisterUnitEnum;
 use App\Enum\TimeRangeTypeEnum;
@@ -50,6 +51,7 @@ class OperatorWorkRegisterCreationBlock extends AbstractBlockService
             'operators' => $operators,
             'saleDeliveryNotes' => $saleDeliveryNotes,
             'items' => OperatorWorkRegisterUnitEnum::getReversedEnumArray(),
+            'bounties' => OperatorWorkRegisterBountyEnum::getReversedEnumArray(),
             'timeDescriptions' => OperatorWorkRegisterTimeEnum::getReversedEnumArray(),
             'time_picker_hours' => ConstantsEnum::TIME_PICKER_HOURS,
             'time_picker_minutes' => ConstantsEnum::TIME_PICKER_MINUTES,

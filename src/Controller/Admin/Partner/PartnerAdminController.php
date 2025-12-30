@@ -20,7 +20,7 @@ class PartnerAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
 
@@ -38,7 +38,7 @@ class PartnerAdminController extends BaseAdminController
      *
      * @return JsonResponse
      */
-    public function getJsonPartnerByIdAction($id)
+    public function getJsonPartnerByIdAction($id): JsonResponse
     {
         /** @var Partner $partner */
         $partner = $this->admin->getObject($id);
@@ -57,7 +57,7 @@ class PartnerAdminController extends BaseAdminController
      *
      * @return JsonResponse
      */
-    public function getPartnerContactsByIdAction($id)
+    public function getPartnerContactsByIdAction($id): JsonResponse
     {
         /** @var Partner $partner */
         $partner = $this->admin->getObject($id);
@@ -76,7 +76,7 @@ class PartnerAdminController extends BaseAdminController
      *
      * @return JsonResponse
      */
-    public function getJsonDeliveryNotesByIdAction($id)
+    public function getJsonDeliveryNotesByIdAction($id): JsonResponse
     {
         /** @var Partner $partner */
         $partner = $this->admin->getObject($id);

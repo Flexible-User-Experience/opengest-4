@@ -735,12 +735,19 @@
               margin: 0
             }
           })
-          tempDeliveryNotes.reduce(function(res, deliveryNote) {
+          tempDeliveryNotes.forEach(function(deliveryNote) {
             if (deliveryNote.partner_id) {
+              if (!totalsPerMonth[deliveryNote.partner_id]) {
+                totalsPerMonth[deliveryNote.partner_id] = {
+                  id: deliveryNote.partner_id,
+                  partner: deliveryNote.partner_id,
+                  income: 0,
+                  margin: 0
+                }
+              }
               totalsPerMonth[deliveryNote.partner_id].income += deliveryNote.income;
               totalsPerMonth[deliveryNote.partner_id].margin += deliveryNote.margin;
             }
-            return res;
           }, {});
           totalsPerMonth = totalsPerMonth
             .filter(Object)

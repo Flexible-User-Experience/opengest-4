@@ -24,6 +24,7 @@ parameters:
     delivery_dev_address:      '%env(string:DEV_DELIVERY_ADDRESS)%'
     mailer_url_base:           '%env(string:MAILER_URL_BASE)%'
     mailer_destination:        '%env(string:MAILER_DESTINATION_ADDRESS)%'
+    einvoice_folder_path:       '%env(string:EINVOICE_FOLDER_PATH)%'
 
 services:
     # default configuration for services in *this* file
@@ -35,6 +36,7 @@ services:
             $amd:              '%mailer_destination%'
             $urlBase:          '%mailer_url_base%'
             $commandName:      ~
+            $einvoiceFolderPath: '%einvoice_folder_path%'
     App\:
         resource: '../src/'
         exclude:

@@ -18,7 +18,7 @@ class ActivityLineAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
 

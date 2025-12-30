@@ -17,7 +17,7 @@ class LinkUserEnterpriseCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:link:user:enterprise');
         $this->setDescription('Link user and enterprise');
@@ -34,7 +34,7 @@ class LinkUserEnterpriseCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome
         $output->writeln('<info>Welcome to "'.$this->getDescription().'" command.</info>');

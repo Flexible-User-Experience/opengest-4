@@ -29,7 +29,7 @@ class SaleDeliveryNotePdfManager
     /**
      * @return TCPDF
      */
-    public function buildSingle(SaleDeliveryNote $saleDeliveryNote)
+    public function buildSingle(SaleDeliveryNote $saleDeliveryNote): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Albarán '.$saleDeliveryNote);
         $pdf = $this->pdfEngineService->getEngine();
@@ -40,7 +40,7 @@ class SaleDeliveryNotePdfManager
     /**
      * @return string
      */
-    public function outputSingle(SaleDeliveryNote $saleDeliveryNote)
+    public function outputSingle(SaleDeliveryNote $saleDeliveryNote): string
     {
         $pdf = $this->buildSingle($saleDeliveryNote);
 
@@ -309,7 +309,7 @@ class SaleDeliveryNotePdfManager
      *
      * @return TCPDF
      */
-    public function buildCollection($saleDeliveryNotes, $documentStyle)
+    public function buildCollection($saleDeliveryNotes, $documentStyle): TCPDF
     {
         $this->pdfEngineService->initDefaultPageEngineWithTitle('Grupo de albaranes');
         $pdf = $this->pdfEngineService->getEngine();
@@ -335,7 +335,7 @@ class SaleDeliveryNotePdfManager
      *
      * @return string
      */
-    public function outputCollection($saleDeliveryNotes)
+    public function outputCollection($saleDeliveryNotes): string
     {
         $pdf = $this->buildCollection($saleDeliveryNotes, 'printStandard');
 
@@ -347,7 +347,7 @@ class SaleDeliveryNotePdfManager
      *
      * @return string
      */
-    public function outputCollectionDriverPrint($saleDeliveryNotes)
+    public function outputCollectionDriverPrint($saleDeliveryNotes): string
     {
         $pdf = $this->buildCollection($saleDeliveryNotes, 'printDriver');
 
@@ -359,7 +359,7 @@ class SaleDeliveryNotePdfManager
      *
      * @return string
      */
-    public function outputCollectionStandardMail($saleDeliveryNotes)
+    public function outputCollectionStandardMail($saleDeliveryNotes): string
     {
         $pdf = $this->buildCollection($saleDeliveryNotes, 'emailStandard');
 
@@ -371,7 +371,7 @@ class SaleDeliveryNotePdfManager
      *
      * @return string
      */
-    public function outputCollectionDriverMail($saleDeliveryNotes)
+    public function outputCollectionDriverMail($saleDeliveryNotes): string
     {
         $pdf = $this->buildCollection($saleDeliveryNotes, 'emailDriver');
 
@@ -381,7 +381,7 @@ class SaleDeliveryNotePdfManager
     /**
      * @return TCPDF
      */
-    private function buildOneSaleRequestPerPage(SaleDeliveryNote $saleDeliveryNote, TCPDF $pdf, $withBackground)
+    private function buildOneSaleRequestPerPage(SaleDeliveryNote $saleDeliveryNote, TCPDF $pdf, $withBackground): TCPDF
     {
         // add start page
         $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);
@@ -634,7 +634,7 @@ class SaleDeliveryNotePdfManager
     /**
      * @return TCPDF
      */
-    private function buildOneSaleRequestPerPageDriverModel(SaleDeliveryNote $saleDeliveryNote, TCPDF $pdf, $withBackground)
+    private function buildOneSaleRequestPerPageDriverModel(SaleDeliveryNote $saleDeliveryNote, TCPDF $pdf, $withBackground): TCPDF
     {
         // add start page
         $pdf->AddPage(ConstantsEnum::PDF_LANDSCAPE_PAGE_ORIENTATION, ConstantsEnum::PDF_PAGE_A4);

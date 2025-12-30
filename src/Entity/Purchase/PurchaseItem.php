@@ -14,31 +14,28 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @category
  *
- * @ORM\Entity(repositoryClass="App\Repository\Purchase\PurchaseItemRepository")
- * @ORM\Table(name="purchase_item")
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'purchase_item')]
+#[ORM\Entity(repositoryClass: \App\Repository\Purchase\PurchaseItemRepository::class)]
 class PurchaseItem extends AbstractBase
 {
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="purchaseItem", cascade={"persist"})
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'purchaseItem', cascade: ['persist'])]
     private Collection $purchaseInvoiceLines;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private string $name;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable = true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $description;
 
     /**

@@ -12,62 +12,55 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   David Romaní <david@flux.cat>
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="App\Repository\Web\ContactMessageRepository")
  */
+#[ORM\Table]
+#[ORM\Entity(repositoryClass: \App\Repository\Web\ContactMessageRepository::class)]
 class ContactMessage extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answer;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $phone;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=4000)
      */
+    #[ORM\Column(type: 'text', length: 4000)]
     private $message;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $checked = false;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $answered = false;
 
     /**
@@ -84,7 +77,7 @@ class ContactMessage extends AbstractBase
      *
      * @return $this
      */
-    public function setEmail($email)
+    public function setEmail($email): static
     {
         $this->email = $email;
 
@@ -94,7 +87,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -102,7 +95,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -112,7 +105,7 @@ class ContactMessage extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -122,7 +115,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return string
      */
-    public function getAnswer()
+    public function getAnswer(): string
     {
         return $this->answer;
     }
@@ -132,7 +125,7 @@ class ContactMessage extends AbstractBase
      *
      * @return ContactMessage
      */
-    public function setAnswer($answer)
+    public function setAnswer($answer): ContactMessage
     {
         $this->answer = $answer;
 
@@ -144,7 +137,7 @@ class ContactMessage extends AbstractBase
      *
      * @return $this
      */
-    public function setMessage($message)
+    public function setMessage($message): static
     {
         $this->message = $message;
 
@@ -154,7 +147,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -164,7 +157,7 @@ class ContactMessage extends AbstractBase
      *
      * @return $this
      */
-    public function setChecked($checked)
+    public function setChecked($checked): static
     {
         $this->checked = $checked;
 
@@ -174,7 +167,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return bool
      */
-    public function getChecked()
+    public function getChecked(): bool
     {
         return $this->checked;
     }
@@ -184,7 +177,7 @@ class ContactMessage extends AbstractBase
      *
      * @return $this
      */
-    public function setAnswered($answered)
+    public function setAnswered($answered): static
     {
         $this->answered = $answered;
 
@@ -194,7 +187,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return bool
      */
-    public function getAnswered()
+    public function getAnswered(): bool
     {
         return $this->answered;
     }
@@ -202,7 +195,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
@@ -212,7 +205,7 @@ class ContactMessage extends AbstractBase
      *
      * @return $this
      */
-    public function setPhone($phone)
+    public function setPhone($phone): static
     {
         $this->phone = $phone;
 
@@ -222,7 +215,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return bool
      */
-    public function isPrivacy()
+    public function isPrivacy(): bool
     {
         return $this->privacy;
     }
@@ -232,7 +225,7 @@ class ContactMessage extends AbstractBase
      *
      * @return $this
      */
-    public function setPrivacy($privacy)
+    public function setPrivacy($privacy): static
     {
         $this->privacy = $privacy;
 
@@ -242,7 +235,7 @@ class ContactMessage extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getCreatedAt()->format('d/m/Y').' · '.$this->getEmail() : '---';
     }

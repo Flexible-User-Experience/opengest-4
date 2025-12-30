@@ -15,38 +15,34 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorCheckingTrainingRepository")
- * @ORM\Table(name="operator_cheking_training")
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'operator_cheking_training')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorCheckingTrainingRepository::class)]
 class OperatorCheckingTraining extends OperatorCheckingBase
 {
     /**
      * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorCheckingTrainings")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'operatorCheckingTrainings')]
     protected $operator;
 
     /**
      * @var OperatorCheckingType
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\OperatorCheckingType")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\OperatorCheckingType::class)]
     protected $type;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     protected $begin;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     protected $end;
 
     /**
@@ -55,8 +51,6 @@ class OperatorCheckingTraining extends OperatorCheckingBase
      */
     protected ?File $uploadedFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $uploadedFileName = null;
 }

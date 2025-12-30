@@ -15,89 +15,79 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Enterprise\EnterpriseTransferAccountRepository")
- * @ORM\Table(name="enterprise_transfer_account")
  */
+#[ORM\Table(name: 'enterprise_transfer_account')]
+#[ORM\Entity(repositoryClass: \App\Repository\Enterprise\EnterpriseTransferAccountRepository::class)]
 class EnterpriseTransferAccount extends AbstractBase
 {
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="enterpriseTransferAccounts")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'enterpriseTransferAccounts')]
     private $enterprise;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Iban()
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $iban;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Bic()
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $swift;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $bankCode;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $officeNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $controlDigit;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $accountNumber;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Partner\Partner", mappedBy="transferAccount")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Partner\Partner::class, mappedBy: 'transferAccount')]
     private $partners;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceDueDate", mappedBy="enterpriseTransferAccount")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceDueDate::class, mappedBy: 'enterpriseTransferAccount')]
     private Collection $purchaseInvoiceDueDates;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleInvoiceDueDate", mappedBy="enterpriseTransferAccount")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleInvoiceDueDate::class, mappedBy: 'enterpriseTransferAccount')]
     private Collection $saleInvoiceDueDates;
 
     /**
@@ -116,7 +106,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -126,7 +116,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): static
     {
         $this->enterprise = $enterprise;
 
@@ -136,7 +126,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -146,7 +136,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): static
     {
         $this->name = $name;
 
@@ -156,7 +146,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getIban()
+    public function getIban(): string
     {
         return $this->iban;
     }
@@ -166,7 +156,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setIban($iban)
+    public function setIban($iban): static
     {
         $this->iban = $iban;
 
@@ -176,7 +166,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getSwift()
+    public function getSwift(): string
     {
         return $this->swift;
     }
@@ -186,7 +176,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setSwift($swift)
+    public function setSwift($swift): static
     {
         $this->swift = $swift;
 
@@ -196,7 +186,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getBankCode()
+    public function getBankCode(): string
     {
         return $this->bankCode;
     }
@@ -206,7 +196,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setBankCode($bankCode)
+    public function setBankCode($bankCode): static
     {
         $this->bankCode = $bankCode;
 
@@ -216,7 +206,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getOfficeNumber()
+    public function getOfficeNumber(): string
     {
         return $this->officeNumber;
     }
@@ -226,7 +216,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setOfficeNumber($officeNumber)
+    public function setOfficeNumber($officeNumber): static
     {
         $this->officeNumber = $officeNumber;
 
@@ -236,7 +226,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getControlDigit()
+    public function getControlDigit(): string
     {
         return $this->controlDigit;
     }
@@ -246,7 +236,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setControlDigit($controlDigit)
+    public function setControlDigit($controlDigit): static
     {
         $this->controlDigit = $controlDigit;
 
@@ -256,7 +246,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function getAccountNumber()
+    public function getAccountNumber(): string
     {
         return $this->accountNumber;
     }
@@ -266,17 +256,14 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setAccountNumber($accountNumber)
+    public function setAccountNumber($accountNumber): static
     {
         $this->accountNumber = $accountNumber;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getPartners()
+    public function getPartners(): Collection
     {
         return $this->partners;
     }
@@ -286,7 +273,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function setPartners($partners)
+    public function setPartners($partners): static
     {
         $this->partners = $partners;
 
@@ -298,7 +285,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function addPartner($partner)
+    public function addPartner($partner): static
     {
         if (!$this->partners->contains($partner)) {
             $this->partners->add($partner);
@@ -313,7 +300,7 @@ class EnterpriseTransferAccount extends AbstractBase
      *
      * @return $this
      */
-    public function removePartner($partner)
+    public function removePartner($partner): static
     {
         if ($this->partners->contains($partner)) {
             $this->partners->removeElement($partner);
@@ -337,7 +324,7 @@ class EnterpriseTransferAccount extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

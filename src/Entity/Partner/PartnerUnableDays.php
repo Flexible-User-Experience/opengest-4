@@ -14,51 +14,38 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerUnableDaysRepository")
- * @ORM\Table(name="partner_unable_days")
  */
+#[ORM\Table(name: 'partner_unable_days')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerUnableDaysRepository::class)]
 class PartnerUnableDays extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="partnerUnableDays")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'partnerUnableDays')]
     private $partner;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $begin;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $end;
 
     /**
      * Methods.
      */
-
-    /**
-     * @return Partner
-     */
-    public function getPartner()
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
 
-    /**
-     * @param Partner $partner
-     *
-     * @return $this
-     */
-    public function setPartner($partner)
+    public function setPartner(Partner $partner): static
     {
         $this->partner = $partner;
 
@@ -68,7 +55,7 @@ class PartnerUnableDays extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getBegin()
+    public function getBegin(): DateTime
     {
         return $this->begin;
     }
@@ -78,7 +65,7 @@ class PartnerUnableDays extends AbstractBase
      *
      * @return $this
      */
-    public function setBegin($begin)
+    public function setBegin($begin): static
     {
         $this->begin = $begin;
 
@@ -88,7 +75,7 @@ class PartnerUnableDays extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getEnd()
+    public function getEnd(): DateTime
     {
         return $this->end;
     }
@@ -98,7 +85,7 @@ class PartnerUnableDays extends AbstractBase
      *
      * @return $this
      */
-    public function setEnd($end)
+    public function setEnd($end): static
     {
         $this->end = $end;
 
@@ -123,7 +110,7 @@ class PartnerUnableDays extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getPartner()->getName().' : '.$this->getBegin()->format('d/m/Y') : '---';
     }

@@ -16,7 +16,7 @@ class SaleItemTypeEnum
     /**
      * @return array
      */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
@@ -24,7 +24,7 @@ class SaleItemTypeEnum
     /**
      * @return array
      */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
         return [
             self::SERVICE => 'Servei',

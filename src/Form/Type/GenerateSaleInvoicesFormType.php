@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class GenerateSaleInvoicesFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -66,7 +66,7 @@ class GenerateSaleInvoicesFormType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_generate_sale_invoices';
     }

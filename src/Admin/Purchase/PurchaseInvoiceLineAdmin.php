@@ -36,10 +36,10 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
      */
     protected $classnameLabel = 'Líneas de factura de compra';
 
-    /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'compras/factura-linea';
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'compras/factura-linea';
+    }
 
     public function configureExportFields(): array
     {

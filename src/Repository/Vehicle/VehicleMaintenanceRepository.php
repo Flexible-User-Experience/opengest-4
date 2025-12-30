@@ -29,4 +29,18 @@ class VehicleMaintenanceRepository extends ServiceEntityRepository
     {
         return $this->getVehicleMaintenancesSortedByIdQ()->getResult();
     }
+    public function getEnabledActiveVehicleMaintenancesSortedById(bool $needsCheck = true): array
+    {
+        return $this
+            ->getVehicleMaintenancesSortedByIdQB()
+            ->join('c.vehicle', 'v')
+            ->andWhere('v.enabled = true')
+            ->andWhere('c.enabled = :enabled')
+            ->andWhere('c.needsCheck = :needsCheck')
+            ->setParameter('enabled', true)
+            ->setParameter('needsCheck', $needsCheck)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

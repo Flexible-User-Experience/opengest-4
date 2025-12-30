@@ -28,13 +28,13 @@ class PartnerProjectAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Contratos de cliente';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'terceros/contratos';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'terceros/contratos';
+    }
+
     protected function configureDefaultSortValues(array &$sortValues): void
     {
         $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';

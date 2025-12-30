@@ -12,45 +12,39 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorVariousAmountRepository")
- * @ORM\Table(name="operator_various_amount")
  */
+#[ORM\Table(name: 'operator_various_amount')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorVariousAmountRepository::class)]
 class OperatorVariousAmount extends AbstractBase
 {
     /**
      * @var Operator
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="operatorVariousAmount")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'operatorVariousAmount')]
     private $operator;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $date;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $units;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $description;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $priceUnit;
 
     /**
@@ -60,7 +54,7 @@ class OperatorVariousAmount extends AbstractBase
     /**
      * @return Operator
      */
-    public function getOperator()
+    public function getOperator(): Operator
     {
         return $this->operator;
     }
@@ -70,7 +64,7 @@ class OperatorVariousAmount extends AbstractBase
      *
      * @return $this
      */
-    public function setOperator($operator)
+    public function setOperator($operator): static
     {
         $this->operator = $operator;
 
@@ -80,7 +74,7 @@ class OperatorVariousAmount extends AbstractBase
     /**
      * @return DateTime
      */
-    public function getDate()
+    public function getDate(): DateTime
     {
         return $this->date;
     }
@@ -90,7 +84,7 @@ class OperatorVariousAmount extends AbstractBase
      *
      * @return $this
      */
-    public function setDate($date)
+    public function setDate($date): static
     {
         $this->date = $date;
 
@@ -100,7 +94,7 @@ class OperatorVariousAmount extends AbstractBase
     /**
      * @return int
      */
-    public function getUnits()
+    public function getUnits(): int
     {
         return $this->units;
     }
@@ -110,7 +104,7 @@ class OperatorVariousAmount extends AbstractBase
      *
      * @return $this
      */
-    public function setUnits($units)
+    public function setUnits($units): static
     {
         $this->units = $units;
 
@@ -120,7 +114,7 @@ class OperatorVariousAmount extends AbstractBase
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -130,7 +124,7 @@ class OperatorVariousAmount extends AbstractBase
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
@@ -140,7 +134,7 @@ class OperatorVariousAmount extends AbstractBase
     /**
      * @return float
      */
-    public function getPriceUnit()
+    public function getPriceUnit(): float
     {
         return $this->priceUnit;
     }
@@ -150,7 +144,7 @@ class OperatorVariousAmount extends AbstractBase
      *
      * @return $this
      */
-    public function setPriceUnit($priceUnit)
+    public function setPriceUnit($priceUnit): static
     {
         $this->priceUnit = $priceUnit;
 
@@ -160,7 +154,7 @@ class OperatorVariousAmount extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getOperator()->getName().' - '.$this->getDate()->format('d/m/Y').' : '.$this->getDescription() : '---';
     }

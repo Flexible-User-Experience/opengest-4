@@ -38,6 +38,7 @@ class CostAnalyticsAdminController extends BaseAdminController
         if ($saleDeliveryNoteId) {
             $saleDeliveryNote = $saleDeliveryNoteRepository->find($saleDeliveryNoteId);
             $purchaseInvoiceLines = $this->costManager->getPurchaseInvoiceLinesFromYear($year, $saleDeliveryNote);
+            $operatorWorkRegisters = $this->em->getRepository(OperatorWorkRegister::class)->getFilteredByDeliveryNote($saleDeliveryNote);
         } elseif ($vehicleId) {
             $vehicle = $this->em->getRepository(Vehicle::class)->find($vehicleId);
             $purchaseInvoiceLines = $this->costManager->getPurchaseInvoiceLinesFromYear($year, null, $vehicle);

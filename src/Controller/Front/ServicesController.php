@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class ServicesController.
@@ -22,14 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ServicesController extends AbstractController
 {
-    /**
-     * @Route("/servicios", name="front_services")
-     *
-     * @param ServiceRepository $sr
-     *
-     * @return RedirectResponse|Response
-     */
-    public function servicesAction(ServiceRepository $sr)
+    #[Route('/servicios', name: 'front_services')]
+    public function servicesAction(ServiceRepository $sr): RedirectResponse|Response
     {
         $services = $sr->findEnabledSortedByPositionAndName();
         if (0 == count($services)) {
@@ -44,19 +38,11 @@ class ServicesController extends AbstractController
     }
 
     /**
-     * @Route("/servicio/{slug}", name="front_service_detail")
-     *
-     * @param Request             $request
-     * @param NotificationService $ns
-     * @param ServiceRepository   $sr
-     * @param string              $slug
-     *
-     * @return Response
-     *
      * @throws EntityNotFoundException
      * @throws TransportExceptionInterface
      */
-    public function detailServiceAction(Request $request, NotificationService $ns, ServiceRepository $sr, $slug)
+    #[Route('/servicio/{slug}', name: 'front_service_detail')]
+    public function detailServiceAction(Request $request, NotificationService $ns, ServiceRepository $sr, $slug): Response
     {
         $contactMessage = new ContactMessage();
         $form = $this->createForm(ContactMessageFormType::class, $contactMessage);

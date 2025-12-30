@@ -9,6 +9,7 @@ use App\Entity\Vehicle\Vehicle;
 use App\Enum\EnterpriseDocumentsEnum;
 use App\Enum\VehicleDocumentsEnum;
 use App\Form\Type\Vehicle\GenerateDocumentationFormType;
+use App\Manager\Pdf\LogBookPdfManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,7 +29,7 @@ class VehicleAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
 
@@ -97,6 +98,14 @@ class VehicleAdminController extends BaseAdminController
         return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'trafficCertificateFile', $vehicle->getTrafficCertificate());
     }
 
+    public function downloadTrafficReceiptAction(Request $request, $id, DownloadHandler $downloadHandler): Response
+    {
+        /** @var Vehicle $operator */
+        $vehicle = $this->admin->getObject($id);
+
+        return $this->downloadDocument($request, $id, $downloadHandler, $vehicle, 'trafficReceiptFile', $vehicle->getTrafficReceipt());
+    }
+
     public function downloadDimensionsAction(Request $request, $id, DownloadHandler $downloadHandler): Response
     {
         /** @var Vehicle $operator */
@@ -162,9 +171,17 @@ class VehicleAdminController extends BaseAdminController
         );
     }
 
+    public function downloadLogBookPdfAction(Request $request, $id, LogBookPdfManager $logBookPdfManager)
+    {
+        $this->addFlash('success', 'Libro de historial generado correctamente');
+        $vehicle = $this->admin->getObject($id);
+
+        return $logBookPdfManager->outputSingle($vehicle);
+    }
+
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
-        $formData = $request->request->get('app_generate_vehicle_documentation');
+        $formData = $request->request->all('app_generate_vehicle_documentation');
         $documentation = [];
         $vehicleIds = $formData['vehicles'];
         if (!$vehicleIds) {

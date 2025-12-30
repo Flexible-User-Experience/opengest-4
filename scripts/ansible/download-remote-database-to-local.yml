@@ -17,7 +17,7 @@
         dest: "/tmp/remote-{{ mysql_db_remote_name_prod }}.sql.bz2"
         flat: yes
         validate_checksum: false
-    - name: load dumb file to local database
+    - name: load dump file to local database
       delegate_to: mother
       mysql_db:
         state: import

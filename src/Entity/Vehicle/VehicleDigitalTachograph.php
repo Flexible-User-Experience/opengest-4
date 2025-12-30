@@ -15,17 +15,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author Rubèn Hierro <info@rubenhierro.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleDigitalTachographRepository")
- * @ORM\Table(name="vehicle_digital_tachograph")
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'vehicle_digital_tachograph')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleDigitalTachographRepository::class)]
 class VehicleDigitalTachograph extends AbstractBase
 {
     /**
      * @var Vehicle
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleDigitalTachographs")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'vehicleDigitalTachographs')]
     private $vehicle;
 
     /**
@@ -38,19 +37,14 @@ class VehicleDigitalTachograph extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $uploadedFileName;
 
     /**
      * Methods.
      */
-
-    /**
-     * @return Vehicle
-     */
-    public function getVehicle()
+    public function getVehicle(): ?Vehicle
     {
         return $this->vehicle;
     }
@@ -60,7 +54,7 @@ class VehicleDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setVehicle($vehicle)
+    public function setVehicle($vehicle): static
     {
         $this->vehicle = $vehicle;
 
@@ -70,7 +64,7 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * @return File
      */
-    public function getUploadedFile()
+    public function getUploadedFile(): ?File
     {
         return $this->uploadedFile;
     }
@@ -80,17 +74,14 @@ class VehicleDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setUploadedFile($uploadedFile)
+    public function setUploadedFile($uploadedFile): static
     {
         $this->uploadedFile = $uploadedFile;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUploadedFileName()
+    public function getUploadedFileName(): ?string
     {
         return $this->uploadedFileName;
     }
@@ -100,7 +91,7 @@ class VehicleDigitalTachograph extends AbstractBase
      *
      * @return $this
      */
-    public function setUploadedFileName($uploadedFileName)
+    public function setUploadedFileName($uploadedFileName): static
     {
         $this->uploadedFileName = $uploadedFileName;
 
@@ -115,7 +106,7 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getCreatedAt()->format('d/m/Y').' · '.$this->getVehicle() : '---';
     }

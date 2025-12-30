@@ -5,6 +5,7 @@ namespace App\Entity\Partner;
 use App\Entity\AbstractBase;
 use App\Entity\Sale\SaleDeliveryNote;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,40 +16,36 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @category Entity
  *
  * @author   Rubèn Hierro <info@rubenhierro.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Partner\PartnerOrderRepository")
- * @ORM\Table(name="partner_order")
  */
+#[ORM\Table(name: 'partner_order')]
+#[ORM\Entity(repositoryClass: \App\Repository\Partner\PartnerOrderRepository::class)]
 class PartnerOrder extends AbstractBase
 {
     /**
      * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partner\Partner", inversedBy="orders")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Partner\Partner::class, inversedBy: 'orders')]
     private $partner;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Groups({"api"})
      */
+    #[Groups('api')]
+    #[ORM\Column(type: 'string')]
     private $number;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $providerReference;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleDeliveryNote", mappedBy="order")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleDeliveryNote::class, mappedBy: 'order')]
     private $saleDeliveryNotes;
 
     /**
@@ -63,10 +60,7 @@ class PartnerOrder extends AbstractBase
         $this->saleDeliveryNotes = new ArrayCollection();
     }
 
-    /**
-     * @return Partner
-     */
-    public function getPartner()
+    public function getPartner(): ?Partner
     {
         return $this->partner;
     }
@@ -76,7 +70,7 @@ class PartnerOrder extends AbstractBase
      *
      * @return $this
      */
-    public function setPartner($partner)
+    public function setPartner($partner): static
     {
         $this->partner = $partner;
 
@@ -86,7 +80,7 @@ class PartnerOrder extends AbstractBase
     /**
      * @return string
      */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
@@ -96,17 +90,14 @@ class PartnerOrder extends AbstractBase
      *
      * @return $this
      */
-    public function setNumber($number)
+    public function setNumber($number): static
     {
         $this->number = $number;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProviderReference()
+    public function getProviderReference(): ?string
     {
         return $this->providerReference;
     }
@@ -116,17 +107,14 @@ class PartnerOrder extends AbstractBase
      *
      * @return $this
      */
-    public function setProviderReference($providerReference)
+    public function setProviderReference($providerReference): static
     {
         $this->providerReference = $providerReference;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleDeliveryNotes()
+    public function getSaleDeliveryNotes(): Collection
     {
         return $this->saleDeliveryNotes;
     }
@@ -136,7 +124,7 @@ class PartnerOrder extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleDeliveryNotes($saleDeliveryNotes)
+    public function setSaleDeliveryNotes($saleDeliveryNotes): static
     {
         $this->saleDeliveryNotes = $saleDeliveryNotes;
 
@@ -148,7 +136,7 @@ class PartnerOrder extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleDeliveryNote($saleDeliveryNote)
+    public function addSaleDeliveryNote($saleDeliveryNote): static
     {
         if (!$this->saleDeliveryNotes->contains($saleDeliveryNote)) {
             $this->saleDeliveryNotes->add($saleDeliveryNote);
@@ -163,7 +151,7 @@ class PartnerOrder extends AbstractBase
      *
      * @return $this
      */
-    public function removeSaleDeliveryNote($saleDeliveryNote)
+    public function removeSaleDeliveryNote($saleDeliveryNote): static
     {
         if ($this->saleDeliveryNotes->contains($saleDeliveryNote)) {
             $this->saleDeliveryNotes->removeElement($saleDeliveryNote);
@@ -175,7 +163,7 @@ class PartnerOrder extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getNumber() : '---';
     }

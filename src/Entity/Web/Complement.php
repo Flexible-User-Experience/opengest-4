@@ -21,11 +21,11 @@ use Symfony\Component\HttpFoundation\File\File;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Web\ComplementRepository")
- * @ORM\Table(name="complement")
  * @Vich\Uploadable()
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'complement')]
+#[ORM\Entity(repositoryClass: \App\Repository\Web\ComplementRepository::class)]
 class Complement extends AbstractBase
 {
     use NameTrait;
@@ -34,17 +34,16 @@ class Complement extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"name"})
      */
+
+    #[Gedmo\Slug(fields: ['name'])]
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $shortDescription;
 
     /**
@@ -61,9 +60,8 @@ class Complement extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $mainImage;
 
     /**
@@ -73,7 +71,7 @@ class Complement extends AbstractBase
     /**
      * @return string
      */
-    public function getShortDescription()
+    public function getShortDescription(): string
     {
         return $this->shortDescription;
     }
@@ -83,28 +81,22 @@ class Complement extends AbstractBase
      *
      * @return Complement
      */
-    public function setShortDescription($shortDescription)
+    public function setShortDescription($shortDescription): Complement
     {
         $this->shortDescription = $shortDescription;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getMainImageFile()
+    public function getMainImageFile(): ?File
     {
         return $this->mainImageFile;
     }
 
     /**
-     * @param File|null $mainImageFile
-     *
-     * @return Complement
      * @throws \Exception
      */
-    public function setMainImageFile(File $mainImageFile = null)
+    public function setMainImageFile(?File $mainImageFile = null): Complement
     {
         $this->mainImageFile = $mainImageFile;
         if ($mainImageFile) {
@@ -119,7 +111,7 @@ class Complement extends AbstractBase
     /**
      * @return string
      */
-    public function getMainImage()
+    public function getMainImage(): ?string
     {
         return $this->mainImage;
     }
@@ -129,7 +121,7 @@ class Complement extends AbstractBase
      *
      * @return Complement
      */
-    public function setMainImage($mainImage)
+    public function setMainImage($mainImage): Complement
     {
         $this->mainImage = $mainImage;
 
@@ -139,7 +131,7 @@ class Complement extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getName() : '---';
     }

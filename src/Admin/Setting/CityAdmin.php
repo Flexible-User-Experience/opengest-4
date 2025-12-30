@@ -26,11 +26,6 @@ class CityAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Ciutat';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracio/ciutat';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -41,6 +36,10 @@ class CityAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracio/ciutat';
+    }
 
     /**
      * Configure route collection.

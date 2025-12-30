@@ -9,14 +9,15 @@ namespace App\Enum;
  */
 class TimeRangeTypeEnum
 {
-    const WORKING          = '0';
-    const NORMAL           = '1';
-    const EXTRA            = '2';
+    public const WORKING = '0';
+    public const NORMAL = '1';
+    public const EXTRA = '2';
+    public const HOLIDAY = '3';
 
     /**
      * @return array
      */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
@@ -24,12 +25,13 @@ class TimeRangeTypeEnum
     /**
      * @return array
      */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
         return [
             self::WORKING => 'Laboral',
-            self::NORMAL => 'Normal',
-            self::EXTRA => 'Extra',
+            self::NORMAL => 'Extra',
+            self::EXTRA => 'Nocturna',
+            self::HOLIDAY => 'Festiva',
         ];
     }
 }

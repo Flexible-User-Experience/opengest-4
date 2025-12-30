@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class WorkController.
@@ -19,16 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class WorkController extends AbstractController
 {
-    /**
-     * @Route("/trabajos/{page}", name="front_works")
-     *
-     * @param PaginatorInterface $paginator
-     * @param WorkRepository     $wr
-     * @param int                $page
-     *
-     * @return Response
-     */
-    public function listAction(PaginatorInterface $paginator, WorkRepository $wr, $page = 1)
+    #[Route('/trabajos/{page}', name: 'front_works')]
+    public function listAction(PaginatorInterface $paginator, WorkRepository $wr, $page = 1): Response
     {
         $works = $wr->findEnabledSortedByDate();
         $pagination = $paginator->paginate($works, $page, ConstantsEnum::FRONTEND_ITEMS_PER_PAGE_LIMIT);
@@ -39,17 +31,10 @@ class WorkController extends AbstractController
     }
 
     /**
-     * @Route("/trabajo/{slug}", name="front_work_detail")
-     *
-     * @param WorkRepository      $wr
-     * @param WorkImageRepository $wir
-     * @param string              $slug
-     *
-     * @return Response
-     *
      * @throws EntityNotFoundException
      */
-    public function detailAction(WorkRepository $wr, WorkImageRepository $wir, $slug)
+    #[Route('/trabajo/{slug}', name: 'front_work_detail')]
+    public function detailAction(WorkRepository $wr, WorkImageRepository $wir, $slug): Response
     {
         /** @var Work|null $work */
         $work = $wr->findOneBy(['slug' => $slug]);

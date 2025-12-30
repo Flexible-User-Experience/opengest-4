@@ -32,13 +32,12 @@ class VehicleCheckingAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Revisiones de vehículo';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehicles/revisio';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehicles/revisio';
+    }
 
     /**
      * @param RouteCollection $collection

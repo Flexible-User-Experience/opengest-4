@@ -13,54 +13,43 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @category Entity
  *
  * @author Wils Iglesias <wiglesias83@gmail.com>
- *
- * @Gedmo\SoftDeleteable(fieldName="removedAt", timeAware=false)
  */
+#[Gedmo\SoftDeleteable(fieldName: 'removedAt', timeAware: false)]
 abstract class AbstractBase
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @ORM\Column(type="integer")
-     * @Groups({"api"})
-     * @Groups({"apiSaleTariff"})
      */
+    #[Groups(['api', 'apiSaleTariff'])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected $id;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $enabled = true;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="create")
      */
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(type: 'datetime')]
     protected $createdAt;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="update")
      */
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected $updatedAt;
 
     /**
      * Methods.
      */
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -68,7 +57,7 @@ abstract class AbstractBase
     /**
      * @return bool
      */
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
@@ -78,7 +67,7 @@ abstract class AbstractBase
      *
      * @return $this
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): static
     {
         $this->enabled = $enabled;
 
@@ -88,7 +77,7 @@ abstract class AbstractBase
     /**
      * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
@@ -98,7 +87,7 @@ abstract class AbstractBase
      *
      * @return $this
      */
-    public function setCreatedAt(DateTime $createdAt)
+    public function setCreatedAt(DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -108,7 +97,7 @@ abstract class AbstractBase
     /**
      * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
@@ -118,7 +107,7 @@ abstract class AbstractBase
      *
      * @return $this
      */
-    public function setUpdatedAt(DateTime $updatedAt)
+    public function setUpdatedAt(DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -128,7 +117,7 @@ abstract class AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getId().' · '.$this->getCreatedAt()->format('d/m/Y') : '---';
     }

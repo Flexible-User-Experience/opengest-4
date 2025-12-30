@@ -24,11 +24,6 @@ class EnterpriseTransferAccountAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Compte Bancari';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'empreses/compte-bancari';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -39,6 +34,11 @@ class EnterpriseTransferAccountAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'empreses/compte-bancari';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

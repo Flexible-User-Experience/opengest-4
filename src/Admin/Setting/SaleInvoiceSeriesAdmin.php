@@ -22,11 +22,6 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Sèries factura';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracio/series-factura';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -37,6 +32,11 @@ class SaleInvoiceSeriesAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracio/series-factura';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

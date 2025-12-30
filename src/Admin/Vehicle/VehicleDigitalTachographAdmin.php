@@ -30,11 +30,6 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Tacògrafs';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehicles/tacograf';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -45,6 +40,10 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehicles/tacograf';
+    }
 
     /**
      * Configure route collection.
@@ -62,7 +61,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
     {
         $formMapper
             ->with('Arxiu', $this->getFormMdSuccessBoxArray(6))
-            ;
+        ;
         if ($this->getRootCode() == $this->getCode()) {
             $formMapper
                 ->add(
@@ -164,14 +163,6 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                     'label' => 'Data',
                     'format' => 'd/m/Y',
                     'editable' => false,
-                ]
-            )
-            ->add(
-                'mainImage',
-                null,
-                [
-                    'label' => 'Imatge',
-                    'template' => 'admin/cells/list__cell_main_image_field.html.twig',
                 ]
             )
             ->add(

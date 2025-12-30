@@ -31,13 +31,13 @@ class SaleInvoiceDueDateAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Vencimientos de factura';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'ventas/vencimientos-factura';
-
-    /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'ventas/vencimientos-factura';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection

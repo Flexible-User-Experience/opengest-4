@@ -13,22 +13,17 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Jordi Sort
- *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleFuelRepository")
- * @ORM\Table(name="vehicle_fuel")
  */
+#[ORM\Table(name: 'vehicle_fuel')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleFuelRepository::class)]
 class VehicleFuel extends AbstractBase
 {
     use NameTrait;
 
-    /**
-     * @ORM\Column(type="float", scale=4, nullable=true)
-     */
+    #[ORM\Column(type: 'float', scale: 4, nullable: true)]
     private null|float $priceUnit = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleConsumption", mappedBy="vehicleFuel")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleConsumption::class, mappedBy: 'vehicleFuel')]
     private Collection $vehicleConsumptions;
 
     /**

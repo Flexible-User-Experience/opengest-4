@@ -103,10 +103,20 @@ Imports varis_delete: Esborrar
 Valoració petició-albarà_list: Valoració petició-albarà
 Valoració petició-albarà_create: Crear
 Valoració petició-albarà_delete: Esborrar
+Yes: Sí
+No: No
 admin:
   modal:
     pdf_preview_window_title: "Previsualización PDF"
     pdf_preview_page: "Página"
     pdf_preview_page_of: "de"
     close_window: "Cerrar"
-
+INTERNAL_OPERATIONS: 'Operaciones Interiores'
+INTRACOMMUNITY_ACQUISITIONS: 'Adquisiones intracomunitarias'
+INTRACOMMUNITY_SUPPLIES: 'Entregas intracomunitarias'
+IMPORTS: 'Importaciones'
+EXPORTS: 'Exportaciones'
+REVERSE_CHARGE: 'ISP Inversion del Sujeto Pasivo'
+INTRACOMMUNITY_SERVICE_PROVISION: 'Prestación Servicios intracomunitarios'
+INTRACOMMUNITY_SERVICE_ACQUISITION: 'Adquision intracomunitaria de servicios'
+VAT_NOT_SUBJECT: 'Iva no sujeto'

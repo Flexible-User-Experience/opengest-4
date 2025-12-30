@@ -13,37 +13,26 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Jordi Sort
- *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleMaintenanceRepository")
- * @ORM\Table(name="vehicle_manteinance")
  */
+#[ORM\Table(name: 'vehicle_manteinance')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleMaintenanceRepository::class)]
 class VehicleMaintenance extends AbstractBase
 {
     use DescriptionTrait;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleMaintenances")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'vehicleMaintenances')]
     private Vehicle $vehicle;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\VehicleMaintenanceTask", inversedBy="vehicleMaintenances")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\VehicleMaintenanceTask::class, inversedBy: 'vehicleMaintenances')]
     private VehicleMaintenanceTask $vehicleMaintenanceTask;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $date;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private int $km = 0;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $needsCheck = false;
 
     /**

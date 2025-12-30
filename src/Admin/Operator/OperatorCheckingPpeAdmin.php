@@ -19,13 +19,19 @@ class OperatorCheckingPpeAdmin extends OperatorCheckingBaseAdmin
 {
     protected $classnameLabel = 'Epis';
 
-    protected $baseRoutePattern = 'operarios/epis';
-
-    protected $baseRouteName = 'admin_app_operator_operatorchecking_ppe';
-
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operarios/epis';
+    }
+
+    public function generateBaseRouteName(bool $isChildAdmin = false): string
+    {
+        return 'admin_app_operator_operatorchecking_ppe';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         parent::configureFormFields($formMapper);

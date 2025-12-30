@@ -15,31 +15,20 @@ trait DescriptionTrait
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=4000, nullable=true)
      */
+    #[ORM\Column(type: 'text', length: 4000, nullable: true)]
     private $description;
 
     /**
      * Methods.
      */
-
-    /**
-     * @param string $description
-     *
-     * @return $this
-     */
-    public function setDescription($description)
+    public function setDescription($description): static
     {
         $this->description = $description;
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }

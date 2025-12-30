@@ -29,7 +29,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
 
@@ -46,7 +46,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     {
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
         usort($saleInvoices, function (SaleInvoice $a, SaleInvoice $b) {
-            return $a->getDateFormatted() > $b->getDateFormatted();
+            return $a->getDate() <=> $b->getDate();
         });
         $siforDates = $saleInvoices;
         $filterInfo = $this->admin->getFilterParameters();
@@ -71,7 +71,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     {
         $saleInvoices = $selectedModelQuery->execute()->getQuery()->getResult();
         usort($saleInvoices, function (SaleInvoice $a, SaleInvoice $b) {
-            return $a->getDateFormatted() > $b->getDateFormatted();
+            return $a->getDate() <=> $b->getDate();
         });
         $siforDates = $saleInvoices;
         $filterInfo = $this->admin->getFilterParameters();
@@ -95,7 +95,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return RedirectResponse|Response
      */
-    public function pdfAction(Request $request)
+    public function pdfAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -120,7 +120,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return RedirectResponse|Response
      */
-    public function pdfWithBackgroundAction(Request $request)
+    public function pdfWithBackgroundAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -139,7 +139,7 @@ class SaleInvoiceAdminController extends BaseAdminController
     /**
      * @return RedirectResponse|Response
      */
-    public function countAction(Request $request)
+    public function countAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -160,7 +160,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws NonUniqueResultException
      */
-    public function cloneAction(Request $request, EntityManagerInterface $em)
+    public function cloneAction(Request $request, EntityManagerInterface $em): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -180,7 +180,7 @@ class SaleInvoiceAdminController extends BaseAdminController
         /** @var SaleDeliveryNote $deliveryNote */
         foreach ($deliveryNotes as $deliveryNote) {
             $deliveryNote->setSaleInvoice($clonedSaleInvoice);
-//            $deliveryNote->setIsInvoiced(true);
+            //            $deliveryNote->setIsInvoiced(true);
             $em->persist($deliveryNote);
         }
         $dueDates = $saleInvoice->getSaleInvoiceDueDates();
@@ -206,7 +206,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws ModelManagerException
      */
-    public function setHasNotBeenCountedAction(Request $request)
+    public function setHasNotBeenCountedAction(Request $request): RedirectResponse|Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -266,6 +266,22 @@ class SaleInvoiceAdminController extends BaseAdminController
         return parent::batchActionDelete($query);
     }
 
+    public function batchActionHasBeenCounted(ProxyQueryInterface $query): Response
+    {
+        $saleInvoices = $query->execute();
+        try {
+            /** @var SaleInvoice $saleInvoice */
+            foreach ($saleInvoices as $saleInvoice) {
+                $saleInvoice->setHasBeenCounted(true);
+                    $this->admin->getModelManager()->update($saleInvoice);
+            }
+        } catch (\Throwable $ex) {
+            $this->addFlash('warning', 'No se pudo realizar la acción. Error: ' . $ex->getMessage().' Trace: ' . $ex->getTraceAsString());
+        }
+
+        return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
+    }
+
     /**
      * @throws ModelManagerException
      * @throws \Sonata\AdminBundle\Exception\ModelManagerThrowable
@@ -277,10 +293,14 @@ class SaleInvoiceAdminController extends BaseAdminController
 
             return $this->redirectToRoute('admin_app_sale_saleinvoice_list');
         } else {
+            $saleInvoiceRelated = $this->admin->getModelManager()->findOneBy(SaleInvoice::class, ['saleInvoiceGenerated' => $object]);
+            if ($saleInvoiceRelated) {
+                $saleInvoiceRelated->setSaleInvoiceGenerated(null);
+            }
             try {
                 /** @var SaleDeliveryNote $deliveryNote */
                 foreach ($object->getDeliveryNotes() as $deliveryNote) {
-                    $deliveryNote->setSaleInvoice(null);
+                    $deliveryNote->setSaleInvoice($saleInvoiceRelated ?: null);
                     $deliveryNote->setIsInvoiced(false);
                     $this->admin->getModelManager()->update($deliveryNote);
                 }
@@ -298,7 +318,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws NonUniqueResultException
      */
-    public function getJsonNextInvoiceNumberForSeriesIdAndInvoiceAction(Request $request, int $id)
+    public function getJsonNextInvoiceNumberForSeriesIdAndInvoiceAction(Request $request, int $id): JsonResponse
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
@@ -317,7 +337,7 @@ class SaleInvoiceAdminController extends BaseAdminController
      *
      * @throws NonUniqueResultException
      */
-    public function getJsonAvailableInvoiceNumbersForSeriesAction(Request $request, int $id)
+    public function getJsonAvailableInvoiceNumbersForSeriesAction(Request $request, int $id): JsonResponse
     {
         /** @var Enterprise $enterprise */
         $enterprise = $this->admin->getModelManager()->find(Enterprise::class, 1);
@@ -340,8 +360,7 @@ class SaleInvoiceAdminController extends BaseAdminController
         if (!$saleInvoice) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
         }
-
-        $xml = $this->EFacturaService->createEFactura($saleInvoice);
+        $xml = $this->im->createEInvoice($saleInvoice);
         $response = new Response($xml);
         $response->headers->set('Content-type', 'text/xml');
         $response->headers->set('Content-Disposition', 'attachment; filename="factura-e-'.$saleInvoice->getInvoiceNumber().'.xml"');

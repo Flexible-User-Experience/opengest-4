@@ -25,11 +25,6 @@ class VehicleCategoryAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Categoria Vehicles';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehicles/categoria-vehicle';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -40,6 +35,10 @@ class VehicleCategoryAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehicles/categoria-vehicle';
+    }
 
     /**
      * Configure route collection.

@@ -11,40 +11,27 @@ use Doctrine\ORM\Mapping as ORM;
  * Class PurchaseInvoiceDueDate.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Purchase\PurchaseInvoiceDueDateRepository")
- * @ORM\Table(name="purchase_invoice_due_date")
  */
+#[ORM\Table(name: 'purchase_invoice_due_date')]
+#[ORM\Entity(repositoryClass: \App\Repository\Purchase\PurchaseInvoiceDueDateRepository::class)]
 class PurchaseInvoiceDueDate extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Purchase\PurchaseInvoice", inversedBy="purchaseInvoiceDueDates")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Purchase\PurchaseInvoice::class, inversedBy: 'purchaseInvoiceDueDates')]
     private PurchaseInvoice $purchaseInvoice;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="purchaseInvoiceDueDates")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\EnterpriseTransferAccount::class, inversedBy: 'purchaseInvoiceDueDates')]
     private ?EnterpriseTransferAccount $enterpriseTransferAccount;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private float $amount;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private DateTime $date;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $paymentDate;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $paid = false;
 
     /**

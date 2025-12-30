@@ -145,7 +145,7 @@
               extendedProps: {
                 vehicle: '{{ saleRequest.vehicle }}',
                 operator: '{{ saleRequest.operator }}',
-                operatorId: '{{ saleRequest.operator.id }}',
+                operatorId: '{{ saleRequest.operator ? saleRequest.operator.id : 0 }}',
                 secondaryVehicle: '{{ saleRequest.secondaryVehicle }}',
                 partnerId: '{{ saleRequest.partner ? saleRequest.partner.id : 0 }}',
                 vehicleId: '{{ saleRequest.vehicle ? saleRequest.vehicle.id : 0 }}',

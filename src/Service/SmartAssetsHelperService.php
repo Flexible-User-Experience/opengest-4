@@ -36,7 +36,7 @@ class SmartAssetsHelperService
      *
      * @return bool
      */
-    public function isDevelEnvironment()
+    public function isDevelEnvironment(): bool
     {
         return ConstantsEnum::SYMFONY_DEV_ENVIRONMENT === $this->kernel->getEnvironment();
     }
@@ -46,7 +46,7 @@ class SmartAssetsHelperService
      *
      * @return bool
      */
-    public function isCliContext()
+    public function isCliContext(): bool
     {
         return ConstantsEnum::PHP_SERVER_API_CLI_CONTEXT === php_sapi_name();
     }
@@ -58,7 +58,7 @@ class SmartAssetsHelperService
      *
      * @return string
      */
-    public function getAbsoluteAssetPathContextIndependent($assetPath)
+    public function getAbsoluteAssetPathContextIndependent($assetPath): string
     {
         $package = new UrlPackage(ConstantsEnum::HTTP_PROTOCOL.$this->mub.'/', new EmptyVersionStrategy());
 
@@ -72,7 +72,7 @@ class SmartAssetsHelperService
      *
      * @return string
      */
-    public function getAbsoluteAssetPathByContext($assetPath)
+    public function getAbsoluteAssetPathByContext($assetPath): string
     {
         $result = $this->getAbsoluteAssetPathContextIndependent($assetPath);
 
@@ -90,7 +90,7 @@ class SmartAssetsHelperService
      *
      * @return string
      */
-    public function getRelativeAssetPathContextIndependent($assetPath)
+    public function getRelativeAssetPathContextIndependent($assetPath): string
     {
         $package = new UrlPackage('/', new EmptyVersionStrategy());
 
@@ -104,7 +104,7 @@ class SmartAssetsHelperService
      *
      * @return string
      */
-    public function getRelativeAssetPathByContext($assetPath)
+    public function getRelativeAssetPathByContext($assetPath): string
     {
         $result = $this->getRelativeAssetPathContextIndependent($assetPath);
 
@@ -122,7 +122,7 @@ class SmartAssetsHelperService
      *
      * @return string
      */
-    public function getAbsoluteAssetFilePath($assetPath)
+    public function getAbsoluteAssetFilePath($assetPath): string
     {
         return $this->kernel->getProjectDir().DIRECTORY_SEPARATOR.'public'.$assetPath;
     }

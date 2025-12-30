@@ -23,7 +23,7 @@ class YearChoicesManager
      *
      * @throws Exception
      */
-    public function getYearRange()
+    public function getYearRange(): array
     {
         $currentYear = new DateTimeImmutable();
         $years = array();
@@ -39,7 +39,7 @@ class YearChoicesManager
      *
      * @throws Exception
      */
-    public function getCurrentYear()
+    public function getCurrentYear(): int
     {
         $currentYear = new DateTimeImmutable();
         $currentYear = intval($currentYear->format('Y'));
@@ -52,7 +52,7 @@ class YearChoicesManager
      *
      * @throws Exception
      */
-    public function getTodayString()
+    public function getTodayString(): string
     {
         $today = new DateTimeImmutable();
         $today = $today->format('d/m/Y');

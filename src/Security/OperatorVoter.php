@@ -19,7 +19,7 @@ class OperatorVoter extends AbstractVoter
      *
      * @return bool
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof Operator && in_array($attribute, self::ATTRIBUTES);
     }
@@ -30,7 +30,7 @@ class OperatorVoter extends AbstractVoter
      *
      * @return bool
      */
-    private function isOwner(?User $user, Operator $operator)
+    private function isOwner(?User $user, Operator $operator): bool
     {
         if (!$user) {
             return false;

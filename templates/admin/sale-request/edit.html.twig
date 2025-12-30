@@ -95,6 +95,10 @@
             serviceNode.change(function (event) {
               // Update tarifs node that the service and the partner can have. First service partner date, then service date, then date
               const serviceId = jQuery(event.target).val();
+              jQuery(serviceNode).append(`
+              <p id="selectTariffPending" style="color: orangered">¡Pendiente seleccionar tarifa!</p>
+              `);
+              console.log('event.target', event.target)
               jQuery.get(Routing.generate('admin_app_sale_saleservicetariff_getJsonSaleTariffById', {id: serviceId, partnerId: partnerId}), function () {
               }).done(function (response) {
                 updateNodeTariff(response);
@@ -118,6 +122,7 @@
 
             //on change Tariff
             saleTariff.change(function (event) {
+              jQuery('#selectTariffPending').remove();
                displacementIcon.removeClass('hidden');
                miniumHoursIcon.removeClass('hidden');
                priceHourIcon.removeClass('hidden');

@@ -6,49 +6,39 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\EnterpriseTransferAccount;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Mirmit\EFacturaBundle\Interfaces\DueDateFacturaEInterface;
 
 /**
  * Class SaleInvoiceDueDate.
  *
  * @category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Sale\SaleInvoiceDueDateRepository")
- * @ORM\Table(name="sale_invoice_due_date")
  */
-class SaleInvoiceDueDate extends AbstractBase
+#[ORM\Table(name: 'sale_invoice_due_date')]
+#[ORM\Entity(repositoryClass: \App\Repository\Sale\SaleInvoiceDueDateRepository::class)]
+class SaleInvoiceDueDate extends AbstractBase implements DueDateFacturaEInterface
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sale\SaleInvoice", inversedBy="saleInvoiceDueDates", cascade={"persist"})
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Sale\SaleInvoice::class, inversedBy: 'saleInvoiceDueDates', cascade: ['persist'])]
     private SaleInvoice $saleInvoice;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseTransferAccount", inversedBy="saleInvoiceDueDates")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\EnterpriseTransferAccount::class, inversedBy: 'saleInvoiceDueDates')]
     private ?EnterpriseTransferAccount $enterpriseTransferAccount;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $amount;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     protected $date;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $paymentDate;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private bool $paid = false;
 
     /**
@@ -126,7 +116,18 @@ class SaleInvoiceDueDate extends AbstractBase
         return $this;
     }
 
-    public function __toString()
+    public function getAmountFacturaE(): float
+    {
+        return $this->getAmount();
+    }
+
+    public function getDateFacturaE(): string
+    {
+        return $this->getDate()->format('Y-m-d');
+    }
+
+
+    public function __toString(): string
     {
         return $this->getDate()->format('d/m/Y').' - '.$this->getAmount();
     }

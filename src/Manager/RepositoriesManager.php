@@ -296,7 +296,7 @@ class RepositoriesManager
     /**
      * @return ServiceRepository
      */
-    public function getServiceRepository()
+    public function getServiceRepository(): ServiceRepository
     {
         return $this->serviceRepository;
     }
@@ -304,7 +304,7 @@ class RepositoriesManager
     /**
      * @return VehicleCategoryRepository
      */
-    public function getVehicleCategoryRepository()
+    public function getVehicleCategoryRepository(): VehicleCategoryRepository
     {
         return $this->vehicleCategoryRepository;
     }
@@ -312,7 +312,7 @@ class RepositoriesManager
     /**
      * @return UserRepository
      */
-    public function getUserRepository()
+    public function getUserRepository(): UserRepository
     {
         return $this->userRepository;
     }
@@ -320,7 +320,7 @@ class RepositoriesManager
     /**
      * @return OperatorRepository
      */
-    public function getOperatorRepository()
+    public function getOperatorRepository(): OperatorRepository
     {
         return $this->operatorRepository;
     }
@@ -328,7 +328,7 @@ class RepositoriesManager
     /**
      * @return EnterpriseRepository
      */
-    public function getEnterpriseRepository()
+    public function getEnterpriseRepository(): EnterpriseRepository
     {
         return $this->enterpriseRepository;
     }
@@ -336,7 +336,7 @@ class RepositoriesManager
     /**
      * @return EnterpriseGroupBountyRepository
      */
-    public function getEnterpriseGroupBountyRepository()
+    public function getEnterpriseGroupBountyRepository(): EnterpriseGroupBountyRepository
     {
         return $this->enterpriseGroupBountyRepository;
     }
@@ -344,7 +344,7 @@ class RepositoriesManager
     /**
      * @return EnterpriseTransferAccountRepository
      */
-    public function getEnterpriseTransferAccountRepository()
+    public function getEnterpriseTransferAccountRepository(): EnterpriseTransferAccountRepository
     {
         return $this->enterpriseTransferAccountRepository;
     }
@@ -352,7 +352,7 @@ class RepositoriesManager
     /**
      * @return EnterpriseHolidaysRepository
      */
-    public function getEnterpriseHolidaysRepository()
+    public function getEnterpriseHolidaysRepository(): EnterpriseHolidaysRepository
     {
         return $this->enterpriseHolidaysRepository;
     }
@@ -360,7 +360,7 @@ class RepositoriesManager
     /**
      * @return OperatorCheckingRepository
      */
-    public function getOperatorCheckingRepository()
+    public function getOperatorCheckingRepository(): OperatorCheckingRepository
     {
         return $this->operatorCheckingRepository;
     }
@@ -368,7 +368,7 @@ class RepositoriesManager
     /**
      * @return OperatorCheckingTypeRepository
      */
-    public function getOperatorCheckingTypeRepository()
+    public function getOperatorCheckingTypeRepository(): OperatorCheckingTypeRepository
     {
         return $this->operatorCheckingTypeRepository;
     }
@@ -376,7 +376,7 @@ class RepositoriesManager
     /**
      * @return OperatorAbsenceRepository
      */
-    public function getOperatorAbsenceRepository()
+    public function getOperatorAbsenceRepository(): OperatorAbsenceRepository
     {
         return $this->operatorAbsenceRepository;
     }
@@ -384,7 +384,7 @@ class RepositoriesManager
     /**
      * @return OperatorAbsenceTypeRepository
      */
-    public function getOperatorAbsenceTypeRepository()
+    public function getOperatorAbsenceTypeRepository(): OperatorAbsenceTypeRepository
     {
         return $this->operatorAbsenceTypeRepository;
     }
@@ -392,7 +392,7 @@ class RepositoriesManager
     /**
      * @return OperatorDigitalTachographRepository
      */
-    public function getOperatorDigitalTachographRepository()
+    public function getOperatorDigitalTachographRepository(): OperatorDigitalTachographRepository
     {
         return $this->operatorDigitalTachographRepository;
     }
@@ -400,7 +400,7 @@ class RepositoriesManager
     /**
      * @return OperatorVariousAmountRepository
      */
-    public function getOperatorVariousAmountRepository()
+    public function getOperatorVariousAmountRepository(): OperatorVariousAmountRepository
     {
         return $this->operatorVariousAmountRepository;
     }
@@ -408,7 +408,7 @@ class RepositoriesManager
     /**
      * @return VehicleRepository
      */
-    public function getVehicleRepository()
+    public function getVehicleRepository(): VehicleRepository
     {
         return $this->vehicleRepository;
     }
@@ -416,7 +416,7 @@ class RepositoriesManager
     /**
      * @return VehicleCheckingTypeRepository
      */
-    public function getVehicleCheckingTypeRepository()
+    public function getVehicleCheckingTypeRepository(): VehicleCheckingTypeRepository
     {
         return $this->vehicleCheckingTypeRepository;
     }
@@ -424,7 +424,7 @@ class RepositoriesManager
     /**
      * @return VehicleCheckingRepository
      */
-    public function getVehicleCheckingRepository()
+    public function getVehicleCheckingRepository(): VehicleCheckingRepository
     {
         return $this->vehicleCheckingRepository;
     }
@@ -437,7 +437,7 @@ class RepositoriesManager
     /**
      * @return VehicleMaintenanceTaskRepository
      */
-    public function getVehicleMaintenanceTaskRepository()
+    public function getVehicleMaintenanceTaskRepository(): VehicleMaintenanceTaskRepository
     {
         return $this->vehicleMaintenanceTaskRepository;
     }
@@ -445,7 +445,7 @@ class RepositoriesManager
     /**
      * @return VehicleMaintenanceRepository
      */
-    public function getVehicleMaintenanceRepository()
+    public function getVehicleMaintenanceRepository(): VehicleMaintenanceRepository
     {
         return $this->vehicleMaintenanceRepository;
     }
@@ -453,7 +453,7 @@ class RepositoriesManager
     /**
      * @return VehicleFuelRepository
      */
-    public function getVehicleFuelRepository()
+    public function getVehicleFuelRepository(): VehicleFuelRepository
     {
         return $this->vehicleFuelRepository;
     }
@@ -471,7 +471,7 @@ class RepositoriesManager
     /**
      * @return PartnerRepository
      */
-    public function getPartnerRepository()
+    public function getPartnerRepository(): PartnerRepository
     {
         return $this->partnerRepository;
     }
@@ -479,7 +479,7 @@ class RepositoriesManager
     /**
      * @return PartnerClassRepository
      */
-    public function getPartnerClassRepository()
+    public function getPartnerClassRepository(): PartnerClassRepository
     {
         return $this->partnerClassRepository;
     }
@@ -487,7 +487,7 @@ class RepositoriesManager
     /**
      * @return PartnerContactRepository
      */
-    public function getPartnerContactRepository()
+    public function getPartnerContactRepository(): PartnerContactRepository
     {
         return $this->partnerContactRepository;
     }
@@ -495,7 +495,7 @@ class RepositoriesManager
     /**
      * @return PartnerDeliveryAddressRepository
      */
-    public function getPartnerDeliveryAddressRepository()
+    public function getPartnerDeliveryAddressRepository(): PartnerDeliveryAddressRepository
     {
         return $this->partnerDeliveryAddress;
     }
@@ -503,7 +503,7 @@ class RepositoriesManager
     /**
      * @return CityRepository
      */
-    public function getCityRepository()
+    public function getCityRepository(): CityRepository
     {
         return $this->cityRepository;
     }
@@ -511,7 +511,7 @@ class RepositoriesManager
     /**
      * @return ProvinceRepository
      */
-    public function getProvinceRepository()
+    public function getProvinceRepository(): ProvinceRepository
     {
         return $this->provinceRepository;
     }
@@ -519,7 +519,7 @@ class RepositoriesManager
     /**
      * @return PartnerTypeRepository
      */
-    public function getPartnerTypeRepository()
+    public function getPartnerTypeRepository(): PartnerTypeRepository
     {
         return $this->partnerTypeRepository;
     }
@@ -527,7 +527,7 @@ class RepositoriesManager
     /**
      * @return SaleTariffRepository
      */
-    public function getSaleTariffRepository()
+    public function getSaleTariffRepository(): SaleTariffRepository
     {
         return $this->saleTariffRepository;
     }
@@ -540,7 +540,7 @@ class RepositoriesManager
     /**
      * @return PartnerBuildingSiteRepository
      */
-    public function getPartnerBuildingSiteRepository()
+    public function getPartnerBuildingSiteRepository(): PartnerBuildingSiteRepository
     {
         return $this->partnerBuildingSiteRepository;
     }
@@ -548,7 +548,7 @@ class RepositoriesManager
     /**
      * @return PartnerOrderRepository
      */
-    public function getPartnerOrderRepository()
+    public function getPartnerOrderRepository(): PartnerOrderRepository
     {
         return $this->partnerOrderRepository;
     }
@@ -556,7 +556,7 @@ class RepositoriesManager
     /**
      * @return PartnerProjectRepository
      */
-    public function getPartnerProjectRepository()
+    public function getPartnerProjectRepository(): PartnerProjectRepository
     {
         return $this->partnerProjectRepository;
     }
@@ -564,7 +564,7 @@ class RepositoriesManager
     /**
      * @return PartnerUnableDaysRepository
      */
-    public function getPartnerUnableDaysRepository()
+    public function getPartnerUnableDaysRepository(): PartnerUnableDaysRepository
     {
         return $this->partnerUnableDaysRepository;
     }
@@ -572,7 +572,7 @@ class RepositoriesManager
     /**
      * @return CollectionDocumentTypeRepository
      */
-    public function getCollectionDocumentTypeRepository()
+    public function getCollectionDocumentTypeRepository(): CollectionDocumentTypeRepository
     {
         return $this->collectionDocumentTypeRepository;
     }
@@ -580,7 +580,7 @@ class RepositoriesManager
     /**
      * @return ActivityLineRepository
      */
-    public function getActivityLineRepository()
+    public function getActivityLineRepository(): ActivityLineRepository
     {
         return $this->activityLineRepository;
     }
@@ -588,7 +588,7 @@ class RepositoriesManager
     /**
      * @return SaleInvoiceSeriesRepository
      */
-    public function getSaleInvoiceSeriesRepository()
+    public function getSaleInvoiceSeriesRepository(): SaleInvoiceSeriesRepository
     {
         return $this->saleInvoiceSeriesRepository;
     }
@@ -596,7 +596,7 @@ class RepositoriesManager
     /**
      * @return SaleRequestRepository
      */
-    public function getSaleRequestRepository()
+    public function getSaleRequestRepository(): SaleRequestRepository
     {
         return $this->saleRequestRepository;
     }
@@ -604,7 +604,7 @@ class RepositoriesManager
     /**
      * @return SaleDeliveryNoteRepository
      */
-    public function getSaleDeliveryNoteRepository()
+    public function getSaleDeliveryNoteRepository(): SaleDeliveryNoteRepository
     {
         return $this->saleDeliveryNoteRepository;
     }
@@ -612,7 +612,7 @@ class RepositoriesManager
     /**
      * @return SaleInvoiceRepository
      */
-    public function getSaleInvoiceRepository()
+    public function getSaleInvoiceRepository(): SaleInvoiceRepository
     {
         return $this->saleInvoiceRepository;
     }
@@ -625,7 +625,7 @@ class RepositoriesManager
     /**
      * @return WorkRepository
      */
-    public function getWorkRepository()
+    public function getWorkRepository(): WorkRepository
     {
         return $this->workRepository;
     }

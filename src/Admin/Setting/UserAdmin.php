@@ -31,11 +31,6 @@ class UserAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Usuari';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'configuracio/usuari';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -46,6 +41,11 @@ class UserAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'configuracio/usuari';
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection

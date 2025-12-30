@@ -50,7 +50,7 @@ class UserDefaultEnterpriseFormType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -131,7 +131,7 @@ class UserDefaultEnterpriseFormType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_bundle_user_default_enterprise';
     }

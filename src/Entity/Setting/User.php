@@ -6,6 +6,7 @@ use App\Entity\AbstractBase;
 use App\Entity\Enterprise\Enterprise;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -21,10 +22,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\UserRepository")
- * @ORM\Table(name="admin_user")
  * @Vich\Uploadable()
  */
+#[ORM\Table(name: 'admin_user')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\UserRepository::class)]
 class User extends AbstractBase implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const DEFAULT_ROLE = 'ROLE_USER';
@@ -44,81 +45,57 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $mainImage;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private $defaultEnterprise;
 
     /**
      * @var array
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="users")
-     * @ORM\JoinTable(name="enterprises_users")
      */
+    #[ORM\JoinTable(name: 'enterprises_users')]
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'users')]
     private $enterprises;
 
-    /**
-     * @ORM\Column(name="email", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'email', type: 'string', unique: true)]
     private $email;
 
-    /**
-     * @ORM\Column(name="email_canonical", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'email_canonical', type: 'string', unique: true)]
     private $emailCanonical;
 
-    /**
-     * @ORM\Column(name="username", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'username', type: 'string', unique: true)]
     private $username;
 
-    /**
-     * @ORM\Column(name="username_canonical", type="string", unique=true)
-     */
+    #[ORM\Column(name: 'username_canonical', type: 'string', unique: true)]
     private $usernameCanonical;
 
-    /**
-     * @ORM\Column(name="password", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'password', type: 'string', nullable: true)]
     private $password;
 
-    /**
-     * @ORM\Column(name="plain_password", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'plain_password', type: 'string', nullable: true)]
     private $plainPassword;
 
-    /**
-     * @ORM\Column(name="salt", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'salt', type: 'string', nullable: true)]
     private $salt;
 
-    /**
-     * @ORM\Column(name="roles", type="json", nullable=true)
-     */
+    #[ORM\Column(name: 'roles', type: 'json', nullable: true)]
     private $roles = [self::DEFAULT_ROLE];
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="last_login", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
     private $lastLogin;
 
-    /**
-     * @ORM\Column(name="firstname", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'firstname', type: 'string', nullable: true)]
     private $firstname;
 
-    /**
-     * @ORM\Column(name="lastname", type="string", nullable=true)
-     */
+    #[ORM\Column(name: 'lastname', type: 'string', nullable: true)]
     private $lastname;
 
     /**
@@ -133,20 +110,12 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
         $this->enterprises = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     *
-     * @return int $id
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return File|UploadedFile
-     */
-    public function getMainImageFile()
+    public function getMainImageFile(): null|File|UploadedFile
     {
         return $this->mainImageFile;
     }
@@ -156,7 +125,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @throws \Exception
      */
-    public function setMainImageFile(File $mainImageFile = null)
+    public function setMainImageFile(File $mainImageFile = null): User
     {
         $this->mainImageFile = $mainImageFile;
         if ($mainImageFile) {
@@ -171,7 +140,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return string
      */
-    public function getMainImage()
+    public function getMainImage(): ?string
     {
         return $this->mainImage;
     }
@@ -181,17 +150,14 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setMainImage($mainImage)
+    public function setMainImage($mainImage): User
     {
         $this->mainImage = $mainImage;
 
         return $this;
     }
 
-    /**
-     * @return Enterprise
-     */
-    public function getDefaultEnterprise()
+    public function getDefaultEnterprise(): ?Enterprise
     {
         return $this->defaultEnterprise;
     }
@@ -201,7 +167,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return Enterprise
      */
-    public function getLoggedEnterprise()
+    public function getLoggedEnterprise(): Enterprise
     {
         return $this->defaultEnterprise;
     }
@@ -211,17 +177,14 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setDefaultEnterprise($defaultEnterprise)
+    public function setDefaultEnterprise($defaultEnterprise): User
     {
         $this->defaultEnterprise = $defaultEnterprise;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getEnterprises()
+    public function getEnterprises(): Collection
     {
         return $this->enterprises;
     }
@@ -231,7 +194,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setEnterprises($enterprises)
+    public function setEnterprises($enterprises): User
     {
         $this->enterprises = $enterprises;
 
@@ -241,7 +204,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return $this
      */
-    public function addEnterprise(Enterprise $enterprise)
+    public function addEnterprise(Enterprise $enterprise): static
     {
         $this->enterprises->add($enterprise);
 
@@ -251,7 +214,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return $this
      */
-    public function removeEnterprise(Enterprise $enterprise)
+    public function removeEnterprise(Enterprise $enterprise): static
     {
         $this->enterprises->removeElement($enterprise);
 
@@ -261,7 +224,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getEmailCanonical()
+    public function getEmailCanonical(): mixed
     {
         return $this->emailCanonical;
     }
@@ -271,7 +234,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setEmailCanonical($emailCanonical)
+    public function setEmailCanonical($emailCanonical): User
     {
         $this->emailCanonical = $emailCanonical;
 
@@ -281,7 +244,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getUsernameCanonical()
+    public function getUsernameCanonical(): mixed
     {
         return $this->usernameCanonical;
     }
@@ -291,7 +254,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setUsernameCanonical($usernameCanonical)
+    public function setUsernameCanonical($usernameCanonical): User
     {
         $this->usernameCanonical = $usernameCanonical;
 
@@ -301,7 +264,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getFirstname()
+    public function getFirstname(): mixed
     {
         return $this->firstname;
     }
@@ -311,7 +274,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setFirstname($firstname)
+    public function setFirstname($firstname): User
     {
         $this->firstname = $firstname;
 
@@ -321,7 +284,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return mixed
      */
-    public function getLastname()
+    public function getLastname(): mixed
     {
         return $this->lastname;
     }
@@ -331,7 +294,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
      *
      * @return User
      */
-    public function setLastname($lastname)
+    public function setLastname($lastname): User
     {
         $this->lastname = $lastname;
 
@@ -341,7 +304,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return string
      */
-    public function getFullname()
+    public function getFullname(): string
     {
         return $this->getLastname().', '.$this->getFirstname();
     }
@@ -349,7 +312,7 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @return string
      */
-    public function getNaturalName()
+    public function getNaturalName(): string
     {
         return $this->getFirstname().' '.$this->getLastname();
     }

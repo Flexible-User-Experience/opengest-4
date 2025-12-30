@@ -25,11 +25,6 @@ class ContactMessageAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Missatge de contacte';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'web/missatge-contacte';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -40,6 +35,10 @@ class ContactMessageAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'web/missatge-contacte';
+    }
 
     /**
      * @param RouteCollection $collection

@@ -19,7 +19,7 @@ class SaleRequestStatusEnum
     /**
      * @return array
      */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
@@ -27,7 +27,7 @@ class SaleRequestStatusEnum
     /**
      * @return array
      */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
         return [
             self::PENDING => 'Pendiente',

@@ -19,16 +19,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Setting\DocumentRepository")
- * @ORM\Table(name="document")
  * @Vich\Uploadable()
  * @UniqueEntity({"description", "operator", "vehicle", "enterprise"})
  */
+#[ORM\Table(name: 'document')]
+#[ORM\Entity(repositoryClass: \App\Repository\Setting\DocumentRepository::class)]
 class Document extends AbstractBase
 {
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private ?string $description = null;
 
     /**
@@ -40,24 +38,16 @@ class Document extends AbstractBase
      */
     private ?File $fileFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $file = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Operator\Operator", inversedBy="documents")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Operator\Operator::class, inversedBy: 'documents')]
     private ?Operator $operator = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="documents")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'documents')]
     private ?Vehicle $vehicle = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise", inversedBy="documents")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class, inversedBy: 'documents')]
     private ?Enterprise $enterprise = null;
 
     /**

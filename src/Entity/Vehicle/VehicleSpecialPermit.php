@@ -16,102 +16,85 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
  *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleSpecialPermitRepository")
  * @Vich\Uploadable()
- * @ORM\Table(name="vehicle_special_permit")
  */
+#[ORM\Table(name: 'vehicle_special_permit')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleSpecialPermitRepository::class)]
 class VehicleSpecialPermit extends AbstractBase
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle\Vehicle", inversedBy="vehicleSpecialPermits")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Vehicle\Vehicle::class, inversedBy: 'vehicleSpecialPermits')]
     private Vehicle $vehicle;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $additionalVehicle;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $additionalRegistrationNumber;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+    #[ORM\Column(type: 'date')]
     private DateTime $expeditionDate;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+    #[ORM\Column(type: 'date')]
     private DateTime $expiryDate;
 
     /**
      * @var ?float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $totalLength;
 
     /**
      * @var ?float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $totalHeight;
 
     /**
      * @var ?float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $totalWidth;
 
     /**
      * @var ?float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $maximumWeight;
 
     /**
      * @var ?int
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $numberOfAxes;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $loadContent;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $expedientNumber;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $route;
 
     /**
      * @var ?string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $notes;
 
     /**
@@ -124,9 +107,7 @@ class VehicleSpecialPermit extends AbstractBase
      */
     private ?File $routeImageFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $routeImage = null;
 
     /**
@@ -330,7 +311,7 @@ class VehicleSpecialPermit extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? $this->getVehicle().' - '.$this->getExpedientNumber().' - '.$this->getExpeditionDate()->format('d/m/y') : '---';
     }

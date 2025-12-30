@@ -323,7 +323,7 @@ class CostManager
         $costFromPayslip = 0;
         /** @var Payslip $payslip */
         foreach ($payslipsFromOperator as $payslip) {
-            $costFromPayslip += $payslip->getTotalAmount() + $payslip->getExpenses() + $payslip->getOtherCosts() + $payslip->getSocialSecurityCost();
+            $costFromPayslip += $payslip->getTotalAccrued() + $payslip->getExpenses() + $payslip->getOtherCosts() + $payslip->getSocialSecurityCost();
         }
 
         return $costFromPayslip;

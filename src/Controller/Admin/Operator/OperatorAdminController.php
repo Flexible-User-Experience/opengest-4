@@ -12,6 +12,7 @@ use App\Enum\EnterpriseDocumentsEnum;
 use App\Enum\OperatorDocumentsEnum;
 use App\Form\Type\Operator\GenerateDocumentationFormType;
 use App\Form\Type\Operator\GeneratePayslipsFormType;
+use App\Manager\PayslipManager;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -32,7 +33,7 @@ class OperatorAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
 
@@ -168,9 +169,9 @@ class OperatorAdminController extends BaseAdminController
         );
     }
 
-    public function generatePayslipsAction(Request $request)
+    public function generatePayslipsAction(Request $request, PayslipManager $payslipManager)
     {
-        $formData = $request->request->get('app_generate_payslips');
+        $formData = $request->request->all('app_generate_payslips');
         try {
             $em = $this->em->getManager();
             $i = 0;
@@ -186,16 +187,14 @@ class OperatorAdminController extends BaseAdminController
                 $payslip->setFromDate($fromDate);
                 $payslip->setToDate($toDate);
                 $em->persist($payslip);
-                $totalAmount = 0;
                 $operatorDefaultLines = $operator->getPayslipOperatorDefaultLines();
                 if ($operatorDefaultLines) {
                     foreach ($operator->getPayslipOperatorDefaultLines() as $defaultLine) {
                         $payslipLine = $this->makePayslipLineFromDefaultPayslipLine($defaultLine);
                         $payslip->addPayslipLine($payslipLine);
-                        $totalAmount += $payslipLine->getAmount();
                     }
                 }
-                $payslip->setTotalAmount($totalAmount);
+                $payslipManager->updatePayslipTotals($payslip);
                 $em->persist($payslip);
                 $em->flush();
                 ++$i;
@@ -219,7 +218,7 @@ class OperatorAdminController extends BaseAdminController
 
     public function generateDocumentationAction(Request $request, TranslatorInterface $translator)
     {
-        $formData = $request->request->get('app_generate_operator_documentation');
+        $formData = $request->request->all('app_generate_operator_documentation');
         $documentation = [];
         $operatorIds = $formData['operators'];
         if (!$operatorIds) {

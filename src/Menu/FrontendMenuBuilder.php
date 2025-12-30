@@ -107,7 +107,7 @@ class FrontendMenuBuilder
      *
      * @return ItemInterface
      */
-    public function createTopMenu(RequestStack $requestStack)
+    public function createTopMenu(RequestStack $requestStack): ItemInterface
     {
         $route = $requestStack->getCurrentRequest()->get('_route');
         $menu = $this->factory->createItem('root');
@@ -167,7 +167,7 @@ class FrontendMenuBuilder
     /**
      * @return ItemInterface
      */
-    public function createVehicleCategoryMenu()
+    public function createVehicleCategoryMenu(): ItemInterface
     {
         $menu = $this->factory->createItem('rootCategory');
         $menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked nav-yellow');
@@ -195,7 +195,7 @@ class FrontendMenuBuilder
     /**
      * @return ItemInterface
      */
-    public function createServiceMenu()
+    public function createServiceMenu(): ItemInterface
     {
         $menu = $this->factory->createItem('rootService');
         $menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked nav-yellow');
@@ -221,7 +221,7 @@ class FrontendMenuBuilder
     /**
      * @return ItemInterface
      */
-    public function createFooterMenu()
+    public function createFooterMenu(): ItemInterface
     {
         $menu = $this->factory->createItem('rootFooter');
         $menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked nav-yellow');
@@ -253,7 +253,7 @@ class FrontendMenuBuilder
     /**
      * @return ItemInterface
      */
-    public function createSitemapMenu()
+    public function createSitemapMenu(): ItemInterface
     {
         $menu = $this->factory->createItem('rootSitemap');
         $menu->setChildrenAttribute('class', 'ul-sitemap');

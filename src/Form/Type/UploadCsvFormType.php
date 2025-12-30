@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\File;
  */
 class UploadCsvFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -51,7 +51,7 @@ class UploadCsvFormType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'app_upload_csv_type';
     }

@@ -23,17 +23,17 @@ class VehicleMaintenanceTaskAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Procesos de taller';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'vehiculos/procesos-de-taller';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
         '_sort_by' => 'id',
         '_sort_order' => 'ASC',
     ];
+
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'vehiculos/procesos-de-taller';
+    }
 
     protected function configureFormFields(FormMapper $formMapper): void
     {

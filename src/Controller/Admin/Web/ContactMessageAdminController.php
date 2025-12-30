@@ -20,15 +20,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ContactMessageAdminController extends BaseAdminController
 {
     /**
-     * Show action.
-     *
-     * @param int|string|null $id
-     * @param Request         $request
-     *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function showAction($id = null, Request $request = null): Response
+    public function showAction(Request $request = null): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -47,11 +42,8 @@ class ContactMessageAdminController extends BaseAdminController
         if (null !== $preResponse) {
             return $preResponse;
         }
-
         $this->admin->setSubject($object);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
+        $this->admin->update($object);
 
         return $this->renderWithExtraParams(
             $this->admin->getTemplateRegistry()->getTemplate('show'),
@@ -64,17 +56,12 @@ class ContactMessageAdminController extends BaseAdminController
     }
 
     /**
-     * Answer message action.
-     *
-     * @param int|string|null $id
-     * @param Request         $request
-     *
      * @return Response
      *
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function answerAction($id = null, Request $request = null)
+    public function answerAction(Request $request = null): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -85,16 +72,15 @@ class ContactMessageAdminController extends BaseAdminController
         if (!$object) {
             throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
         }
-        $em = $this->getDoctrine()->getManager();
         $object->setChecked(true);
-        $em->flush();
+        $this->admin->update($object);
 
         $form = $this->createForm(ContactMessageAnswerFormType::class, $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // persist new contact message form record
             $object->setChecked(true);
-            $em->flush();
+            $this->admin->update($object);
             // send notifications
             $messenger = $this->get('app.notification');
             $messenger->sendUserBackendAnswerNotification($object);

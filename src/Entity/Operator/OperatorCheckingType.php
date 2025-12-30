@@ -13,18 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorCheckingTypeRepository")
- * @ORM\Table(name="operator_checking_type")
  */
+#[ORM\Table(name: 'operator_checking_type')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorCheckingTypeRepository::class)]
 class OperatorCheckingType extends AbstractBase
 {
     use NameTrait;
     use DescriptionTrait;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private int $category = 0;
 
     /**

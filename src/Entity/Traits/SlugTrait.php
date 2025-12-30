@@ -16,7 +16,7 @@ trait SlugTrait
      *
      * @return $this
      */
-    public function setSlug($slug)
+    public function setSlug($slug): static
     {
         $this->slug = $slug;
 
@@ -26,7 +26,7 @@ trait SlugTrait
     /**
      * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }

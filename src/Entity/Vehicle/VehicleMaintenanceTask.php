@@ -15,27 +15,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @author   Jordi Sort
  *
- * @ORM\Entity(repositoryClass="App\Repository\Vehicle\VehicleMaintenanceTaskRepository")
- * @ORM\Table(name="vehicle_manteinance_task")
  * @UniqueEntity({"name"})
  */
+#[ORM\Table(name: 'vehicle_manteinance_task')]
+#[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleMaintenanceTaskRepository::class)]
 class VehicleMaintenanceTask extends AbstractBase
 {
     use NameTrait;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private int $hours = 0;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private int $km = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle\VehicleMaintenance", mappedBy="vehicleMaintenanceTask", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Vehicle\VehicleMaintenance::class, mappedBy: 'vehicleMaintenanceTask', cascade: ['persist', 'remove'])]
     private Collection $vehicleMaintenances;
 
     /**
@@ -80,7 +74,7 @@ class VehicleMaintenanceTask extends AbstractBase
     /**
      * @return $this
      */
-    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): VehicleMaintenanceTask
+    public function addVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): static
     {
         if (!$this->vehicleMaintenances->contains($vehicleMaintenance)) {
             $this->vehicleMaintenances->add($vehicleMaintenance);
@@ -93,7 +87,7 @@ class VehicleMaintenanceTask extends AbstractBase
     /**
      * @return $this
      */
-    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): VehicleMaintenanceTask
+    public function removeVehicleMaintenance(VehicleMaintenance $vehicleMaintenance): static
     {
         if ($this->vehicleMaintenances->contains($vehicleMaintenance)) {
             $this->vehicleMaintenances->removeElement($vehicleMaintenance);

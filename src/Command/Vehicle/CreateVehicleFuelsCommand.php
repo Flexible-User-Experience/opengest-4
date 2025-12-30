@@ -23,7 +23,7 @@ class CreateVehicleFuelsCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:create:vehicle:fuels');
         $this->setDescription('Create default vehicle fuels');
@@ -38,7 +38,7 @@ class CreateVehicleFuelsCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Set counters
         $beginTimestamp = new DateTimeImmutable();

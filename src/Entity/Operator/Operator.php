@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DoctrineExtensions\Query\Mysql\Date;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,126 +25,111 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Class Operator.
  *
- * @ORM\Entity(repositoryClass="App\Repository\Operator\OperatorRepository")
- * @ORM\Table(name="operator")
  * @Vich\Uploadable()
  * @UniqueEntity({"enterprise", "taxIdentificationNumber"})
  */
+#[ORM\Table(name: 'operator')]
+#[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorRepository::class)]
 class Operator extends AbstractBase
 {
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $taxIdentificationNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $bancAccountNumber;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $socialSecurityNumber;
 
     /**
      * @var float
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $hourCost;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $surname1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $surname2;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $address;
 
     /**
      * @var Enterprise
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\Enterprise")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\Enterprise::class)]
     private $enterprise;
 
     /**
      * @var City
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Setting\City")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Setting\City::class)]
     private $city;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
      * @Assert\Email(
      *     message = "El email '{{ value }}' no es un email válido."
      * )
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $enterpriseMobile;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $ownPhone;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $ownMobile;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $brithDate;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(type="date")
      */
+    #[ORM\Column(type: 'date')]
     private $registrationDate;
 
     /**
@@ -159,9 +145,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $profilePhotoImage;
 
     /**
@@ -177,9 +162,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $taxIdentificationNumberImage;
 
     /**
@@ -195,9 +179,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $drivingLicenseImage;
 
     /**
@@ -213,9 +196,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $cranesOperatorLicenseImage;
 
     /**
@@ -231,9 +213,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $medicalCheckImage;
 
     /**
@@ -249,9 +230,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $episImage;
 
     /**
@@ -267,9 +247,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $trainingDocumentImage;
 
     /**
@@ -285,9 +264,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $informationImage;
 
     /**
@@ -303,9 +281,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $useOfMachineryAuthorizationImage;
 
     /**
@@ -321,9 +298,8 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $dischargeSocialSecurityImage;
 
     /**
@@ -339,169 +315,139 @@ class Operator extends AbstractBase
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $employmentContractImage;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasCarDrivingLicense = true;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasLorryDrivingLicense = true;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasTowingDrivingLicense = false;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $hasCraneDrivingLicense = false;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $shoeSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $jerseytSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $jacketSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $tShirtSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $pantSize;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $workingDressSize;
 
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $type = 0;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorDigitalTachograph", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorDigitalTachograph::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorDigitalTachographs;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorChecking", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorChecking::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorCheckings;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorCheckingPpe", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorCheckingPpe::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorCheckingPpes;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorCheckingTraining", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorCheckingTraining::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $operatorCheckingTrainings;
 
     /**
      * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorAbsence", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"begin" = "DESC"})
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorAbsence::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['begin' => 'DESC'])]
     private $operatorAbsences;
 
     /**
      * @var EnterpriseGroupBounty
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Enterprise\EnterpriseGroupBounty", inversedBy="operators")
      */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Enterprise\EnterpriseGroupBounty::class, inversedBy: 'operators')]
     private $enterpriseGroupBounty;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Sale\SaleRequest", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Sale\SaleRequest::class, mappedBy: 'operator')]
     private $saleRequests;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorWorkRegisterHeader", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorWorkRegisterHeader::class, mappedBy: 'operator')]
     private $workRegisterHeaders;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\Payslip", mappedBy="operator", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\Payslip::class, mappedBy: 'operator', cascade: ['persist', 'remove'])]
     private Collection $payslips;
 
     /**
      * @var ?Collection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipOperatorDefaultLine::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Collection $payslipOperatorDefaultLines;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Operator\OperatorVariousAmount", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Operator\OperatorVariousAmount::class, mappedBy: 'operator')]
     private $operatorVariousAmount;
 
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Purchase\PurchaseInvoiceLine", mappedBy="operator")
      */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Purchase\PurchaseInvoiceLine::class, mappedBy: 'operator')]
     private Collection $purchaseInvoiceLines;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Setting\Document", mappedBy="operator", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"description" = "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Setting\Document::class, mappedBy: 'operator', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['description' => 'ASC'])]
     private ?Collection $documents = null;
 
     /**
@@ -525,7 +471,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -535,7 +481,7 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setName($name)
+    public function setName($name): Operator
     {
         $this->name = $name;
 
@@ -545,7 +491,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getTaxIdentificationNumber()
+    public function getTaxIdentificationNumber(): string
     {
         return $this->taxIdentificationNumber;
     }
@@ -555,7 +501,7 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setTaxIdentificationNumber($taxIdentificationNumber)
+    public function setTaxIdentificationNumber($taxIdentificationNumber): Operator
     {
         $this->taxIdentificationNumber = $taxIdentificationNumber;
 
@@ -565,7 +511,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getBancAccountNumber()
+    public function getBancAccountNumber(): string
     {
         return $this->bancAccountNumber;
     }
@@ -575,7 +521,7 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setBancAccountNumber($bancAccountNumber)
+    public function setBancAccountNumber($bancAccountNumber): Operator
     {
         $this->bancAccountNumber = $bancAccountNumber;
 
@@ -585,7 +531,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getSocialSecurityNumber()
+    public function getSocialSecurityNumber(): string
     {
         return $this->socialSecurityNumber;
     }
@@ -595,7 +541,7 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setSocialSecurityNumber($socialSecurityNumber)
+    public function setSocialSecurityNumber($socialSecurityNumber): Operator
     {
         $this->socialSecurityNumber = $socialSecurityNumber;
 
@@ -605,7 +551,7 @@ class Operator extends AbstractBase
     /**
      * @return float
      */
-    public function getHourCost()
+    public function getHourCost(): float
     {
         return $this->hourCost;
     }
@@ -615,17 +561,14 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setHourCost($hourCost)
+    public function setHourCost($hourCost): Operator
     {
         $this->hourCost = $hourCost;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSurname1()
+    public function getSurname1(): string
     {
         return $this->surname1;
     }
@@ -635,7 +578,7 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setSurname1($surname1)
+    public function setSurname1($surname1): Operator
     {
         $this->surname1 = $surname1;
 
@@ -645,7 +588,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getSurname2()
+    public function getSurname2(): string
     {
         return $this->surname2;
     }
@@ -655,7 +598,7 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setSurname2($surname2)
+    public function setSurname2($surname2): Operator
     {
         $this->surname2 = $surname2;
 
@@ -665,7 +608,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->surname1.' '.$this->surname2.', '.$this->name;
     }
@@ -673,7 +616,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getShortFullName()
+    public function getShortFullName(): string
     {
         return $this->surname1.', '.$this->name;
     }
@@ -681,25 +624,17 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function getUppercaseNameInitials()
+    public function getUppercaseNameInitials(): string
     {
         return strtoupper(substr($this->name, 0, 1).substr($this->surname1, 0, 1));
     }
 
-    /**
-     * @return string
-     */
-    public function getAddress()
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    /**
-     * @param string $address
-     *
-     * @return Operator
-     */
-    public function setAddress($address)
+    public function setAddress(?string $address): Operator
     {
         $this->address = $address;
 
@@ -709,7 +644,7 @@ class Operator extends AbstractBase
     /**
      * @return Enterprise
      */
-    public function getEnterprise()
+    public function getEnterprise(): Enterprise
     {
         return $this->enterprise;
     }
@@ -719,17 +654,14 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setEnterprise($enterprise)
+    public function setEnterprise($enterprise): Operator
     {
         $this->enterprise = $enterprise;
 
         return $this;
     }
 
-    /**
-     * @return City
-     */
-    public function getCity()
+    public function getCity(): ?City
     {
         return $this->city;
     }
@@ -739,143 +671,92 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setCity($city)
+    public function setCity($city): Operator
     {
         $this->city = $city;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return Operator
-     */
-    public function setEmail($email)
+    public function setEmail(?string $email): Operator
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEnterpriseMobile()
+    public function getEnterpriseMobile(): ?string
     {
         return $this->enterpriseMobile;
     }
 
-    /**
-     * @param string $enterpriseMobile
-     *
-     * @return Operator
-     */
-    public function setEnterpriseMobile($enterpriseMobile)
+    public function setEnterpriseMobile($enterpriseMobile): Operator
     {
         $this->enterpriseMobile = $enterpriseMobile;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOwnPhone()
+    public function getOwnPhone(): ?string
     {
         return $this->ownPhone;
     }
 
-    /**
-     * @param string $ownPhone
-     *
-     * @return Operator
-     */
-    public function setOwnPhone($ownPhone)
+    public function setOwnPhone(?string $ownPhone): Operator
     {
         $this->ownPhone = $ownPhone;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOwnMobile()
+    public function getOwnMobile(): ?string
     {
         return $this->ownMobile;
     }
 
-    /**
-     * @param string $ownMobile
-     *
-     * @return Operator
-     */
-    public function setOwnMobile($ownMobile)
+    public function setOwnMobile(?string $ownMobile): Operator
     {
         $this->ownMobile = $ownMobile;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getBrithDate()
+    public function getBrithDate(): DateTime
     {
         return $this->brithDate;
     }
 
-    /**
-     * @return Operator
-     */
-    public function setBrithDate(DateTime $brithDate)
+    public function setBrithDate(DateTime $brithDate): Operator
     {
         $this->brithDate = $brithDate;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getRegistrationDate()
+    public function getRegistrationDate(): DateTime
     {
         return $this->registrationDate;
     }
 
-    /**
-     * @return Operator
-     */
-    public function setRegistrationDate(DateTime $registrationDate)
+    public function setRegistrationDate(DateTime $registrationDate): Operator
     {
         $this->registrationDate = $registrationDate;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getProfilePhotoImageFile()
+
+    public function getProfilePhotoImageFile(): ?File
     {
         return $this->profilePhotoImageFile;
     }
 
-    /**
-     * @return Operator
-     *
-     * @throws \Exception
-     */
-    public function setProfilePhotoImageFile(File $profilePhotoImageFile = null)
+    public function setProfilePhotoImageFile(File $profilePhotoImageFile = null): Operator
     {
         $this->profilePhotoImageFile = $profilePhotoImageFile;
         if ($profilePhotoImageFile) {
@@ -887,40 +768,28 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProfilePhotoImage()
+    public function getProfilePhotoImage(): ?string
     {
         return $this->profilePhotoImage;
     }
 
-    /**
-     * @param string $profilePhotoImage
-     *
-     * @return Operator
-     */
-    public function setProfilePhotoImage($profilePhotoImage)
+    public function setProfilePhotoImage(?string $profilePhotoImage): Operator
     {
         $this->profilePhotoImage = $profilePhotoImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getTaxIdentificationNumberImageFile()
+
+    public function getTaxIdentificationNumberImageFile(): ?File
     {
         return $this->taxIdentificationNumberImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setTaxIdentificationNumberImageFile(File $taxIdentificationNumberImageFile = null)
+    public function setTaxIdentificationNumberImageFile(File $taxIdentificationNumberImageFile = null): Operator
     {
         $this->taxIdentificationNumberImageFile = $taxIdentificationNumberImageFile;
         if ($taxIdentificationNumberImageFile) {
@@ -932,40 +801,28 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTaxIdentificationNumberImage()
+    public function getTaxIdentificationNumberImage(): ?string
     {
         return $this->taxIdentificationNumberImage;
     }
 
-    /**
-     * @param string $taxIdentificationNumberImage
-     *
-     * @return Operator
-     */
-    public function setTaxIdentificationNumberImage($taxIdentificationNumberImage)
+    public function setTaxIdentificationNumberImage($taxIdentificationNumberImage): Operator
     {
         $this->taxIdentificationNumberImage = $taxIdentificationNumberImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getDrivingLicenseImageFile()
+
+    public function getDrivingLicenseImageFile(): ?File
     {
         return $this->drivingLicenseImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setDrivingLicenseImageFile(File $drivingLicenseImageFile = null)
+    public function setDrivingLicenseImageFile(File $drivingLicenseImageFile = null): Operator
     {
         $this->drivingLicenseImageFile = $drivingLicenseImageFile;
         if ($drivingLicenseImageFile) {
@@ -977,40 +834,25 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDrivingLicenseImage()
+    public function getDrivingLicenseImage(): ?string
     {
         return $this->drivingLicenseImage;
     }
 
-    /**
-     * @param string $drivingLicenseImage
-     *
-     * @return Operator
-     */
-    public function setDrivingLicenseImage($drivingLicenseImage)
+    public function setDrivingLicenseImage($drivingLicenseImage): Operator
     {
         $this->drivingLicenseImage = $drivingLicenseImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getCranesOperatorLicenseImageFile()
+
+    public function getCranesOperatorLicenseImageFile(): ?File
     {
         return $this->cranesOperatorLicenseImageFile;
     }
 
-    /**
-     * @return Operator
-     *
-     * @throws \Exception
-     */
-    public function setCranesOperatorLicenseImageFile(File $cranesOperatorLicenseImageFile = null)
+    public function setCranesOperatorLicenseImageFile(File $cranesOperatorLicenseImageFile = null): Operator
     {
         $this->cranesOperatorLicenseImageFile = $cranesOperatorLicenseImageFile;
         if ($cranesOperatorLicenseImageFile) {
@@ -1022,40 +864,25 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCranesOperatorLicenseImage()
+    public function getCranesOperatorLicenseImage(): ?string
     {
         return $this->cranesOperatorLicenseImage;
     }
 
-    /**
-     * @param string $cranesOperatorLicenseImage
-     *
-     * @return Operator
-     */
-    public function setCranesOperatorLicenseImage($cranesOperatorLicenseImage)
+    public function setCranesOperatorLicenseImage($cranesOperatorLicenseImage): Operator
     {
         $this->cranesOperatorLicenseImage = $cranesOperatorLicenseImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getMedicalCheckImageFile()
+
+    public function getMedicalCheckImageFile(): ?File
     {
         return $this->medicalCheckImageFile;
     }
 
-    /**
-     * @return Operator
-     *
-     * @throws \Exception
-     */
-    public function setMedicalCheckImageFile(File $medicalCheckImageFile = null)
+    public function setMedicalCheckImageFile(File $medicalCheckImageFile = null): Operator
     {
         $this->medicalCheckImageFile = $medicalCheckImageFile;
         if ($medicalCheckImageFile) {
@@ -1067,40 +894,27 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMedicalCheckImage()
+    public function getMedicalCheckImage(): ?string
     {
         return $this->medicalCheckImage;
     }
 
-    /**
-     * @param string $medicalCheckImage
-     *
-     * @return Operator
-     */
-    public function setMedicalCheckImage($medicalCheckImage)
+    public function setMedicalCheckImage($medicalCheckImage): Operator
     {
         $this->medicalCheckImage = $medicalCheckImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getEpisImageFile()
+    public function getEpisImageFile(): ?File
     {
         return $this->episImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setEpisImageFile(File $episImageFile = null)
+    public function setEpisImageFile(File $episImageFile = null): Operator
     {
         $this->episImageFile = $episImageFile;
         if ($episImageFile) {
@@ -1112,40 +926,28 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEpisImage()
+    public function getEpisImage(): ?string
     {
         return $this->episImage;
     }
 
-    /**
-     * @param string $episImage
-     *
-     * @return Operator
-     */
-    public function setEpisImage($episImage)
+    public function setEpisImage($episImage): Operator
     {
         $this->episImage = $episImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getTrainingDocumentImageFile()
+
+    public function getTrainingDocumentImageFile(): ?File
     {
         return $this->trainingDocumentImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setTrainingDocumentImageFile(File $trainingDocumentImageFile = null)
+    public function setTrainingDocumentImageFile(File $trainingDocumentImageFile = null): Operator
     {
         $this->trainingDocumentImageFile = $trainingDocumentImageFile;
         if ($trainingDocumentImageFile) {
@@ -1157,40 +959,27 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTrainingDocumentImage()
+    public function getTrainingDocumentImage(): ?string
     {
         return $this->trainingDocumentImage;
     }
 
-    /**
-     * @param string $trainingDocumentImage
-     *
-     * @return Operator
-     */
-    public function setTrainingDocumentImage($trainingDocumentImage)
+    public function setTrainingDocumentImage($trainingDocumentImage): Operator
     {
         $this->trainingDocumentImage = $trainingDocumentImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getInformationImageFile()
+    public function getInformationImageFile(): ?File
     {
         return $this->informationImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setInformationImageFile(File $informationImageFile = null)
+    public function setInformationImageFile(File $informationImageFile = null): Operator
     {
         $this->informationImageFile = $informationImageFile;
         if ($informationImageFile) {
@@ -1202,40 +991,27 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getInformationImage()
+    public function getInformationImage(): ?string
     {
         return $this->informationImage;
     }
 
-    /**
-     * @param string $informationImage
-     *
-     * @return Operator
-     */
-    public function setInformationImage($informationImage)
+    public function setInformationImage($informationImage): Operator
     {
         $this->informationImage = $informationImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getUseOfMachineryAuthorizationImageFile()
+    public function getUseOfMachineryAuthorizationImageFile(): ?File
     {
         return $this->useOfMachineryAuthorizationImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setUseOfMachineryAuthorizationImageFile(File $useOfMachineryAuthorizationImageFile = null)
+    public function setUseOfMachineryAuthorizationImageFile(File $useOfMachineryAuthorizationImageFile = null): Operator
     {
         $this->useOfMachineryAuthorizationImageFile = $useOfMachineryAuthorizationImageFile;
         if ($useOfMachineryAuthorizationImageFile) {
@@ -1247,40 +1023,27 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUseOfMachineryAuthorizationImage()
+    public function getUseOfMachineryAuthorizationImage(): ?string
     {
         return $this->useOfMachineryAuthorizationImage;
     }
 
-    /**
-     * @param string $useOfMachineryAuthorizationImage
-     *
-     * @return Operator
-     */
-    public function setUseOfMachineryAuthorizationImage($useOfMachineryAuthorizationImage)
+    public function setUseOfMachineryAuthorizationImage($useOfMachineryAuthorizationImage): Operator
     {
         $this->useOfMachineryAuthorizationImage = $useOfMachineryAuthorizationImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getDischargeSocialSecurityImageFile()
+    public function getDischargeSocialSecurityImageFile(): ?File
     {
         return $this->dischargeSocialSecurityImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setDischargeSocialSecurityImageFile(File $dischargeSocialSecurityImageFile = null)
+    public function setDischargeSocialSecurityImageFile(File $dischargeSocialSecurityImageFile = null): Operator
     {
         $this->dischargeSocialSecurityImageFile = $dischargeSocialSecurityImageFile;
         if ($dischargeSocialSecurityImageFile) {
@@ -1292,40 +1055,27 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDischargeSocialSecurityImage()
+    public function getDischargeSocialSecurityImage(): ?string
     {
         return $this->dischargeSocialSecurityImage;
     }
 
-    /**
-     * @param string $dischargeSocialSecurityImage
-     *
-     * @return Operator
-     */
-    public function setDischargeSocialSecurityImage($dischargeSocialSecurityImage)
+    public function setDischargeSocialSecurityImage($dischargeSocialSecurityImage): Operator
     {
         $this->dischargeSocialSecurityImage = $dischargeSocialSecurityImage;
 
         return $this;
     }
 
-    /**
-     * @return File
-     */
-    public function getEmploymentContractImageFile()
+    public function getEmploymentContractImageFile(): ?File
     {
         return $this->employmentContractImageFile;
     }
 
     /**
-     * @return Operator
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function setEmploymentContractImageFile(File $employmentContractImageFile = null)
+    public function setEmploymentContractImageFile(File $employmentContractImageFile = null): Operator
     {
         $this->employmentContractImageFile = $employmentContractImageFile;
         if ($employmentContractImageFile) {
@@ -1337,10 +1087,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmploymentContractImage()
+    public function getEmploymentContractImage(): ?string
     {
         return $this->employmentContractImage;
     }
@@ -1350,207 +1097,127 @@ class Operator extends AbstractBase
      *
      * @return Operator
      */
-    public function setEmploymentContractImage($employmentContractImage)
+    public function setEmploymentContractImage($employmentContractImage): Operator
     {
         $this->employmentContractImage = $employmentContractImage;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isHasCarDrivingLicense()
+    public function isHasCarDrivingLicense(): bool
     {
         return $this->hasCarDrivingLicense;
     }
 
-    /**
-     * @param bool $hasCarDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasCarDrivingLicense($hasCarDrivingLicense)
+    public function setHasCarDrivingLicense(bool $hasCarDrivingLicense): Operator
     {
         $this->hasCarDrivingLicense = $hasCarDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isHasLorryDrivingLicense()
+    public function isHasLorryDrivingLicense(): bool
     {
         return $this->hasLorryDrivingLicense;
     }
 
-    /**
-     * @param bool $hasLorryDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasLorryDrivingLicense($hasLorryDrivingLicense)
+    public function setHasLorryDrivingLicense(bool $hasLorryDrivingLicense): Operator
     {
         $this->hasLorryDrivingLicense = $hasLorryDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isHasTowingDrivingLicense()
+    public function isHasTowingDrivingLicense(): bool
     {
         return $this->hasTowingDrivingLicense;
     }
 
-    /**
-     * @param bool $hasTowingDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasTowingDrivingLicense($hasTowingDrivingLicense)
+    public function setHasTowingDrivingLicense(bool $hasTowingDrivingLicense): Operator
     {
         $this->hasTowingDrivingLicense = $hasTowingDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isHasCraneDrivingLicense()
+    public function isHasCraneDrivingLicense(): bool
     {
         return $this->hasCraneDrivingLicense;
     }
 
-    /**
-     * @param bool $hasCraneDrivingLicense
-     *
-     * @return Operator
-     */
-    public function setHasCraneDrivingLicense($hasCraneDrivingLicense)
+    public function setHasCraneDrivingLicense(bool $hasCraneDrivingLicense): Operator
     {
         $this->hasCraneDrivingLicense = $hasCraneDrivingLicense;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getShoeSize()
+    public function getShoeSize(): ?string
     {
         return $this->shoeSize;
     }
 
-    /**
-     * @param string $shoeSize
-     *
-     * @return Operator
-     */
-    public function setShoeSize($shoeSize)
+    public function setShoeSize(?string $shoeSize): Operator
     {
         $this->shoeSize = $shoeSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getJerseytSize()
+    public function getJerseytSize(): ?string
     {
         return $this->jerseytSize;
     }
 
-    /**
-     * @param string $jerseytSize
-     *
-     * @return Operator
-     */
-    public function setJerseytSize($jerseytSize)
+    public function setJerseytSize(?string $jerseytSize): Operator
     {
         $this->jerseytSize = $jerseytSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getJacketSize()
+    public function getJacketSize(): ?string
     {
         return $this->jacketSize;
     }
 
-    /**
-     * @param string $jacketSize
-     *
-     * @return Operator
-     */
-    public function setJacketSize($jacketSize)
+    public function setJacketSize(?string $jacketSize): Operator
     {
         $this->jacketSize = $jacketSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTShirtSize()
+    public function getTShirtSize(): ?string
     {
         return $this->tShirtSize;
     }
 
-    /**
-     * @param string $tShirtSize
-     *
-     * @return Operator
-     */
-    public function setTShirtSize($tShirtSize)
+    public function setTShirtSize(?string $tShirtSize): Operator
     {
         $this->tShirtSize = $tShirtSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPantSize()
+    public function getPantSize(): ?string
     {
         return $this->pantSize;
     }
 
-    /**
-     * @param string $pantSize
-     *
-     * @return Operator
-     */
-    public function setPantSize($pantSize)
+    public function setPantSize(?string $pantSize): Operator
     {
         $this->pantSize = $pantSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getWorkingDressSize()
+    public function getWorkingDressSize(): ?string
     {
         return $this->workingDressSize;
     }
 
-    /**
-     * @param string $workingDressSize
-     *
-     * @return Operator
-     */
-    public function setWorkingDressSize($workingDressSize)
+    public function setWorkingDressSize(?string $workingDressSize): Operator
     {
         $this->workingDressSize = $workingDressSize;
 
@@ -1569,10 +1236,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorDigitalTachographs()
+    public function getOperatorDigitalTachographs(): Collection
     {
         $lastId = $this->operatorDigitalTachographs->last() ? $this->operatorDigitalTachographs->last()->getId() : null;
 
@@ -1586,7 +1250,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function setOperatorDigitalTachographs($digitalTachographs)
+    public function setOperatorDigitalTachographs($digitalTachographs): static
     {
         $this->operatorDigitalTachographs = $digitalTachographs;
 
@@ -1596,7 +1260,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function addOperatorDigitalTachograph(OperatorDigitalTachograph $digitalTachograph)
+    public function addOperatorDigitalTachograph(OperatorDigitalTachograph $digitalTachograph): static
     {
         if (!$this->operatorDigitalTachographs->contains($digitalTachograph)) {
             $this->operatorDigitalTachographs->add($digitalTachograph);
@@ -1609,7 +1273,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function removeOperatorDigitalTachograph(OperatorDigitalTachograph $digitalTachograph)
+    public function removeOperatorDigitalTachograph(OperatorDigitalTachograph $digitalTachograph): static
     {
         if ($this->operatorDigitalTachographs->contains($digitalTachograph)) {
             $this->operatorDigitalTachographs->removeElement($digitalTachograph);
@@ -1717,10 +1381,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorAbsences()
+    public function getOperatorAbsences(): Collection
     {
         return $this->operatorAbsences;
     }
@@ -1730,7 +1391,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function setOperatorAbsences($operatorAbsences)
+    public function setOperatorAbsences($operatorAbsences): static
     {
         $this->operatorAbsences = $operatorAbsences;
 
@@ -1740,7 +1401,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function addOperatorAbsence(OperatorAbsence $operatorAbsence)
+    public function addOperatorAbsence(OperatorAbsence $operatorAbsence): static
     {
         if (!$this->operatorAbsences->contains($operatorAbsence)) {
             $this->operatorAbsences->add($operatorAbsence);
@@ -1753,7 +1414,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function removeOperatorAbsence(OperatorAbsence $operatorAbsence)
+    public function removeOperatorAbsence(OperatorAbsence $operatorAbsence): static
     {
         if ($this->operatorAbsences->contains($operatorAbsence)) {
             $this->operatorAbsences->removeElement($operatorAbsence);
@@ -1796,7 +1457,7 @@ class Operator extends AbstractBase
     /**
      * @return EnterpriseGroupBounty
      */
-    public function getEnterpriseGroupBounty()
+    public function getEnterpriseGroupBounty(): ?EnterpriseGroupBounty
     {
         return $this->enterpriseGroupBounty;
     }
@@ -1806,17 +1467,14 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function setEnterpriseGroupBounty($enterpriseGroupBounty)
+    public function setEnterpriseGroupBounty($enterpriseGroupBounty): static
     {
         $this->enterpriseGroupBounty = $enterpriseGroupBounty;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSaleRequests()
+    public function getSaleRequests(): Collection
     {
         return $this->saleRequests;
     }
@@ -1826,7 +1484,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function setSaleRequests($saleRequests)
+    public function setSaleRequests($saleRequests): static
     {
         $this->saleRequests = $saleRequests;
 
@@ -1838,7 +1496,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function addSaleRequest($saleRequest)
+    public function addSaleRequest($saleRequest): static
     {
         if (!$this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->add($saleRequest);
@@ -1853,7 +1511,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function removeSaleRequest($saleRequest)
+    public function removeSaleRequest($saleRequest): static
     {
         if ($this->saleRequests->contains($saleRequest)) {
             $this->saleRequests->removeElement($saleRequest);
@@ -1870,7 +1528,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function setWorkRegisterHeaders(ArrayCollection $workRegisterHeaders): Operator
+    public function setWorkRegisterHeaders(ArrayCollection $workRegisterHeaders): static
     {
         $this->workRegisterHeaders = $workRegisterHeaders;
 
@@ -1880,7 +1538,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function addWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader): Operator
+    public function addWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader): static
     {
         if (!$this->workRegisterHeaders->contains($workRegisterHeader)) {
             $this->workRegisterHeaders->add($workRegisterHeader);
@@ -1893,7 +1551,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function removeWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader): Operator
+    public function removeWorkRegisterHeader(OperatorWorkRegisterHeader $workRegisterHeader): static
     {
         if ($this->workRegisterHeaders->contains($workRegisterHeader)) {
             $this->workRegisterHeaders->removeElement($workRegisterHeader);
@@ -1910,7 +1568,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslipOperatorDefaultLines(ArrayCollection $payslipOperatorDefaultLines): Operator
+    public function setPayslipOperatorDefaultLines(ArrayCollection $payslipOperatorDefaultLines): static
     {
         $this->payslipOperatorDefaultLines = $payslipOperatorDefaultLines;
 
@@ -1920,7 +1578,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function addPayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): Operator
+    public function addPayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): static
     {
         if (!$this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
             $this->payslipOperatorDefaultLines->add($payslipOperatorDefaultLine);
@@ -1933,7 +1591,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function removePayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): Operator
+    public function removePayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): static
     {
         if ($this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
             $this->payslipOperatorDefaultLines->removeElement($payslipOperatorDefaultLine);
@@ -1942,10 +1600,7 @@ class Operator extends AbstractBase
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOperatorVariousAmount()
+    public function getOperatorVariousAmount(): Collection
     {
         return $this->operatorVariousAmount;
     }
@@ -1955,7 +1610,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function setOperatorVariousAmount($operatorVariousAmount)
+    public function setOperatorVariousAmount($operatorVariousAmount): static
     {
         $this->operatorVariousAmount = $operatorVariousAmount;
 
@@ -1967,7 +1622,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function addOperatorVariousAmount($operatorVariousAmount)
+    public function addOperatorVariousAmount($operatorVariousAmount): static
     {
         if (!$this->operatorVariousAmount->contains($operatorVariousAmount)) {
             $this->operatorVariousAmount->add($operatorVariousAmount);
@@ -1982,7 +1637,7 @@ class Operator extends AbstractBase
      *
      * @return $this
      */
-    public function removeOperatorVariousAmount($operatorVariousAmount)
+    public function removeOperatorVariousAmount($operatorVariousAmount): static
     {
         if ($this->operatorVariousAmount->contains($operatorVariousAmount)) {
             $this->operatorVariousAmount->removeElement($operatorVariousAmount);
@@ -1999,7 +1654,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslips(ArrayCollection $payslips): Operator
+    public function setPayslips(ArrayCollection $payslips): static
     {
         $this->payslips = $payslips;
 
@@ -2009,7 +1664,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function addPayslip(Payslip $payslip): Operator
+    public function addPayslip(Payslip $payslip): static
     {
         if (!$this->payslips->contains($payslip)) {
             $this->payslips->add($payslip);
@@ -2022,7 +1677,7 @@ class Operator extends AbstractBase
     /**
      * @return $this
      */
-    public function removePayslip(Payslip $payslip): Operator
+    public function removePayslip(Payslip $payslip): static
     {
         if ($this->payslips->contains($payslip)) {
             $this->payslips->removeElement($payslip);
@@ -2046,7 +1701,7 @@ class Operator extends AbstractBase
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id ? (!$this->getEnabled() ? '¡Inactivo! - ' : '').$this->getFullName() : '---';
     }

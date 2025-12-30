@@ -15,26 +15,23 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @author   Jordi Sort
  *
- * @ORM\Entity(repositoryClass="App\Repository\Payslip\PayslipLineConceptRepository")
- * @ORM\Table(name="payslip_line_concept")
  * @UniqueEntity({"description"})
  */
+#[ORM\Table(name: 'payslip_line_concept')]
+#[ORM\Entity(repositoryClass: \App\Repository\Payslip\PayslipLineConceptRepository::class)]
 class PayslipLineConcept extends AbstractBase
 {
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $description;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipOperatorDefaultLine", mappedBy="payslipLineConcept")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipOperatorDefaultLine::class, mappedBy: 'payslipLineConcept')]
     private Collection $payslipOperatorDefaultLines;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Payslip\PayslipLine", mappedBy="payslipLineConcept")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Payslip\PayslipLine::class, mappedBy: 'payslipLineConcept')]
     private Collection $payslipLines;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $isDeduction = false;
 
     /**
      * Methods.
@@ -47,7 +44,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function setDescription(string $description): PayslipLineConcept
+    public function setDescription(string $description): static
     {
         $this->description = $description;
 
@@ -62,7 +59,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslipOperatorDefaultLines(ArrayCollection $payslipOperatorDefaultLines): PayslipLineConcept
+    public function setPayslipOperatorDefaultLines(ArrayCollection $payslipOperatorDefaultLines): static
     {
         $this->payslipOperatorDefaultLines = $payslipOperatorDefaultLines;
 
@@ -72,7 +69,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function addPayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLineConcept
+    public function addPayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): static
     {
         if (!$this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
             $this->payslipOperatorDefaultLines->add($payslipOperatorDefaultLine);
@@ -85,7 +82,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function removePayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): PayslipLineConcept
+    public function removePayslipOperatorDefaultLine(PayslipOperatorDefaultLine $payslipOperatorDefaultLine): static
     {
         if ($this->payslipOperatorDefaultLines->contains($payslipOperatorDefaultLine)) {
             $this->payslipOperatorDefaultLines->removeElement($payslipOperatorDefaultLine);
@@ -102,7 +99,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function setPayslipLines(Collection $payslipLines): PayslipLineConcept
+    public function setPayslipLines(Collection $payslipLines): static
     {
         $this->payslipLines = $payslipLines;
 
@@ -112,7 +109,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function addPayslipLine(PayslipLine $payslipLine): PayslipLineConcept
+    public function addPayslipLine(PayslipLine $payslipLine): static
     {
         if (!$this->payslipLines->contains($payslipLine)) {
             $this->payslipLines->add($payslipLine);
@@ -125,7 +122,7 @@ class PayslipLineConcept extends AbstractBase
     /**
      * @return $this
      */
-    public function removePayslipLine(PayslipLine $payslipLine): PayslipLineConcept
+    public function removePayslipLine(PayslipLine $payslipLine): static
     {
         if ($this->payslipLines->contains($payslipLine)) {
             $this->payslipLines->removeElement($payslipLine);
@@ -133,6 +130,19 @@ class PayslipLineConcept extends AbstractBase
 
         return $this;
     }
+
+    public function isDeduction(): bool
+    {
+        return $this->isDeduction;
+    }
+
+    public function setIsDeduction(bool $isDeduction): PayslipLineConcept
+    {
+        $this->isDeduction = $isDeduction;
+
+        return $this;
+    }
+
 
     public function __toString(): string
     {

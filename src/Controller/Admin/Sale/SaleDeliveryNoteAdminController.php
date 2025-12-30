@@ -37,7 +37,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id = null): Response
+    public function editAction(Request $request, $id = null): RedirectResponse|Response
     {
         $id = $request->get($this->admin->getIdParameter());
         /** @var SaleDeliveryNote $saleDeliveryNote */
@@ -57,7 +57,7 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
      * @throws NotFoundHttpException If the object does not exist
      * @throws AccessDeniedException If access is not granted
      */
-    public function pdfAction(Request $request, SaleDeliveryNotePdfManager $sdnps)
+    public function pdfAction(Request $request, SaleDeliveryNotePdfManager $sdnps): Response
     {
         $request = $this->resolveRequest($request);
         $id = $request->get($this->admin->getIdParameter());
@@ -98,11 +98,11 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
             $from = $filterInfo['date']['value']['start'];
             $to = $filterInfo['date']['value']['end'];
         } else {
-            $from = array_shift($sdnforDates)->getDateToString();
+            $from = array_shift($sdnforDates)?->getDateToString();
             if (!$sdnforDates) {
                 $to = $from;
             } else {
-                $to = array_pop($sdnforDates)->getDateToString();
+                $to = array_pop($sdnforDates)?->getDateToString();
             }
         }
 
@@ -197,8 +197,8 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
         $enterprise = $this->em->getRepository(Enterprise::class)->find(1);
         $partnerType = $this->em->getRepository(PartnerType::class)->find(1);
         $partners = $this->em->getRepository(Partner::class)->getFilteredByEnterprisePartnerTypeEnabledSortedByName($enterprise, $partnerType);
-        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledSortedByNumber();
-        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledSortedByName();
+        $orders = $this->em->getRepository(PartnerOrder::class)->getEnabledWithPendingInvoicesSortedByNumber();
+        $buildingSites = $this->em->getRepository(PartnerBuildingSite::class)->getEnabledWithPendingInvoicesSortedByName();
 
         return $this->renderWithExtraParams(
             'admin/sale-delivery-note/invoiceGeneration.html.twig',
@@ -214,16 +214,18 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
     /**
      * @return Response|RedirectResponse
      */
-    public function generateInvoicesAction(Request $request)
+    public function generateInvoicesAction(Request $request): Response|RedirectResponse
     {
 //        $this->admin->checkAccess('edit');
 //        $selectedModels = $selectedModelQuery->execute()->getQuery()->getResult();
-        $formData = $request->request->get('app_generate_sale_invoices');
+
+        $form = $this->createForm(GenerateSaleInvoicesFormType::class);
+        $form->handleRequest($request);
+        $formData = $form->getData();
         /** @var SaleDeliveryNote $operators */
         $selectedModels = $formData['saleDeliveryNotes'];
-        $date = DateTime::createFromFormat('d/m/Y', $formData['date']);
-        /** @var SaleInvoiceSeriesRepository $saleInvoiceSeriesRepository */
-        $saleInvoiceSeriesRepository = $this->container->get('doctrine')->getRepository(SaleInvoiceSeries::class);
+        $date = $formData['date'];
+        $saleInvoiceSeriesRepository = $this->repositoriesManager->getSaleInvoiceSeriesRepository();
         $saleInvoiceSeries = $saleInvoiceSeriesRepository->find($formData['series']);
         $saleDeliveryNotes = [];
         $em = $this->em;
@@ -459,5 +461,15 @@ class SaleDeliveryNoteAdminController extends BaseAdminController
 
             return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
         }
+    }
+
+    protected function preDelete(Request $request, object $object): ?Response
+    {
+        if ($object->getSaleInvoice()?->getId() !== null) {
+            $this->addFlash('warning', 'Este albarán no se puede borrar, está asociado a la factura '.$object->getSaleInvoice()->getInvoiceNumber().'.');
+
+            return new RedirectResponse($this->generateUrl('admin_app_sale_saledeliverynote_list'));
+        }
+        return null;
     }
 }

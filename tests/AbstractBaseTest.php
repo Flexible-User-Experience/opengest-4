@@ -15,7 +15,7 @@ abstract class AbstractBaseTest extends WebTestCase
     /**
      * @return KernelBrowser
      */
-    protected function getAnonymousUserClient()
+    protected function getAnonymousUserClient(): KernelBrowser
     {
         return WebTestCase::createClient();
     }
@@ -23,7 +23,7 @@ abstract class AbstractBaseTest extends WebTestCase
     /**
      * @return KernelBrowser
      */
-    protected function getAuthenticatedUserClient()
+    protected function getAuthenticatedUserClient(): KernelBrowser
     {
         return WebTestCase::createClient([], [
             'PHP_AUTH_USER' => 'admin',

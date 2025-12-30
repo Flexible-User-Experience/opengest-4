@@ -24,11 +24,6 @@ class ActivityLineAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Línies d\'activitat';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'empreses/linies-activitat';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -39,6 +34,12 @@ class ActivityLineAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'empreses/linies-activitat';
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

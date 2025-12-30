@@ -24,7 +24,7 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
     /**
      * Configure.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:import:setting:sale:invoice:series');
         $this->setDescription('Import setting sale invoice serires from CSV');
@@ -40,7 +40,7 @@ class ImportSaleInvoiceSeriesCommand extends AbstractBaseCommand
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         // Welcome & Initialization & File validations
         $fr = $this->initialValidation($input, $output);

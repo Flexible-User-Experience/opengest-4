@@ -28,11 +28,6 @@ class OperatorVariousAmountAdmin extends AbstractBaseAdmin
     protected $classnameLabel = 'Imports varis';
 
     /**
-     * @var string
-     */
-    protected $baseRoutePattern = 'operaris/imports-varis';
-
-    /**
      * @var array
      */
     protected $datagridValues = [
@@ -43,6 +38,10 @@ class OperatorVariousAmountAdmin extends AbstractBaseAdmin
     /**
      * Methods.
      */
+    public function generateBaseRoutePattern(bool $isChildAdmin = false): string
+    {
+        return 'operaris/imports-varis';
+    }
 
     /**
      * @throws Exception

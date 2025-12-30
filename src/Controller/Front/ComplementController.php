@@ -7,7 +7,7 @@ use App\Repository\Web\ComplementRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class ComplementController.
@@ -16,14 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ComplementController extends AbstractController
 {
-    /**
-     * @Route("/accesorios", name="front_complement")
-     *
-     * @param ComplementRepository $cr
-     *
-     * @return Response
-     */
-    public function complementAction(ComplementRepository $cr)
+    #[Route('/accesorios', name: 'front_complement')]
+    public function complementAction(ComplementRepository $cr): Response
     {
         $complements = $cr->findEnabledSortedByName();
 
@@ -32,17 +26,8 @@ class ComplementController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/accesorio/{slug}", name="front_complement_detail")
-     *
-     * @param ComplementRepository $cr
-     * @param string               $slug
-     *
-     * @return Response
-     *
-     * @throws EntityNotFoundException
-     */
-    public function complementDetailAction(ComplementRepository $cr, $slug)
+    #[Route('/accesorio/{slug}', name: 'front_complement_detail')]
+    public function complementDetailAction(ComplementRepository $cr, $slug): Response
     {
         /** @var Complement|null $complement */
         $complement = $cr->findOneBy(['slug' => $slug]);

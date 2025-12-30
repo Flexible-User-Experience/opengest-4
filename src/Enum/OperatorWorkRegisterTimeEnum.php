@@ -17,7 +17,7 @@ class OperatorWorkRegisterTimeEnum
     /**
      * @return array
      */
-    public static function getEnumArray()
+    public static function getEnumArray(): array
     {
         return array_flip(self::getReversedEnumArray());
     }
@@ -25,7 +25,7 @@ class OperatorWorkRegisterTimeEnum
     /**
      * @return array
      */
-    public static function getReversedEnumArray()
+    public static function getReversedEnumArray(): array
     {
         return [
             self::SERVICE => 'Servicio',
