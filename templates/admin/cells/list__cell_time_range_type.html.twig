@@ -3,7 +3,7 @@
 {% trans_default_domain 'admin' %}
 
 {% block field %}
-    {% if object.type === 0 %}
+    {% if object.type == 0 %}
         <span class="label label-success" style="margin-right:10px">{{ 'enum.time_range_type.working' | trans }}</span>
     {% elseif object.type == 1 %}
         <span class="label label-info" style="margin-right:10px">{{ 'enum.time_range_type.normal' | trans }}</span>
