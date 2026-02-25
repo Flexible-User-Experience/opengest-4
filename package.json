@@ -20,7 +20,7 @@
         "moment": "^2.25.3",
         "pdfjs-dist": "2.12.313",
         "regenerator-runtime": "^0.13.9",
-        "webpack": "^5.74.0",
+        "webpack": "^5.105.2",
         "webpack-cli": "^4.10.0",
         "webpack-notifier": "^1.15.0"
     },
