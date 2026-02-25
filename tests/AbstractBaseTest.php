@@ -30,4 +30,26 @@ abstract class AbstractBaseTest extends WebTestCase
             'PHP_AUTH_PW'   => 'passwd',
         ]);
     }
+
+    /**
+     * @return KernelBrowser
+     */
+    protected function getAdminUserClient(): KernelBrowser
+    {
+        return WebTestCase::createClient([], [
+            'PHP_AUTH_USER' => 'adminrole',
+            'PHP_AUTH_PW'   => 'passwd',
+        ]);
+    }
+
+    /**
+     * @return KernelBrowser
+     */
+    protected function getManagerUserClient(): KernelBrowser
+    {
+        return WebTestCase::createClient([], [
+            'PHP_AUTH_USER' => 'managerrole',
+            'PHP_AUTH_PW'   => 'passwd',
+        ]);
+    }
 }

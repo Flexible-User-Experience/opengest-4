@@ -104,7 +104,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.expedition_date',
                     'format' => 'dd/MM/yyyy',
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                     'required' => true,
                 ]
             )
@@ -114,7 +114,7 @@ class VehicleSpecialPermitAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.expiry_date',
                     'format' => 'dd/MM/yyyy',
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                     'required' => true,
                 ]
             )

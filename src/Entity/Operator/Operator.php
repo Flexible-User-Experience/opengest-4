@@ -25,9 +25,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Class Operator.
  *
- * @Vich\Uploadable()
  * @UniqueEntity({"enterprise", "taxIdentificationNumber"})
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'operator')]
 #[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorRepository::class)]
 class Operator extends AbstractBase
@@ -135,12 +135,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="profilePhotoImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "profilePhotoImage")]
     private $profilePhotoImageFile;
 
     /**
@@ -152,12 +152,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="taxIdentificationNumberImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "taxIdentificationNumberImage")]
     private $taxIdentificationNumberImageFile;
 
     /**
@@ -169,12 +169,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="drivingLicenseImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "drivingLicenseImage")]
     private $drivingLicenseImageFile;
 
     /**
@@ -186,12 +186,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="cranesOperatorLicenseImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "cranesOperatorLicenseImage")]
     private $cranesOperatorLicenseImageFile;
 
     /**
@@ -203,12 +203,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="medicalCheckImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "medicalCheckImage")]
     private $medicalCheckImageFile;
 
     /**
@@ -220,12 +220,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="episImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "episImage")]
     private $episImageFile;
 
     /**
@@ -237,12 +237,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="trainingDocumentImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "trainingDocumentImage")]
     private $trainingDocumentImageFile;
 
     /**
@@ -254,12 +254,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="informationImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "informationImage")]
     private $informationImageFile;
 
     /**
@@ -271,12 +271,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="useOfMachineryAuthorizationImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "useOfMachineryAuthorizationImage")]
     private $useOfMachineryAuthorizationImageFile;
 
     /**
@@ -288,12 +288,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="dischargeSocialSecurityImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "dischargeSocialSecurityImage")]
     private $dischargeSocialSecurityImageFile;
 
     /**
@@ -305,12 +305,12 @@ class Operator extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="operator", fileNameProperty="employmentContractImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "operator", fileNameProperty: "employmentContractImage")]
     private $employmentContractImageFile;
 
     /**

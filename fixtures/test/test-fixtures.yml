@@ -171,7 +171,7 @@ App\Entity\Enterprise\Enterprise:
     createdAt: <dateTimeBetween('-2 months', '-1 months')>
     updatedAt: <dateTimeThisMonth()>
     enabled: true
-    users: [ '@admin' ]
+    users: [ '@admin', '@admin_role', '@manager_role' ]
   enterprise2:
     name: <company()>
     taxIdentificationNumber: <bothify('######?')>
@@ -187,7 +187,7 @@ App\Entity\Enterprise\Enterprise:
     createdAt: <dateTimeBetween('-2 months', '-1 months')>
     updatedAt: <dateTimeThisMonth()>
     enabled: true
-    users: [ '@admin' ]
+    users: [ '@admin', '@admin_role', '@manager_role' ]
 
 # Operator
 App\Entity\Operator\Operator:
@@ -321,6 +321,30 @@ App\Entity\Setting\User:
         enabled: true
         roles:
             - ROLE_SUPER_ADMIN
+    admin_role:
+        username: 'adminrole'
+        plainPassword: 'passwd'
+        password: 'passwd'
+        email: <safeEmail()>
+        firstname: <name()>
+        lastname: <lastname()>
+        defaultEnterprise: '@enterprise1'
+        mainImage: <numberBetween(1,2)>.jpg
+        enabled: true
+        roles:
+            - ROLE_ADMIN
+    manager_role:
+        username: 'managerrole'
+        plainPassword: 'passwd'
+        password: 'passwd'
+        email: <safeEmail()>
+        firstname: <name()>
+        lastname: <lastname()>
+        defaultEnterprise: '@enterprise1'
+        mainImage: <numberBetween(1,2)>.jpg
+        enabled: true
+        roles:
+            - ROLE_MANAGER
 
 # OperatorDigitalTachograph
 App\Entity\Operator\OperatorDigitalTachograph:

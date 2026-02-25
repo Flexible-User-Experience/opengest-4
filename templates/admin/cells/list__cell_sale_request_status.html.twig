@@ -3,7 +3,7 @@
 {% trans_default_domain 'admin' %}
 
 {% block field %}
-    {% if object.status is same as(0) %}
+    {% if object.status == 0 %}
         <span class="label label-warning" style="margin-right:10px">{{ 'enum.sale_request_status.pending' | trans }}</span>
     {% elseif object.status == 1 %}
         <span class="label label-info" style="margin-right:10px">{{ 'enum.sale_request_status.in_process' | trans }}</span>

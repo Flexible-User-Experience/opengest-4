@@ -26,7 +26,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @Vich\Uploadable()
  * @UniqueEntity(
  *     fields={"vehicleRegistrationNumber"}
  *     )
@@ -34,6 +33,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     fields={"name"}
  *     )
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'vehicle')]
 #[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleRepository::class)]
 class Vehicle extends AbstractBase
@@ -78,25 +78,25 @@ class Vehicle extends AbstractBase
     private ?string $link;
 
     /**
-     * @Vich\UploadableField(mapping="document_vehicle", fileNameProperty="attatchmentPDF")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "document_vehicle", fileNameProperty: "attatchmentPDF")]
     private ?File $attatchmentPDFFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $attatchmentPDF = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="mainImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
      * )
      * @Assert\Image(minWidth=1200)
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "mainImage")]
     private ?File $mainImageFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -130,156 +130,156 @@ class Vehicle extends AbstractBase
     private int $mileage = 0;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="chassisImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "chassisImage")]
     private ?File $chassisImageFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $chassisImage = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="technicalDatasheet1")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "technicalDatasheet1")]
     private ?File $technicalDatasheet1File = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $technicalDatasheet1 = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="technicalDatasheet2")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "technicalDatasheet2")]
     private ?File $technicalDatasheet2File = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $technicalDatasheet2 = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="loadTable")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "loadTable")]
     private ?File $loadTableFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $loadTable = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="reachDiagram")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "reachDiagram")]
     private ?File $reachDiagramFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $reachDiagram = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="trafficCertificate")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "trafficCertificate")]
     private ?File $trafficCertificateFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $trafficCertificate = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="dimensions")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "dimensions")]
     private ?File $dimensionsFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $dimensions = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="transportCard")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "transportCard")]
     private ?File $transportCardFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $transportCard = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="trafficInsurance")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "trafficInsurance")]
     private ?File $trafficInsuranceFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $trafficInsurance = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="itv")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "itv")]
     private ?File $itvFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $itv = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="itc")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "itc")]
     private ?File $itcFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $itc = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="CEDeclaration")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "CEDeclaration")]
     private ?File $CEDeclarationFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $CEDeclaration = null;
 
     /**
-     * @Vich\UploadableField(mapping="vehicle", fileNameProperty="trafficReceipt")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif", "application/pdf", "application/x-pdf"}
      * )
      */
+    #[Vich\UploadableField(mapping: "vehicle", fileNameProperty: "trafficReceipt")]
     private ?File $trafficReceiptFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]

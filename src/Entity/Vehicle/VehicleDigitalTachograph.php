@@ -14,9 +14,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @category
  *
  * @author Rubèn Hierro <info@rubenhierro.com>
- *
- * @Vich\Uploadable()
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'vehicle_digital_tachograph')]
 #[ORM\Entity(repositoryClass: \App\Repository\Vehicle\VehicleDigitalTachographRepository::class)]
 class VehicleDigitalTachograph extends AbstractBase
@@ -30,9 +29,9 @@ class VehicleDigitalTachograph extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="digital_tachograph_vehicle", fileNameProperty="uploadedFileName")
      * @Assert\File(maxSize="10M")
      */
+    #[Vich\UploadableField(mapping: "digital_tachograph_vehicle", fileNameProperty: "uploadedFileName")]
     private $uploadedFile;
 
     /**

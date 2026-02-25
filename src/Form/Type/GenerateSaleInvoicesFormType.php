@@ -37,7 +37,7 @@ class GenerateSaleInvoicesFormType extends AbstractType
                     'label' => 'Fecha Factura',
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
-                    'dp_default_date' => (new \DateTime())->format('01/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('01/m/Y')],
                 ]
             )
             ->add(

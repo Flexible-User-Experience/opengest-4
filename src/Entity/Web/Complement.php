@@ -21,9 +21,9 @@ use Symfony\Component\HttpFoundation\File\File;
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
  *
- * @Vich\Uploadable()
  * @UniqueEntity({"name"})
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'complement')]
 #[ORM\Entity(repositoryClass: \App\Repository\Web\ComplementRepository::class)]
 class Complement extends AbstractBase
@@ -49,13 +49,13 @@ class Complement extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="complement", fileNameProperty="mainImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
      * )
      * @Assert\Image(minWidth=1200)
      */
+    #[Vich\UploadableField(mapping: "complement", fileNameProperty: "mainImage")]
     private $mainImageFile;
 
     /**

@@ -100,7 +100,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                     'label' => 'Fecha importación',
                     'format' => 'dd/MM/yyyy',
                     'disabled' => true,
-                    'dp_default_date' => (new \DateTime())->format('d/m/Y'),
+                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                 ]
             )
             ->add(
@@ -146,7 +146,7 @@ class VehicleDigitalTachographAdmin extends AbstractBaseAdmin
                 ->join($queryBuilder->getRootAliases()[0].'.vehicle', 'v')
                 ->andWhere('v.enterprise = :enterprise')
                 ->setParameter('enterprise', $this->getUserLogedEnterprise())
-                ->orderBy($queryBuilder->getRootAliases()[0].'.created_at', 'DESC')
+                ->orderBy($queryBuilder->getRootAliases()[0].'.createdAt', 'DESC')
             ;
         }
 

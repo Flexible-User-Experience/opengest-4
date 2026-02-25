@@ -14,9 +14,8 @@ use Symfony\Component\HttpFoundation\File\File;
  * @category
  *
  * @author Rubèn Hierro <info@rubenhierro.com>
- *
- * @Vich\Uploadable()
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'operator_digital_tachograph')]
 #[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorDigitalTachographRepository::class)]
 class OperatorDigitalTachograph extends AbstractBase
@@ -30,9 +29,9 @@ class OperatorDigitalTachograph extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="digital_tachograph_operator", fileNameProperty="uploadedFileName")
      * @Assert\File(maxSize="10M")
      */
+    #[Vich\UploadableField(mapping: "digital_tachograph_operator", fileNameProperty: "uploadedFileName")]
     private $uploadedFile;
 
     /**
