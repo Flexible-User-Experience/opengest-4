@@ -14,9 +14,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @category Entity
  *
  * @author   Wils Iglesias <wiglesias83@gmail.com>
- *
- * @Vich\Uploadable()
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'operator_cheking')]
 #[ORM\Entity(repositoryClass: \App\Repository\Operator\OperatorCheckingRepository::class)]
 class OperatorChecking extends OperatorCheckingBase
@@ -46,9 +45,9 @@ class OperatorChecking extends OperatorCheckingBase
     protected $end;
 
     /**
-     * @Vich\UploadableField(mapping="operator_checking", fileNameProperty="uploadedFileName")
      * @Assert\File(maxSize="10M")
      */
+    #[Vich\UploadableField(mapping: "operator_checking", fileNameProperty: "uploadedFileName")]
     protected ?File $uploadedFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]

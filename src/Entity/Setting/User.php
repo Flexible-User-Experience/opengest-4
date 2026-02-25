@@ -21,9 +21,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @category Entity
  *
  * @author   Jordi Sort <jordi.sort@mirmit.com>
- *
- * @Vich\Uploadable()
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'admin_user')]
 #[ORM\Entity(repositoryClass: \App\Repository\Setting\UserRepository::class)]
 class User extends AbstractBase implements UserInterface, PasswordAuthenticatedUserInterface
@@ -34,13 +33,13 @@ class User extends AbstractBase implements UserInterface, PasswordAuthenticatedU
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="user", fileNameProperty="mainImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
      * )
      * @Assert\Image(minWidth=1200)
      */
+    #[Vich\UploadableField(mapping: "user", fileNameProperty: "mainImage")]
     private $mainImageFile;
 
     /**

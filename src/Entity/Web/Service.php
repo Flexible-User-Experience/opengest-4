@@ -23,9 +23,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @category Entity
  *
- * @Vich\Uploadable
  * @UniqueEntity({"name"})
  */
+#[Vich\Uploadable]
 #[ORM\Table(name: 'service')]
 #[ORM\Entity(repositoryClass: \App\Repository\Web\ServiceRepository::class)]
 class Service extends AbstractBase
@@ -45,13 +45,13 @@ class Service extends AbstractBase
     /**
      * @var File
      *
-     * @Vich\UploadableField(mapping="service", fileNameProperty="mainImage")
      * @Assert\File(
      *     maxSize="10M",
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"}
      * )
      * @Assert\Image(minWidth=1200)
      */
+    #[Vich\UploadableField(mapping: "service", fileNameProperty: "mainImage")]
     private $mainImageFile;
 
     /**

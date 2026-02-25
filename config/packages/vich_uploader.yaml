@@ -1,6 +1,6 @@
 vich_uploader:
     metadata:
-        type: annotation
+        type: attribute
     db_driver: orm
     mappings:
         service:
