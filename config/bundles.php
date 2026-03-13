@@ -34,4 +34,5 @@ return [
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
     Qipsius\TCPDFBundle\QipsiusTCPDFBundle::class => ['all' => true],
     Symfony\UX\TwigComponent\TwigComponentBundle::class => ['all' => true],
+    Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
 ];
