@@ -6,10 +6,12 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import tippy from "tippy.js";
 import 'tippy.js/dist/tippy.css';
+import moment from 'moment';
 
 Chart.register(...registerables);
 
 global.Chart = Chart;
+global.moment = moment;
 
 global.Calendar = Calendar
 global.dayGridPlugin = dayGridPlugin
