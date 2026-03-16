@@ -3,12 +3,8 @@
 namespace App\Admin\Purchase;
 
 use App\Admin\AbstractBaseAdmin;
-use App\Entity\Operator\Operator;
 use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Purchase\PurchaseInvoiceLine;
-use App\Entity\Sale\SaleDeliveryNote;
-use App\Entity\Setting\CostCenter;
-use App\Entity\Vehicle\Vehicle;
 use App\Enum\ConstantsEnum;
 use App\Enum\IvaEnum;
 use App\Enum\UserRolesEnum;
@@ -152,45 +148,46 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'vehicle',
-                EntityType::class,
+                ModelAutocompleteType::class,
                 [
-                    'class' => Vehicle::class,
+                    'property' => 'name',
                     'label' => 'admin.label.vehicle',
                     'required' => false,
                     'placeholder' => '---',
-                    'query_builder' => $this->rm->getVehicleRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'btn_add' => false,
                 ]
             )
             ->add(
                 'operator',
-                EntityType::class,
+                ModelAutocompleteType::class,
                 [
-                    'class' => Operator::class,
+                    'property' => ['name', 'surname1'],
                     'label' => 'admin.label.operator',
                     'required' => false,
                     'placeholder' => '---',
-                    'query_builder' => $this->rm->getOperatorRepository()->getFilteredByEnterpriseEnabledSortedByNameQB($this->getUserLogedEnterprise()),
+                    'btn_add' => false,
                 ]
             )
             ->add(
                 'saleDeliveryNote',
-                EntityType::class,
+                ModelAutocompleteType::class,
                 [
-                    'class' => SaleDeliveryNote::class,
+                    'property' => 'id',
                     'label' => 'admin.with.delivery_note',
                     'required' => false,
                     'placeholder' => '---',
+                    'btn_add' => false,
                 ]
             )
             ->add(
                 'costCenter',
-                EntityType::class,
+                ModelAutocompleteType::class,
                 [
-                    'class' => CostCenter::class,
+                    'property' => 'name',
                     'label' => 'admin.label.cost_center',
                     'required' => false,
                     'placeholder' => '---',
-                    'query_builder' => $this->rm->getCostCenterRepository()->getEnabledSortedByNameQB(),
+                    'btn_add' => false,
                 ]
             )
         ;
