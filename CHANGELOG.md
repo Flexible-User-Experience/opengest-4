@@ -1,8 +1,14 @@
 Changelog
 =========
-##### Version 4.1.36 (WIP)
+##### Version 4.1.37 (WIP)
 * Keep wiring things.
-* 
+
+##### Version 4.1.36 (2026-03-16)
+* Fix analytics charts by exposing moment.js globally.
+* Improve purchase invoice line inline form using autocomplete fields.
+* Install Symfony Stimulus Bundle.
+* Update composer and yarn dependencies.
+
 ##### Version 4.1.35 (2026-02-25)
 * Updated Twig version.
 * Added tests for role_admin.
