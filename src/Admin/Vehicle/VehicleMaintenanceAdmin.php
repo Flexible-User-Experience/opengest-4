@@ -106,7 +106,6 @@ class VehicleMaintenanceAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.date',
                     'format' => 'dd/MM/yyyy',
-                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                 ]
             )
             ->add(

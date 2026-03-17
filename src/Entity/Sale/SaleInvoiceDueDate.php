@@ -44,6 +44,11 @@ class SaleInvoiceDueDate extends AbstractBase implements DueDateFacturaEInterfac
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
     public function getSaleInvoice(): ?SaleInvoice
     {
         return $this->saleInvoice;

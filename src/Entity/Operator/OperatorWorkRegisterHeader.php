@@ -38,6 +38,7 @@ class OperatorWorkRegisterHeader extends AbstractBase
      */
     public function __construct()
     {
+        $this->date = new DateTime();
         $this->operatorWorkRegisters = new ArrayCollection();
     }
 

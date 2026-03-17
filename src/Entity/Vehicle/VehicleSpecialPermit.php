@@ -112,6 +112,12 @@ class VehicleSpecialPermit extends AbstractBase
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->expeditionDate = new \DateTime();
+        $this->expiryDate = new \DateTime();
+    }
+
     public function getVehicle(): Vehicle
     {
         return $this->vehicle;
