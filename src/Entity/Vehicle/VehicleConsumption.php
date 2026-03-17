@@ -66,6 +66,11 @@ class VehicleConsumption extends AbstractBase
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->supplyDate = new DateTime();
+    }
+
     public function getSupplyDate(): DateTime
     {
         return $this->supplyDate;
