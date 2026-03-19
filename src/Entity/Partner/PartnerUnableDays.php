@@ -40,6 +40,12 @@ class PartnerUnableDays extends AbstractBase
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->begin = new \DateTime();
+        $this->end = new \DateTime();
+    }
+
     public function getPartner(): ?Partner
     {
         return $this->partner;

@@ -91,7 +91,6 @@ class VehicleConsumptionAdmin extends AbstractBaseAdmin
                     'label' => 'Fecha suministro',
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
-                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                 ]
             )
             ->add(

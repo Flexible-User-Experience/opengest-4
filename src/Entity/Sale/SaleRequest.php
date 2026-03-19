@@ -242,6 +242,7 @@ class SaleRequest extends AbstractBase
      */
     public function __construct()
     {
+        $this->requestDate = new DateTime();
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
         $this->documents = new ArrayCollection();
     }

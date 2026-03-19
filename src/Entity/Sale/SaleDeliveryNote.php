@@ -220,6 +220,7 @@ class SaleDeliveryNote extends AbstractBase
      */
     public function __construct()
     {
+        $this->date = new \DateTime();
         $this->saleDeliveryNoteLines = new ArrayCollection();
         $this->saleRequestHasDeliveryNotes = new ArrayCollection();
         $this->operatorWorkRegisters = new ArrayCollection();

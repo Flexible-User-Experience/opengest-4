@@ -50,6 +50,10 @@ class OperatorVariousAmount extends AbstractBase
     /**
      * Methods.
      */
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     /**
      * @return Operator
