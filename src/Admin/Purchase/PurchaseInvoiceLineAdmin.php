@@ -5,7 +5,6 @@ namespace App\Admin\Purchase;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Purchase\PurchaseInvoiceLine;
-use App\Entity\Sale\SaleDeliveryNote;
 use App\Enum\ConstantsEnum;
 use App\Enum\IvaEnum;
 use App\Enum\UserRolesEnum;
@@ -174,13 +173,20 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
             )
             ->add(
                 'saleDeliveryNote',
-                EntityType::class,
+                ModelAutocompleteType::class,
                 [
-                    'class' => SaleDeliveryNote::class,
+                    'property' => 'id',
                     'label' => 'admin.with.delivery_note',
                     'required' => false,
                     'placeholder' => '---',
-                    'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByIdQB($this->getUserLogedEnterprise()),
+                    'btn_add' => false,
+                    'minimum_input_length' => 1,
+                    'callback' => function ($admin, $property, $value) {
+                        $datagrid = $admin->getDatagrid();
+                        $datagrid->setValue('isInvoiced', null, null);
+                        $datagrid->setValue('printed', null, null);
+                        $datagrid->setValue($property, null, $value);
+                    },
                 ]
             )
             ->add(
