@@ -5,6 +5,7 @@ namespace App\Admin\Purchase;
 use App\Admin\AbstractBaseAdmin;
 use App\Entity\Purchase\PurchaseInvoice;
 use App\Entity\Purchase\PurchaseInvoiceLine;
+use App\Entity\Sale\SaleDeliveryNote;
 use App\Enum\ConstantsEnum;
 use App\Enum\IvaEnum;
 use App\Enum\UserRolesEnum;
@@ -70,6 +71,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
             ->add(
@@ -155,6 +157,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
             ->add(
@@ -166,17 +169,18 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
             ->add(
                 'saleDeliveryNote',
-                ModelAutocompleteType::class,
+                EntityType::class,
                 [
-                    'property' => 'id',
+                    'class' => SaleDeliveryNote::class,
                     'label' => 'admin.with.delivery_note',
                     'required' => false,
                     'placeholder' => '---',
-                    'btn_add' => false,
+                    'query_builder' => $this->rm->getSaleDeliveryNoteRepository()->getFilteredByEnterpriseSortedByIdQB($this->getUserLogedEnterprise()),
                 ]
             )
             ->add(
@@ -188,6 +192,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
         ;
