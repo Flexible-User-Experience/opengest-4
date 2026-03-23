@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\Form\Type\CollectionType;
+use Sonata\Form\Type\DatePickerType;
 use Sonata\Form\Type\DateRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -161,7 +162,7 @@ class OperatorWorkRegisterHeaderAdmin extends AbstractBaseAdmin
                 )
                 ->add(
                     'date',
-                    DateType::class,
+                    DatePickerType::class,
                     [
                         'label' => 'admin.label.date',
                         'required' => true,

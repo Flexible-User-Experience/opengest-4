@@ -7,7 +7,6 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Type\BooleanType;
@@ -149,7 +148,6 @@ class CostCenterAdmin extends AbstractBaseAdmin
     protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['enabled'] = [
-            'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_YES,
         ];
     }
