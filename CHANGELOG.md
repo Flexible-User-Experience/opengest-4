@@ -1,7 +1,18 @@
 Changelog
 =========
-##### Version 4.1.38 (WIP)
+
+##### Version 4.1.39 (WIP)
 * Keep wiring things.
+
+##### Version 4.1.38 (2026-03-23)
+* Fix advanced filters being expanded by default after Sonata upgrade.
+* Fix strpos error in delivery note PDF when place field has no line break.
+* Fix datepicker to adjust to locale.
+* Fix delivery note datepicker.
+* Edit pager Sonata layout.
+* Edit invoice line inline form.
+* Fix bad references to upgraded pdfjs-dist dependency.
+* Update node dependencies.
 
 ##### Version 4.1.37 (2026-03-17)
 * Hotfix: Datepicker not working.
