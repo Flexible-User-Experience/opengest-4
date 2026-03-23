@@ -752,12 +752,12 @@ class SaleDeliveryNotePdfManager
             $pdf->setXY($xDim + 85, $yStart + $yInterval * 6);
             $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($saleDeliveryNote->getSecondaryVehicle()->getVehicleRegistrationNumber()), 0, 0, 'L', false);
         }
-        //Origen
+        //Origen y Destino
+        $placeParts = preg_split('/\r?\n/', $saleDeliveryNote->getPlace() ?? '', 2);
         $pdf->setXY($xDim + 70, $yStart + $yInterval * 7);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(), 0, strpos($saleDeliveryNote->getPlace(), "\r\n"))), 0, 0, 'L', false);
-        //Destino
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($placeParts[0] ?? ''), 0, 0, 'L', false);
         $pdf->setXY($xDim + 70, $yStart + $yInterval * 8);
-        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper(substr($saleDeliveryNote->getPlace(), strpos($saleDeliveryNote->getPlace(), "\r\n") + 2)), 0, 0, 'L', false);
+        $pdf->Cell(0, ConstantsEnum::PDF_CELL_HEIGHT, strtoupper($placeParts[1] ?? ''), 0, 0, 'L', false);
 
         //Fecha impresión
 //        $pdf->setXY($xDim + 36, 174);
