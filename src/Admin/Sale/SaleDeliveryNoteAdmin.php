@@ -10,7 +10,6 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
@@ -338,11 +337,9 @@ class SaleDeliveryNoteAdmin extends AbstractSaleDeliveryNoteAdmin
     protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['isInvoiced'] = [
-            'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_NO,
         ];
         $filterValues['printed'] = [
-            'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_NO,
         ];
     }
