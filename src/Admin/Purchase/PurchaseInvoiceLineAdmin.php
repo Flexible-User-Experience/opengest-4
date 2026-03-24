@@ -70,6 +70,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
             ->add(
@@ -155,6 +156,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
             ->add(
@@ -166,6 +168,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
             ->add(
@@ -177,6 +180,13 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 1,
+                    'callback' => function ($admin, $property, $value) {
+                        $datagrid = $admin->getDatagrid();
+                        $datagrid->setValue('isInvoiced', null, null);
+                        $datagrid->setValue('printed', null, null);
+                        $datagrid->setValue($property, null, $value);
+                    },
                 ]
             )
             ->add(
@@ -188,6 +198,7 @@ class PurchaseInvoiceLineAdmin extends AbstractBaseAdmin
                     'required' => false,
                     'placeholder' => '---',
                     'btn_add' => false,
+                    'minimum_input_length' => 0,
                 ]
             )
         ;

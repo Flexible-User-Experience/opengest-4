@@ -1,8 +1,28 @@
 Changelog
 =========
-##### Version 4.1.36 (WIP)
+
+##### Version 4.1.39 (WIP)
 * Keep wiring things.
-* 
+
+##### Version 4.1.38 (2026-03-23)
+* Fix advanced filters being expanded by default after Sonata upgrade.
+* Fix strpos error in delivery note PDF when place field has no line break.
+* Fix datepicker to adjust to locale.
+* Fix delivery note datepicker.
+* Edit pager Sonata layout.
+* Edit invoice line inline form.
+* Fix bad references to upgraded pdfjs-dist dependency.
+* Update node dependencies.
+
+##### Version 4.1.37 (2026-03-17)
+* Hotfix: Datepicker not working.
+
+##### Version 4.1.36 (2026-03-16)
+* Fix analytics charts by exposing moment.js globally.
+* Improve purchase invoice line inline form using autocomplete fields.
+* Install Symfony Stimulus Bundle.
+* Update composer and yarn dependencies.
+
 ##### Version 4.1.35 (2026-02-25)
 * Updated Twig version.
 * Added tests for role_admin.

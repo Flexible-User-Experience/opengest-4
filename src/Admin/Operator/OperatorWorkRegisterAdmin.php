@@ -187,7 +187,6 @@ class OperatorWorkRegisterAdmin extends AbstractBaseAdmin
                         'label' => 'admin.label.date',
                         'format' => 'dd/MM/yyyy',
                         'required' => true,
-                        'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                     ]
                 )
                 ->add(

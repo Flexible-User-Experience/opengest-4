@@ -23,7 +23,6 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
@@ -773,7 +772,6 @@ class SaleInvoiceAdmin extends AbstractBaseAdmin
     protected function configureDefaultFilterValues(array &$filterValues): void
     {
         $filterValues['hasBeenCounted'] = [
-            'type' => EqualOperatorType::TYPE_EQUAL,
             'value' => BooleanType::TYPE_NO,
         ];
     }

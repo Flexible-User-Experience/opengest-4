@@ -128,7 +128,6 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.from',
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
-                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                 ]
             )
             ->add(
@@ -138,7 +137,6 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.to',
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
-                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('d/m/Y')],
                 ]
             )
             ->add(
@@ -252,7 +250,7 @@ class PayslipAdmin extends AbstractBaseAdmin
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => [
                         'property' => ['name', 'surname1', 'surname2'],
-                    ],
+                    ]
                 ]
             )
             ->add(

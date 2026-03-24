@@ -369,8 +369,7 @@ class SaleRequestAdmin extends AbstractBaseAdmin
                 [
                     'label' => 'admin.label.sale_request_date',
                     'format' => 'd/M/y',
-                    'required' => false,
-                    'datepicker_options' => ['defaultDate' => (new DateTime())->format('d/m/Y')],
+                    'required' => true,
                 ]
             )
             ->add(

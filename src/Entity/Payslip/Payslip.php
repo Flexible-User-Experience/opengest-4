@@ -67,6 +67,8 @@ class Payslip extends AbstractBase
      */
     public function __construct()
     {
+        $this->fromDate = new \DateTime();
+        $this->toDate = new \DateTime();
         $this->payslipLines = new ArrayCollection();
     }
 

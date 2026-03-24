@@ -103,7 +103,6 @@ class SaleTariffAdmin extends AbstractBaseAdmin
                     'label' => 'admin.label.date',
                     'format' => 'd/M/y',
                     'required' => true,
-                    'datepicker_options' => ['defaultDate' => (new DateTime())->format('d/m/Y')],
                 ]
             )
 //            ->add(

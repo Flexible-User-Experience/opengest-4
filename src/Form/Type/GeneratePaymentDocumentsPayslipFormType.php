@@ -50,7 +50,6 @@ class GeneratePaymentDocumentsPayslipFormType extends AbstractType
                     'label' => 'Fecha de pago',
                     'format' => 'dd/MM/yyyy',
                     'required' => true,
-                    'datepicker_options' => ['defaultDate' => (new \DateTime())->format('01/m/Y')],
                 ]
             )
             ->add(
