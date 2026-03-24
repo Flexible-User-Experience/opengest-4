@@ -1,8 +1,10 @@
 Changelog
 =========
-
-##### Version 4.1.39 (WIP)
+##### Version 4.1.40 (WIP)
 * Keep wiring things.
+
+##### Version 4.1.39 (2026-03-24)
+* Fix strpos error in delivery note PDF when place field has no line break when printing.
 
 ##### Version 4.1.38 (2026-03-23)
 * Fix advanced filters being expanded by default after Sonata upgrade.
