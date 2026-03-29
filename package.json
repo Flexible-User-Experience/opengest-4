@@ -6,7 +6,7 @@
         "@fullcalendar/daygrid": "^5.11.5",
         "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^4.0.0",
-        "@symfony/webpack-encore": "^5.1.0",
+        "@symfony/webpack-encore": "^6.0.0",
         "bootstrap-less": "^3.3.8",
         "ckeditor4": "^4.25.1",
         "core-js": "^3.23.0",
