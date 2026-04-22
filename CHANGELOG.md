@@ -1,7 +1,11 @@
 Changelog
 =========
-##### Version 4.1.40 (WIP)
+
+##### Version 4.1.41 (WIP)
 * Keep wiring things.
+
+##### Version 4.1.40 (2026-04-22)
+* Fix date filter in operator work register page.
 
 ##### Version 4.1.39 (2026-03-24)
 * Fix strpos error in delivery note PDF when place field has no line break when printing.
